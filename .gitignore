@@ -1,0 +1,10 @@
+$ cat .gitignore
+
+# Ignorar arquivos específicos
+.zfproject.xml
+application/Bootstrap.php
+application/configs/application.ini
+public/index.php
+
+# Ignorar todos os diretórios e arquivos em um diretório.
+nbproject/**/* 

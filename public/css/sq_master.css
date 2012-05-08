@@ -1,0 +1,93 @@
+body {
+  margin: 0; 
+  padding: 0; 
+  font-family: 'Verdana', sans-serif;
+  color: black;
+}
+
+body a {
+  text-decoration: none;
+  font-weight: bolder;
+  color: #2441F5;
+}
+
+body a:hover {
+  text-decoration: underline;
+}
+
+#header {
+  height: 100px;
+  background: #2441F5;
+}
+
+#logo {
+  float: left;
+  padding-left: 50px;
+  padding-top: 10px;  
+}
+
+#menu {
+  float: right;
+  padding-top: 55px;
+}
+
+#menu a {
+  color: white;
+  font-size: 12pt;
+  border: solid 4px white;
+  padding: 4px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#menu a:hover {
+  color: red;
+  font-size: 12pt;
+  border: solid 4px red;
+  text-decoration: none;
+}
+
+
+#content {
+  min-height: 400px;  
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+#footer {
+  float: right;
+  font-size: smaller;
+  background: #2441F5;
+  padding-left: 20px;
+  color: white;
+}
+
+#footer a {
+  color: white;
+}
+
+form dd {
+  margin: 0px;  
+  padding-bottom: 10px;
+}
+
+form input {
+  font-size: 12pt;
+}
+
+form label.required {
+  color: red;
+}
+
+form textarea {
+  font-size: 12pt;
+}
+
+form ul.errors {
+  padding: 0px;  
+  color: red;
+  font-weight: bolder;
+  list-style: none;
+}
+
+

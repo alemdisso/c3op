@@ -1,0 +1,83 @@
+<div id="header">
+    <div id="header_wrapper_1" class="clearfix">
+        <div id="header_column_1" class="clearfix">
+            <a href="/"><img src="/images/logo.gif" width="78" height="138" alt="IETS" title="IETS" border="0" class="float_left margin_3" /></a>
+            <img src="/images/blank.gif" width="180" height="38" alt="Caixa, Contratos, Cronogramas e Orçamentos de Projetos" title="Caixa, Contratos, Cronogramas e Orçamentos de Projetos" border="0" class="float_left margin_19" />
+	</div>
+
+	<div id="header_column_2" class="clearfix">
+            
+            <div class="clearfix clear_both">
+            
+            <div class="float_right">
+
+                <!-- login -->
+		<div class="clear_both clearfix">
+                    <div id="login">
+                        <table border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td class="td_login_2"></td>
+				<td class="td_login_1">
+
+<?php
+if ($this->saudacaoUsuario['logado']) {
+?>
+                                    <!-- logado -->
+                                    <div class="margin_4">
+
+                                        <div class="clearfix">
+                                            <div class="float_left bold margin_5">
+                                                <p class="caption_4">Ol&aacute; <a class="default_1" href="<?php echo $this->saudacaoUsuario['link_edita']?>"><?php echo $this->saudacaoUsuario['nome_usuario']?></a></p>
+                                            </div>
+                                            <div class="float_left margin_6">
+                                                <a class="default_3" href="<?php echo $this->saudacaoUsuario['link_edita']?>">Editar perfil</a>
+                                            </div>
+                                            <div class="float_left">
+                                                <a class="default_3" href="/autenticacao/login/retira">Sair</a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!-- /logado -->
+<?php
+} else {
+?>
+
+                                    <!-- nao logado -->
+                                    <div class="margin_4">
+                                        <div class="clearfix">
+                                            <div class="float_left bold margin_5">
+                                                <p class="caption_4">Voc&ecirc; ainda n&atilde;o se identificou.</p>
+                                            </div>
+                                            <div class="float_left">
+                                                <a class="default_3" href="/autenticacao/login/acessa">Fa&ccedil;a seu login</a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!-- /nao logado -->
+<?php
+}
+?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td_login_3"></td>
+				<td class="td_login_4"></td>
+                            </tr>
+                        </table>
+                    </div>
+		</div>
+		<!-- /login -->
+            </div>
+            
+            </div>
+            
+            <div id="header_wrapper_2" class="clearfix">
+            </div>
+            
+        </div>
+        
+    </div>
+
+</div>

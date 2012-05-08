@@ -1,0 +1,8 @@
+<?php
+// in ../path/to/some/tests/SomeTest.php:
+class SomeTest extends PHPUnit_Framework_TestCase {
+    public function testCanDoUnitTest() {
+        $this->assertTrue(true);
+    }
+}
+?>

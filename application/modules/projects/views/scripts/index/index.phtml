@@ -1,0 +1,60 @@
+<h2>C3op</h2>
+<?php 
+/*
+ * If exists projects list
+ */
+if (is_array($this->projectsList)) {
+?>
+
+<?php 
+/*
+ * if there is projects in list
+ */
+    if (count($this->projectsList)) {
+?>
+
+
+<?php 
+/*
+ * iterate list and print title
+ */
+        while (list(, $projectData) = each($this->projectsList)) {
+?>
+
+<?php print($projectData['title']) ?> | <?php print($projectData['dateBegin']) ?> | <?php print($projectData['value']) ?>
+
+<?php if (isset($projectData['linkEdit'])) { ?>
+<a href="<?php print($projectData['linkEdit']) ?>">Edit</a>
+<?php } ?>
+
+
+<br />
+
+
+    
+<?php
+}  // loop iterate list and print titlei
+?>
+
+
+
+
+    
+<?php
+    } else { // end else there is projects in list
+?>
+    <?php print("Não há projetos cadastrados.") ?>
+    
+<?php
+    } // end else there is projects in list
+?>
+<?php
+} else { // else exists projects list 
+?>
+    <?php print("Não existe lista de projetos cadastrados.") ?>
+
+    <?php
+} // end exists projects list
+?>
+<p />
+<a href="<?php print($this->createProjectLink) ?>">Criar Novo Projeto</a>

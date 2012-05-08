@@ -1,0 +1,121 @@
+<?php
+require_once 'PHPUnit/Extensions/Database/TestCase.php';
+
+class ProjectMapperTest extends PHPUnit_Extensions_Database_TestCase
+{
+    private $mapper;
+    private $db;
+    private $inserts=array();
+    
+    public function setUp() {
+        $this->db = new PDO('sqlite::memory:');
+        $this->mapper = new C3op_Projects_ProjectMapper($this->db);
+        $this->db->exec(file_get_contents(__DIR__ . '/../../../database/projects_projects.sql'));
+        parent::setUp();
+    }
+    
+    public function tearDown() {
+        reset ($this->inserts);
+        foreach($this->inserts as $id => $insert) {
+            if (!$insert['persistence']) {
+                $this->projectMapper->delete($insert['p']);
+            }
+        }
+        parent::tearDown();
+    }
+    
+    private function insertProjectForTesting($title, $persistence=false) {
+        $p = new C3op_Projects_Project();
+        $p->SetTitle($title);
+        $this->projectMapper->insert($p);
+        $this->inserts[$p->getId()] = array(
+                'p'             => $p,
+                'persistence'   => $persistence
+            );
+        return $p;
+    }
+    
+    public function testIfCanInsertAProject() {
+        $p = new C3op_Projects_Project();
+        $this->AssertEquals(0, $p->GetId());
+        $this->AssertEquals("", $p->GetTitle());
+        $titleInserted =  '1st project inserted';
+        $p = $this->insertProjectForTesting($titleInserted, false);        
+        $this->AssertFalse(0 == $p->GetId());
+        $this->AssertEquals($titleInserted, $p->GetTitle());
+    }
+    
+    public function testIfCanListProjectsIds() {
+        $list = $this->projectMapper->getAllIds();
+        $initialCount = count($list);
+        $titleInserted = 'other project inserted';
+        $p = $this->insertProjectForTesting($titleInserted, false);
+        $this->assertTrue($p->getId() > 0);
+        
+        $list = $this->projectMapper->getAllIds();
+        $currentCount = count($list);
+        $this->assertTrue($currentCount - $initialCount == 1);
+        
+        $find = false;
+        foreach ($list as $id) {
+            $thisProject = $this->projectMapper->findById($id);
+            if ($thisProject->GetTitle() == $titleInserted) {
+                $find = true;
+            }
+        }
+        $this->assertTrue($find);
+    }
+    
+    public function testThatIsNotPossibleToChangeAProjectId()
+    {   
+        $titleInserted = 'a project inserted to try to change id';
+        $p = $this->insertProjectForTesting($titleInserted, false);
+        $projectId = $p->getId();
+        $newId = $projectId * 7;
+        $this->setExpectedException('C3op_Projects_ProjectException');
+        $p->SetId($newId);   
+        $this->assertEquals($p->getId(), $projectId);
+        
+        
+        
+        
+    }
+ 
+    public function testThatIsNotPossibleToDeleteAnUnsavedProject()
+    {   
+        $p = new C3op_Projects_Project();
+        $p->SetTitle('qq coisa');
+        $this->setExpectedException('C3op_Projects_ProjectMapperException');
+        $this->projectMapper->delete($p);
+    }
+ 
+    public function testThatIsNotPossibleToFindAProjectThatDoesntExist()
+    {   
+        $firstTitleInserted = 'a project inserted...';
+        $p1 = $this->insertProjectForTesting($firstTitleInserted, false);
+        $secondTitleInserted = 'and other project inserted';
+        $p1 = $this->insertProjectForTesting($secondTitleInserted, false);
+        $list = $this->projectMapper->getAllIds();
+        $maxId = 0;
+        foreach ($list as $id) {
+            if ($id > $maxId) {
+                $maxId = $id;
+            }
+        }
+        $this->setExpectedException('C3op_Projects_ProjectMapperException');
+        $nonExistentId = $maxId + 1;
+        $impossibleProject = $this->projectMapper->findById($nonExistentId);
+        
+        
+    }
+
+    protected function getConnection() {
+        
+    }
+
+    protected function getDataSet() {
+        
+    }
+ 
+    
+}
