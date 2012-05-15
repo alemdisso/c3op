@@ -18,13 +18,11 @@ class C3op_Form_ActionCreate extends Zend_Form
         
         // create text input for title
         $title = new Zend_Form_Element_Text('title');
-//        $titleValidator = new Zend_Validate_Regex("/^[0-9a-zA-ZÀ-ú]+[0-9A-Za-zÀ-ú\'\[\]\(\)\-\.\,\:\;\!\? ]{1,50}$/");
         $titleValidator = new C3op_Projects_Util_ValidTitle();
         $title->setLabel('Nome:')
             ->setOptions(array('size' => '50'))
             ->setRequired(true)
             ->addValidator($titleValidator)
-//            ->addFilter('HtmlEntities')
             ->addFilter('StringTrim')
                 ;
         // attach elements to form
@@ -51,10 +49,8 @@ class C3op_Form_ActionCreate extends Zend_Form
             $db = Zend_Registry::get('db');
             $actionMapper = new C3op_Projects_ActionMapper($db);
             
-            $action = new C3op_Projects_Action();
+            $action = new C3op_Projects_Action($this->project->GetValue());
             $action->SetTitle($this->title->GetValue());
-            
-            
             $actionMapper->insert($action);
         }
     }

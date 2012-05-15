@@ -35,7 +35,7 @@ class C3op_Projects_ActionMapperBase {
         }
         $this->db->exec(
             sprintf(
-                'UPDATE projects_actions SET title = \'%s\', project = %d,  WHERE id = %d;',
+                'UPDATE projects_actions SET title = \'%s\', project = %d WHERE id = %d;',
                 $a->GetTitle(),
                 $a->GetProject(),
                 $this->identityMap[$a]
@@ -60,28 +60,24 @@ class C3op_Projects_ActionMapperBase {
             )
         );
         if (empty($result)) {
-            throw new C3op_Projects_ProjectMapperException(sprintf('There is no project with id #%d.', $id));
+            throw new C3op_Projects_ActionMapperException(sprintf('There is no action with id #%d.', $id));
         }
         $title = $result['title'];
-        $p = new C3op_Projects_Project();
-        $attribute = new ReflectionProperty($p, 'title');
+        $project = $result['project'];
+        
+        $a = new C3op_Projects_Action($project);
+        $attribute = new ReflectionProperty($a, 'title');
         $attribute->setAccessible(TRUE);
-        $attribute->setValue($p, $title);
+        $attribute->setValue($a, $title);
 
-        $dateBegin = $result['date_begin'];
-        $attribute = new ReflectionProperty($p, 'dateBegin');
+        $attribute = new ReflectionProperty($a, 'project');
         $attribute->setAccessible(TRUE);
-        $attribute->setValue($p, $dateBegin);
-        
-        $value = $result['value'];
-        $attribute = new ReflectionProperty($p, 'value');
-        $attribute->setAccessible(TRUE);
-        $attribute->setValue($p, $value);
+        $attribute->setValue($a, $project);
         
         
         
-        $this->identityMap[$p] = $id;
-        return $p;        
+        $this->identityMap[$a] = $id;
+        return $a;        
 
     }
 

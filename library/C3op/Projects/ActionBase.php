@@ -4,9 +4,10 @@ class C3op_Projects_ActionBase {
 	
     protected $id;
     protected $title;
+    protected $project;
     protected $milestone;
 	
-    function __construct(C3op_Projects_Project $project, $id=0)
+    function __construct($project, $id=0)
     {
         $this->project = $project;
         $this->id = $id;
