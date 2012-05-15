@@ -32,6 +32,7 @@ class C3op_Form_ActionEdit extends C3op_Form_ActionCreate
             $action = $actionMapper->findById($id);      
             $action->SetTitle($data['title']);
             $action->SetProject($data['project']);
+            $action->SetMilestone($data['milestone']);
             
             $actionMapper->update($action);
         }

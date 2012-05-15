@@ -13,5 +13,16 @@ class ActionTest extends ControllerTestCase
         $this->action = new C3op_Projects_Action($someProjectId);
         $this->assertEquals($this->action->getProject(), $someProjectId);
     }
+    
+    public function testIfCanSetMilestoneStatus()
+    {
+        $someProjectId = 67;
+        $this->action = new C3op_Projects_Action($someProjectId);
+        $this->action->SetMilestone(1);
+        $this->assertEquals($this->action->getMilestone(), 1);
+        $this->action->SetMilestone(0);
+        $this->assertEquals($this->action->getMilestone(), 0);
+        
+    }
  
 }

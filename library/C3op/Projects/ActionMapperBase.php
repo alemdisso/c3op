@@ -1,16 +1,19 @@
 <?php
 
-class C3op_Projects_ActionMapperBase {
+class C3op_Projects_ActionMapperBase
+{
     
     protected $db;
     protected $identityMap;
 	
-    function __construct() {
+    function __construct()
+    {
         $this->db = Zend_Registry::get('db');
         $this->identityMap = new SplObjectStorage;
     }
 
-    public function getAllIds() {
+    public function getAllIds()
+    {
         $result = array();
         foreach ($this->db->query('SELECT id FROM projects_actions;') as $row) {
             $result[] = $row['id'];
@@ -18,10 +21,12 @@ class C3op_Projects_ActionMapperBase {
         return $result;
     }
     
-    public function insert(C3op_Projects_Action $new) {
+    public function insert(C3op_Projects_Action $new)
+    {
         $data = array(
             'title' => $new->getTitle(),
-            'project' => $new->GetProject()
+            'project' => $new->GetProject(),
+            'milestone' => $new->GetMilestone()                
             );
         $this->db->insert('projects_actions', $data);
         $new->SetId((int)$this->db->lastInsertId());
@@ -29,22 +34,25 @@ class C3op_Projects_ActionMapperBase {
         
     }
     
-    public function update(C3op_Projects_Action $a) {
+    public function update(C3op_Projects_Action $a)
+    {
         if (!isset($this->identityMap[$a])) {
             throw new C3op_Projects_ActionMapperException('Object has no ID, cannot update.');
         }
         $this->db->exec(
             sprintf(
-                'UPDATE projects_actions SET title = \'%s\', project = %d WHERE id = %d;',
+                'UPDATE projects_actions SET title = \'%s\', project = %d, milestone = %d WHERE id = %d;',
                 $a->GetTitle(),
                 $a->GetProject(),
+                $a->GetMilestone(),
                 $this->identityMap[$a]
             )
         );
 
     }    
     
-    public function findById($id) {
+    public function findById($id)
+    {
         $this->identityMap->rewind();
         while ($this->identityMap->valid()) {
             if ($this->identityMap->getInfo() == $id) {
@@ -55,7 +63,7 @@ class C3op_Projects_ActionMapperBase {
         
         $result = $this->db->fetchRow(
             sprintf(
-                'SELECT title, project FROM projects_actions WHERE id = %d;',
+                'SELECT title, project, milestone FROM projects_actions WHERE id = %d;',
                 $id
             )
         );
@@ -74,14 +82,18 @@ class C3op_Projects_ActionMapperBase {
         $attribute->setAccessible(TRUE);
         $attribute->setValue($a, $project);
         
-        
-        
+        $milestone = $result['milestone'];
+        $attribute = new ReflectionProperty($a, 'milestone');
+        $attribute->setAccessible(TRUE);
+        $attribute->setValue($a, $milestone);
+
         $this->identityMap[$a] = $id;
         return $a;        
 
     }
 
-    public function delete(C3op_Projects_Project $p) {
+    public function delete(C3op_Projects_Project $p)
+    {
         if (!isset($this->identityMap[$p])) {
             throw new C3op_Projects_ProjectMapperException('Object has no ID, cannot delete.');
         }
@@ -93,12 +105,4 @@ class C3op_Projects_ActionMapperBase {
         );
         unset($this->identityMap[$p]);
     }
-    
-//    public function detach(C3op_Projects_Project $p) {
-//
-//        $this->identityMap->detach($p);
-//        print_r($this->identityMap);
-//    }
-
-    
 }

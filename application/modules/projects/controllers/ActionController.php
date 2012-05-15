@@ -61,6 +61,8 @@ class Projects_ActionController extends Zend_Controller_Action
                 $titleField->setValue($thisAction->getTitle());
                 $idField = $form->getElement('id');
                 $idField->setValue($id);
+                $milestoneField = $form->getElement('milestone');
+                $milestoneField->setValue($thisAction->getMilestone());
                 $this->populateProjectFields($thisAction->GetProject(), $form);
             }
 

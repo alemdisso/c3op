@@ -3,15 +3,14 @@
 class C3op_Projects_ActionBase {
 	
     protected $id;
-    protected $title;
+    protected $title = "";
     protected $project;
-    protected $milestone;
+    protected $milestone = false;
 	
     function __construct($project, $id=0)
     {
         $this->project = $project;
         $this->id = $id;
-        $this->title = "";
     }
 
     public function GetId()
@@ -64,10 +63,10 @@ class C3op_Projects_ActionBase {
     
     public function SetMilestone($milestone) 
     {
-        if ($milestone == true) {
+        if ($milestone) {
             $this->milestone = $milestone;
         } else {
-            $this->milestone = false;
+            $this->milestone = 0;
         }
     }
     

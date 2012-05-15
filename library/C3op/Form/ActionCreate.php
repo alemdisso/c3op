@@ -28,6 +28,14 @@ class C3op_Form_ActionCreate extends Zend_Form
         // attach elements to form
         $this->addElement($title);
         
+        $milestone = new Zend_Form_Element_Checkbox('milestone');
+        $milestone->setLabel('Essa ação é um marco do projeto?')
+                ->addDecorator('Label', array('placement' => 'APPEND')) 
+                ->setOptions(array('checked' => '1', 'unChecked' => '0'))
+                ->setValue('0')
+                ;
+        $this->addElement($milestone);
+        
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
         $submit->setLabel('Salvar')
@@ -51,6 +59,14 @@ class C3op_Form_ActionCreate extends Zend_Form
             
             $action = new C3op_Projects_Action($this->project->GetValue());
             $action->SetTitle($this->title->GetValue());
+            
+            $milestone = $this->milestone->GetValue();
+            if ($milestone == '1') {
+                $action->SetMilestone(1);
+            } else {
+                $action->SetMilestone(0);
+            }
+            
             $actionMapper->insert($action);
         }
     }
