@@ -1,19 +1,21 @@
 <?php
 
-class Projects_ProjectController extends Zend_Controller_Action
+class Projects_ActionController extends Zend_Controller_Action
 {
+    private $actionMapper;
     private $projectMapper;
+    private $db;
 
     public function init()
     {
-        $db = Zend_Registry::get('db');
-        $this->projectMapper = new C3op_Projects_ProjectMapper($db);        
+        $this->db = Zend_Registry::get('db');
+        $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
     }
 
     public function createAction()
     {
         // cria form
-        $form = new C3op_Form_ProjectCreate;
+        $form = new C3op_Form_ActionCreate;
         $this->view->form = $form;
         
         if ($this->getRequest()->isPost()) {
@@ -22,55 +24,25 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage('The record was successfully updated.');          
-                $this->_redirect('/projects/project/success-create');
+                $this->_redirect('/projects/action/success-create');
 
-            } else throw new C3op_Projects_ProjectException("A project must have a valid title.");
-        }
-    }
-
-    public function editAction()
-    {
-        $form = new C3op_Form_ProjectEdit;
-        $this->view->form = $form;
-        if ($this->getRequest()->isPost()) {
-            $postData = $this->getRequest()->getPost();
-            if ($form->isValid($postData)) {
-                $form->process($postData);
-                $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');          
-                $this->_redirect('/projects/project/success-create');
-            } else throw new C3op_Projects_ProjectException("A project must have a valid title.");
+            } else throw new C3op_Projects_ActionException("An action must have a valid title.");
         } else {
-            // GET
             $data = $this->_request->getParams();
-            $filters = array(
-                'id' => new Zend_Filter_Alnum(),
-            );
-            $validators = array(
-                'id' => array('Digits', new Zend_Validate_GreaterThan(0)),
-            );
-            $input = new Zend_Filter_Input($filters, $validators, $data);
-            if ($input->isValid()) {
-                $id = $input->id;
-                $thisProject = $this->projectMapper->findById($id);
-                $titleField = $form->getElement('title');
-                $titleField->setValue($thisProject->getTitle());
-                $idField = $form->getElement('id');
-                $idField->setValue($id);
-                $dateBeginField = $form->getElement('dateBegin');
-                $dateBeginValue = $thisProject->GetDateBegin();
-                if ($dateBeginValue != '0000-00-00')  {
-                    $dateArray = explode("-", $dateBeginValue);
-                    $formatedDate = $dateArray[2] . '/' . $dateArray[1] . '/' . $dateArray[0]; 
-                    $dateBeginField->setValue($formatedDate);
-                } else {
-                    $dateBeginField->setValue("");
-                    
+            $validator = new C3op_Util_ValidId();
+            $projectId = $data['project'];
+            if ($validator->isValid($projectId)) {
+                $projectField = $form->getElement('project');
+                $projectField->setValue($projectId);
+                if (!isset($this->projectMapper)) {
+                        $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
                 }
 
-            } else {
-                throw new C3op_Projects_ProjectException('Invalid id!');
-            }
+                $thisProject = $this->projectMapper->findById($projectId);
+                $this->view->projectTitle = $thisProject->GetTitle();
+            } else throw new C3op_Projects_ActionException("Action needs a positive integer project id.");
+            
+            
         }
     }
 

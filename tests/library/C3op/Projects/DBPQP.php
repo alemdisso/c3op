@@ -1,9 +1,17 @@
 <?php
 require_once 'PHPUnit/Extensions/Database/TestCase.php';
 
-class TryTest extends PHPUnit_Extensions_Database_TestCase {
+class ProjectDBTest extends PHPUnit_Extensions_Database_TestCase {
+    protected $pdo;
+    
+    public function __construct() {
+        $this->pdo = PHPUnit_Util_PDO::factory(
+           'mysql:host=localhost;dbname=testing_c3op'
+        );
+        Project::createTable($this->pdo);
+        
+    }
     public function getConnection() {
-        $pdo = new PDO('mysql:host=localhost;dbname=c3op', 'root', '');
         return $this->createDefaultDBConnection($pdo, 'c3op_test');
     }   
 

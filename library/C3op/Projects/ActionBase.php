@@ -1,39 +1,42 @@
 <?php
 
-class C3op_Projects_ProjectBase {
+class C3op_Projects_ActionBase {
 	
     protected $id;
     protected $title;
-    protected $dateBegin;
-    protected $value;
+    protected $milestone;
 	
-    function __construct($id=0) {
+    function __construct(C3op_Projects_Project $project, $id=0)
+    {
+        $this->project = $project;
         $this->id = $id;
         $this->title = "";
-        $this->dateBegin = "";
-        $this->value = 0;
     }
 
-    public function GetId() {
+    public function GetId()
+    {
         return $this->id;
 
     } //GetId
 
-    public function SetId($id) {
+    public function SetId($id)
+    {
         if (($this->id == 0) && ($id > 0)) {
             $this->id = $id;
         } else {
-            throw new C3op_Projects_ProjectException('It\'s not possible to change a project\'s ID');
+            throw new C3op_Projects_ActionException('It\'s not possible to change a action\'s ID');
         }
 
     } //SetId
 
-    public function GetTitle() {
+    public function GetTitle() 
+    {
         return $this->title;
 
     } //GetTitle
 	
-    public function SetTitle($title) {
+    public function SetTitle($title) 
+    {
         //$validator = new Zend_Validate_Regex("/^[0-9a-zA-ZÀ-ú]+[0-9A-Za-zÀ-ú\'\[\]\(\)\-\.\,\:\;\!\? ]{1,50}$/");
         $validator = new C3op_Projects_Util_ValidTitle();
         if ($validator->isValid($title)) {
@@ -41,44 +44,35 @@ class C3op_Projects_ProjectBase {
                 $this->title = $title;
             }
         } else {
-            throw new C3op_Projects_ProjectException("This ($title) is not a valid title.");
+            throw new C3op_Projects_ActionException("This ($title) is not a valid title.");
         }
 
     } //SetTitle
 
-    public function GetDateBegin() {
-        return $this->dateBegin;
-
-    } //GetDateBegin
-	
-    public function SetDateBegin($dateBegin) {
-        if ($dateBegin != "") {
-            $dateValidator = new C3op_Util_ValidDate();
-            if ($dateValidator->isValid($dateBegin)) {
-                if ($this->dateBegin != $dateBegin) {
-                    $this->dateBegin = $dateBegin;
-                }
-            } else {
-                throw new C3op_Projects_ProjectException("This ($dateBegin) is not a valid date of begin.");
-            }
-        }
-
-    } //SetDateBegin
-
-    public function SetValue($value) 
+    public function GetProject()
     {
-        if ($value >= 0) {
-            $this->value = (float) $value;
+        return $this->project;
+
+    }
+	
+    public function SetProject($project) 
+    {
+        $this->project = $project;
+
+    }
+    
+    public function SetMilestone($milestone) 
+    {
+        if ($milestone == true) {
+            $this->milestone = $milestone;
         } else {
-            throw new C3op_Projects_ProjectException("Value must be a positive number.");
-            
+            $this->milestone = false;
         }
     }
-
-    public function GetValue() 
+    
+    public function GetMilestone()
     {
-        return $this->value;
-        
+        return $this->milestone;
     }
 
     

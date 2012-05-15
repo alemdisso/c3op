@@ -1,7 +1,6 @@
 <?php
-class C3op_Projects_ProjectMapperException extends RuntimeException 
+class C3op_Projects_ActionMapperException extends RuntimeException 
 {
-    //put your code here
 }
 
 ?>

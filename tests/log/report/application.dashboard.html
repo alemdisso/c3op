@@ -26,7 +26,7 @@
             <h2>Class Coverage Distribution</h2>
             <canvas id="classCoverageDistribution" width="475" height="200"></canvas>
             <script>
-            var ccd = new RGraph.Bar('classCoverageDistribution', [3,0,0,0,0,0,1,0,1,0,0,1]);
+            var ccd = new RGraph.Bar('classCoverageDistribution', [4,0,0,0,0,0,0,1,1,0,0,1]);
             ccd.Set('chart.background.barcolor1', 'white');
             ccd.Set('chart.background.barcolor2', 'white');
             ccd.Set('chart.colors', ['blue']);
@@ -43,7 +43,7 @@
             <h2>Class Complexity</h2>
             <canvas id="classComplexity" width="475" height="200"></canvas>
             <script>
-            var cc = new RGraph.Scatter('classComplexity', [[0,2,"blue","IndexController"],[0,2,"blue","Includes_FooterController"],[50,4,"blue","Includes_HeaderController"],[0,1,"blue","MediadorIncludes"],[100,3,"blue","Projects_IndexController"],[73.913043478261,14,"blue","Projects_ProjectController"]]);
+            var cc = new RGraph.Scatter('classComplexity', [[0,2,"blue","IndexController"],[0,2,"blue","Includes_FooterController"],[66.666666666667,3,"blue","Includes_HeaderController"],[0,1,"blue","MediadorIncludes"],[0,10,"blue","Projects_ActionController"],[100,3,"blue","Projects_IndexController"],[73.913043478261,14,"blue","Projects_ProjectController"]]);
             cc.Set('chart.xmax', 100);
             cc.Set('chart.background.barcolor1', 'white');
             cc.Set('chart.background.barcolor2', 'white');
@@ -59,8 +59,9 @@
           <td valign="top">
             <h2>Top Project Risks</h2>
             <ul>
+              <li><a href="application_modules_projects_controllers_ActionController.php.html#3">Projects_ActionController</a> (110)</li>
               <li><a href="application_modules_projects_controllers_ProjectController.php.html#3">Projects_ProjectController</a> (17)</li>
-              <li><a href="application_modules_includes_controllers_HeaderController.php.html#3">Includes_HeaderController</a> (6)</li>
+              <li><a href="application_modules_includes_controllers_HeaderController.php.html#3">Includes_HeaderController</a> (3)</li>
 
             </ul>
           </td>
@@ -68,16 +69,16 @@
           <td valign="top">
             <h2>Least Tested Methods</h2>
             <ul>
+              <li><a href="application_modules_projects_controllers_ActionController.php.html#53">Projects_ActionController::successCreateAction</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ActionController.php.html#42">Projects_ActionController::sucessAction</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ActionController.php.html#63">Projects_ActionController::errorEditAction</a> (0%)</li>
               <li><a href="application_modules_projects_controllers_ProjectController.php.html#77">Projects_ProjectController::sucessAction</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#88">Projects_ProjectController::successCreateAction</a> (0%)</li>
               <li><a href="application_modules_projects_controllers_ProjectController.php.html#98">Projects_ProjectController::errorEditAction</a> (0%)</li>
-              <li><a href="application_modules_includes_models_MediadorIncludes.php.html#8">MediadorIncludes::__construct</a> (0%)</li>
-              <li><a href="application_modules_includes_controllers_HeaderController.php.html#12">Includes_HeaderController::includeMockAction</a> (0%)</li>
-              <li><a href="application_modules_default_controllers_IndexController.php.html#9">IndexController::indexAction</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#88">Projects_ProjectController::successCreateAction</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ActionController.php.html#13">Projects_ActionController::createAction</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ActionController.php.html#7">Projects_ActionController::init</a> (0%)</li>
               <li><a href="application_modules_includes_controllers_FooterController.php.html#8">Includes_FooterController::init</a> (0%)</li>
               <li><a href="application_modules_includes_controllers_FooterController.php.html#15">Includes_FooterController::includeAction</a> (0%)</li>
-              <li><a href="application_modules_default_controllers_IndexController.php.html#4">IndexController::init</a> (0%)</li>
-              <li><a href="application_modules_includes_controllers_HeaderController.php.html#32">Includes_HeaderController::includeAction</a> (62%)</li>
 
             </ul>
           </td>
@@ -89,7 +90,7 @@
 
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
-      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.2</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.8</a> and PHPUnit 3.5.15 at Fri May 4 16:50:24 BRT 2012.</td></tr>
+      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.2</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.8</a> and PHPUnit 3.5.15 at Tue May 15 14:28:21 BRT 2012.</td></tr>
     </table>
 
     <br/>

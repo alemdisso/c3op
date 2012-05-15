@@ -1,6 +1,6 @@
 <?php
 
-class C3op_Projects_ProjectMapperBase {
+class C3op_Projects_ActionMapperBase {
     
     protected $db;
     protected $identityMap;
@@ -12,35 +12,33 @@ class C3op_Projects_ProjectMapperBase {
 
     public function getAllIds() {
         $result = array();
-        foreach ($this->db->query('SELECT id FROM projects_projects;') as $row) {
+        foreach ($this->db->query('SELECT id FROM projects_actions;') as $row) {
             $result[] = $row['id'];
         }        
         return $result;
     }
     
-    public function insert(C3op_Projects_Project $new) {
+    public function insert(C3op_Projects_Action $new) {
         $data = array(
             'title' => $new->getTitle(),
-            'date_begin' => $new->GetDateBegin(),
-            'value' => $new->GetValue()
+            'project' => $new->GetProject()
             );
-        $this->db->insert('projects_projects', $data);
+        $this->db->insert('projects_actions', $data);
         $new->SetId((int)$this->db->lastInsertId());
         $this->identityMap[$new] = $new->GetId();
         
     }
     
-    public function update(C3op_Projects_Project $p) {
-        if (!isset($this->identityMap[$p])) {
-            throw new C3op_Projects_ProjectMapperException('Object has no ID, cannot update.');
+    public function update(C3op_Projects_Action $a) {
+        if (!isset($this->identityMap[$a])) {
+            throw new C3op_Projects_ActionMapperException('Object has no ID, cannot update.');
         }
         $this->db->exec(
             sprintf(
-                'UPDATE projects_projects SET title = \'%s\', date_begin = \'%s\', value = %f WHERE id = %d;',
-                $p->GetTitle(),
-                $p->GetDateBegin(),
-                $p->GetValue(),
-                $this->identityMap[$p]
+                'UPDATE projects_actions SET title = \'%s\', project = %d,  WHERE id = %d;',
+                $a->GetTitle(),
+                $a->GetProject(),
+                $this->identityMap[$a]
             )
         );
 
@@ -57,7 +55,7 @@ class C3op_Projects_ProjectMapperBase {
         
         $result = $this->db->fetchRow(
             sprintf(
-                'SELECT title, date_begin, value FROM projects_projects WHERE id = %d;',
+                'SELECT title, project FROM projects_actions WHERE id = %d;',
                 $id
             )
         );

@@ -26,6 +26,7 @@ class Projects_IndexController extends Zend_Controller_Action
                 'linkEdit' => '/projects/project/edit/?id=' . $id   ,
                 'dateBegin' => $thisProject->GetDateBegin(),
                 'value' => $thisProject->GetValue(),
+                'linkActionCreate' => '/projects/action/create/?project=' . $id   ,
                 
             );
         }

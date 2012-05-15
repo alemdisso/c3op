@@ -1,6 +1,6 @@
 <?php
 
-class DateTest extends ControllerTestCase
+class IdTest extends ControllerTestCase
 {
     
     
@@ -8,21 +8,22 @@ class DateTest extends ControllerTestCase
         parent::setUp();
     }
         
-    public function testThatInvalidDateIsntValid() {
-       $validator = new C3op_Util_ValidDate();
-       $invalidDate = "30-30-2003";
-       $this->assertFalse($validator->isValid($invalidDate));
-       $invalidDate = "an7yth4ing3";
-       $this->assertFalse($validator->isValid($invalidDate));
+    public function testThat1IsValidId() {
+       $validator = new C3op_Util_ValidId();
+       $id=1;
+       $this->assertTrue($validator->isValid($id));
     }
     
-    public function testTryingToConvertBadDateRaiseError() {
-       $converter = new C3op_Util_DateConverter();
-       $invalidDate = "30-30-2003";
-       $this->setExpectedException('C3op_Util_DateException');
-       $date = $converter->convertDateToMySQLFormat($invalidDate);
-       $invalidDate = "an7yth4ing3";
-       $this->setExpectedException('C3op_Util_DateException');
-       $date = $converter->convertDateToMySQLFormat($invalidDate);
+    public function testThatBigIdWithCommaAsDecimalSeparator1IsValidId() {
+       $validator = new C3op_Util_ValidId();
+       $id='1.234';
+       $this->assertTrue($validator->isValid($id));
     }
+    
+    public function testThatNegativeIsntValidId() {
+       $validator = new C3op_Util_ValidId();
+       $id=-12;
+       $this->assertFalse($validator->isValid($id));
+    }
+    
 }

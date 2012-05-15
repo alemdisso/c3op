@@ -9,26 +9,6 @@ class Includes_HeaderController extends Zend_Controller_Action
     }
 
 
-    public function includeMockAction()
-    {
-        /* Initialize model and retrieve data here */
-
-        /* Initialize view and populate here */
-
-        //saudacao_usuario
-        //  logado: verdadeiro/falso
-        //  nome_usuario: texto
-        //  link_edita: texto
-        $dadosPagina['saudacao_usuario']['logado'] = true;
-        $dadosPagina['saudacao_usuario']['nome_usuario'] = "Fabiana Lizak";
-        $dadosPagina['saudacao_usuario']['link_edita'] = "/edita-usuario/fabiana-lizak";
-
-        $this->view->saudacaoUsuario = $dadosPagina['saudacao_usuario'];
-
-        $this->render("include"); //use different view
-    }
-
-
     public function includeAction()
     {
         /* Initialize model and retrieve data here */
@@ -50,13 +30,13 @@ class Includes_HeaderController extends Zend_Controller_Action
             $dadosPagina['saudacao_usuario']['nome_usuario'] = $identity->nomeUsuario;
             $dadosPagina['saudacao_usuario']['link_edita'] = "/autenticacao/conta/edita?titulo=" . $identity->apelidoUsuario;
 //            $dadosPagina['links_menu']['link_aulas'] = "/planejamento/aula/lista?titulo=" . $identity->apelidoUsuario;
-            $dadosPagina['links_menu']['link_aulas'] = "/planejamento/aula/lista";
+            $dadosPagina['links_menu']['link_aulas'] = "/projects";
 
         } else {
             $dadosPagina['saudacao_usuario']['logado'] = false;
             $dadosPagina['saudacao_usuario']['nome_usuario'] = "";
             $dadosPagina['saudacao_usuario']['link_edita'] = "";
-            $dadosPagina['links_menu']['link_aulas'] = "/planejamento/aula/lista";
+            $dadosPagina['links_menu']['link_aulas'] = "/projects";
         }
 
         $this->view->saudacaoUsuario = $dadosPagina['saudacao_usuario'];

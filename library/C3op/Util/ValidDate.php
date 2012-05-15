@@ -3,9 +3,6 @@
 class C3op_Util_ValidDate extends Zend_Validate_Abstract {
     
     public function isValid($value) {
-        
-        
-        
             $date = preg_split("/[-:|\\/]/", $value);
             if (count($date) < 3)  {
                     return false;                
@@ -14,8 +11,6 @@ class C3op_Util_ValidDate extends Zend_Validate_Abstract {
             }
             return true;        
     }
-    
-
 }
 
 ?>
