@@ -80,6 +80,11 @@ class C3op_Projects_ProjectBase {
         return $this->value;
         
     }
+    
+    public function GetAllActions()
+    {
+        
+    }
 
     
     

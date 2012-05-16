@@ -66,6 +66,11 @@ class C3op_Projects_ProjectMapperBase {
         }
         $title = $result['title'];
         $p = new C3op_Projects_Project();
+        
+        $attribute = new ReflectionProperty($p, 'id');
+        $attribute->setAccessible(TRUE);
+        $attribute->setValue($p, $id);
+
         $attribute = new ReflectionProperty($p, 'title');
         $attribute->setAccessible(TRUE);
         $attribute->setValue($p, $title);
@@ -100,11 +105,21 @@ class C3op_Projects_ProjectMapperBase {
         unset($this->identityMap[$p]);
     }
     
-//    public function detach(C3op_Projects_Project $p) {
-//
-//        $this->identityMap->detach($p);
-//        print_r($this->identityMap);
-//    }
+    public function getAllActions(C3op_Projects_Project $p)
+    {
+        $result = array();
+        foreach ($this->db->query(
+                sprintf(
+                    'SELECT id FROM projects_actions WHERE project = %d;',
+                    $p->GetId()
+                    )
+                )
+                as $row) {
+            $result[] = $row['id'];
+        }        
 
+        return $result;
+    }
+    
     
 }

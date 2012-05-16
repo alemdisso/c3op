@@ -3,11 +3,12 @@
 class Projects_ProjectController extends Zend_Controller_Action
 {
     private $projectMapper;
+    private $db;
 
     public function init()
     {
-        $db = Zend_Registry::get('db');
-        $this->projectMapper = new C3op_Projects_ProjectMapper($db);        
+        $this->db = Zend_Registry::get('db');
+        $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
     }
 
     public function createAction()
@@ -42,35 +43,23 @@ class Projects_ProjectController extends Zend_Controller_Action
             } else throw new C3op_Projects_ProjectException("A project must have a valid title.");
         } else {
             // GET
-            $data = $this->_request->getParams();
-            $filters = array(
-                'id' => new Zend_Filter_Alnum(),
-            );
-            $validators = array(
-                'id' => array('Digits', new Zend_Validate_GreaterThan(0)),
-            );
-            $input = new Zend_Filter_Input($filters, $validators, $data);
-            if ($input->isValid()) {
-                $id = $input->id;
-                $thisProject = $this->projectMapper->findById($id);
-                $titleField = $form->getElement('title');
-                $titleField->setValue($thisProject->getTitle());
-                $idField = $form->getElement('id');
-                $idField->setValue($id);
-                $dateBeginField = $form->getElement('dateBegin');
-                $dateBeginValue = $thisProject->GetDateBegin();
-                if ($dateBeginValue != '0000-00-00')  {
-                    $dateArray = explode("-", $dateBeginValue);
-                    $formatedDate = $dateArray[2] . '/' . $dateArray[1] . '/' . $dateArray[0]; 
-                    $dateBeginField->setValue($formatedDate);
-                } else {
-                    $dateBeginField->setValue("");
-                    
-                }
-
+            $id = $this->checkIdFromGet();
+            $thisProject = $this->projectMapper->findById($id);
+            $titleField = $form->getElement('title');
+            $titleField->setValue($thisProject->getTitle());
+            $idField = $form->getElement('id');
+            $idField->setValue($id);
+            $dateBeginField = $form->getElement('dateBegin');
+            $dateBeginValue = $thisProject->GetDateBegin();
+            if ($dateBeginValue != '0000-00-00')  {
+                $dateArray = explode("-", $dateBeginValue);
+                $formatedDate = $dateArray[2] . '/' . $dateArray[1] . '/' . $dateArray[0]; 
+                $dateBeginField->setValue($formatedDate);
             } else {
-                throw new C3op_Projects_ProjectException('Invalid id!');
+                $dateBeginField->setValue("");
+
             }
+
         }
     }
 
@@ -101,6 +90,54 @@ class Projects_ProjectController extends Zend_Controller_Action
     $flashMessenger->setNamespace('messages');
     $this->view->messages = $flashMessenger->getMessages();
     $flashMessenger->addMessage('Id Inválido');
+  }
+  
+    public function trackAction()
+    {
+        $actionMapper = new C3op_Projects_ActionMapper($this->db);
+
+        $id = $this->checkIdFromGet();
+        $thisProject = $this->projectMapper->findById($id);
+        $actionsIdsList = $this->projectMapper->getAllActions($thisProject);
+        $actionsList = array();
+        reset ($actionsList);
+        foreach ($actionsIdsList as $actionId) {
+            $thisAction = $actionMapper->findById($actionId);
+            $actionsList[$actionId] = array(
+                'title' => $thisAction->GetTitle(),
+                'linkEdit' => '/projects/action/edit/?id=' . $actionId   ,
+            );
+        }
+        $projectInfo = array(
+                'title' => $thisProject->GetTitle(),
+                'linkEdit' => '/projects/project/edit/?id=' . $id   ,
+                'dateBegin' => $thisProject->GetDateBegin(),
+                'value' => $thisProject->GetValue(),
+                'linkActionCreate' => '/projects/action/create/?project=' . $id,
+                'actionsList' => $actionsList,
+            );
+        
+       $this->view->projectInfo = $projectInfo;
+        
+        
+    }
+  
+  private function checkIdFromGet()
+  {
+        $data = $this->_request->getParams();
+        $filters = array(
+            'id' => new Zend_Filter_Alnum(),
+        );
+        $validators = array(
+            'id' => array('Digits', new Zend_Validate_GreaterThan(0)),
+        );
+        $input = new Zend_Filter_Input($filters, $validators, $data);
+        if ($input->isValid()) {
+            $id = $input->id;
+            return $id;
+        }
+        throw new C3op_Projects_ProjectException("Invalid Project Id from Get");
+      
   }
     
     

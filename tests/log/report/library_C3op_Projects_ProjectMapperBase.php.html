@@ -72,7 +72,7 @@
             </table>
           </td>
           <td class="coverPerHi">100.00%</td>
-          <td class="coverNumHi">6 / 6</td>
+          <td class="coverNumHi">7 / 7</td>
           <td class="crap"><acronym title="Change Risk Anti-Patterns (CRAP) Index">CRAP</acronym></td>
           <td class="coverBar" align="center" width="100">
             <table border="0" cellspacing="0" cellpadding="1">
@@ -82,7 +82,7 @@
             </table>
           </td>
           <td class="coverPerHi">100.00%</td>
-          <td class="coverNumHi">67 / 67</td>
+          <td class="coverNumHi">81 / 81</td>
         </tr>
 
         <tr>
@@ -107,7 +107,7 @@
             </table>
           </td>
           <td class="coverPerHi">100.00%</td>
-          <td class="coverNumHi">6 / 6</td>
+          <td class="coverNumHi">7 / 7</td>
           <td class="crap"></td>
           <td class="coverBar" align="center" width="100">
             <table border="0" cellspacing="0" cellpadding="1">
@@ -117,7 +117,7 @@
             </table>
           </td>
           <td class="coverPerHi">100.00%</td>
-          <td class="coverNumHi">67 / 67</td>
+          <td class="coverNumHi">81 / 81</td>
         </tr>
 
         <tr>
@@ -232,11 +232,11 @@
             </table>
           </td>
           <td class="coverPerHi">100.00%</td>
-          <td class="coverNumHi">28 / 28</td>
+          <td class="coverNumHi">31 / 31</td>
         </tr>
 
         <tr>
-          <td class="coverFile" colspan="4">&nbsp;<a href="#90">delete(C3op_Projects_Project $p)</a></td>
+          <td class="coverFile" colspan="4">&nbsp;<a href="#95">delete(C3op_Projects_Project $p)</a></td>
           <td class="coverBar" align="center" width="100">
             <table border="0" cellspacing="0" cellpadding="1">
               <tr>
@@ -256,6 +256,29 @@
           </td>
           <td class="coverPerHi">100.00%</td>
           <td class="coverNumHi">10 / 10</td>
+        </tr>
+
+        <tr>
+          <td class="coverFile" colspan="4">&nbsp;<a href="#108">getAllActions(C3op_Projects_Project $p)</a></td>
+          <td class="coverBar" align="center" width="100">
+            <table border="0" cellspacing="0" cellpadding="1">
+              <tr>
+                <td class="coverBarOutline"><img src="chameleon.png" width="100" height="10" alt="100.00%"><img src="snow.png" width="0" height="10" alt="100.00%"></td>
+              </tr>
+            </table>
+          </td>
+          <td class="coverPerHi">100.00%</td>
+          <td class="coverNumHi">1 / 1</td>
+          <td class="crap">2</td>
+          <td class="coverBar" align="center" width="100">
+            <table border="0" cellspacing="0" cellpadding="1">
+              <tr>
+                <td class="coverBarOutline"><img src="chameleon.png" width="100" height="10" alt="100.00%"><img src="snow.png" width="0" height="10" alt="100.00%"></td>
+              </tr>
+            </table>
+          </td>
+          <td class="coverPerHi">100.00%</td>
+          <td class="coverNumHi">11 / 11</td>
         </tr>
 
 
@@ -339,47 +362,62 @@
 <span class="lineNum" id="container66"><a name="66"></a><a href="#66" id="line66">      66</a> </span><span class="lineDeadCode">                :         }                                                                                                     </span>
 <span class="lineNum" id="container67"><a name="67"></a><a href="#67" id="line67">      67</a> </span><span class="lineCov">             13 :         $title = $result['title'];                                                                            </span>
 <span class="lineNum" id="container68"><a name="68"></a><a href="#68" id="line68">      68</a> </span><span class="lineCov">             13 :         $p = new C3op_Projects_Project();                                                                     </span>
-<span class="lineNum" id="container69"><a name="69"></a><a href="#69" id="line69">      69</a> </span><span class="lineCov">             13 :         $attribute = new ReflectionProperty($p, 'title');                                                     </span>
-<span class="lineNum" id="container70"><a name="70"></a><a href="#70" id="line70">      70</a> </span><span class="lineCov">             13 :         $attribute-&gt;setAccessible(TRUE);                                                                      </span>
-<span class="lineNum" id="container71"><a name="71"></a><a href="#71" id="line71">      71</a> </span><span class="lineCov">             13 :         $attribute-&gt;setValue($p, $title);                                                                     </span>
-<span class="lineNum" id="container72"><a name="72"></a><a href="#72" id="line72">      72</a> </span>                :                                                                                                               
-<span class="lineNum" id="container73"><a name="73"></a><a href="#73" id="line73">      73</a> </span><span class="lineCov">             13 :         $dateBegin = $result['date_begin'];                                                                   </span>
-<span class="lineNum" id="container74"><a name="74"></a><a href="#74" id="line74">      74</a> </span><span class="lineCov">             13 :         $attribute = new ReflectionProperty($p, 'dateBegin');                                                 </span>
+<span class="lineNum" id="container69"><a name="69"></a><a href="#69" id="line69">      69</a> </span>                :                                                                                                               
+<span class="lineNum" id="container70"><a name="70"></a><a href="#70" id="line70">      70</a> </span><span class="lineCov">             13 :         $attribute = new ReflectionProperty($p, 'id');                                                        </span>
+<span class="lineNum" id="container71"><a name="71"></a><a href="#71" id="line71">      71</a> </span><span class="lineCov">             13 :         $attribute-&gt;setAccessible(TRUE);                                                                      </span>
+<span class="lineNum" id="container72"><a name="72"></a><a href="#72" id="line72">      72</a> </span><span class="lineCov">             13 :         $attribute-&gt;setValue($p, $id);                                                                        </span>
+<span class="lineNum" id="container73"><a name="73"></a><a href="#73" id="line73">      73</a> </span>                :                                                                                                               
+<span class="lineNum" id="container74"><a name="74"></a><a href="#74" id="line74">      74</a> </span><span class="lineCov">             13 :         $attribute = new ReflectionProperty($p, 'title');                                                     </span>
 <span class="lineNum" id="container75"><a name="75"></a><a href="#75" id="line75">      75</a> </span><span class="lineCov">             13 :         $attribute-&gt;setAccessible(TRUE);                                                                      </span>
-<span class="lineNum" id="container76"><a name="76"></a><a href="#76" id="line76">      76</a> </span><span class="lineCov">             13 :         $attribute-&gt;setValue($p, $dateBegin);                                                                 </span>
+<span class="lineNum" id="container76"><a name="76"></a><a href="#76" id="line76">      76</a> </span><span class="lineCov">             13 :         $attribute-&gt;setValue($p, $title);                                                                     </span>
 <span class="lineNum" id="container77"><a name="77"></a><a href="#77" id="line77">      77</a> </span>                :                                                                                                               
-<span class="lineNum" id="container78"><a name="78"></a><a href="#78" id="line78">      78</a> </span><span class="lineCov">             13 :         $value = $result['value'];                                                                            </span>
-<span class="lineNum" id="container79"><a name="79"></a><a href="#79" id="line79">      79</a> </span><span class="lineCov">             13 :         $attribute = new ReflectionProperty($p, 'value');                                                     </span>
+<span class="lineNum" id="container78"><a name="78"></a><a href="#78" id="line78">      78</a> </span><span class="lineCov">             13 :         $dateBegin = $result['date_begin'];                                                                   </span>
+<span class="lineNum" id="container79"><a name="79"></a><a href="#79" id="line79">      79</a> </span><span class="lineCov">             13 :         $attribute = new ReflectionProperty($p, 'dateBegin');                                                 </span>
 <span class="lineNum" id="container80"><a name="80"></a><a href="#80" id="line80">      80</a> </span><span class="lineCov">             13 :         $attribute-&gt;setAccessible(TRUE);                                                                      </span>
-<span class="lineNum" id="container81"><a name="81"></a><a href="#81" id="line81">      81</a> </span><span class="lineCov">             13 :         $attribute-&gt;setValue($p, $value);                                                                     </span>
+<span class="lineNum" id="container81"><a name="81"></a><a href="#81" id="line81">      81</a> </span><span class="lineCov">             13 :         $attribute-&gt;setValue($p, $dateBegin);                                                                 </span>
 <span class="lineNum" id="container82"><a name="82"></a><a href="#82" id="line82">      82</a> </span>                :                                                                                                               
-<span class="lineNum" id="container83"><a name="83"></a><a href="#83" id="line83">      83</a> </span>                :                                                                                                               
-<span class="lineNum" id="container84"><a name="84"></a><a href="#84" id="line84">      84</a> </span>                :                                                                                                               
-<span class="lineNum" id="container85"><a name="85"></a><a href="#85" id="line85">      85</a> </span><span class="lineCov">             13 :         $this-&gt;identityMap[$p] = $id;                                                                         </span>
-<span class="lineNum" id="container86"><a name="86"></a><a href="#86" id="line86">      86</a> </span><span class="lineCov">             13 :         return $p;                                                                                            </span>
+<span class="lineNum" id="container83"><a name="83"></a><a href="#83" id="line83">      83</a> </span><span class="lineCov">             13 :         $value = $result['value'];                                                                            </span>
+<span class="lineNum" id="container84"><a name="84"></a><a href="#84" id="line84">      84</a> </span><span class="lineCov">             13 :         $attribute = new ReflectionProperty($p, 'value');                                                     </span>
+<span class="lineNum" id="container85"><a name="85"></a><a href="#85" id="line85">      85</a> </span><span class="lineCov">             13 :         $attribute-&gt;setAccessible(TRUE);                                                                      </span>
+<span class="lineNum" id="container86"><a name="86"></a><a href="#86" id="line86">      86</a> </span><span class="lineCov">             13 :         $attribute-&gt;setValue($p, $value);                                                                     </span>
 <span class="lineNum" id="container87"><a name="87"></a><a href="#87" id="line87">      87</a> </span>                :                                                                                                               
-<span class="lineNum" id="container88"><a name="88"></a><a href="#88" id="line88">      88</a> </span><span class="lineDeadCode">                :     }                                                                                                         </span>
+<span class="lineNum" id="container88"><a name="88"></a><a href="#88" id="line88">      88</a> </span>                :                                                                                                               
 <span class="lineNum" id="container89"><a name="89"></a><a href="#89" id="line89">      89</a> </span>                :                                                                                                               
-<span class="lineNum" id="container90"><a name="90"></a><a href="#90" id="line90">      90</a> </span>                :     public function delete(C3op_Projects_Project $p) {                                                        
-<span class="lineNum" id="container91"><a name="91"></a><a href="#91" id="line91">      91</a> </span><span class="lineCov">             20 :         if (!isset($this-&gt;identityMap[$p])) {                                                                 </span>
-<span class="lineNum" id="container92"><a name="92"></a><a href="#92" id="line92">      92</a> </span><span class="lineCov">              1 :             throw new C3op_Projects_ProjectMapperException('Object has no ID, cannot delete.');               </span>
-<span class="lineNum" id="container93"><a name="93"></a><a href="#93" id="line93">      93</a> </span><span class="lineDeadCode">                :         }                                                                                                     </span>
-<span class="lineNum" id="container94"><a name="94"></a><a href="#94" id="line94">      94</a> </span><span class="lineCov">             19 :         $this-&gt;db-&gt;exec(                                                                                      </span>
-<span class="lineNum" id="container95"><a name="95"></a><a href="#95" id="line95">      95</a> </span><span class="lineCov">             19 :             sprintf(                                                                                          </span>
-<span class="lineNum" id="container96"><a name="96"></a><a href="#96" id="line96">      96</a> </span><span class="lineCov">             19 :                 'DELETE FROM projects_projects WHERE id = %d;',                                               </span>
-<span class="lineNum" id="container97"><a name="97"></a><a href="#97" id="line97">      97</a> </span><span class="lineCov">             19 :                 $this-&gt;identityMap[$p]                                                                        </span>
-<span class="lineNum" id="container98"><a name="98"></a><a href="#98" id="line98">      98</a> </span><span class="lineCov">             19 :             )                                                                                                 </span>
-<span class="lineNum" id="container99"><a name="99"></a><a href="#99" id="line99">      99</a> </span><span class="lineCov">             19 :         );                                                                                                    </span>
-<span class="lineNum" id="container100"><a name="100"></a><a href="#100" id="line100">     100</a> </span><span class="lineCov">             19 :         unset($this-&gt;identityMap[$p]);                                                                        </span>
-<span class="lineNum" id="container101"><a name="101"></a><a href="#101" id="line101">     101</a> </span><span class="lineCov">             19 :     }                                                                                                         </span>
-<span class="lineNum" id="container102"><a name="102"></a><a href="#102" id="line102">     102</a> </span>                :                                                                                                               
-<span class="lineNum" id="container103"><a name="103"></a><a href="#103" id="line103">     103</a> </span>                : //    public function detach(C3op_Projects_Project $p) {                                                      
-<span class="lineNum" id="container104"><a name="104"></a><a href="#104" id="line104">     104</a> </span>                : //                                                                                                            
-<span class="lineNum" id="container105"><a name="105"></a><a href="#105" id="line105">     105</a> </span>                : //        $this-&gt;identityMap-&gt;detach($p);                                                                     
-<span class="lineNum" id="container106"><a name="106"></a><a href="#106" id="line106">     106</a> </span>                : //        print_r($this-&gt;identityMap);                                                                        
-<span class="lineNum" id="container107"><a name="107"></a><a href="#107" id="line107">     107</a> </span>                : //    }                                                                                                       
-<span class="lineNum" id="container108"><a name="108"></a><a href="#108" id="line108">     108</a> </span>                :                                                                                                               
-<span class="lineNum" id="container109"><a name="109"></a><a href="#109" id="line109">     109</a> </span>                :                                                                                                               
+<span class="lineNum" id="container90"><a name="90"></a><a href="#90" id="line90">      90</a> </span><span class="lineCov">             13 :         $this-&gt;identityMap[$p] = $id;                                                                         </span>
+<span class="lineNum" id="container91"><a name="91"></a><a href="#91" id="line91">      91</a> </span><span class="lineCov">             13 :         return $p;                                                                                            </span>
+<span class="lineNum" id="container92"><a name="92"></a><a href="#92" id="line92">      92</a> </span>                :                                                                                                               
+<span class="lineNum" id="container93"><a name="93"></a><a href="#93" id="line93">      93</a> </span><span class="lineDeadCode">                :     }                                                                                                         </span>
+<span class="lineNum" id="container94"><a name="94"></a><a href="#94" id="line94">      94</a> </span>                :                                                                                                               
+<span class="lineNum" id="container95"><a name="95"></a><a href="#95" id="line95">      95</a> </span>                :     public function delete(C3op_Projects_Project $p) {                                                        
+<span class="lineNum" id="container96"><a name="96"></a><a href="#96" id="line96">      96</a> </span><span class="lineCov">             20 :         if (!isset($this-&gt;identityMap[$p])) {                                                                 </span>
+<span class="lineNum" id="container97"><a name="97"></a><a href="#97" id="line97">      97</a> </span><span class="lineCov">              1 :             throw new C3op_Projects_ProjectMapperException('Object has no ID, cannot delete.');               </span>
+<span class="lineNum" id="container98"><a name="98"></a><a href="#98" id="line98">      98</a> </span><span class="lineDeadCode">                :         }                                                                                                     </span>
+<span class="lineNum" id="container99"><a name="99"></a><a href="#99" id="line99">      99</a> </span><span class="lineCov">             19 :         $this-&gt;db-&gt;exec(                                                                                      </span>
+<span class="lineNum" id="container100"><a name="100"></a><a href="#100" id="line100">     100</a> </span><span class="lineCov">             19 :             sprintf(                                                                                          </span>
+<span class="lineNum" id="container101"><a name="101"></a><a href="#101" id="line101">     101</a> </span><span class="lineCov">             19 :                 'DELETE FROM projects_projects WHERE id = %d;',                                               </span>
+<span class="lineNum" id="container102"><a name="102"></a><a href="#102" id="line102">     102</a> </span><span class="lineCov">             19 :                 $this-&gt;identityMap[$p]                                                                        </span>
+<span class="lineNum" id="container103"><a name="103"></a><a href="#103" id="line103">     103</a> </span><span class="lineCov">             19 :             )                                                                                                 </span>
+<span class="lineNum" id="container104"><a name="104"></a><a href="#104" id="line104">     104</a> </span><span class="lineCov">             19 :         );                                                                                                    </span>
+<span class="lineNum" id="container105"><a name="105"></a><a href="#105" id="line105">     105</a> </span><span class="lineCov">             19 :         unset($this-&gt;identityMap[$p]);                                                                        </span>
+<span class="lineNum" id="container106"><a name="106"></a><a href="#106" id="line106">     106</a> </span><span class="lineCov">             19 :     }                                                                                                         </span>
+<span class="lineNum" id="container107"><a name="107"></a><a href="#107" id="line107">     107</a> </span>                :                                                                                                               
+<span class="lineNum" id="container108"><a name="108"></a><a href="#108" id="line108">     108</a> </span>                :     public function getAllActions(C3op_Projects_Project $p)                                                   
+<span class="lineNum" id="container109"><a name="109"></a><a href="#109" id="line109">     109</a> </span>                :     {                                                                                                         
+<span class="lineNum" id="container110"><a name="110"></a><a href="#110" id="line110">     110</a> </span><span class="lineCov">              4 :         $result = array();                                                                                    </span>
+<span class="lineNum" id="container111"><a name="111"></a><a href="#111" id="line111">     111</a> </span><span class="lineCov">              4 :         foreach ($this-&gt;db-&gt;query(                                                                            </span>
+<span class="lineNum" id="container112"><a name="112"></a><a href="#112" id="line112">     112</a> </span><span class="lineCov">              4 :                 sprintf(                                                                                      </span>
+<span class="lineNum" id="container113"><a name="113"></a><a href="#113" id="line113">     113</a> </span><span class="lineCov">              4 :                     'SELECT id FROM projects_actions WHERE project = %d;',                                    </span>
+<span class="lineNum" id="container114"><a name="114"></a><a href="#114" id="line114">     114</a> </span><span class="lineCov">              4 :                     $p-&gt;GetId()                                                                               </span>
+<span class="lineNum" id="container115"><a name="115"></a><a href="#115" id="line115">     115</a> </span><span class="lineCov">              4 :                     )                                                                                         </span>
+<span class="lineNum" id="container116"><a name="116"></a><a href="#116" id="line116">     116</a> </span><span class="lineCov">              4 :                 )                                                                                             </span>
+<span class="lineNum" id="container117"><a name="117"></a><a href="#117" id="line117">     117</a> </span><span class="lineCov">              4 :                 as $row) {                                                                                    </span>
+<span class="lineNum" id="container118"><a name="118"></a><a href="#118" id="line118">     118</a> </span><span class="lineCov">              4 :             $result[] = $row['id'];                                                                           </span>
+<span class="lineNum" id="container119"><a name="119"></a><a href="#119" id="line119">     119</a> </span><span class="lineCov">              4 :         }                                                                                                     </span>
+<span class="lineNum" id="container120"><a name="120"></a><a href="#120" id="line120">     120</a> </span>                :                                                                                                               
+<span class="lineNum" id="container121"><a name="121"></a><a href="#121" id="line121">     121</a> </span><span class="lineCov">              4 :         return $result;                                                                                       </span>
+<span class="lineNum" id="container122"><a name="122"></a><a href="#122" id="line122">     122</a> </span><span class="lineDeadCode">                :     }                                                                                                         </span>
+<span class="lineNum" id="container123"><a name="123"></a><a href="#123" id="line123">     123</a> </span>                :                                                                                                               
+<span class="lineNum" id="container124"><a name="124"></a><a href="#124" id="line124">     124</a> </span>                :                                                                                                               
 
 </pre>
         </td>
@@ -388,7 +426,7 @@
 
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
-      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.2</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.8</a> and PHPUnit 3.5.15 at Tue May 15 18:48:28 BRT 2012.</td></tr>
+      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.2</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.8</a> and PHPUnit 3.5.15 at Wed May 16 10:51:21 BRT 2012.</td></tr>
     </table>
 
     <br />
@@ -618,11 +656,6 @@
           "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">IndexControllerTest::testThereIsALinkToCreateNewProject</li><li class=\"testPassed\">ProjectControllerTest::testIfPostCreateFormReallySavesAProject</li><li class=\"testPassed\">ProjectControllerTest::testMessageConfirmingProjectCreation</li><li class=\"testPassed\">ProjectControllerTest::testIfCanFindPageToEditAProject</li><li class=\"testPassed\">ProjectControllerTest::testIfCanChangeTitleOfProjectWhenEditing</li><li class=\"testPassed\">ProjectControllerTest::testThatRightDateIsSavedInMySqlFormat</li><li class=\"testPassed\">ProjectControllerTest::testIfSavedDateIsShownAtFormInBrazilianStyle</li><li class=\"testPassed\">ProjectCreateTest::testUserCanUseAccentedCharacters</li><li class=\"testPassed\">ProjectEditTest::testUserCanUseAccentedCharactersWhenEditing</li><li class=\"testPassed\">ProjectMapperTest::testIfCanListProjectsIds</li></ul>",
           "footer": ""
         },
-        "panel69": {
-          "header": "13 tests cover line 69",
-          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">IndexControllerTest::testThereIsALinkToCreateNewProject</li><li class=\"testPassed\">ProjectControllerTest::testIfPostCreateFormReallySavesAProject</li><li class=\"testPassed\">ProjectControllerTest::testMessageConfirmingProjectCreation</li><li class=\"testPassed\">ProjectControllerTest::testIfCanFindPageToEditAProject</li><li class=\"testPassed\">ProjectControllerTest::testIfCanChangeTitleOfProjectWhenEditing</li><li class=\"testPassed\">ProjectControllerTest::testThatRightDateIsSavedInMySqlFormat</li><li class=\"testPassed\">ProjectControllerTest::testIfSavedDateIsShownAtFormInBrazilianStyle</li><li class=\"testPassed\">ProjectCreateTest::testUserCanUseAccentedCharacters</li><li class=\"testPassed\">ProjectEditTest::testUserCanUseAccentedCharactersWhenEditing</li><li class=\"testPassed\">ProjectMapperTest::testIfCanListProjectsIds</li></ul>",
-          "footer": ""
-        },
         "panel70": {
           "header": "13 tests cover line 70",
           "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">IndexControllerTest::testThereIsALinkToCreateNewProject</li><li class=\"testPassed\">ProjectControllerTest::testIfPostCreateFormReallySavesAProject</li><li class=\"testPassed\">ProjectControllerTest::testMessageConfirmingProjectCreation</li><li class=\"testPassed\">ProjectControllerTest::testIfCanFindPageToEditAProject</li><li class=\"testPassed\">ProjectControllerTest::testIfCanChangeTitleOfProjectWhenEditing</li><li class=\"testPassed\">ProjectControllerTest::testThatRightDateIsSavedInMySqlFormat</li><li class=\"testPassed\">ProjectControllerTest::testIfSavedDateIsShownAtFormInBrazilianStyle</li><li class=\"testPassed\">ProjectCreateTest::testUserCanUseAccentedCharacters</li><li class=\"testPassed\">ProjectEditTest::testUserCanUseAccentedCharactersWhenEditing</li><li class=\"testPassed\">ProjectMapperTest::testIfCanListProjectsIds</li></ul>",
@@ -633,8 +666,8 @@
           "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">IndexControllerTest::testThereIsALinkToCreateNewProject</li><li class=\"testPassed\">ProjectControllerTest::testIfPostCreateFormReallySavesAProject</li><li class=\"testPassed\">ProjectControllerTest::testMessageConfirmingProjectCreation</li><li class=\"testPassed\">ProjectControllerTest::testIfCanFindPageToEditAProject</li><li class=\"testPassed\">ProjectControllerTest::testIfCanChangeTitleOfProjectWhenEditing</li><li class=\"testPassed\">ProjectControllerTest::testThatRightDateIsSavedInMySqlFormat</li><li class=\"testPassed\">ProjectControllerTest::testIfSavedDateIsShownAtFormInBrazilianStyle</li><li class=\"testPassed\">ProjectCreateTest::testUserCanUseAccentedCharacters</li><li class=\"testPassed\">ProjectEditTest::testUserCanUseAccentedCharactersWhenEditing</li><li class=\"testPassed\">ProjectMapperTest::testIfCanListProjectsIds</li></ul>",
           "footer": ""
         },
-        "panel73": {
-          "header": "13 tests cover line 73",
+        "panel72": {
+          "header": "13 tests cover line 72",
           "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">IndexControllerTest::testThereIsALinkToCreateNewProject</li><li class=\"testPassed\">ProjectControllerTest::testIfPostCreateFormReallySavesAProject</li><li class=\"testPassed\">ProjectControllerTest::testMessageConfirmingProjectCreation</li><li class=\"testPassed\">ProjectControllerTest::testIfCanFindPageToEditAProject</li><li class=\"testPassed\">ProjectControllerTest::testIfCanChangeTitleOfProjectWhenEditing</li><li class=\"testPassed\">ProjectControllerTest::testThatRightDateIsSavedInMySqlFormat</li><li class=\"testPassed\">ProjectControllerTest::testIfSavedDateIsShownAtFormInBrazilianStyle</li><li class=\"testPassed\">ProjectCreateTest::testUserCanUseAccentedCharacters</li><li class=\"testPassed\">ProjectEditTest::testUserCanUseAccentedCharactersWhenEditing</li><li class=\"testPassed\">ProjectMapperTest::testIfCanListProjectsIds</li></ul>",
           "footer": ""
         },
@@ -673,6 +706,16 @@
           "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">IndexControllerTest::testThereIsALinkToCreateNewProject</li><li class=\"testPassed\">ProjectControllerTest::testIfPostCreateFormReallySavesAProject</li><li class=\"testPassed\">ProjectControllerTest::testMessageConfirmingProjectCreation</li><li class=\"testPassed\">ProjectControllerTest::testIfCanFindPageToEditAProject</li><li class=\"testPassed\">ProjectControllerTest::testIfCanChangeTitleOfProjectWhenEditing</li><li class=\"testPassed\">ProjectControllerTest::testThatRightDateIsSavedInMySqlFormat</li><li class=\"testPassed\">ProjectControllerTest::testIfSavedDateIsShownAtFormInBrazilianStyle</li><li class=\"testPassed\">ProjectCreateTest::testUserCanUseAccentedCharacters</li><li class=\"testPassed\">ProjectEditTest::testUserCanUseAccentedCharactersWhenEditing</li><li class=\"testPassed\">ProjectMapperTest::testIfCanListProjectsIds</li></ul>",
           "footer": ""
         },
+        "panel83": {
+          "header": "13 tests cover line 83",
+          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">IndexControllerTest::testThereIsALinkToCreateNewProject</li><li class=\"testPassed\">ProjectControllerTest::testIfPostCreateFormReallySavesAProject</li><li class=\"testPassed\">ProjectControllerTest::testMessageConfirmingProjectCreation</li><li class=\"testPassed\">ProjectControllerTest::testIfCanFindPageToEditAProject</li><li class=\"testPassed\">ProjectControllerTest::testIfCanChangeTitleOfProjectWhenEditing</li><li class=\"testPassed\">ProjectControllerTest::testThatRightDateIsSavedInMySqlFormat</li><li class=\"testPassed\">ProjectControllerTest::testIfSavedDateIsShownAtFormInBrazilianStyle</li><li class=\"testPassed\">ProjectCreateTest::testUserCanUseAccentedCharacters</li><li class=\"testPassed\">ProjectEditTest::testUserCanUseAccentedCharactersWhenEditing</li><li class=\"testPassed\">ProjectMapperTest::testIfCanListProjectsIds</li></ul>",
+          "footer": ""
+        },
+        "panel84": {
+          "header": "13 tests cover line 84",
+          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">IndexControllerTest::testThereIsALinkToCreateNewProject</li><li class=\"testPassed\">ProjectControllerTest::testIfPostCreateFormReallySavesAProject</li><li class=\"testPassed\">ProjectControllerTest::testMessageConfirmingProjectCreation</li><li class=\"testPassed\">ProjectControllerTest::testIfCanFindPageToEditAProject</li><li class=\"testPassed\">ProjectControllerTest::testIfCanChangeTitleOfProjectWhenEditing</li><li class=\"testPassed\">ProjectControllerTest::testThatRightDateIsSavedInMySqlFormat</li><li class=\"testPassed\">ProjectControllerTest::testIfSavedDateIsShownAtFormInBrazilianStyle</li><li class=\"testPassed\">ProjectCreateTest::testUserCanUseAccentedCharacters</li><li class=\"testPassed\">ProjectEditTest::testUserCanUseAccentedCharactersWhenEditing</li><li class=\"testPassed\">ProjectMapperTest::testIfCanListProjectsIds</li></ul>",
+          "footer": ""
+        },
         "panel85": {
           "header": "13 tests cover line 85",
           "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">IndexControllerTest::testThereIsALinkToCreateNewProject</li><li class=\"testPassed\">ProjectControllerTest::testIfPostCreateFormReallySavesAProject</li><li class=\"testPassed\">ProjectControllerTest::testMessageConfirmingProjectCreation</li><li class=\"testPassed\">ProjectControllerTest::testIfCanFindPageToEditAProject</li><li class=\"testPassed\">ProjectControllerTest::testIfCanChangeTitleOfProjectWhenEditing</li><li class=\"testPassed\">ProjectControllerTest::testThatRightDateIsSavedInMySqlFormat</li><li class=\"testPassed\">ProjectControllerTest::testIfSavedDateIsShownAtFormInBrazilianStyle</li><li class=\"testPassed\">ProjectCreateTest::testUserCanUseAccentedCharacters</li><li class=\"testPassed\">ProjectEditTest::testUserCanUseAccentedCharactersWhenEditing</li><li class=\"testPassed\">ProjectMapperTest::testIfCanListProjectsIds</li></ul>",
@@ -683,39 +726,24 @@
           "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">IndexControllerTest::testThereIsALinkToCreateNewProject</li><li class=\"testPassed\">ProjectControllerTest::testIfPostCreateFormReallySavesAProject</li><li class=\"testPassed\">ProjectControllerTest::testMessageConfirmingProjectCreation</li><li class=\"testPassed\">ProjectControllerTest::testIfCanFindPageToEditAProject</li><li class=\"testPassed\">ProjectControllerTest::testIfCanChangeTitleOfProjectWhenEditing</li><li class=\"testPassed\">ProjectControllerTest::testThatRightDateIsSavedInMySqlFormat</li><li class=\"testPassed\">ProjectControllerTest::testIfSavedDateIsShownAtFormInBrazilianStyle</li><li class=\"testPassed\">ProjectCreateTest::testUserCanUseAccentedCharacters</li><li class=\"testPassed\">ProjectEditTest::testUserCanUseAccentedCharactersWhenEditing</li><li class=\"testPassed\">ProjectMapperTest::testIfCanListProjectsIds</li></ul>",
           "footer": ""
         },
+        "panel90": {
+          "header": "13 tests cover line 90",
+          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">IndexControllerTest::testThereIsALinkToCreateNewProject</li><li class=\"testPassed\">ProjectControllerTest::testIfPostCreateFormReallySavesAProject</li><li class=\"testPassed\">ProjectControllerTest::testMessageConfirmingProjectCreation</li><li class=\"testPassed\">ProjectControllerTest::testIfCanFindPageToEditAProject</li><li class=\"testPassed\">ProjectControllerTest::testIfCanChangeTitleOfProjectWhenEditing</li><li class=\"testPassed\">ProjectControllerTest::testThatRightDateIsSavedInMySqlFormat</li><li class=\"testPassed\">ProjectControllerTest::testIfSavedDateIsShownAtFormInBrazilianStyle</li><li class=\"testPassed\">ProjectCreateTest::testUserCanUseAccentedCharacters</li><li class=\"testPassed\">ProjectEditTest::testUserCanUseAccentedCharactersWhenEditing</li><li class=\"testPassed\">ProjectMapperTest::testIfCanListProjectsIds</li></ul>",
+          "footer": ""
+        },
         "panel91": {
-          "header": "20 tests cover line 91",
-          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">ProjectControllerTest::testIfPostCreateFormReallySavesAProject</li><li class=\"testPassed\">ProjectControllerTest::testMessageConfirmingProjectCreation</li><li class=\"testPassed\">ProjectControllerTest::testIfCanFindPageToEditAProject</li><li class=\"testPassed\">ProjectControllerTest::testIfCanChangeTitleOfProjectWhenEditing</li><li class=\"testPassed\">ProjectControllerTest::testThatRightDateIsSavedInMySqlFormat</li><li class=\"testPassed\">ProjectControllerTest::testIfSavedDateIsShownAtFormInBrazilianStyle</li><li class=\"testPassed\">ProjectCreateTest::testUserCanUseAccentedCharacters</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToChangeDateToAWeirdOneAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToSetANegativeValueToProjectAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserCanUseAccentedCharactersWhenEditing</li><li class=\"testPassed\">ProjectMapperTest::testIfCanInsertAProject</li><li class=\"testPassed\">ProjectMapperTest::testIfCanListProjectsIds</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToChangeAProjectId</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToDeleteAnUnsavedProject</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToFindAProjectThatDoesntExist</li><li class=\"testPassed\">ProjectMapperTest::testIfBeginDateIsSaved</li><li class=\"testPassed\">ProjectMapperTest::testThatIsPossibleToChangeABeginDate</li></ul>",
-          "footer": ""
-        },
-        "panel92": {
-          "header": "1 test covers line 92",
-          "body": "<ul><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToDeleteAnUnsavedProject</li></ul>",
-          "footer": ""
-        },
-        "panel94": {
-          "header": "19 tests cover line 94",
-          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">ProjectControllerTest::testIfPostCreateFormReallySavesAProject</li><li class=\"testPassed\">ProjectControllerTest::testMessageConfirmingProjectCreation</li><li class=\"testPassed\">ProjectControllerTest::testIfCanFindPageToEditAProject</li><li class=\"testPassed\">ProjectControllerTest::testIfCanChangeTitleOfProjectWhenEditing</li><li class=\"testPassed\">ProjectControllerTest::testThatRightDateIsSavedInMySqlFormat</li><li class=\"testPassed\">ProjectControllerTest::testIfSavedDateIsShownAtFormInBrazilianStyle</li><li class=\"testPassed\">ProjectCreateTest::testUserCanUseAccentedCharacters</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToChangeDateToAWeirdOneAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToSetANegativeValueToProjectAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserCanUseAccentedCharactersWhenEditing</li><li class=\"testPassed\">ProjectMapperTest::testIfCanInsertAProject</li><li class=\"testPassed\">ProjectMapperTest::testIfCanListProjectsIds</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToChangeAProjectId</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToFindAProjectThatDoesntExist</li><li class=\"testPassed\">ProjectMapperTest::testIfBeginDateIsSaved</li><li class=\"testPassed\">ProjectMapperTest::testThatIsPossibleToChangeABeginDate</li></ul>",
-          "footer": ""
-        },
-        "panel95": {
-          "header": "19 tests cover line 95",
-          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">ProjectControllerTest::testIfPostCreateFormReallySavesAProject</li><li class=\"testPassed\">ProjectControllerTest::testMessageConfirmingProjectCreation</li><li class=\"testPassed\">ProjectControllerTest::testIfCanFindPageToEditAProject</li><li class=\"testPassed\">ProjectControllerTest::testIfCanChangeTitleOfProjectWhenEditing</li><li class=\"testPassed\">ProjectControllerTest::testThatRightDateIsSavedInMySqlFormat</li><li class=\"testPassed\">ProjectControllerTest::testIfSavedDateIsShownAtFormInBrazilianStyle</li><li class=\"testPassed\">ProjectCreateTest::testUserCanUseAccentedCharacters</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToChangeDateToAWeirdOneAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToSetANegativeValueToProjectAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserCanUseAccentedCharactersWhenEditing</li><li class=\"testPassed\">ProjectMapperTest::testIfCanInsertAProject</li><li class=\"testPassed\">ProjectMapperTest::testIfCanListProjectsIds</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToChangeAProjectId</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToFindAProjectThatDoesntExist</li><li class=\"testPassed\">ProjectMapperTest::testIfBeginDateIsSaved</li><li class=\"testPassed\">ProjectMapperTest::testThatIsPossibleToChangeABeginDate</li></ul>",
+          "header": "13 tests cover line 91",
+          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">IndexControllerTest::testThereIsALinkToCreateNewProject</li><li class=\"testPassed\">ProjectControllerTest::testIfPostCreateFormReallySavesAProject</li><li class=\"testPassed\">ProjectControllerTest::testMessageConfirmingProjectCreation</li><li class=\"testPassed\">ProjectControllerTest::testIfCanFindPageToEditAProject</li><li class=\"testPassed\">ProjectControllerTest::testIfCanChangeTitleOfProjectWhenEditing</li><li class=\"testPassed\">ProjectControllerTest::testThatRightDateIsSavedInMySqlFormat</li><li class=\"testPassed\">ProjectControllerTest::testIfSavedDateIsShownAtFormInBrazilianStyle</li><li class=\"testPassed\">ProjectCreateTest::testUserCanUseAccentedCharacters</li><li class=\"testPassed\">ProjectEditTest::testUserCanUseAccentedCharactersWhenEditing</li><li class=\"testPassed\">ProjectMapperTest::testIfCanListProjectsIds</li></ul>",
           "footer": ""
         },
         "panel96": {
-          "header": "19 tests cover line 96",
-          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">ProjectControllerTest::testIfPostCreateFormReallySavesAProject</li><li class=\"testPassed\">ProjectControllerTest::testMessageConfirmingProjectCreation</li><li class=\"testPassed\">ProjectControllerTest::testIfCanFindPageToEditAProject</li><li class=\"testPassed\">ProjectControllerTest::testIfCanChangeTitleOfProjectWhenEditing</li><li class=\"testPassed\">ProjectControllerTest::testThatRightDateIsSavedInMySqlFormat</li><li class=\"testPassed\">ProjectControllerTest::testIfSavedDateIsShownAtFormInBrazilianStyle</li><li class=\"testPassed\">ProjectCreateTest::testUserCanUseAccentedCharacters</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToChangeDateToAWeirdOneAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToSetANegativeValueToProjectAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserCanUseAccentedCharactersWhenEditing</li><li class=\"testPassed\">ProjectMapperTest::testIfCanInsertAProject</li><li class=\"testPassed\">ProjectMapperTest::testIfCanListProjectsIds</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToChangeAProjectId</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToFindAProjectThatDoesntExist</li><li class=\"testPassed\">ProjectMapperTest::testIfBeginDateIsSaved</li><li class=\"testPassed\">ProjectMapperTest::testThatIsPossibleToChangeABeginDate</li></ul>",
+          "header": "20 tests cover line 96",
+          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">ProjectControllerTest::testIfPostCreateFormReallySavesAProject</li><li class=\"testPassed\">ProjectControllerTest::testMessageConfirmingProjectCreation</li><li class=\"testPassed\">ProjectControllerTest::testIfCanFindPageToEditAProject</li><li class=\"testPassed\">ProjectControllerTest::testIfCanChangeTitleOfProjectWhenEditing</li><li class=\"testPassed\">ProjectControllerTest::testThatRightDateIsSavedInMySqlFormat</li><li class=\"testPassed\">ProjectControllerTest::testIfSavedDateIsShownAtFormInBrazilianStyle</li><li class=\"testPassed\">ProjectCreateTest::testUserCanUseAccentedCharacters</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToChangeDateToAWeirdOneAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToSetANegativeValueToProjectAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserCanUseAccentedCharactersWhenEditing</li><li class=\"testPassed\">ProjectMapperTest::testIfCanInsertAProject</li><li class=\"testPassed\">ProjectMapperTest::testIfCanListProjectsIds</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToChangeAProjectId</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToDeleteAnUnsavedProject</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToFindAProjectThatDoesntExist</li><li class=\"testPassed\">ProjectMapperTest::testIfBeginDateIsSaved</li><li class=\"testPassed\">ProjectMapperTest::testThatIsPossibleToChangeABeginDate</li></ul>",
           "footer": ""
         },
         "panel97": {
-          "header": "19 tests cover line 97",
-          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">ProjectControllerTest::testIfPostCreateFormReallySavesAProject</li><li class=\"testPassed\">ProjectControllerTest::testMessageConfirmingProjectCreation</li><li class=\"testPassed\">ProjectControllerTest::testIfCanFindPageToEditAProject</li><li class=\"testPassed\">ProjectControllerTest::testIfCanChangeTitleOfProjectWhenEditing</li><li class=\"testPassed\">ProjectControllerTest::testThatRightDateIsSavedInMySqlFormat</li><li class=\"testPassed\">ProjectControllerTest::testIfSavedDateIsShownAtFormInBrazilianStyle</li><li class=\"testPassed\">ProjectCreateTest::testUserCanUseAccentedCharacters</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToChangeDateToAWeirdOneAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToSetANegativeValueToProjectAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserCanUseAccentedCharactersWhenEditing</li><li class=\"testPassed\">ProjectMapperTest::testIfCanInsertAProject</li><li class=\"testPassed\">ProjectMapperTest::testIfCanListProjectsIds</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToChangeAProjectId</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToFindAProjectThatDoesntExist</li><li class=\"testPassed\">ProjectMapperTest::testIfBeginDateIsSaved</li><li class=\"testPassed\">ProjectMapperTest::testThatIsPossibleToChangeABeginDate</li></ul>",
-          "footer": ""
-        },
-        "panel98": {
-          "header": "19 tests cover line 98",
-          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">ProjectControllerTest::testIfPostCreateFormReallySavesAProject</li><li class=\"testPassed\">ProjectControllerTest::testMessageConfirmingProjectCreation</li><li class=\"testPassed\">ProjectControllerTest::testIfCanFindPageToEditAProject</li><li class=\"testPassed\">ProjectControllerTest::testIfCanChangeTitleOfProjectWhenEditing</li><li class=\"testPassed\">ProjectControllerTest::testThatRightDateIsSavedInMySqlFormat</li><li class=\"testPassed\">ProjectControllerTest::testIfSavedDateIsShownAtFormInBrazilianStyle</li><li class=\"testPassed\">ProjectCreateTest::testUserCanUseAccentedCharacters</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToChangeDateToAWeirdOneAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToSetANegativeValueToProjectAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserCanUseAccentedCharactersWhenEditing</li><li class=\"testPassed\">ProjectMapperTest::testIfCanInsertAProject</li><li class=\"testPassed\">ProjectMapperTest::testIfCanListProjectsIds</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToChangeAProjectId</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToFindAProjectThatDoesntExist</li><li class=\"testPassed\">ProjectMapperTest::testIfBeginDateIsSaved</li><li class=\"testPassed\">ProjectMapperTest::testThatIsPossibleToChangeABeginDate</li></ul>",
+          "header": "1 test covers line 97",
+          "body": "<ul><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToDeleteAnUnsavedProject</li></ul>",
           "footer": ""
         },
         "panel99": {
@@ -731,6 +759,86 @@
         "panel101": {
           "header": "19 tests cover line 101",
           "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">ProjectControllerTest::testIfPostCreateFormReallySavesAProject</li><li class=\"testPassed\">ProjectControllerTest::testMessageConfirmingProjectCreation</li><li class=\"testPassed\">ProjectControllerTest::testIfCanFindPageToEditAProject</li><li class=\"testPassed\">ProjectControllerTest::testIfCanChangeTitleOfProjectWhenEditing</li><li class=\"testPassed\">ProjectControllerTest::testThatRightDateIsSavedInMySqlFormat</li><li class=\"testPassed\">ProjectControllerTest::testIfSavedDateIsShownAtFormInBrazilianStyle</li><li class=\"testPassed\">ProjectCreateTest::testUserCanUseAccentedCharacters</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToChangeDateToAWeirdOneAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToSetANegativeValueToProjectAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserCanUseAccentedCharactersWhenEditing</li><li class=\"testPassed\">ProjectMapperTest::testIfCanInsertAProject</li><li class=\"testPassed\">ProjectMapperTest::testIfCanListProjectsIds</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToChangeAProjectId</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToFindAProjectThatDoesntExist</li><li class=\"testPassed\">ProjectMapperTest::testIfBeginDateIsSaved</li><li class=\"testPassed\">ProjectMapperTest::testThatIsPossibleToChangeABeginDate</li></ul>",
+          "footer": ""
+        },
+        "panel102": {
+          "header": "19 tests cover line 102",
+          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">ProjectControllerTest::testIfPostCreateFormReallySavesAProject</li><li class=\"testPassed\">ProjectControllerTest::testMessageConfirmingProjectCreation</li><li class=\"testPassed\">ProjectControllerTest::testIfCanFindPageToEditAProject</li><li class=\"testPassed\">ProjectControllerTest::testIfCanChangeTitleOfProjectWhenEditing</li><li class=\"testPassed\">ProjectControllerTest::testThatRightDateIsSavedInMySqlFormat</li><li class=\"testPassed\">ProjectControllerTest::testIfSavedDateIsShownAtFormInBrazilianStyle</li><li class=\"testPassed\">ProjectCreateTest::testUserCanUseAccentedCharacters</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToChangeDateToAWeirdOneAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToSetANegativeValueToProjectAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserCanUseAccentedCharactersWhenEditing</li><li class=\"testPassed\">ProjectMapperTest::testIfCanInsertAProject</li><li class=\"testPassed\">ProjectMapperTest::testIfCanListProjectsIds</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToChangeAProjectId</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToFindAProjectThatDoesntExist</li><li class=\"testPassed\">ProjectMapperTest::testIfBeginDateIsSaved</li><li class=\"testPassed\">ProjectMapperTest::testThatIsPossibleToChangeABeginDate</li></ul>",
+          "footer": ""
+        },
+        "panel103": {
+          "header": "19 tests cover line 103",
+          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">ProjectControllerTest::testIfPostCreateFormReallySavesAProject</li><li class=\"testPassed\">ProjectControllerTest::testMessageConfirmingProjectCreation</li><li class=\"testPassed\">ProjectControllerTest::testIfCanFindPageToEditAProject</li><li class=\"testPassed\">ProjectControllerTest::testIfCanChangeTitleOfProjectWhenEditing</li><li class=\"testPassed\">ProjectControllerTest::testThatRightDateIsSavedInMySqlFormat</li><li class=\"testPassed\">ProjectControllerTest::testIfSavedDateIsShownAtFormInBrazilianStyle</li><li class=\"testPassed\">ProjectCreateTest::testUserCanUseAccentedCharacters</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToChangeDateToAWeirdOneAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToSetANegativeValueToProjectAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserCanUseAccentedCharactersWhenEditing</li><li class=\"testPassed\">ProjectMapperTest::testIfCanInsertAProject</li><li class=\"testPassed\">ProjectMapperTest::testIfCanListProjectsIds</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToChangeAProjectId</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToFindAProjectThatDoesntExist</li><li class=\"testPassed\">ProjectMapperTest::testIfBeginDateIsSaved</li><li class=\"testPassed\">ProjectMapperTest::testThatIsPossibleToChangeABeginDate</li></ul>",
+          "footer": ""
+        },
+        "panel104": {
+          "header": "19 tests cover line 104",
+          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">ProjectControllerTest::testIfPostCreateFormReallySavesAProject</li><li class=\"testPassed\">ProjectControllerTest::testMessageConfirmingProjectCreation</li><li class=\"testPassed\">ProjectControllerTest::testIfCanFindPageToEditAProject</li><li class=\"testPassed\">ProjectControllerTest::testIfCanChangeTitleOfProjectWhenEditing</li><li class=\"testPassed\">ProjectControllerTest::testThatRightDateIsSavedInMySqlFormat</li><li class=\"testPassed\">ProjectControllerTest::testIfSavedDateIsShownAtFormInBrazilianStyle</li><li class=\"testPassed\">ProjectCreateTest::testUserCanUseAccentedCharacters</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToChangeDateToAWeirdOneAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToSetANegativeValueToProjectAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserCanUseAccentedCharactersWhenEditing</li><li class=\"testPassed\">ProjectMapperTest::testIfCanInsertAProject</li><li class=\"testPassed\">ProjectMapperTest::testIfCanListProjectsIds</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToChangeAProjectId</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToFindAProjectThatDoesntExist</li><li class=\"testPassed\">ProjectMapperTest::testIfBeginDateIsSaved</li><li class=\"testPassed\">ProjectMapperTest::testThatIsPossibleToChangeABeginDate</li></ul>",
+          "footer": ""
+        },
+        "panel105": {
+          "header": "19 tests cover line 105",
+          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">ProjectControllerTest::testIfPostCreateFormReallySavesAProject</li><li class=\"testPassed\">ProjectControllerTest::testMessageConfirmingProjectCreation</li><li class=\"testPassed\">ProjectControllerTest::testIfCanFindPageToEditAProject</li><li class=\"testPassed\">ProjectControllerTest::testIfCanChangeTitleOfProjectWhenEditing</li><li class=\"testPassed\">ProjectControllerTest::testThatRightDateIsSavedInMySqlFormat</li><li class=\"testPassed\">ProjectControllerTest::testIfSavedDateIsShownAtFormInBrazilianStyle</li><li class=\"testPassed\">ProjectCreateTest::testUserCanUseAccentedCharacters</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToChangeDateToAWeirdOneAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToSetANegativeValueToProjectAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserCanUseAccentedCharactersWhenEditing</li><li class=\"testPassed\">ProjectMapperTest::testIfCanInsertAProject</li><li class=\"testPassed\">ProjectMapperTest::testIfCanListProjectsIds</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToChangeAProjectId</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToFindAProjectThatDoesntExist</li><li class=\"testPassed\">ProjectMapperTest::testIfBeginDateIsSaved</li><li class=\"testPassed\">ProjectMapperTest::testThatIsPossibleToChangeABeginDate</li></ul>",
+          "footer": ""
+        },
+        "panel106": {
+          "header": "19 tests cover line 106",
+          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">ProjectControllerTest::testIfPostCreateFormReallySavesAProject</li><li class=\"testPassed\">ProjectControllerTest::testMessageConfirmingProjectCreation</li><li class=\"testPassed\">ProjectControllerTest::testIfCanFindPageToEditAProject</li><li class=\"testPassed\">ProjectControllerTest::testIfCanChangeTitleOfProjectWhenEditing</li><li class=\"testPassed\">ProjectControllerTest::testThatRightDateIsSavedInMySqlFormat</li><li class=\"testPassed\">ProjectControllerTest::testIfSavedDateIsShownAtFormInBrazilianStyle</li><li class=\"testPassed\">ProjectCreateTest::testUserCanUseAccentedCharacters</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToChangeDateToAWeirdOneAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToSetANegativeValueToProjectAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserCanUseAccentedCharactersWhenEditing</li><li class=\"testPassed\">ProjectMapperTest::testIfCanInsertAProject</li><li class=\"testPassed\">ProjectMapperTest::testIfCanListProjectsIds</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToChangeAProjectId</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToFindAProjectThatDoesntExist</li><li class=\"testPassed\">ProjectMapperTest::testIfBeginDateIsSaved</li><li class=\"testPassed\">ProjectMapperTest::testThatIsPossibleToChangeABeginDate</li></ul>",
+          "footer": ""
+        },
+        "panel110": {
+          "header": "4 tests cover line 110",
+          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">IndexControllerTest::testThereIsALinkToCreateNewProject</li></ul>",
+          "footer": ""
+        },
+        "panel111": {
+          "header": "4 tests cover line 111",
+          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">IndexControllerTest::testThereIsALinkToCreateNewProject</li></ul>",
+          "footer": ""
+        },
+        "panel112": {
+          "header": "4 tests cover line 112",
+          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">IndexControllerTest::testThereIsALinkToCreateNewProject</li></ul>",
+          "footer": ""
+        },
+        "panel113": {
+          "header": "4 tests cover line 113",
+          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">IndexControllerTest::testThereIsALinkToCreateNewProject</li></ul>",
+          "footer": ""
+        },
+        "panel114": {
+          "header": "4 tests cover line 114",
+          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">IndexControllerTest::testThereIsALinkToCreateNewProject</li></ul>",
+          "footer": ""
+        },
+        "panel115": {
+          "header": "4 tests cover line 115",
+          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">IndexControllerTest::testThereIsALinkToCreateNewProject</li></ul>",
+          "footer": ""
+        },
+        "panel116": {
+          "header": "4 tests cover line 116",
+          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">IndexControllerTest::testThereIsALinkToCreateNewProject</li></ul>",
+          "footer": ""
+        },
+        "panel117": {
+          "header": "4 tests cover line 117",
+          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">IndexControllerTest::testThereIsALinkToCreateNewProject</li></ul>",
+          "footer": ""
+        },
+        "panel118": {
+          "header": "4 tests cover line 118",
+          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">IndexControllerTest::testThereIsALinkToCreateNewProject</li></ul>",
+          "footer": ""
+        },
+        "panel119": {
+          "header": "4 tests cover line 119",
+          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">IndexControllerTest::testThereIsALinkToCreateNewProject</li></ul>",
+          "footer": ""
+        },
+        "panel121": {
+          "header": "4 tests cover line 121",
+          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">IndexControllerTest::testThereIsALinkToCreateNewProject</li></ul>",
           "footer": ""
         },
       "dummy": ""

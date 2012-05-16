@@ -1,0 +1,50 @@
+<h2>Acompanhamento de projeto</h2>
+<?php 
+/*
+ * If exists projects list
+ */
+if (is_array($this->projectInfo)) {
+    $projectData = $this->projectInfo;
+?>
+Projeto: <?php print($projectData['title']) ?><br />
+Data do contrato: <?php print($projectData['dateBegin']) ?><br />
+Valor do contrato:    <?php print($projectData['value']) ?><br />
+<p />
+<?php 
+/*
+ * iterate list and print title
+ */
+
+    $actionsList = $projectData['actionsList'];
+    
+    while (list(, $actionInfo) = each($actionsList)) {
+?>
+
+<?php print($actionInfo['title']) ?>
+
+<?php if (isset($actionInfo['linkEdit'])) { ?>
+<a href="<?php print($actionInfo['linkEdit']) ?>">Editar</a>
+<?php } ?>
+
+<br />
+
+
+    
+<?php
+}  // loop iterate list and print titlei
+?>
+
+
+
+<p />
+<a href="<?php print($this->projectInfo['linkActionCreate']) ?>">Criar Nova Ação</a>
+
+    
+<?php
+} else { // else exists projects list 
+?>
+    <?php print("Não há informações para este projeto.") ?>
+
+    <?php
+} // end exists projects list
+?>

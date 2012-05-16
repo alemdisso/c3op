@@ -2,32 +2,36 @@
 
 class Projects_IndexController extends Zend_Controller_Action
 {
-
+    private $db;
     private $projectMapper;
     
     public function init()
     {
        
-        $db = Zend_Registry::get('db');
-        $this->projectMapper = new C3op_Projects_ProjectMapper($db);        
+        $this->db = Zend_Registry::get('db');
+        $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);        
         
    }
 
     public function indexAction()
     {
+
         $list = $this->projectMapper->getAllIds();
         $projectsList = array();
         reset ($list);
         foreach ($list as $id) {
             $thisProject = $this->projectMapper->findById($id);
+
+            $actionsCount = count($this->projectMapper->GetAllActions($thisProject));
             
             $projectsList[$id] = array(
                 'title' => $thisProject->GetTitle(),
                 'linkEdit' => '/projects/project/edit/?id=' . $id   ,
                 'dateBegin' => $thisProject->GetDateBegin(),
                 'value' => $thisProject->GetValue(),
-                'linkActionCreate' => '/projects/action/create/?project=' . $id   ,
-                
+                'linkActionCreate' => '/projects/action/create/?project=' . $id,
+                'linkProjectTrack' => '/projects/project/track/?id=' . $id,
+                'actionsCount' => $actionsCount,
             );
         }
         
