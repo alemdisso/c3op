@@ -33,6 +33,7 @@ class C3op_Form_ActionEdit extends C3op_Form_ActionCreate
             $action->SetTitle($data['title']);
             $action->SetProject($data['project']);
             $action->SetMilestone($data['milestone']);
+            $action->SetRequirementForReceiving($data['requirementForReceiving']);
             
             $actionMapper->update($action);
         }

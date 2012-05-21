@@ -36,6 +36,14 @@ class C3op_Form_ActionCreate extends Zend_Form
                 ;
         $this->addElement($milestone);
         
+        $requirementForReceiving = new Zend_Form_Element_Checkbox('requirementForReceiving');
+        $requirementForReceiving->setLabel('Essa ação é um requisito para recebimento?')
+                ->addDecorator('Label', array('placement' => 'APPEND')) 
+                ->setOptions(array('checked' => '1', 'unChecked' => '0'))
+                ->setValue('0')
+                ;
+        $this->addElement($requirementForReceiving);
+        
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
         $submit->setLabel('Salvar')
@@ -65,6 +73,13 @@ class C3op_Form_ActionCreate extends Zend_Form
                 $action->SetMilestone(1);
             } else {
                 $action->SetMilestone(0);
+            }
+            
+            $requirementForReceiving = $this->requirementForReceiving->GetValue();
+            if ($requirementForReceiving == '1') {
+                $action->SetRequirementForReceiving(1);
+            } else {
+                $action->SetRequirementForReceiving(0);
             }
             
             $actionMapper->insert($action);

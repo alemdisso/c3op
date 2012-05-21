@@ -26,7 +26,7 @@
             <h2>Class Coverage Distribution</h2>
             <canvas id="classCoverageDistribution" width="475" height="200"></canvas>
             <script>
-            var ccd = new RGraph.Bar('classCoverageDistribution', [12,0,0,0,1,0,1,1,0,1,1,15]);
+            var ccd = new RGraph.Bar('classCoverageDistribution', [12,0,0,0,0,0,2,1,0,1,1,15]);
             ccd.Set('chart.background.barcolor1', 'white');
             ccd.Set('chart.background.barcolor2', 'white');
             ccd.Set('chart.colors', ['blue']);
@@ -43,7 +43,7 @@
             <h2>Class Complexity</h2>
             <canvas id="classComplexity" width="475" height="200"></canvas>
             <script>
-            var cc = new RGraph.Scatter('classComplexity', [[0,2,"blue","IndexController"],[0,2,"blue","Includes_FooterController"],[66.666666666667,3,"blue","Includes_HeaderController"],[0,1,"blue","MediadorIncludes"],[0,16,"blue","Projects_ActionController"],[100,3,"blue","Projects_IndexController"],[58.426966292135,17,"blue","Projects_ProjectController"],[0,4,"blue","C3op_Form_ActionCreate"],[0,0,"blue","C3op_Form_ActionCreateException"],[0,3,"blue","C3op_Form_ActionEdit"],[0,0,"blue","C3op_Form_ActionEditException"],[100,5,"blue","C3op_Form_ProjectCreate"],[100,0,"blue","C3op_Form_ProjectCreateException"],[85.185185185185,4,"blue","C3op_Form_ProjectEdit"],[100,0,"blue","C3op_Form_ProjectEditException"],[100,1,"blue","C3op_Projects_Action"],[39.285714285714,14,"blue","C3op_Projects_ActionBase"],[0,0,"blue","C3op_Projects_ActionException"],[0,1,"blue","C3op_Projects_ActionMapper"],[0,12,"blue","C3op_Projects_ActionMapperBase"],[0,0,"blue","C3op_Projects_ActionMapperException"],[100,1,"blue","C3op_Projects_Project"],[97.435897435897,18,"blue","C3op_Projects_ProjectBase"],[100,0,"blue","C3op_Projects_ProjectException"],[100,1,"blue","C3op_Projects_ProjectMapper"],[100,14,"blue","C3op_Projects_ProjectMapperBase"],[100,0,"blue","C3op_Projects_ProjectMapperException"],[100,1,"blue","C3op_Projects_Util_ValidTitle"],[100,4,"blue","C3op_Util_DateConverter"],[100,0,"blue","C3op_Util_DateException"],[100,4,"blue","C3op_Util_ValidDate"],[100,3,"blue","C3op_Util_ValidId"]]);
+            var cc = new RGraph.Scatter('classComplexity', [[0,2,"blue","IndexController"],[0,2,"blue","Includes_FooterController"],[66.666666666667,3,"blue","Includes_HeaderController"],[0,1,"blue","MediadorIncludes"],[0,16,"blue","Projects_ActionController"],[100,3,"blue","Projects_IndexController"],[55.102040816327,18,"blue","Projects_ProjectController"],[0,5,"blue","C3op_Form_ActionCreate"],[0,0,"blue","C3op_Form_ActionCreateException"],[0,3,"blue","C3op_Form_ActionEdit"],[0,0,"blue","C3op_Form_ActionEditException"],[100,5,"blue","C3op_Form_ProjectCreate"],[100,0,"blue","C3op_Form_ProjectCreateException"],[85.185185185185,4,"blue","C3op_Form_ProjectEdit"],[100,0,"blue","C3op_Form_ProjectEditException"],[100,1,"blue","C3op_Projects_Action"],[50,17,"blue","C3op_Projects_ActionBase"],[0,0,"blue","C3op_Projects_ActionException"],[0,1,"blue","C3op_Projects_ActionMapper"],[0,12,"blue","C3op_Projects_ActionMapperBase"],[0,0,"blue","C3op_Projects_ActionMapperException"],[100,1,"blue","C3op_Projects_Project"],[97.435897435897,18,"blue","C3op_Projects_ProjectBase"],[100,0,"blue","C3op_Projects_ProjectException"],[100,1,"blue","C3op_Projects_ProjectMapper"],[100,14,"blue","C3op_Projects_ProjectMapperBase"],[100,0,"blue","C3op_Projects_ProjectMapperException"],[100,1,"blue","C3op_Projects_Util_ValidTitle"],[100,4,"blue","C3op_Util_DateConverter"],[100,0,"blue","C3op_Util_DateException"],[100,4,"blue","C3op_Util_ValidDate"],[100,3,"blue","C3op_Util_ValidId"]]);
             cc.Set('chart.xmax', 100);
             cc.Set('chart.background.barcolor1', 'white');
             cc.Set('chart.background.barcolor2', 'white');
@@ -61,9 +61,9 @@
             <ul>
               <li><a href="application_modules_projects_controllers_ActionController.php.html#3">Projects_ActionController</a> (272)</li>
               <li><a href="library_C3op_Projects_ActionMapperBase.php.html#3">C3op_Projects_ActionMapperBase</a> (156)</li>
-              <li><a href="library_C3op_Projects_ActionBase.php.html#3">C3op_Projects_ActionBase</a> (57)</li>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#3">Projects_ProjectController</a> (37)</li>
-              <li><a href="library_C3op_Form_ActionCreate.php.html#2">C3op_Form_ActionCreate</a> (20)</li>
+              <li><a href="library_C3op_Projects_ActionBase.php.html#3">C3op_Projects_ActionBase</a> (53)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#3">Projects_ProjectController</a> (47)</li>
+              <li><a href="library_C3op_Form_ActionCreate.php.html#2">C3op_Form_ActionCreate</a> (30)</li>
               <li><a href="library_C3op_Projects_ProjectBase.php.html#3">C3op_Projects_ProjectBase</a> (18)</li>
               <li><a href="library_C3op_Form_ActionEdit.php.html#2">C3op_Form_ActionEdit</a> (12)</li>
               <li><a href="library_C3op_Form_ProjectEdit.php.html#2">C3op_Form_ProjectEdit</a> (4)</li>
@@ -75,16 +75,16 @@
           <td valign="top">
             <h2>Least Tested Methods</h2>
             <ul>
-              <li><a href="library_C3op_Projects_ActionBase.php.html#22">C3op_Projects_ActionBase::SetId</a> (0%)</li>
-              <li><a href="library_C3op_Projects_ActionBase.php.html#32">C3op_Projects_ActionBase::GetTitle</a> (0%)</li>
-              <li><a href="library_C3op_Projects_ActionBase.php.html#38">C3op_Projects_ActionBase::SetTitle</a> (0%)</li>
-              <li><a href="library_C3op_Projects_ActionBase.php.html#16">C3op_Projects_ActionBase::GetId</a> (0%)</li>
+              <li><a href="library_C3op_Projects_ActionBase.php.html#23">C3op_Projects_ActionBase::SetId</a> (0%)</li>
+              <li><a href="library_C3op_Projects_ActionBase.php.html#33">C3op_Projects_ActionBase::GetTitle</a> (0%)</li>
+              <li><a href="library_C3op_Projects_ActionBase.php.html#39">C3op_Projects_ActionBase::SetTitle</a> (0%)</li>
+              <li><a href="library_C3op_Projects_ActionBase.php.html#17">C3op_Projects_ActionBase::GetId</a> (0%)</li>
               <li><a href="library_C3op_Form_ActionEdit.php.html#23">C3op_Form_ActionEdit::process</a> (0%)</li>
-              <li><a href="library_C3op_Form_ActionCreate.php.html#48">C3op_Form_ActionCreate::process</a> (0%)</li>
+              <li><a href="library_C3op_Form_ActionCreate.php.html#56">C3op_Form_ActionCreate::process</a> (0%)</li>
               <li><a href="library_C3op_Form_ActionEdit.php.html#4">C3op_Form_ActionEdit::init</a> (0%)</li>
-              <li><a href="library_C3op_Projects_ActionBase.php.html#58">C3op_Projects_ActionBase::SetProject</a> (0%)</li>
+              <li><a href="library_C3op_Projects_ActionBase.php.html#59">C3op_Projects_ActionBase::SetProject</a> (0%)</li>
               <li><a href="library_C3op_Projects_ActionMapper.php.html#6">C3op_Projects_ActionMapper::__construct</a> (0%)</li>
-              <li><a href="library_C3op_Projects_ActionMapperBase.php.html#54">C3op_Projects_ActionMapperBase::findById</a> (0%)</li>
+              <li><a href="library_C3op_Projects_ActionMapperBase.php.html#56">C3op_Projects_ActionMapperBase::findById</a> (0%)</li>
 
             </ul>
           </td>
@@ -96,7 +96,7 @@
 
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
-      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.2</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.8</a> and PHPUnit 3.5.15 at Wed May 16 10:51:21 BRT 2012.</td></tr>
+      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.2</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.8</a> and PHPUnit 3.5.15 at Mon May 21 11:39:03 BRT 2012.</td></tr>
     </table>
 
     <br/>

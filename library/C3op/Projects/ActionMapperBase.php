@@ -26,7 +26,8 @@ class C3op_Projects_ActionMapperBase
         $data = array(
             'title' => $new->getTitle(),
             'project' => $new->GetProject(),
-            'milestone' => $new->GetMilestone()                
+            'milestone' => $new->GetMilestone(),
+            'requirement_for_receiving' => $new->GetRequirementForReceiving()
             );
         $this->db->insert('projects_actions', $data);
         $new->SetId((int)$this->db->lastInsertId());
@@ -41,10 +42,11 @@ class C3op_Projects_ActionMapperBase
         }
         $this->db->exec(
             sprintf(
-                'UPDATE projects_actions SET title = \'%s\', project = %d, milestone = %d WHERE id = %d;',
+                'UPDATE projects_actions SET title = \'%s\', project = %d, milestone = %d, requirement_for_receiving = %d  WHERE id = %d;',
                 $a->GetTitle(),
                 $a->GetProject(),
                 $a->GetMilestone(),
+                $a->GetRequirementForReceiving(),
                 $this->identityMap[$a]
             )
         );
@@ -63,7 +65,7 @@ class C3op_Projects_ActionMapperBase
         
         $result = $this->db->fetchRow(
             sprintf(
-                'SELECT title, project, milestone FROM projects_actions WHERE id = %d;',
+                'SELECT title, project, milestone, requirement_for_receiving FROM projects_actions WHERE id = %d;',
                 $id
             )
         );
@@ -86,6 +88,11 @@ class C3op_Projects_ActionMapperBase
         $attribute = new ReflectionProperty($a, 'milestone');
         $attribute->setAccessible(TRUE);
         $attribute->setValue($a, $milestone);
+
+        $requirementForReceiving = $result['requirement_for_receiving'];
+        $attribute = new ReflectionProperty($a, 'requirementForReceiving');
+        $attribute->setAccessible(TRUE);
+        $attribute->setValue($a, $requirementForReceiving);
 
         $this->identityMap[$a] = $id;
         return $a;        

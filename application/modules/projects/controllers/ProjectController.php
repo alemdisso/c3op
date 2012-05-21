@@ -16,7 +16,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         // cria form
         $form = new C3op_Form_ProjectCreate;
         $this->view->form = $form;
-        
+
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
@@ -57,9 +57,7 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $dateBeginField->setValue($formatedDate);
             } else {
                 $dateBeginField->setValue("");
-
             }
-
         }
     }
 
@@ -74,24 +72,24 @@ class Projects_ProjectController extends Zend_Controller_Action
         }
     }
 
-  public function successCreateAction()
-  {
-    if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
-      $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();    
-      $this->getResponse()->setHeader('Refresh', '7; URL=/projects');
- } else {
-      $this->_redirect('/projects');    
-    } 
-  }
-    
-  public function errorEditAction()
-  {
-    $flashMessenger = $this->_helper->getHelper('FlashMessenger');
-    $flashMessenger->setNamespace('messages');
-    $this->view->messages = $flashMessenger->getMessages();
-    $flashMessenger->addMessage('Id Inválido');
-  }
-  
+    public function successCreateAction()
+    {
+        if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
+            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();    
+            $this->getResponse()->setHeader('Refresh', '7; URL=/projects');
+        } else {
+            $this->_redirect('/projects');    
+        } 
+    }
+
+    public function errorEditAction()
+    {
+        $flashMessenger = $this->_helper->getHelper('FlashMessenger');
+        $flashMessenger->setNamespace('messages');
+        $this->view->messages = $flashMessenger->getMessages();
+        $flashMessenger->addMessage('Id Inválido');
+    }
+
     public function trackAction()
     {
         $actionMapper = new C3op_Projects_ActionMapper($this->db);
@@ -103,27 +101,33 @@ class Projects_ProjectController extends Zend_Controller_Action
         reset ($actionsList);
         foreach ($actionsIdsList as $actionId) {
             $thisAction = $actionMapper->findById($actionId);
+
+            if ($thisAction->GetMilestone()) {
+                $milestone = "(M)";
+            } else {
+                $milestone = "";                
+            }
+
             $actionsList[$actionId] = array(
                 'title' => $thisAction->GetTitle(),
+                'milestone' => $milestone,
                 'linkEdit' => '/projects/action/edit/?id=' . $actionId   ,
             );
         }
         $projectInfo = array(
-                'title' => $thisProject->GetTitle(),
-                'linkEdit' => '/projects/project/edit/?id=' . $id   ,
-                'dateBegin' => $thisProject->GetDateBegin(),
-                'value' => $thisProject->GetValue(),
-                'linkActionCreate' => '/projects/action/create/?project=' . $id,
-                'actionsList' => $actionsList,
-            );
-        
-       $this->view->projectInfo = $projectInfo;
-        
-        
+            'title' => $thisProject->GetTitle(),
+            'linkEdit' => '/projects/project/edit/?id=' . $id   ,
+            'dateBegin' => $thisProject->GetDateBegin(),
+            'value' => $thisProject->GetValue(),
+            'linkActionCreate' => '/projects/action/create/?project=' . $id,
+            'actionsList' => $actionsList,
+        );
+
+        $this->view->projectInfo = $projectInfo;
     }
-  
-  private function checkIdFromGet()
-  {
+
+    private function checkIdFromGet()
+    {
         $data = $this->_request->getParams();
         $filters = array(
             'id' => new Zend_Filter_Alnum(),
@@ -137,8 +141,34 @@ class Projects_ProjectController extends Zend_Controller_Action
             return $id;
         }
         throw new C3op_Projects_ProjectException("Invalid Project Id from Get");
-      
-  }
-    
-    
+
+    }
+
+    public function receivingsAction()
+    {
+        $actionMapper = new C3op_Projects_ActionMapper($this->db);
+
+        $id = $this->checkIdFromGet();
+        $thisProject = $this->projectMapper->findById($id);
+        $productsIdList = $this->projectMapper->getAllProducts($thisProject);
+        $productsList = array();
+        reset ($productsList);
+        foreach ($productsIdList as $actionId) {
+            $thisAction = $actionMapper->findById($actionId);
+
+            $productsList[$actionId] = array(
+                'title' => $thisAction->GetTitle(),
+                'linkEdit' => '/projects/action/edit/?id=' . $actionId   ,
+            );
+        }
+        $projectInfo = array(
+            'title' => $thisProject->GetTitle(),
+            'linkEdit' => '/projects/project/edit/?id=' . $id   ,
+            'productsList' => $productsList,
+        );
+
+        $this->view->projectInfo = $projectInfo;
+    }
+
+
 }

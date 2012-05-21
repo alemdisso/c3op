@@ -63,6 +63,8 @@ class Projects_ActionController extends Zend_Controller_Action
                 $idField->setValue($id);
                 $milestoneField = $form->getElement('milestone');
                 $milestoneField->setValue($thisAction->getMilestone());
+                $requirementForReceivingField = $form->getElement('requirementForReceiving');
+                $requirementForReceivingField->setValue($thisAction->GetRequirementForReceiving());
                 $this->populateProjectFields($thisAction->GetProject(), $form);
             }
 

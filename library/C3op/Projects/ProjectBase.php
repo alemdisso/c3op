@@ -81,12 +81,6 @@ class C3op_Projects_ProjectBase {
         
     }
     
-    public function GetAllActions()
-    {
-        
-    }
-
-    
     
     
 }

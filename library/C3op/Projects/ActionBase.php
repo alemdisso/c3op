@@ -6,7 +6,8 @@ class C3op_Projects_ActionBase {
     protected $title = "";
     protected $project;
     protected $milestone = false;
-	
+    protected $requirementForReceiving = false;
+    
     function __construct($project, $id=0)
     {
         $this->project = $project;
@@ -73,6 +74,21 @@ class C3op_Projects_ActionBase {
     public function GetMilestone()
     {
         return $this->milestone;
+    }
+
+    
+    public function SetRequirementForReceiving($requirementForReceiving) 
+    {
+        if ($requirementForReceiving) {
+            $this->requirementForReceiving = $requirementForReceiving;
+        } else {
+            $this->requirementForReceiving = 0;
+        }
+    }
+    
+    public function GetRequirementForReceiving()
+    {
+        return $this->requirementForReceiving;
     }
 
     

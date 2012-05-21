@@ -121,5 +121,20 @@ class C3op_Projects_ProjectMapperBase {
         return $result;
     }
     
+    public function getAllProducts(C3op_Projects_Project $p)
+    {
+        $result = array();
+        foreach ($this->db->query(
+                sprintf(
+                    'SELECT id FROM projects_actions WHERE project = %d AND subordinated_to IS NULL AND requirement_for_receiving = 1;',
+                    $p->GetId()
+                    )
+                )
+                as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+    
     
 }

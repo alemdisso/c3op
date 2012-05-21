@@ -24,5 +24,16 @@ class ActionTest extends ControllerTestCase
         $this->assertEquals($this->action->getMilestone(), 0);
         
     }
- 
+
+    public function testIfCanSetIfIsRequirementForReceivingOrNot()
+    {
+        $someProjectId = 80;
+        $this->action = new C3op_Projects_Action($someProjectId);
+        $this->action->SetRequirementForReceiving(1);
+        $this->assertEquals($this->action->GetRequirementForReceiving(), 1);
+        $this->action->SetRequirementForReceiving(0);
+        $this->assertEquals($this->action->GetRequirementForReceiving(), 0);
+        
+    }
+
 }

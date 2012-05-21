@@ -1,0 +1,45 @@
+<h2>Recebimentos</h2>
+<?php 
+/*
+ * If exists projects list
+ */
+if (is_array($this->projectInfo)) {
+    $projectData = $this->projectInfo;
+?>
+Projeto: <?php print($projectData['title']) ?><br />
+<p />
+<?php 
+/*
+ * iterate list and print title
+ */
+
+    $productsList = $projectData['productsList'];
+    
+    while (list(, $productInfo) = each($productsList)) {
+?>
+
+<?php print($productInfo['title']) ?>
+
+<?php if (isset($productInfo['linkEdit'])) { ?>
+<a href="<?php print($productInfo['linkEdit']) ?>">Editar</a>
+<?php } ?>
+
+<br />
+
+
+    
+<?php
+}  // loop iterate list and print titlei
+?>
+
+
+
+    
+<?php
+} else { // else exists projects list 
+?>
+    <?php print("Não há informações para este projeto.") ?>
+
+    <?php
+} // end exists projects list
+?>
