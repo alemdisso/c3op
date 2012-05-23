@@ -26,9 +26,8 @@ class C3op_Form_ContactCreate extends Zend_Form
         $type = new Zend_Form_Element_Select('type');
         $type->setLabel('Tipo')
                 ->setRequired(true);
-
-        $types = new C3op_Register_ContactTypes();
-        while (list($key, $title) = each($types->titles)) {
+        $titleTypes = C3op_Register_ContactTypes::AllTitles();
+        while (list($key, $title) = each($titleTypes)) {
             $type->addMultiOption($key, $title);
         }        
         
