@@ -20,7 +20,7 @@
           <table cellpadding="1" border="0" width="100%">
             <tr>
               <td class="headerItem" width="20%">Current file:</td>
-              <td class="headerValue" width="80%"><a href="index.html">C:\xampp\htdocs\c3op</a>\<a href="library.html">library</a>\<a href="library_C3op.html">C3op</a>\<a href="library_C3op_Register.html">Register</a>\<a href="library_C3op_Register_ContactValidName.php.html">ContactValidName.php</a></td>
+              <td class="headerValue" width="80%"><a href="index.html">C:\xampp\htdocs\c3op</a>\<a href="library.html">library</a>\<a href="library_C3op.html">C3op</a>\<a href="library_C3op_Projects.html">Projects</a>\<a href="library_C3op_Projects_ProjectValidTitle.php.html">ProjectValidTitle.php</a></td>
             </tr>
             <tr>
               <td class="legendItem" width="20%">Legend:</td>
@@ -89,7 +89,7 @@
           <td class="tableHead" colspan="11">&nbsp;</td>
         </tr>
         <tr>
-          <td class="coverItem"><b><a href="#2">C3op_Register_ContactValidName</a></b></td>
+          <td class="coverItem"><b><a href="#2">C3op_Projects_ProjectValidTitle</a></b></td>
           <td class="coverBar" align="center" width="100">
             <table border="0" cellspacing="0" cellpadding="1">
               <tr>
@@ -156,15 +156,16 @@
       <tr>
         <td>
 <pre class="source">
-<span class="lineNum" id="container1"><a name="1"></a><a href="#1" id="line1">       1</a> </span>                : &lt;?php                                                                                                                     
-<span class="lineNum" id="container2"><a name="2"></a><a href="#2" id="line2">       2</a> </span><span class="lineCov">              1 : class C3op_Register_ContactValidName extends Zend_Validate_Abstract {                                                     </span>
-<span class="lineNum" id="container3"><a name="3"></a><a href="#3" id="line3">       3</a> </span>                :     function isValid($value) {                                                                                            
-<span class="lineNum" id="container4"><a name="4"></a><a href="#4" id="line4">       4</a> </span><span class="lineCov">              4 :         $nameValidator = new Zend_Validate_Regex(&quot;/^[0-9a-zA-ZÀ-ú]+[0-9A-Za-zÀ-ú\'\[\]\(\)\-\.\,\:\;\!\? ]{1,120}$/&quot;);</span>
-<span class="lineNum" id="container5"><a name="5"></a><a href="#5" id="line5">       5</a> </span><span class="lineCov">              4 :         return $nameValidator-&gt;isValid($value);                                                                           </span>
-<span class="lineNum" id="container6"><a name="6"></a><a href="#6" id="line6">       6</a> </span><span class="lineDeadCode">                :     }                                                                                                                     </span>
-<span class="lineNum" id="container7"><a name="7"></a><a href="#7" id="line7">       7</a> </span>                : }                                                                                                                         
-<span class="lineNum" id="container8"><a name="8"></a><a href="#8" id="line8">       8</a> </span>                :                                                                                                                           
-<span class="lineNum" id="container9"><a name="9"></a><a href="#9" id="line9">       9</a> </span>                : ?&gt;                                                                                                                        
+<span class="lineNum" id="container1"><a name="1"></a><a href="#1" id="line1">       1</a> </span>                : &lt;?php                                                                                                                      
+<span class="lineNum" id="container2"><a name="2"></a><a href="#2" id="line2">       2</a> </span><span class="lineCov">              1 : class C3op_Projects_ProjectValidTitle extends Zend_Validate_Abstract {                                                     </span>
+<span class="lineNum" id="container3"><a name="3"></a><a href="#3" id="line3">       3</a> </span>                :     function isValid($value) {                                                                                             
+<span class="lineNum" id="container4"><a name="4"></a><a href="#4" id="line4">       4</a> </span><span class="lineCov">             27 :         $titleValidator = new Zend_Validate_Regex(&quot;/^[0-9a-zA-ZÀ-ú]+[0-9A-Za-zÀ-ú\'\[\]\(\)\-\.\,\:\;\!\? ]{1,120}$/&quot;);</span>
+<span class="lineNum" id="container5"><a name="5"></a><a href="#5" id="line5">       5</a> </span>                :                                                                                                                            
+<span class="lineNum" id="container6"><a name="6"></a><a href="#6" id="line6">       6</a> </span><span class="lineCov">             27 :         return $titleValidator-&gt;isValid($value);                                                                           </span>
+<span class="lineNum" id="container7"><a name="7"></a><a href="#7" id="line7">       7</a> </span><span class="lineDeadCode">                :     }                                                                                                                      </span>
+<span class="lineNum" id="container8"><a name="8"></a><a href="#8" id="line8">       8</a> </span>                : }                                                                                                                          
+<span class="lineNum" id="container9"><a name="9"></a><a href="#9" id="line9">       9</a> </span>                :                                                                                                                            
+<span class="lineNum" id="container10"><a name="10"></a><a href="#10" id="line10">      10</a> </span>                : ?&gt;                                                                                                                         
 
 </pre>
         </td>
@@ -185,17 +186,17 @@
       YAHOO.phpunit.container.panelsData = {
         "panel2": {
           "header": "1 test covers line 2",
-          "body": "<ul><li class=\"testPassed\">ContactTest::testIfCanAttributeNameToContact</li></ul>",
+          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li></ul>",
           "footer": ""
         },
         "panel4": {
-          "header": "4 tests cover line 4",
-          "body": "<ul><li class=\"testPassed\">ContactTest::testIfCanAttributeNameToContact</li><li class=\"testPassed\">ContactTest::testIfCanChangeContactName</li><li class=\"testPassed\">ContactTest::testIfSettingEmptyContactNameRaisesError</li><li class=\"testPassed\">ContactTest::testThatSettingEmptyNameDoesntChangename</li></ul>",
+          "header": "27 tests cover line 4",
+          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">ProjectControllerTest::testIfPostCreateFormReallySavesAProject</li><li class=\"testPassed\">ProjectControllerTest::testMessageConfirmingProjectCreation</li><li class=\"testPassed\">ProjectControllerTest::testIfCanFindPageToEditAProject</li><li class=\"testPassed\">ProjectControllerTest::testIfCanChangeTitleOfProjectWhenEditing</li><li class=\"testPassed\">ProjectControllerTest::testThatRightDateIsSavedInMySqlFormat</li><li class=\"testPassed\">ProjectControllerTest::testIfSavedDateIsShownAtFormInBrazilianStyle</li><li class=\"testPassed\">ProjectCreateTest::testUserTriesToCreateProjectWithWeirdDateAndFail</li><li class=\"testPassed\">ProjectCreateTest::testUserTriesToCreateProjectWithNegativeValueAndFail</li><li class=\"testPassed\">ProjectCreateTest::testUserCanUseAccentedCharacters</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToChangeDateToAWeirdOneAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToSetANegativeValueToProjectAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserCanUseAccentedCharactersWhenEditing</li><li class=\"testPassed\">ProjectMapperTest::testIfCanInsertAProject</li><li class=\"testPassed\">ProjectMapperTest::testIfCanListProjectsIds</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToChangeAProjectId</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToDeleteAnUnsavedProject</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToFindAProjectThatDoesntExist</li><li class=\"testPassed\">ProjectMapperTest::testIfBeginDateIsSaved</li><li class=\"testPassed\">ProjectMapperTest::testThatIsPossibleToChangeABeginDate</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToUpdateAProjectBeforeInsertingIt</li><li class=\"testPassed\">ProjectTest::testIfCanAttributeTitleToProject</li><li class=\"testPassed\">ProjectTest::testIfCanChangeProjectTitle</li><li class=\"testPassed\">ProjectTest::testIfSettingEmptyProjectTitleRaisesError</li><li class=\"testPassed\">ProjectTest::testThatSettingEmptyTitleDoesntChangetitle</li></ul>",
           "footer": ""
         },
-        "panel5": {
-          "header": "4 tests cover line 5",
-          "body": "<ul><li class=\"testPassed\">ContactTest::testIfCanAttributeNameToContact</li><li class=\"testPassed\">ContactTest::testIfCanChangeContactName</li><li class=\"testPassed\">ContactTest::testIfSettingEmptyContactNameRaisesError</li><li class=\"testPassed\">ContactTest::testThatSettingEmptyNameDoesntChangename</li></ul>",
+        "panel6": {
+          "header": "27 tests cover line 6",
+          "body": "<ul><li class=\"testPassed\">IndexControllerTest::testThereIsListOfProjectsAtProjectsIndex</li><li class=\"testPassed\">IndexControllerTest::testDatesAndValuesShownAtIndex</li><li class=\"testPassed\">IndexControllerTest::testThereAreLinksToEditProjectsAtList</li><li class=\"testPassed\">ProjectControllerTest::testIfPostCreateFormReallySavesAProject</li><li class=\"testPassed\">ProjectControllerTest::testMessageConfirmingProjectCreation</li><li class=\"testPassed\">ProjectControllerTest::testIfCanFindPageToEditAProject</li><li class=\"testPassed\">ProjectControllerTest::testIfCanChangeTitleOfProjectWhenEditing</li><li class=\"testPassed\">ProjectControllerTest::testThatRightDateIsSavedInMySqlFormat</li><li class=\"testPassed\">ProjectControllerTest::testIfSavedDateIsShownAtFormInBrazilianStyle</li><li class=\"testPassed\">ProjectCreateTest::testUserTriesToCreateProjectWithWeirdDateAndFail</li><li class=\"testPassed\">ProjectCreateTest::testUserTriesToCreateProjectWithNegativeValueAndFail</li><li class=\"testPassed\">ProjectCreateTest::testUserCanUseAccentedCharacters</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToChangeDateToAWeirdOneAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserTriesToSetANegativeValueToProjectAndFail</li><li class=\"testPassed\">ProjectEditTest::testUserCanUseAccentedCharactersWhenEditing</li><li class=\"testPassed\">ProjectMapperTest::testIfCanInsertAProject</li><li class=\"testPassed\">ProjectMapperTest::testIfCanListProjectsIds</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToChangeAProjectId</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToDeleteAnUnsavedProject</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToFindAProjectThatDoesntExist</li><li class=\"testPassed\">ProjectMapperTest::testIfBeginDateIsSaved</li><li class=\"testPassed\">ProjectMapperTest::testThatIsPossibleToChangeABeginDate</li><li class=\"testPassed\">ProjectMapperTest::testThatIsNotPossibleToUpdateAProjectBeforeInsertingIt</li><li class=\"testPassed\">ProjectTest::testIfCanAttributeTitleToProject</li><li class=\"testPassed\">ProjectTest::testIfCanChangeProjectTitle</li><li class=\"testPassed\">ProjectTest::testIfSettingEmptyProjectTitleRaisesError</li><li class=\"testPassed\">ProjectTest::testThatSettingEmptyTitleDoesntChangetitle</li></ul>",
           "footer": ""
         },
       "dummy": ""

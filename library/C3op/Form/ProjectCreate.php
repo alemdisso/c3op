@@ -12,7 +12,7 @@ class C3op_Form_ProjectCreate extends Zend_Form
         // create text input for title
         $title = new Zend_Form_Element_Text('title');
 //        $titleValidator = new Zend_Validate_Regex("/^[0-9a-zA-ZÀ-ú]+[0-9A-Za-zÀ-ú\'\[\]\(\)\-\.\,\:\;\!\? ]{1,50}$/");
-        $titleValidator = new C3op_Projects_Util_ValidTitle();
+        $titleValidator = new C3op_Projects_ProjectValidTitle();
         $title->setLabel('Nome:')
             ->setOptions(array('size' => '50'))
             ->setRequired(true)

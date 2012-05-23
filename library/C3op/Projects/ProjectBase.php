@@ -35,7 +35,7 @@ class C3op_Projects_ProjectBase {
 	
     public function SetTitle($title) {
         //$validator = new Zend_Validate_Regex("/^[0-9a-zA-ZÀ-ú]+[0-9A-Za-zÀ-ú\'\[\]\(\)\-\.\,\:\;\!\? ]{1,50}$/");
-        $validator = new C3op_Projects_Util_ValidTitle();
+        $validator = new C3op_Projects_ProjectValidTitle();
         if ($validator->isValid($title)) {
             if ($this->title != $title) {
                 $this->title = $title;

@@ -18,7 +18,7 @@ class C3op_Form_ActionCreate extends Zend_Form
         
         // create text input for title
         $title = new Zend_Form_Element_Text('title');
-        $titleValidator = new C3op_Projects_Util_ValidTitle();
+        $titleValidator = new C3op_Projects_ProjectValidTitle();
         $title->setLabel('Nome:')
             ->setOptions(array('size' => '50'))
             ->setRequired(true)
