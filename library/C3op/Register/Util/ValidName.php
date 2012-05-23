@@ -1,9 +1,9 @@
 <?php
-class C3op_Projects_Util_ValidTitle extends Zend_Validate_Abstract {
+class C3op_Register_Util_ValidName extends Zend_Validate_Abstract {
     function isValid($value) {
-        $titleValidator = new Zend_Validate_Regex("/^[0-9a-zA-ZÀ-ú]+[0-9A-Za-zÀ-ú\'\[\]\(\)\-\.\,\:\;\!\? ]{1,120}$/");
+        $nameValidator = new Zend_Validate_Regex("/^[0-9a-zA-ZÀ-ú]+[0-9A-Za-zÀ-ú\'\[\]\(\)\-\.\,\:\;\!\? ]{1,120}$/");
         
-        return $titleValidator->isValid($value);
+        return $nameValidator->isValid($value);
     }
 }
 

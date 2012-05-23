@@ -1,17 +1,14 @@
 <?php
 
-class C3op_Projects_ProjectBase {
+class C3op_Register_ContactBase {
 	
     protected $id;
-    protected $title;
-    protected $dateBegin;
-    protected $value;
+    protected $name;
+    protected $type;
 	
     function __construct($id=0) {
         $this->id = $id;
-        $this->title = "";
-        $this->dateBegin = "";
-        $this->value = 0;
+        $this->name = "";
     }
 
     public function GetId() {
@@ -23,61 +20,49 @@ class C3op_Projects_ProjectBase {
         if (($this->id == 0) && ($id > 0)) {
             $this->id = $id;
         } else {
-            throw new C3op_Projects_ProjectException('It\'s not possible to change a project\'s ID');
+            throw new C3op_Register_ContactException('It\'s not possible to change a contact\'s ID');
         }
 
     } //SetId
 
-    public function GetTitle() {
-        return $this->title;
+    public function GetName() {
+        return $this->name;
 
-    } //GetTitle
+    } //GetName
 	
-    public function SetTitle($title) {
-        //$validator = new Zend_Validate_Regex("/^[0-9a-zA-ZÀ-ú]+[0-9A-Za-zÀ-ú\'\[\]\(\)\-\.\,\:\;\!\? ]{1,50}$/");
-        $validator = new C3op_Projects_Util_ValidTitle();
-        if ($validator->isValid($title)) {
-            if ($this->title != $title) {
-                $this->title = $title;
+    public function SetName($name) {
+        $validator = new C3op_Register_Util_ValidName();
+        if ($validator->isValid($name)) {
+            if ($this->name != $name) {
+                $this->name = $name;
             }
         } else {
-            throw new C3op_Projects_ProjectException("This ($title) is not a valid title.");
+            throw new C3op_Register_ContactException("This ($name) is not a valid name.");
         }
 
-    } //SetTitle
+    } //SetName
 
-    public function GetDateBegin() {
-        return $this->dateBegin;
-
-    } //GetDateBegin
-	
-    public function SetDateBegin($dateBegin) {
-        if ($dateBegin != "") {
-            $dateValidator = new C3op_Util_ValidDate();
-            if ($dateValidator->isValid($dateBegin)) {
-                if ($this->dateBegin != $dateBegin) {
-                    $this->dateBegin = $dateBegin;
-                }
-            } else {
-                throw new C3op_Projects_ProjectException("This ($dateBegin) is not a valid date of begin.");
-            }
-        }
-
-    } //SetDateBegin
-
-    public function SetValue($value) 
+    public function SetType($type) 
     {
-        if ($value >= 0) {
-            $this->value = (float) $value;
-        } else {
-            throw new C3op_Projects_ProjectException("Value must be a positive number.");
-            
+        switch ($type) {
+            case C3op_Register_ContactConstants::CONTACT_GENERAL:
+            case C3op_Register_ContactConstants::CONTACT_CLIENT:
+            case C3op_Register_ContactConstants::CONTACT_PARTNER:
+            case C3op_Register_ContactConstants::CONTACT_ASSOCIATE:
+            case C3op_Register_ContactConstants::CONTACT_CONTRACTOR:
+            case C3op_Register_ContactConstants::CONTACT_SUPPLIER:
+                $this->type = (float) $type;
+                break;
+
+            default:
+                throw new C3op_Register_ContactException("Invalid type.");
+                break;
         }
     }
 
-    public function GetValue() 
+    public function GetType() 
     {
-        return $this->value;
+        return $this->type;
         
     }
     

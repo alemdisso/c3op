@@ -1,6 +1,6 @@
 <?php
 
-class C3op_Projects_ProjectMapperBase {
+class C3op_Register_ContactMapperBase {
     
     protected $db;
     protected $identityMap;
@@ -12,34 +12,32 @@ class C3op_Projects_ProjectMapperBase {
 
     public function getAllIds() {
         $result = array();
-        foreach ($this->db->query('SELECT id FROM projects_projects;') as $row) {
+        foreach ($this->db->query('SELECT id FROM register_contacts;') as $row) {
             $result[] = $row['id'];
         }        
         return $result;
     }
     
-    public function insert(C3op_Projects_Project $new) {
+    public function insert(C3op_Register_Contact $new) {
         $data = array(
-            'title' => $new->getTitle(),
-            'date_begin' => $new->GetDateBegin(),
-            'value' => $new->GetValue()
+            'name' => $new->GetName(),
+            'type' => $new->GetType()
             );
-        $this->db->insert('projects_projects', $data);
+        $this->db->insert('register_contacts', $data);
         $new->SetId((int)$this->db->lastInsertId());
         $this->identityMap[$new] = $new->GetId();
         
     }
     
-    public function update(C3op_Projects_Project $p) {
+    public function update(C3op_Register_Contact $p) {
         if (!isset($this->identityMap[$p])) {
-            throw new C3op_Projects_ProjectMapperException('Object has no ID, cannot update.');
+            throw new C3op_Register_ContactMapperException('Object has no ID, cannot update.');
         }
         $this->db->exec(
             sprintf(
-                'UPDATE projects_projects SET title = \'%s\', date_begin = \'%s\', value = %f WHERE id = %d;',
-                $p->GetTitle(),
-                $p->GetDateBegin(),
-                $p->GetValue(),
+                'UPDATE register_contacts SET name = \'%s\', type = %d WHERE id = %d;',
+                $p->GetName(),
+                $p->GetType(),
                 $this->identityMap[$p]
             )
         );
@@ -57,33 +55,28 @@ class C3op_Projects_ProjectMapperBase {
         
         $result = $this->db->fetchRow(
             sprintf(
-                'SELECT title, date_begin, value FROM projects_projects WHERE id = %d;',
+                'SELECT name, type FROM register_contacts WHERE id = %d;',
                 $id
             )
         );
         if (empty($result)) {
-            throw new C3op_Projects_ProjectMapperException(sprintf('There is no project with id #%d.', $id));
+            throw new C3op_Register_ContactMapperException(sprintf('There is no contact with id #%d.', $id));
         }
-        $title = $result['title'];
-        $p = new C3op_Projects_Project();
+        $name = $result['name'];
+        $p = new C3op_Register_Contact();
         
         $attribute = new ReflectionProperty($p, 'id');
         $attribute->setAccessible(TRUE);
-        $attribute->setValue($p, $id);
+        $attribute->setType($p, $id);
 
-        $attribute = new ReflectionProperty($p, 'title');
+        $attribute = new ReflectionProperty($p, 'name');
         $attribute->setAccessible(TRUE);
-        $attribute->setValue($p, $title);
-
-        $dateBegin = $result['date_begin'];
-        $attribute = new ReflectionProperty($p, 'dateBegin');
-        $attribute->setAccessible(TRUE);
-        $attribute->setValue($p, $dateBegin);
+        $attribute->setType($p, $name);
         
-        $value = $result['value'];
-        $attribute = new ReflectionProperty($p, 'value');
+        $type = $result['type'];
+        $attribute = new ReflectionProperty($p, 'type');
         $attribute->setAccessible(TRUE);
-        $attribute->setValue($p, $value);
+        $attribute->setType($p, $type);
         
         
         
@@ -92,48 +85,17 @@ class C3op_Projects_ProjectMapperBase {
 
     }
 
-    public function delete(C3op_Projects_Project $p) {
+    public function delete(C3op_Register_Contact $p) {
         if (!isset($this->identityMap[$p])) {
-            throw new C3op_Projects_ProjectMapperException('Object has no ID, cannot delete.');
+            throw new C3op_Register_ContactMapperException('Object has no ID, cannot delete.');
         }
         $this->db->exec(
             sprintf(
-                'DELETE FROM projects_projects WHERE id = %d;',
+                'DELETE FROM register_contacts WHERE id = %d;',
                 $this->identityMap[$p]
             )
         );
         unset($this->identityMap[$p]);
-    }
-    
-    public function getAllActions(C3op_Projects_Project $p)
-    {
-        $result = array();
-        foreach ($this->db->query(
-                sprintf(
-                    'SELECT id FROM projects_actions WHERE project = %d;',
-                    $p->GetId()
-                    )
-                )
-                as $row) {
-            $result[] = $row['id'];
-        }        
-
-        return $result;
-    }
-    
-    public function getAllProducts(C3op_Projects_Project $p)
-    {
-        $result = array();
-        foreach ($this->db->query(
-                sprintf(
-                    'SELECT id FROM projects_actions WHERE project = %d AND subordinated_to IS NULL AND requirement_for_receiving = 1;',
-                    $p->GetId()
-                    )
-                )
-                as $row) {
-            $result[] = $row['id'];
-        }
-        return $result;
     }
     
     

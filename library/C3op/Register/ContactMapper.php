@@ -1,7 +1,7 @@
 <?php
-require_once ('ProjectMapperBase.php');
+require_once ('ContactMapperBase.php');
 
-class C3op_Projects_ProjectMapper extends C3op_Projects_ProjectMapperBase {
+class C3op_Register_ContactMapper extends C3op_Register_ContactMapperBase {
 	
     function __construct($db) {
         parent::__construct($db);

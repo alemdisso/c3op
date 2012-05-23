@@ -1,8 +1,8 @@
 <?php
 
-require_once ('ProjectBase.php');
+require_once ('ContactBase.php');
 
-class C3op_Projects_Project extends C3op_Projects_ProjectBase {
+class C3op_Register_Contact extends C3op_Register_ContactBase {
     
     function __construct() {
         parent::__construct();
