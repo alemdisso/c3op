@@ -58,6 +58,8 @@ class Projects_ProjectController extends Zend_Controller_Action
             } else {
                 $dateBeginField->setValue("");
             }
+            $valueField = $form->getElement('value');
+            $valueField->setValue($thisProject->getValue());
         }
     }
 
@@ -96,27 +98,43 @@ class Projects_ProjectController extends Zend_Controller_Action
 
         $id = $this->checkIdFromGet();
         $thisProject = $this->projectMapper->findById($id);
+        $productsIdList = $this->projectMapper->getAllProducts($thisProject);
+        if (count($productsIdList) > 0) {
+            $linkReceivings = '/projects/project/receivings/?id=' . $thisProject->GetId();
+        } else {
+            $linkReceivings = "";
+        }
+
         $actionsIdsList = $this->projectMapper->getAllActions($thisProject);
         $actionsList = array();
         reset ($actionsList);
         foreach ($actionsIdsList as $actionId) {
             $thisAction = $actionMapper->findById($actionId);
-
+            
             if ($thisAction->GetMilestone()) {
-                $milestone = "(M)";
+                $milestone = "M";
             } else {
                 $milestone = "";                
             }
+            
+            if ($thisAction->GetRequirementForReceiving()) {
+                $requirementForReceiving = "$";
+            } else {
+                $requirementForReceiving = "";  
+            }
+            
 
             $actionsList[$actionId] = array(
                 'title' => $thisAction->GetTitle(),
                 'milestone' => $milestone,
+                'requirementForReceiving' => $requirementForReceiving,
                 'linkEdit' => '/projects/action/edit/?id=' . $actionId   ,
             );
         }
         $projectInfo = array(
             'title' => $thisProject->GetTitle(),
             'linkEdit' => '/projects/project/edit/?id=' . $id   ,
+            'linkReceivings' => $linkReceivings,
             'dateBegin' => $thisProject->GetDateBegin(),
             'value' => $thisProject->GetValue(),
             'linkActionCreate' => '/projects/action/create/?project=' . $id,

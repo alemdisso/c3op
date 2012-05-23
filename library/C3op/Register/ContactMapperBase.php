@@ -41,6 +41,13 @@ class C3op_Register_ContactMapperBase {
                 $this->identityMap[$p]
             )
         );
+        echo sprintf(
+                'UPDATE register_contacts SET name = \'%s\', type = %d WHERE id = %d;',
+                $p->GetName(),
+                $p->GetType(),
+                $this->identityMap[$p]
+            );
+        die("...");
 
     }    
     
@@ -67,16 +74,16 @@ class C3op_Register_ContactMapperBase {
         
         $attribute = new ReflectionProperty($p, 'id');
         $attribute->setAccessible(TRUE);
-        $attribute->setType($p, $id);
+        $attribute->setValue($p, $id);
 
         $attribute = new ReflectionProperty($p, 'name');
         $attribute->setAccessible(TRUE);
-        $attribute->setType($p, $name);
+        $attribute->setValue($p, $name);
         
         $type = $result['type'];
         $attribute = new ReflectionProperty($p, 'type');
         $attribute->setAccessible(TRUE);
-        $attribute->setType($p, $type);
+        $attribute->setValue($p, $type);
         
         
         

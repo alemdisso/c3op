@@ -1,20 +1,20 @@
 <?php
 
-class Projects_ProjectController extends Zend_Controller_Action
+class Register_ContactController extends Zend_Controller_Action
 {
-    private $projectMapper;
+    private $contactMapper;
     private $db;
 
     public function init()
     {
         $this->db = Zend_Registry::get('db');
-        $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
+        $this->contactMapper = new C3op_Register_ContactMapper($this->db);
     }
 
     public function createAction()
     {
         // cria form
-        $form = new C3op_Form_ProjectCreate;
+        $form = new C3op_Form_ContactCreate;
         $this->view->form = $form;
 
         if ($this->getRequest()->isPost()) {
@@ -23,15 +23,15 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage('The record was successfully updated.');          
-                $this->_redirect('/projects/project/success-create');
+                $this->_redirect('/register/contact/success-create');
 
-            } else throw new C3op_Projects_ProjectException("A project must have a valid title.");
+            } else throw new C3op_Register_ContactException("A contact must have a valid name.");
         }
     }
 
     public function editAction()
     {
-        $form = new C3op_Form_ProjectEdit;
+        $form = new C3op_Form_ContactEdit;
         $this->view->form = $form;
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
@@ -39,25 +39,18 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage('The record was successfully updated.');          
-                $this->_redirect('/projects/project/success-create');
-            } else throw new C3op_Projects_ProjectException("A project must have a valid title.");
+                $this->_redirect('/register/contact/success-create');
+            } else throw new C3op_Register_ContactException("A contact must have a valid name.");
         } else {
             // GET
             $id = $this->checkIdFromGet();
-            $thisProject = $this->projectMapper->findById($id);
-            $titleField = $form->getElement('title');
-            $titleField->setValue($thisProject->getTitle());
+            $thisContact = $this->contactMapper->findById($id);
+            $nameField = $form->getElement('name');
+            $nameField->setValue($thisContact->getName());
             $idField = $form->getElement('id');
             $idField->setValue($id);
-            $dateBeginField = $form->getElement('dateBegin');
-            $dateBeginValue = $thisProject->GetDateBegin();
-            if ($dateBeginValue != '0000-00-00')  {
-                $dateArray = explode("-", $dateBeginValue);
-                $formatedDate = $dateArray[2] . '/' . $dateArray[1] . '/' . $dateArray[0]; 
-                $dateBeginField->setValue($formatedDate);
-            } else {
-                $dateBeginField->setValue("");
-            }
+            $typeField = $form->getElement('type');
+            $typeField->setValue($thisContact->GetType());
         }
     }
 
@@ -76,9 +69,9 @@ class Projects_ProjectController extends Zend_Controller_Action
     {
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
             $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();    
-            $this->getResponse()->setHeader('Refresh', '7; URL=/projects');
+            $this->getResponse()->setHeader('Refresh', '7; URL=/register');
         } else {
-            $this->_redirect('/projects');    
+            $this->_redirect('/register');    
         } 
     }
 
@@ -92,38 +85,54 @@ class Projects_ProjectController extends Zend_Controller_Action
 
     public function trackAction()
     {
-        $actionMapper = new C3op_Projects_ActionMapper($this->db);
+        $actionMapper = new C3op_Register_ActionMapper($this->db);
 
         $id = $this->checkIdFromGet();
-        $thisProject = $this->projectMapper->findById($id);
-        $actionsIdsList = $this->projectMapper->getAllActions($thisProject);
+        $thisContact = $this->contactMapper->findById($id);
+        $productsIdList = $this->contactMapper->getAllProducts($thisContact);
+        if (count($productsIdList) > 0) {
+            $linkReceivings = '/register/contact/receivings/?id=' . $thisContact->GetId();
+        } else {
+            $linkReceivings = "";
+        }
+
+        $actionsIdsList = $this->contactMapper->getAllActions($thisContact);
         $actionsList = array();
         reset ($actionsList);
         foreach ($actionsIdsList as $actionId) {
             $thisAction = $actionMapper->findById($actionId);
-
+            
             if ($thisAction->GetMilestone()) {
-                $milestone = "(M)";
+                $milestone = "M";
             } else {
                 $milestone = "";                
             }
+            
+            if ($thisAction->GetRequirementForReceiving()) {
+                $requirementForReceiving = "$";
+            } else {
+                $requirementForReceiving = "";  
+            }
+            
 
             $actionsList[$actionId] = array(
-                'title' => $thisAction->GetTitle(),
+                'name' => $thisAction->GetName(),
                 'milestone' => $milestone,
-                'linkEdit' => '/projects/action/edit/?id=' . $actionId   ,
+                'requirementForReceiving' => $requirementForReceiving,
+                'linkEdit' => '/register/action/edit/?id=' . $actionId   ,
             );
         }
-        $projectInfo = array(
-            'title' => $thisProject->GetTitle(),
-            'linkEdit' => '/projects/project/edit/?id=' . $id   ,
-            'dateBegin' => $thisProject->GetDateBegin(),
-            'value' => $thisProject->GetValue(),
-            'linkActionCreate' => '/projects/action/create/?project=' . $id,
+        $contactInfo = array(
+            'name' => $thisContact->GetName(),
+            'linkEdit' => '/register/contact/edit/?id=' . $id   ,
+            'linkReceivings' => $linkReceivings,
+            'dateBegin' => $thisContact->GetDateBegin(),
+            'value' => $thisContact->GetValue(),
+            'linkActionCreate' => '/register/action/create/?contact=' . $id,
             'actionsList' => $actionsList,
         );
 
-        $this->view->projectInfo = $projectInfo;
+        $this->view->contactInfo = $contactInfo;
     }
 
     private function checkIdFromGet()
@@ -140,34 +149,34 @@ class Projects_ProjectController extends Zend_Controller_Action
             $id = $input->id;
             return $id;
         }
-        throw new C3op_Projects_ProjectException("Invalid Project Id from Get");
+        throw new C3op_Register_ContactException("Invalid Contact Id from Get");
 
     }
 
     public function receivingsAction()
     {
-        $actionMapper = new C3op_Projects_ActionMapper($this->db);
+        $actionMapper = new C3op_Register_ActionMapper($this->db);
 
         $id = $this->checkIdFromGet();
-        $thisProject = $this->projectMapper->findById($id);
-        $productsIdList = $this->projectMapper->getAllProducts($thisProject);
+        $thisContact = $this->contactMapper->findById($id);
+        $productsIdList = $this->contactMapper->getAllProducts($thisContact);
         $productsList = array();
         reset ($productsList);
         foreach ($productsIdList as $actionId) {
             $thisAction = $actionMapper->findById($actionId);
 
             $productsList[$actionId] = array(
-                'title' => $thisAction->GetTitle(),
-                'linkEdit' => '/projects/action/edit/?id=' . $actionId   ,
+                'name' => $thisAction->GetName(),
+                'linkEdit' => '/register/action/edit/?id=' . $actionId   ,
             );
         }
-        $projectInfo = array(
-            'title' => $thisProject->GetTitle(),
-            'linkEdit' => '/projects/project/edit/?id=' . $id   ,
+        $contactInfo = array(
+            'name' => $thisContact->GetName(),
+            'linkEdit' => '/register/contact/edit/?id=' . $id   ,
             'productsList' => $productsList,
         );
 
-        $this->view->projectInfo = $projectInfo;
+        $this->view->contactInfo = $contactInfo;
     }
 
 

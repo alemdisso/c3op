@@ -1,13 +1,13 @@
 <?php
-class C3op_Form_ProjectEdit extends C3op_Form_ProjectCreate
+class C3op_Form_ContactEdit extends C3op_Form_ContactCreate
 {
     public function init()
     {
         parent::init();
 
         // initialize form
-        $this->setName('editProjectForm')
-            ->setAction('/projects/project/edit')
+        $this->setName('editContactForm')
+            ->setAction('/register/contact/edit')
             ->setMethod('post');
         
         $id = new Zend_Form_Element_Hidden('id');
@@ -23,24 +23,17 @@ class C3op_Form_ProjectEdit extends C3op_Form_ProjectCreate
     public function process($data) {
         
         $db = Zend_Registry::get('db');
-        $projectMapper = new C3op_Projects_ProjectMapper($db);        
+        $contactMapper = new C3op_Register_ContactMapper($db);        
         
         if ($this->isValid($data) !== true) {
-            throw new C3op_Form_ProjectEditException('Invalid data!');
+            throw new C3op_Form_ContactEditException('Invalid data!');
         } else {
             $id = $data['id'];
-            $project = $projectMapper->findById($id);      
-            $project->SetTitle($data['title']);
+            $contact = $contactMapper->findById($id);      
+            $contact->SetName($data['name']);
             
-            $dateValidator = new C3op_Util_ValidDate();
-            if ($dateValidator->isValid($data['dateBegin']))
-            {
-                $converter = new C3op_Util_DateConverter();                
-                $dateForMysql = $converter->convertDateToMySQLFormat($data['dateBegin']);
-                $project->SetDateBegin($dateForMysql);
-            }
-            $project->SetValue($data['value']);
-            $projectMapper->update($project);
+            $contact->SetType($data['type']);
+            $contactMapper->update($contact);
         }
     }
  }

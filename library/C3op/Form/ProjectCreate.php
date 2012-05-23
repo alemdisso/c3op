@@ -145,6 +145,7 @@ class C3op_Form_ProjectCreate extends Zend_Form
             
             $project = new C3op_Projects_Project();
             $project->SetTitle($this->title->GetValue());
+            $project->SetValue($this->value->GetValue());
             
             $dateBegin = $this->dateBegin->GetValue();
             //class_exists('C3op_Util_ValidDate') || require APPLICATION_PATH . "/../library/C3op/Util/validDate.php";

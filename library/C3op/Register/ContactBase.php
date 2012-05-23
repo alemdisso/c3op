@@ -31,7 +31,7 @@ class C3op_Register_ContactBase {
     } //GetName
 	
     public function SetName($name) {
-        $validator = new C3op_Register_Util_ValidName();
+        $validator = new C3op_Register_ContactValidName();
         if ($validator->isValid($name)) {
             if ($this->name != $name) {
                 $this->name = $name;

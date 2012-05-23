@@ -1,107 +1,84 @@
 <?php
 
-class ProjectTest extends ControllerTestCase
+class ContactTest extends ControllerTestCase
 {
-    private $project;
+    private $contact;
     public function setUp() {
-        $this->project = new C3op_Projects_Project();
+        $this->contact = new C3op_Register_Contact();
         parent::setUp();
     }
     
-    public function testIfNewProjectIsEmpty()
+    public function testIfNewContactIsEmpty()
     {            
-        $this->assertEquals($this->project->getId(), 0);
-        $this->assertEquals($this->project->getTitle(), "");
-        $this->assertEquals($this->project->getValue(), 0);
+        $this->assertEquals($this->contact->getId(), 0);
+        $this->assertEquals($this->contact->getName(), "");
+        $this->assertEquals($this->contact->getType(), "");
         
     }
  
-    public function testIfCanAttributeTitleToProject()
+    public function testIfCanAttributeNameToContact()
     {            
-        $someTitle = "some title with ç á and ã";
-        $this->project->SetTitle($someTitle);
-        $this->assertEquals($this->project->getTitle(), $someTitle);
+        $someName = "some name with ç á and ã";
+        $this->contact->SetName($someName);
+        $this->assertEquals($this->contact->getName(), $someName);
     }
  
-    public function testIfCanChangeProjectTitle()
+    public function testIfCanChangeContactName()
     {            
-        $this->project->SetTitle("some title");
-        $this->assertEquals($this->project->getTitle(), "some title");
-        $this->project->SetTitle("other title");
-        $this->assertEquals($this->project->getTitle(), "other title");
+        $this->contact->SetName("some name");
+        $this->assertEquals($this->contact->getName(), "some name");
+        $this->contact->SetName("other name");
+        $this->assertEquals($this->contact->getName(), "other name");
     }
  
 /*
- * @expectedException C3op_Projects_ProjectException
+ * @expectedException C3op_Register_ContactException
  */
     
-    public function testIfSettingEmptyProjectTitleRaisesError()
+    public function testIfSettingEmptyContactNameRaisesError()
     {            
-        $this->setExpectedException('C3op_Projects_ProjectException');
-        $this->project->SetTitle("");  
+        $this->setExpectedException('C3op_Register_ContactException');
+        $this->contact->SetName("");  
     }
  
 /*
- * @expectedException C3op_Projects_ProjectException
- * @depends testIfCanAttributeTitleToProject()
+ * @expectedException C3op_Register_ContactException
+ * @depends testIfCanAttributeNameToContact()
  */
     
-    public function testThatSettingEmptyTitleDoesntChangetitle()
+    public function testThatSettingEmptyNameDoesntChangename()
     {   
-        $originalTitle = $this->project->getTitle();
-        $this->setExpectedException('C3op_Projects_ProjectException');
-        $this->project->SetTitle("");   
-        $this->assertEquals($this->project->getTitle(), $originalTitle);
+        $originalName = $this->contact->getName();
+        $this->setExpectedException('C3op_Register_ContactException');
+        $this->contact->SetName("");   
+        $this->assertEquals($this->contact->getName(), $originalName);
     }
  
-    public function testCanSetDateOfBegin()
+    public function testCanSetType()
     {   
-        $someDate = "20-12-2012";
-        $this->project->SetDateBegin($someDate);
-        $this->assertEquals($this->project->getDateBegin(), $someDate);
+        $someType = C3op_Register_ContactConstants::CONTACT_CONTRACTOR;
+        $this->contact->SetType($someType);
+        $this->assertEquals($this->contact->getType(), $someType);
     }
  
-    public function testCanChangeDateOfBegin()
-    {   
-        $firstDate = "01-12-2012";
-        $newDate = "10-07-2012";
-        $this->project->SetDateBegin($firstDate);
-        $this->project->SetDateBegin($newDate);
-        $this->assertEquals($this->project->getDateBegin(), $newDate);
-    }
- 
-    public function testIfSetingBadDateOfBeginRaiseAnError()
-    {   
-        $crazyDate = "notadateatall";
-        $this->setExpectedException('C3op_Projects_ProjectException');
-        $this->project->SetDateBegin($crazyDate);
-    }
- 
-    public function testCanSetValue()
-    {   
-        $someValue = 230743.02;
-        $this->project->SetValue($someValue);
-        $this->assertEquals($this->project->getValue(), $someValue);
-    }
- 
-    public function testValueMustBePositiveNumber()
+    public function testTypeCantBeAlpha()
     {           
-        $someStrangeValue = "-564000";
-        $this->setExpectedException('C3op_Projects_ProjectException');
-        $this->project->SetValue($someStrangeValue);
-        $textValue = "bigvalue!!!";
-        $this->setExpectedException('C3op_Projects_ProjectException');
-        $this->project->SetValue($textValue);
+        $someStrangeType = "a string";
+        $this->setExpectedException('C3op_Register_ContactException');
+        $this->contact->SetType($someStrangeType);
+        $textType = "-1";
+        $this->setExpectedException('C3op_Register_ContactException');
+        $this->contact->SetType($textType);
     }
     
-    public function testCanChangeValueOfProject()
+    public function testCanChangeTypeOfContact()
     {        
-        $firstValue = "1,122,012.77";
-        $newValue = "100000";
-        $this->project->SetValue($firstValue);
-        $this->assertEquals($this->project->getValue(), (float)$firstValue);
-        $this->project->SetValue($newValue);
-        $this->assertEquals($this->project->getValue(), (float)$newValue);
+        $firstType = C3op_Register_ContactConstants::CONTACT_CLIENT;
+        $newType = C3op_Register_ContactConstants::CONTACT_SUPPLIER;
+        $this->contact->SetType($firstType);
+        $this->assertEquals($this->contact->getType(), (float)$firstType);
+        $this->contact->SetType($newType);
+        $this->assertEquals($this->contact->getType(), (float)$newType);
     }
  
 }
