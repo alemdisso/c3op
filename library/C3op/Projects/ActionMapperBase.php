@@ -27,7 +27,8 @@ class C3op_Projects_ActionMapperBase
             'title' => $new->getTitle(),
             'project' => $new->GetProject(),
             'milestone' => $new->GetMilestone(),
-            'requirement_for_receiving' => $new->GetRequirementForReceiving()
+            'requirement_for_receiving' => $new->GetRequirementForReceiving(),
+            'subordinated_to' => $new->GetSubordinatedTo()
             );
         $this->db->insert('projects_actions', $data);
         $new->SetId((int)$this->db->lastInsertId());
@@ -42,11 +43,12 @@ class C3op_Projects_ActionMapperBase
         }
         $this->db->exec(
             sprintf(
-                'UPDATE projects_actions SET title = \'%s\', project = %d, milestone = %d, requirement_for_receiving = %d  WHERE id = %d;',
+                'UPDATE projects_actions SET title = \'%s\', project = %d, milestone = %d, requirement_for_receiving = %d, subordinated_to = %d  WHERE id = %d;',
                 $a->GetTitle(),
                 $a->GetProject(),
                 $a->GetMilestone(),
                 $a->GetRequirementForReceiving(),
+                $a->GetSubordinatedTo(),
                 $this->identityMap[$a]
             )
         );
@@ -65,7 +67,7 @@ class C3op_Projects_ActionMapperBase
         
         $result = $this->db->fetchRow(
             sprintf(
-                'SELECT title, project, milestone, requirement_for_receiving FROM projects_actions WHERE id = %d;',
+                'SELECT title, project, milestone, requirement_for_receiving, subordinated_to FROM projects_actions WHERE id = %d;',
                 $id
             )
         );
@@ -76,6 +78,10 @@ class C3op_Projects_ActionMapperBase
         $project = $result['project'];
         
         $a = new C3op_Projects_Action($project);
+        $attribute = new ReflectionProperty($a, 'id');
+        $attribute->setAccessible(TRUE);
+        $attribute->setValue($a, $id);
+
         $attribute = new ReflectionProperty($a, 'title');
         $attribute->setAccessible(TRUE);
         $attribute->setValue($a, $title);
@@ -94,24 +100,47 @@ class C3op_Projects_ActionMapperBase
         $attribute->setAccessible(TRUE);
         $attribute->setValue($a, $requirementForReceiving);
 
+        $subordinatedTo = $result['subordinated_to'];
+        $attribute = new ReflectionProperty($a, 'subordinatedTo');
+        $attribute->setAccessible(TRUE);
+        $attribute->setValue($a, $subordinatedTo);
+
         $this->identityMap[$a] = $id;
         return $a;        
 
     }
 
-    public function delete(C3op_Projects_Project $p)
+    public function delete(C3op_Projects_Action $a)
     {
-        if (!isset($this->identityMap[$p])) {
-            throw new C3op_Projects_ProjectMapperException('Object has no ID, cannot delete.');
+        if (!isset($this->identityMap[$a])) {
+            throw new C3op_Projects_ActionMapperException('Object has no ID, cannot delete.');
         }
         $this->db->exec(
             sprintf(
-                'DELETE FROM projects_projects WHERE id = %d;',
-                $this->identityMap[$p]
+                'DELETE FROM projects_actions WHERE id = %d;',
+                $this->identityMap[$a]
             )
         );
-        unset($this->identityMap[$p]);
+        unset($this->identityMap[$a]);
     }
+    
+    public function getAllOtherActions(C3op_Projects_Action $a)
+    {
+        $result = array();
+        foreach ($this->db->query(
+                sprintf(
+                    'SELECT id FROM projects_actions WHERE project = %d AND id != %d;',
+                    $a->GetProject(),
+                    $a->GetId()
+                    )
+                )
+                as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+    
+    
     
     
     

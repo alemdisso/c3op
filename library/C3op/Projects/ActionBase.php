@@ -7,6 +7,7 @@ class C3op_Projects_ActionBase {
     protected $project;
     protected $milestone = false;
     protected $requirementForReceiving = false;
+    protected $subordinatedTo = 0;
     
     function __construct($project, $id=0)
     {
@@ -89,6 +90,16 @@ class C3op_Projects_ActionBase {
     public function GetRequirementForReceiving()
     {
         return $this->requirementForReceiving;
+    }
+
+    public function SetSubordinatedTo($subordinatedTo) 
+    {
+        $this->subordinatedTo = $subordinatedTo;
+    }
+    
+    public function GetSubordinatedTo()
+    {
+        return $this->subordinatedTo;
     }
 
     

@@ -44,6 +44,12 @@ class C3op_Form_ActionCreate extends Zend_Form
                 ;
         $this->addElement($requirementForReceiving);
         
+        $subordinatedTo = new Zend_Form_Element_Select('subordinatedTo');
+        $subordinatedTo->setLabel('Subordinada a: ')
+                ->setRegisterInArrayValidator(false);
+        $subordinatedTo->addMultiOption(0, "nenhuma ação");
+        $this->addElement($subordinatedTo);
+        
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
         $submit->setLabel('Salvar')
@@ -81,6 +87,9 @@ class C3op_Form_ActionCreate extends Zend_Form
             } else {
                 $action->SetRequirementForReceiving(0);
             }
+            
+            $subordinatedTo = $this->subordinatedTo->GetValue();
+            $action->SetSubordinatedTo($subordinatedTo);
             
             $actionMapper->insert($action);
         }

@@ -9,7 +9,6 @@ class Projects_ActionController extends Zend_Controller_Action
     public function init()
     {
         $this->db = Zend_Registry::get('db');
-        $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
     }
 
     public function createAction()
@@ -29,7 +28,8 @@ class Projects_ActionController extends Zend_Controller_Action
         } else {
             $data = $this->_request->getParams();
             $projectId = $data['project'];
-            $this->populateProjectFields($projectId, $form);
+            $this->PopulateProjectFields($projectId, $form);
+            $this->PopulateSubordinatedActionsField($projectId, $form);
         }
     }
 
@@ -56,6 +56,9 @@ class Projects_ActionController extends Zend_Controller_Action
             $input = new Zend_Filter_Input($filters, $validators, $data);
             if ($input->isValid()) {
                 $id = $input->id;
+                if (!isset($this->actionMapper)) {
+                    $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
+                }
                 $thisAction = $this->actionMapper->findById($id);
                 $titleField = $form->getElement('title');
                 $titleField->setValue($thisAction->getTitle());
@@ -65,7 +68,8 @@ class Projects_ActionController extends Zend_Controller_Action
                 $milestoneField->setValue($thisAction->getMilestone());
                 $requirementForReceivingField = $form->getElement('requirementForReceiving');
                 $requirementForReceivingField->setValue($thisAction->GetRequirementForReceiving());
-                $this->populateProjectFields($thisAction->GetProject(), $form);
+                $projectId = $this->populateProjectFields($thisAction->GetProject(), $form);
+                $this->PopulateSubordinatedActionsField($projectId, $form, $id);
             }
 
         }
@@ -100,18 +104,53 @@ class Projects_ActionController extends Zend_Controller_Action
         $flashMessenger->addMessage('Id Inválido');
     }
     
-    private function populateProjectFields($projectId, C3op_Form_ActionCreate $form)
+    private function PopulateProjectFields($projectId, C3op_Form_ActionCreate $form)
     {
         $validator = new C3op_Util_ValidId();
         if ($validator->isValid($projectId)) {
             $projectField = $form->getElement('project');
             $projectField->setValue($projectId);
             if (!isset($this->projectMapper)) {
-                    $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
+                $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
             }
             $thisProject = $this->projectMapper->findById($projectId);
             $this->view->projectTitle = $thisProject->GetTitle();
+            return $projectId;
         } else throw new C3op_Projects_ActionException("Action needs a positive integer project id.");
+        
+   }
+     
+    private function PopulateSubordinatedActionsField($projectId, C3op_Form_ActionCreate $form, $actionId = 0)
+    {
+        $validator = new C3op_Util_ValidId();
+        $parentActionId = 0;
+        if ($validator->isValid($projectId)) {
+            $subordinatedToField = $form->getElement('subordinatedTo');
+            if (!isset($this->actionMapper)) {
+                $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
+            }
+
+            if ($actionId > 0) {
+                $thisAction = $this->actionMapper->findById($actionId);
+                $parentActionId = $thisAction->GetSubordinatedTo();
+                $allOtherActionsInProject = $this->actionMapper->getAllOtherActions($thisAction);
+                
+            } else {
+                if (!isset($this->projectMapper)) {
+                    $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
+                }
+                $thisProject = $this->projectMapper->findById($projectId);
+                $allOtherActionsInProject = $this->projectMapper->getAllActions($thisProject);
+            }
+
+            while (list($key, $actionId) = each($allOtherActionsInProject)) {
+                $eachAction = $this->actionMapper->findById($actionId);
+                $subordinatedToField->addMultiOption($actionId, $eachAction->GetTitle());
+            }
+            
+            $subordinatedToField->setValue($parentActionId);
+        
+        } else throw new C3op_Projects_ActionException("Action needs a positive integer project id to find other actions.");
    }
      
 }

@@ -103,5 +103,6 @@ class ProjectTest extends ControllerTestCase
         $this->project->SetValue($newValue);
         $this->assertEquals($this->project->getValue(), (float)$newValue);
     }
+    
  
 }
