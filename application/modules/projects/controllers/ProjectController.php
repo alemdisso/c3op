@@ -92,7 +92,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         $flashMessenger->addMessage('Id Inválido');
     }
 
-    public function trackAction()
+    public function detailAction()
     {
         $actionMapper = new C3op_Projects_ActionMapper($this->db);
 
@@ -111,22 +111,32 @@ class Projects_ProjectController extends Zend_Controller_Action
         foreach ($actionsIdsList as $actionId) {
             $thisAction = $actionMapper->findById($actionId);
             
+            $isSpecialAction = false;
+            $separator = "";
             if ($thisAction->GetMilestone()) {
-                $milestone = "M";
+                $milestone = "*";
+                $separator = " ";
+                $isSpecialAction = true;
             } else {
                 $milestone = "";                
             }
             
             if ($thisAction->GetRequirementForReceiving()) {
-                $requirementForReceiving = "$";
+                $isSpecialAction = true;
+                $requirementForReceiving = $separator . '$';
             } else {
                 $requirementForReceiving = "";  
             }
             
+            if ($isSpecialAction) {
+                $specialAction = "($milestone$requirementForReceiving)";
+            } else {
+                $specialAction = "";
+            }
 
             $actionsList[$actionId] = array(
                 'title' => $thisAction->GetTitle(),
-                'milestone' => $milestone,
+                'specialAction' => $specialAction,
                 'requirementForReceiving' => $requirementForReceiving,
                 'linkEdit' => '/projects/action/edit/?id=' . $actionId   ,
             );

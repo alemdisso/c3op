@@ -30,7 +30,7 @@ class Projects_IndexController extends Zend_Controller_Action
                 'dateBegin' => $thisProject->GetDateBegin(),
                 'value' => $thisProject->GetValue(),
                 'linkActionCreate' => '/projects/action/create/?project=' . $id,
-                'linkProjectTrack' => '/projects/project/track/?id=' . $id,
+                'linkProjectDetail' => '/projects/project/detail/?id=' . $id,
                 'actionsCount' => $actionsCount,
             );
         }

@@ -83,7 +83,7 @@ class Register_ContactController extends Zend_Controller_Action
         $flashMessenger->addMessage('Id Inválido');
     }
 
-    public function trackAction()
+    public function detailAction()
     {
         $actionMapper = new C3op_Register_ActionMapper($this->db);
 

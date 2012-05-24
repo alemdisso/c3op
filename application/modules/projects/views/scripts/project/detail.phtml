@@ -22,7 +22,7 @@ Valor do contrato:    <?php print($projectData['value']) ?><br />
     while (list(, $actionInfo) = each($actionsList)) {
 ?>
 
-<?php print($actionInfo['title']) ?>&nbsp;<?php print($actionInfo['milestone']) ?>
+<?php print($actionInfo['title']) ?>&nbsp;<?php print($actionInfo['specialAction']) ?>
 
 <?php if (isset($actionInfo['linkEdit'])) { ?>
 <a href="<?php print($actionInfo['linkEdit']) ?>">Editar</a>
