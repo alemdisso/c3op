@@ -64,29 +64,13 @@ class C3op_Projects_ProjectMapperBase {
         if (empty($result)) {
             throw new C3op_Projects_ProjectMapperException(sprintf('There is no project with id #%d.', $id));
         }
-        $title = $result['title'];
         $p = new C3op_Projects_Project();
         
-        $attribute = new ReflectionProperty($p, 'id');
-        $attribute->setAccessible(TRUE);
-        $attribute->setValue($p, $id);
+        $this->setAttributeValue($p, $id, 'id');
+        $this->setAttributeValue($p, $result['title'], 'title');
+        $this->setAttributeValue($p, $result['date_begin'], 'dateBegin');
+        $this->setAttributeValue($p, $result['value'], 'value');
 
-        $attribute = new ReflectionProperty($p, 'title');
-        $attribute->setAccessible(TRUE);
-        $attribute->setValue($p, $title);
-
-        $dateBegin = $result['date_begin'];
-        $attribute = new ReflectionProperty($p, 'dateBegin');
-        $attribute->setAccessible(TRUE);
-        $attribute->setValue($p, $dateBegin);
-        
-        $value = $result['value'];
-        $attribute = new ReflectionProperty($p, 'value');
-        $attribute->setAccessible(TRUE);
-        $attribute->setValue($p, $value);
-        
-        
-        
         $this->identityMap[$p] = $id;
         return $p;        
 
@@ -135,6 +119,31 @@ class C3op_Projects_ProjectMapperBase {
         }
         return $result;
     }
-    
-    
+
+    public function getAllActionsSubordinatedTo(C3op_Projects_Project $p, $actionId=0)
+    {
+        if ($actionId >= 0) {
+            $result = array();
+            foreach ($this->db->query(
+                    sprintf(
+                        'SELECT id FROM projects_actions WHERE project = %d AND (subordinated_to IS NULL OR subordinated_to = %d);',
+                        $p->GetId(),
+                        $actionId
+                        )
+                    )
+                    as $row) {
+                $result[] = $row['id'];
+            }        
+
+            return $result;
+        } else throw new C3op_Projects_ActionMapperException("invalid action id to find subordinated for");
+    }
+ 
+    private function setAttributeValue(C3op_Projects_Project $p, $fieldValue, $attributeName)
+    {
+        $attribute = new ReflectionProperty($p, $attributeName);
+        $attribute->setAccessible(TRUE);
+        $attribute->setValue($p, $fieldValue);
+    }
+
 }

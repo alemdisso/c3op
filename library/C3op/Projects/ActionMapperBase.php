@@ -78,32 +78,12 @@ class C3op_Projects_ActionMapperBase
         $project = $result['project'];
         
         $a = new C3op_Projects_Action($project);
-        $attribute = new ReflectionProperty($a, 'id');
-        $attribute->setAccessible(TRUE);
-        $attribute->setValue($a, $id);
-
-        $attribute = new ReflectionProperty($a, 'title');
-        $attribute->setAccessible(TRUE);
-        $attribute->setValue($a, $title);
-
-        $attribute = new ReflectionProperty($a, 'project');
-        $attribute->setAccessible(TRUE);
-        $attribute->setValue($a, $project);
-        
-        $milestone = $result['milestone'];
-        $attribute = new ReflectionProperty($a, 'milestone');
-        $attribute->setAccessible(TRUE);
-        $attribute->setValue($a, $milestone);
-
-        $requirementForReceiving = $result['requirement_for_receiving'];
-        $attribute = new ReflectionProperty($a, 'requirementForReceiving');
-        $attribute->setAccessible(TRUE);
-        $attribute->setValue($a, $requirementForReceiving);
-
-        $subordinatedTo = $result['subordinated_to'];
-        $attribute = new ReflectionProperty($a, 'subordinatedTo');
-        $attribute->setAccessible(TRUE);
-        $attribute->setValue($a, $subordinatedTo);
+        $this->setAttributeValue($a, $id, 'id');
+        $this->setAttributeValue($a, $result['title'], 'title');
+        $this->setAttributeValue($a, $result['project'], 'project');
+        $this->setAttributeValue($a, $result['milestone'], 'milestone');
+        $this->setAttributeValue($a, $result['requirement_for_receiving'], 'requirementForReceiving');
+        $this->setAttributeValue($a, $result['subordinated_to'], 'subordinatedTo');
 
         $this->identityMap[$a] = $id;
         return $a;        
@@ -140,8 +120,27 @@ class C3op_Projects_ActionMapperBase
         return $result;
     }
     
-    
-    
+    public function getActionsSubordinatedTo(C3op_Projects_Action $a)
+    {
+        $result = array();
+        foreach ($this->db->query(
+                sprintf(
+                    'SELECT id FROM projects_actions WHERE subordinated_to = %d;',
+                    $a->GetId()
+                    )
+                )
+                as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
+    private function setAttributeValue(C3op_Projects_Action $a, $fieldValue, $attributeName)
+    {
+        $attribute = new ReflectionProperty($a, $attributeName);
+        $attribute->setAccessible(TRUE);
+        $attribute->setValue($a, $fieldValue);
+    }
     
     
 }

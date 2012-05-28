@@ -26,7 +26,7 @@
             <h2>Class Coverage Distribution</h2>
             <canvas id="classCoverageDistribution" width="475" height="200"></canvas>
             <script>
-            var ccd = new RGraph.Bar('classCoverageDistribution', [4,0,0,0,0,0,1,0,0,1,0,7]);
+            var ccd = new RGraph.Bar('classCoverageDistribution', [8,0,0,0,0,1,0,0,0,1,0,4]);
             ccd.Set('chart.background.barcolor1', 'white');
             ccd.Set('chart.background.barcolor2', 'white');
             ccd.Set('chart.colors', ['blue']);
@@ -43,7 +43,7 @@
             <h2>Class Complexity</h2>
             <canvas id="classComplexity" width="475" height="200"></canvas>
             <script>
-            var cc = new RGraph.Scatter('classComplexity', [[100,1,"blue","C3op_Projects_Action"],[50,17,"blue","C3op_Projects_ActionBase"],[0,0,"blue","C3op_Projects_ActionException"],[0,1,"blue","C3op_Projects_ActionMapper"],[0,12,"blue","C3op_Projects_ActionMapperBase"],[0,0,"blue","C3op_Projects_ActionMapperException"],[100,1,"blue","C3op_Projects_Project"],[100,17,"blue","C3op_Projects_ProjectBase"],[100,0,"blue","C3op_Projects_ProjectException"],[100,1,"blue","C3op_Projects_ProjectMapper"],[88.04347826087,16,"blue","C3op_Projects_ProjectMapperBase"],[100,0,"blue","C3op_Projects_ProjectMapperException"],[100,1,"blue","C3op_Projects_ProjectValidTitle"]]);
+            var cc = new RGraph.Scatter('classComplexity', [[100,1,"blue","C3op_Projects_Action"],[45.945945945946,19,"blue","C3op_Projects_ActionBase"],[0,0,"blue","C3op_Projects_ActionException"],[0,1,"blue","C3op_Projects_ActionMapper"],[0,17,"blue","C3op_Projects_ActionMapperBase"],[0,0,"blue","C3op_Projects_ActionMapperException"],[100,1,"blue","C3op_Projects_Project"],[86.842105263158,17,"blue","C3op_Projects_ProjectBase"],[100,0,"blue","C3op_Projects_ProjectException"],[0,1,"blue","C3op_Projects_ProjectMapper"],[0,20,"blue","C3op_Projects_ProjectMapperBase"],[0,0,"blue","C3op_Projects_ProjectMapperException"],[100,1,"blue","C3op_Projects_ProjectValidTitle"],[0,2,"blue","C3op_Projects_SubordinationManager"]]);
             cc.Set('chart.xmax', 100);
             cc.Set('chart.background.barcolor1', 'white');
             cc.Set('chart.background.barcolor2', 'white');
@@ -59,9 +59,11 @@
           <td valign="top">
             <h2>Top Project Risks</h2>
             <ul>
-              <li><a href="library_C3op_Projects_ActionMapperBase.php.html#3">C3op_Projects_ActionMapperBase</a> (156)</li>
-              <li><a href="library_C3op_Projects_ActionBase.php.html#3">C3op_Projects_ActionBase</a> (53)</li>
-              <li><a href="library_C3op_Projects_ProjectMapperBase.php.html#3">C3op_Projects_ProjectMapperBase</a> (16)</li>
+              <li><a href="library_C3op_Projects_ProjectMapperBase.php.html#3">C3op_Projects_ProjectMapperBase</a> (420)</li>
+              <li><a href="library_C3op_Projects_ActionMapperBase.php.html#3">C3op_Projects_ActionMapperBase</a> (306)</li>
+              <li><a href="library_C3op_Projects_ActionBase.php.html#3">C3op_Projects_ActionBase</a> (76)</li>
+              <li><a href="library_C3op_Projects_ProjectBase.php.html#3">C3op_Projects_ProjectBase</a> (17)</li>
+              <li><a href="library_C3op_Projects_SubordinationManager.php.html#3">C3op_Projects_SubordinationManager</a> (6)</li>
 
             </ul>
           </td>
@@ -69,16 +71,16 @@
           <td valign="top">
             <h2>Least Tested Methods</h2>
             <ul>
-              <li><a href="library_C3op_Projects_ActionMapperBase.php.html#38">C3op_Projects_ActionMapperBase::update</a> (0%)</li>
-              <li><a href="library_C3op_Projects_ActionMapperBase.php.html#24">C3op_Projects_ActionMapperBase::insert</a> (0%)</li>
-              <li><a href="library_C3op_Projects_ActionMapperBase.php.html#56">C3op_Projects_ActionMapperBase::findById</a> (0%)</li>
-              <li><a href="library_C3op_Projects_ActionMapperBase.php.html#102">C3op_Projects_ActionMapperBase::delete</a> (0%)</li>
-              <li><a href="library_C3op_Projects_ProjectMapperBase.php.html#124">C3op_Projects_ProjectMapperBase::getAllProducts</a> (0%)</li>
-              <li><a href="library_C3op_Projects_ActionMapperBase.php.html#15">C3op_Projects_ActionMapperBase::getAllIds</a> (0%)</li>
-              <li><a href="library_C3op_Projects_ActionMapperBase.php.html#9">C3op_Projects_ActionMapperBase::__construct</a> (0%)</li>
-              <li><a href="library_C3op_Projects_ActionBase.php.html#33">C3op_Projects_ActionBase::GetTitle</a> (0%)</li>
-              <li><a href="library_C3op_Projects_ActionBase.php.html#23">C3op_Projects_ActionBase::SetId</a> (0%)</li>
-              <li><a href="library_C3op_Projects_ActionBase.php.html#39">C3op_Projects_ActionBase::SetTitle</a> (0%)</li>
+              <li><a href="library_C3op_Projects_ProjectMapperBase.php.html#13">C3op_Projects_ProjectMapperBase::getAllIds</a> (0%)</li>
+              <li><a href="library_C3op_Projects_ProjectMapperBase.php.html#21">C3op_Projects_ProjectMapperBase::insert</a> (0%)</li>
+              <li><a href="library_C3op_Projects_ProjectMapperBase.php.html#8">C3op_Projects_ProjectMapperBase::__construct</a> (0%)</li>
+              <li><a href="library_C3op_Projects_ProjectMapper.php.html#6">C3op_Projects_ProjectMapper::__construct</a> (0%)</li>
+              <li><a href="library_C3op_Projects_ActionMapperBase.php.html#138">C3op_Projects_ActionMapperBase::setAttributeValue</a> (0%)</li>
+              <li><a href="library_C3op_Projects_ProjectBase.php.html#22">C3op_Projects_ProjectBase::SetId</a> (0%)</li>
+              <li><a href="library_C3op_Projects_ProjectMapperBase.php.html#33">C3op_Projects_ProjectMapperBase::update</a> (0%)</li>
+              <li><a href="library_C3op_Projects_ProjectMapperBase.php.html#49">C3op_Projects_ProjectMapperBase::findById</a> (0%)</li>
+              <li><a href="library_C3op_Projects_ProjectMapperBase.php.html#142">C3op_Projects_ProjectMapperBase::setAttributeValue</a> (0%)</li>
+              <li><a href="library_C3op_Projects_SubordinationManager.php.html#5">C3op_Projects_SubordinationManager::GetAllActionsSubordinatedTo</a> (0%)</li>
 
             </ul>
           </td>
@@ -90,7 +92,7 @@
 
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
-      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.2</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.8</a> and PHPUnit 3.5.15 at Wed May 23 16:11:00 BRT 2012.</td></tr>
+      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.2</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.8</a> and PHPUnit 3.5.15 at Mon May 28 16:44:14 BRT 2012.</td></tr>
     </table>
 
     <br/>

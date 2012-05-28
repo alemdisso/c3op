@@ -198,7 +198,7 @@ hr {clear:both; margin:0 0 4px 0; display:block; color: #eee; }
 
 /************ LINKS ************/
 
-a:link, a:visited, a:hover, a:visited:hover{color:#00aef1; text-decoration:none;}
+a:link, a:visited, a:hover, a:visited:hover{color:#c02626; text-decoration:none;}
 
 a.default_1:link, a.default_1:visited, a.default_1:hover, a.default_1:visited:hover{color:#700007; font-weight:bold; font-size:1em;}
 

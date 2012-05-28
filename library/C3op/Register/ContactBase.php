@@ -42,6 +42,12 @@ class C3op_Register_ContactBase {
 
     } //SetName
 
+    public function GetType() 
+    {
+        return $this->type;
+        
+    }
+    
     public function SetType($type) 
     {
         switch ($type) {
@@ -51,7 +57,7 @@ class C3op_Register_ContactBase {
             case C3op_Register_ContactConstants::CONTACT_ASSOCIATE:
             case C3op_Register_ContactConstants::CONTACT_CONTRACTOR:
             case C3op_Register_ContactConstants::CONTACT_SUPPLIER:
-                $this->type = (float) $type;
+                $this->type = (int) $type;
                 break;
 
             default:
@@ -60,12 +66,4 @@ class C3op_Register_ContactBase {
         }
     }
 
-    public function GetType() 
-    {
-        return $this->type;
-        
-    }
-    
-    
-    
 }

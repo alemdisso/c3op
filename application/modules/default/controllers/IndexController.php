@@ -9,7 +9,8 @@ class IndexController extends Zend_Controller_Action
   public function indexAction()
   {
       // action body
-       throw new Zend_Exception('some error occured...');
+      
+
   }
 }
 

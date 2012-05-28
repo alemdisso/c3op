@@ -26,7 +26,7 @@
             <h2>Class Coverage Distribution</h2>
             <canvas id="classCoverageDistribution" width="475" height="200"></canvas>
             <script>
-            var ccd = new RGraph.Bar('classCoverageDistribution', [1,0,0,0,0,1,0,0,0,0,0,1]);
+            var ccd = new RGraph.Bar('classCoverageDistribution', [3,0,0,0,0,0,0,0,0,0,0,0]);
             ccd.Set('chart.background.barcolor1', 'white');
             ccd.Set('chart.background.barcolor2', 'white');
             ccd.Set('chart.colors', ['blue']);
@@ -43,7 +43,7 @@
             <h2>Class Complexity</h2>
             <canvas id="classComplexity" width="475" height="200"></canvas>
             <script>
-            var cc = new RGraph.Scatter('classComplexity', [[0,16,"blue","Projects_ActionController"],[100,3,"blue","Projects_IndexController"],[45.801526717557,22,"blue","Projects_ProjectController"]]);
+            var cc = new RGraph.Scatter('classComplexity', [[0,23,"blue","Projects_ActionController"],[0,3,"blue","Projects_IndexController"],[0,32,"blue","Projects_ProjectController"]]);
             cc.Set('chart.xmax', 100);
             cc.Set('chart.background.barcolor1', 'white');
             cc.Set('chart.background.barcolor2', 'white');
@@ -59,8 +59,9 @@
           <td valign="top">
             <h2>Top Project Risks</h2>
             <ul>
-              <li><a href="application_modules_projects_controllers_ActionController.php.html#3">Projects_ActionController</a> (272)</li>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#3">Projects_ProjectController</a> (99)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#3">Projects_ProjectController</a> (1056)</li>
+              <li><a href="application_modules_projects_controllers_ActionController.php.html#3">Projects_ActionController</a> (552)</li>
+              <li><a href="application_modules_projects_controllers_IndexController.php.html#3">Projects_IndexController</a> (12)</li>
 
             </ul>
           </td>
@@ -68,16 +69,16 @@
           <td valign="top">
             <h2>Least Tested Methods</h2>
             <ul>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#66">Projects_ProjectController::sucessAction</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#77">Projects_ProjectController::successCreateAction</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#87">Projects_ProjectController::errorEditAction</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#165">Projects_ProjectController::receivingsAction</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ActionController.php.html#103">Projects_ActionController::populateProjectFields</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ActionController.php.html#95">Projects_ActionController::errorEditAction</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ActionController.php.html#15">Projects_ActionController::createAction</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ActionController.php.html#36">Projects_ActionController::editAction</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ActionController.php.html#74">Projects_ActionController::sucessAction</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ActionController.php.html#9">Projects_ActionController::init</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#94">Projects_ProjectController::detailAction</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#165">Projects_ProjectController::initProjectMapper</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#86">Projects_ProjectController::errorEditAction</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#76">Projects_ProjectController::successCreateAction</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#65">Projects_ProjectController::sucessAction</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#170">Projects_ProjectController::InitProjectWithCheckedId</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#176">Projects_ProjectController::checkIdFromGet</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#261">Projects_ProjectController::extractActionsBelow</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#249">Projects_ProjectController::manageReceivingsLink</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#221">Projects_ProjectController::buildSpecialActionLabel</a> (0%)</li>
 
             </ul>
           </td>
@@ -89,7 +90,7 @@
 
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
-      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.2</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.8</a> and PHPUnit 3.5.15 at Wed May 23 16:11:00 BRT 2012.</td></tr>
+      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.2</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.8</a> and PHPUnit 3.5.15 at Mon May 28 16:44:14 BRT 2012.</td></tr>
     </table>
 
     <br/>

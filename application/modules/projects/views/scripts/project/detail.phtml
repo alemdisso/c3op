@@ -9,9 +9,17 @@ if (is_array($this->projectInfo)) {
 Projeto: <?php print($projectData['title']) ?><br />
 Data do contrato: <?php print($projectData['dateBegin']) ?><br />
 Valor do contrato:    <?php print($projectData['value']) ?><br />
-<p />
+<p /><hr>
+<?php
+if ($projectData['linkReceivings'] != "") {
+?>    
 <a href="<?php print($projectData['linkReceivings']) ?>">Recebimentos do Projeto</a><br />
-<p />
+<p /><hr>
+<?php
+}
+
+?>
+
 <?php 
 /*
  * iterate list and print title

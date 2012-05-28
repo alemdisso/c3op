@@ -29,25 +29,18 @@ class C3op_Register_ContactMapperBase {
         
     }
     
-    public function update(C3op_Register_Contact $p) {
-        if (!isset($this->identityMap[$p])) {
+    public function update(C3op_Register_Contact $c) {
+        if (!isset($this->identityMap[$c])) {
             throw new C3op_Register_ContactMapperException('Object has no ID, cannot update.');
         }
         $this->db->exec(
             sprintf(
                 'UPDATE register_contacts SET name = \'%s\', type = %d WHERE id = %d;',
-                $p->GetName(),
-                $p->GetType(),
-                $this->identityMap[$p]
+                $c->GetName(),
+                $c->GetType(),
+                $this->identityMap[$c]
             )
         );
-        echo sprintf(
-                'UPDATE register_contacts SET name = \'%s\', type = %d WHERE id = %d;',
-                $p->GetName(),
-                $p->GetType(),
-                $this->identityMap[$p]
-            );
-        die("...");
 
     }    
     
@@ -69,41 +62,35 @@ class C3op_Register_ContactMapperBase {
         if (empty($result)) {
             throw new C3op_Register_ContactMapperException(sprintf('There is no contact with id #%d.', $id));
         }
-        $name = $result['name'];
-        $p = new C3op_Register_Contact();
+        $c = new C3op_Register_Contact();
         
-        $attribute = new ReflectionProperty($p, 'id');
-        $attribute->setAccessible(TRUE);
-        $attribute->setValue($p, $id);
-
-        $attribute = new ReflectionProperty($p, 'name');
-        $attribute->setAccessible(TRUE);
-        $attribute->setValue($p, $name);
+        $this->setAttributeValue($c, $id, 'id');
+        $this->setAttributeValue($c, $result['name'], 'name');
+        $this->setAttributeValue($c, $result['type'], 'type');
         
-        $type = $result['type'];
-        $attribute = new ReflectionProperty($p, 'type');
-        $attribute->setAccessible(TRUE);
-        $attribute->setValue($p, $type);
-        
-        
-        
-        $this->identityMap[$p] = $id;
-        return $p;        
+        $this->identityMap[$c] = $id;
+        return $c;        
 
     }
 
-    public function delete(C3op_Register_Contact $p) {
-        if (!isset($this->identityMap[$p])) {
+    public function delete(C3op_Register_Contact $c) {
+        if (!isset($this->identityMap[$c])) {
             throw new C3op_Register_ContactMapperException('Object has no ID, cannot delete.');
         }
         $this->db->exec(
             sprintf(
                 'DELETE FROM register_contacts WHERE id = %d;',
-                $this->identityMap[$p]
+                $this->identityMap[$c]
             )
         );
-        unset($this->identityMap[$p]);
+        unset($this->identityMap[$c]);
     }
-    
+
+    private function setAttributeValue(C3op_Register_Contact $c, $fieldValue, $attributeName)
+    {
+        $attribute = new ReflectionProperty($c, $attributeName);
+        $attribute->setAccessible(TRUE);
+        $attribute->setValue($c, $fieldValue);
+    }
     
 }

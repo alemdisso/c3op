@@ -25,7 +25,7 @@ class Register_ContactController extends Zend_Controller_Action
                     ->addMessage('The record was successfully updated.');          
                 $this->_redirect('/register/contact/success-create');
 
-            } else throw new C3op_Register_ContactException("A contact must have a valid name.");
+            } else throw new C3op_Register_ContactException("Invalid data");
         }
     }
 

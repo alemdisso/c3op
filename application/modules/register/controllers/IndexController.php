@@ -25,7 +25,7 @@ class Register_IndexController extends Zend_Controller_Action
             $contactsList[$id] = array(
                 'name' => $thisContact->GetName(),
                 'linkEdit' => '/register/contact/edit/?id=' . $id   ,
-                'type' => C3op_Register_ContactTypes::GetTitleForType($thisContact->GetType()),
+                'type' => C3op_Register_ContactTypes::TitleForType($thisContact->GetType()),
             );
         }
         
