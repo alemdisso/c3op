@@ -31,6 +31,7 @@ class C3op_Form_InstitutionEdit extends C3op_Form_InstitutionCreate
             $id = $data['id'];
             $institution = $institutionMapper->findById($id);      
             $institution->SetName($data['name']);
+            $institution->SetShortName($data['shortName']);
             
             $institution->SetType($data['type']);
             $institutionMapper->update($institution);

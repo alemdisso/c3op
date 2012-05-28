@@ -51,6 +51,8 @@ class Register_InstitutionController extends Zend_Controller_Action
             $idField->setValue($id);
             $typeField = $form->getElement('type');
             $typeField->setValue($thisInstitution->GetType());
+            $shortNameField = $form->getElement('shortName');
+            $shortNameField->setValue($thisInstitution->getShortName());
         }
     }
 

@@ -64,24 +64,24 @@ class C3op_Register_InstitutionMapperBase {
                     state =  \'%s\',
                     website =  \'%s\',
                     type = %d,
-                    relationship_type = %d,
+                    relationship_type = %d
                     WHERE id = %d;',
                 $i->GetName(),
                 $i->GetShortName(),
-                $i->GetLegalEntity().
-                $i->GetRegisterNumber().
-                $i->GetStateRegistration().
-                $i->GetLocalRegisterNumber().
-                $i->GetStreet().
-                $i->GetStreetNumber().
-                $i->GetAddressComplement().
-                $i->GetZipCode().
-                $i->GetDistrict().
-                $i->GetCity().
-                $i->GetState().
-                $i->GetWebsite().
-                $i->GetType().
-                $i->GetRelationshipType().
+                $i->GetLegalEntity(),
+                $i->GetRegisterNumber(),
+                $i->GetStateRegistration(),
+                $i->GetLocalRegisterNumber(),
+                $i->GetStreet(),
+                $i->GetStreetNumber(),
+                $i->GetAddressComplement(),
+                $i->GetZipCode(),
+                $i->GetDistrict(),
+                $i->GetCity(),
+                $i->GetState(),
+                $i->GetWebsite(),
+                $i->GetType(),
+                $i->GetRelationshipType(),
                 $this->identityMap[$i]
             )
         );

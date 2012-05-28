@@ -11,7 +11,6 @@ class C3op_Form_InstitutionCreate extends Zend_Form
         
         // create text input for name
         $name = new Zend_Form_Element_Text('name');
-//        $nameValidator = new Zend_Validate_Regex("/^[0-9a-zA-ZÀ-ú]+[0-9A-Za-zÀ-ú\'\[\]\(\)\-\.\,\:\;\!\? ]{1,50}$/");
         $nameValidator = new C3op_Register_InstitutionValidName();
         $name->setLabel('Nome:')
             ->setOptions(array('size' => '50'))
@@ -22,6 +21,19 @@ class C3op_Form_InstitutionCreate extends Zend_Form
                 ;
         // attach elements to form
         $this->addElement($name);
+        
+        // create text input for name
+        $shortName = new Zend_Form_Element_Text('shortName');
+        $nameValidator = new C3op_Register_InstitutionValidName();
+        $shortName->setLabel('Nome curto:')
+            ->setOptions(array('size' => '50'))
+            ->setRequired(true)
+            ->addValidator($nameValidator)
+//            ->addFilter('HtmlEntities')
+            ->addFilter('StringTrim')
+                ;
+        // attach elements to form
+        $this->addElement($shortName);
         
         $type = new Zend_Form_Element_Select('type');
         $type->setLabel('Tipo')
@@ -60,6 +72,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
             $institution = new C3op_Register_Institution();
             $institution->SetName($this->name->GetValue());
             $institution->SetType($this->type->GetValue());
+            $institution->SetShortName($this->shortName->GetValue());
             
             $institutionMapper->insert($institution);
         }
