@@ -1,0 +1,59 @@
+<h2>C3op</h2>
+<?php 
+/*
+ * If exists contacts list
+ */
+if (is_array($this->contactsList)) {
+?>
+
+<?php 
+/*
+ * if there is contacts in list
+ */
+    if (count($this->contactsList)) {
+?>
+
+
+<?php 
+/*
+ * iterate list and print title
+ */
+        while (list(, $contactData) = each($this->contactsList)) {
+?>
+
+<?php print($contactData['name']) ?> | <?php print($contactData['type']) ?>
+
+<?php if (isset($contactData['linkEdit'])) { ?>
+<a href="<?php print($contactData['linkEdit']) ?>">Editar</a>
+<?php } ?>
+
+<br />
+
+
+    
+<?php
+}  // loop iterate list and print titlei
+?>
+
+
+
+
+    
+<?php
+    } else { // end else there is contacts in list
+?>
+    <?php print("Não há contatos cadastrados.") ?>
+    
+<?php
+    } // end else there is contacts in list
+?>
+<?php
+} else { // else exists contacts list 
+?>
+    <?php print("Não existe lista de contatos cadastrados.") ?>
+
+    <?php
+} // end exists contacts list
+?>
+<p />
+<a href="<?php print($this->createContactLink) ?>">Criar Novo Contato</a>
