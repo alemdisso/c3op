@@ -10,6 +10,29 @@ class Register_ContactController extends Zend_Controller_Action
         $this->db = Zend_Registry::get('db');
         $this->contactMapper = new C3op_Register_ContactMapper($this->db);
     }
+    
+    public function indexAction()
+    {
+
+        $list = $this->contactMapper->getAllIds();
+        $contactsList = array();
+        reset ($list);
+        foreach ($list as $id) {
+            $thisContact = $this->contactMapper->findById($id);
+            
+            $contactsList[$id] = array(
+                'name' => $thisContact->GetName(),
+                'linkEdit' => '/register/contact/edit/?id=' . $id   ,
+                'type' => C3op_Register_ContactTypes::TitleForType($thisContact->GetType()),
+            );
+        }
+        
+        $this->view->contactsList = $contactsList;
+        
+        $this->view->createContactLink = "/register/contact/create";
+        
+ 
+    }
 
     public function createAction()
     {
@@ -69,9 +92,9 @@ class Register_ContactController extends Zend_Controller_Action
     {
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
             $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();    
-            $this->getResponse()->setHeader('Refresh', '7; URL=/register');
+            $this->getResponse()->setHeader('Refresh', '3; URL=/register/contact');
         } else {
-            $this->_redirect('/register');    
+            $this->_redirect('/register/contact');    
         } 
     }
 

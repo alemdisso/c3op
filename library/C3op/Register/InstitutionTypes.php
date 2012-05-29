@@ -13,12 +13,11 @@ class C3op_Register_InstitutionTypes {
     public static function TitleForType($type)
     {
             switch ($type) {
-                case C3op_Register_InstitutionConstants::INSTITUTION_GENERAL:
-                case C3op_Register_InstitutionConstants::INSTITUTION_CLIENT:
-                case C3op_Register_InstitutionConstants::INSTITUTION_PARTNER:
-                case C3op_Register_InstitutionConstants::INSTITUTION_ASSOCIATE:
-                case C3op_Register_InstitutionConstants::INSTITUTION_CONTRACTOR:
-                case C3op_Register_InstitutionConstants::INSTITUTION_SUPPLIER:
+                case C3op_Register_InstitutionConstants::INSTITUTION_PUBLIC:
+                case C3op_Register_InstitutionConstants::INSTITUTION_PRIVATE:
+                case C3op_Register_InstitutionConstants::INSTITUTION_RESEARCH:
+                case C3op_Register_InstitutionConstants::INSTITUTION_NGO:
+                case C3op_Register_InstitutionConstants::INSTITUTION_PERSONAL:
                     return self::$titles[$type];
                     break;
                 

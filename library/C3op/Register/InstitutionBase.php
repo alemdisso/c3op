@@ -129,7 +129,7 @@ class C3op_Register_InstitutionBase {
     } //GetLocalRegisterNumber
 	
     public function SetLocalRegisterNumber($localRegisterNumber) {
-        $validator = new C3op_Register_InstitutionValidLocalRegisterNumber();
+        $validator = new C3op_Register_InstitutionValidRegisterNumber();
         if ($validator->isValid($localRegisterNumber)) {
             if ($this->localRegisterNumber != $localRegisterNumber) {
                 $this->localRegisterNumber = $localRegisterNumber;
@@ -177,7 +177,7 @@ class C3op_Register_InstitutionBase {
     } //GetAddressComplement
 	
     public function SetAddressComplement($addressComplement) {
-        $validator = new C3op_Register_InstitutionValidAddressComplement();
+        $validator = new C3op_Register_InstitutionValidName();
         if ($validator->isValid($addressComplement)) {
             if ($this->addressComplement != $addressComplement) {
                 $this->addressComplement = $addressComplement;
@@ -292,7 +292,7 @@ class C3op_Register_InstitutionBase {
 
     public function GetRelationshipType() 
     {
-        return $this->relationshiptype;
+        return $this->relationshipType;
     }
     
     public function SetRelationshipType($relationShipType) 

@@ -1,16 +1,16 @@
 <h2>C3op</h2>
 <?php 
 /*
- * If exists contacts list
+ * If exists institutions list
  */
-if (is_array($this->contactsList)) {
+if (is_array($this->institutionsList)) {
 ?>
 
 <?php 
 /*
- * if there is contacts in list
+ * if there is institutions in list
  */
-    if (count($this->contactsList)) {
+    if (count($this->institutionsList)) {
 ?>
 
 
@@ -18,13 +18,13 @@ if (is_array($this->contactsList)) {
 /*
  * iterate list and print title
  */
-        while (list(, $contactData) = each($this->contactsList)) {
+        while (list(, $institutionData) = each($this->institutionsList)) {
 ?>
 
-<?php print($contactData['name']) ?> | <?php print($contactData['type']) ?>
+<?php print($institutionData['name']) ?> | <?php print($institutionData['type']) ?>
 
-<?php if (isset($contactData['linkEdit'])) { ?>
-<a href="<?php print($contactData['linkEdit']) ?>">Editar</a>
+<?php if (isset($institutionData['linkEdit'])) { ?>
+<a href="<?php print($institutionData['linkEdit']) ?>">Editar</a>
 <?php } ?>
 
 <br />
@@ -40,20 +40,20 @@ if (is_array($this->contactsList)) {
 
     
 <?php
-    } else { // end else there is contacts in list
+    } else { // end else there is institutions in list
 ?>
     <?php print("Não há contatos cadastrados.") ?>
     
 <?php
-    } // end else there is contacts in list
+    } // end else there is institutions in list
 ?>
 <?php
-} else { // else exists contacts list 
+} else { // else exists institutions list 
 ?>
     <?php print("Não existe lista de contatos cadastrados.") ?>
 
     <?php
-} // end exists contacts list
+} // end exists institutions list
 ?>
 <p />
-<a href="<?php print($this->createContactLink) ?>">Criar Novo Contato</a>
+<a href="<?php print($this->createInstitutionLink) ?>">Criar Nova Instituição</a>

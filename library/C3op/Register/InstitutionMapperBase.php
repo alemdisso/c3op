@@ -47,44 +47,48 @@ class C3op_Register_InstitutionMapperBase {
         if (!isset($this->identityMap[$i])) {
             throw new C3op_Register_InstitutionMapperException('Object has no ID, cannot update.');
         }
-        $this->db->exec(
-            sprintf(
-                'UPDATE register_institutions SET name = \'%s\', 
-                    short_name =  \'%s\',
-                    legal_entity = %d,
-                    register_number =  \'%s\',
-                    state_registration =  \'%s\',
-                    local_register_number =  \'%s\',
-                    street =  \'%s\',
-                    street_number =  \'%s\',
-                    address_complement =  \'%s\',
-                    zip_code =  \'%s\',
-                    district =  \'%s\',
-                    city =  \'%s\',
-                    state =  \'%s\',
-                    website =  \'%s\',
-                    type = %d,
-                    relationship_type = %d
-                    WHERE id = %d;',
-                $i->GetName(),
-                $i->GetShortName(),
-                $i->GetLegalEntity(),
-                $i->GetRegisterNumber(),
-                $i->GetStateRegistration(),
-                $i->GetLocalRegisterNumber(),
-                $i->GetStreet(),
-                $i->GetStreetNumber(),
-                $i->GetAddressComplement(),
-                $i->GetZipCode(),
-                $i->GetDistrict(),
-                $i->GetCity(),
-                $i->GetState(),
-                $i->GetWebsite(),
-                $i->GetType(),
-                $i->GetRelationshipType(),
-                $this->identityMap[$i]
-            )
-        );
+        $sql = 
+                sprintf(
+                    'UPDATE register_institutions SET name = \'%s\', 
+                        short_name =  \'%s\',
+                        legal_entity = %d,
+                        register_number =  \'%s\',
+                        state_registration =  \'%s\',
+                        local_register_number =  \'%s\',
+                        street =  \'%s\',
+                        street_number =  \'%s\',
+                        address_complement =  \'%s\',
+                        zip_code =  \'%s\',
+                        district =  \'%s\',
+                        city =  \'%s\',
+                        state =  \'%s\',
+                        website =  \'%s\',
+                        type = %d,
+                        relationship_type = %d
+                        WHERE id = %d;',
+                    $i->GetName(),
+                    $i->GetShortName(),
+                    $i->GetLegalEntity(),
+                    $i->GetRegisterNumber(),
+                    $i->GetStateRegistration(),
+                    $i->GetLocalRegisterNumber(),
+                    $i->GetStreet(),
+                    $i->GetStreetNumber(),
+                    $i->GetAddressComplement(),
+                    $i->GetZipCode(),
+                    $i->GetDistrict(),
+                    $i->GetCity(),
+                    $i->GetState(),
+                    $i->GetWebsite(),
+                    $i->GetType(),
+                    $i->GetRelationshipType(),
+                    $this->identityMap[$i]
+                );
+        try {
+            $this->db->exec($sql);
+        } catch (Exception $e) {
+            throw new C3op_Register_InstitutionException("$sql failed");
+        }
 
     }    
     

@@ -57,6 +57,7 @@ div#header_wrapper_3{margin:0 auto; clear:both; width:996px;}
 div#header_column_1{float:left; margin:20px 0 0 0;}
 
 div#header_menu{float:right; margin:90px 0 0 10px; vertical-align:text-top;}
+div#header_menu a{font-size:1em; margin:0 0 0 18px; font-weight:bold;}
 div#header_column_2{float:right; width:470px; margin:10px 0 0 0;}
 
 div#home_column_1{float:left; width:480px;}
@@ -198,7 +199,7 @@ hr {clear:both; margin:0 0 4px 0; display:block; color: #eee; }
 
 /************ LINKS ************/
 
-a:link, a:visited, a:hover, a:visited:hover{color:#c02626; text-decoration:none;}
+a:link, a:visited, a:hover, a:visited:hover{color:#c02626	; text-decoration:none;}
 
 a.default_1:link, a.default_1:visited, a.default_1:hover, a.default_1:visited:hover{color:#700007; font-weight:bold; font-size:1em;}
 

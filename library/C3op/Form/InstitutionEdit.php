@@ -29,11 +29,23 @@ class C3op_Form_InstitutionEdit extends C3op_Form_InstitutionCreate
             throw new C3op_Form_InstitutionEditException('Invalid data!');
         } else {
             $id = $data['id'];
-            $institution = $institutionMapper->findById($id);      
-            $institution->SetName($data['name']);
-            $institution->SetShortName($data['shortName']);
-            
-            $institution->SetType($data['type']);
+            $institution = $institutionMapper->findById($id);
+            $institution->SetName($this->name->GetValue());
+            $institution->SetShortName($this->shortName->GetValue());
+            $institution->SetLegalEntity($this->legalEntity->GetValue());
+            $institution->SetRegisterNumber($this->registerNumber->GetValue());
+            $institution->SetStateRegistration($this->stateRegistration->GetValue());
+            $institution->SetLocalRegisterNumber($this->localRegisterNumber->GetValue());
+            $institution->SetStreet($this->street->GetValue());
+            $institution->SetStreetNumber($this->streetNumber->GetValue());
+            $institution->SetAddressComplement($this->addressComplement->GetValue());
+            $institution->SetZipCode($this->zipCode->GetValue());
+            $institution->SetDistrict($this->district->GetValue());
+            $institution->SetCity($this->city->GetValue());
+            $institution->SetState($this->state->GetValue());
+            $institution->SetWebsite($this->website->GetValue());
+            $institution->SetType($this->type->GetValue());
+            $institution->SetRelationshipType($this->relationshipType->GetValue());
             $institutionMapper->update($institution);
         }
     }
