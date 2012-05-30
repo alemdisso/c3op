@@ -8,33 +8,33 @@ class C3op_Projects_ProjectBase {
     protected $value;
 	
     function __construct($id=0) {
-        $this->id = $id;
+        $this->id = (int)$id;
         $this->title = "";
         $this->dateBegin = "";
         $this->value = 0;
     }
 
-    public function GetId() {
+    public function GetId()
+    {
         return $this->id;
-
     } //GetId
 
-    public function SetId($id) {
+    public function SetId($id)
+    {
         if (($this->id == 0) && ($id > 0)) {
-            $this->id = $id;
+            $this->id = (int)$id;
         } else {
             throw new C3op_Projects_ProjectException('It\'s not possible to change a project\'s ID');
         }
-
     } //SetId
 
-    public function GetTitle() {
+    public function GetTitle()
+    {
         return $this->title;
-
     } //GetTitle
 	
-    public function SetTitle($title) {
-        //$validator = new Zend_Validate_Regex("/^[0-9a-zA-ZÀ-ú]+[0-9A-Za-zÀ-ú\'\[\]\(\)\-\.\,\:\;\!\? ]{1,50}$/");
+    public function SetTitle($title)
+    {
         $validator = new C3op_Projects_ProjectValidTitle();
         if ($validator->isValid($title)) {
             if ($this->title != $title) {
@@ -43,15 +43,15 @@ class C3op_Projects_ProjectBase {
         } else {
             throw new C3op_Projects_ProjectException("This ($title) is not a valid title.");
         }
-
     } //SetTitle
 
-    public function GetDateBegin() {
+    public function GetDateBegin()
+    {
         return $this->dateBegin;
-
     } //GetDateBegin
 	
-    public function SetDateBegin($dateBegin) {
+    public function SetDateBegin($dateBegin)
+    {
         if ($dateBegin != "") {
             $dateValidator = new C3op_Util_ValidDate();
             if ($dateValidator->isValid($dateBegin)) {
@@ -62,7 +62,6 @@ class C3op_Projects_ProjectBase {
                 throw new C3op_Projects_ProjectException("This ($dateBegin) is not a valid date of begin.");
             }
         }
-
     } //SetDateBegin
 
     public function SetValue($value) 
@@ -71,16 +70,11 @@ class C3op_Projects_ProjectBase {
             $this->value = (float) $value;
         } else {
             throw new C3op_Projects_ProjectException("Value must be a positive number.");
-            
         }
     }
 
     public function GetValue() 
     {
         return $this->value;
-        
     }
-    
-    
-    
 }

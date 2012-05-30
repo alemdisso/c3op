@@ -7,7 +7,7 @@ class C3op_Register_ContactBase {
     protected $type;
 	
     function __construct($id=0) {
-        $this->id = $id;
+        $this->id = (int)$id;
         $this->name = "";
     }
 
@@ -18,7 +18,7 @@ class C3op_Register_ContactBase {
 
     public function SetId($id) {
         if (($this->id == 0) && ($id > 0)) {
-            $this->id = $id;
+            $this->id = (int)$id;
         } else {
             throw new C3op_Register_ContactException('It\'s not possible to change a contact\'s ID');
         }

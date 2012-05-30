@@ -15,6 +15,8 @@ class Register_IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
+        phpinfo();
+        exit;
         $form = new C3op_Form_Decorators;
         $this->view->form = $form;
 

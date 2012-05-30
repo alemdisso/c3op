@@ -167,7 +167,7 @@
         </tr>
 
         <tr>
-          <td class="coverFile" colspan="4">&nbsp;<a href="#126">addElementText($fieldName, $label, $validator, $fieldSize)</a></td>
+          <td class="coverFile" colspan="4">&nbsp;<a href="#127">addElementText($fieldName, $label, $validator, $fieldSize)</a></td>
           <td class="coverBar" align="center" width="100">
             <table border="0" cellspacing="0" cellpadding="1">
               <tr>
@@ -320,25 +320,26 @@
 <span class="lineNum" id="container116"><a name="116"></a><a href="#116" id="line116">     116</a> </span>                : //            $institution-&gt;SetState($this-&gt;state-&gt;GetValue());                                             
 <span class="lineNum" id="container117"><a name="117"></a><a href="#117" id="line117">     117</a> </span><span class="lineNoCov">              0 :             $institution-&gt;SetWebsite($this-&gt;website-&gt;GetValue());                                           </span>
 <span class="lineNum" id="container118"><a name="118"></a><a href="#118" id="line118">     118</a> </span><span class="lineNoCov">              0 :             $institution-&gt;SetType($this-&gt;type-&gt;GetValue());                                                 </span>
-<span class="lineNum" id="container119"><a name="119"></a><a href="#119" id="line119">     119</a> </span><span class="lineNoCov">              0 :             $institution-&gt;SetRelationshipType($this-&gt;relationshipType-&gt;GetValue());                         </span>
-<span class="lineNum" id="container120"><a name="120"></a><a href="#120" id="line120">     120</a> </span>                :                                                                                                             
+<span class="lineNum" id="container119"><a name="119"></a><a href="#119" id="line119">     119</a> </span>                :                                                                                                             
+<span class="lineNum" id="container120"><a name="120"></a><a href="#120" id="line120">     120</a> </span><span class="lineNoCov">              0 :             $institution-&gt;SetRelationshipType($this-&gt;relationshipType-&gt;GetValue());                         </span>
 <span class="lineNum" id="container121"><a name="121"></a><a href="#121" id="line121">     121</a> </span>                :                                                                                                             
-<span class="lineNum" id="container122"><a name="122"></a><a href="#122" id="line122">     122</a> </span><span class="lineNoCov">              0 :             $institutionMapper-&gt;insert($institution);                                                       </span>
-<span class="lineNum" id="container123"><a name="123"></a><a href="#123" id="line123">     123</a> </span>                :         }                                                                                                   
-<span class="lineNum" id="container124"><a name="124"></a><a href="#124" id="line124">     124</a> </span><span class="lineNoCov">              0 :     }                                                                                                       </span>
-<span class="lineNum" id="container125"><a name="125"></a><a href="#125" id="line125">     125</a> </span>                :                                                                                                             
-<span class="lineNum" id="container126"><a name="126"></a><a href="#126" id="line126">     126</a> </span>                :     private function addElementText($fieldName, $label, $validator, $fieldSize)                             
-<span class="lineNum" id="container127"><a name="127"></a><a href="#127" id="line127">     127</a> </span>                :     {                                                                                                       
-<span class="lineNum" id="container128"><a name="128"></a><a href="#128" id="line128">     128</a> </span><span class="lineNoCov">              0 :         $elementText = new Zend_Form_Element_Text($fieldName);                                              </span>
-<span class="lineNum" id="container129"><a name="129"></a><a href="#129" id="line129">     129</a> </span><span class="lineNoCov">              0 :         $elementText-&gt;setLabel($label)                                                                      </span>
-<span class="lineNum" id="container130"><a name="130"></a><a href="#130" id="line130">     130</a> </span><span class="lineNoCov">              0 :             -&gt;setOptions(array('size' =&gt; &quot;$fieldSize&quot;))                                                     </span>
-<span class="lineNum" id="container131"><a name="131"></a><a href="#131" id="line131">     131</a> </span><span class="lineNoCov">              0 :             -&gt;addValidator($validator)                                                                      </span>
-<span class="lineNum" id="container132"><a name="132"></a><a href="#132" id="line132">     132</a> </span><span class="lineNoCov">              0 :             -&gt;addFilter('StringTrim')                                                                       </span>
-<span class="lineNum" id="container133"><a name="133"></a><a href="#133" id="line133">     133</a> </span>                :                 ;                                                                                           
-<span class="lineNum" id="container134"><a name="134"></a><a href="#134" id="line134">     134</a> </span><span class="lineNoCov">              0 :         $this-&gt;addElement($elementText);                                                                    </span>
-<span class="lineNum" id="container135"><a name="135"></a><a href="#135" id="line135">     135</a> </span>                :                                                                                                             
-<span class="lineNum" id="container136"><a name="136"></a><a href="#136" id="line136">     136</a> </span><span class="lineNoCov">              0 :     }                                                                                                       </span>
-<span class="lineNum" id="container137"><a name="137"></a><a href="#137" id="line137">     137</a> </span>                :                                                                                                             
+<span class="lineNum" id="container122"><a name="122"></a><a href="#122" id="line122">     122</a> </span>                :                                                                                                             
+<span class="lineNum" id="container123"><a name="123"></a><a href="#123" id="line123">     123</a> </span><span class="lineNoCov">              0 :             $institutionMapper-&gt;insert($institution);                                                       </span>
+<span class="lineNum" id="container124"><a name="124"></a><a href="#124" id="line124">     124</a> </span>                :         }                                                                                                   
+<span class="lineNum" id="container125"><a name="125"></a><a href="#125" id="line125">     125</a> </span><span class="lineNoCov">              0 :     }                                                                                                       </span>
+<span class="lineNum" id="container126"><a name="126"></a><a href="#126" id="line126">     126</a> </span>                :                                                                                                             
+<span class="lineNum" id="container127"><a name="127"></a><a href="#127" id="line127">     127</a> </span>                :     private function addElementText($fieldName, $label, $validator, $fieldSize)                             
+<span class="lineNum" id="container128"><a name="128"></a><a href="#128" id="line128">     128</a> </span>                :     {                                                                                                       
+<span class="lineNum" id="container129"><a name="129"></a><a href="#129" id="line129">     129</a> </span><span class="lineNoCov">              0 :         $elementText = new Zend_Form_Element_Text($fieldName);                                              </span>
+<span class="lineNum" id="container130"><a name="130"></a><a href="#130" id="line130">     130</a> </span><span class="lineNoCov">              0 :         $elementText-&gt;setLabel($label)                                                                      </span>
+<span class="lineNum" id="container131"><a name="131"></a><a href="#131" id="line131">     131</a> </span><span class="lineNoCov">              0 :             -&gt;setOptions(array('size' =&gt; &quot;$fieldSize&quot;))                                                     </span>
+<span class="lineNum" id="container132"><a name="132"></a><a href="#132" id="line132">     132</a> </span><span class="lineNoCov">              0 :             -&gt;addValidator($validator)                                                                      </span>
+<span class="lineNum" id="container133"><a name="133"></a><a href="#133" id="line133">     133</a> </span><span class="lineNoCov">              0 :             -&gt;addFilter('StringTrim')                                                                       </span>
+<span class="lineNum" id="container134"><a name="134"></a><a href="#134" id="line134">     134</a> </span>                :                 ;                                                                                           
+<span class="lineNum" id="container135"><a name="135"></a><a href="#135" id="line135">     135</a> </span><span class="lineNoCov">              0 :         $this-&gt;addElement($elementText);                                                                    </span>
+<span class="lineNum" id="container136"><a name="136"></a><a href="#136" id="line136">     136</a> </span>                :                                                                                                             
+<span class="lineNum" id="container137"><a name="137"></a><a href="#137" id="line137">     137</a> </span><span class="lineNoCov">              0 :     }                                                                                                       </span>
+<span class="lineNum" id="container138"><a name="138"></a><a href="#138" id="line138">     138</a> </span>                :                                                                                                             
 
 </pre>
         </td>
@@ -347,7 +348,7 @@
 
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
-      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.2</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.8</a> and PHPUnit 3.5.15 at Wed May 30 15:26:49 BRT 2012.</td></tr>
+      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.2</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.8</a> and PHPUnit 3.5.15 at Wed May 30 19:23:28 BRT 2012.</td></tr>
     </table>
 
     <br />

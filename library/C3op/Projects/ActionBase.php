@@ -12,7 +12,7 @@ class C3op_Projects_ActionBase {
     function __construct($project, $id=0)
     {
         $this->project = $project;
-        $this->id = $id;
+        $this->id = (int)$id;
     }
 
     public function GetId()
@@ -24,7 +24,7 @@ class C3op_Projects_ActionBase {
     public function SetId($id)
     {
         if (($this->id == 0) && ($id > 0)) {
-            $this->id = $id;
+            $this->id = (int)$id;
         } else {
             throw new C3op_Projects_ActionException('It\'s not possible to change a action\'s ID');
         }
@@ -39,7 +39,6 @@ class C3op_Projects_ActionBase {
 	
     public function SetTitle($title) 
     {
-        //$validator = new Zend_Validate_Regex("/^[0-9a-zA-ZÀ-ú]+[0-9A-Za-zÀ-ú\'\[\]\(\)\-\.\,\:\;\!\? ]{1,50}$/");
         $validator = new C3op_Projects_ProjectValidTitle();
         if ($validator->isValid($title)) {
             if ($this->title != $title) {
@@ -54,13 +53,11 @@ class C3op_Projects_ActionBase {
     public function GetProject()
     {
         return $this->project;
-
     }
 	
     public function SetProject($project) 
     {
         $this->project = $project;
-
     }
     
     public function SetMilestone($milestone) 
@@ -76,7 +73,6 @@ class C3op_Projects_ActionBase {
     {
         return $this->milestone;
     }
-
     
     public function SetRequirementForReceiving($requirementForReceiving) 
     {
@@ -101,8 +97,4 @@ class C3op_Projects_ActionBase {
     {
         return $this->subordinatedTo;
     }
-
-    
-    
-    
 }

@@ -90,7 +90,7 @@ class C3op_Form_ProjectCreate extends Zend_Form
         
         
         // create text input for object
-        $object = new Zend_Form_Element_TextArea('object');
+        $object = new Zend_Form_Element_Textarea('object');
         $object->setLabel('Objeto:')
             ->setAttrib('cols','8')
             ->setAttrib('rows','5')

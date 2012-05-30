@@ -21,7 +21,7 @@ class C3op_Register_InstitutionBase {
     protected $relationshipType;
 
     function __construct($id=0) {
-        $this->id = $id;
+        $this->id = (int)$id;
         $this->name = "";
         $this->shortName = "";
         $this->legalEntity = true;
@@ -46,7 +46,7 @@ class C3op_Register_InstitutionBase {
 
     public function SetId($id) {
         if (($this->id == 0) && ($id > 0)) {
-            $this->id = $id;
+            $this->id = (int)$id;
         } else {
             throw new C3op_Register_InstitutionException('It\'s not possible to change a Institution\'s ID');
         }
