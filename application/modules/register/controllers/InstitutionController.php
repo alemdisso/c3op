@@ -42,13 +42,20 @@ class Register_InstitutionController extends Zend_Controller_Action
 
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
-            if ($form->isValid($postData)) {
-                $form->process($postData);
-                $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');          
-                $this->_redirect('/register/institution/success-create');
+            try {
+                if ($form->isValid($postData)) {
+                    $form->process($postData);
+                    $this->_helper->getHelper('FlashMessenger')
+                        ->addMessage('The record was successfully updated.');          
+                    $this->_redirect('/register/institution/success-create');
 
-            } else throw new C3op_Register_InstitutionException("A institution must have a valid name.");
+                } else {
+//                    throw new C3op_Register_InstitutionException("Invalid data for institution.");
+                }
+            } catch (Exception $e) {
+                $this->view->form = $form;
+                return $this->render('create');
+            }
         }
     }
 
@@ -58,12 +65,20 @@ class Register_InstitutionController extends Zend_Controller_Action
         $this->view->form = $form;
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
-            if ($form->isValid($postData)) {
-                $form->process($postData);
-                $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');          
-                $this->_redirect('/register/institution/success-create');
-            } else throw new C3op_Register_InstitutionException("A institution must have a valid name.");
+            try {
+                if ($form->isValid($postData)) {
+                    $form->process($postData);
+                    $this->_helper->getHelper('FlashMessenger')
+                        ->addMessage('The record was successfully updated.');          
+                    $this->_redirect('/register/institution/success-create');
+
+                } 
+//                else throw new C3op_Register_InstitutionException("Invalid data for institution.");
+            } catch (Exception $e) {
+                throw $e;
+                $this->view->form = $form;
+                return $this->render('edit');
+            }
         } else {
             // GET
             $id = $this->checkIdFromGet();
@@ -78,10 +93,10 @@ class Register_InstitutionController extends Zend_Controller_Action
             $this->SetValueToFormField($form, 'street', $thisInstitution->getStreet());
             $this->SetValueToFormField($form, 'streetNumber', $thisInstitution->getStreetNumber());
             $this->SetValueToFormField($form, 'addressComplement', $thisInstitution->getAddressComplement());
-            $this->SetValueToFormField($form, 'zipCode', $thisInstitution->getZipCode());
             $this->SetValueToFormField($form, 'district', $thisInstitution->getDistrict());
+//            $this->SetValueToFormField($form, 'zipCode', $thisInstitution->getZipCode());
             $this->SetValueToFormField($form, 'city', $thisInstitution->getCity());
-            $this->SetValueToFormField($form, 'state', $thisInstitution->getState());
+//            $this->SetValueToFormField($form, 'state', $thisInstitution->getState());
             $this->SetValueToFormField($form, 'website', $thisInstitution->getWebsite());
             $this->SetValueToFormField($form, 'type', $thisInstitution->getType());
             $this->SetValueToFormField($form, 'relationshipType', $thisInstitution->getRelationshipType());

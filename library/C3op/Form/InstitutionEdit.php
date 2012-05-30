@@ -39,10 +39,10 @@ class C3op_Form_InstitutionEdit extends C3op_Form_InstitutionCreate
             $institution->SetStreet($this->street->GetValue());
             $institution->SetStreetNumber($this->streetNumber->GetValue());
             $institution->SetAddressComplement($this->addressComplement->GetValue());
-            $institution->SetZipCode($this->zipCode->GetValue());
             $institution->SetDistrict($this->district->GetValue());
+//            $institution->SetZipCode($this->zipCode->GetValue());
             $institution->SetCity($this->city->GetValue());
-            $institution->SetState($this->state->GetValue());
+//            $institution->SetState($this->state->GetValue());
             $institution->SetWebsite($this->website->GetValue());
             $institution->SetType($this->type->GetValue());
             $institution->SetRelationshipType($this->relationshipType->GetValue());

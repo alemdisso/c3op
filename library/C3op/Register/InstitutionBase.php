@@ -89,7 +89,7 @@ class C3op_Register_InstitutionBase {
     } //GetLegalEntity
 	
     public function SetLegalEntity($legalEntity) {
-        if ($legalEntity) {
+        if ($legalEntity == 1) {
             $this->legalEntity = $legalEntity;
         } else {
             $this->legalEntity = 0;
@@ -101,7 +101,7 @@ class C3op_Register_InstitutionBase {
     } //GetRegisterNumber
 	
     public function SetRegisterNumber($registerNumber) {
-        $validator = new C3op_Register_InstitutionValidRegisterNumber();
+        $validator = new C3op_Util_ValidString();
         if ($validator->isValid($registerNumber)) {
             if ($this->registerNumber != $registerNumber) {
                 $this->registerNumber = $registerNumber;
@@ -129,7 +129,7 @@ class C3op_Register_InstitutionBase {
     } //GetLocalRegisterNumber
 	
     public function SetLocalRegisterNumber($localRegisterNumber) {
-        $validator = new C3op_Register_InstitutionValidRegisterNumber();
+        $validator = new C3op_Util_ValidString();
         if ($validator->isValid($localRegisterNumber)) {
             if ($this->localRegisterNumber != $localRegisterNumber) {
                 $this->localRegisterNumber = $localRegisterNumber;
@@ -145,7 +145,7 @@ class C3op_Register_InstitutionBase {
     } //GetStreet
 	
     public function SetStreet($street) {
-        $validator = new C3op_Register_InstitutionValidName();
+        $validator = new C3op_Util_ValidString();
         if ($validator->isValid($street)) {
             if ($this->street != $street) {
                 $this->street = $street;
@@ -161,7 +161,7 @@ class C3op_Register_InstitutionBase {
     } //GetStreetNumber
 	
     public function SetStreetNumber($streetNumber) {
-        $validator = new C3op_Register_InstitutionValidName();
+        $validator = new C3op_Util_ValidString();
         if ($validator->isValid($streetNumber)) {
             if ($this->streetNumber != $streetNumber) {
                 $this->streetNumber = $streetNumber;
@@ -177,7 +177,7 @@ class C3op_Register_InstitutionBase {
     } //GetAddressComplement
 	
     public function SetAddressComplement($addressComplement) {
-        $validator = new C3op_Register_InstitutionValidName();
+        $validator = new C3op_Util_ValidString();
         if ($validator->isValid($addressComplement)) {
             if ($this->addressComplement != $addressComplement) {
                 $this->addressComplement = $addressComplement;
@@ -193,7 +193,7 @@ class C3op_Register_InstitutionBase {
     } //GetZipCode
 	
     public function SetZipCode($zipCode) {
-        $validator = new C3op_Register_InstitutionValidName();
+        $validator = new C3op_Register_ValidZipCode();
         if ($validator->isValid($zipCode)) {
             if ($this->zipCode != $zipCode) {
                 $this->zipCode = $zipCode;
@@ -209,7 +209,7 @@ class C3op_Register_InstitutionBase {
     } //GetDistrict
 	
     public function SetDistrict($district) {
-        $validator = new C3op_Register_InstitutionValidName();
+        $validator = new C3op_Util_ValidString();
         if ($validator->isValid($district)) {
             if ($this->district != $district) {
                 $this->district = $district;
@@ -225,7 +225,7 @@ class C3op_Register_InstitutionBase {
     } //GetCity
 	
     public function SetCity($city) {
-        $validator = new C3op_Register_InstitutionValidName();
+        $validator = new C3op_Util_ValidString();
         if ($validator->isValid($city)) {
             if ($this->city != $city) {
                 $this->city = $city;
@@ -241,7 +241,7 @@ class C3op_Register_InstitutionBase {
     } //GetState
 	
     public function SetState($state) {
-        $validator = new C3op_Register_InstitutionValidName();
+        $validator = new C3op_Register_ValidUF();
         if ($validator->isValid($state)) {
             if ($this->state != $state) {
                 $this->state = $state;
@@ -257,7 +257,7 @@ class C3op_Register_InstitutionBase {
     } //GetWebsite
 	
     public function SetWebsite($website) {
-        $validator = new C3op_Register_InstitutionValidName();
+        $validator = new C3op_Util_ValidString();
         if ($validator->isValid($website)) {
             if ($this->website != $website) {
                 $this->website = $website;
@@ -283,7 +283,14 @@ class C3op_Register_InstitutionBase {
             case C3op_Register_InstitutionConstants::INSTITUTION_PERSONAL:
                 $this->type = (float) $type;
                 break;
-
+            
+            case null:
+            case "":
+            case 0:
+            case false:
+                $this->type = null;
+                break;
+                 
             default:
                 throw new C3op_Register_InstitutionException("Invalid type.");
                 break;
@@ -304,7 +311,14 @@ class C3op_Register_InstitutionBase {
             case C3op_Register_InstitutionRelationshipConstants::RELATIONSHIP_SUPPLIER:
                 $this->relationshipType = (int) $relationShipType;
                 break;
-
+            
+            case null:
+            case "":
+            case 0:
+            case false:
+                $this->relationshipType = null;
+                break;
+                 
             default:
                 throw new C3op_Register_InstitutionException("Invalid relationshiptype.");
                 break;

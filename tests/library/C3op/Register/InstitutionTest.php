@@ -81,4 +81,94 @@ class InstitutionTest extends ControllerTestCase
         $this->assertEquals($this->institution->getType(), (float)$newType);
     }
  
+    public function testIfCanAttributeShortNameToInstitution()
+    {            
+        $value = "some shorter name";
+        $this->institution->SetShortName($value);
+        $this->assertEquals($this->institution->getShortName(), $value);
+    }
+    
+    public function testIfCanSetIfAnInstitutionIsALegalEntityOrNot()
+    {            
+        $value = "1";
+        $this->institution->SetLegalEntity($value);
+        $this->assertEquals($this->institution->getLegalEntity(), $value);
+        $value = "0";
+        $this->institution->SetLegalEntity($value);
+        $this->assertEquals($this->institution->getLegalEntity(), $value);
+    }
+    
+    public function testIfCanSetRegisterNumberToAnInstitution()
+    {            
+        $value = "9876543210/0001-32";
+        $this->institution->SetRegisterNumber($value);
+        $this->assertEquals($this->institution->GetRegisterNumber(), $value);
+    }
+    
+    public function testValidatorOfRegisterNumber()
+    {
+        $validator = new C3op_Register_InstitutionValidRegisterNumber;
+        $value = "60.746.948/0001-12";
+        $this->assertTrue($validator->isValid($value));
+    }
+    
+    public function testIfCanSetThatAnInstitutionHasAStateRegistrationOrNOt()
+    {            
+        $value = "1";
+        $this->institution->SetStateRegistration($value);
+        $this->assertEquals($this->institution->getStateRegistration(), $value);
+        $value = "0";
+        $this->institution->SetStateRegistration($value);
+        $this->assertEquals($this->institution->getStateRegistration(), $value);
+    }
+    
+    public function testIfCanSetLocalRegisterNumberToAnInstitution()
+    {            
+        $value = "13.304.211-1";
+        $this->institution->SetLocalRegisterNumber($value);
+        $this->assertEquals($this->institution->GetLocalRegisterNumber(), $value);
+    }
+    
+    public function testIfCanSetStreetToAnInstitution()
+    {            
+        $value = "Rua Nova Ordem";
+        $this->institution->SetStreet($value);
+        $this->assertEquals($this->institution->GetStreet(), $value);
+    }
+    
+    public function testIfCanSetStreetNumberToAnInstitution()
+    {            
+        $value = "51";
+        $this->institution->SetStreetNumber($value);
+        $this->assertEquals($this->institution->GetStreetNumber(), $value);
+    }
+    
+    public function testIfCanSetAddressComplementToAnInstitution()
+    {            
+        $value = "Bloco A - Coluna F - Grupo 450";
+        $this->institution->SetAddressComplement($value);
+        $this->assertEquals($this->institution->GetAddressComplement(), $value);
+    }
+    
+    public function testIfCanSetDistrictToAnInstitution()
+    {            
+        $value = "São Gonçalo";
+        $this->institution->SetDistrict($value);
+        $this->assertEquals($this->institution->GetDistrict(), $value);
+    }
+    
+    public function testIfCanSetCityToAnInstitution()
+    {            
+        $value = "Porciúncula";
+        $this->institution->SetCity($value);
+        $this->assertEquals($this->institution->GetCity(), $value);
+    }
+    
+    public function testIfCanSetWebsiteToAnInstitution()
+    {            
+        $value = "www.umsite.com";
+        $this->institution->SetWebsite($value);
+        $this->assertEquals($this->institution->GetWebsite(), $value);
+    }
+    
 }
