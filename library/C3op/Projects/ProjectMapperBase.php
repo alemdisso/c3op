@@ -21,9 +21,22 @@ class C3op_Projects_ProjectMapperBase {
     public function insert(C3op_Projects_Project $new) {
         $data = array(
             'title' => $new->getTitle(),
+            'client' => $new->getClient(),
+            'our_responsible' => $new->GetOurResponsible(),
+            'responsible_at_client' => $new->GetResponsibleAtClient(),
             'date_begin' => $new->GetDateBegin(),
-            'value' => $new->GetValue()
+            'date_finish' => $new->GetDateFinish(),
+            'status' => $new->GetStatus(),
+            'value' => $new->GetValue(),
+            'contract_nature' => $new->GetContractNature(),
+            'area_activity' => $new->GetAreaActivity(),
+            'overhead' => $new->GetOverhead(),
+            'management_fee' => $new->GetManagementFee(),
+            'object' => $new->GetObject(),
+            'summary' => $new->GetSummary(),
+            'observation' => $new->GetObservation(),
             );
+        
         $this->db->insert('projects_projects', $data);
         $new->SetId((int)$this->db->lastInsertId());
         $this->identityMap[$new] = $new->GetId();
@@ -36,13 +49,56 @@ class C3op_Projects_ProjectMapperBase {
         }
         $this->db->exec(
             sprintf(
-                'UPDATE projects_projects SET title = \'%s\', date_begin = \'%s\', value = %f WHERE id = %d;',
+                'UPDATE projects_projects SET title = \'%s\'
+                    , client = %d
+                    , our_responsible = %d
+                    , responsible_at_client = %d
+                    , date_begin = \'%s\'
+                    , date_finish = \'%s\'
+                    , status = %d
+                    , value = %f 
+                    , contract_nature = %d
+                    , area_activity = %d
+                    , overhead = %f 
+                    , management_fee = %f 
+                    , object = \'%s\'
+                    , summary = \'%s\'
+                    , observation = \'%s\'
+                    WHERE id = %d;',
                 $p->GetTitle(),
+                $p->GetClient(),
+                $p->GetOurResponsible(),
+                $p->GetResponsibleAtClient(),
                 $p->GetDateBegin(),
+                $p->GetDateFinish(),
+                $p->GetStatus(),
                 $p->GetValue(),
+                $p->GetContractNature(),
+                $p->GetAreaActivity(),
+                $p->GetOverhead(),
+                $p->GetManagementFee(),
+                $p->GetObject(),
+                $p->GetSummary(),
+                $p->GetObservation(),
                 $this->identityMap[$p]
             )
         );
+//    protected $title;
+//    protected $client;
+//    protected $ourResponsible;
+//    protected $responsibleAtClient;
+//    protected $dateBegin;
+//    protected $dateFinish;
+//    protected $status;
+//    protected $value;
+//    protected $contractNature;
+//    protected $areaActivity;
+//    protected $overhead;
+//    protected $managementFee;
+//    protected $object;
+//    protected $summary;
+//    protected $observation;
+//    
 
     }    
     

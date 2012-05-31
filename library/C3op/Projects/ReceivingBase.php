@@ -36,7 +36,12 @@ class C3op_Projects_ReceivingBase {
 	
     public function SetProject($project) 
     {
-        $this->project = $project;
+        if ($this->project != $project) {
+            $validator = new C3op_Util_ValidPositiveInteger();
+            if ($validator->isValid($project)) {
+                $this->project = $project;
+            }
+        }
     }
     
     public function GetName() 

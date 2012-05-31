@@ -281,7 +281,7 @@ class C3op_Register_InstitutionBase {
             case C3op_Register_InstitutionConstants::INSTITUTION_RESEARCH:
             case C3op_Register_InstitutionConstants::INSTITUTION_NGO:
             case C3op_Register_InstitutionConstants::INSTITUTION_PERSONAL:
-                $this->type = (float) $type;
+                $this->type = (int) $type;
                 break;
             
             case null:
