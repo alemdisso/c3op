@@ -4,8 +4,20 @@ class C3op_Projects_ProjectBase {
 	
     protected $id;
     protected $title;
+    protected $client;
+    protected $ourResponsible;
+    protected $responsibleAtClient;
     protected $dateBegin;
+    protected $dateFinish;
     protected $value;
+    protected $natureOfContract;
+    protected $areaActivity;
+    protected $overhead;
+    protected $managementFee;
+    protected $object;
+    protected $summary;
+    protected $observation;
+    
 	
     function __construct($id=0) {
         $this->id = (int)$id;
@@ -66,7 +78,9 @@ class C3op_Projects_ProjectBase {
 
     public function SetValue($value) 
     {
-        if ($value >= 0) {
+        $validator = new C3op_Util_ValidPositiveFloat();
+        
+        if ($validator->isValid($value)) {
             $this->value = (float) $value;
         } else {
             throw new C3op_Projects_ProjectException("Value must be a positive number.");

@@ -18,8 +18,8 @@ class C3op_Form_ReceivingCreate extends Zend_Form
         $this->addElementText('name', 'recebimento', new C3op_Util_ValidString, 50);
         $this->addElementText('predictedDate', 'Data Prevista', new C3op_Util_ValidDate, 50);
         $this->addElementText('realDate', 'Data Realizada', new C3op_Util_ValidDate, 50);
-        $this->addElementText('predictedValue', 'Valor Previsto', new C3op_Util_PositiveValidFloat, 50);
-        $this->addElementText('realValue', 'Valor Realizado', new C3op_Util_PositiveValidFloat, 50);
+        $this->addElementText('predictedValue', 'Valor Previsto', new C3op_Util_ValidPositiveFloat, 50);
+        $this->addElementText('realValue', 'Valor Realizado', new C3op_Util_ValidPositiveFloat, 50);
         
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
