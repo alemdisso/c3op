@@ -96,7 +96,7 @@ class ProjectTest extends ControllerTestCase
     
     public function testCanChangeValueOfProject()
     {        
-        $firstValue = "1,122,012.77";
+        $firstValue = "1122012.77";
         $newValue = "100000";
         $this->project->SetValue($firstValue);
         $this->assertEquals($this->project->getValue(), (float)$firstValue);

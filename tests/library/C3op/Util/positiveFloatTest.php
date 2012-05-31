@@ -7,7 +7,7 @@ class PositiveFloatTest extends ControllerTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->validator = new C3op_Util_PositiveValidFloat();
+        $this->validator = new C3op_Util_ValidPositiveFloat();
     }
         
     public function testThatAPositiveFloatValueIsValid()
