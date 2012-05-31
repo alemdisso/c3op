@@ -2,8 +2,6 @@
 
 class DateTest extends ControllerTestCase
 {
-    
-    
     public function setUp() {
         parent::setUp();
     }

@@ -46,8 +46,7 @@ class C3op_Projects_ReceivingBase {
 	
     public function SetName($name)
     {
-        //$validator = new Zend_Validate_Regex("/^[0-9a-zA-ZÀ-ú]+[0-9A-Za-zÀ-ú\'\[\]\(\)\-\.\,\:\;\!\? ]{1,50}$/");
-        $validator = new C3op_Projects_ReceivingValidTitle();
+        $validator = new C3op_Util_ValidString();
         if ($validator->isValid($name)) {
             if ($this->name != $name) {
                 $this->name = $name;

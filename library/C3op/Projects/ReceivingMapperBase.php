@@ -24,7 +24,7 @@ class C3op_Projects_ReceivingMapperBase
     public function insert(C3op_Projects_Receiving $new)
     {
         $data = array(
-            'name' => $new->getName(),
+            'name' => $new->GetName(),
             'project' => $new->GetProject(),
             'predicted_date' => $new->GetPredictedDate(),
             'real_date' => $new->GetRealDate(),
@@ -37,21 +37,22 @@ class C3op_Projects_ReceivingMapperBase
         
     }
     
-    public function update(C3op_Projects_Receiving $a)
+    public function update(C3op_Projects_Receiving $r)
     {
-        if (!isset($this->identityMap[$a])) {
+        if (!isset($this->identityMap[$r])) {
             throw new C3op_Projects_ReceivingMapperException('Object has no ID, cannot update.');
         }
+        
         $this->db->exec(
             sprintf(
                 'UPDATE projects_receivings SET name = \'%s\', project = %d, predicted_date = \'%s\', real_date = \'%s\', predicted_value = %.2f , real_value = %.2f WHERE id = %d;',
-                $p->GetName(),
-                $p->GetProject(),
-                $p->GetPredictedDate(),
-                $p->GetRealDate(),
-                $p->GetPredictedValue(),
-                $p->GetRealValue(),
-                $this->identityMap[$p]
+                $r->GetName(),
+                $r->GetProject(),
+                $r->GetPredictedDate(),
+                $r->GetRealDate(),
+                $r->GetPredictedValue(),
+                $r->GetRealValue(),
+                $this->identityMap[$r]
             )
         );
 
@@ -78,13 +79,10 @@ class C3op_Projects_ReceivingMapperBase
         }
         $project = $result['project'];
         
-        $r = new C3op_Projects_Receiving();
+        $r = new C3op_Projects_Receiving($result['project'], $result['predicted_date'], $result['predicted_value'], $id);
         $this->setAttributeValue($r, $id, 'id');
         $this->setAttributeValue($r, $result['name'], 'name');
-        $this->setAttributeValue($r, $result['project'], 'project');
-        $this->setAttributeValue($r, $result['predicted_date'], 'predictedDate');
         $this->setAttributeValue($r, $result['real_date'], 'realDate');
-        $this->setAttributeValue($r, $result['predicted_value'], 'predictedValue');
         $this->setAttributeValue($r, $result['real_value'], 'realValue');
 
         $this->identityMap[$r] = $id;
