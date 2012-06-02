@@ -4,6 +4,7 @@ class Projects_ActionController extends Zend_Controller_Action
 {
     private $actionMapper;
     private $projectMapper;
+    private $receivingMapper;
     private $db;
 
     public function init()
@@ -29,6 +30,7 @@ class Projects_ActionController extends Zend_Controller_Action
             $data = $this->_request->getParams();
             $projectId = $data['project'];
             $this->PopulateProjectFields($projectId, $form);
+            $this->PopulateRequirementForReceivingField($projectId, $form);
             $this->PopulateSubordinatedActionsField($projectId, $form);
         }
     }
@@ -66,9 +68,8 @@ class Projects_ActionController extends Zend_Controller_Action
                 $idField->setValue($id);
                 $milestoneField = $form->getElement('milestone');
                 $milestoneField->setValue($thisAction->getMilestone());
-                $requirementForReceivingField = $form->getElement('requirementForReceiving');
-                $requirementForReceivingField->setValue($thisAction->GetRequirementForReceiving());
                 $projectId = $this->populateProjectFields($thisAction->GetProject(), $form);
+                $this->PopulateRequirementForReceivingField($projectId, $form, $thisAction->GetRequirementForReceiving());
                 $this->PopulateSubordinatedActionsField($projectId, $form, $id);
             }
 
@@ -151,6 +152,30 @@ class Projects_ActionController extends Zend_Controller_Action
             $subordinatedToField->setValue($parentActionId);
         
         } else throw new C3op_Projects_ActionException("Action needs a positive integer project id to find other actions.");
+   }
+     
+    private function PopulateRequirementForReceivingField($projectId, C3op_Form_ActionCreate $form, $setedReceivingId = 0)
+    {
+        $validator = new C3op_Util_ValidId();
+        if ($validator->isValid($projectId)) {
+            $requirementForReceivingField = $form->getElement('requirementForReceiving');
+            if (!isset($this->projectMapper)) {
+                $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
+            }
+            if (!isset($this->receivingMapper)) {
+                $this->receivingMapper = new C3op_Projects_ReceivingMapper($this->db);
+            }
+            $thisProject = $this->projectMapper->findById($projectId);
+            $allReceivings = $this->projectMapper->getAllReceivings($thisProject);
+
+            while (list($key, $receivingId) = each($allReceivings)) {
+                $eachReceiving = $this->receivingMapper->findById($receivingId);
+                $requirementForReceivingField->addMultiOption($receivingId, $eachReceiving->GetTitle());
+            }
+            
+            $requirementForReceivingField->setValue($setedReceivingId);
+        
+        } else throw new C3op_Projects_ActionException("Action needs a positive integer project id to find possible receivings to to be a requirement.");
    }
      
 }

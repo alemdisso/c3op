@@ -36,12 +36,18 @@ class C3op_Form_ActionCreate extends Zend_Form
                 ;
         $this->addElement($milestone);
         
-        $requirementForReceiving = new Zend_Form_Element_Checkbox('requirementForReceiving');
-        $requirementForReceiving->setLabel('Essa ação é um requisito para recebimento?')
-                ->addDecorator('Label', array('placement' => 'APPEND')) 
-                ->setOptions(array('checked' => '1', 'unChecked' => '0'))
-                ->setValue('0')
-                ;
+//        $requirementForReceiving = new Zend_Form_Element_Checkbox('requirementForReceiving');
+//        $requirementForReceiving->setLabel('Essa ação é um requisito para recebimento?')
+//                ->addDecorator('Label', array('placement' => 'APPEND')) 
+//                ->setOptions(array('checked' => '1', 'unChecked' => '0'))
+//                ->setValue('0')
+//                ;
+//        $this->addElement($requirementForReceiving);
+        
+        $requirementForReceiving = new Zend_Form_Element_Select('requirementForReceiving');
+        $requirementForReceiving->setLabel('É requisito para receber: ')
+                ->setRegisterInArrayValidator(false);
+        $requirementForReceiving->addMultiOption(0, "(não é requisito para recebimento)");
         $this->addElement($requirementForReceiving);
         
         $subordinatedTo = new Zend_Form_Element_Select('subordinatedTo');
