@@ -24,6 +24,7 @@ class C3op_Projects_ProjectBase {
         $this->id = (int)$id;
         $this->title = "";
         $this->dateBegin = "";
+        $this->dateFinish = "";
         $this->value = 0;
     }
 
@@ -72,7 +73,6 @@ class C3op_Projects_ProjectBase {
             }
         }
     }
-    
 
     public function GetOurResponsible()
     {
@@ -189,7 +189,7 @@ class C3op_Projects_ProjectBase {
             case C3op_Projects_ContractNatureConstants::NATURE_SPONSORSHIP:
             case C3op_Projects_ContractNatureConstants::NATURE_COOPERATION:
             case C3op_Projects_ContractNatureConstants::NATURE_OTHER:
-                $this->$contractNature = (int)$contractNature;
+                $this->contractNature = (int)$contractNature;
                 break;
             
             case null:

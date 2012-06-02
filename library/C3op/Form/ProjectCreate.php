@@ -3,53 +3,56 @@ class C3op_Form_ProjectCreate extends Zend_Form
 {
     public function init()
     {
-
-        // initialize form
         $this->setName('newProjectForm')
             ->setAction('/projects/project/create')
             ->setMethod('post');
-        
-        // create text input for title
+
         $title = new Zend_Form_Element_Text('title');
-//        $titleValidator = new Zend_Validate_Regex("/^[0-9a-zA-ZÀ-ú]+[0-9A-Za-zÀ-ú\'\[\]\(\)\-\.\,\:\;\!\? ]{1,50}$/");
         $titleValidator = new C3op_Projects_ProjectValidTitle();
         $title->setLabel('Nome:')
             ->setOptions(array('size' => '50'))
             ->setRequired(true)
             ->addValidator($titleValidator)
-//            ->addFilter('HtmlEntities')
             ->addFilter('StringTrim')
                 ;
-        // attach elements to form
         $this->addElement($title);
         
-        // create text input for date begin
-        class_exists('C3op_Util_ValidDate') || require APPLICATION_PATH . "/../library/C3op/Util/validDate.php";
-
+        $client = new Zend_Form_Element_Select('client');
+        $client->setLabel('Cliente: ')
+                ->setRegisterInArrayValidator(false);
+        $client->addMultiOption(0, "escolha um cliente");
+        $this->addElement($client);
+        
+        $ourResponsible = new Zend_Form_Element_Select('ourResponsible');
+        $ourResponsible->setLabel('Responsável pelo IETS: ')
+                ->setRegisterInArrayValidator(false);
+        $ourResponsible->addMultiOption(0, "escolha uma pessoa");
+        $this->addElement($ourResponsible);
+        
+        $responsibleAtClient = new Zend_Form_Element_Select('responsibleAtClient');
+        $responsibleAtClient->setLabel('Responsável pelo cliente: ')
+                ->setRegisterInArrayValidator(false);
+        $responsibleAtClient->addMultiOption(0, "escolha uma pessoa");
+        $this->addElement($responsibleAtClient);
+        
         $dateBegin = new Zend_Form_Element_Text('dateBegin');
         $dateValidator = new C3op_Util_ValidDate();
         $dateBegin->setLabel('Data de início:')
             ->setOptions(array('size' => '35'))
             ->setRequired(false)
             ->addValidator($dateValidator)
-//            ->addFilter('HtmlEntities')
             ->addFilter('StringTrim');
-        // attach elements to form
         $this->addElement($dateBegin);
         
-        
-        // create text input for date finish
-        $dateFinish = new Zend_Form_Element_Text('date_finish');
+        $dateFinish = new Zend_Form_Element_Text('dateFinish');
         $dateFinish->setLabel('Data de término:')
             ->setOptions(array('size' => '35'))
             ->setRequired(false)
             ->addValidator('date')
             ->addFilter('HtmlEntities')
             ->addFilter('StringTrim');
-        // attach elements to form
         $this->addElement($dateFinish);
         
-        // create text input for value
         $value = new Zend_Form_Element_Text('value');
         $value->setLabel('Valor:')
             ->setOptions(array('size' => '35'))
@@ -62,21 +65,43 @@ class C3op_Form_ProjectCreate extends Zend_Form
         // attach elements to form
         $this->addElement($value);
         
-        // create text input for overhead
+        $status = new Zend_Form_Element_Select('status');
+        $status->setLabel('Status do Projeto');
+        $titleTypes = C3op_Projects_ProjectStatusTypes::AllTitles();
+        $status->addMultiOption(null, "(escolha um status)");
+        while (list($key, $title) = each($titleTypes)) {
+            $status->addMultiOption($key, $title);
+        }        
+        $this->addElement($status);
+
+        $contractNature = new Zend_Form_Element_Select('contractNature');
+        $contractNature->setLabel('Natureza do Contrato');
+        $titleTypes = C3op_Projects_ContractNatureTypes::AllTitles();
+        $contractNature->addMultiOption(null, "(escolha um tipo)");
+        while (list($key, $title) = each($titleTypes)) {
+            $contractNature->addMultiOption($key, $title);
+        }        
+        $this->addElement($contractNature);
+        
+        $areaActivity = new Zend_Form_Element_Select('areaActivity');
+        $areaActivity->setLabel('Área de atuação');
+        $titleTypes = C3op_Projects_AreaActivityTypes::AllTitles();
+        $areaActivity->addMultiOption(null, "(escolha uma área)");
+        while (list($key, $title) = each($titleTypes)) {
+            $areaActivity->addMultiOption($key, $title);
+        }        
+        $this->addElement($areaActivity);
+
         $overhead = new Zend_Form_Element_Text('overhead');
         $overhead->setLabel('Overhead:')
             ->setOptions(array('size' => '35'))
             ->setRequired(false)
             ->addValidator('Regex', false, array(
                 'pattern' => '/^[0-9]*\.?[0-9]*$/'
-                ))
-            ->addFilter('HtmlEntities')
-            ->addFilter('StringTrim');
-        // attach elements to form
+                ));
         $this->addElement($overhead);
         
-        // create text input for management fee
-        $managementFee = new Zend_Form_Element_Text('management_fee');
+        $managementFee = new Zend_Form_Element_Text('managementFee');
         $managementFee->setLabel('Taxa de Administração:')
             ->setOptions(array('size' => '35'))
             ->setRequired(false)
@@ -85,11 +110,8 @@ class C3op_Form_ProjectCreate extends Zend_Form
                 ))
             ->addFilter('HtmlEntities')
             ->addFilter('StringTrim');
-        // attach elements to form
         $this->addElement($managementFee);
-        
-        
-        // create text input for object
+
         $object = new Zend_Form_Element_Textarea('object');
         $object->setLabel('Objeto:')
             ->setAttrib('cols','8')
@@ -97,10 +119,8 @@ class C3op_Form_ProjectCreate extends Zend_Form
             ->setRequired(false)
             ->addFilter('HtmlEntities')
             ->addFilter('StringTrim');
-        // attach elements to form
         $this->addElement($object);
         
-        // create text input for summery
         $summary = new Zend_Form_Element_TextArea('summary');
         $summary->setLabel('Sumário:')
             ->setAttrib('cols','8')
@@ -108,10 +128,8 @@ class C3op_Form_ProjectCreate extends Zend_Form
             ->setRequired(false)
             ->addFilter('HtmlEntities')
             ->addFilter('StringTrim');
-        // attach elements to form
         $this->addElement($summary);
         
-        // create text input for obs
         $observation = new Zend_Form_Element_TextArea('observation');
         $observation->setLabel('Observações:')
             ->setAttrib('cols','8')
@@ -119,7 +137,6 @@ class C3op_Form_ProjectCreate extends Zend_Form
             ->setRequired(false)
             ->addFilter('HtmlEntities')
             ->addFilter('StringTrim');
-        // attach elements to form
         $this->addElement($observation);
         
         // create submit button
@@ -127,15 +144,12 @@ class C3op_Form_ProjectCreate extends Zend_Form
         $submit->setLabel('Salvar')
             ->setOptions(array('class' => 'submit'));
         $this->addElement($submit);
-                
-
     }
     
-    public function process($data) {
+    public function process($data)
+    {
         
-        
-        if ($this->isValid($data) !== true) 
-        {
+        if ($this->isValid($data) !== true) {
             throw new C3op_Form_ProjectCreateException('Invalid data!');
         } 
         else
@@ -145,17 +159,34 @@ class C3op_Form_ProjectCreate extends Zend_Form
             
             $project = new C3op_Projects_Project();
             $project->SetTitle($this->title->GetValue());
-            $project->SetValue($this->value->GetValue());
+            $project->SetClient($this->client->GetValue());
+            $project->SetOurResponsible($this->ourResponsible->GetValue());
+            $project->SetResponsibleAtClient($this->responsibleAtClient->GetValue());
             
             $dateBegin = $this->dateBegin->GetValue();
-            //class_exists('C3op_Util_ValidDate') || require APPLICATION_PATH . "/../library/C3op/Util/validDate.php";
             $dateValidator = new C3op_Util_ValidDate();
-            if ($dateValidator->isValid($dateBegin))
-            {
+            if ($dateValidator->isValid($dateBegin)) {
                 $converter = new C3op_Util_DateConverter();                
                 $dateForMysql = $converter->convertDateToMySQLFormat($dateBegin);
                 $project->SetDateBegin($dateForMysql);
             }
+            
+            $dateFinish = $this->dateFinish->GetValue();
+            $dateValidator = new C3op_Util_ValidDate();
+            if ($dateValidator->isValid($dateFinish)){
+                $converter = new C3op_Util_DateConverter();                
+                $dateForMysql = $converter->convertDateToMySQLFormat($dateFinish);
+                $project->SetDateFinish($dateForMysql);
+            }
+            $project->SetValue($this->value->GetValue());
+            $project->SetStatus($this->status->GetValue());
+            $project->SetContractNature($this->contractNature->GetValue());
+            $project->SetAreaActivity($this->areaActivity->GetValue());
+            $project->SetOverhead($this->overhead->GetValue());
+            $project->SetManagementFee($this->managementFee->GetValue());
+            $project->SetObject($this->object->GetValue());
+            $project->SetSummary($this->summary->GetValue());
+            $project->SetObservation($this->observation->GetValue());
             
             $projectMapper->insert($project);
         }

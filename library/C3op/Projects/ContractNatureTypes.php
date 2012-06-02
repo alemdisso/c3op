@@ -1,6 +1,6 @@
 <?php
 
-class C3op_Register_InstitutionTypes {
+class C3op_Projects_ContractNatureTypes {
     
     private static $titles = array(
         C3op_Projects_ContractNatureConstants::NATURE_CONTRACT => "Contrato",

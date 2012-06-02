@@ -59,11 +59,11 @@ class Projects_ReceivingController extends Zend_Controller_Action
                     $this->receivingMapper = new C3op_Projects_ReceivingMapper($this->db);
                 }
                 $thisReceiving = $this->receivingMapper->findById($id);
-                $this->SetValueToFormField($form, 'name', $thisReceiving->GetName());
+                $this->SetValueToFormField($form, 'title', $thisReceiving->GetTitle());
                 $this->SetValueToFormField($form, 'id', $id);
-                $this->SetValueToFormField($form, 'predictedDate', $thisReceiving->GetPredictedDate());
+                $this->SetDateValueToFormField($form, 'predictedDate', $thisReceiving->GetPredictedDate());
                 $this->SetValueToFormField($form, 'predictedValue', $thisReceiving->GetPredictedValue());
-                $this->SetValueToFormField($form, 'realDate', $thisReceiving->GetRealDate());
+                $this->SetDateValueToFormField($form, 'realDate', $thisReceiving->GetRealDate());
                 $this->SetValueToFormField($form, 'realValue', $thisReceiving->GetRealValue());
                 $projectId = $this->populateProjectFields($thisReceiving->GetProject(), $form);
             }
@@ -122,5 +122,21 @@ class Projects_ReceivingController extends Zend_Controller_Action
         $field->setValue($value);
     }
 
+    private function setDateValueToFormField(C3op_Form_ReceivingCreate $form, $fieldName, $value)
+    {
+        $field = $form->getElement($fieldName);
+        if (($value != '0000-00-00') && ($value != "")) {
+            $field->setValue($this->formatDataToShow($value));
+        } else {
+            $field->setValue("");
+        }
+    }
+
+    private function formatDataToShow($rawData)
+    {
+        $dateArray = explode("-", $rawData);
+        $formatedDate = $dateArray[2] . '/' . $dateArray[1] . '/' . $dateArray[0]; 
+        return $formatedDate;
+    }
     
 }

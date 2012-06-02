@@ -30,13 +30,23 @@ class C3op_Form_ReceivingEdit extends C3op_Form_ReceivingCreate
         } else {
             $id = $data['id'];
             $receiving = $receivingMapper->findById($id);      
-            $receiving->SetName($data['name']);
+            $receiving->SetTitle($data['title']);
             $receiving->SetProject($data['project']);
-            $receiving->SetPredictedDate($data['predictedDate']);
+            $receiving->SetPredictedDate($this->prepareDateValueToSet($data['predictedDate'], new C3op_Util_ValidDate(), new C3op_Util_DateConverter()));
             $receiving->SetPredictedValue($data['predictedValue']);
-            $receiving->SetRealDate($data['realDate']);
+            $receiving->SetRealDate($this->prepareDateValueToSet($data['realDate'], new C3op_Util_ValidDate(), new C3op_Util_DateConverter()));
             $receiving->SetRealValue($data['realValue']);
             $receivingMapper->update($receiving);
         }
     }
- }
+
+    private function prepareDateValueToSet($value, C3op_Util_ValidDate $validator, C3op_Util_DateConverter $converter)
+    {
+        if ($validator->isValid($value)) {
+            return $converter->convertDateToMySQLFormat($value);
+        } else {
+            return "";
+        }
+    }
+    
+}

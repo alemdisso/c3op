@@ -104,5 +104,15 @@ class ProjectTest extends ControllerTestCase
         $this->assertEquals($this->project->getValue(), (float)$newValue);
     }
     
+    public function testCanChangeProjectsContractNature()
+    {        
+        $firstNature = C3op_Projects_ContractNatureConstants::NATURE_AGREEMENT;
+        $newNature = C3op_Projects_ContractNatureConstants::NATURE_CONTRACT;
+        $this->project->SetContractNature($firstNature);
+        $this->assertEquals($this->project->GetContractNature(), $firstNature);
+        $this->project->SetContractNature($newNature);
+        $this->assertEquals($this->project->GetContractNature(), $newNature);
+    }
+    
  
 }

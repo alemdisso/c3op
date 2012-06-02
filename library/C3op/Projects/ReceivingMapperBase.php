@@ -24,7 +24,7 @@ class C3op_Projects_ReceivingMapperBase
     public function insert(C3op_Projects_Receiving $new)
     {
         $data = array(
-            'name' => $new->GetName(),
+            'title' => $new->GetTitle(),
             'project' => $new->GetProject(),
             'predicted_date' => $new->GetPredictedDate(),
             'real_date' => $new->GetRealDate(),
@@ -42,11 +42,10 @@ class C3op_Projects_ReceivingMapperBase
         if (!isset($this->identityMap[$r])) {
             throw new C3op_Projects_ReceivingMapperException('Object has no ID, cannot update.');
         }
-        
         $this->db->exec(
             sprintf(
-                'UPDATE projects_receivings SET name = \'%s\', project = %d, predicted_date = \'%s\', real_date = \'%s\', predicted_value = %.2f , real_value = %.2f WHERE id = %d;',
-                $r->GetName(),
+                'UPDATE projects_receivings SET title = \'%s\', project = %d, predicted_date = \'%s\', real_date = \'%s\', predicted_value = %.2f , real_value = %.2f WHERE id = %d;',
+                $r->GetTitle(),
                 $r->GetProject(),
                 $r->GetPredictedDate(),
                 $r->GetRealDate(),
@@ -70,7 +69,7 @@ class C3op_Projects_ReceivingMapperBase
         
         $result = $this->db->fetchRow(
             sprintf(
-                'SELECT name, project, predicted_date, real_date, predicted_value, real_value FROM projects_receivings WHERE id = %d;',
+                'SELECT title, project, predicted_date, real_date, predicted_value, real_value FROM projects_receivings WHERE id = %d;',
                 $id
             )
         );
@@ -81,7 +80,7 @@ class C3op_Projects_ReceivingMapperBase
         
         $r = new C3op_Projects_Receiving($result['project'], $result['predicted_date'], $result['predicted_value'], $id);
         $this->setAttributeValue($r, $id, 'id');
-        $this->setAttributeValue($r, $result['name'], 'name');
+        $this->setAttributeValue($r, $result['title'], 'title');
         $this->setAttributeValue($r, $result['real_date'], 'realDate');
         $this->setAttributeValue($r, $result['real_value'], 'realValue');
 

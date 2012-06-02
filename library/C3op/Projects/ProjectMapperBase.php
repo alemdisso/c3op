@@ -83,23 +83,6 @@ class C3op_Projects_ProjectMapperBase {
                 $this->identityMap[$p]
             )
         );
-//    protected $title;
-//    protected $client;
-//    protected $ourResponsible;
-//    protected $responsibleAtClient;
-//    protected $dateBegin;
-//    protected $dateFinish;
-//    protected $status;
-//    protected $value;
-//    protected $contractNature;
-//    protected $areaActivity;
-//    protected $overhead;
-//    protected $managementFee;
-//    protected $object;
-//    protected $summary;
-//    protected $observation;
-//    
-
     }    
     
     public function findById($id) {
@@ -113,7 +96,21 @@ class C3op_Projects_ProjectMapperBase {
         
         $result = $this->db->fetchRow(
             sprintf(
-                'SELECT title, date_begin, value FROM projects_projects WHERE id = %d;',
+                'SELECT title
+                    , client
+                    , our_responsible
+                    , responsible_at_client
+                    , date_begin
+                    , date_finish
+                    , status
+                    , value
+                    , contract_nature
+                    , area_activity
+                    , overhead
+                    , management_fee
+                    , object
+                    , summary
+                    , observation FROM projects_projects WHERE id = %d;',
                 $id
             )
         );
@@ -124,12 +121,23 @@ class C3op_Projects_ProjectMapperBase {
         
         $this->setAttributeValue($p, $id, 'id');
         $this->setAttributeValue($p, $result['title'], 'title');
+        $this->setAttributeValue($p, $result['client'], 'client');
+        $this->setAttributeValue($p, $result['our_responsible'], 'ourResponsible');
+        $this->setAttributeValue($p, $result['responsible_at_client'], 'responsibleAtClient');
         $this->setAttributeValue($p, $result['date_begin'], 'dateBegin');
+        $this->setAttributeValue($p, $result['date_finish'], 'dateFinish');
+        $this->setAttributeValue($p, $result['status'], 'status');
         $this->setAttributeValue($p, $result['value'], 'value');
-
+        $this->setAttributeValue($p, $result['contract_nature'], 'contractNature');
+        $this->setAttributeValue($p, $result['area_activity'], 'areaActivity');
+        $this->setAttributeValue($p, $result['overhead'], 'overhead');
+        $this->setAttributeValue($p, $result['management_fee'], 'managementFee');
+        $this->setAttributeValue($p, $result['object'], 'object');
+        $this->setAttributeValue($p, $result['summary'], 'summary');
+        $this->setAttributeValue($p, $result['observation'], 'observation');
+        
         $this->identityMap[$p] = $id;
         return $p;        
-
     }
 
     public function delete(C3op_Projects_Project $p) {
@@ -167,6 +175,21 @@ class C3op_Projects_ProjectMapperBase {
         foreach ($this->db->query(
                 sprintf(
                     'SELECT id FROM projects_actions WHERE project = %d AND subordinated_to IS NULL AND requirement_for_receiving = 1;',
+                    $p->GetId()
+                    )
+                )
+                as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
+    public function getAllReceivings(C3op_Projects_Project $p)
+    {
+        $result = array();
+        foreach ($this->db->query(
+                sprintf(
+                    'SELECT id FROM projects_receivings WHERE project = %d;',
                     $p->GetId()
                     )
                 )

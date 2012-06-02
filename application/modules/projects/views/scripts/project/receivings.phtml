@@ -6,22 +6,25 @@
 if (is_array($this->projectInfo)) {
     $projectData = $this->projectInfo;
 ?>
-Projeto: <?php print($projectData['title']) ?><br />
+Projeto: <a href="<?php print($projectData['linkDetail']) ?>"><?php print($projectData['title']) ?></a><br />
 <p />
+<?php print($projectData['projectValue']) ?><br />
+<p />
+<hr>
 <?php 
 /*
  * iterate list and print title
  */
 
-    $productsList = $projectData['productsList'];
+    $receivingsList = $projectData['receivingsList'];
     
-    while (list(, $productInfo) = each($productsList)) {
+    while (list(, $receivingInfo) = each($receivingsList)) {
 ?>
 
-<?php print($productInfo['title']) ?>
+<?php print($receivingInfo['title']) ?> | <?php print($receivingInfo['predictedDate']) ?> | <?php print($receivingInfo['predictedValue']) ?>
 
-<?php if (isset($productInfo['linkEdit'])) { ?>
-<a href="<?php print($productInfo['linkEdit']) ?>">Editar</a>
+<?php if (isset($receivingInfo['linkEdit'])) { ?>
+<a href="<?php print($receivingInfo['linkEdit']) ?>">Editar</a>
 <?php } ?>
 
 <br />

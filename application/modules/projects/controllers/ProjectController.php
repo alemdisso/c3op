@@ -44,22 +44,23 @@ class Projects_ProjectController extends Zend_Controller_Action
         } else {
             // GET
             $thisProject = $this->InitProjectWithCheckedId($this->projectMapper);
-            $titleField = $form->getElement('title');
-            $titleField->setValue($thisProject->getTitle());
-            $idField = $form->getElement('id');
-            $idField->setValue($id);
-            $dateBeginField = $form->getElement('dateBegin');
-            $dateBeginValue = $thisProject->GetDateBegin();
-            if ($dateBeginValue != '0000-00-00')  {
-                $dateArray = explode("-", $dateBeginValue);
-                $formatedDate = $dateArray[2] . '/' . $dateArray[1] . '/' . $dateArray[0]; 
-                $dateBeginField->setValue($formatedDate);
-            } else {
-                $dateBeginField->setValue("");
-            }
-            $valueField = $form->getElement('value');
-            $valueField->setValue($thisProject->getValue());
-        }
+            $id = $this->checkIdFromGet();
+            $this->SetValueToFormField($form, 'id', $id);
+            $this->SetValueToFormField($form, 'title', $thisProject->GetTitle());
+            $this->SetValueToFormField($form, 'ourResponsible', $thisProject->GetOurResponsible());
+            $this->SetValueToFormField($form, 'responsibleAtClient', $thisProject->GetResponsibleAtClient());
+            $this->SetDateValueToFormField($form, 'dateBegin', $thisProject->GetDateBegin());
+            $this->SetDateValueToFormField($form, 'dateFinish', $thisProject->GetDateFinish());
+            $this->SetValueToFormField($form, 'value', $thisProject->GetValue());
+            $this->SetValueToFormField($form, 'status', $thisProject->GetStatus());
+            $this->SetValueToFormField($form, 'contractNature', $thisProject->GetContractNature());
+            $this->SetValueToFormField($form, 'areaActivity', $thisProject->GetAreaActivity());
+            $this->SetValueToFormField($form, 'overhead', $thisProject->GetOverhead());
+            $this->SetValueToFormField($form, 'managementFee', $thisProject->GetManagementFee());
+            $this->SetValueToFormField($form, 'object', $thisProject->GetObject());
+            $this->SetValueToFormField($form, 'summary', $thisProject->GetSummary());
+            $this->SetValueToFormField($form, 'observation', $thisProject->GetObservation());
+          }
     }
 
     public function sucessAction()
@@ -119,7 +120,6 @@ class Projects_ProjectController extends Zend_Controller_Action
             $manager = new C3op_Projects_SubordinationManager();
             
             $actionsBelow = $manager->GetAllActionsSubordinatedTo($thisAction, $actionMapper, $projectToBeDetailed, $this->projectMapper);
-            //print_r($actionsBelow);die();
             $this->extractActionsBelow($actionsBelow, $actionMapper);
             
 //            foreach ($actionsBelow as $actionTree) {
@@ -193,25 +193,59 @@ class Projects_ProjectController extends Zend_Controller_Action
 
     public function receivingsAction()
     {
-        $actionMapper = new C3op_Projects_ActionMapper($this->db);
+        $receivingMapper = new C3op_Projects_ReceivingMapper($this->db);
 
         $id = $this->checkIdFromGet();
         $thisProject = $this->projectMapper->findById($id);
-        $productsIdList = $this->projectMapper->getAllProducts($thisProject);
-        $productsList = array();
-        reset ($productsList);
-        foreach ($productsIdList as $actionId) {
-            $thisAction = $actionMapper->findById($actionId);
-
-            $productsList[$actionId] = array(
-                'title' => $thisAction->GetTitle(),
-                'linkEdit' => '/projects/action/edit/?id=' . $actionId   ,
+        $receivingsIdList = $this->projectMapper->getAllReceivings($thisProject);
+        $receivingsList = array();
+        reset ($receivingsList);
+        $receivingsTotalValue = 0;
+        $receivingsCounter = 0;
+        foreach ($receivingsIdList as $receivingId) {
+            $thisReceiving = $receivingMapper->findById($receivingId);
+            $receivingsCounter++;
+            if ($thisReceiving->GetTitle()) {
+                $title = $thisReceiving->GetTitle();
+            } else {
+                $title = "(#$receivingsCounter)";
+            }
+            
+            $validator = new C3op_Util_ValidDate();
+            if ($validator->isValid($thisReceiving->GetPredictedDate())) {
+                $predictedDate = $this->formatDataToShow($thisReceiving->GetPredictedDate());
+            } else {
+                $predictedDate = "(data desconhecida)";
+            }
+            
+            if ($thisReceiving->GetPredictedValue() > 0) {
+                $receivingsTotalValue += $thisReceiving->GetPredictedValue();
+                $predictedValue = "R$ " . $thisReceiving->GetPredictedValue();
+            } else {
+                $predictedValue = "";
+            }
+            
+            $receivingsList[$receivingId] = array(
+                'title' => $title,
+                'predictedDate' => $predictedDate,
+                'predictedValue' => $predictedValue,
+                'linkEdit' => '/projects/receiving/edit/?id=' . $receivingId   ,
             );
         }
+        
+        if ($receivingsTotalValue == $thisProject->GetValue()) {
+            $projectValue = "$receivingsTotalValue (OK)";
+        } else {
+            $projectValue = "Valor do Projeto: " . $thisProject->GetValue() . " Total dos recebimentos: $receivingsTotalValue (?)";
+            
+        }
+        
         $projectInfo = array(
             'title' => $thisProject->GetTitle(),
+            'linkDetail' => '/projects/project/detail/?id=' . $id   ,
+            'projectValue' => $projectValue,
             'linkEdit' => '/projects/project/edit/?id=' . $id   ,
-            'productsList' => $productsList,
+            'receivingsList' => $receivingsList,
         );
 
         $this->view->projectInfo = $projectInfo;
@@ -248,8 +282,8 @@ class Projects_ProjectController extends Zend_Controller_Action
     
     private function manageReceivingsLink(C3op_Projects_Project $project)
     {
-        $productsIdList = $this->projectMapper->getAllProducts($project);
-        if (count($productsIdList) > 0) {
+        $receivingsIdList = $this->projectMapper->getAllReceivings($project);
+        if (count($receivingsIdList) > 0) {
             $linkReceivings = '/projects/project/receivings/?id=' . $project->GetId();
         } else {
             $linkReceivings = "";
@@ -273,5 +307,27 @@ class Projects_ProjectController extends Zend_Controller_Action
         }
         
     }
+ 
+    private function setValueToFormField(C3op_Form_ProjectCreate $form, $fieldName, $value)
+    {
+        $field = $form->getElement($fieldName);
+        $field->setValue($value);
+    }
     
+    private function setDateValueToFormField(C3op_Form_ProjectCreate $form, $fieldName, $value)
+    {
+        $field = $form->getElement($fieldName);
+        if ($value != '0000-00-00')  {
+            $field->setValue($this->formatDataToShow($value));
+        } else {
+            $field->setValue("");
+        }
+    }
+
+    private function formatDataToShow($rawData)
+    {
+        $dateArray = explode("-", $rawData);
+        $formatedDate = $dateArray[2] . '/' . $dateArray[1] . '/' . $dateArray[0]; 
+        return $formatedDate;
+    }
 }

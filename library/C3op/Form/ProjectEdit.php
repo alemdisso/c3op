@@ -15,32 +15,52 @@ class C3op_Form_ProjectEdit extends C3op_Form_ProjectCreate
             //->addFilter('HtmlEntities')
             ->addFilter('StringTrim');        
         $this->addElement($id);
-        
-                        
-
     }
     
-    public function process($data) {
-        
-        $db = Zend_Registry::get('db');
-        $projectMapper = new C3op_Projects_ProjectMapper($db);        
+     public function process($data)
+    {
         
         if ($this->isValid($data) !== true) {
-            throw new C3op_Form_ProjectEditException('Invalid data!');
-        } else {
-            $id = $data['id'];
-            $project = $projectMapper->findById($id);      
-            $project->SetTitle($data['title']);
+            throw new C3op_Form_ProjectCreateException('Invalid data!');
+        } 
+        else
+        {
+            $db = Zend_Registry::get('db');
+            $projectMapper = new C3op_Projects_ProjectMapper($db);
             
-            $dateValidator = new C3op_Util_ValidDate();
-            if ($dateValidator->isValid($data['dateBegin']))
-            {
-                $converter = new C3op_Util_DateConverter();                
-                $dateForMysql = $converter->convertDateToMySQLFormat($data['dateBegin']);
-                $project->SetDateBegin($dateForMysql);
-            }
-            $project->SetValue($data['value']);
+             $id = $data['id'];
+            $project = $projectMapper->findById($id);
+            $project->SetTitle($this->title->GetValue());
+            $project->SetClient($this->client->GetValue());
+            $project->SetOurResponsible($this->ourResponsible->GetValue());
+            $project->SetResponsibleAtClient($this->responsibleAtClient->GetValue());
+            
+            $dateBegin = $this->dateBegin->GetValue();
+            $project->SetDateBegin($this->prepareDateValueToSet($dateBegin, new C3op_Util_ValidDate(), new C3op_Util_DateConverter()));
+            $dateFinish = $this->dateFinish->GetValue();
+            $project->SetDateFinish($this->prepareDateValueToSet($dateFinish, new C3op_Util_ValidDate(), new C3op_Util_DateConverter()));
+            
+            $project->SetValue($this->value->GetValue());
+            $project->SetStatus($this->status->GetValue());
+            $project->SetContractNature($this->contractNature->GetValue());
+            $project->SetAreaActivity($this->areaActivity->GetValue());
+            $project->SetOverhead($this->overhead->GetValue());
+            $project->SetManagementFee($this->managementFee->GetValue());
+            $project->SetObject($this->object->GetValue());
+            $project->SetSummary($this->summary->GetValue());
+            $project->SetObservation($this->observation->GetValue());
+            
             $projectMapper->update($project);
         }
     }
- }
+    
+    private function prepareDateValueToSet($value, C3op_Util_ValidDate $validator, C3op_Util_DateConverter $converter)
+    {
+        if ($validator->isValid($value)) {
+            return $converter->convertDateToMySQLFormat($value);
+        } else {
+            return "0000-00-00";
+        }
+    }
+    
+}

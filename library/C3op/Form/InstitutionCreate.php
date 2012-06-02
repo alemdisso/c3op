@@ -52,14 +52,13 @@ class C3op_Form_InstitutionCreate extends Zend_Form
         $this->addElementText('streetNumber', 'Número:', new C3op_Util_ValidString, 10);
         $this->addElementText('addressComplement', 'Complemento:', new C3op_Util_ValidString, 80);
         $this->addElementText('district', 'Bairro:', new C3op_Util_ValidString, 30);
-//        $this->addElementText('zipCode', 'CEP:', new C3op_Register_ValidZipCode(), 30);
+        $this->addElementText('zipCode', 'CEP:', new C3op_Register_ValidZipCode(), 30);
         $this->addElementText('city', 'Cidade:', new C3op_Util_ValidString, 50);
-//        $this->addElementText('state', 'UF:', new C3op_Register_ValidUF(), 30);
+        $this->addElementText('state', 'UF:', new C3op_Register_ValidUF(), 30);
         $this->addElementText('website', 'Website:', new C3op_Util_ValidString, 30);
         
         $type = new Zend_Form_Element_Select('type');
         $type->setLabel('Tipo');
-//                ->setRequired(true);
         $titleTypes = C3op_Register_InstitutionTypes::AllTitles();
         $type->addMultiOption(null, "(escolha um tipo)");
         while (list($key, $title) = each($titleTypes)) {
@@ -111,9 +110,9 @@ class C3op_Form_InstitutionCreate extends Zend_Form
             $institution->SetStreetNumber($this->streetNumber->GetValue());
             $institution->SetAddressComplement($this->addressComplement->GetValue());
             $institution->SetDistrict($this->district->GetValue());
-//            $institution->SetZipCode($this->zipCode->GetValue());
+            $institution->SetZipCode($this->zipCode->GetValue());
             $institution->SetCity($this->city->GetValue());
-//            $institution->SetState($this->state->GetValue());
+            $institution->SetState($this->state->GetValue());
             $institution->SetWebsite($this->website->GetValue());
             $institution->SetType($this->type->GetValue());
                 

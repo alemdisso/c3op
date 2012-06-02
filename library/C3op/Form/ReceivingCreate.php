@@ -15,7 +15,7 @@ class C3op_Form_ReceivingCreate extends Zend_Form
             ->addFilter('StringTrim');        
         $this->addElement($project);
 
-        $this->addElementText('name', 'recebimento', new C3op_Util_ValidString, 50);
+        $this->addElementText('title', 'recebimento', new C3op_Util_ValidString, 50);
         $this->addElementText('predictedDate', 'Data Prevista', new C3op_Util_ValidDate, 50);
         $this->addElementText('realDate', 'Data Realizada', new C3op_Util_ValidDate, 50);
         $this->addElementText('predictedValue', 'Valor Previsto', new C3op_Util_ValidPositiveFloat, 50);
@@ -64,7 +64,7 @@ class C3op_Form_ReceivingCreate extends Zend_Form
             
             
             $receiving = new C3op_Projects_Receiving($this->project->GetValue(),$predictedDateConvertedToMySQL, $this->predictedValue->GetValue());
-            $receiving->SetName($this->name->GetValue());
+            $receiving->SetTitle($this->title->GetValue());
             $receiving->SetProject((float)$this->project->GetValue());
             $receiving->SetRealValue((float)$this->realValue->GetValue());
             

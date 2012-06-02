@@ -3,7 +3,7 @@
 class C3op_Projects_ReceivingBase {
 	
     protected $id;
-    protected $name;
+    protected $title;
     protected $predictedDate;
     protected $predictedValue;
     protected $realDate;
@@ -44,23 +44,23 @@ class C3op_Projects_ReceivingBase {
         }
     }
     
-    public function GetName() 
+    public function GetTitle() 
     {
-        return $this->name;
-    } //GetName
+        return $this->title;
+    } //GetTitle
 	
-    public function SetName($name)
+    public function SetTitle($title)
     {
         $validator = new C3op_Util_ValidString();
-        if ($validator->isValid($name)) {
-            if ($this->name != $name) {
-                $this->name = $name;
+        if ($validator->isValid($title)) {
+            if ($this->title != $title) {
+                $this->title = $title;
             }
         } else {
-            throw new C3op_Projects_ReceivingException("This ($name) is not a valid name.");
+            throw new C3op_Projects_ReceivingException("This ($title) is not a valid title.");
         }
 
-    } //SetName
+    } //SetTitle
 
     public function GetPredictedDate()
     {

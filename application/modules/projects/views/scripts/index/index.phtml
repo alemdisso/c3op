@@ -23,8 +23,16 @@ if (is_array($this->projectsList)) {
 
 <?php print($projectData['title']) ?> | <?php print($projectData['dateBegin']) ?> | <?php print($projectData['value']) ?>
 
-<?php if (isset($projectData['linkEdit'])) { ?>
+<br/>
+    <?php if (isset($projectData['linkEdit'])) { ?>
 <a href="<?php print($projectData['linkEdit']) ?>">Editar</a>
+<?php } ?>
+
+<?php if (isset($projectData['linkReceivingCreate'])) { ?>
+ | <a href="<?php print($projectData['linkReceivingCreate']) ?>">Prever Recebimento</a>
+<?php } ?>
+<?php if (isset($projectData['linkProjectReceivings'])) { ?>
+ |  <a href="<?php print($projectData['linkProjectReceivings']) ?>">Recebimentos do Projeto</a> 
 <?php } ?>
 
 <?php if (isset($projectData['linkActionCreate'])) { ?>
@@ -34,7 +42,7 @@ if (is_array($this->projectsList)) {
 
 <br />
 
-
+<hr>
     
 <?php
 }  // loop iterate list and print titlei
