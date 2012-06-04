@@ -33,11 +33,6 @@ class GestoraCriaProjetoSuiteTest {
     public function testCreateProjectJustWithTitle()
     {
         $p = new C3op_Projects_Project();
-        
-        
-        
-        
-        
     }
         
     public function testErrorWhenTryToCreateProjectWithEmptyTitle()

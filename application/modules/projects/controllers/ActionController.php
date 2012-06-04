@@ -29,9 +29,9 @@ class Projects_ActionController extends Zend_Controller_Action
         } else {
             $data = $this->_request->getParams();
             $projectId = $data['project'];
-            $this->PopulateProjectFields($projectId, $form);
-            $this->PopulateRequirementForReceivingField($projectId, $form);
-            $this->PopulateSubordinatedActionsField($projectId, $form);
+            $this->populateProjectFields($projectId, $form);
+            $this->populateRequirementForReceivingField($projectId, $form);
+            $this->populateSubordinatedActionsField($projectId, $form);
         }
     }
 
@@ -69,8 +69,8 @@ class Projects_ActionController extends Zend_Controller_Action
                 $milestoneField = $form->getElement('milestone');
                 $milestoneField->setValue($thisAction->getMilestone());
                 $projectId = $this->populateProjectFields($thisAction->GetProject(), $form);
-                $this->PopulateRequirementForReceivingField($projectId, $form, $thisAction->GetRequirementForReceiving());
-                $this->PopulateSubordinatedActionsField($projectId, $form, $id);
+                $this->populateRequirementForReceivingField($projectId, $form, $thisAction->GetRequirementForReceiving());
+                $this->populateSubordinatedActionsField($projectId, $form, $id);
             }
 
         }
@@ -105,7 +105,7 @@ class Projects_ActionController extends Zend_Controller_Action
         $flashMessenger->addMessage('Id Inválido');
     }
     
-    private function PopulateProjectFields($projectId, C3op_Form_ActionCreate $form)
+    private function populateProjectFields($projectId, C3op_Form_ActionCreate $form)
     {
         $validator = new C3op_Util_ValidId();
         if ($validator->isValid($projectId)) {
@@ -116,12 +116,14 @@ class Projects_ActionController extends Zend_Controller_Action
             }
             $thisProject = $this->projectMapper->findById($projectId);
             $this->view->projectTitle = $thisProject->GetTitle();
+            $this->view->linkProjectDetail = "/projects/project/detail/?id=" . $thisProject->GetId();
+
             return $projectId;
         } else throw new C3op_Projects_ActionException("Action needs a positive integer project id.");
         
    }
      
-    private function PopulateSubordinatedActionsField($projectId, C3op_Form_ActionCreate $form, $actionId = 0)
+    private function populateSubordinatedActionsField($projectId, C3op_Form_ActionCreate $form, $actionId = 0)
     {
         $validator = new C3op_Util_ValidId();
         $parentActionId = 0;
@@ -154,7 +156,7 @@ class Projects_ActionController extends Zend_Controller_Action
         } else throw new C3op_Projects_ActionException("Action needs a positive integer project id to find other actions.");
    }
      
-    private function PopulateRequirementForReceivingField($projectId, C3op_Form_ActionCreate $form, $setedReceivingId = 0)
+    private function populateRequirementForReceivingField($projectId, C3op_Form_ActionCreate $form, $setedReceivingId = 0)
     {
         $validator = new C3op_Util_ValidId();
         if ($validator->isValid($projectId)) {

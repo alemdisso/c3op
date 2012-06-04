@@ -9,3 +9,4 @@ public/index.php
 # Ignorar todos os diret�rios e arquivos em um diret�rio.
 nbproject/**/* 
 /library/C3op/Form/Decorators.php
+/tests/log/
