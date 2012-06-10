@@ -241,7 +241,7 @@ class C3op_Register_InstitutionBase {
     } //GetState
 	
     public function SetState($state) {
-        $validator = new C3op_Register_ValidUF();
+        $validator = new C3op_Register_ValidState();
         if ($validator->isValid($state)) {
             if ($this->state != $state) {
                 $this->state = $state;
@@ -309,6 +309,7 @@ class C3op_Register_InstitutionBase {
             case C3op_Register_InstitutionRelationshipConstants::RELATIONSHIP_CLIENT:
             case C3op_Register_InstitutionRelationshipConstants::RELATIONSHIP_PARTNER:
             case C3op_Register_InstitutionRelationshipConstants::RELATIONSHIP_SUPPLIER:
+            case C3op_Register_InstitutionRelationshipConstants::RELATIONSHIP_CONTRACTING:
                 $this->relationshipType = (int) $relationShipType;
                 break;
             

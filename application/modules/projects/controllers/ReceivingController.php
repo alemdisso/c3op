@@ -111,6 +111,7 @@ class Projects_ReceivingController extends Zend_Controller_Action
             }
             $thisProject = $this->projectMapper->findById($projectId);
             $this->view->projectTitle = $thisProject->GetTitle();
+            $this->view->projectId = $projectId;
             return $projectId;
         } else throw new C3op_Projects_ReceivingException("Receiving needs a positive integer project id.");
 

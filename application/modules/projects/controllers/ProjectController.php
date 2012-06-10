@@ -4,6 +4,9 @@ class Projects_ProjectController extends Zend_Controller_Action
 {
     private $projectMapper;
     private $db;
+    private $detailProductDepth;
+    private $detailProductBrood;
+    private $detailProductBreeds;
 
     public function init()
     {
@@ -103,52 +106,35 @@ class Projects_ProjectController extends Zend_Controller_Action
         
         $linkReceivings = $this->manageReceivingsLink($projectToBeDetailed);
         
-        $mainActions = $this->projectMapper->getAllActionsSubordinatedTo($projectToBeDetailed);
+        $projectProducts = $this->projectMapper->getAllProductsOf($projectToBeDetailed);
         $actionsList = array();
         reset ($actionsList);
-        foreach ($mainActions as $actionId) {
+        foreach ($projectProducts as $actionId) {
+            $this->detailProductBreeds = array();
+            $this->detailProductBrood = 0;
+            $this->detailProductDepth = 0;
             $thisAction = $actionMapper->findById($actionId);
-            
+            $immediateBreed = $actionMapper->getActionsSubordinatedTo($thisAction);
+            if (count($immediateBreed) > 0) {
+                $broodMessage = count($immediateBreed) . " ações diretamente subordinadas";
+                if (count($immediateBreed)== 1) {
+                    $broodMessage = count($immediateBreed) . " ação diretamente subordinada";
+                }
+                $broodMessage = "<a href=/projects/action/detail/?id=" . $actionId . ">$broodMessage</a>";
+            } else {
+                $broodMessage = "sem ações diretamente subordinadas";
+                
+            }
             $specialActionLabel = $this->buildSpecialActionLabel($thisAction);
-
             $actionsList[$actionId] = array(
                 'title' => $thisAction->GetTitle(),
+                'depth' => $this->detailProductDepth,
+                'brood' => $broodMessage,
                 'specialAction' => $specialActionLabel,
                 'linkEdit' => '/projects/action/edit/?id=' . $actionId   ,
             );
-        
-            $manager = new C3op_Projects_SubordinationManager();
-            
-            $actionsBelow = $manager->GetAllActionsSubordinatedTo($thisAction, $actionMapper, $projectToBeDetailed, $this->projectMapper);
-            $this->extractActionsBelow($actionsBelow, $actionMapper);
-            
-//            foreach ($actionsBelow as $actionTree) {
-//                $actionsList[$actionId] = array(
-//                    'title' => $thisAction->GetTitle(),
-//                    'specialAction' => $specialActionLabel,
-//                    'requirementForReceiving' => $requirementForReceiving,
-//                    'linkEdit' => '/projects/action/edit/?id=' . $actionId   ,
-//                );
-//                
-//            }
-            
         }
         
-//        $actionsIdsList = $this->projectMapper->getAllActions($projectToBeDetailed);
-//        $actionsList = array();
-//        reset ($actionsList);
-//        foreach ($actionsIdsList as $actionId) {
-//            $thisAction = $actionMapper->findById($actionId);
-//            
-//            $specialActionLabel = $this->buildSpecialActionLabel($thisAction);
-//
-//            $actionsList[$actionId] = array(
-//                'title' => $thisAction->GetTitle(),
-//                'specialAction' => $specialActionLabel,
-//                'requirementForReceiving' => $requirementForReceiving,
-//                'linkEdit' => '/projects/action/edit/?id=' . $actionId   ,
-//            );
-//        }
         $projectInfo = array(
             'title' => $projectToBeDetailed->GetTitle(),
             'linkEdit' => '/projects/project/edit/?id=' . $projectToBeDetailed->GetId(),
@@ -170,7 +156,6 @@ class Projects_ProjectController extends Zend_Controller_Action
     private function InitProjectWithCheckedId(C3op_Projects_ProjectMapper $mapper)
     {
         return $mapper->findById($this->checkIdFromGet());
-        
     }
 
     private function checkIdFromGet()
@@ -213,14 +198,17 @@ class Projects_ProjectController extends Zend_Controller_Action
             
             $validator = new C3op_Util_ValidDate();
             if ($validator->isValid($thisReceiving->GetPredictedDate())) {
-                $predictedDate = $this->formatDataToShow($thisReceiving->GetPredictedDate());
+                $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($thisReceiving->GetPredictedDate());
+                
+//                $predictedDate = $this->formatDataToShow($thisReceiving->GetPredictedDate());
             } else {
                 $predictedDate = "(data desconhecida)";
             }
             
             if ($thisReceiving->GetPredictedValue() > 0) {
                 $receivingsTotalValue += $thisReceiving->GetPredictedValue();
-                $predictedValue = "R$ " . $thisReceiving->GetPredictedValue();
+                $predictedValue = C3op_Util_CurrencyDisplay::FormatCurrency($thisReceiving->GetPredictedValue());
+//                $predictedValue = "R$ " . $thisReceiving->GetPredictedValue();
             } else {
                 $predictedValue = "";
             }
@@ -234,9 +222,10 @@ class Projects_ProjectController extends Zend_Controller_Action
         }
         
         if ($receivingsTotalValue == $thisProject->GetValue()) {
-            $projectValue = "$receivingsTotalValue (OK)";
+            $projectValue = C3op_Util_CurrencyDisplay::FormatCurrency($receivingsTotalValue) . " (OK)";
         } else {
-            $projectValue = "Valor do Projeto: " . $thisProject->GetValue() . " Total dos recebimentos: $receivingsTotalValue (?)";
+            $projectValue = "Valor do Projeto: " . C3op_Util_CurrencyDisplay::FormatCurrency($thisProject->GetValue());
+            $projectValue .= " Total dos recebimentos:" .  C3op_Util_CurrencyDisplay::FormatCurrency($receivingsTotalValue) . " (?)";
             
         }
         
@@ -292,18 +281,36 @@ class Projects_ProjectController extends Zend_Controller_Action
        
     }
 
-    private function extractActionsBelow($actionsBelow, C3op_Projects_ActionMapper $mapper)
+    private function extractActionsJustBelow($actionsBelow, C3op_Projects_ActionMapper $mapper)
     {
-        print_r($actionsBelow);
+        if (count($actionsBelow)) {
+            if (count($this->detailProductBreeds) == $this->detailProductDepth) {
+                $this->detailProductBreeds[$this->detailProductDepth++] = 1;
+            } else {
+                $this->detailProductBreeds[$this->detailProductDepth]++;
+            }
+        }
+        
         foreach ($actionsBelow as $childAction) {
             if (isset($childAction['action'])) {
                 $action = $childAction['action'];
-                $actionsArray = $childAction['actionsBelow'];
-                print ($action->GetTitle() . "<br/>");
-                if (count($actionsArray)) {
-                    $this->extractActionsBelow($childAction, $mapper);
+                $this->detailProductBrood++;
+                $immediateBreed = $mapper->getActionsSubordinatedTo($action);
+                if (count($immediateBreed)) {
+                    $depth = 1;
+                    $brood = count($immediateBreed);
+                    $newActionsBelow = array(array("action" => $action, "actionsBelow" => array()));
+                    foreach ($immediateBreed as $newAction) {
+                        $newAction["actionsBelow"] = $this->extractActionsJustBelow($newActionsBelow, $mapper);
+                    }
+                } else {
+                    $depth = 0;
+                    $brood = 0;
+
                 }
+             
             }
+            
         }
         
     }

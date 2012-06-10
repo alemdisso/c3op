@@ -218,6 +218,11 @@ class C3op_Projects_ProjectMapperBase {
         } else throw new C3op_Projects_ActionMapperException("invalid action id to find subordinated for");
     }
  
+    public function getAllProductsOf(C3op_Projects_Project $p)
+    {
+            return $this->getAllActionsSubordinatedTo($p, 0);
+    }
+ 
     private function setAttributeValue(C3op_Projects_Project $p, $fieldValue, $attributeName)
     {
         $attribute = new ReflectionProperty($p, $attributeName);

@@ -93,4 +93,19 @@ class C3op_Register_ContactMapperBase {
         $attribute->setValue($c, $fieldValue);
     }
     
+    public function getAllLinkages(C3op_Register_Contact $c)
+    {
+        $result = array();
+        foreach ($this->db->query(
+                sprintf(
+                    'SELECT id FROM register_linkages WHERE contact = %d;',
+                    $c->GetId()
+                    )
+                )
+                as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
 }

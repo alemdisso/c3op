@@ -21,7 +21,8 @@ if (is_array($this->contactsList)) {
         while (list(, $contactData) = each($this->contactsList)) {
 ?>
 
-<?php print($contactData['name']) ?> | <?php print($contactData['type']) ?>
+<a href="<?php print($contactData['linkDetail']) ?>"><?php print($contactData['name']) ?></a>
+ | 
 
 <?php if (isset($contactData['linkEdit'])) { ?>
 <a href="<?php print($contactData['linkEdit']) ?>">Editar</a>

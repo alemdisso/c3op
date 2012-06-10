@@ -72,7 +72,7 @@
             </table>
           </td>
           <td class="coverPerLo">0.00%</td>
-          <td class="coverNumLo">0 / 11</td>
+          <td class="coverNumLo">0 / 12</td>
           <td class="crap"><acronym title="Change Risk Anti-Patterns (CRAP) Index">CRAP</acronym></td>
           <td class="coverBar" align="center" width="100">
             <table border="0" cellspacing="0" cellpadding="1">
@@ -82,7 +82,7 @@
             </table>
           </td>
           <td class="coverPerLo">0.00%</td>
-          <td class="coverNumLo">0 / 145</td>
+          <td class="coverNumLo">0 / 146</td>
         </tr>
 
         <tr>
@@ -107,7 +107,7 @@
             </table>
           </td>
           <td class="coverPerLo">0.00%</td>
-          <td class="coverNumLo">0 / 11</td>
+          <td class="coverNumLo">0 / 12</td>
           <td class="crap"></td>
           <td class="coverBar" align="center" width="100">
             <table border="0" cellspacing="0" cellpadding="1">
@@ -117,7 +117,7 @@
             </table>
           </td>
           <td class="coverPerLo">0.00%</td>
-          <td class="coverNumLo">0 / 145</td>
+          <td class="coverNumLo">0 / 146</td>
         </tr>
 
         <tr>
@@ -351,7 +351,30 @@
         </tr>
 
         <tr>
-          <td class="coverFile" colspan="4">&nbsp;<a href="#221">setAttributeValue(C3op_Projects_Project $p, $fieldValue, $attributeName)</a></td>
+          <td class="coverFile" colspan="4">&nbsp;<a href="#221">getAllProductsOf(C3op_Projects_Project $p)</a></td>
+          <td class="coverBar" align="center" width="100">
+            <table border="0" cellspacing="0" cellpadding="1">
+              <tr>
+                <td class="coverBarOutline"><img src="scarlet_red.png" width="0" height="10" alt="0.00%"><img src="snow.png" width="100" height="10" alt="0.00%"></td>
+              </tr>
+            </table>
+          </td>
+          <td class="coverPerLo">0.00%</td>
+          <td class="coverNumLo">0 / 1</td>
+          <td class="crap">2</td>
+          <td class="coverBar" align="center" width="100">
+            <table border="0" cellspacing="0" cellpadding="1">
+              <tr>
+                <td class="coverBarOutline"><img src="scarlet_red.png" width="0" height="10" alt="0.00%"><img src="snow.png" width="100" height="10" alt="0.00%"></td>
+              </tr>
+            </table>
+          </td>
+          <td class="coverPerLo">0.00%</td>
+          <td class="coverNumLo">0 / 1</td>
+        </tr>
+
+        <tr>
+          <td class="coverFile" colspan="4">&nbsp;<a href="#226">setAttributeValue(C3op_Projects_Project $p, $fieldValue, $attributeName)</a></td>
           <td class="coverBar" align="center" width="100">
             <table border="0" cellspacing="0" cellpadding="1">
               <tr>
@@ -606,13 +629,18 @@
 <span class="lineNum" id="container218"><a name="218"></a><a href="#218" id="line218">     218</a> </span><span class="lineNoCov">              0 :         } else throw new C3op_Projects_ActionMapperException(&quot;invalid action id to find subordinated for&quot;);                             </span>
 <span class="lineNum" id="container219"><a name="219"></a><a href="#219" id="line219">     219</a> </span><span class="lineDeadCode">                :     }                                                                                                                                   </span>
 <span class="lineNum" id="container220"><a name="220"></a><a href="#220" id="line220">     220</a> </span>                :                                                                                                                                         
-<span class="lineNum" id="container221"><a name="221"></a><a href="#221" id="line221">     221</a> </span>                :     private function setAttributeValue(C3op_Projects_Project $p, $fieldValue, $attributeName)                                           
+<span class="lineNum" id="container221"><a name="221"></a><a href="#221" id="line221">     221</a> </span>                :     public function getAllProductsOf(C3op_Projects_Project $p)                                                                          
 <span class="lineNum" id="container222"><a name="222"></a><a href="#222" id="line222">     222</a> </span>                :     {                                                                                                                                   
-<span class="lineNum" id="container223"><a name="223"></a><a href="#223" id="line223">     223</a> </span><span class="lineNoCov">              0 :         $attribute = new ReflectionProperty($p, $attributeName);                                                                        </span>
-<span class="lineNum" id="container224"><a name="224"></a><a href="#224" id="line224">     224</a> </span><span class="lineNoCov">              0 :         $attribute-&gt;setAccessible(TRUE);                                                                                                </span>
-<span class="lineNum" id="container225"><a name="225"></a><a href="#225" id="line225">     225</a> </span><span class="lineNoCov">              0 :         $attribute-&gt;setValue($p, $fieldValue);                                                                                          </span>
-<span class="lineNum" id="container226"><a name="226"></a><a href="#226" id="line226">     226</a> </span><span class="lineNoCov">              0 :     }                                                                                                                                   </span>
-<span class="lineNum" id="container227"><a name="227"></a><a href="#227" id="line227">     227</a> </span>                :                                                                                                                                         
+<span class="lineNum" id="container223"><a name="223"></a><a href="#223" id="line223">     223</a> </span><span class="lineNoCov">              0 :             return $this-&gt;getAllActionsSubordinatedTo($p, 0);                                                                           </span>
+<span class="lineNum" id="container224"><a name="224"></a><a href="#224" id="line224">     224</a> </span><span class="lineDeadCode">                :     }                                                                                                                                   </span>
+<span class="lineNum" id="container225"><a name="225"></a><a href="#225" id="line225">     225</a> </span>                :                                                                                                                                         
+<span class="lineNum" id="container226"><a name="226"></a><a href="#226" id="line226">     226</a> </span>                :     private function setAttributeValue(C3op_Projects_Project $p, $fieldValue, $attributeName)                                           
+<span class="lineNum" id="container227"><a name="227"></a><a href="#227" id="line227">     227</a> </span>                :     {                                                                                                                                   
+<span class="lineNum" id="container228"><a name="228"></a><a href="#228" id="line228">     228</a> </span><span class="lineNoCov">              0 :         $attribute = new ReflectionProperty($p, $attributeName);                                                                        </span>
+<span class="lineNum" id="container229"><a name="229"></a><a href="#229" id="line229">     229</a> </span><span class="lineNoCov">              0 :         $attribute-&gt;setAccessible(TRUE);                                                                                                </span>
+<span class="lineNum" id="container230"><a name="230"></a><a href="#230" id="line230">     230</a> </span><span class="lineNoCov">              0 :         $attribute-&gt;setValue($p, $fieldValue);                                                                                          </span>
+<span class="lineNum" id="container231"><a name="231"></a><a href="#231" id="line231">     231</a> </span><span class="lineNoCov">              0 :     }                                                                                                                                   </span>
+<span class="lineNum" id="container232"><a name="232"></a><a href="#232" id="line232">     232</a> </span>                :                                                                                                                                         
 
 </pre>
         </td>
@@ -621,7 +649,7 @@
 
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
-      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.2</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.8</a> and PHPUnit 3.5.15 at Sat Jun 2 18:37:30 BRT 2012.</td></tr>
+      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.2</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.8</a> and PHPUnit 3.5.15 at Mon Jun 4 11:35:42 BRT 2012.</td></tr>
     </table>
 
     <br />

@@ -1,0 +1,45 @@
+<h2>Detalhamento de Ação</h2>
+<?php 
+/*
+ * If exists projects list
+ */
+if (is_array($this->actionInfo)) {
+    $actionData = $this->actionInfo;
+?>
+Projeto: <?php print($actionData['projectTitle']) ?><br />
+<p /><br />
+Ação: <?php print($actionData['actionTitle']) ?><br />
+<p /><br /><hr>
+<?php
+}
+?>
+<?php 
+/*
+ * iterate list and print title
+ */
+
+    $actionsList = $actionData['actionsList'];
+    
+    if (count($actionsList)) {
+?>
+    Ações diretamente subordinadas:<br /><br />
+<?php        
+    }
+    
+    while (list(, $actionInfo) = each($actionsList)) {
+?>
+
+<?php print($actionInfo['title']) ?>
+<br/> (<?php print($actionInfo['brood']) ?>)<br/>
+<?php if (isset($actionInfo['linkEdit'])) { ?>
+<a href="<?php print($actionInfo['linkEdit']) ?>">Editar</a>
+<?php } ?>
+
+<br />
+
+
+    
+<?php
+}  // loop iterate list and print titlei
+?>
+

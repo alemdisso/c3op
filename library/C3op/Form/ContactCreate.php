@@ -31,23 +31,17 @@ class C3op_Form_ContactCreate extends Zend_Form
         while (list($key, $title) = each($titleTypes)) {
             $type->addMultiOption($key, $title);
         }        
-        
         $this->addElement($type);
-        
-        
-        
+                
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
         $submit->setLabel('Salvar')
             ->setOptions(array('class' => 'submit'));
         $this->addElement($submit);
-                
 
     }
     
     public function process($data) {
-        
-        
         if ($this->isValid($data) !== true) 
         {
             throw new C3op_Form_ContactCreateException('Invalid data!');
@@ -56,12 +50,10 @@ class C3op_Form_ContactCreate extends Zend_Form
         {
             $db = Zend_Registry::get('db');
             $contactMapper = new C3op_Register_ContactMapper($db);
-            
             $contact = new C3op_Register_Contact();
             $contact->SetName($this->name->GetValue());
             $contact->SetType($this->type->GetValue());
-            
             $contactMapper->insert($contact);
         }
     }
- }
+}

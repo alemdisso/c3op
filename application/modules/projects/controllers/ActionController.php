@@ -86,6 +86,52 @@ class Projects_ActionController extends Zend_Controller_Action
             $this->_redirect('/');
         }
     }
+    
+    public function detailAction()
+    {
+        $actionMapper = new C3op_Projects_ActionMapper($this->db);
+
+        if (!isset($this->projectMapper)) {
+            $this->initProjectMapper();
+        }
+        
+        $actionToBeDetailed =  $this->initActionWithCheckedId($actionMapper);
+        $projectToBeDetailed = $this->projectMapper->findById($actionToBeDetailed->getProject());
+        
+        $immediateBreed = $actionMapper->getActionsSubordinatedTo($actionToBeDetailed);
+        foreach ($immediateBreed as $actionId) {
+            $thisAction = $actionMapper->findById($actionId);
+            $nextBreed = $actionMapper->getActionsSubordinatedTo($thisAction);
+            if (count($nextBreed) > 0) {
+                $broodMessage = count($nextBreed) . " ações diretamente subordinadas";
+                if (count($nextBreed)== 1) {
+                    $broodMessage = count($nextBreed) . " ação diretamente subordinada";
+                }
+                $broodMessage = "<a href=/projects/action/detail/?id=" . $actionId . ">$broodMessage</a>";
+            } else {
+                $broodMessage = "sem ações diretamente subordinadas";
+                
+            }
+            $actionsList[$actionId] = array(
+                'title' => $thisAction->GetTitle(),
+                'brood' => $broodMessage,
+                'linkEdit' => '/projects/action/edit/?id=' . $actionId   ,
+            );
+            
+        }
+        
+        
+        
+        $actionInfo = array(
+            'projectTitle' => $projectToBeDetailed->GetTitle(),
+            'linkEditProject' => '/projects/project/edit/?id=' . $projectToBeDetailed->GetId(),
+            'actionTitle' => $actionToBeDetailed->GetTitle(),
+            'actionsList' => $actionsList,
+
+        );
+
+        $this->view->actionInfo = $actionInfo;
+    }
 
     public function successCreateAction()
     {
@@ -105,6 +151,29 @@ class Projects_ActionController extends Zend_Controller_Action
         $flashMessenger->addMessage('Id Inválido');
     }
     
+    private function initActionWithCheckedId(C3op_Projects_ActionMapper $mapper)
+    {
+        return $mapper->findById($this->checkIdFromGet());
+    }
+
+    private function checkIdFromGet()
+    {
+        $data = $this->_request->getParams();
+        $filters = array(
+            'id' => new Zend_Filter_Alnum(),
+        );
+        $validators = array(
+            'id' => array('Digits', new Zend_Validate_GreaterThan(0)),
+        );
+        $input = new Zend_Filter_Input($filters, $validators, $data);
+        if ($input->isValid()) {
+            $id = $input->id;
+            return $id;
+        }
+        throw new C3op_Projects_ProjectException("Invalid Project Id from Get");
+
+    }
+
     private function populateProjectFields($projectId, C3op_Form_ActionCreate $form)
     {
         $validator = new C3op_Util_ValidId();
@@ -180,4 +249,9 @@ class Projects_ActionController extends Zend_Controller_Action
         } else throw new C3op_Projects_ActionException("Action needs a positive integer project id to find possible receivings to to be a requirement.");
    }
      
+    private function initProjectMapper()
+    {
+         $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
+    }
+    
 }

@@ -23,6 +23,7 @@ class Register_ContactController extends Zend_Controller_Action
             $contactsList[$id] = array(
                 'name' => $thisContact->GetName(),
                 'linkEdit' => '/register/contact/edit/?id=' . $id   ,
+                'linkDetail' => '/register/contact/detail/?id=' . $id   ,
                 'type' => C3op_Register_ContactTypes::TitleForType($thisContact->GetType()),
             );
         }
@@ -67,6 +68,9 @@ class Register_ContactController extends Zend_Controller_Action
         } else {
             // GET
             $id = $this->checkIdFromGet();
+            $contactData = array();
+            $contactData["id"] = $id;
+            $this->view->contactData = $contactData;
             $thisContact = $this->contactMapper->findById($id);
             $nameField = $form->getElement('name');
             $nameField->setValue($thisContact->getName());
@@ -108,51 +112,35 @@ class Register_ContactController extends Zend_Controller_Action
 
     public function detailAction()
     {
-        $actionMapper = new C3op_Register_ActionMapper($this->db);
+        $linkageMapper = new C3op_Register_LinkageMapper($this->db);
 
         $id = $this->checkIdFromGet();
         $thisContact = $this->contactMapper->findById($id);
-        $productsIdList = $this->contactMapper->getAllProducts($thisContact);
-        if (count($productsIdList) > 0) {
-            $linkReceivings = '/register/contact/receivings/?id=' . $thisContact->GetId();
-        } else {
-            $linkReceivings = "";
-        }
 
-        $actionsIdsList = $this->contactMapper->getAllActions($thisContact);
-        $actionsList = array();
-        reset ($actionsList);
-        foreach ($actionsIdsList as $actionId) {
-            $thisAction = $actionMapper->findById($actionId);
+        $linkagesIdsList = $this->contactMapper->getAllLinkages($thisContact);
+        $linkagesList = array();
+        reset ($linkagesList);
+        foreach ($linkagesIdsList as $linkageId) {
+            $thisLinkage = $linkageMapper->findById($linkageId);
             
-            if ($thisAction->GetMilestone()) {
-                $milestone = "M";
-            } else {
-                $milestone = "";                
+            if ($thisLinkage->GetInstitution() > 0) {
+                $institutionMapper = new C3op_Register_InstitutionMapper($this->db);
+                $thisInstitution = $institutionMapper->findById($thisLinkage->GetInstitution());
             }
             
-            if ($thisAction->GetRequirementForReceiving()) {
-                $requirementForReceiving = "$";
-            } else {
-                $requirementForReceiving = "";  
-            }
-            
-
-            $actionsList[$actionId] = array(
-                'name' => $thisAction->GetName(),
-                'milestone' => $milestone,
-                'requirementForReceiving' => $requirementForReceiving,
-                'linkEdit' => '/register/action/edit/?id=' . $actionId   ,
+            $linkagesList[$linkageId] = array(
+                'institutionName' => $thisInstitution->GetName(),
+                'institutionEdit' => '/register/institution/edit/?id=' . $thisInstitution->GetId(),
+                'department' => $thisLinkage->GetDepartment(),
+                'position' => $thisLinkage->GetPosition(),
+                'linkEdit' => '/register/linkage/edit/?id=' . $linkageId   ,
             );
         }
         $contactInfo = array(
             'name' => $thisContact->GetName(),
             'linkEdit' => '/register/contact/edit/?id=' . $id   ,
-            'linkReceivings' => $linkReceivings,
-            'dateBegin' => $thisContact->GetDateBegin(),
-            'value' => $thisContact->GetValue(),
-            'linkActionCreate' => '/register/action/create/?contact=' . $id,
-            'actionsList' => $actionsList,
+            'linkLinkageCreate' => '/register/linkage/create/?contact=' . $id   ,
+            'linkagesList' => $linkagesList,
         );
 
         $this->view->contactInfo = $contactInfo;
@@ -201,6 +189,4 @@ class Register_ContactController extends Zend_Controller_Action
 
         $this->view->contactInfo = $contactInfo;
     }
-
-
 }

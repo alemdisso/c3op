@@ -1,0 +1,62 @@
+<h2>Consulta de contato</h2>
+<?php 
+/*
+ * If exists contacts list
+ */
+if (is_array($this->contactInfo)) {
+    $contactData = $this->contactInfo;
+?>
+<h3>Contato: <?php print($contactData['name']) ?></h3>
+<p />
+
+<?php 
+/*
+ * iterate list and print title
+ */
+
+    $linkagesList = $contactData['linkagesList'];
+
+    if (count($linkagesList) > 0) {
+    
+    
+?>
+Vínculos<br/>    
+<?php
+    while (list(, $linkageInfo) = each($linkagesList)) {
+?>
+<?php if (isset($linkageInfo['institutionEdit'])) { ?>
+<a href="<?php print($linkageInfo['institutionEdit']) ?>"><?php print($linkageInfo['institutionName']) ?></a>
+<?php } ?><br/>
+<?php if (isset($linkageInfo['department']) && ($linkageInfo['department'] != "")) { ?>
+| Departamento: <?php print($linkageInfo['department']) ?>
+<?php } ?> 
+<?php if (isset($linkageInfo['position']) && ($linkageInfo['position'] != "")) { ?>
+| Posição: <?php print($linkageInfo['position']) ?>
+<?php } ?> 
+
+<?php if (isset($linkageInfo['linkEdit'])) { ?>
+<a href="<?php print($linkageInfo['linkEdit']) ?>">Editar</a>
+<?php } ?>
+<hr>
+
+
+    
+<?php
+}  // loop iterate list and print titlei
+?>
+
+<?php } ?> 
+
+
+<p />
+<a href="<?php print($this->contactInfo['linkLinkageCreate']) ?>">Criar Novo Vínculo</a>
+
+    
+<?php
+} else { // else exists contacts list 
+?>
+    <?php print("Não há informações sobre este contato.") ?>
+
+    <?php
+} // end exists contacts list
+?>

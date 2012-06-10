@@ -96,7 +96,7 @@ class Register_InstitutionController extends Zend_Controller_Action
             $this->SetValueToFormField($form, 'district', $thisInstitution->getDistrict());
             $this->SetValueToFormField($form, 'zipCode', $thisInstitution->getZipCode());
             $this->SetValueToFormField($form, 'city', $thisInstitution->getCity());
-//            $this->SetValueToFormField($form, 'state', $thisInstitution->getState());
+            $this->SetValueToFormField($form, 'state', $thisInstitution->getState());
             $this->SetValueToFormField($form, 'website', $thisInstitution->getWebsite());
             $this->SetValueToFormField($form, 'type', $thisInstitution->getType());
             $this->SetValueToFormField($form, 'relationshipType', $thisInstitution->getRelationshipType());
