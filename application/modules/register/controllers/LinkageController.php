@@ -249,7 +249,7 @@ class Register_LinkageController extends Zend_Controller_Action
             return $contactId;
         } else throw new C3op_Register_LinkageException("Linkage needs a positive integer contact id.");
     }
-   
+
     private function PopulateInstitutionsField(C3op_Form_LinkageCreate $form, $currentInstitution=0)
     {
         $institutionField = $form->getElement('institution');

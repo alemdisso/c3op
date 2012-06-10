@@ -157,4 +157,17 @@ class C3op_Register_InstitutionMapperBase {
         $attribute->setValue($i, $fieldValue);
     }
 
+    public function getAllPossibleClients() {
+        $result = array();
+        foreach ($this->db->query(
+            sprintf(
+                'SELECT id FROM register_institutions WHERE relationship_type <> %d;'
+                , C3op_Register_InstitutionRelationshipConstants::RELATIONSHIP_CONTRACTING
+            )
+        )as $row) {
+            $result[] = $row['id'];
+        }        
+        return $result;
+    }
+    
 }

@@ -7,6 +7,7 @@ class Projects_ProjectController extends Zend_Controller_Action
     private $detailProductDepth;
     private $detailProductBrood;
     private $detailProductBreeds;
+    private $institutionMapper;
 
     public function init()
     {
@@ -50,6 +51,19 @@ class Projects_ProjectController extends Zend_Controller_Action
             $id = $this->checkIdFromGet();
             $this->SetValueToFormField($form, 'id', $id);
             $this->SetValueToFormField($form, 'title', $thisProject->GetTitle());
+            $this->SetValueToFormField($form, 'client', $thisProject->GetClient());
+        
+            if (!isset($this->institutionMapper)) {
+                $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
+            }
+            $clientField = $form->getElement('client');
+            $allPossibleClients = $this->institutionMapper->getAllPossibleClients();
+            while (list($key, $institutionId) = each($allPossibleClients)) {
+                $eachPossibleClient = $this->institutionMapper->findById($institutionId);
+                $clientField->addMultiOption($institutionId, $eachPossibleClient->GetName());
+            }      
+            
+            
             $this->SetValueToFormField($form, 'ourResponsible', $thisProject->GetOurResponsible());
             $this->SetValueToFormField($form, 'responsibleAtClient', $thisProject->GetResponsibleAtClient());
             $this->SetDateValueToFormField($form, 'dateBegin', $thisProject->GetDateBegin());
