@@ -63,6 +63,16 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $clientField->addMultiOption($institutionId, $eachPossibleClient->GetName());
             }      
             
+            if (!isset($this->contactMapper)) {
+                $this->contactMapper = new C3op_Register_ContactMapper($this->db);
+            }
+            $ourResponsibleField = $form->getElement('ourResponsible');
+            $allThatCanBeOurResponsible = $this->contactMapper->getAllContactThatAreLinkedToAContractant();
+            while (list($key, $contactId) = each($allThatCanBeOurResponsible)) {
+                $eachPossibleResponsible = $this->contactMapper->findById($contactId);
+                $ourResponsibleField->addMultiOption($contactId, $eachPossibleResponsible->GetName());
+            }      
+            
             
             $this->SetValueToFormField($form, 'ourResponsible', $thisProject->GetOurResponsible());
             $this->SetValueToFormField($form, 'responsibleAtClient', $thisProject->GetResponsibleAtClient());

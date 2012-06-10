@@ -108,4 +108,20 @@ class C3op_Register_ContactMapperBase {
         return $result;
     }
 
+    public function getAllContactThatAreLinkedToAContractant() {
+        $result = array();
+        foreach ($this->db->query('SELECT c.id
+                    FROM register_contacts c
+                    INNER JOIN register_linkages l ON c.id = l.contact
+                    INNER JOIN register_institutions i ON l.institution = i.id
+                    WHERE i.relationship_type =50
+                    LIMIT 0 , 30'
+                    ) as $row) {
+            $result[] = $row['id'];
+        }        
+        return $result;
+    }
+    
+    
+    
 }
