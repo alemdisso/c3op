@@ -83,23 +83,23 @@ class Register_InstitutionController extends Zend_Controller_Action
             // GET
             $id = $this->checkIdFromGet();
             $thisInstitution = $this->institutionMapper->findById($id);
-            $this->SetValueToFormField($form, 'name', $thisInstitution->getName());
-            $this->SetValueToFormField($form, 'id', $id);
-            $this->SetValueToFormField($form, 'shortName', $thisInstitution->getShortName());
-            $this->SetValueToFormField($form, 'legalEntity', $thisInstitution->getLegalEntity());
-            $this->SetValueToFormField($form, 'registerNumber', $thisInstitution->getRegisterNumber());
-            $this->SetValueToFormField($form, 'stateRegistration', $thisInstitution->getStateRegistration());
-            $this->SetValueToFormField($form, 'localRegisterNumber', $thisInstitution->getLocalRegisterNumber());
-            $this->SetValueToFormField($form, 'street', $thisInstitution->getStreet());
-            $this->SetValueToFormField($form, 'streetNumber', $thisInstitution->getStreetNumber());
-            $this->SetValueToFormField($form, 'addressComplement', $thisInstitution->getAddressComplement());
-            $this->SetValueToFormField($form, 'district', $thisInstitution->getDistrict());
-            $this->SetValueToFormField($form, 'zipCode', $thisInstitution->getZipCode());
-            $this->SetValueToFormField($form, 'city', $thisInstitution->getCity());
-            $this->SetValueToFormField($form, 'state', $thisInstitution->getState());
-            $this->SetValueToFormField($form, 'website', $thisInstitution->getWebsite());
-            $this->SetValueToFormField($form, 'type', $thisInstitution->getType());
-            $this->SetValueToFormField($form, 'relationshipType', $thisInstitution->getRelationshipType());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'name', $thisInstitution->getName());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $id);
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'shortName', $thisInstitution->getShortName());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'legalEntity', $thisInstitution->getLegalEntity());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'registerNumber', $thisInstitution->getRegisterNumber());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'stateRegistration', $thisInstitution->getStateRegistration());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'localRegisterNumber', $thisInstitution->getLocalRegisterNumber());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'street', $thisInstitution->getStreet());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'streetNumber', $thisInstitution->getStreetNumber());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'addressComplement', $thisInstitution->getAddressComplement());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'district', $thisInstitution->getDistrict());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'zipCode', $thisInstitution->getZipCode());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'city', $thisInstitution->getCity());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'state', $thisInstitution->getState());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'website', $thisInstitution->getWebsite());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'type', $thisInstitution->getType());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'relationshipType', $thisInstitution->getRelationshipType());
 
         }
     }
@@ -229,10 +229,5 @@ class Register_InstitutionController extends Zend_Controller_Action
         $this->view->institutionInfo = $institutionInfo;
     }
     
-    private function setValueToFormField(C3op_Form_InstitutionCreate $form, $fieldName, $value)
-    {
-        $field = $form->getElement($fieldName);
-        $field->setValue($value);
-    }
 
 }

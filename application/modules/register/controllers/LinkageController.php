@@ -72,10 +72,10 @@ class Register_LinkageController extends Zend_Controller_Action
             $this->PopulateContactFields($contactId, $form);
             $this->PopulateInstitutionsField($form, $thisLinkage->GetInstitution());
             $this->view->form = $form;
-            $this->SetValueToFormField($form, 'id', $id);
-            $this->SetValueToFormField($form, 'department', $thisLinkage->getDepartment());
-            $this->SetValueToFormField($form, 'position', $thisLinkage->getPosition());
-            $this->SetValueToFormField($form, 'state', $thisLinkage->getState());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $id);
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'department', $thisLinkage->getDepartment());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'position', $thisLinkage->getPosition());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'state', $thisLinkage->getState());
 
         }
     }
@@ -206,17 +206,17 @@ class Register_LinkageController extends Zend_Controller_Action
             $data = $this->_request->getParams();
             $form = new C3op_Form_LinkageRemove();
             $id = $this->checkIdFromGet();
-            $this->SetValueToFormField($form, 'id', $id);
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $id);
             $thisLinkage = $this->linkageMapper->findById($id);
             $contactId = $thisLinkage->GetContact();
             $institutionId = $thisLinkage->GetInstitution();
-            $this->SetValueToFormField($form, 'id', $id);
-            $this->SetValueToFormField($form, 'institution', $institutionId);
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $id);
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'institution', $institutionId);
             if (!isset($this->institutionMapper)) {
                 $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
             }
             $thisInstitution = $this->institutionMapper->findById($institutionId);
-            $this->SetValueToFormField($form, 'contact', $contactId);
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'contact', $contactId);
             if (!isset($this->contactMapper)) {
                 $this->contactMapper = new C3op_Register_ContactMapper($this->db);
             }
@@ -244,7 +244,7 @@ class Register_LinkageController extends Zend_Controller_Action
             $thisContact = $this->contactMapper->findById($contactId);
             $this->view->contactName = $thisContact->GetName();
             $this->view->linkContactDetail = "/register/contact/detail/?id=" . $thisContact->GetId();
-            $this->SetValueToFormField($form, 'contact', $contactId);
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'contact', $contactId);
 
             return $contactId;
         } else throw new C3op_Register_LinkageException("Linkage needs a positive integer contact id.");

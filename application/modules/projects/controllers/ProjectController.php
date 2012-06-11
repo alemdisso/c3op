@@ -30,6 +30,10 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $this->_redirect('/projects/project/success-create');
 
             } else throw new C3op_Projects_ProjectException("A project must have a valid title.");
+        } else {
+            $this->PopulateClientField($form);
+            $this->PopulateOurResponsibleField($form);
+            
         }
     }
 
@@ -49,44 +53,23 @@ class Projects_ProjectController extends Zend_Controller_Action
             // GET
             $thisProject = $this->InitProjectWithCheckedId($this->projectMapper);
             $id = $this->checkIdFromGet();
-            $this->SetValueToFormField($form, 'id', $id);
-            $this->SetValueToFormField($form, 'title', $thisProject->GetTitle());
-            $this->SetValueToFormField($form, 'client', $thisProject->GetClient());
-        
-            if (!isset($this->institutionMapper)) {
-                $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
-            }
-            $clientField = $form->getElement('client');
-            $allPossibleClients = $this->institutionMapper->getAllPossibleClients();
-            while (list($key, $institutionId) = each($allPossibleClients)) {
-                $eachPossibleClient = $this->institutionMapper->findById($institutionId);
-                $clientField->addMultiOption($institutionId, $eachPossibleClient->GetName());
-            }      
-            
-            if (!isset($this->contactMapper)) {
-                $this->contactMapper = new C3op_Register_ContactMapper($this->db);
-            }
-            $ourResponsibleField = $form->getElement('ourResponsible');
-            $allThatCanBeOurResponsible = $this->contactMapper->getAllContactThatAreLinkedToAContractant();
-            while (list($key, $contactId) = each($allThatCanBeOurResponsible)) {
-                $eachPossibleResponsible = $this->contactMapper->findById($contactId);
-                $ourResponsibleField->addMultiOption($contactId, $eachPossibleResponsible->GetName());
-            }      
-            
-            
-            $this->SetValueToFormField($form, 'ourResponsible', $thisProject->GetOurResponsible());
-            $this->SetValueToFormField($form, 'responsibleAtClient', $thisProject->GetResponsibleAtClient());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $id);
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'title', $thisProject->GetTitle());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'client', $thisProject->GetClient());
+            $this->PopulateClientField($form, $thisProject->GetClient());
+            $this->PopulateOurResponsibleField($form, $thisProject->GetOurResponsible());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'responsibleAtClient', $thisProject->GetResponsibleAtClient());
             $this->SetDateValueToFormField($form, 'dateBegin', $thisProject->GetDateBegin());
             $this->SetDateValueToFormField($form, 'dateFinish', $thisProject->GetDateFinish());
-            $this->SetValueToFormField($form, 'value', $thisProject->GetValue());
-            $this->SetValueToFormField($form, 'status', $thisProject->GetStatus());
-            $this->SetValueToFormField($form, 'contractNature', $thisProject->GetContractNature());
-            $this->SetValueToFormField($form, 'areaActivity', $thisProject->GetAreaActivity());
-            $this->SetValueToFormField($form, 'overhead', $thisProject->GetOverhead());
-            $this->SetValueToFormField($form, 'managementFee', $thisProject->GetManagementFee());
-            $this->SetValueToFormField($form, 'object', $thisProject->GetObject());
-            $this->SetValueToFormField($form, 'summary', $thisProject->GetSummary());
-            $this->SetValueToFormField($form, 'observation', $thisProject->GetObservation());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'value', $thisProject->GetValue());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'status', $thisProject->GetStatus());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'contractNature', $thisProject->GetContractNature());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'areaActivity', $thisProject->GetAreaActivity());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'overhead', $thisProject->GetOverhead());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'managementFee', $thisProject->GetManagementFee());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'object', $thisProject->GetObject());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'summary', $thisProject->GetSummary());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'observation', $thisProject->GetObservation());
           }
     }
 
@@ -223,8 +206,6 @@ class Projects_ProjectController extends Zend_Controller_Action
             $validator = new C3op_Util_ValidDate();
             if ($validator->isValid($thisReceiving->GetPredictedDate())) {
                 $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($thisReceiving->GetPredictedDate());
-                
-//                $predictedDate = $this->formatDataToShow($thisReceiving->GetPredictedDate());
             } else {
                 $predictedDate = "(data desconhecida)";
             }
@@ -232,7 +213,6 @@ class Projects_ProjectController extends Zend_Controller_Action
             if ($thisReceiving->GetPredictedValue() > 0) {
                 $receivingsTotalValue += $thisReceiving->GetPredictedValue();
                 $predictedValue = C3op_Util_CurrencyDisplay::FormatCurrency($thisReceiving->GetPredictedValue());
-//                $predictedValue = "R$ " . $thisReceiving->GetPredictedValue();
             } else {
                 $predictedValue = "";
             }
@@ -305,46 +285,36 @@ class Projects_ProjectController extends Zend_Controller_Action
        
     }
 
-    private function extractActionsJustBelow($actionsBelow, C3op_Projects_ActionMapper $mapper)
-    {
-        if (count($actionsBelow)) {
-            if (count($this->detailProductBreeds) == $this->detailProductDepth) {
-                $this->detailProductBreeds[$this->detailProductDepth++] = 1;
-            } else {
-                $this->detailProductBreeds[$this->detailProductDepth]++;
-            }
-        }
-        
-        foreach ($actionsBelow as $childAction) {
-            if (isset($childAction['action'])) {
-                $action = $childAction['action'];
-                $this->detailProductBrood++;
-                $immediateBreed = $mapper->getActionsSubordinatedTo($action);
-                if (count($immediateBreed)) {
-                    $depth = 1;
-                    $brood = count($immediateBreed);
-                    $newActionsBelow = array(array("action" => $action, "actionsBelow" => array()));
-                    foreach ($immediateBreed as $newAction) {
-                        $newAction["actionsBelow"] = $this->extractActionsJustBelow($newActionsBelow, $mapper);
-                    }
-                } else {
-                    $depth = 0;
-                    $brood = 0;
-
-                }
-             
-            }
-            
-        }
-        
-    }
+//    private function extractActionsJustBelow($actionsBelow, C3op_Projects_ActionMapper $mapper)
+//    {
+//        if (count($actionsBelow)) {
+//            if (count($this->detailProductBreeds) == $this->detailProductDepth) {
+//                $this->detailProductBreeds[$this->detailProductDepth++] = 1;
+//            } else {
+//                $this->detailProductBreeds[$this->detailProductDepth]++;
+//            }
+//        }
+//        
+//        foreach ($actionsBelow as $childAction) {
+//            if (isset($childAction['action'])) {
+//                $action = $childAction['action'];
+//                $this->detailProductBrood++;
+//                $immediateBreed = $mapper->getActionsSubordinatedTo($action);
+//                if (count($immediateBreed)) {
+//                    $depth = 1;
+//                    $brood = count($immediateBreed);
+//                    $newActionsBelow = array(array("action" => $action, "actionsBelow" => array()));
+//                    foreach ($immediateBreed as $newAction) {
+//                        $newAction["actionsBelow"] = $this->extractActionsJustBelow($newActionsBelow, $mapper);
+//                    }
+//                } else {
+//                    $depth = 0;
+//                    $brood = 0;
+//                }
+//            }
+//        }
+//    }
  
-    private function setValueToFormField(C3op_Form_ProjectCreate $form, $fieldName, $value)
-    {
-        $field = $form->getElement($fieldName);
-        $field->setValue($value);
-    }
-    
     private function setDateValueToFormField(C3op_Form_ProjectCreate $form, $fieldName, $value)
     {
         $field = $form->getElement($fieldName);
@@ -361,4 +331,35 @@ class Projects_ProjectController extends Zend_Controller_Action
         $formatedDate = $dateArray[2] . '/' . $dateArray[1] . '/' . $dateArray[0]; 
         return $formatedDate;
     }
+    
+    private function PopulateClientField(Zend_Form $form, $currentClient=0)
+    {
+        
+            if (!isset($this->institutionMapper)) {
+                $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
+            }
+            $clientField = $form->getElement('client');
+            $allPossibleClients = $this->institutionMapper->getAllPossibleClients();
+            while (list($key, $institutionId) = each($allPossibleClients)) {
+                $eachPossibleClient = $this->institutionMapper->findById($institutionId);
+                $clientField->addMultiOption($institutionId, $eachPossibleClient->GetName());
+            }      
+            $clientField->setValue($currentClient);
+    }
+
+    private function PopulateOurResponsibleField(Zend_Form $form, $currentResponsible = 0)
+    {
+            if (!isset($this->contactMapper)) {
+                $this->contactMapper = new C3op_Register_ContactMapper($this->db);
+            }
+            $ourResponsibleField = $form->getElement('ourResponsible');
+            $allThatCanBeOurResponsible = $this->contactMapper->getAllContactThatAreLinkedToAContractant();
+            while (list($key, $contactId) = each($allThatCanBeOurResponsible)) {
+                $eachPossibleResponsible = $this->contactMapper->findById($contactId);
+                $ourResponsibleField->addMultiOption($contactId, $eachPossibleResponsible->GetName());
+            }      
+            $ourResponsibleField->setValue($currentResponsible);
+   }
+    
+    
 }
