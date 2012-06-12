@@ -1,15 +1,45 @@
 <h2>Detalhamento de Ação</h2>
 <?php 
-/*
- * If exists projects list
- */
 if (is_array($this->actionInfo)) {
     $actionData = $this->actionInfo;
 ?>
 Projeto: <?php print($actionData['projectTitle']) ?><br />
 <p /><br />
 Ação: <?php print($actionData['actionTitle']) ?><br />
-<p /><br /><hr>
+<p /><br />
+
+<?php 
+    $humanResourcesList = $actionData['humanResourcesList'];
+    
+    if (count($humanResourcesList)) {
+?>
+    Recursos Humanos:<br /><br />
+<?php        
+    
+        while (list(, $humanResourceInfo) = each($humanResourcesList)) {
+?>
+
+<?php print($humanResourceInfo['description']) ?> (<?php print($humanResourceInfo['value']) ?>)<br/>
+<?php if (isset($humanResourceInfo['linkEdit'])) { ?>
+<a href="<?php print($humanResourceInfo['linkEdit']) ?>">Editar</a>
+<?php   }
+
+?>
+
+<br />
+
+
+    
+<?php
+    }  // loop iterate list and print title
+ }
+?>
+
+<br />
+
+<a href="/projects/human-resource/create/?actionId=<?php print($actionData['id']); ?>">Prever Recurso Humano</a>
+<hr>
+
 <?php
 }
 ?>
@@ -24,22 +54,24 @@ Ação: <?php print($actionData['actionTitle']) ?><br />
 ?>
     Ações diretamente subordinadas:<br /><br />
 <?php        
-    }
     
-    while (list(, $actionInfo) = each($actionsList)) {
+        while (list(, $actionInfo) = each($actionsList)) {
 ?>
 
 <?php print($actionInfo['title']) ?>
 <br/> (<?php print($actionInfo['brood']) ?>)<br/>
 <?php if (isset($actionInfo['linkEdit'])) { ?>
 <a href="<?php print($actionInfo['linkEdit']) ?>">Editar</a>
-<?php } ?>
+<?php   }
+
+?>
 
 <br />
 
 
     
 <?php
-}  // loop iterate list and print titlei
+    }  // loop iterate list and print title
+ }
 ?>
 

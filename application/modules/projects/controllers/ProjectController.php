@@ -33,7 +33,6 @@ class Projects_ProjectController extends Zend_Controller_Action
         } else {
             $this->PopulateClientField($form);
             $this->PopulateOurResponsibleField($form);
-            
         }
     }
 

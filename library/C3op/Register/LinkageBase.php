@@ -14,7 +14,6 @@ class C3op_Register_LinkageBase {
         $this->contact = "";
         $this->institution = "";
         $this->department = "";
-        $this->registerNumber = "";
         $this->state = "";
         $this->position = "";
     }

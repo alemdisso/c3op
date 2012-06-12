@@ -1,11 +1,8 @@
 <?php
 
-class Projects_ActionController extends Zend_Controller_Action
+class Projects_HumanResourceController extends Zend_Controller_Action
 {
-    private $actionMapper;
     private $humanResourceMapper;
-    private $projectMapper;
-    private $receivingMapper;
     private $db;
 
     public function init()
@@ -16,7 +13,7 @@ class Projects_ActionController extends Zend_Controller_Action
     public function createAction()
     {
         // cria form
-        $form = new C3op_Form_ActionCreate;
+        $form = new C3op_Form_HumanResourceCreate();
         $this->view->form = $form;
 
         if ($this->getRequest()->isPost()) {
@@ -29,16 +26,20 @@ class Projects_ActionController extends Zend_Controller_Action
             } else throw new C3op_Projects_ActionException("An action must have a valid title.");
         } else {
             $data = $this->_request->getParams();
-            $projectId = $data['project'];
-            $this->populateProjectFields($projectId, $form);
-            $this->populateRequirementForReceivingField($projectId, $form);
-            $this->populateSubordinatedActionsField($projectId, $form);
+            $actionId = $data['actionId'];
+            if (!isset($this->actionMapper)) {
+                $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
+            }
+            $thisAction = $this->actionMapper->findById($actionId);
+            $this->view->actionTitle = $thisAction->GetTitle();
+            $actionField = $form->getElement('action');
+            $actionField->setValue($actionId);
         }
     }
 
     public function editAction()
     {
-        $form = new C3op_Form_ActionEdit;
+        $form = new C3op_Form_HumanResourceEdit;
         $this->view->form = $form;
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
@@ -46,8 +47,8 @@ class Projects_ActionController extends Zend_Controller_Action
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage('The record was successfully updated.');          
-                $this->_redirect('/projects/project/success-create');
-            } else throw new C3op_Projects_ProjectException("A project must have a valid title.");
+                $this->_redirect('/projects/human-resource/success-create');
+            } else throw new C3op_Projects_ProjectException("Invalid data for new human resource.");
         } else {
             $data = $this->_request->getParams();
             $filters = array(
@@ -59,19 +60,18 @@ class Projects_ActionController extends Zend_Controller_Action
             $input = new Zend_Filter_Input($filters, $validators, $data);
             if ($input->isValid()) {
                 $id = $input->id;
-                if (!isset($this->actionMapper)) {
-                    $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
+                if (!isset($this->humanResourceMapper)) {
+                    $this->humanResourceMapper = new C3op_Projects_HumanResourceMapper($this->db);
                 }
-                $thisAction = $this->actionMapper->findById($id);
-                $titleField = $form->getElement('title');
-                $titleField->setValue($thisAction->getTitle());
+                $thisHumanResource = $this->humanResourceMapper->findById($id);
+                $descriptionField = $form->getElement('description');
+                $descriptionField->setValue($thisAction->getDescription());
                 $idField = $form->getElement('id');
                 $idField->setValue($id);
-                $milestoneField = $form->getElement('milestone');
-                $milestoneField->setValue($thisAction->getMilestone());
-                $projectId = $this->populateProjectFields($thisAction->GetProject(), $form);
-                $this->populateRequirementForReceivingField($projectId, $form, $thisAction->GetRequirementForReceiving());
-                $this->populateSubordinatedActionsField($projectId, $form, $id);
+                $valueField = $form->getElement('value');
+                $valueField->setValue($thisAction->getValue());
+                $actionField = $form->getElement('action');
+                $actionField->setValue($action);
             }
 
         }
@@ -99,26 +99,6 @@ class Projects_ActionController extends Zend_Controller_Action
         
         $actionToBeDetailed =  $this->initActionWithCheckedId($actionMapper);
         $projectToBeDetailed = $this->projectMapper->findById($actionToBeDetailed->getProject());
-        
-        if (!isset($this->humanResourceMapper)) {
-            $this->humanResourceMapper = new C3op_Projects_HumanResourceMapper($this->db);
-        }
-        
-        $humanResourcesIdsList = $this->humanResourceMapper->getAllHumanResourcesOnAction($actionToBeDetailed);
-        
-        foreach ($humanResourcesIdsList as $humanResourceId) {
-            $thisHumanResource = $this->humanResourceMapper->findById($humanResourceId);
-            $humanResourcesList[$humanResourceId] = array(
-                'id' => $humanResourceId,
-                'description' => $thisHumanResource->GetDescription(),
-                'value' => $thisHumanResource->GetValue(),
-                'linkEdit' => '/projects/human-resource/edit/?id=' . $humanResourceId   ,
-            );
-            
-        }
-        
-        
-        
         
         $immediateBreed = $actionMapper->getActionsSubordinatedTo($actionToBeDetailed);
         foreach ($immediateBreed as $actionId) {
@@ -150,8 +130,6 @@ class Projects_ActionController extends Zend_Controller_Action
             'linkEditProject' => '/projects/project/edit/?id=' . $projectToBeDetailed->GetId(),
             'actionTitle' => $actionToBeDetailed->GetTitle(),
             'actionsList' => $actionsList,
-            'humanResourcesList' => $humanResourcesList,            
-            'id' => $actionToBeDetailed->GetId(),
 
         );
 
