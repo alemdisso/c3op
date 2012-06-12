@@ -108,11 +108,13 @@ class Projects_ActionController extends Zend_Controller_Action
         
         foreach ($humanResourcesIdsList as $humanResourceId) {
             $thisHumanResource = $this->humanResourceMapper->findById($humanResourceId);
+            $currencyValue = C3op_Util_CurrencyDisplay::FormatCurrency($thisHumanResource->GetValue());
+            
             $humanResourcesList[$humanResourceId] = array(
                 'id' => $humanResourceId,
                 'description' => $thisHumanResource->GetDescription(),
-                'value' => $thisHumanResource->GetValue(),
-                'linkEdit' => '/projects/human-resource/edit/?id=' . $humanResourceId   ,
+                'value' => $currencyValue,
+                'linkEdit' => '/projects/human-resource/edit/?id=' . $humanResourceId,
             );
             
         }

@@ -13,13 +13,13 @@ Ação: <?php print($actionData['actionTitle']) ?><br />
     
     if (count($humanResourcesList)) {
 ?>
-    Recursos Humanos:<br /><br />
+    Recursos Humanos:<br />
 <?php        
     
         while (list(, $humanResourceInfo) = each($humanResourcesList)) {
 ?>
 
-<?php print($humanResourceInfo['description']) ?> (<?php print($humanResourceInfo['value']) ?>)<br/>
+<?php print($humanResourceInfo['description']) ?> (<?php print($humanResourceInfo['value']) ?>) 
 <?php if (isset($humanResourceInfo['linkEdit'])) { ?>
 <a href="<?php print($humanResourceInfo['linkEdit']) ?>">Editar</a>
 <?php   }

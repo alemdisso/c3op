@@ -65,14 +65,20 @@ class Projects_HumanResourceController extends Zend_Controller_Action
                 }
                 $thisHumanResource = $this->humanResourceMapper->findById($id);
                 $descriptionField = $form->getElement('description');
-                $descriptionField->setValue($thisAction->getDescription());
+                $descriptionField->setValue($thisHumanResource->getDescription());
                 $idField = $form->getElement('id');
                 $idField->setValue($id);
                 $valueField = $form->getElement('value');
-                $valueField->setValue($thisAction->getValue());
+                $valueField->setValue($thisHumanResource->getValue());
                 $actionField = $form->getElement('action');
-                $actionField->setValue($action);
-            }
+                $actionField->setValue($thisHumanResource->getAction());
+                if (!isset($this->actionMapper)) {
+                    $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
+                }
+                $thisAction = $this->actionMapper->findById($thisHumanResource->getAction());
+                $this->view->actionTitle = $thisAction->GetTitle();
+                $this->view->linkActionDetail = "/projects/action/detail/?id=" . $thisHumanResource->getAction();
+                }
 
         }
     }
