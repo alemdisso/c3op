@@ -111,5 +111,20 @@ class C3op_Projects_ReceivingMapperBase
         $attribute->setValue($a, $fieldValue);
     }
     
+    public function getAllProducts(C3op_Projects_Receiving $r)
+    {
+        $result = array();
+        foreach ($this->db->query(
+                sprintf(
+                    'SELECT id FROM projects_actions WHERE requirement_for_receiving = %d;',
+                    $r->GetId()
+                    )
+                )
+                as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
     
 }

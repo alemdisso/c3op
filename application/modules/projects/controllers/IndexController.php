@@ -27,8 +27,8 @@ class Projects_IndexController extends Zend_Controller_Action
             $projectsList[$id] = array(
                 'title' => $thisProject->GetTitle(),
                 'linkEdit' => '/projects/project/edit/?id=' . $id   ,
-                'dateBegin' => $thisProject->GetDateBegin(),
-                'value' => $thisProject->GetValue(),
+                'dateBegin' => C3op_Util_DateDisplay::FormatDateToShow($thisProject->GetDateBegin()),
+                'value' => C3op_Util_CurrencyDisplay::FormatCurrency($thisProject->GetValue()),
                 'linkActionCreate' => '/projects/action/create/?project=' . $id,
                 'linkProjectDetail' => '/projects/project/detail/?id=' . $id,
                 'linkReceivingCreate' => '/projects/receiving/create/?project=' . $id,

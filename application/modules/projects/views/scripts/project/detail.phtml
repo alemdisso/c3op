@@ -1,4 +1,3 @@
-<h2>Acompanhamento de projeto</h2>
 <?php 
 /*
  * If exists projects list
@@ -6,20 +5,23 @@
 if (is_array($this->projectInfo)) {
     $projectData = $this->projectInfo;
 ?>
-Projeto: <?php print($projectData['title']) ?><br />
+<p class="project_title">Projeto: <?php print($projectData['title']) ?>
+</p>
+<p class="info">
 Data do contrato: <?php print($projectData['dateBegin']) ?><br />
 Valor do contrato:    <?php print($projectData['value']) ?><br />
-<p /><hr>
+
 <?php
 if ($projectData['linkReceivings'] != "") {
 ?>    
-<a href="<?php print($projectData['linkReceivings']) ?>">Recebimentos do Projeto</a><br />
+<a class="info" href="<?php print($projectData['linkReceivings']) ?>">Consultar recebimentos do Projeto</a><br />
 <p /><hr>
 <?php
 }
 
 ?>
-
+</p>
+<h2>Produtos do Projeto</h2>
 <?php 
 /*
  * iterate list and print title
@@ -29,15 +31,13 @@ if ($projectData['linkReceivings'] != "") {
     
     while (list(, $actionInfo) = each($actionsList)) {
 ?>
-
-<?php print($actionInfo['title']) ?>&nbsp;<?php print($actionInfo['specialAction']) ?>
-<br/> (<?php print($actionInfo['brood']) ?>)<br/>
+<p class="project_product_line">
+<?php print($actionInfo['title']) ?>&nbsp;<?php print($actionInfo['specialAction']) ?> | 
+(<?php print($actionInfo['brood']) ?>) | 
 <?php if (isset($actionInfo['linkEdit'])) { ?>
 <a href="<?php print($actionInfo['linkEdit']) ?>">Editar</a>
 <?php } ?>
-
-<br />
-
+</p>
 
     
 <?php
@@ -47,7 +47,7 @@ if ($projectData['linkReceivings'] != "") {
 
 
 <p />
-<a href="<?php print($this->projectInfo['linkActionCreate']) ?>">Criar Nova Ação</a>
+<br /><br /><a href="<?php print($this->projectInfo['linkActionCreate']) ?>">Criar Nova Ação</a>
 
     
 <?php

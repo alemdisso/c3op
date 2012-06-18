@@ -126,14 +126,13 @@ class Projects_ProjectController extends Zend_Controller_Action
                 if (count($immediateBreed)== 1) {
                     $broodMessage = count($immediateBreed) . " ação diretamente subordinada";
                 }
-                $broodMessage = "<a href=/projects/action/detail/?id=" . $actionId . ">$broodMessage</a>";
             } else {
                 $broodMessage = "sem ações diretamente subordinadas";
-                
             }
+            $actionTitle =  sprintf("<a href=/projects/action/detail/?id=%d>%s</a>", $actionId, $thisAction->GetTitle());
             $specialActionLabel = $this->buildSpecialActionLabel($thisAction);
             $actionsList[$actionId] = array(
-                'title' => $thisAction->GetTitle(),
+                'title' => $actionTitle,
                 'depth' => $this->detailProductDepth,
                 'brood' => $broodMessage,
                 'specialAction' => $specialActionLabel,
@@ -145,8 +144,8 @@ class Projects_ProjectController extends Zend_Controller_Action
             'title' => $projectToBeDetailed->GetTitle(),
             'linkEdit' => '/projects/project/edit/?id=' . $projectToBeDetailed->GetId(),
             'linkReceivings' => $linkReceivings,
-            'dateBegin' => $projectToBeDetailed->GetDateBegin(),
-            'value' => $projectToBeDetailed->GetValue(),
+            'dateBegin' => C3op_Util_DateDisplay::FormatDateToShow($projectToBeDetailed->GetDateBegin()),
+            'value' => C3op_Util_CurrencyDisplay::FormatCurrency($projectToBeDetailed->GetValue()),
             'linkActionCreate' => '/projects/action/create/?project=' . $projectToBeDetailed->GetId(),
             'actionsList' => $actionsList,
         );
@@ -202,6 +201,8 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $title = "(#$receivingsCounter)";
             }
             
+            
+            
             $validator = new C3op_Util_ValidDate();
             if ($validator->isValid($thisReceiving->GetPredictedDate())) {
                 $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($thisReceiving->GetPredictedDate());
@@ -216,8 +217,23 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $predictedValue = "";
             }
             
+            $productsIdList = $receivingMapper->getAllProducts($thisReceiving);
+            $productsList = array();
+            foreach ($productsIdList as $productId) {
+                $actionMapper = new C3op_Projects_ActionMapper($this->db);
+                $thisAction = $actionMapper->findById($productId);
+                $actionTitle =  sprintf("<a href=/projects/action/detail/?id=%d>%s</a>", $productId, $thisAction->GetTitle());
+                $productsList[$productId] = array(
+                    'title' => $actionTitle,
+                    'linkDetail' => '/projects/action/detail/?id=' . $productId   ,
+                );
+                
+            }
+            
+            
             $receivingsList[$receivingId] = array(
                 'title' => $title,
+                'productsList' => $productsList,
                 'predictedDate' => $predictedDate,
                 'predictedValue' => $predictedValue,
                 'linkEdit' => '/projects/receiving/edit/?id=' . $receivingId   ,
@@ -334,16 +350,16 @@ class Projects_ProjectController extends Zend_Controller_Action
     private function PopulateClientField(Zend_Form $form, $currentClient=0)
     {
         
-            if (!isset($this->institutionMapper)) {
-                $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
-            }
-            $clientField = $form->getElement('client');
-            $allPossibleClients = $this->institutionMapper->getAllPossibleClients();
-            while (list($key, $institutionId) = each($allPossibleClients)) {
-                $eachPossibleClient = $this->institutionMapper->findById($institutionId);
-                $clientField->addMultiOption($institutionId, $eachPossibleClient->GetName());
-            }      
-            $clientField->setValue($currentClient);
+        if (!isset($this->institutionMapper)) {
+            $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
+        }
+        $clientField = $form->getElement('client');
+        $allPossibleClients = $this->institutionMapper->getAllPossibleClients();
+        while (list($key, $institutionId) = each($allPossibleClients)) {
+            $eachPossibleClient = $this->institutionMapper->findById($institutionId);
+            $clientField->addMultiOption($institutionId, $eachPossibleClient->GetName());
+        }      
+        $clientField->setValue($currentClient);
     }
 
     private function PopulateOurResponsibleField(Zend_Form $form, $currentResponsible = 0)

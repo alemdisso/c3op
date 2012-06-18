@@ -105,6 +105,7 @@ class Projects_ActionController extends Zend_Controller_Action
         }
         
         $humanResourcesIdsList = $this->humanResourceMapper->getAllHumanResourcesOnAction($actionToBeDetailed);
+        $humanResourcesList = array();
         
         foreach ($humanResourcesIdsList as $humanResourceId) {
             $thisHumanResource = $this->humanResourceMapper->findById($humanResourceId);
@@ -131,24 +132,24 @@ class Projects_ActionController extends Zend_Controller_Action
                 if (count($nextBreed)== 1) {
                     $broodMessage = count($nextBreed) . " ação diretamente subordinada";
                 }
-                $broodMessage = "<a href=/projects/action/detail/?id=" . $actionId . ">$broodMessage</a>";
             } else {
                 $broodMessage = "sem ações diretamente subordinadas";
                 
             }
+            $actionTitle =  sprintf("<a href=/projects/action/detail/?id=%d>%s</a>", $actionId, $thisAction->GetTitle());
             $actionsList[$actionId] = array(
                 'id' => $actionId,
-                'title' => $thisAction->GetTitle(),
+                'title' => $actionTitle,
                 'brood' => $broodMessage,
                 'linkEdit' => '/projects/action/edit/?id=' . $actionId   ,
             );
             
         }
         
-        
-        
+
         $actionInfo = array(
             'projectTitle' => $projectToBeDetailed->GetTitle(),
+            'projectDetailLink' => '/projects/project/detail/?id=' . $projectToBeDetailed->GetId(),
             'linkEditProject' => '/projects/project/edit/?id=' . $projectToBeDetailed->GetId(),
             'actionTitle' => $actionToBeDetailed->GetTitle(),
             'actionsList' => $actionsList,
@@ -156,6 +157,16 @@ class Projects_ActionController extends Zend_Controller_Action
             'id' => $actionToBeDetailed->GetId(),
 
         );
+        if ($actionToBeDetailed->GetSubordinatedTo() > 0) {
+            $actionInfo['parentLink'] = '/projects/action/detail/?id=' . $actionToBeDetailed->GetSubordinatedTo();
+            if (!isset($this->actionMapper)) {
+                $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
+            }
+            $parent = $this->actionMapper->FindById($actionToBeDetailed->GetSubordinatedTo());
+            $actionInfo['parentTitle'] = $parent->GetTitle();
+        }
+        
+        
 
         $this->view->actionInfo = $actionInfo;
     }
@@ -280,5 +291,6 @@ class Projects_ActionController extends Zend_Controller_Action
     {
          $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
     }
+    
     
 }

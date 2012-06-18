@@ -10,13 +10,28 @@
 
 <title><?php echo $this->layout()->title?></title>
 
+<?php
+$this->dojo()->setDjConfigOption('usePlainJson',true)
+        ->addStylesheetModule('dijit.themes.tundra')
+        ->setLocalPath("js/dojo/dojo/dojo.js");
+    
+echo $this->dojo();
+?>
+
+<?php
+
+
+
+//<script src="//ajax.googleapis.com/ajax/libs/dojo/1.7.2/dojo/dojo.js"
+//               data-dojo-config="async: true"></script>
+
+
+?>
 </head>
 
 <body>
-
 <!-- container -->
 <div id="container">
-    
 <?php
 if ($this->layout()->nestedLayout) {
     $this->layout()->setLayout($this->layout()->nestedLayout);   

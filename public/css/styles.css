@@ -163,6 +163,13 @@ div#login{float:right;}
 
 .caption_6{font-size:0.85em;}
 
+p.project_title{font-size:1.1em; font-weight:normal; padding:4px 0 4px 0px;}
+p.receiving_line{font-size:1em; font-weight:normal; padding:4px 0 4px 4px;}
+p.product_info{font-size:0.9em; font-weight:normal; padding:4px 0 4px 16px;}
+p.info{font-size:0.8em; font-weight:normal; padding:2px 0 2px 8px;}
+p.project_product_line{font-size:1em; font-weight:normal; padding:8px 0 2px 8px;}
+p.parent_info{font-size:0.8em; font-weight:normal; padding:2px 0 2px 6px;}
+
 p.ok{background:url(/img/icon_ok.png) center left no-repeat; font-size:1em; font-weight:normal; padding:2px 0 2px 28px;}
 
 p.ok_2{background:url(/img/icon_ok_2.png) center left no-repeat; font-size:1em; font-weight:normal; padding:0 0 2px 20px;}
@@ -200,6 +207,13 @@ hr {clear:both; margin:0 0 4px 0; display:block; color: #eee; }
 /************ LINKS ************/
 
 a:link, a:visited, a:hover, a:visited:hover{color:#c02626	; text-decoration:none;}
+
+a.info:link, a.info:visited, a.info:hover, a.info:visited:hover{color:#700007; font-weight:bold; font-size:0.9em;}
+
+a.parent_info:link, a.parent_info:visited, a.parent_info:hover, a.parent_info:visited:hover{color:#700007; font-weight:normal; font-size:0.8em;}
+
+a.product_info:link, a.product_info:visited, a.product_info:hover, a.product_info:visited:hover{color:#711117; font-weight:normal; font-size:1.8em;}
+
 
 a.default_1:link, a.default_1:visited, a.default_1:hover, a.default_1:visited:hover{color:#700007; font-weight:bold; font-size:1em;}
 

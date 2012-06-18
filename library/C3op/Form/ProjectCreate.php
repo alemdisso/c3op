@@ -120,7 +120,7 @@ class C3op_Form_ProjectCreate extends Zend_Form
             ->addFilter('HtmlEntities')
             ->addFilter('StringTrim');
         $this->addElement($object);
-        
+
         $summary = new Zend_Form_Element_TextArea('summary');
         $summary->setLabel('Sumário:')
             ->setAttrib('cols','8')

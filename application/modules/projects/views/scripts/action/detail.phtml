@@ -1,11 +1,19 @@
-<h2>Detalhamento de Ação</h2>
 <?php 
 if (is_array($this->actionInfo)) {
     $actionData = $this->actionInfo;
 ?>
-Projeto: <?php print($actionData['projectTitle']) ?><br />
-<p /><br />
-Ação: <?php print($actionData['actionTitle']) ?><br />
+<p class="project_title">Projeto: <a href="<?php print($actionData['projectDetailLink']) ?>"><?php print($actionData['projectTitle']) ?></a>
+<?php 
+if (isset($actionData['parentTitle'])) {
+?>
+    <span class="parent_info">(subordinada a <a class="parent_info" href="<?php print($actionData['parentLink']) ?>"><?php print($actionData['parentTitle']); ?></a>)</span>   
+<?php
+}
+?>    
+    
+</p>
+<p class="project_title">
+Ação: <?php print($actionData['actionTitle']) ?></p>
 <p /><br />
 
 <?php 
@@ -52,20 +60,20 @@ Ação: <?php print($actionData['actionTitle']) ?><br />
     
     if (count($actionsList)) {
 ?>
-    Ações diretamente subordinadas:<br /><br />
+    Essa ação é composta por:<br /><br />
 <?php        
     
         while (list(, $actionInfo) = each($actionsList)) {
 ?>
 
-<?php print($actionInfo['title']) ?>
-<br/> (<?php print($actionInfo['brood']) ?>)<br/>
+<p class="receiving_line"><?php print($actionInfo['title']) ?>
+ (<?php print($actionInfo['brood']) ?>) 
 <?php if (isset($actionInfo['linkEdit'])) { ?>
 <a href="<?php print($actionInfo['linkEdit']) ?>">Editar</a>
 <?php   }
 
 ?>
-
+</p>
 <br />
 
 

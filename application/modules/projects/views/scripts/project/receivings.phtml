@@ -1,4 +1,3 @@
-<h2>Recebimentos</h2>
 <?php 
 /*
  * If exists projects list
@@ -6,11 +5,12 @@
 if (is_array($this->projectInfo)) {
     $projectData = $this->projectInfo;
 ?>
-Projeto: <a href="<?php print($projectData['linkDetail']) ?>"><?php print($projectData['title']) ?></a><br />
+<p class="project_title">Projeto: <a href="<?php print($projectData['linkDetail']) ?>"><?php print($projectData['title']) ?></a></p>
 <p />
-<?php print($projectData['projectValue']) ?><br />
+<p class="info"><?php print($projectData['projectValue']) ?><br /></p>
 <p />
 <hr>
+<h2>Recebimentos</h2>
 <?php 
 /*
  * iterate list and print title
@@ -21,13 +21,34 @@ Projeto: <a href="<?php print($projectData['linkDetail']) ?>"><?php print($proje
     while (list(, $receivingInfo) = each($receivingsList)) {
 ?>
 
-<?php print($receivingInfo['title']) ?> | <?php print($receivingInfo['predictedDate']) ?> | <?php print($receivingInfo['predictedValue']) ?>
+<p class="receiving_line"><?php print($receivingInfo['title']) ?> | <?php print($receivingInfo['predictedDate']) ?> | <?php print($receivingInfo['predictedValue']) ?>
 
 <?php if (isset($receivingInfo['linkEdit'])) { ?>
 <a href="<?php print($receivingInfo['linkEdit']) ?>">Editar</a>
 <?php } ?>
 
-<br />
+<?php 
+    $productsList = $receivingInfo['productsList'];
+    while (list(, $productInfo) = each($productsList)) {
+?>
+
+<p class='product_info'>
+    * <a class='product_info' href="<?php print($productInfo['linkDetail']) ?>"><?php print($productInfo['title']) ?></a>
+</p>
+
+
+<?php
+}  // loop iterate list and print titlei
+?>
+
+
+
+
+
+</p>
+
+
+
 
 
     
