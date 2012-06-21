@@ -29,10 +29,20 @@ class Projects_ActionController extends Zend_Controller_Action
             } else throw new C3op_Projects_ActionException("An action must have a valid title.");
         } else {
             $data = $this->_request->getParams();
-            $projectId = $data['project'];
+            if (isset($data['subordinatedTo'])) {
+                $subordinatedTo = $data['subordinatedTo'];
+                if (!isset($this->actionMapper)) {
+                    $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
+                }
+                $parentAction = $this->actionMapper->findById($subordinatedTo);
+                $projectId = $parentAction->GetProject();
+            } else {
+                $subordinatedTo = 0;
+                $projectId = $data['project'];
+            }
             $this->populateProjectFields($projectId, $form);
             $this->populateRequirementForReceivingField($projectId, $form);
-            $this->populateSubordinatedActionsField($projectId, $form);
+            $this->populateSubordinatedActionsField($projectId, $form, 0, $subordinatedTo);
         }
     }
 
@@ -155,6 +165,7 @@ class Projects_ActionController extends Zend_Controller_Action
             'actionsList' => $actionsList,
             'humanResourcesList' => $humanResourcesList,            
             'id' => $actionToBeDetailed->GetId(),
+            'linkActionCreate' => '/projects/action/create/?subordinatedTo=' . $actionToBeDetailed->GetId(),
 
         );
         if ($actionToBeDetailed->GetSubordinatedTo() > 0) {
@@ -230,10 +241,9 @@ class Projects_ActionController extends Zend_Controller_Action
         
    }
      
-    private function populateSubordinatedActionsField($projectId, C3op_Form_ActionCreate $form, $actionId = 0)
+    private function populateSubordinatedActionsField($projectId, C3op_Form_ActionCreate $form, $actionId = 0, $parentActionId = 0)
     {
         $validator = new C3op_Util_ValidId();
-        $parentActionId = 0;
         if ($validator->isValid($projectId)) {
             $subordinatedToField = $form->getElement('subordinatedTo');
             if (!isset($this->actionMapper)) {

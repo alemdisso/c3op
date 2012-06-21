@@ -5,12 +5,14 @@ class C3op_Projects_HumanResourceBase {
     protected $id;
     protected $action;
     protected $description;
+    protected $contact;
     protected $value;
 
     function __construct($id=0) {
         $this->id = (int)$id;
         $this->action = "";
         $this->description = "";
+        $this->contact = "";
         $this->value = "";
     }
 
@@ -57,12 +59,29 @@ class C3op_Projects_HumanResourceBase {
         }
     } //SetDescription
 
+    public function GetContact() {
+        return $this->contact;
+    } //GetContact
+	
+    public function SetContact($contact) {
+        $validator = new C3op_Util_ValidPositiveInteger();
+        if ($validator->isValid($contact)) {
+            if ($this->contact != $contact) {
+                $this->contact = $contact;
+            }
+        } else {
+            throw new C3op_Projects_HumanResourceException("This ($contact) is not a valid contact.");
+        }
+
+    } //SetContact
+
     public function GetValue() {
         return $this->value;
     } //GetValue
 	
     public function SetValue($value) {
-        if ($value) {
+        $validator = new C3op_Util_ValidPositiveFloat();
+        if ($validator->isValid($value)) {
             $this->value = $value;
         } else {
             $this->value = "";

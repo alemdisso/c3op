@@ -135,51 +135,31 @@ class Register_InstitutionController extends Zend_Controller_Action
 
     public function detailAction()
     {
-        $actionMapper = new C3op_Register_ActionMapper($this->db);
+        $linkageMapper = new C3op_Register_LinkageMapper($this->db);
+        $contactMapper = new C3op_Register_ContactMapper($this->db);
 
         $id = $this->checkIdFromGet();
         $thisInstitution = $this->institutionMapper->findById($id);
-        $productsIdList = $this->institutionMapper->getAllProducts($thisInstitution);
-        if (count($productsIdList) > 0) {
-            $linkReceivings = '/register/institution/receivings/?id=' . $thisInstitution->GetId();
-        } else {
-            $linkReceivings = "";
-        }
 
-        $actionsIdsList = $this->institutionMapper->getAllActions($thisInstitution);
-        $actionsList = array();
-        reset ($actionsList);
-        foreach ($actionsIdsList as $actionId) {
-            $thisAction = $actionMapper->findById($actionId);
+        $linkagesIdsList = $this->institutionMapper->getAllLinkages($thisInstitution);
+        $linkagesList = array();
+        reset ($linkagesList);
+        foreach ($linkagesIdsList as $linkageId) {
+            $thisLinkage = $linkageMapper->findById($linkageId);
+            $thisContact = $contactMapper->findById($thisLinkage->GetContact());
             
-            if ($thisAction->GetMilestone()) {
-                $milestone = "M";
-            } else {
-                $milestone = "";                
-            }
-            
-            if ($thisAction->GetRequirementForReceiving()) {
-                $requirementForReceiving = "$";
-            } else {
-                $requirementForReceiving = "";  
-            }
-            
-
-            $actionsList[$actionId] = array(
-                'name' => $thisAction->GetName(),
-                'milestone' => $milestone,
-                'requirementForReceiving' => $requirementForReceiving,
-                'linkEdit' => '/register/action/edit/?id=' . $actionId   ,
+            $linkagesList[$linkageId] = array(
+                'name' => $thisContact->GetName(),
+                'position' => $thisLinkage->GetPosition(),
+                'department' => $thisLinkage->GetDepartment(),
+                'linkEdit' => '/register/contact/edit/?id=' . $linkageId   ,
             );
         }
         $institutionInfo = array(
             'name' => $thisInstitution->GetName(),
             'linkEdit' => '/register/institution/edit/?id=' . $id   ,
-            'linkReceivings' => $linkReceivings,
-            'dateBegin' => $thisInstitution->GetDateBegin(),
-            'value' => $thisInstitution->GetValue(),
-            'linkActionCreate' => '/register/action/create/?institution=' . $id,
-            'actionsList' => $actionsList,
+            'linkLinkageCreate' => '/register/linkage/create/?institution=' . $id,
+            'contactsList' => $linkagesList,
         );
 
         $this->view->institutionInfo = $institutionInfo;
@@ -203,31 +183,5 @@ class Register_InstitutionController extends Zend_Controller_Action
 
     }
 
-    public function receivingsAction()
-    {
-        $actionMapper = new C3op_Register_ActionMapper($this->db);
-
-        $id = $this->checkIdFromGet();
-        $thisInstitution = $this->institutionMapper->findById($id);
-        $productsIdList = $this->institutionMapper->getAllProducts($thisInstitution);
-        $productsList = array();
-        reset ($productsList);
-        foreach ($productsIdList as $actionId) {
-            $thisAction = $actionMapper->findById($actionId);
-
-            $productsList[$actionId] = array(
-                'name' => $thisAction->GetName(),
-                'linkEdit' => '/register/action/edit/?id=' . $actionId   ,
-            );
-        }
-        $institutionInfo = array(
-            'name' => $thisInstitution->GetName(),
-            'linkEdit' => '/register/institution/edit/?id=' . $id   ,
-            'productsList' => $productsList,
-        );
-
-        $this->view->institutionInfo = $institutionInfo;
-    }
-    
 
 }

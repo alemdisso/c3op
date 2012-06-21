@@ -21,6 +21,7 @@ class C3op_Projects_HumanResourceMapperBase {
     public function insert(C3op_Projects_HumanResource $new) {
         $data = array(
             'action' => $new->GetAction(),
+            'contact' => $new->GetContact(),
             'description' => $new->GetDescription(),
             'value' => $new->GetValue(),
             );
@@ -38,10 +39,12 @@ class C3op_Projects_HumanResourceMapperBase {
                 sprintf(
                     'UPDATE projects_human_resources SET action = %d, 
                         description =  \'%s\',
+                        contact = %d, 
                         value =  %f
                          WHERE id = %d;',
                     $i->GetAction(),
                     $i->GetDescription(),
+                    $i->GetContact(),
                     $i->GetValue(),
                     $this->identityMap[$i]
                 );
@@ -64,7 +67,7 @@ class C3op_Projects_HumanResourceMapperBase {
         
         $result = $this->db->fetchRow(
             sprintf(
-                'SELECT action, description, value
+                'SELECT action, description, contact, value
                      FROM projects_human_resources WHERE id = %d;',
                 $id
             )
@@ -77,6 +80,7 @@ class C3op_Projects_HumanResourceMapperBase {
         $this->setAttributeValue($i, $id, 'id');
         $this->setAttributeValue($i, $result['action'], 'action');
         $this->setAttributeValue($i, $result['description'], 'description');
+        $this->setAttributeValue($i, $result['contact'], 'contact');
         $this->setAttributeValue($i, $result['value'], 'value');
 
         $this->identityMap[$i] = $id;

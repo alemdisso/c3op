@@ -34,6 +34,16 @@ class Projects_HumanResourceController extends Zend_Controller_Action
             $this->view->actionTitle = $thisAction->GetTitle();
             $actionField = $form->getElement('action');
             $actionField->setValue($actionId);
+            $contactField = $form->getElement('contact');
+            if (!isset($this->contactMapper)) {
+                $this->contactMapper = new C3op_Register_ContactMapper($this->db);
+            }
+            $allContacts = $this->contactMapper->getAllIds();
+
+            while (list($key, $contactId) = each($allContacts)) {
+                $eachContact = $this->contactMapper->findById($contactId);
+                $contactField->addMultiOption($contactId, $eachContact->GetName());
+            }            
         }
     }
 
@@ -66,6 +76,8 @@ class Projects_HumanResourceController extends Zend_Controller_Action
                 $thisHumanResource = $this->humanResourceMapper->findById($id);
                 $descriptionField = $form->getElement('description');
                 $descriptionField->setValue($thisHumanResource->getDescription());
+                $contactField = $form->getElement('contact');
+                $contactField->setValue($thisHumanResource->getContact());
                 $idField = $form->getElement('id');
                 $idField->setValue($id);
                 $valueField = $form->getElement('value');
@@ -76,9 +88,23 @@ class Projects_HumanResourceController extends Zend_Controller_Action
                     $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
                 }
                 $thisAction = $this->actionMapper->findById($thisHumanResource->getAction());
+                
+                $contactField = $form->getElement('contact');            
+                if (!isset($this->contactMapper)) {
+                    $this->contactMapper = new C3op_Register_ContactMapper($this->db);
+                }
+                $allContacts = $this->contactMapper->getAllIds();
+
+                while (list($key, $contactId) = each($allContacts)) {
+                    $eachContact = $this->contactMapper->findById($contactId);
+                    $contactField->addMultiOption($contactId, $eachContact->GetName());
+                }            
+                $contactField->setValue($thisHumanResource->getContact());
+
                 $this->view->actionTitle = $thisAction->GetTitle();
                 $this->view->linkActionDetail = "/projects/action/detail/?id=" . $thisHumanResource->getAction();
-                }
+                
+            }
 
         }
     }
@@ -94,54 +120,6 @@ class Projects_HumanResourceController extends Zend_Controller_Action
         }
     }
     
-    public function detailAction()
-    {
-        $actionsList = array();
-        $actionMapper = new C3op_Projects_ActionMapper($this->db);
-
-        if (!isset($this->projectMapper)) {
-            $this->initProjectMapper();
-        }
-        
-        $actionToBeDetailed =  $this->initActionWithCheckedId($actionMapper);
-        $projectToBeDetailed = $this->projectMapper->findById($actionToBeDetailed->getProject());
-        
-        $immediateBreed = $actionMapper->getActionsSubordinatedTo($actionToBeDetailed);
-        foreach ($immediateBreed as $actionId) {
-            $thisAction = $actionMapper->findById($actionId);
-            $nextBreed = $actionMapper->getActionsSubordinatedTo($thisAction);
-            if (count($nextBreed) > 0) {
-                $broodMessage = count($nextBreed) . " ações diretamente subordinadas";
-                if (count($nextBreed)== 1) {
-                    $broodMessage = count($nextBreed) . " ação diretamente subordinada";
-                }
-                $broodMessage = "<a href=/projects/action/detail/?id=" . $actionId . ">$broodMessage</a>";
-            } else {
-                $broodMessage = "sem ações diretamente subordinadas";
-                
-            }
-            $actionsList[$actionId] = array(
-                'id' => $actionId,
-                'title' => $thisAction->GetTitle(),
-                'brood' => $broodMessage,
-                'linkEdit' => '/projects/action/edit/?id=' . $actionId   ,
-            );
-            
-        }
-        
-        
-        
-        $actionInfo = array(
-            'projectTitle' => $projectToBeDetailed->GetTitle(),
-            'linkEditProject' => '/projects/project/edit/?id=' . $projectToBeDetailed->GetId(),
-            'actionTitle' => $actionToBeDetailed->GetTitle(),
-            'actionsList' => $actionsList,
-
-        );
-
-        $this->view->actionInfo = $actionInfo;
-    }
-
     public function successCreateAction()
     {
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
@@ -183,36 +161,18 @@ class Projects_HumanResourceController extends Zend_Controller_Action
 
     }
 
-    private function populateProjectFields($projectId, C3op_Form_ActionCreate $form)
-    {
-        $validator = new C3op_Util_ValidId();
-        if ($validator->isValid($projectId)) {
-            $projectField = $form->getElement('project');
-            $projectField->setValue($projectId);
-            if (!isset($this->projectMapper)) {
-                $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
-            }
-            $thisProject = $this->projectMapper->findById($projectId);
-            $this->view->projectTitle = $thisProject->GetTitle();
-            $this->view->linkProjectDetail = "/projects/project/detail/?id=" . $thisProject->GetId();
-
-            return $projectId;
-        } else throw new C3op_Projects_ActionException("Action needs a positive integer project id.");
-        
-   }
-     
-    private function populateSubordinatedActionsField($projectId, C3op_Form_ActionCreate $form, $actionId = 0)
+    private function populateContactsField($humanResourceId, C3op_Form_HumanResourceCreate $form, $contactId = 0)
     {
         $validator = new C3op_Util_ValidId();
         $parentActionId = 0;
-        if ($validator->isValid($projectId)) {
+        if ($validator->isValid($humanResourceId)) {
             $subordinatedToField = $form->getElement('subordinatedTo');
             if (!isset($this->actionMapper)) {
                 $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
             }
 
-            if ($actionId > 0) {
-                $thisAction = $this->actionMapper->findById($actionId);
+            if ($contactId > 0) {
+                $thisAction = $this->actionMapper->findById($contactId);
                 $parentActionId = $thisAction->GetSubordinatedTo();
                 $allOtherActionsInProject = $this->actionMapper->getAllOtherActions($thisAction);
                 
@@ -220,13 +180,13 @@ class Projects_HumanResourceController extends Zend_Controller_Action
                 if (!isset($this->projectMapper)) {
                     $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
                 }
-                $thisProject = $this->projectMapper->findById($projectId);
+                $thisProject = $this->projectMapper->findById($humanResourceId);
                 $allOtherActionsInProject = $this->projectMapper->getAllActions($thisProject);
             }
 
-            while (list($key, $actionId) = each($allOtherActionsInProject)) {
-                $eachAction = $this->actionMapper->findById($actionId);
-                $subordinatedToField->addMultiOption($actionId, $eachAction->GetTitle());
+            while (list($key, $contactId) = each($allOtherActionsInProject)) {
+                $eachAction = $this->actionMapper->findById($contactId);
+                $subordinatedToField->addMultiOption($contactId, $eachAction->GetTitle());
             }
             
             $subordinatedToField->setValue($parentActionId);
@@ -234,33 +194,12 @@ class Projects_HumanResourceController extends Zend_Controller_Action
         } else throw new C3op_Projects_ActionException("Action needs a positive integer project id to find other actions.");
    }
      
-    private function populateRequirementForReceivingField($projectId, C3op_Form_ActionCreate $form, $setedReceivingId = 0)
-    {
-        $validator = new C3op_Util_ValidId();
-        if ($validator->isValid($projectId)) {
-            $requirementForReceivingField = $form->getElement('requirementForReceiving');
-            if (!isset($this->projectMapper)) {
-                $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
-            }
-            if (!isset($this->receivingMapper)) {
-                $this->receivingMapper = new C3op_Projects_ReceivingMapper($this->db);
-            }
-            $thisProject = $this->projectMapper->findById($projectId);
-            $allReceivings = $this->projectMapper->getAllReceivings($thisProject);
-
-            while (list($key, $receivingId) = each($allReceivings)) {
-                $eachReceiving = $this->receivingMapper->findById($receivingId);
-                $requirementForReceivingField->addMultiOption($receivingId, $eachReceiving->GetTitle());
-            }
-            
-            $requirementForReceivingField->setValue($setedReceivingId);
-        
-        } else throw new C3op_Projects_ActionException("Action needs a positive integer project id to find possible receivings to to be a requirement.");
-   }
-     
     private function initProjectMapper()
     {
          $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
     }
+
+    
+    
     
 }

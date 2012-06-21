@@ -170,4 +170,22 @@ class C3op_Register_InstitutionMapperBase {
         return $result;
     }
     
+    public function getAllLinkages(C3op_Register_Institution $i)
+    {
+        $result = array();
+        foreach ($this->db->query(
+                sprintf(
+                    'SELECT id FROM register_linkages WHERE institution = %d;',
+                    $i->GetId()
+                    )
+                )
+                as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
+    
+    
+    
 }

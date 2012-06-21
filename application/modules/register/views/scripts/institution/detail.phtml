@@ -1,0 +1,48 @@
+<?php 
+/*
+ * If exists institutions list
+ */
+if (is_array($this->institutionInfo)) {
+    $institutionData = $this->institutionInfo;
+?>
+<p class="project_title"><?php print($institutionData['name']) ?>
+</p>
+
+</p>
+<h2>Contatos nessa instituição</h2>
+<?php 
+/*
+ * iterate list and print title
+ */
+
+    $contactsList = $institutionData['contactsList'];
+    
+    while (list(, $contactInfo) = each($contactsList)) {
+?>
+<p class="project_product_line">
+<?php print($contactInfo['name']) ?>&nbsp;(<?php print($contactInfo['position']) ?>) | 
+<?php print($contactInfo['department']) ?> | 
+<?php if (isset($contactInfo['linkEdit'])) { ?>
+<a href="<?php print($contactInfo['linkEdit']) ?>">Editar</a>
+<?php } ?>
+</p>
+
+    
+<?php
+}  // loop iterate list
+?>
+
+
+
+<p />
+<br /><br /><a href="<?php print($this->institutionInfo['linkLinkageCreate']) ?>">Criar Novo Vínclulo</a>
+
+    
+<?php
+} else { // else exists institutions list 
+?>
+    <?php print("Não há informações para esta instituição.") ?>
+
+    <?php
+} // end exists institutions list
+?>

@@ -16,6 +16,12 @@ class C3op_Form_HumanResourceCreate extends Zend_Form
         $this->addElementText('description', 'Descrição:', new C3op_Util_ValidString(), 50);
         $this->addElementText('value', 'Valor:', new C3op_Util_ValidPositiveFloat(), 50);
 
+        $contact = new Zend_Form_Element_Select('contact');
+        $contact->setLabel('Quem: ')
+                ->setRegisterInArrayValidator(false);
+        $contact->addMultiOption(0, "indefinido");
+        $this->addElement($contact);
+        
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
         $submit->setLabel('Salvar')
@@ -33,9 +39,9 @@ class C3op_Form_HumanResourceCreate extends Zend_Form
         {
             $db = Zend_Registry::get('db');
             $humanResourceMapper = new C3op_Projects_HumanResourceMapper($db);
-            
             $humanResource = new C3op_Projects_HumanResource();
             $humanResource->SetDescription($this->description->GetValue());
+            $humanResource->SetContact($this->contact->GetValue());
             $humanResource->SetValue($this->value->GetValue());
             $humanResource->SetAction($this->action->GetValue());
             $humanResourceMapper->insert($humanResource);
