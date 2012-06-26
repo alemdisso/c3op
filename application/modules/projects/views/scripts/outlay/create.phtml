@@ -1,0 +1,23 @@
+<?php 
+if (is_array($this->viewInfo)) {
+    $viewInfo = $this->viewInfo;
+?>
+
+<h2>Novo Recebimento</h2>
+<h4>Projeto: <a href="<?php echo $viewInfo['linkProjectDetail']; ?>"><?php echo $viewInfo['projectTitle']; ?></a></h4>
+<h4>Ação: <a href="<?php echo $viewInfo['linkActionDetail']; ?>"><?php echo $viewInfo['actionTitle']; ?></a></h4>
+
+<?php 
+if (isset($viewInfo['contactName'])) {
+?>
+<h4>Recurso: <a href="<?php echo $viewInfo['linkContactDetail']; ?>"><?php echo $viewInfo['contactName']; ?></a></h4>
+
+<?
+}
+?>
+
+
+<?
+}
+?>
+<?php echo $this->form; ?>

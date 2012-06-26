@@ -1,6 +1,6 @@
 <?php
 
-class C3op_Form_ActionEditException extends RuntimeException 
+class C3op_Form_LinkageEditException extends RuntimeException 
 {
 }
 

@@ -121,11 +121,16 @@ class Projects_ActionController extends Zend_Controller_Action
             $thisHumanResource = $this->humanResourceMapper->findById($humanResourceId);
             $currencyValue = C3op_Util_CurrencyDisplay::FormatCurrency($thisHumanResource->GetValue());
             
+            $totalValueExistentOutlays = $this->calculateTotalValueExistentOutlays($thisHumanResource);
+            
             $humanResourcesList[$humanResourceId] = array(
                 'id' => $humanResourceId,
                 'description' => $thisHumanResource->GetDescription(),
                 'value' => $currencyValue,
                 'linkEdit' => '/projects/human-resource/edit/?id=' . $humanResourceId,
+                'linkCreateOutlay' => '/projects/outlay/create/?humanResource=' . $humanResourceId,
+                'linkOutlays' => '/projects/human-resource/outlays/?id=' . $humanResourceId,
+                'totalOutlays' => $totalValueExistentOutlays,
             );
             
         }
@@ -302,5 +307,21 @@ class Projects_ActionController extends Zend_Controller_Action
          $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
     }
     
+    private function calculateTotalValueExistentOutlays(C3op_Projects_HumanResource $h)
+    {
+        if (!isset($this->outlayMapper)) {
+            $this->outlayMapper = new C3op_Projects_OutlayMapper($this->db);
+        }
+        
+        $outlays = $this->outlayMapper->getAllOutlaysForHumanResource($h);
+
+        $totalValue = 0;
+        foreach ($outlays as $outlayId) {
+            $thisOutlay = $this->outlayMapper->findById($outlayId);
+            $totalValue += $thisOutlay->GetPredictedValue();
+        }
+        
+        return $totalValue;
+    }
     
 }

@@ -13,9 +13,10 @@
 <?php
 $this->dojo()->setDjConfigOption('usePlainJson',true)
         ->addStylesheetModule('dijit.themes.tundra')
-        ->setLocalPath("js/dojo/dojo/dojo.js");
+        ->setLocalPath("/js/dojo/dojo/dojo.js");
     
 echo $this->dojo();
+
 ?>
 
 <?php
@@ -29,7 +30,7 @@ echo $this->dojo();
 ?>
 </head>
 
-<body>
+<body class="tundra">
 <!-- container -->
 <div id="container">
 <?php

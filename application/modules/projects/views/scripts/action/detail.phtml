@@ -30,7 +30,22 @@ Ação: <?php print($actionData['actionTitle']) ?></p>
 <?php print($humanResourceInfo['description']) ?> (<?php print($humanResourceInfo['value']) ?>) 
 <?php if (isset($humanResourceInfo['linkEdit'])) { ?>
 <a href="<?php print($humanResourceInfo['linkEdit']) ?>">Editar</a>
+ | <a href="<?php print($humanResourceInfo['linkCreateOutlay']) ?>">Prever desembolso</a>
+
 <?php   }
+
+?>
+
+<?php if (isset($humanResourceInfo['totalOutlays'])) {
+            if ($humanResourceInfo['totalOutlays'] > 0) {
+    
+    ?>
+(Desembolsos existentes: <a href="<?php print($humanResourceInfo['linkOutlays']) ?>"><?php print(C3op_Util_CurrencyDisplay::FormatCurrency($humanResourceInfo['totalOutlays'])); ?></a>)
+
+<?php   
+
+            }
+    }
 
 ?>
 
@@ -45,8 +60,8 @@ Ação: <?php print($actionData['actionTitle']) ?></p>
 
 <br />
 
-<a href="/projects/human-resource/create/?actionId=<?php print($actionData['id']); ?>">Prever Recurso Humano</a>
- | <a href="<?php print($actionData['linkActionCreate']) ?>">Criar Nova Ação</a>
+<a href="/projects/human-resource/create/?actionId=<?php print($actionData['id']); ?>">Prever recurso humano</a>
+ | <a href="<?php print($actionData['linkActionCreate']) ?>">Criar nova ação</a>
 <hr>
 
 <?php
