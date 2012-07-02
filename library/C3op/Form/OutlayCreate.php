@@ -9,11 +9,11 @@ class C3op_Form_OutlayCreate extends Zend_Form
             ->setAction('/projects/outlay/create')
             ->setMethod('post');
         
-        $humanresource = new Zend_Form_Element_Hidden('humanResource');
-        $humanresource->addValidator('Int')
+        $humanResource = new Zend_Form_Element_Hidden('humanResource');
+        $humanResource->addValidator('Int')
             //->addFilter('HtmlEntities')
             ->addFilter('StringTrim');        
-        $this->addElement($humanresource);
+        $this->addElement($humanResource);
 
         $action = new Zend_Form_Element_Hidden('action');
         $action->addValidator('Int')

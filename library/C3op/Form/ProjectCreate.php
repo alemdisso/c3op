@@ -35,23 +35,23 @@ class C3op_Form_ProjectCreate extends Zend_Form
         $responsibleAtClient->addMultiOption(0, "escolha uma pessoa");
         $this->addElement($responsibleAtClient);
         
-        $dateBegin = new Zend_Form_Element_Text('dateBegin');
+        $beginDate = new Zend_Form_Element_Text('beginDate');
         $dateValidator = new C3op_Util_ValidDate();
-        $dateBegin->setLabel('Data de início:')
+        $beginDate->setLabel('Data de início:')
             ->setOptions(array('size' => '35'))
             ->setRequired(false)
             ->addValidator($dateValidator)
             ->addFilter('StringTrim');
-        $this->addElement($dateBegin);
+        $this->addElement($beginDate);
         
-        $dateFinish = new Zend_Form_Element_Text('dateFinish');
-        $dateFinish->setLabel('Data de término:')
+        $finishDate = new Zend_Form_Element_Text('finishDate');
+        $finishDate->setLabel('Data de término:')
             ->setOptions(array('size' => '35'))
             ->setRequired(false)
             ->addValidator('date')
             ->addFilter('HtmlEntities')
             ->addFilter('StringTrim');
-        $this->addElement($dateFinish);
+        $this->addElement($finishDate);
         
         $value = new Zend_Form_Element_Text('value');
         $value->setLabel('Valor:')
@@ -163,20 +163,20 @@ class C3op_Form_ProjectCreate extends Zend_Form
             $project->SetOurResponsible($this->ourResponsible->GetValue());
             $project->SetResponsibleAtClient($this->responsibleAtClient->GetValue());
             
-            $dateBegin = $this->dateBegin->GetValue();
+            $beginDate = $this->beginDate->GetValue();
             $dateValidator = new C3op_Util_ValidDate();
-            if ($dateValidator->isValid($dateBegin)) {
+            if ($dateValidator->isValid($beginDate)) {
                 $converter = new C3op_Util_DateConverter();                
-                $dateForMysql = $converter->convertDateToMySQLFormat($dateBegin);
-                $project->SetDateBegin($dateForMysql);
+                $dateForMysql = $converter->convertDateToMySQLFormat($beginDate);
+                $project->SetBeginDate($dateForMysql);
             }
             
-            $dateFinish = $this->dateFinish->GetValue();
+            $finishDate = $this->finishDate->GetValue();
             $dateValidator = new C3op_Util_ValidDate();
-            if ($dateValidator->isValid($dateFinish)){
+            if ($dateValidator->isValid($finishDate)){
                 $converter = new C3op_Util_DateConverter();                
-                $dateForMysql = $converter->convertDateToMySQLFormat($dateFinish);
-                $project->SetDateFinish($dateForMysql);
+                $dateForMysql = $converter->convertDateToMySQLFormat($finishDate);
+                $project->SetFinishDate($dateForMysql);
             }
             $project->SetValue($this->value->GetValue());
             $project->SetStatus($this->status->GetValue());

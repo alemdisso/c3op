@@ -8,6 +8,7 @@ class Projects_ProjectController extends Zend_Controller_Action
     private $detailProductBrood;
     private $detailProductBreeds;
     private $institutionMapper;
+    private $outlayMapper;
 
     public function init()
     {
@@ -58,8 +59,8 @@ class Projects_ProjectController extends Zend_Controller_Action
             $this->PopulateClientField($form, $thisProject->GetClient());
             $this->PopulateOurResponsibleField($form, $thisProject->GetOurResponsible());
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'responsibleAtClient', $thisProject->GetResponsibleAtClient());
-            $this->SetDateValueToFormField($form, 'dateBegin', $thisProject->GetDateBegin());
-            $this->SetDateValueToFormField($form, 'dateFinish', $thisProject->GetDateFinish());
+            $this->SetDateValueToFormField($form, 'beginDate', $thisProject->GetBeginDate());
+            $this->SetDateValueToFormField($form, 'finishDate', $thisProject->GetFinishDate());
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'value', $thisProject->GetValue());
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'status', $thisProject->GetStatus());
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'contractNature', $thisProject->GetContractNature());
@@ -144,7 +145,7 @@ class Projects_ProjectController extends Zend_Controller_Action
             'title' => $projectToBeDetailed->GetTitle(),
             'linkEdit' => '/projects/project/edit/?id=' . $projectToBeDetailed->GetId(),
             'linkReceivings' => $linkReceivings,
-            'dateBegin' => C3op_Util_DateDisplay::FormatDateToShow($projectToBeDetailed->GetDateBegin()),
+            'beginDate' => C3op_Util_DateDisplay::FormatDateToShow($projectToBeDetailed->GetBeginDate()),
             'value' => C3op_Util_CurrencyDisplay::FormatCurrency($projectToBeDetailed->GetValue()),
             'linkActionCreate' => '/projects/action/create/?project=' . $projectToBeDetailed->GetId(),
             'actionsList' => $actionsList,
@@ -153,6 +154,65 @@ class Projects_ProjectController extends Zend_Controller_Action
         $this->view->projectInfo = $projectInfo;
     }
     
+    public function outlaysAction()
+    {
+        $id = $this->checkIdFromGet();
+        $thisProject = $this->projectMapper->findById($id);
+        
+        $this->initOutlayMapper();
+        $list = $this->projectMapper->getAllOutlaysRelatedToDoneActions($thisProject);
+        
+        $outlaysList = array();
+        reset ($list);
+        foreach ($list as $id) {
+            $thisOutlay = $this->outlayMapper->findById($id);
+            
+            $humanResourceId = $thisOutlay->GetHumanResource();
+            if (!isset($this->humanResourceMapper)) {
+                $this->humanResourceMapper = new C3op_Projects_HumanResourceMapper($this->db);
+            }
+            $outlayHumanResource = $this->humanResourceMapper->findById($humanResourceId);
+            $listOutlaysForHumanResource = $this->humanResourceMapper->getAllOutlays($outlayHumanResource);
+            $totalParcels = count($listOutlaysForHumanResource);
+            
+            $parcels = $this->outlayAsAParcel($thisOutlay);
+            $description = $outlayHumanResource->GetDescription();
+            $contactId = $outlayHumanResource->GetContact();
+            if ($contactId) {
+                if (!isset($this->contactMapper)) {
+                    $this->contactMapper = new C3op_Register_ContactMapper($this->db);
+                }
+                $outlayContact = $this->contactMapper->findById($contactId);
+                $name = $outlayContact->GetName();
+            } else {
+                $name = "(indefinido)";
+            }
+            $this->initActionMapper();
+            $outlayAction = $this->actionMapper->findById($thisOutlay->GetAction());
+            $actionTitle = $outlayAction->GetTitle();
+            
+            $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($thisOutlay->GetPredictedDate());
+            $predictedValue = C3op_Util_CurrencyDisplay::FormatCurrency($thisOutlay->GetPredictedValue());
+            
+
+            
+            $outlaysList[$id] = array(
+                'name'           => $name,
+                'description'    => $description,
+                'parcels'        => $parcels,
+                'actionTitle'    => $actionTitle,
+                'predictedDate'  => $predictedDate,
+                'predictedValue' => $predictedValue,
+            );
+        }
+        
+        $this->view->outlaysList = $outlaysList;
+        
+        
+ 
+        
+    }
+
     private function initProjectMapper()
     {
          $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
@@ -376,5 +436,43 @@ class Projects_ProjectController extends Zend_Controller_Action
             $ourResponsibleField->setValue($currentResponsible);
    }
     
+    private function initOutlayMapper()
+    {
+        if (!isset($this->outlayMapper)) {
+            $this->outlayMapper = new C3op_Projects_OutlayMapper($this->db);
+        }        
+    }
     
+    
+    private function initActionMapper()
+    {
+        if (!isset($this->actionMapper)) {
+            $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
+        }        
+    }
+
+    private function outlayAsAParcel(C3op_Projects_Outlay $outlay)
+    {
+        $humanResourceId = $outlay->GetHumanResource();
+        if (!isset($this->humanResourceMapper)) {
+            $this->humanResourceMapper = new C3op_Projects_HumanResourceMapper($this->db);
+        }
+        $outlayHumanResource = $this->humanResourceMapper->findById($humanResourceId);
+        $listOutlaysForHumanResource = $this->humanResourceMapper->getAllOutlays($outlayHumanResource);
+        $totalParcels = count($listOutlaysForHumanResource);
+        
+        $parcelsCount = 0;
+        foreach($listOutlaysForHumanResource as $parcelId) {
+            $thisParcel = $this->outlayMapper->FindById($parcelId);
+            $parcelsCount++;
+            if ($thisParcel->GetId() == $outlay->GetId()) {
+                $myParcel = $parcelsCount;
+            }
+        }
+        return "$myParcel/$totalParcels";
+        
+
+        
+        
+    }
 }

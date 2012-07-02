@@ -24,8 +24,8 @@ class C3op_Projects_ProjectMapperBase {
             'client' => $new->getClient(),
             'our_responsible' => $new->GetOurResponsible(),
             'responsible_at_client' => $new->GetResponsibleAtClient(),
-            'date_begin' => $new->GetDateBegin(),
-            'date_finish' => $new->GetDateFinish(),
+            'begin_date' => $new->GetBeginDate(),
+            'finish_date' => $new->GetFinishDate(),
             'status' => $new->GetStatus(),
             'value' => $new->GetValue(),
             'contract_nature' => $new->GetContractNature(),
@@ -53,8 +53,8 @@ class C3op_Projects_ProjectMapperBase {
                     , client = %d
                     , our_responsible = %d
                     , responsible_at_client = %d
-                    , date_begin = \'%s\'
-                    , date_finish = \'%s\'
+                    , begin_date = \'%s\'
+                    , finish_date = \'%s\'
                     , status = %d
                     , value = %f 
                     , contract_nature = %d
@@ -69,8 +69,8 @@ class C3op_Projects_ProjectMapperBase {
                 $p->GetClient(),
                 $p->GetOurResponsible(),
                 $p->GetResponsibleAtClient(),
-                $p->GetDateBegin(),
-                $p->GetDateFinish(),
+                $p->GetBeginDate(),
+                $p->GetFinishDate(),
                 $p->GetStatus(),
                 $p->GetValue(),
                 $p->GetContractNature(),
@@ -100,8 +100,8 @@ class C3op_Projects_ProjectMapperBase {
                     , client
                     , our_responsible
                     , responsible_at_client
-                    , date_begin
-                    , date_finish
+                    , begin_date
+                    , finish_date
                     , status
                     , value
                     , contract_nature
@@ -124,8 +124,8 @@ class C3op_Projects_ProjectMapperBase {
         $this->setAttributeValue($p, $result['client'], 'client');
         $this->setAttributeValue($p, $result['our_responsible'], 'ourResponsible');
         $this->setAttributeValue($p, $result['responsible_at_client'], 'responsibleAtClient');
-        $this->setAttributeValue($p, $result['date_begin'], 'dateBegin');
-        $this->setAttributeValue($p, $result['date_finish'], 'dateFinish');
+        $this->setAttributeValue($p, $result['begin_date'], 'beginDate');
+        $this->setAttributeValue($p, $result['finish_date'], 'finishDate');
         $this->setAttributeValue($p, $result['status'], 'status');
         $this->setAttributeValue($p, $result['value'], 'value');
         $this->setAttributeValue($p, $result['contract_nature'], 'contractNature');
@@ -230,4 +230,20 @@ class C3op_Projects_ProjectMapperBase {
         $attribute->setValue($p, $fieldValue);
     }
 
+    public function getAllOutlaysRelatedToDoneActions(C3op_Projects_Project $p) {
+        $result = array();
+        
+        foreach ($this->db->query(sprintf('SELECT o.id, o.predicted_date
+                    FROM projects_outlays o
+                    INNER JOIN projects_actions a ON a.id = o.action
+                    INNER JOIN projects_human_resources h ON h.id = o.human_resource
+                    WHERE a.done = 1 AND o.project = %d AND h.contact > 0 ORDER BY o.predicted_date', $p->GetId()
+                )) as $row) {
+            $result[] = $row['id'];
+        }        
+        return $result;
+    }
+    
+    
+    
 }

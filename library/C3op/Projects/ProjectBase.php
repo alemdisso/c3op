@@ -7,8 +7,8 @@ class C3op_Projects_ProjectBase {
     protected $client;
     protected $ourResponsible;
     protected $responsibleAtClient;
-    protected $dateBegin;
-    protected $dateFinish;
+    protected $beginDate;
+    protected $finishDate;
     protected $status;
     protected $value;
     protected $contractNature;
@@ -23,8 +23,8 @@ class C3op_Projects_ProjectBase {
     function __construct($id=0) {
         $this->id = (int)$id;
         $this->title = "";
-        $this->dateBegin = "";
-        $this->dateFinish = "";
+        $this->beginDate = "";
+        $this->finishDate = "";
         $this->value = 0;
     }
 
@@ -104,43 +104,43 @@ class C3op_Projects_ProjectBase {
         }
     }
     
-    public function GetDateBegin()
+    public function GetBeginDate()
     {
-        return $this->dateBegin;
-    } //GetDateBegin
+        return $this->beginDate;
+    } //GetBeginDate
 	
-    public function SetDateBegin($dateBegin)
+    public function SetBeginDate($beginDate)
     {
-        if ($dateBegin != "") {
+        if ($beginDate != "") {
             $dateValidator = new C3op_Util_ValidDate();
-            if ($dateValidator->isValid($dateBegin)) {
-                if ($this->dateBegin != $dateBegin) {
-                    $this->dateBegin = $dateBegin;
+            if ($dateValidator->isValid($beginDate)) {
+                if ($this->beginDate != $beginDate) {
+                    $this->beginDate = $beginDate;
                 }
             } else {
-                throw new C3op_Projects_ProjectException("This ($dateBegin) is not a valid date of begin.");
+                throw new C3op_Projects_ProjectException("This ($beginDate) is not a valid date of begin.");
             }
         }
-    } //SetDateBegin
+    } //SetBeginDate
 
-    public function GetDateFinish()
+    public function GetFinishDate()
     {
-        return $this->dateFinish;
-    } //GetDateFinish
+        return $this->finishDate;
+    } //GetFinishDate
 	
-    public function SetDateFinish($dateFinish)
+    public function SetFinishDate($finishDate)
     {
-        if ($dateFinish != "") {
+        if ($finishDate != "") {
             $dateValidator = new C3op_Util_ValidDate();
-            if ($dateValidator->isValid($dateFinish)) {
-                if ($this->dateFinish != $dateFinish) {
-                    $this->dateFinish = $dateFinish;
+            if ($dateValidator->isValid($finishDate)) {
+                if ($this->finishDate != $finishDate) {
+                    $this->finishDate = $finishDate;
                 }
             } else {
-                throw new C3op_Projects_ProjectException("This ($dateFinish) is not a valid date of finish.");
+                throw new C3op_Projects_ProjectException("This ($finishDate) is not a valid date of finish.");
             }
         }
-    } //SetDateFinish
+    } //SetFinishDate
 
     public function SetValue($value) 
     {

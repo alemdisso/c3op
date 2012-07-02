@@ -17,7 +17,6 @@ class C3op_Form_OutlayEdit extends C3op_Form_OutlayCreate
             ->addFilter('StringTrim');        
         $this->addElement($id);
         
-                        
 
     }
     
@@ -34,8 +33,8 @@ class C3op_Form_OutlayEdit extends C3op_Form_OutlayCreate
             $outlay->SetProject($data['project']);
             $outlay->SetHumanResource($data['humanResource']);
             $outlay->SetPredictedValue($data['predictedValue']);
-            $outlay->SetPredictedDate($data['predictedDate']);
-            $outlay->Setobservation($data['observation']);
+            $outlay->SetPredictedDate($this->prepareDateValueToSet($data['predictedDate'], new C3op_Util_ValidDate(), new C3op_Util_DateConverter()));
+            $outlay->SetObservation($data['observation']);
 
             $outlayMapper->update($outlay);
         }
@@ -52,4 +51,15 @@ class C3op_Form_OutlayEdit extends C3op_Form_OutlayCreate
         $this->addElement($elementText);
         
     }
+    
+    private function prepareDateValueToSet($value, C3op_Util_ValidDate $validator, C3op_Util_DateConverter $converter)
+    {
+        if ($validator->isValid($value)) {
+            return $converter->convertDateToMySQLFormat($value);
+        } else {
+            return "";
+        }
+    }
+    
+    
 }

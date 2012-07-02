@@ -16,6 +16,21 @@ class C3op_Form_ActionEdit extends C3op_Form_ActionCreate
             ->addFilter('StringTrim');        
         $this->addElement($id);
         
+        $this->removeElement('submit');
+        
+        $status = new Zend_Form_Element_Select('status');
+        $status->setLabel('Status');
+        $statusTypes = C3op_Projects_ActionStatusTypes::AllStatus();
+        while (list($key, $title) = each($statusTypes)) {
+            $status->addMultiOption($key, $title);
+        }        
+        $this->addElement($status);
+        
+        // create submit button
+        $submit = new Zend_Form_Element_Submit('submit');
+        $submit->setLabel('Salvar')
+            ->setOptions(array('class' => 'submit'));
+        $this->addElement($submit);
                         
 
     }
@@ -32,9 +47,13 @@ class C3op_Form_ActionEdit extends C3op_Form_ActionCreate
             $action = $actionMapper->findById($id);      
             $action->SetTitle($data['title']);
             $action->SetProject($data['project']);
+            $action->SetStatus($data['status']);
+            $action->SetDescription($data['description']);
+            $action->SetBegin($data['begin']);
+            $action->SetSubordinatedTo($data['subordinatedTo']);
+            $action->SetResponsible($data['responsible']);
             $action->SetMilestone($data['milestone']);
             $action->SetRequirementForReceiving($data['requirementForReceiving']);
-            $action->SetSubordinatedTo($data['subordinatedTo']);
             
             
             $actionMapper->update($action);

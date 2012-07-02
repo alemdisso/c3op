@@ -6,6 +6,7 @@ class Projects_ActionController extends Zend_Controller_Action
     private $humanResourceMapper;
     private $projectMapper;
     private $receivingMapper;
+    private $contactMapper;
     private $db;
 
     public function init()
@@ -31,9 +32,7 @@ class Projects_ActionController extends Zend_Controller_Action
             $data = $this->_request->getParams();
             if (isset($data['subordinatedTo'])) {
                 $subordinatedTo = $data['subordinatedTo'];
-                if (!isset($this->actionMapper)) {
-                    $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
-                }
+                $this->initActionMapper();
                 $parentAction = $this->actionMapper->findById($subordinatedTo);
                 $projectId = $parentAction->GetProject();
             } else {
@@ -41,6 +40,7 @@ class Projects_ActionController extends Zend_Controller_Action
                 $projectId = $data['project'];
             }
             $this->populateProjectFields($projectId, $form);
+            $this->PopulateResponsibleField($form);
             $this->populateRequirementForReceivingField($projectId, $form);
             $this->populateSubordinatedActionsField($projectId, $form, 0, $subordinatedTo);
         }
@@ -69,9 +69,8 @@ class Projects_ActionController extends Zend_Controller_Action
             $input = new Zend_Filter_Input($filters, $validators, $data);
             if ($input->isValid()) {
                 $id = $input->id;
-                if (!isset($this->actionMapper)) {
-                    $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
-                }
+                
+                $this->initActionMapper();
                 $thisAction = $this->actionMapper->findById($id);
                 $titleField = $form->getElement('title');
                 $titleField->setValue($thisAction->getTitle());
@@ -80,6 +79,12 @@ class Projects_ActionController extends Zend_Controller_Action
                 $milestoneField = $form->getElement('milestone');
                 $milestoneField->setValue($thisAction->getMilestone());
                 $projectId = $this->populateProjectFields($thisAction->GetProject(), $form);
+                $descriptionField = $form->getElement('description');
+                $descriptionField->setValue($thisAction->GetDescription());
+                $this->SetDateValueToFormField($form, 'predictedBeginDate', $thisAction->GetPredictedBeginDate());
+                $this->SetDateValueToFormField($form, 'predictedFinishDate', $thisAction->GetPredictedFinishDate());
+                $statusField = $form->getElement('status');
+                $statusField->setValue($thisAction->GetStatus());
                 $this->populateRequirementForReceivingField($projectId, $form, $thisAction->GetRequirementForReceiving());
                 $this->populateSubordinatedActionsField($projectId, $form, $id);
             }
@@ -101,47 +106,19 @@ class Projects_ActionController extends Zend_Controller_Action
     public function detailAction()
     {
         $actionsList = array();
-        $actionMapper = new C3op_Projects_ActionMapper($this->db);
+        $this->initActionMapper();
+        $this->initProjectMapper();
+        $this->initHumanResourceMapper();
 
-        if (!isset($this->projectMapper)) {
-            $this->initProjectMapper();
-        }
-        
-        $actionToBeDetailed =  $this->initActionWithCheckedId($actionMapper);
+        $actionToBeDetailed =  $this->initActionWithCheckedId($this->actionMapper);
         $projectToBeDetailed = $this->projectMapper->findById($actionToBeDetailed->getProject());
         
-        if (!isset($this->humanResourceMapper)) {
-            $this->humanResourceMapper = new C3op_Projects_HumanResourceMapper($this->db);
-        }
+        $humanResourcesList = $this->GetHumanResourcesList($actionToBeDetailed);
         
-        $humanResourcesIdsList = $this->humanResourceMapper->getAllHumanResourcesOnAction($actionToBeDetailed);
-        $humanResourcesList = array();
-        
-        foreach ($humanResourcesIdsList as $humanResourceId) {
-            $thisHumanResource = $this->humanResourceMapper->findById($humanResourceId);
-            $currencyValue = C3op_Util_CurrencyDisplay::FormatCurrency($thisHumanResource->GetValue());
-            
-            $totalValueExistentOutlays = $this->calculateTotalValueExistentOutlays($thisHumanResource);
-            
-            $humanResourcesList[$humanResourceId] = array(
-                'id' => $humanResourceId,
-                'description' => $thisHumanResource->GetDescription(),
-                'value' => $currencyValue,
-                'linkEdit' => '/projects/human-resource/edit/?id=' . $humanResourceId,
-                'linkCreateOutlay' => '/projects/outlay/create/?humanResource=' . $humanResourceId,
-                'linkOutlays' => '/projects/human-resource/outlays/?id=' . $humanResourceId,
-                'totalOutlays' => $totalValueExistentOutlays,
-            );
-            
-        }
-        
-        
-        
-        
-        $immediateBreed = $actionMapper->getActionsSubordinatedTo($actionToBeDetailed);
+        $immediateBreed = $this->actionMapper->getActionsSubordinatedTo($actionToBeDetailed);
         foreach ($immediateBreed as $actionId) {
-            $thisAction = $actionMapper->findById($actionId);
-            $nextBreed = $actionMapper->getActionsSubordinatedTo($thisAction);
+            $thisAction = $this->actionMapper->findById($actionId);
+            $nextBreed = $this->actionMapper->getActionsSubordinatedTo($thisAction);
             if (count($nextBreed) > 0) {
                 $broodMessage = count($nextBreed) . " ações diretamente subordinadas";
                 if (count($nextBreed)== 1) {
@@ -161,17 +138,30 @@ class Projects_ActionController extends Zend_Controller_Action
             
         }
         
+        $id = $actionToBeDetailed->GetId();
+        
+        if ($actionToBeDetailed->GetDone()) {
+            $msgDone = "Ação realizada";
+            $linkDone = "javascript:callAjax('/projects/action/set-done', 'false', '$id');";
+        } else {
+            $msgDone = "Confirma realização da ação";
+            $linkDone = "javascript:callAjax('/projects/action/set-done', 'true', '$id');";
+        }
+            
+        
 
         $actionInfo = array(
-            'projectTitle' => $projectToBeDetailed->GetTitle(),
-            'projectDetailLink' => '/projects/project/detail/?id=' . $projectToBeDetailed->GetId(),
-            'linkEditProject' => '/projects/project/edit/?id=' . $projectToBeDetailed->GetId(),
-            'actionTitle' => $actionToBeDetailed->GetTitle(),
-            'actionsList' => $actionsList,
+            'projectTitle'       => $projectToBeDetailed->GetTitle(),
+            'projectDetailLink'  => '/projects/project/detail/?id=' . $projectToBeDetailed->GetId(),
+            'linkEditProject'    => '/projects/project/edit/?id=' . $projectToBeDetailed->GetId(),
+            'actionTitle'        => $actionToBeDetailed->GetTitle(),
+            'actionsList'        => $actionsList,
             'humanResourcesList' => $humanResourcesList,            
-            'id' => $actionToBeDetailed->GetId(),
-            'linkActionCreate' => '/projects/action/create/?subordinatedTo=' . $actionToBeDetailed->GetId(),
-
+            'id'                 => $actionToBeDetailed->GetId(),
+            'linkActionCreate'   => '/projects/action/create/?subordinatedTo=' . $actionToBeDetailed->GetId(),
+            'linkEdit'           => '/projects/action/edit/?id=' . $actionToBeDetailed->GetId(),
+            'linkDone'           => $linkDone,
+            'msgDone'            => $msgDone,
         );
         if ($actionToBeDetailed->GetSubordinatedTo() > 0) {
             $actionInfo['parentLink'] = '/projects/action/detail/?id=' . $actionToBeDetailed->GetSubordinatedTo();
@@ -186,6 +176,48 @@ class Projects_ActionController extends Zend_Controller_Action
 
         $this->view->actionInfo = $actionInfo;
     }
+    
+    public function getHumanResourcesList(C3op_Projects_Action $action)
+    {
+        $humanResourcesList = array();
+        $humanResourcesIdsList = $this->humanResourceMapper->getAllHumanResourcesOnAction($action);
+        
+        foreach ($humanResourcesIdsList as $humanResourceId) {
+            $thisHumanResource = $this->humanResourceMapper->findById($humanResourceId);
+            $currencyValue = C3op_Util_CurrencyDisplay::FormatCurrency($thisHumanResource->GetValue());
+            $totalValueExistentOutlays = $this->calculateTotalValueExistentOutlays($thisHumanResource);
+            
+            $descriptionMessage = $thisHumanResource->GetDescription();
+            
+            $contactId = $thisHumanResource->GetContact();
+            if ($contactId > 0) {
+                $this->initContactMapper();
+                $contractedContact = $this->contactMapper->findById($contactId);
+                $contactName = $contractedContact->GetName();
+                if ($descriptionMessage != "") {
+                    $descriptionMessage = "$contactName: $descriptionMessage";
+                } else {
+                    $descriptionMessage = "$contactName";
+                    
+                }
+                
+            }
+            
+            $humanResourcesList[$humanResourceId] = array(
+                'id' => $humanResourceId,
+                'description' => $descriptionMessage,
+                'value' => $currencyValue,
+                'linkEdit' => '/projects/human-resource/edit/?id=' . $humanResourceId,
+                'linkCreateOutlay' => '/projects/outlay/create/?humanResource=' . $humanResourceId,
+                'linkOutlays' => '/projects/human-resource/outlays/?id=' . $humanResourceId,
+                'totalOutlays' => $totalValueExistentOutlays,
+            );
+        }
+        
+        return $humanResourcesList;
+
+    }
+    
 
     public function successCreateAction()
     {
@@ -224,7 +256,7 @@ class Projects_ActionController extends Zend_Controller_Action
             $id = $input->id;
             return $id;
         }
-        throw new C3op_Projects_ProjectException("Invalid Project Id from Get");
+        throw new C3op_Projects_ActionException("Invalid Project Id from Get");
 
     }
 
@@ -302,9 +334,43 @@ class Projects_ActionController extends Zend_Controller_Action
         } else throw new C3op_Projects_ActionException("Action needs a positive integer project id to find possible receivings to to be a requirement.");
    }
      
+    private function PopulateResponsibleField(Zend_Form $form, $currentResponsible = 0)
+    {
+
+            $this->initContactMapper();
+            $responsibleField = $form->getElement('responsible');
+            $allThatCanBeResponsible = $this->contactMapper->getAllContactThatAreLinkedToAContractant();
+            while (list($key, $contactId) = each($allThatCanBeResponsible)) {
+                $eachPossibleResponsible = $this->contactMapper->findById($contactId);
+                $responsibleField->addMultiOption($contactId, $eachPossibleResponsible->GetName());
+            }      
+            $responsibleField->setValue($currentResponsible);
+   }
+    
     private function initProjectMapper()
     {
          $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
+    }
+    
+    private function initActionMapper()
+    {
+        if (!isset($this->actionMapper)) {
+            $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
+        }        
+    }
+    
+    private function initContactMapper()
+    {
+        if (!isset($this->contactMapper)) {
+            $this->contactMapper = new C3op_Register_ContactMapper($this->db);
+        }        
+    }
+    
+    private function initHumanResourceMapper()
+    {
+        if (!isset($this->humanResourceMapper)) {
+            $this->humanResourceMapper = new C3op_Projects_HumanResourceMapper($this->db);
+        }        
     }
     
     private function calculateTotalValueExistentOutlays(C3op_Projects_HumanResource $h)
@@ -323,5 +389,52 @@ class Projects_ActionController extends Zend_Controller_Action
         
         return $totalValue;
     }
+    
+function setDoneAction()
+{
+    $this->_helper->layout->disableLayout();
+    $this->_helper->viewRenderer->setNoRender(TRUE);
+
+    $state = $_REQUEST['state'];
+    $id = $_REQUEST['id'];
+    
+    $this->initActionMapper();
+    $actionToBeChanged =  $this->initActionWithCheckedId($this->actionMapper);
+
+    if ($state == 'true')
+    {
+        $actionToBeChanged->SetDone(true);
+        $this->actionMapper->update($actionToBeChanged);
+        
+        echo sprintf('<a href="javascript:callAjax(\'/projects/action/set-done\', \'false\', \'%s\');" class="default_1">Ação Realizada</a>',
+                $id                
+                );
+    }
+    else if ($state == 'false')
+    {
+        $actionToBeChanged->SetDone(false);
+        $this->actionMapper->update($actionToBeChanged);
+
+        echo sprintf('<a href="javascript:callAjax(\'/projects/action/set-done\', \'true\', \'%s\');" class="default_1">Confirma realização da ação</a>',
+                $id                
+                );
+    }
+    else
+    {
+        echo 'Um status desconhecido foi informado.';
+    }
+}  
+  
+    private function setDateValueToFormField(Zend_Form $form, $fieldName, $value)
+    {
+        $field = $form->getElement($fieldName);
+        if ($value != '0000-00-00')  {
+            $field->setValue(C3op_Util_DateDisplay::FormatDateToShow($value));
+        } else {
+            $field->setValue("");
+        }
+    }
+
+    
     
 }

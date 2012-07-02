@@ -21,7 +21,7 @@ if (is_array($this->projectsList)) {
         while (list(, $projectData) = each($this->projectsList)) {
 ?>
 
-<?php print($projectData['title']) ?> | <?php print($projectData['dateBegin']) ?> | <?php print($projectData['value']) ?>
+<?php print($projectData['title']) ?> | <?php print($projectData['beginDate']) ?> | <?php print($projectData['value']) ?>
 
 <br/>
     <?php if (isset($projectData['linkEdit'])) { ?>

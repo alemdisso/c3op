@@ -1,7 +1,7 @@
 /********** GENERAL **********/
 *{margin:0; padding:0; font-size:15px; color:#474e42; font-family:"Trebuchet MS", Arial, sans-serif;}
 	
-body{background:url(/img/background_110630.jpg) top center no-repeat;}
+body{}
 
 html, body{height:100%;}
 
@@ -44,7 +44,7 @@ div#structure_login{margin:0 auto; width:996px; clear:both; padding-bottom:69px;
 
 div#structure_wrapper{margin:0; clear:both; padding-bottom:69px;}
 
-div#header{margin:0 auto 20px 0; background:url(/img/background_header_1.png) top center repeat-x; clear:both; height:138px;}
+div#header{margin:0 auto 20px 0; clear:both; height:138px;}
 
 div#header_login{margin:0 auto 50px 0; clear:both; height:138px;}
 
@@ -65,6 +65,7 @@ div#home_column_1{float:left; width:480px;}
 div#home_column_2{float:right; width:480px; margin:0 6px 0 0;}
 
 div#login{float:right;}
+div#hello {margin:0 6px 0 0; font-size:0.7em; font-weight:normal; clear:both; }
 	
 .clear_both{clear:both;}
 
@@ -142,7 +143,6 @@ div#login{float:right;}
 
 .esqueceu_senha {font-size: 12px; margin-left: 16px;}
 
-
 /************ FONTS ************/
 
 .bold{font-weight:bold;}
@@ -169,7 +169,7 @@ p.product_info{font-size:0.9em; font-weight:normal; padding:4px 0 4px 16px;}
 p.info{font-size:0.8em; font-weight:normal; padding:2px 0 2px 8px;}
 p.project_product_line{font-size:1em; font-weight:normal; padding:8px 0 2px 8px;}
 p.parent_info{font-size:0.8em; font-weight:normal; padding:2px 0 2px 6px;}
-
+	
 p.ok{background:url(/img/icon_ok.png) center left no-repeat; font-size:1em; font-weight:normal; padding:2px 0 2px 28px;}
 
 p.ok_2{background:url(/img/icon_ok_2.png) center left no-repeat; font-size:1em; font-weight:normal; padding:0 0 2px 20px;}
@@ -212,7 +212,7 @@ a.info:link, a.info:visited, a.info:hover, a.info:visited:hover{color:#700007; f
 
 a.parent_info:link, a.parent_info:visited, a.parent_info:hover, a.parent_info:visited:hover{color:#700007; font-weight:normal; font-size:0.8em;}
 
-a.product_info:link, a.product_info:visited, a.product_info:hover, a.product_info:visited:hover{color:#711117; font-weight:normal; font-size:1.8em;}
+a.	:link, a.product_info:visited, a.product_info:hover, a.product_info:visited:hover{color:#711117; font-weight:normal; font-size:1.8em;}
 
 
 a.default_1:link, a.default_1:visited, a.default_1:hover, a.default_1:visited:hover{color:#700007; font-weight:bold; font-size:1em;}
@@ -243,13 +243,13 @@ a.default_13:link, a.default_13:visited, a.default_13:hover, a.default_13:visite
 
 /*********** TABLES ************/
 
-td.td_login_1{background:url(/img/background_login_round_3.png) top right repeat-y;}
+td.td_login_1{}
 
 td.td_login_2{width:5px; background:#c02626;}
 
-td.td_login_3{width:5px; height:9px; background:url(/img/background_login_round_1.png) top left no-repeat;}
+td.td_login_3{width:5px; height:9px;}
 
-td.td_login_4{height:9px; background:url(/img/background_login_round_2.png) top right no-repeat;}
+td.td_login_4{height:9px; }
 
 th.manage_title{font-size:1.25em; font-weight:bold; color:#fff; height:47px;}
 

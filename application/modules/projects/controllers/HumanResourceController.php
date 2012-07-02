@@ -109,6 +109,55 @@ class Projects_HumanResourceController extends Zend_Controller_Action
         }
     }
 
+    public function outlaysAction()
+    {
+        $outlayMapper = new C3op_Projects_OutlayMapper($this->db);
+        if (!isset($this->humanResourceMapper)) {
+            $this->humanResourceMapper = new C3op_Projects_HumanResourceMapper($this->db);
+        }
+
+        $id = $this->checkIdFromGet();
+        $thisHumanResource = $this->humanResourceMapper->findById($id);
+        $outlaysIdList = $this->humanResourceMapper->getAllOutlays($thisHumanResource);
+        $outlaysList = array();
+        reset ($outlaysList);
+        $outlaysTotalValue = 0;
+        $outlaysCounter = 0;
+        foreach ($outlaysIdList as $outlayId) {
+            $thisOutlay = $outlayMapper->findById($outlayId);
+            $outlaysCounter++;
+            if ($thisOutlay->GetObservation()) {
+                $observation = $thisOutlay->GetObservation();
+            } else {
+                $observation = "(#$outlaysCounter)";
+            }
+            
+            if ($thisOutlay->GetPredictedValue()) {
+                $value = $thisOutlay->GetPredictedValue();
+            } else {
+                $value = "???";
+            }
+            
+            
+            
+            $outlaysList[$outlayId] = array(
+                'observation' => $observation,
+                'value' => $value,
+                'linkEdit' => '/projects/outlay/edit/?id=' . $outlayId   ,
+            );
+        }
+        
+        $humanResourceInfo = array(
+            'title' => 'provisório...',
+            'linkDetail' => '/projects/project/detail/?id=' . 0 ,
+            'outlaysList' => $outlaysList,
+        );
+
+        $this->view->humanResourceInfo = $humanResourceInfo;
+    }
+
+    
+    
     public function sucessAction()
     {
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {

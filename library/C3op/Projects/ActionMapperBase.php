@@ -26,13 +26,28 @@ class C3op_Projects_ActionMapperBase
         $data = array(
             'title' => $new->getTitle(),
             'project' => $new->GetProject(),
+            'done' => $new->GetDone(),
+            'status' => $new->GetStatus(),
+            'description' => $new->GetDescription(),
+            'subordinated_to' => $new->GetSubordinatedTo(),
+            'responsible' => $new->GetResponsible(),
             'milestone' => $new->GetMilestone(),
-            'requirement_for_receiving' => $new->GetRequirementForReceiving(),
-            'subordinated_to' => $new->GetSubordinatedTo()
+            'requirement_for_receiving' => $new->GetRequirementForReceiving()
             );
         $this->db->insert('projects_actions', $data);
         $new->SetId((int)$this->db->lastInsertId());
         $this->identityMap[$new] = $new->GetId();
+        
+        $data = array(
+            'action' => $new->getId(),
+            'predicted_begin_date' => $new->GetPredictedBeginDate(),
+            'predicted_finish_date' => $new->GetPredictedFinishDate(),
+            'real_begin_date' => $new->GetRealBeginDate(),
+            'real_finish_date' => $new->GetRealFinishDate(),
+            );
+        $this->db->insert('projects_actions_dates', $data);
+        
+        
         
     }
     
@@ -43,12 +58,27 @@ class C3op_Projects_ActionMapperBase
         }
         $this->db->exec(
             sprintf(
-                'UPDATE projects_actions SET title = \'%s\', project = %d, milestone = %d, requirement_for_receiving = %d, subordinated_to = %d  WHERE id = %d;',
+                'UPDATE projects_actions SET title = \'%s\', project = %d, done = %d, status = %d, description = \'%s\', subordinated_to = %d, responsible = %d, milestone = %d, requirement_for_receiving = %d WHERE id = %d;',
                 $a->GetTitle(),
                 $a->GetProject(),
+                $a->GetDone(),
+                $a->GetStatus(),
+                $a->GetDescription(),
+                $a->GetSubordinatedTo(),
+                $a->GetResponsible(),
                 $a->GetMilestone(),
                 $a->GetRequirementForReceiving(),
-                $a->GetSubordinatedTo(),
+                $this->identityMap[$a]
+            )
+        );
+
+        $this->db->exec(
+            sprintf(
+                'UPDATE projects_actions_dates SET predicted_begin_date = \'%s\', predicted_finish_date = \'%s\', real_begin_date = \'%s\', real_finish_date = \'%s\' WHERE action = %d;',
+                $a->GetPredictedBeginDate(),
+                $a->GetPredictedFinishDate(),
+                $a->GetRealBeginDate(),
+                $a->GetRealFinishDate(),
                 $this->identityMap[$a]
             )
         );
@@ -67,7 +97,7 @@ class C3op_Projects_ActionMapperBase
         
         $result = $this->db->fetchRow(
             sprintf(
-                'SELECT title, project, milestone, requirement_for_receiving, subordinated_to FROM projects_actions WHERE id = %d;',
+                'SELECT title, project, done, status, description, subordinated_to, responsible, milestone, requirement_for_receiving FROM projects_actions WHERE id = %d;',
                 $id
             )
         );
@@ -81,11 +111,30 @@ class C3op_Projects_ActionMapperBase
         $this->setAttributeValue($a, $id, 'id');
         $this->setAttributeValue($a, $result['title'], 'title');
         $this->setAttributeValue($a, $result['project'], 'project');
+        $this->setAttributeValue($a, $result['done'], 'done');
+        $this->setAttributeValue($a, $result['status'], 'status');
+        $this->setAttributeValue($a, $result['description'], 'description');
+        $this->setAttributeValue($a, $result['subordinated_to'], 'subordinatedTo');
+        $this->setAttributeValue($a, $result['responsible'], 'responsible');
         $this->setAttributeValue($a, $result['milestone'], 'milestone');
         $this->setAttributeValue($a, $result['requirement_for_receiving'], 'requirementForReceiving');
-        $this->setAttributeValue($a, $result['subordinated_to'], 'subordinatedTo');
 
         $this->identityMap[$a] = $id;
+        
+        $result = $this->db->fetchRow(
+            sprintf(
+                'SELECT predicted_begin_date, predicted_finish_date, real_begin_date, real_finish_date FROM projects_actions_dates WHERE action = %d;',
+                $id
+            )
+        );
+        
+        $this->setAttributeValue($a, $result['predicted_begin_date'], 'predictedBeginDate');
+        $this->setAttributeValue($a, $result['predicted_finish_date'], 'predictedFinishDate');
+        $this->setAttributeValue($a, $result['real_begin_date'], 'realBeginDate');
+        $this->setAttributeValue($a, $result['real_finish_date'], 'realFinishDate');
+        
+        
+        
         return $a;        
 
     }
@@ -98,6 +147,12 @@ class C3op_Projects_ActionMapperBase
         $this->db->exec(
             sprintf(
                 'DELETE FROM projects_actions WHERE id = %d;',
+                $this->identityMap[$a]
+            )
+        );
+        $this->db->exec(
+            sprintf(
+                'DELETE FROM projects_actions_dates WHERE action = %d;',
                 $this->identityMap[$a]
             )
         );

@@ -162,7 +162,7 @@ class Register_LinkageController extends Zend_Controller_Action
             'name' => $thisLinkage->GetName(),
             'linkEdit' => '/register/linkage/edit/?id=' . $id   ,
             'linkReceivings' => $linkReceivings,
-            'dateBegin' => $thisLinkage->GetDateBegin(),
+            'beginDate' => $thisLinkage->GetBeginDate(),
             'value' => $thisLinkage->GetValue(),
             'linkActionCreate' => '/register/action/create/?linkage=' . $id,
             'actionsList' => $actionsList,

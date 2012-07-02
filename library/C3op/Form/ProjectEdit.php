@@ -35,10 +35,10 @@ class C3op_Form_ProjectEdit extends C3op_Form_ProjectCreate
             $project->SetOurResponsible($this->ourResponsible->GetValue());
             $project->SetResponsibleAtClient($this->responsibleAtClient->GetValue());
             
-            $dateBegin = $this->dateBegin->GetValue();
-            $project->SetDateBegin($this->prepareDateValueToSet($dateBegin, new C3op_Util_ValidDate(), new C3op_Util_DateConverter()));
-            $dateFinish = $this->dateFinish->GetValue();
-            $project->SetDateFinish($this->prepareDateValueToSet($dateFinish, new C3op_Util_ValidDate(), new C3op_Util_DateConverter()));
+            $beginDate = $this->beginDate->GetValue();
+            $project->SetBeginDate($this->prepareDateValueToSet($beginDate, new C3op_Util_ValidDate(), new C3op_Util_DateConverter()));
+            $finishDate = $this->finishDate->GetValue();
+            $project->SetFinishDate($this->prepareDateValueToSet($finishDate, new C3op_Util_ValidDate(), new C3op_Util_DateConverter()));
             
             $project->SetValue($this->value->GetValue());
             $project->SetStatus($this->status->GetValue());

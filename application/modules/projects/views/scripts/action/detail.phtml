@@ -3,6 +3,9 @@ if (is_array($this->actionInfo)) {
     $actionData = $this->actionInfo;
 ?>
 <p class="project_title">Projeto: <a href="<?php print($actionData['projectDetailLink']) ?>"><?php print($actionData['projectTitle']) ?></a>
+</p>
+<p class="project_title">
+Ação: <?php print($actionData['actionTitle']) ?>
 <?php 
 if (isset($actionData['parentTitle'])) {
 ?>
@@ -11,9 +14,10 @@ if (isset($actionData['parentTitle'])) {
 }
 ?>    
     
+<div id='setDone'>(<a href="<?php print($actionData['linkDone']) ?>" ><?php print($actionData['msgDone']) ?></a>)</div>
+
+
 </p>
-<p class="project_title">
-Ação: <?php print($actionData['actionTitle']) ?></p>
 <p /><br />
 
 <?php 
@@ -62,6 +66,8 @@ Ação: <?php print($actionData['actionTitle']) ?></p>
 
 <a href="/projects/human-resource/create/?actionId=<?php print($actionData['id']); ?>">Prever recurso humano</a>
  | <a href="<?php print($actionData['linkActionCreate']) ?>">Criar nova ação</a>
+ | <a href="<?php print($actionData['linkEdit']) ?>">Editar</a>   
+
 <hr>
 
 <?php

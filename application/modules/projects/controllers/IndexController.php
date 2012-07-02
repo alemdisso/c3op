@@ -4,12 +4,16 @@ class Projects_IndexController extends Zend_Controller_Action
 {
     private $db;
     private $projectMapper;
-    
     public function init()
     {
        
         $this->db = Zend_Registry::get('db');
-        $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);        
+        $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
+        
+        $ajaxContext = $this->_helper->getHelper('AjaxContext');
+        $ajaxContext->addActionContext('list', 'html')
+                    ->addActionContext('modify', 'html')
+                    ->initContext();
         
    }
 
@@ -27,7 +31,7 @@ class Projects_IndexController extends Zend_Controller_Action
             $projectsList[$id] = array(
                 'title' => $thisProject->GetTitle(),
                 'linkEdit' => '/projects/project/edit/?id=' . $id   ,
-                'dateBegin' => C3op_Util_DateDisplay::FormatDateToShow($thisProject->GetDateBegin()),
+                'beginDate' => C3op_Util_DateDisplay::FormatDateToShow($thisProject->GetBeginDate()),
                 'value' => C3op_Util_CurrencyDisplay::FormatCurrency($thisProject->GetValue()),
                 'linkActionCreate' => '/projects/action/create/?project=' . $id,
                 'linkProjectDetail' => '/projects/project/detail/?id=' . $id,
@@ -44,6 +48,10 @@ class Projects_IndexController extends Zend_Controller_Action
  
     }
 
-	
+public function listAction() {
+    // pretend this is a sophisticated database query
+    $data = array('red','green','blue','yellow');
+    $this->view->data = $data;
+}	
     
 }

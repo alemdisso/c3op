@@ -1,0 +1,54 @@
+<h2>C3op</h2>
+<?php 
+/*
+ * If exists outlays list
+ */
+if (is_array($this->outlaysList)) {
+?>
+
+<?php 
+/*
+ * if there is outlays in list
+ */
+    if (count($this->outlaysList)) {
+?>
+
+
+<?php 
+/*
+ * iterate list and print title
+ */
+        while (list(, $outlayData) = each($this->outlaysList)) {
+?>
+
+<?php print($outlayData['name']) ?> | <?php print($outlayData['description']) ?> | <?php print($outlayData['parcels']) ?> | <?php print($outlayData['actionTitle']) ?> | <?php print($outlayData['predictedDate']) ?> | <?php print($outlayData['predictedValue']) ?>
+
+
+<br/>
+<hr>
+    
+<?php
+}  // loop iterate list and print titlei
+?>
+
+
+
+
+    
+<?php
+    } else { // end else there is outlays in list
+?>
+    <?php print("Não há desembolsos cadastrados.") ?>
+    
+<?php
+    } // end else there is outlays in list
+?>
+<?php
+} else { // else exists outlays list 
+?>
+    <?php print("Não existe lista de desembolsos cadastrados.") ?>
+
+    <?php
+} // end exists outlays list
+?>
+<p />

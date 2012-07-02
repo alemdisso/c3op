@@ -13,7 +13,7 @@ class C3op_Form_HumanResourceCreate extends Zend_Form
             ->addFilter('StringTrim');        
         $this->addElement($action);
         
-        $this->addElementText('description', 'Descrição:', new C3op_Util_ValidString(), 50);
+        $this->addElementText('description', 'Atributo:', new C3op_Util_ValidString(), 50);
         $this->addElementText('value', 'Valor:', new C3op_Util_ValidPositiveFloat(), 50);
 
         $contact = new Zend_Form_Element_Select('contact');

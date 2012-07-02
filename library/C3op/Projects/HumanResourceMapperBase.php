@@ -116,5 +116,21 @@ class C3op_Projects_HumanResourceMapperBase {
         $attribute->setAccessible(TRUE);
         $attribute->setValue($i, $fieldValue);
     }
+    
+    public function getAllOutlays(C3op_Projects_HumanResource $h)
+    {
+        $result = array();
+        foreach ($this->db->query(
+                sprintf(
+                    'SELECT id FROM projects_outlays WHERE human_resource = %d;',
+                    $h->GetId()
+                    )
+                )
+                as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
 
 }

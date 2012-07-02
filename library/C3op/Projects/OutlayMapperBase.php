@@ -42,7 +42,7 @@ class C3op_Projects_OutlayMapperBase
         if (!isset($this->identityMap[$o])) {
             throw new C3op_Projects_OutlayMapperException('Object has no ID, cannot update.');
         }
-  
+        
         $this->db->exec(
             sprintf(
                 'UPDATE projects_outlays SET project = %d, action = %d, human_resource = %d, predicted_value = %.2f, predicted_date = \'%s\', recurrent = %d, observation = \'%s\' WHERE id = %d;',
@@ -122,6 +122,7 @@ class C3op_Projects_OutlayMapperBase
         }        
         return $result;
     }
-    
+
+
     
 }
