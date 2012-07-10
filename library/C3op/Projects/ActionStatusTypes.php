@@ -3,22 +3,22 @@
 class C3op_Projects_ActionStatusTypes {
     
     private static $status = array(
+        C3op_Projects_ActionStatusConstants::STATUS_NIL => "Nula",
         C3op_Projects_ActionStatusConstants::STATUS_PLAN => "Em Planejamento",
-        C3op_Projects_ActionStatusConstants::STATUS_CONTRACT => "Contratada",
+        C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION => "Em Execução",
         C3op_Projects_ActionStatusConstants::STATUS_DONE => "Realizada",
-        C3op_Projects_ActionStatusConstants::STATUS_PAY => "Pagamento",
-        C3op_Projects_ActionStatusConstants::STATUS_SETTLE => "Quitada",
+        C3op_Projects_ActionStatusConstants::STATUS_DELIVERED => "Entregue",
         C3op_Projects_ActionStatusConstants::STATUS_ABORT => "Abortada",
     );
     
     public static function TitleForType($type)
     {
             switch ($type) {
+                case C3op_Projects_ActionStatusConstants::STATUS_NIL:
                 case C3op_Projects_ActionStatusConstants::STATUS_PLAN:
-                case C3op_Projects_ActionStatusConstants::STATUS_CONTRACT:
+                case C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION:
                 case C3op_Projects_ActionStatusConstants::STATUS_DONE:
-                case C3op_Projects_ActionStatusConstants::STATUS_PAY:
-                case C3op_Projects_ActionStatusConstants::STATUS_SETTLE:
+                case C3op_Projects_ActionStatusConstants::STATUS_DELIVERED:
                 case C3op_Projects_ActionStatusConstants::STATUS_ABORT:
                     return self::$status[$type];
                     break;

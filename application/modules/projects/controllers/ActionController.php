@@ -403,21 +403,19 @@ function setDoneAction()
 
     if ($state == 'true')
     {
-//        $actionToBeChanged->SetDone(true);
-//        $this->actionMapper->update($actionToBeChanged);
         $realization = new C3op_Projects_ActionRealization();
-        $realization->ConfirmRealization($actionToBeChanged);
+        $realization->ConfirmRealization($actionToBeChanged, $this->actionMapper);
         
-        echo sprintf('<a href="javascript:callAjax(\'/projects/action/set-done\', \'false\', \'%s\');" class="default_1">Ação Realizada</a>',
+        echo sprintf('<a href="javascript:callAjax(\'/projects/action/set-done\', \'false\', \'%s\');">Ação Realizada</a>',
                 $id                
                 );
     }
     else if ($state == 'false')
     {
-        $actionToBeChanged->SetDone(false);
-        $this->actionMapper->update($actionToBeChanged);
+        $rejection = new C3op_Projects_ActionRejection();
+        $rejection->RejectDelivery($actionToBeChanged, $this->actionMapper);
 
-        echo sprintf('<a href="javascript:callAjax(\'/projects/action/set-done\', \'true\', \'%s\');" class="default_1">Confirma realização da ação</a>',
+        echo sprintf('<a href="javascript:callAjax(\'/projects/action/set-done\', \'true\', \'%s\');">Confirma realização da ação</a>',
                 $id                
                 );
     }

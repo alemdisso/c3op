@@ -251,7 +251,7 @@ class C3op_Projects_ActionBase {
     {
         if ($realBeginDate != "") {
             $dateValidator = new C3op_Util_ValidDate();
-            if ($dateValidator->isValid($realBeginDate)) {
+            if (($realBeginDate == "0000-00-00") || ($dateValidator->isValid($realBeginDate))) {
                 if ($this->realBeginDate != $realBeginDate) {
                     $this->realBeginDate = $realBeginDate;
                 }
@@ -270,7 +270,7 @@ class C3op_Projects_ActionBase {
     {
         if ($realFinishDate != "") {
             $dateValidator = new C3op_Util_ValidDate();
-            if ($dateValidator->isValid($realFinishDate)) {
+            if (($realFinishDate == "0000-00-00") || ($dateValidator->isValid($realFinishDate))) {
                 if ($this->realFinishDate != $realFinishDate) {
                     $this->realFinishDate = $realFinishDate;
                 }

@@ -57,24 +57,24 @@ class ProjectTest extends ControllerTestCase
     public function testCanSetDateOfBegin()
     {   
         $someDate = "20-12-2012";
-        $this->project->SetDateBegin($someDate);
-        $this->assertEquals($this->project->getDateBegin(), $someDate);
+        $this->project->SetBeginDate($someDate);
+        $this->assertEquals($this->project->getBeginDate(), $someDate);
     }
  
     public function testCanChangeDateOfBegin()
     {   
         $firstDate = "01-12-2012";
         $newDate = "10-07-2012";
-        $this->project->SetDateBegin($firstDate);
-        $this->project->SetDateBegin($newDate);
-        $this->assertEquals($this->project->getDateBegin(), $newDate);
+        $this->project->SetBeginDate($firstDate);
+        $this->project->SetBeginDate($newDate);
+        $this->assertEquals($this->project->getBeginDate(), $newDate);
     }
  
     public function testIfSetingBadDateOfBeginRaiseAnError()
     {   
         $crazyDate = "notadateatall";
         $this->setExpectedException('C3op_Projects_ProjectException');
-        $this->project->SetDateBegin($crazyDate);
+        $this->project->SetBeginDate($crazyDate);
     }
  
     public function testCanSetValue()

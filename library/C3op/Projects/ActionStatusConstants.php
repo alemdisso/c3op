@@ -2,10 +2,10 @@
 
 class C3op_Projects_ActionStatusConstants
 {
-    const STATUS_PLAN = 1;
-    const STATUS_CONTRACT = 2;
-    const STATUS_DONE = 4;
-    const STATUS_PAY = 8;
-    const STATUS_SETTLE = 16;
-    const STATUS_ABORT = 8192;
+    const STATUS_NIL = 0;
+    const STATUS_PLAN = 100;
+    const STATUS_IN_EXECUTION = 200;
+    const STATUS_DONE = 300;
+    const STATUS_DELIVERED = 400;
+    const STATUS_ABORT = 10000;
 }
