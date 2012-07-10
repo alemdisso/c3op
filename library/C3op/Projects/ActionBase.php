@@ -22,6 +22,7 @@ class C3op_Projects_ActionBase {
     {
         $this->project = $project;
         $this->id = (int)$id;
+
     }
 
     public function GetId()
@@ -279,4 +280,14 @@ class C3op_Projects_ActionBase {
         }
     } //SetRealFinishDate
 
+    public function Realize() 
+    {
+        $this->SetDone(true);
+        
+    }
+    
+    private function initActionMapper()
+    {
+    }
+    
 }

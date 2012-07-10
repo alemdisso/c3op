@@ -38,14 +38,16 @@ class C3op_Projects_ActionMapperBase
         $new->SetId((int)$this->db->lastInsertId());
         $this->identityMap[$new] = $new->GetId();
         
-        $data = array(
-            'action' => $new->getId(),
-            'predicted_begin_date' => $new->GetPredictedBeginDate(),
-            'predicted_finish_date' => $new->GetPredictedFinishDate(),
-            'real_begin_date' => $new->GetRealBeginDate(),
-            'real_finish_date' => $new->GetRealFinishDate(),
-            );
-        $this->db->insert('projects_actions_dates', $data);
+        $this->insertDates($new);
+        
+//        $data = array(
+//            'action' => $new->getId(),
+//            'predicted_begin_date' => $new->GetPredictedBeginDate(),
+//            'predicted_finish_date' => $new->GetPredictedFinishDate(),
+//            'real_begin_date' => $new->GetRealBeginDate(),
+//            'real_finish_date' => $new->GetRealFinishDate(),
+//            );
+//        $this->db->insert('projects_actions_dates', $data);
         
         
         
@@ -56,6 +58,7 @@ class C3op_Projects_ActionMapperBase
         if (!isset($this->identityMap[$a])) {
             throw new C3op_Projects_ActionMapperException('Object has no ID, cannot update.');
         }
+
         $this->db->exec(
             sprintf(
                 'UPDATE projects_actions SET title = \'%s\', project = %d, done = %d, status = %d, description = \'%s\', subordinated_to = %d, responsible = %d, milestone = %d, requirement_for_receiving = %d WHERE id = %d;',
@@ -71,17 +74,10 @@ class C3op_Projects_ActionMapperBase
                 $this->identityMap[$a]
             )
         );
-
-        $this->db->exec(
-            sprintf(
-                'UPDATE projects_actions_dates SET predicted_begin_date = \'%s\', predicted_finish_date = \'%s\', real_begin_date = \'%s\', real_finish_date = \'%s\' WHERE action = %d;',
-                $a->GetPredictedBeginDate(),
-                $a->GetPredictedFinishDate(),
-                $a->GetRealBeginDate(),
-                $a->GetRealFinishDate(),
-                $this->identityMap[$a]
-            )
-        );
+        
+        $this->UpdateDates($a);
+        
+       
 
     }    
     
@@ -118,22 +114,11 @@ class C3op_Projects_ActionMapperBase
         $this->setAttributeValue($a, $result['responsible'], 'responsible');
         $this->setAttributeValue($a, $result['milestone'], 'milestone');
         $this->setAttributeValue($a, $result['requirement_for_receiving'], 'requirementForReceiving');
+        
 
         $this->identityMap[$a] = $id;
         
-        $result = $this->db->fetchRow(
-            sprintf(
-                'SELECT predicted_begin_date, predicted_finish_date, real_begin_date, real_finish_date FROM projects_actions_dates WHERE action = %d;',
-                $id
-            )
-        );
-        
-        $this->setAttributeValue($a, $result['predicted_begin_date'], 'predictedBeginDate');
-        $this->setAttributeValue($a, $result['predicted_finish_date'], 'predictedFinishDate');
-        $this->setAttributeValue($a, $result['real_begin_date'], 'realBeginDate');
-        $this->setAttributeValue($a, $result['real_finish_date'], 'realFinishDate');
-        
-        
+        $this->FetchDates($a);
         
         return $a;        
 
@@ -197,5 +182,51 @@ class C3op_Projects_ActionMapperBase
         $attribute->setValue($a, $fieldValue);
     }
     
+    private function insertDates(C3op_Projects_Action $new)
+    {
+        $data = array(
+            'action' => $new->getId(),
+            'predicted_begin_date' => $new->GetPredictedBeginDate(),
+            'predicted_finish_date' => $new->GetPredictedFinishDate(),
+            'real_begin_date' => $new->GetRealBeginDate(),
+            'real_finish_date' => $new->GetRealFinishDate(),
+            );
+        $this->db->insert('projects_actions_dates', $data);
+    }
     
+    private function FetchDates(C3op_Projects_Action $action)
+    {
+        $result = $this->db->fetchRow(
+            sprintf(
+                'SELECT predicted_begin_date, predicted_finish_date, real_begin_date, real_finish_date FROM projects_actions_dates WHERE action = %d;',
+                $action->GetId()
+            )
+        );
+        
+        if (empty($result)) {
+            $this->insertDates($action);
+            $this->FetchDates($action);
+            return;
+        }
+                
+        $this->setAttributeValue($action, $result['predicted_begin_date'], 'predictedBeginDate');
+        $this->setAttributeValue($action, $result['predicted_finish_date'], 'predictedFinishDate');
+        $this->setAttributeValue($action, $result['real_begin_date'], 'realBeginDate');
+        $this->setAttributeValue($action, $result['real_finish_date'], 'realFinishDate');
+    }
+    
+    private function UpdateDates(C3op_Projects_Action $action)
+    {
+        $this->db->exec(
+        sprintf(
+            'UPDATE projects_actions_dates SET predicted_begin_date = \'%s\', predicted_finish_date = \'%s\', real_begin_date = \'%s\', real_finish_date = \'%s\' WHERE action = %d;',
+                $action->GetPredictedBeginDate(),
+                $action->GetPredictedFinishDate(),
+                $action->GetRealBeginDate(),
+                $action->GetRealFinishDate(),
+                $this->identityMap[$action]
+            )
+        );
+
+    }
 }

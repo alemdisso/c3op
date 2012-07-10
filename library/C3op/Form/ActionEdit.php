@@ -49,11 +49,27 @@ class C3op_Form_ActionEdit extends C3op_Form_ActionCreate
             $action->SetProject($data['project']);
             $action->SetStatus($data['status']);
             $action->SetDescription($data['description']);
-            $action->SetBegin($data['begin']);
             $action->SetSubordinatedTo($data['subordinatedTo']);
             $action->SetResponsible($data['responsible']);
             $action->SetMilestone($data['milestone']);
             $action->SetRequirementForReceiving($data['requirementForReceiving']);
+            
+            $predictedBeginDate = $data['predictedBeginDate'];
+            $dateValidator = new C3op_Util_ValidDate();
+            if ($dateValidator->isValid($predictedBeginDate)) {
+                $converter = new C3op_Util_DateConverter();                
+                $dateForMysql = $converter->convertDateToMySQLFormat($predictedBeginDate);
+                $action->SetPredictedBeginDate($dateForMysql);
+            }
+            
+            $predictedFinishDate = $data['predictedFinishDate'];
+            $dateValidator = new C3op_Util_ValidDate();
+            if ($dateValidator->isValid($predictedFinishDate)){
+                $converter = new C3op_Util_DateConverter();                
+                $dateForMysql = $converter->convertDateToMySQLFormat($predictedFinishDate);
+                $action->SetPredictedFinishDate($dateForMysql);
+            }
+
             
             
             $actionMapper->update($action);
