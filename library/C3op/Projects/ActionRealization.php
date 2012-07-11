@@ -10,6 +10,7 @@ class C3op_Projects_ActionRealization {
     {
         if (!$action->GetDone()) {
             $action->SetDone(1);
+            $action->SetStatus(C3op_Projects_ActionStatusConstants::STATUS_DONE);
             $action->SetRealFinishDate(date("Y-m-d"));
             $mapper->update($action);
         }

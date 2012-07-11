@@ -25,3 +25,13 @@ function rejectDeliveryResponse(transport, id)
 $('rejectDelivery-'+id).innerHTML = transport.responseText;
 }
 
+function acknowledgeDeliveryResponse(transport, id)
+{
+$('acknowledgeDelivery-'+id).innerHTML = transport.responseText;
+}
+
+function dismissContactResponse(transport, id)
+{
+$('dismissContact-'+id).innerHTML = transport.responseText;
+}
+

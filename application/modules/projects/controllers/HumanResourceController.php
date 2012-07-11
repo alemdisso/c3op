@@ -3,6 +3,7 @@
 class Projects_HumanResourceController extends Zend_Controller_Action
 {
     private $humanResourceMapper;
+    private $actionMapper;
     private $db;
 
     public function init()
@@ -186,8 +187,25 @@ class Projects_HumanResourceController extends Zend_Controller_Action
         $this->view->messages = $flashMessenger->getMessages();
         $flashMessenger->addMessage('Id Inválido');
     }
+
+   public function dismissContactAction()
+    {
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(TRUE);
+
+        $this->initHumanResourceMapper();
+        $this->initActionMapper();        
+        $humanResource =  $this->initHumanResourceWithCheckedId($this->humanResourceMapper);
+        $action = $this->actionMapper->findById($humanResource->GetContact());
+        $dismissal = new C3op_Projects_HumanResourceDismissal();
+        $dismissal->ContactDismiss($action, $humanResource, $this->humanResourceMapper);
+
+        echo 'Contato dispensado';
+    }  
+  
     
-    private function initActionWithCheckedId(C3op_Projects_ActionMapper $mapper)
+    
+    private function initHumanResourceWithCheckedId(C3op_Projects_HumanResourceMapper $mapper)
     {
         return $mapper->findById($this->checkIdFromGet());
     }
@@ -243,12 +261,15 @@ class Projects_HumanResourceController extends Zend_Controller_Action
         } else throw new C3op_Projects_ActionException("Action needs a positive integer project id to find other actions.");
    }
      
-    private function initProjectMapper()
+    private function initActionMapper()
     {
-         $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
+         $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
     }
 
-    
+   private function initHumanResourceMapper()
+    {
+         $this->humanResourceMapper = new C3op_Projects_HumanResourceMapper($this->db);
+    }
     
     
 }

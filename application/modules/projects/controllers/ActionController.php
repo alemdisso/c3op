@@ -129,7 +129,7 @@ class Projects_ActionController extends Zend_Controller_Action
                 
             }
             
-            $rejectLink = $this->ManageRejectionLink($thisAction);
+            $rejectLink = $this->ManageRejectDeliveryLink($thisAction);
             
             $actionTitle =  sprintf("<a href='/projects/action/detail/?id=%d'>%s</a>", $actionId, $thisAction->GetTitle());
             $actionsList[$actionId] = array(
@@ -150,12 +150,16 @@ class Projects_ActionController extends Zend_Controller_Action
         if ($actionToBeDetailed->GetDone()) {
             $msgDone = "Ação realizada";
             $linkDone = "";
+            if ($actionToBeDetailed->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_DONE) {
+                $acceptLink = $this->ManageAcknowledgeLink($actionToBeDetailed);
+            }
         } else {
             $msgDone = "Confirma realização da ação";
             $linkDone = "javascript:passIdToAjax('/projects/action/confirm-realization', '$id', confirmRealizationResponse);";
         }
             
-        $rejectLink = $this->ManageRejectionLink($actionToBeDetailed);
+        $rejectLink = $this->ManageRejectDeliveryLink($actionToBeDetailed);
+        $acceptLink = $this->ManageAcknowledgeLink($actionToBeDetailed);
         
 
         $actionInfo = array(
@@ -170,6 +174,8 @@ class Projects_ActionController extends Zend_Controller_Action
             'editLink'           => '/projects/action/edit/?id=' . $actionToBeDetailed->GetId(),
             'linkDone'           => $linkDone,
             'rejectLink'         => $rejectLink,
+            'acceptLink'         => $acceptLink,
+            'finishDate' => C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->GetRealFinishDate()),
             'msgDone'            => $msgDone,
         );
         if ($actionToBeDetailed->GetSubordinatedTo() > 0) {
@@ -210,8 +216,6 @@ class Projects_ActionController extends Zend_Controller_Action
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(TRUE);
 
-        $id = $_REQUEST['id'];
-
         $this->initActionMapper();
         $actionToBeChanged =  $this->initActionWithCheckedId($this->actionMapper);
         
@@ -219,9 +223,21 @@ class Projects_ActionController extends Zend_Controller_Action
         $realization->ConfirmRealization($actionToBeChanged, $this->actionMapper);
 
         echo 'Ação Realizada';
+    }    
+    
+   public function acknowledgeDeliveryAction()
+    {
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(TRUE);
+
+        $this->initActionMapper();        
+        $actionToBeChanged =  $this->initActionWithCheckedId($this->actionMapper);
+        $acceptance = new C3op_Projects_ActionDelivery();
+        $acceptance->AcknowledgeDelivery($actionToBeChanged, $this->actionMapper);
+
+        echo 'Entrega confirmada';
     }  
   
-    
    public function rejectDeliveryAction()
     {
         $this->_helper->layout->disableLayout();
@@ -425,6 +441,8 @@ class Projects_ActionController extends Zend_Controller_Action
                 
             }
             
+            $dismissalLink = $this->ManageDismissalLink($thisHumanResource);
+            
             $humanResourcesList[$humanResourceId] = array(
                 'id' => $humanResourceId,
                 'description' => $descriptionMessage,
@@ -433,6 +451,7 @@ class Projects_ActionController extends Zend_Controller_Action
                 'linkCreateOutlay' => '/projects/outlay/create/?humanResource=' . $humanResourceId,
                 'linkOutlays' => '/projects/human-resource/outlays/?id=' . $humanResourceId,
                 'totalOutlays' => $totalValueExistentOutlays,
+                'dismissalLink' => $dismissalLink,
             );
         }
         
@@ -440,14 +459,28 @@ class Projects_ActionController extends Zend_Controller_Action
 
     }
     
-    private function ManageRejectionLink(C3op_Projects_Action $action) {
+    private function ManageRejectDeliveryLink(C3op_Projects_Action $action) {
         $rejectLink = "";
         if ($action->GetDone()) {
             $rejectLink = sprintf("javascript:passIdToAjax('/projects/action/reject-delivery', %d, rejectDeliveryResponse)", $action->GetId());
         }
-        return $rejectLink;
-            
-        
+        return $rejectLink;            
+    }
+    
+    private function ManageAcknowledgeLink(C3op_Projects_Action $action) {
+        $acceptLink = "";
+        if ($action->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_DONE) {
+            $acceptLink = sprintf("javascript:passIdToAjax('/projects/action/acknowledge-delivery', %d, acknowledgeDeliveryResponse)", $action->GetId());
+        }
+        return $acceptLink;
+    }
+    
+    private function ManageDismissalLink(C3op_Projects_HumanResource $humanResource) {
+        $dismissalLink = "";
+        if ($humanResource->GetContact() > 0) {
+            $dismissalLink = sprintf("javascript:passIdToAjax('/projects/human-resource/dismiss-contact', %d, dismissContactResponse)", $humanResource->GetId());
+        }
+        return $dismissalLink;
     }
     
     

@@ -92,11 +92,11 @@ class C3op_Projects_ActionBase {
     public function SetStatus($status) 
     {
         switch ($status) {
+            case C3op_Projects_ActionStatusConstants::STATUS_NIL:
             case C3op_Projects_ActionStatusConstants::STATUS_PLAN:
-            case C3op_Projects_ActionStatusConstants::STATUS_CONTRACT:
+            case C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION:
             case C3op_Projects_ActionStatusConstants::STATUS_DONE:
-            case C3op_Projects_ActionStatusConstants::STATUS_PAY:
-            case C3op_Projects_ActionStatusConstants::STATUS_SETTLE:
+            case C3op_Projects_ActionStatusConstants::STATUS_DELIVERED:
             case C3op_Projects_ActionStatusConstants::STATUS_ABORT:
                 $this->status = (int)$status;
                 break;
