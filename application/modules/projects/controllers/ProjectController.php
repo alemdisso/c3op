@@ -137,13 +137,13 @@ class Projects_ProjectController extends Zend_Controller_Action
                 'depth' => $this->detailProductDepth,
                 'brood' => $broodMessage,
                 'specialAction' => $specialActionLabel,
-                'linkEdit' => '/projects/action/edit/?id=' . $actionId   ,
+                'editLink' => '/projects/action/edit/?id=' . $actionId   ,
             );
         }
         
         $projectInfo = array(
             'title' => $projectToBeDetailed->GetTitle(),
-            'linkEdit' => '/projects/project/edit/?id=' . $projectToBeDetailed->GetId(),
+            'editLink' => '/projects/project/edit/?id=' . $projectToBeDetailed->GetId(),
             'linkReceivings' => $linkReceivings,
             'beginDate' => C3op_Util_DateDisplay::FormatDateToShow($projectToBeDetailed->GetBeginDate()),
             'value' => C3op_Util_CurrencyDisplay::FormatCurrency($projectToBeDetailed->GetValue()),
@@ -296,7 +296,7 @@ class Projects_ProjectController extends Zend_Controller_Action
                 'productsList' => $productsList,
                 'predictedDate' => $predictedDate,
                 'predictedValue' => $predictedValue,
-                'linkEdit' => '/projects/receiving/edit/?id=' . $receivingId   ,
+                'editLink' => '/projects/receiving/edit/?id=' . $receivingId   ,
             );
         }
         
@@ -312,7 +312,7 @@ class Projects_ProjectController extends Zend_Controller_Action
             'title' => $thisProject->GetTitle(),
             'linkDetail' => '/projects/project/detail/?id=' . $id   ,
             'projectValue' => $projectValue,
-            'linkEdit' => '/projects/project/edit/?id=' . $id   ,
+            'editLink' => '/projects/project/edit/?id=' . $id   ,
             'receivingsList' => $receivingsList,
         );
 

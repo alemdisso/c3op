@@ -23,8 +23,8 @@ if (is_array($this->projectInfo)) {
 
 <p class="receiving_line"><?php print($receivingInfo['title']) ?> | <?php print($receivingInfo['predictedDate']) ?> | <?php print($receivingInfo['predictedValue']) ?>
 
-<?php if (isset($receivingInfo['linkEdit'])) { ?>
-<a href="<?php print($receivingInfo['linkEdit']) ?>">Editar</a>
+<?php if (isset($receivingInfo['editLink'])) { ?>
+<a href="<?php print($receivingInfo['editLink']) ?>">Editar</a>
 <?php } ?>
 
 <?php 

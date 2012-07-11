@@ -30,7 +30,7 @@ class Projects_IndexController extends Zend_Controller_Action
             
             $projectsList[$id] = array(
                 'title' => $thisProject->GetTitle(),
-                'linkEdit' => '/projects/project/edit/?id=' . $id   ,
+                'editLink' => '/projects/project/edit/?id=' . $id   ,
                 'beginDate' => C3op_Util_DateDisplay::FormatDateToShow($thisProject->GetBeginDate()),
                 'value' => C3op_Util_CurrencyDisplay::FormatCurrency($thisProject->GetValue()),
                 'linkActionCreate' => '/projects/action/create/?project=' . $id,

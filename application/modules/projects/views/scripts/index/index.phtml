@@ -24,8 +24,8 @@ if (is_array($this->projectsList)) {
 <?php print($projectData['title']) ?> | <?php print($projectData['beginDate']) ?> | <?php print($projectData['value']) ?>
 
 <br/>
-    <?php if (isset($projectData['linkEdit'])) { ?>
-<a href="<?php print($projectData['linkEdit']) ?>">Editar</a>
+    <?php if (isset($projectData['editLink'])) { ?>
+<a href="<?php print($projectData['editLink']) ?>">Editar</a>
 <?php } ?>
 
 <?php if (isset($projectData['linkReceivingCreate'])) { ?>

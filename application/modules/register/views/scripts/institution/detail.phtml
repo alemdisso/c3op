@@ -22,8 +22,8 @@ if (is_array($this->institutionInfo)) {
 <p class="project_product_line">
 <?php print($contactInfo['name']) ?>&nbsp;(<?php print($contactInfo['position']) ?>) | 
 <?php print($contactInfo['department']) ?> | 
-<?php if (isset($contactInfo['linkEdit'])) { ?>
-<a href="<?php print($contactInfo['linkEdit']) ?>">Editar</a>
+<?php if (isset($contactInfo['editLink'])) { ?>
+<a href="<?php print($contactInfo['editLink']) ?>">Editar</a>
 <?php } ?>
 </p>
 

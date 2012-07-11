@@ -143,7 +143,7 @@ class Projects_HumanResourceController extends Zend_Controller_Action
             $outlaysList[$outlayId] = array(
                 'observation' => $observation,
                 'value' => $value,
-                'linkEdit' => '/projects/outlay/edit/?id=' . $outlayId   ,
+                'editLink' => '/projects/outlay/edit/?id=' . $outlayId   ,
             );
         }
         

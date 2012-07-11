@@ -128,13 +128,20 @@ class Projects_ActionController extends Zend_Controller_Action
                 $broodMessage = "sem ações diretamente subordinadas";
                 
             }
-            $actionTitle =  sprintf("<a href=/projects/action/detail/?id=%d>%s</a>", $actionId, $thisAction->GetTitle());
+            
+            $rejectLink = $this->ManageRejectionLink($thisAction);
+            
+            $actionTitle =  sprintf("<a href='/projects/action/detail/?id=%d'>%s</a>", $actionId, $thisAction->GetTitle());
             $actionsList[$actionId] = array(
-                'id' => $actionId,
-                'title' => $actionTitle,
-                'brood' => $broodMessage,
-                'linkEdit' => '/projects/action/edit/?id=' . $actionId   ,
-            );
+                'id'         => $actionId,
+                'title'      => $actionTitle,
+                'brood'      => $broodMessage,
+                'editLink'   => '/projects/action/edit/?id=' . $actionId,
+                'done'       => $thisAction->GetDone(),
+                'finishDate' => C3op_Util_DateDisplay::FormatDateToShow($thisAction->GetRealFinishDate()),
+                'status'     => $thisAction->GetStatus(),
+                'rejectLink' => $rejectLink,
+                );
             
         }
         
@@ -142,25 +149,27 @@ class Projects_ActionController extends Zend_Controller_Action
         
         if ($actionToBeDetailed->GetDone()) {
             $msgDone = "Ação realizada";
-            $linkDone = "javascript:callAjax('/projects/action/set-done', 'false', '$id');";
+            $linkDone = "";
         } else {
             $msgDone = "Confirma realização da ação";
-            $linkDone = "javascript:callAjax('/projects/action/set-done', 'true', '$id');";
+            $linkDone = "javascript:passIdToAjax('/projects/action/confirm-realization', '$id', confirmRealizationResponse);";
         }
             
+        $rejectLink = $this->ManageRejectionLink($actionToBeDetailed);
         
 
         $actionInfo = array(
             'projectTitle'       => $projectToBeDetailed->GetTitle(),
             'projectDetailLink'  => '/projects/project/detail/?id=' . $projectToBeDetailed->GetId(),
-            'linkEditProject'    => '/projects/project/edit/?id=' . $projectToBeDetailed->GetId(),
+            'editLinkProject'    => '/projects/project/edit/?id=' . $projectToBeDetailed->GetId(),
             'actionTitle'        => $actionToBeDetailed->GetTitle(),
             'actionsList'        => $actionsList,
             'humanResourcesList' => $humanResourcesList,            
             'id'                 => $actionToBeDetailed->GetId(),
             'linkActionCreate'   => '/projects/action/create/?subordinatedTo=' . $actionToBeDetailed->GetId(),
-            'linkEdit'           => '/projects/action/edit/?id=' . $actionToBeDetailed->GetId(),
+            'editLink'           => '/projects/action/edit/?id=' . $actionToBeDetailed->GetId(),
             'linkDone'           => $linkDone,
+            'rejectLink'         => $rejectLink,
             'msgDone'            => $msgDone,
         );
         if ($actionToBeDetailed->GetSubordinatedTo() > 0) {
@@ -175,47 +184,6 @@ class Projects_ActionController extends Zend_Controller_Action
         
 
         $this->view->actionInfo = $actionInfo;
-    }
-    
-    public function getHumanResourcesList(C3op_Projects_Action $action)
-    {
-        $humanResourcesList = array();
-        $humanResourcesIdsList = $this->humanResourceMapper->getAllHumanResourcesOnAction($action);
-        
-        foreach ($humanResourcesIdsList as $humanResourceId) {
-            $thisHumanResource = $this->humanResourceMapper->findById($humanResourceId);
-            $currencyValue = C3op_Util_CurrencyDisplay::FormatCurrency($thisHumanResource->GetValue());
-            $totalValueExistentOutlays = $this->calculateTotalValueExistentOutlays($thisHumanResource);
-            
-            $descriptionMessage = $thisHumanResource->GetDescription();
-            
-            $contactId = $thisHumanResource->GetContact();
-            if ($contactId > 0) {
-                $this->initContactMapper();
-                $contractedContact = $this->contactMapper->findById($contactId);
-                $contactName = $contractedContact->GetName();
-                if ($descriptionMessage != "") {
-                    $descriptionMessage = "$contactName: $descriptionMessage";
-                } else {
-                    $descriptionMessage = "$contactName";
-                    
-                }
-                
-            }
-            
-            $humanResourcesList[$humanResourceId] = array(
-                'id' => $humanResourceId,
-                'description' => $descriptionMessage,
-                'value' => $currencyValue,
-                'linkEdit' => '/projects/human-resource/edit/?id=' . $humanResourceId,
-                'linkCreateOutlay' => '/projects/outlay/create/?humanResource=' . $humanResourceId,
-                'linkOutlays' => '/projects/human-resource/outlays/?id=' . $humanResourceId,
-                'totalOutlays' => $totalValueExistentOutlays,
-            );
-        }
-        
-        return $humanResourcesList;
-
     }
     
 
@@ -237,6 +205,36 @@ class Projects_ActionController extends Zend_Controller_Action
         $flashMessenger->addMessage('Id Inválido');
     }
     
+    public function confirmRealizationAction()
+    {
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(TRUE);
+
+        $id = $_REQUEST['id'];
+
+        $this->initActionMapper();
+        $actionToBeChanged =  $this->initActionWithCheckedId($this->actionMapper);
+        
+        $realization = new C3op_Projects_ActionRealization();
+        $realization->ConfirmRealization($actionToBeChanged, $this->actionMapper);
+
+        echo 'Ação Realizada';
+    }  
+  
+    
+   public function rejectDeliveryAction()
+    {
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(TRUE);
+
+        $this->initActionMapper();        
+        $actionToBeChanged =  $this->initActionWithCheckedId($this->actionMapper);
+        $rejection = new C3op_Projects_ActionRejection();
+        $rejection->RejectDelivery($actionToBeChanged, $this->actionMapper);
+
+        echo 'Entrega rejeitada';
+    }  
+  
     private function initActionWithCheckedId(C3op_Projects_ActionMapper $mapper)
     {
         return $mapper->findById($this->checkIdFromGet());
@@ -390,41 +388,7 @@ class Projects_ActionController extends Zend_Controller_Action
         return $totalValue;
     }
     
-function setDoneAction()
-{
-    $this->_helper->layout->disableLayout();
-    $this->_helper->viewRenderer->setNoRender(TRUE);
-
-    $state = $_REQUEST['state'];
-    $id = $_REQUEST['id'];
     
-    $this->initActionMapper();
-    $actionToBeChanged =  $this->initActionWithCheckedId($this->actionMapper);
-
-    if ($state == 'true')
-    {
-        $realization = new C3op_Projects_ActionRealization();
-        $realization->ConfirmRealization($actionToBeChanged, $this->actionMapper);
-        
-        echo sprintf('<a href="javascript:callAjax(\'/projects/action/set-done\', \'false\', \'%s\');">Ação Realizada</a>',
-                $id                
-                );
-    }
-    else if ($state == 'false')
-    {
-        $rejection = new C3op_Projects_ActionRejection();
-        $rejection->RejectDelivery($actionToBeChanged, $this->actionMapper);
-
-        echo sprintf('<a href="javascript:callAjax(\'/projects/action/set-done\', \'true\', \'%s\');">Confirma realização da ação</a>',
-                $id                
-                );
-    }
-    else
-    {
-        echo 'Um status desconhecido foi informado.';
-    }
-}  
-  
     private function setDateValueToFormField(Zend_Form $form, $fieldName, $value)
     {
         $field = $form->getElement($fieldName);
@@ -435,6 +399,56 @@ function setDoneAction()
         }
     }
 
+     private function getHumanResourcesList(C3op_Projects_Action $action)
+    {
+        $humanResourcesList = array();
+        $humanResourcesIdsList = $this->humanResourceMapper->getAllHumanResourcesOnAction($action);
+        
+        foreach ($humanResourcesIdsList as $humanResourceId) {
+            $thisHumanResource = $this->humanResourceMapper->findById($humanResourceId);
+            $currencyValue = C3op_Util_CurrencyDisplay::FormatCurrency($thisHumanResource->GetValue());
+            $totalValueExistentOutlays = $this->calculateTotalValueExistentOutlays($thisHumanResource);
+            
+            $descriptionMessage = $thisHumanResource->GetDescription();
+            
+            $contactId = $thisHumanResource->GetContact();
+            if ($contactId > 0) {
+                $this->initContactMapper();
+                $contractedContact = $this->contactMapper->findById($contactId);
+                $contactName = $contractedContact->GetName();
+                if ($descriptionMessage != "") {
+                    $descriptionMessage = "$contactName: $descriptionMessage";
+                } else {
+                    $descriptionMessage = "$contactName";
+                    
+                }
+                
+            }
+            
+            $humanResourcesList[$humanResourceId] = array(
+                'id' => $humanResourceId,
+                'description' => $descriptionMessage,
+                'value' => $currencyValue,
+                'editLink' => '/projects/human-resource/edit/?id=' . $humanResourceId,
+                'linkCreateOutlay' => '/projects/outlay/create/?humanResource=' . $humanResourceId,
+                'linkOutlays' => '/projects/human-resource/outlays/?id=' . $humanResourceId,
+                'totalOutlays' => $totalValueExistentOutlays,
+            );
+        }
+        
+        return $humanResourcesList;
+
+    }
+    
+    private function ManageRejectionLink(C3op_Projects_Action $action) {
+        $rejectLink = "";
+        if ($action->GetDone()) {
+            $rejectLink = sprintf("javascript:passIdToAjax('/projects/action/reject-delivery', %d, rejectDeliveryResponse)", $action->GetId());
+        }
+        return $rejectLink;
+            
+        
+    }
     
     
 }

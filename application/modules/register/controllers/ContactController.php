@@ -22,7 +22,7 @@ class Register_ContactController extends Zend_Controller_Action
             
             $contactsList[$id] = array(
                 'name' => $thisContact->GetName(),
-                'linkEdit' => '/register/contact/edit/?id=' . $id   ,
+                'editLink' => '/register/contact/edit/?id=' . $id   ,
                 'linkDetail' => '/register/contact/detail/?id=' . $id   ,
                 'type' => C3op_Register_ContactTypes::TitleForType($thisContact->GetType()),
             );
@@ -133,12 +133,12 @@ class Register_ContactController extends Zend_Controller_Action
                 'institutionEdit' => '/register/institution/edit/?id=' . $thisInstitution->GetId(),
                 'department' => $thisLinkage->GetDepartment(),
                 'position' => $thisLinkage->GetPosition(),
-                'linkEdit' => '/register/linkage/edit/?id=' . $linkageId   ,
+                'editLink' => '/register/linkage/edit/?id=' . $linkageId   ,
             );
         }
         $contactInfo = array(
             'name' => $thisContact->GetName(),
-            'linkEdit' => '/register/contact/edit/?id=' . $id   ,
+            'editLink' => '/register/contact/edit/?id=' . $id   ,
             'linkLinkageCreate' => '/register/linkage/create/?contact=' . $id   ,
             'linkagesList' => $linkagesList,
         );
@@ -178,12 +178,12 @@ class Register_ContactController extends Zend_Controller_Action
 
             $productsList[$actionId] = array(
                 'name' => $thisAction->GetName(),
-                'linkEdit' => '/register/action/edit/?id=' . $actionId   ,
+                'editLink' => '/register/action/edit/?id=' . $actionId   ,
             );
         }
         $contactInfo = array(
             'name' => $thisContact->GetName(),
-            'linkEdit' => '/register/contact/edit/?id=' . $id   ,
+            'editLink' => '/register/contact/edit/?id=' . $id   ,
             'productsList' => $productsList,
         );
 

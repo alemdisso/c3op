@@ -22,7 +22,7 @@ class Register_InstitutionController extends Zend_Controller_Action
             
             $institutionsList[$id] = array(
                 'name' => $thisInstitution->GetShortName(),
-                'linkEdit' => '/register/institution/edit/?id=' . $id   ,
+                'editLink' => '/register/institution/edit/?id=' . $id   ,
                 'type' => C3op_Register_InstitutionTypes::TitleForType($thisInstitution->GetType()),
             );
         }
@@ -152,12 +152,12 @@ class Register_InstitutionController extends Zend_Controller_Action
                 'name' => $thisContact->GetName(),
                 'position' => $thisLinkage->GetPosition(),
                 'department' => $thisLinkage->GetDepartment(),
-                'linkEdit' => '/register/contact/edit/?id=' . $linkageId   ,
+                'editLink' => '/register/contact/edit/?id=' . $linkageId   ,
             );
         }
         $institutionInfo = array(
             'name' => $thisInstitution->GetName(),
-            'linkEdit' => '/register/institution/edit/?id=' . $id   ,
+            'editLink' => '/register/institution/edit/?id=' . $id   ,
             'linkLinkageCreate' => '/register/linkage/create/?institution=' . $id,
             'contactsList' => $linkagesList,
         );

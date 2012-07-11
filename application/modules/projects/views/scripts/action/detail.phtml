@@ -14,7 +14,21 @@ if (isset($actionData['parentTitle'])) {
 }
 ?>    
     
-<div id='setDone'>(<a href="<?php print($actionData['linkDone']) ?>" ><?php print($actionData['msgDone']) ?></a>)</div>
+<div id='confirmRealization-<?php print($actionData['id']);?>'>
+<?php
+    if (isset($actionData['linkDone']) && $actionData['linkDone'] != "") {
+?>    
+    
+    <a href="<?php print($actionData['linkDone']) ?>" ><?php print($actionData['msgDone']) ?></a>
+<?php
+} else {
+?>    
+    <?php if (isset($actionData['msgDone'])) print($actionData['msgDone']); ?>
+<?php
+}
+?>    
+    
+</div>
 
 
 </p>
@@ -32,8 +46,8 @@ if (isset($actionData['parentTitle'])) {
 ?>
 
 <?php print($humanResourceInfo['description']) ?> (<?php print($humanResourceInfo['value']) ?>) 
-<?php if (isset($humanResourceInfo['linkEdit'])) { ?>
-<a href="<?php print($humanResourceInfo['linkEdit']) ?>">Editar</a>
+<?php if (isset($humanResourceInfo['editLink'])) { ?>
+<a href="<?php print($humanResourceInfo['editLink']) ?>">Editar</a>
  | <a href="<?php print($humanResourceInfo['linkCreateOutlay']) ?>">Prever desembolso</a>
 
 <?php   }
@@ -66,7 +80,7 @@ if (isset($actionData['parentTitle'])) {
 
 <a href="/projects/human-resource/create/?actionId=<?php print($actionData['id']); ?>">Prever recurso humano</a>
  | <a href="<?php print($actionData['linkActionCreate']) ?>">Criar nova ação</a>
- | <a href="<?php print($actionData['linkEdit']) ?>">Editar</a>   
+ | <a href="<?php print($actionData['editLink']) ?>">Editar</a>   
 
 <hr>
 
@@ -83,6 +97,9 @@ if (isset($actionData['parentTitle'])) {
     if (count($actionsList)) {
 ?>
     Essa ação é composta por:<br /><br />
+    
+    
+    
 <?php        
     
         while (list(, $actionInfo) = each($actionsList)) {
@@ -90,12 +107,20 @@ if (isset($actionData['parentTitle'])) {
 
 <p class="receiving_line"><?php print($actionInfo['title']) ?>
  (<?php print($actionInfo['brood']) ?>) 
-<?php if (isset($actionInfo['linkEdit'])) { ?>
-<a href="<?php print($actionInfo['linkEdit']) ?>">Editar</a>
-<?php   }
-
+<?php if (isset($actionInfo['editLink'])) { ?>
+<a href="<?php print($actionInfo['editLink']) ?>">Editar</a>
+<?php
+}
 ?>
 </p>
+
+<?php
+    if (isset($actionInfo['done']) && $actionInfo['done']) {
+?>
+<div id='rejectDelivery-<?php print($actionInfo['id']);?>'>Realizada em: <?php print($actionInfo['finishDate']); ?>(<a class="parent_info" href="<?php print($actionInfo['rejectLink']); ?>">rejeitar</a>)</div><br />
+<?php
+}
+?>
 <br />
 
 

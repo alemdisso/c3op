@@ -155,12 +155,12 @@ class Register_LinkageController extends Zend_Controller_Action
                 'name' => $thisAction->GetName(),
                 'milestone' => $milestone,
                 'requirementForReceiving' => $requirementForReceiving,
-                'linkEdit' => '/register/action/edit/?id=' . $actionId   ,
+                'editLink' => '/register/action/edit/?id=' . $actionId   ,
             );
         }
         $linkageInfo = array(
             'name' => $thisLinkage->GetName(),
-            'linkEdit' => '/register/linkage/edit/?id=' . $id   ,
+            'editLink' => '/register/linkage/edit/?id=' . $id   ,
             'linkReceivings' => $linkReceivings,
             'beginDate' => $thisLinkage->GetBeginDate(),
             'value' => $thisLinkage->GetValue(),
