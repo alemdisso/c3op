@@ -17,6 +17,7 @@ class C3op_Projects_ActionBase {
     protected $predictedFinishDate = "0000-00-00";
     protected $realBeginDate = "0000-00-00";
     protected $realFinishDate = "0000-00-00";
+    protected $receiptDate = null;
     
     function __construct($project, $id=0)
     {
@@ -95,8 +96,10 @@ class C3op_Projects_ActionBase {
             case C3op_Projects_ActionStatusConstants::STATUS_NIL:
             case C3op_Projects_ActionStatusConstants::STATUS_PLAN:
             case C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION:
+            case C3op_Projects_ActionStatusConstants::STATUS_RECEIVED:
             case C3op_Projects_ActionStatusConstants::STATUS_DONE:
             case C3op_Projects_ActionStatusConstants::STATUS_DELIVERED:
+            case C3op_Projects_ActionStatusConstants::STATUS_COMPLETE:
             case C3op_Projects_ActionStatusConstants::STATUS_ABORT:
                 $this->status = (int)$status;
                 break;
@@ -286,8 +289,15 @@ class C3op_Projects_ActionBase {
         
     }
     
-    private function initActionMapper()
+    public function GetReceiptDate(C3op_Projects_ActionMapper $actionMapper)
     {
-    }
+ 
+        if (is_null($this->receiptDate)) {
+            $actionMapper->FetchLastReceiptDate($this);
+        }
+        
+        return $this->receiptDate;
+    } //GetRealFinishDate
+	
     
 }

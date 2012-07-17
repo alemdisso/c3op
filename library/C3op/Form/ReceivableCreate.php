@@ -1,12 +1,12 @@
 <?php
-class C3op_Form_ReceivingCreate extends Zend_Form
+class C3op_Form_ReceivableCreate extends Zend_Form
 {
     public function init()
     {
 
         // initialize form
-        $this->setName('newReceivingForm')
-            ->setAction('/projects/receiving/create')
+        $this->setName('newReceivableForm')
+            ->setAction('/projects/receivable/create')
             ->setMethod('post');
         
         $project = new Zend_Form_Element_Hidden('project');
@@ -35,12 +35,12 @@ class C3op_Form_ReceivingCreate extends Zend_Form
         
         if ($this->isValid($data) !== true) 
         {
-            throw new C3op_Form_ReceivingCreateException('Invalid data!');
+            throw new C3op_Form_ReceivableCreateException('Invalid data!');
         } 
         else
         {
             $db = Zend_Registry::get('db');
-            $receivingMapper = new C3op_Projects_ReceivingMapper($db);
+            $receivableMapper = new C3op_Projects_ReceivableMapper($db);
             
             $predictedDate = $this->predictedDate->GetValue();
             $dateValidator = new C3op_Util_ValidDate();
@@ -58,17 +58,17 @@ class C3op_Form_ReceivingCreate extends Zend_Form
                 $converter = new C3op_Util_DateConverter();                
                 $dateForMysql = $converter->convertDateToMySQLFormat($realDate);
                 $realDateConvertedToMySQL = $dateForMysql;
-                $receiving->SetRealDate($realDateConvertedToMySQL);
+                $receivable->SetRealDate($realDateConvertedToMySQL);
             }
             
             
             
-            $receiving = new C3op_Projects_Receiving($this->project->GetValue(),$predictedDateConvertedToMySQL, $this->predictedValue->GetValue());
-            $receiving->SetTitle($this->title->GetValue());
-            $receiving->SetProject((float)$this->project->GetValue());
-            $receiving->SetRealValue((float)$this->realValue->GetValue());
+            $receivable = new C3op_Projects_Receivable($this->project->GetValue(),$predictedDateConvertedToMySQL, $this->predictedValue->GetValue());
+            $receivable->SetTitle($this->title->GetValue());
+            $receivable->SetProject((float)$this->project->GetValue());
+            $receivable->SetRealValue((float)$this->realValue->GetValue());
             
-            $receivingMapper->insert($receiving);
+            $receivableMapper->insert($receivable);
         }
     }
  

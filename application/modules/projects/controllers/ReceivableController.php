@@ -1,8 +1,8 @@
 <?php
 
-class Projects_ReceivingController extends Zend_Controller_Action
+class Projects_ReceivableController extends Zend_Controller_Action
 {
-    private $receivingMapper;
+    private $receivableMapper;
     private $projectMapper;
     private $db;
 
@@ -14,7 +14,7 @@ class Projects_ReceivingController extends Zend_Controller_Action
     public function createAction()
     {
         // cria form
-        $form = new C3op_Form_ReceivingCreate;
+        $form = new C3op_Form_ReceivableCreate;
         $this->view->form = $form;
 
         if ($this->getRequest()->isPost()) {
@@ -23,8 +23,8 @@ class Projects_ReceivingController extends Zend_Controller_Action
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage('The record was successfully updated.');          
-                $this->_redirect('/projects/receiving/success-create');
-            } else throw new C3op_Projects_ReceivingException("An receiving must have a valid title.");
+                $this->_redirect('/projects/receivable/success-create');
+            } else throw new C3op_Projects_ReceivableException("An receivable must have a valid title.");
         } else {
             $data = $this->_request->getParams();
             $projectId = $data['project'];
@@ -34,7 +34,7 @@ class Projects_ReceivingController extends Zend_Controller_Action
 
     public function editAction()
     {
-        $form = new C3op_Form_ReceivingEdit;
+        $form = new C3op_Form_ReceivableEdit;
         $this->view->form = $form;
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
@@ -55,17 +55,17 @@ class Projects_ReceivingController extends Zend_Controller_Action
             $input = new Zend_Filter_Input($filters, $validators, $data);
             if ($input->isValid()) {
                 $id = $input->id;
-                if (!isset($this->receivingMapper)) {
-                    $this->receivingMapper = new C3op_Projects_ReceivingMapper($this->db);
+                if (!isset($this->receivableMapper)) {
+                    $this->receivableMapper = new C3op_Projects_ReceivableMapper($this->db);
                 }
-                $thisReceiving = $this->receivingMapper->findById($id);
-                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'title', $thisReceiving->GetTitle());
+                $thisReceivable = $this->receivableMapper->findById($id);
+                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'title', $thisReceivable->GetTitle());
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $id);
-                $this->SetDateValueToFormField($form, 'predictedDate', $thisReceiving->GetPredictedDate());
-                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'predictedValue', $thisReceiving->GetPredictedValue());
-                $this->SetDateValueToFormField($form, 'realDate', $thisReceiving->GetRealDate());
-                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'realValue', $thisReceiving->GetRealValue());
-                $projectId = $this->populateProjectFields($thisReceiving->GetProject(), $form);
+                $this->SetDateValueToFormField($form, 'predictedDate', $thisReceivable->GetPredictedDate());
+                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'predictedValue', $thisReceivable->GetPredictedValue());
+                $this->SetDateValueToFormField($form, 'realDate', $thisReceivable->GetRealDate());
+                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'realValue', $thisReceivable->GetRealValue());
+                $projectId = $this->populateProjectFields($thisReceivable->GetProject(), $form);
             }
 
         }
@@ -100,7 +100,7 @@ class Projects_ReceivingController extends Zend_Controller_Action
         $flashMessenger->addMessage('Id Inválido');
     }
     
-    private function PopulateProjectFields($projectId, C3op_Form_ReceivingCreate $form)
+    private function PopulateProjectFields($projectId, C3op_Form_ReceivableCreate $form)
     {
         $validator = new C3op_Util_ValidId();
         if ($validator->isValid($projectId)) {
@@ -113,11 +113,11 @@ class Projects_ReceivingController extends Zend_Controller_Action
             $this->view->projectTitle = $thisProject->GetTitle();
             $this->view->projectId = $projectId;
             return $projectId;
-        } else throw new C3op_Projects_ReceivingException("Receiving needs a positive integer project id.");
+        } else throw new C3op_Projects_ReceivableException("Receivable needs a positive integer project id.");
 
     }
 
-    private function setDateValueToFormField(C3op_Form_ReceivingCreate $form, $fieldName, $value)
+    private function setDateValueToFormField(C3op_Form_ReceivableCreate $form, $fieldName, $value)
     {
         $field = $form->getElement($fieldName);
         if (($value != '0000-00-00') && ($value != "")) {

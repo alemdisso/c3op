@@ -164,7 +164,7 @@ class Register_ContactController extends Zend_Controller_Action
 
     }
 
-    public function receivingsAction()
+    public function receivablesAction()
     {
         $actionMapper = new C3op_Register_ActionMapper($this->db);
 

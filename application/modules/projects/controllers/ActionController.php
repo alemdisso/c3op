@@ -5,7 +5,7 @@ class Projects_ActionController extends Zend_Controller_Action
     private $actionMapper;
     private $humanResourceMapper;
     private $projectMapper;
-    private $receivingMapper;
+    private $receivableMapper;
     private $contactMapper;
     private $db;
 
@@ -129,7 +129,7 @@ class Projects_ActionController extends Zend_Controller_Action
                 
             }
             
-            $rejectLink = $this->ManageRejectDeliveryLink($thisAction);
+            $rejectLink = $this->ManageRejectReceiptLink($thisAction);
             
             $actionTitle =  sprintf("<a href='/projects/action/detail/?id=%d'>%s</a>", $actionId, $thisAction->GetTitle());
             $actionsList[$actionId] = array(
@@ -147,19 +147,21 @@ class Projects_ActionController extends Zend_Controller_Action
         
         $id = $actionToBeDetailed->GetId();
         
-        if ($actionToBeDetailed->GetDone()) {
+        if ($actionToBeDetailed->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_DONE) {
             $msgDone = "Ação realizada";
             $linkDone = "";
-            if ($actionToBeDetailed->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_DONE) {
-                $acceptLink = $this->ManageAcknowledgeLink($actionToBeDetailed);
-            }
+            $acceptLink = "";
+        } elseif ($actionToBeDetailed->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_RECEIVED) {
+            $msgDone = "Ação recebida em " . $actionToBeDetailed->GetReceiptDate($this->actionMapper);
+            $linkDone = "";
+            $acceptLink = $this->ManageAcceptanceLink($actionToBeDetailed);
         } else {
-            $msgDone = "Confirma realização da ação";
-            $linkDone = "javascript:passIdToAjax('/projects/action/confirm-realization', '$id', confirmRealizationResponse);";
+            $msgDone = "Confirma que ação foi entregue ao IETS";
+            $linkDone = "javascript:passIdToAjax('/projects/action/acknowledge-receipt', '$id', acknowledgeReceiptResponse);";
         }
             
-        $rejectLink = $this->ManageRejectDeliveryLink($actionToBeDetailed);
-        $acceptLink = $this->ManageAcknowledgeLink($actionToBeDetailed);
+        $rejectLink = $this->ManageRejectReceiptLink($actionToBeDetailed);
+        $acceptLink = $this->ManageAcceptanceLink($actionToBeDetailed);
         
 
         $actionInfo = array(
@@ -211,7 +213,7 @@ class Projects_ActionController extends Zend_Controller_Action
         $flashMessenger->addMessage('Id Inválido');
     }
     
-    public function confirmRealizationAction()
+    public function acknowledgeReceiptAction()
     {
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(TRUE);
@@ -219,34 +221,34 @@ class Projects_ActionController extends Zend_Controller_Action
         $this->initActionMapper();
         $actionToBeChanged =  $this->initActionWithCheckedId($this->actionMapper);
         
-        $realization = new C3op_Projects_ActionRealization();
-        $realization->ConfirmRealization($actionToBeChanged, $this->actionMapper);
+        $acknowledgment = new C3op_Projects_ReceiptAcknowledgment();
+        $acknowledgment->AcknowledgeReceipt($actionToBeChanged, $this->actionMapper);
 
-        echo 'Ação Realizada';
+        echo 'Ação Recebida';
     }    
     
-   public function acknowledgeDeliveryAction()
+   public function acceptReceiptAction()
     {
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(TRUE);
 
         $this->initActionMapper();        
         $actionToBeChanged =  $this->initActionWithCheckedId($this->actionMapper);
-        $acceptance = new C3op_Projects_ActionDelivery();
-        $acceptance->AcknowledgeDelivery($actionToBeChanged, $this->actionMapper);
+        $acceptance = new C3op_Projects_ReceiptAcceptance();
+        $acceptance->AcceptReceipt($actionToBeChanged, $this->actionMapper);
 
-        echo 'Entrega confirmada';
+        echo 'Realização da tarefa confirmada';
     }  
   
-   public function rejectDeliveryAction()
+   public function rejectReceiptAction()
     {
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(TRUE);
 
         $this->initActionMapper();        
         $actionToBeChanged =  $this->initActionWithCheckedId($this->actionMapper);
-        $rejection = new C3op_Projects_ActionRejection();
-        $rejection->RejectDelivery($actionToBeChanged, $this->actionMapper);
+        $rejection = new C3op_Projects_ReceiptRejection();
+        $rejection->RejectReceipt($actionToBeChanged, $this->actionMapper);
 
         echo 'Entrega rejeitada';
     }  
@@ -332,20 +334,20 @@ class Projects_ActionController extends Zend_Controller_Action
             if (!isset($this->projectMapper)) {
                 $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
             }
-            if (!isset($this->receivingMapper)) {
-                $this->receivingMapper = new C3op_Projects_ReceivingMapper($this->db);
+            if (!isset($this->receivableMapper)) {
+                $this->receivableMapper = new C3op_Projects_ReceivableMapper($this->db);
             }
             $thisProject = $this->projectMapper->findById($projectId);
-            $allReceivings = $this->projectMapper->getAllReceivings($thisProject);
+            $allReceivables = $this->projectMapper->getAllReceivables($thisProject);
 
-            while (list($key, $receivingId) = each($allReceivings)) {
-                $eachReceiving = $this->receivingMapper->findById($receivingId);
+            while (list($key, $receivableId) = each($allReceivables)) {
+                $eachReceivable = $this->receivableMapper->findById($receivableId);
                 $requirementForReceivingField->addMultiOption($receivingId, $eachReceiving->GetTitle());
             }
             
             $requirementForReceivingField->setValue($setedReceivingId);
         
-        } else throw new C3op_Projects_ActionException("Action needs a positive integer project id to find possible receivings to to be a requirement.");
+        } else throw new C3op_Projects_ActionException("Action needs a positive integer project id to find possible receivables to to be a requirement.");
    }
      
     private function PopulateResponsibleField(Zend_Form $form, $currentResponsible = 0)
@@ -459,18 +461,18 @@ class Projects_ActionController extends Zend_Controller_Action
 
     }
     
-    private function ManageRejectDeliveryLink(C3op_Projects_Action $action) {
+    private function ManageRejectReceiptLink(C3op_Projects_Action $action) {
         $rejectLink = "";
-        if ($action->GetDone()) {
-            $rejectLink = sprintf("javascript:passIdToAjax('/projects/action/reject-delivery', %d, rejectDeliveryResponse)", $action->GetId());
+        if ($action->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_RECEIVED) {
+            $rejectLink = sprintf("javascript:passIdToAjax('/projects/action/reject-receipt', %d, rejectReceiptResponse)", $action->GetId());
         }
         return $rejectLink;            
     }
     
-    private function ManageAcknowledgeLink(C3op_Projects_Action $action) {
+    private function ManageAcceptanceLink(C3op_Projects_Action $action) {
         $acceptLink = "";
-        if ($action->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_DONE) {
-            $acceptLink = sprintf("javascript:passIdToAjax('/projects/action/acknowledge-delivery', %d, acknowledgeDeliveryResponse)", $action->GetId());
+        if ($action->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_RECEIVED) {
+            $acceptLink = sprintf("javascript:passIdToAjax('/projects/action/accept-receipt', %d, acceptReceiptResponse)", $action->GetId());
         }
         return $acceptLink;
     }

@@ -1,6 +1,6 @@
 <?php
 
-class C3op_Projects_ReceivingBase {
+class C3op_Projects_ReceivableBase {
 	
     protected $id;
     protected $title;
@@ -25,7 +25,7 @@ class C3op_Projects_ReceivingBase {
         if (($this->id == 0) && ($id > 0)) {
             $this->id = (int)$id;
         } else {
-            throw new C3op_Projects_ReceivingException('It\'s not possible to change a receiving\'s ID');
+            throw new C3op_Projects_ReceivableException('It\'s not possible to change a receivable\'s ID');
         }
     } //SetId
 
@@ -57,7 +57,7 @@ class C3op_Projects_ReceivingBase {
                 $this->title = $title;
             }
         } else {
-            throw new C3op_Projects_ReceivingException("This ($title) is not a valid title.");
+            throw new C3op_Projects_ReceivableException("This ($title) is not a valid title.");
         }
 
     } //SetTitle
@@ -77,7 +77,7 @@ class C3op_Projects_ReceivingBase {
                 $this->predictedDate = $predictedDate;
             }
         } else {
-            throw new C3op_Projects_ReceivingException("This ($predictedDate) is not a valid date of begin.");
+            throw new C3op_Projects_ReceivableException("This ($predictedDate) is not a valid date of begin.");
         }
     } //SetPredictedDate
 
@@ -96,7 +96,7 @@ class C3op_Projects_ReceivingBase {
                     $this->realDate = $realDate;
                 }
             } else {
-                throw new C3op_Projects_ReceivingException("This ($realDate) is not a valid date of begin.");
+                throw new C3op_Projects_ReceivableException("This ($realDate) is not a valid date of begin.");
             }
         }
     } //SetRealDate
@@ -106,7 +106,7 @@ class C3op_Projects_ReceivingBase {
         if ($predictedValue >= 0) {
             $this->predictedValue = (float) $predictedValue;
         } else {
-            throw new C3op_Projects_ReceivingException("Value must be a positive number.");
+            throw new C3op_Projects_ReceivableException("Value must be a positive number.");
             
         }
     }
@@ -122,7 +122,7 @@ class C3op_Projects_ReceivingBase {
         if ($realValue >= 0) {
             $this->realValue = (float) $realValue;
         } else {
-            throw new C3op_Projects_ReceivingException("Real value of a receiving must be a positive number.");
+            throw new C3op_Projects_ReceivableException("Real value of a receivable must be a positive number.");
         }
     }
 

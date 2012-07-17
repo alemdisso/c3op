@@ -35,8 +35,8 @@ class Projects_IndexController extends Zend_Controller_Action
                 'value' => C3op_Util_CurrencyDisplay::FormatCurrency($thisProject->GetValue()),
                 'linkActionCreate' => '/projects/action/create/?project=' . $id,
                 'linkProjectDetail' => '/projects/project/detail/?id=' . $id,
-                'linkReceivingCreate' => '/projects/receiving/create/?project=' . $id,
-                'linkProjectReceivings' => '/projects/project/receivings/?id=' . $id,
+                'linkReceivableCreate' => '/projects/receivable/create/?project=' . $id,
+                'linkProjectReceivables' => '/projects/project/receivables/?id=' . $id,
                 'actionsCount' => $actionsCount,
             );
         }

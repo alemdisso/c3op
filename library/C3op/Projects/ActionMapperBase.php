@@ -215,7 +215,25 @@ class C3op_Projects_ActionMapperBase
         $this->setAttributeValue($action, $result['real_finish_date'], 'realFinishDate');
     }
     
-    private function UpdateDates(C3op_Projects_Action $action)
+   public function FetchLastReceiptDate(C3op_Projects_Action $action)
+    {
+        $result = $this->db->fetchRow(
+            sprintf(
+                'SELECT timestamp FROM projects_actions_events WHERE action = %d ORDER BY timestamp DESC LIMIT 1;',
+                $action->GetId()
+            )
+        );
+        
+        if (empty($result)) {
+            $receiptDate = "0000-00-00";
+        } else {
+            $receiptDate = $result['timestamp'];
+        }
+                
+        $this->setAttributeValue($action, $receiptDate, 'receiptDate');
+    }
+    
+     private function UpdateDates(C3op_Projects_Action $action)
     {
         $this->db->exec(
         sprintf(

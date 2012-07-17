@@ -59,11 +59,13 @@ class C3op_Projects_ActionEventBase {
             case C3op_Projects_ActionEventConstants::EVENT_PLANNING:
             case C3op_Projects_ActionEventConstants::EVENT_CONTRACT_RESOURCE:
             case C3op_Projects_ActionEventConstants::EVENT_BEGIN_EXECUTION:
+            case C3op_Projects_ActionEventConstants::EVENT_ACKNOWLEDGE_RECEIPT:
             case C3op_Projects_ActionEventConstants::EVENT_CONFIRM_REALIZATION:
-            case C3op_Projects_ActionEventConstants::EVENT_ACKNOWLEDGE_DELIVERY:
+            case C3op_Projects_ActionEventConstants::EVENT_REGISTER_DELIVERY:
+            case C3op_Projects_ActionEventConstants::EVENT_COMPLETE_ACTION:
             case C3op_Projects_ActionEventConstants::EVENT_DISMISS_RESOURCE:
             case C3op_Projects_ActionEventConstants::EVENT_HALT_EXECUTION:
-            case C3op_Projects_ActionEventConstants::EVENT_REJECT_DELIVERY:
+            case C3op_Projects_ActionEventConstants::EVENT_REJECT_RECEIPT:
             case C3op_Projects_ActionEventConstants::EVENT_CANCEL_ACTION:
                 $this->type = (int)$type;
                 break;

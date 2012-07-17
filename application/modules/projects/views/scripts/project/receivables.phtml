@@ -16,19 +16,19 @@ if (is_array($this->projectInfo)) {
  * iterate list and print title
  */
 
-    $receivingsList = $projectData['receivingsList'];
+    $receivablesList = $projectData['receivablesList'];
     
-    while (list(, $receivingInfo) = each($receivingsList)) {
+    while (list(, $receivableInfo) = each($receivablesList)) {
 ?>
 
-<p class="receiving_line"><?php print($receivingInfo['title']) ?> | <?php print($receivingInfo['predictedDate']) ?> | <?php print($receivingInfo['predictedValue']) ?>
+<p class="receivable_line"><?php print($receivableInfo['title']) ?> | <?php print($receivableInfo['predictedDate']) ?> | <?php print($receivableInfo['predictedValue']) ?>
 
-<?php if (isset($receivingInfo['editLink'])) { ?>
-<a href="<?php print($receivingInfo['editLink']) ?>">Editar</a>
+<?php if (isset($receivableInfo['editLink'])) { ?>
+<a href="<?php print($receivableInfo['editLink']) ?>">Editar</a>
 <?php } ?>
 
 <?php 
-    $productsList = $receivingInfo['productsList'];
+    $productsList = $receivableInfo['productsList'];
     while (list(, $productInfo) = each($productsList)) {
 ?>
 

@@ -15,19 +15,19 @@ var myAjax = new Ajax.Request(
 }
 
 //handle the Ajax response …
-function confirmRealizationResponse(transport, id)
+function acknowledgeReceiptResponse(transport, id)
 {
-$('confirmRealization-'+id).innerHTML = transport.responseText;
+$('acknowledgeReceipt-'+id).innerHTML = transport.responseText;
 }
 
-function rejectDeliveryResponse(transport, id)
+function rejectReceiptResponse(transport, id)
 {
-$('rejectDelivery-'+id).innerHTML = transport.responseText;
+$('rejectReceipt-'+id).innerHTML = transport.responseText;
 }
 
-function acknowledgeDeliveryResponse(transport, id)
+function acceptReceiptResponse(transport, id)
 {
-$('acknowledgeDelivery-'+id).innerHTML = transport.responseText;
+$('acceptReceipt-'+id).innerHTML = transport.responseText;
 }
 
 function dismissContactResponse(transport, id)

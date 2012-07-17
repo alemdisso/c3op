@@ -127,9 +127,9 @@ class Register_LinkageController extends Zend_Controller_Action
         $thisLinkage = $this->linkageMapper->findById($id);
         $productsIdList = $this->linkageMapper->getAllProducts($thisLinkage);
         if (count($productsIdList) > 0) {
-            $linkReceivings = '/register/linkage/receivings/?id=' . $thisLinkage->GetId();
+            $linkReceivables = '/register/linkage/receivables/?id=' . $thisLinkage->GetId();
         } else {
-            $linkReceivings = "";
+            $linkReceivables = "";
         }
 
         $actionsIdsList = $this->linkageMapper->getAllActions($thisLinkage);
@@ -161,7 +161,7 @@ class Register_LinkageController extends Zend_Controller_Action
         $linkageInfo = array(
             'name' => $thisLinkage->GetName(),
             'editLink' => '/register/linkage/edit/?id=' . $id   ,
-            'linkReceivings' => $linkReceivings,
+            'linkReceivables' => $linkReceivables,
             'beginDate' => $thisLinkage->GetBeginDate(),
             'value' => $thisLinkage->GetValue(),
             'linkActionCreate' => '/register/action/create/?linkage=' . $id,

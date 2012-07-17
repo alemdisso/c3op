@@ -1,6 +1,6 @@
 <?php
 
-class C3op_Projects_ReceivingMapperBase
+class C3op_Projects_ReceivableMapperBase
 {
     
     protected $db;
@@ -15,13 +15,13 @@ class C3op_Projects_ReceivingMapperBase
     public function getAllIds()
     {
         $result = array();
-        foreach ($this->db->query('SELECT id FROM projects_receivings;') as $row) {
+        foreach ($this->db->query('SELECT id FROM projects_receivables;') as $row) {
             $result[] = $row['id'];
         }        
         return $result;
     }
     
-    public function insert(C3op_Projects_Receiving $new)
+    public function insert(C3op_Projects_Receivable $new)
     {
         $data = array(
             'title' => $new->GetTitle(),
@@ -31,20 +31,20 @@ class C3op_Projects_ReceivingMapperBase
             'predicted_value' => $new->GetPredictedValue(),
             'real_value' => $new->GetRealValue(),
             );
-        $this->db->insert('projects_receivings', $data);
+        $this->db->insert('projects_receivables', $data);
         $new->SetId((int)$this->db->lastInsertId());
         $this->identityMap[$new] = $new->GetId();
         
     }
     
-    public function update(C3op_Projects_Receiving $r)
+    public function update(C3op_Projects_Receivable $r)
     {
         if (!isset($this->identityMap[$r])) {
-            throw new C3op_Projects_ReceivingMapperException('Object has no ID, cannot update.');
+            throw new C3op_Projects_ReceivableMapperException('Object has no ID, cannot update.');
         }
         $this->db->exec(
             sprintf(
-                'UPDATE projects_receivings SET title = \'%s\', project = %d, predicted_date = \'%s\', real_date = \'%s\', predicted_value = %.2f , real_value = %.2f WHERE id = %d;',
+                'UPDATE projects_receivables SET title = \'%s\', project = %d, predicted_date = \'%s\', real_date = \'%s\', predicted_value = %.2f , real_value = %.2f WHERE id = %d;',
                 $r->GetTitle(),
                 $r->GetProject(),
                 $r->GetPredictedDate(),
@@ -69,16 +69,16 @@ class C3op_Projects_ReceivingMapperBase
         
         $result = $this->db->fetchRow(
             sprintf(
-                'SELECT title, project, predicted_date, real_date, predicted_value, real_value FROM projects_receivings WHERE id = %d;',
+                'SELECT title, project, predicted_date, real_date, predicted_value, real_value FROM projects_receivables WHERE id = %d;',
                 $id
             )
         );
         if (empty($result)) {
-            throw new C3op_Projects_ReceivingMapperException(sprintf('There is no receiving with id #%d.', $id));
+            throw new C3op_Projects_ReceivableMapperException(sprintf('There is no receivable with id #%d.', $id));
         }
         $project = $result['project'];
         
-        $r = new C3op_Projects_Receiving($result['project'], $result['predicted_date'], $result['predicted_value'], $id);
+        $r = new C3op_Projects_Receivable($result['project'], $result['predicted_date'], $result['predicted_value'], $id);
         $this->setAttributeValue($r, $id, 'id');
         $this->setAttributeValue($r, $result['title'], 'title');
         $this->setAttributeValue($r, $result['real_date'], 'realDate');
@@ -89,14 +89,14 @@ class C3op_Projects_ReceivingMapperBase
 
     }
 
-    public function delete(C3op_Projects_Receiving $a)
+    public function delete(C3op_Projects_Receivable $a)
     {
         if (!isset($this->identityMap[$a])) {
-            throw new C3op_Projects_ReceivingMapperException('Object has no ID, cannot delete.');
+            throw new C3op_Projects_ReceivableMapperException('Object has no ID, cannot delete.');
         }
         $this->db->exec(
             sprintf(
-                'DELETE FROM projects_receivings WHERE id = %d;',
+                'DELETE FROM projects_receivables WHERE id = %d;',
                 $this->identityMap[$a]
             )
         );
@@ -104,14 +104,14 @@ class C3op_Projects_ReceivingMapperBase
     }
     
 
-    private function setAttributeValue(C3op_Projects_Receiving $a, $fieldValue, $attributeName)
+    private function setAttributeValue(C3op_Projects_Receivable $a, $fieldValue, $attributeName)
     {
         $attribute = new ReflectionProperty($a, $attributeName);
         $attribute->setAccessible(TRUE);
         $attribute->setValue($a, $fieldValue);
     }
     
-    public function getAllProducts(C3op_Projects_Receiving $r)
+    public function getAllProducts(C3op_Projects_Receivable $r)
     {
         $result = array();
         foreach ($this->db->query(

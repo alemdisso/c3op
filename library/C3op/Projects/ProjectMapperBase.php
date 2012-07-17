@@ -184,12 +184,12 @@ class C3op_Projects_ProjectMapperBase {
         return $result;
     }
 
-    public function getAllReceivings(C3op_Projects_Project $p)
+    public function getAllReceivables(C3op_Projects_Project $p)
     {
         $result = array();
         foreach ($this->db->query(
                 sprintf(
-                    'SELECT id FROM projects_receivings WHERE project = %d;',
+                    'SELECT id FROM projects_receivables WHERE project = %d;',
                     $p->GetId()
                     )
                 )

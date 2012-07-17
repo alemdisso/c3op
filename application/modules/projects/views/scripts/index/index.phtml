@@ -28,11 +28,11 @@ if (is_array($this->projectsList)) {
 <a href="<?php print($projectData['editLink']) ?>">Editar</a>
 <?php } ?>
 
-<?php if (isset($projectData['linkReceivingCreate'])) { ?>
- | <a href="<?php print($projectData['linkReceivingCreate']) ?>">Prever Recebimento</a>
+<?php if (isset($projectData['linkReceivableCreate'])) { ?>
+ | <a href="<?php print($projectData['linkReceivableCreate']) ?>">Prever Recebimento</a>
 <?php } ?>
-<?php if (isset($projectData['linkProjectReceivings'])) { ?>
- |  <a href="<?php print($projectData['linkProjectReceivings']) ?>">Recebimentos do Projeto</a> 
+<?php if (isset($projectData['linkProjectReceivables'])) { ?>
+ |  <a href="<?php print($projectData['linkProjectReceivables']) ?>">Recebimentos do Projeto</a> 
 <?php } ?>
 
 <?php if (isset($projectData['linkActionCreate'])) { ?>

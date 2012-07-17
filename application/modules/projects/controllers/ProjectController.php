@@ -111,7 +111,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         }
         $projectToBeDetailed = $this->InitProjectWithCheckedId($this->projectMapper);
         
-        $linkReceivings = $this->manageReceivingsLink($projectToBeDetailed);
+        $linkReceivables = $this->manageReceivablesLink($projectToBeDetailed);
         
         $projectProducts = $this->projectMapper->getAllProductsOf($projectToBeDetailed);
         $actionsList = array();
@@ -144,7 +144,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         $projectInfo = array(
             'title' => $projectToBeDetailed->GetTitle(),
             'editLink' => '/projects/project/edit/?id=' . $projectToBeDetailed->GetId(),
-            'linkReceivings' => $linkReceivings,
+            'linkReceivables' => $linkReceivables,
             'beginDate' => C3op_Util_DateDisplay::FormatDateToShow($projectToBeDetailed->GetBeginDate()),
             'value' => C3op_Util_CurrencyDisplay::FormatCurrency($projectToBeDetailed->GetValue()),
             'linkActionCreate' => '/projects/action/create/?project=' . $projectToBeDetailed->GetId(),
@@ -241,43 +241,43 @@ class Projects_ProjectController extends Zend_Controller_Action
 
     }
 
-    public function receivingsAction()
+    public function receivablesAction()
     {
-        $receivingMapper = new C3op_Projects_ReceivingMapper($this->db);
+        $receivableMapper = new C3op_Projects_ReceivableMapper($this->db);
 
         $id = $this->checkIdFromGet();
         $thisProject = $this->projectMapper->findById($id);
-        $receivingsIdList = $this->projectMapper->getAllReceivings($thisProject);
-        $receivingsList = array();
-        reset ($receivingsList);
-        $receivingsTotalValue = 0;
-        $receivingsCounter = 0;
-        foreach ($receivingsIdList as $receivingId) {
-            $thisReceiving = $receivingMapper->findById($receivingId);
-            $receivingsCounter++;
-            if ($thisReceiving->GetTitle()) {
-                $title = $thisReceiving->GetTitle();
+        $receivablesIdList = $this->projectMapper->getAllReceivables($thisProject);
+        $receivablesList = array();
+        reset ($receivablesList);
+        $receivablesTotalValue = 0;
+        $receivablesCounter = 0;
+        foreach ($receivablesIdList as $receivableId) {
+            $thisReceivable = $receivableMapper->findById($receivableId);
+            $receivablesCounter++;
+            if ($thisReceivable->GetTitle()) {
+                $title = $thisReceivable->GetTitle();
             } else {
-                $title = "(#$receivingsCounter)";
+                $title = "(#$receivablesCounter)";
             }
             
             
             
             $validator = new C3op_Util_ValidDate();
-            if ($validator->isValid($thisReceiving->GetPredictedDate())) {
-                $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($thisReceiving->GetPredictedDate());
+            if ($validator->isValid($thisReceivable->GetPredictedDate())) {
+                $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($thisReceivable->GetPredictedDate());
             } else {
                 $predictedDate = "(data desconhecida)";
             }
             
-            if ($thisReceiving->GetPredictedValue() > 0) {
-                $receivingsTotalValue += $thisReceiving->GetPredictedValue();
-                $predictedValue = C3op_Util_CurrencyDisplay::FormatCurrency($thisReceiving->GetPredictedValue());
+            if ($thisReceivable->GetPredictedValue() > 0) {
+                $receivablesTotalValue += $thisReceivable->GetPredictedValue();
+                $predictedValue = C3op_Util_CurrencyDisplay::FormatCurrency($thisReceivable->GetPredictedValue());
             } else {
                 $predictedValue = "";
             }
             
-            $productsIdList = $receivingMapper->getAllProducts($thisReceiving);
+            $productsIdList = $receivableMapper->getAllProducts($thisReceivable);
             $productsList = array();
             foreach ($productsIdList as $productId) {
                 $actionMapper = new C3op_Projects_ActionMapper($this->db);
@@ -291,20 +291,20 @@ class Projects_ProjectController extends Zend_Controller_Action
             }
             
             
-            $receivingsList[$receivingId] = array(
+            $receivablesList[$receivableId] = array(
                 'title' => $title,
                 'productsList' => $productsList,
                 'predictedDate' => $predictedDate,
                 'predictedValue' => $predictedValue,
-                'editLink' => '/projects/receiving/edit/?id=' . $receivingId   ,
+                'editLink' => '/projects/receivable/edit/?id=' . $receivableId   ,
             );
         }
         
-        if ($receivingsTotalValue == $thisProject->GetValue()) {
-            $projectValue = C3op_Util_CurrencyDisplay::FormatCurrency($receivingsTotalValue) . " (OK)";
+        if ($receivablesTotalValue == $thisProject->GetValue()) {
+            $projectValue = C3op_Util_CurrencyDisplay::FormatCurrency($receivablesTotalValue) . " (OK)";
         } else {
             $projectValue = "Valor do Projeto: " . C3op_Util_CurrencyDisplay::FormatCurrency($thisProject->GetValue());
-            $projectValue .= " Total dos recebimentos:" .  C3op_Util_CurrencyDisplay::FormatCurrency($receivingsTotalValue) . " (?)";
+            $projectValue .= " Total dos recebimentos:" .  C3op_Util_CurrencyDisplay::FormatCurrency($receivablesTotalValue) . " (?)";
             
         }
         
@@ -313,7 +313,7 @@ class Projects_ProjectController extends Zend_Controller_Action
             'linkDetail' => '/projects/project/detail/?id=' . $id   ,
             'projectValue' => $projectValue,
             'editLink' => '/projects/project/edit/?id=' . $id   ,
-            'receivingsList' => $receivingsList,
+            'receivablesList' => $receivablesList,
         );
 
         $this->view->projectInfo = $projectInfo;
@@ -348,15 +348,15 @@ class Projects_ProjectController extends Zend_Controller_Action
         return $specialAction;
     }
     
-    private function manageReceivingsLink(C3op_Projects_Project $project)
+    private function manageReceivablesLink(C3op_Projects_Project $project)
     {
-        $receivingsIdList = $this->projectMapper->getAllReceivings($project);
-        if (count($receivingsIdList) > 0) {
-            $linkReceivings = '/projects/project/receivings/?id=' . $project->GetId();
+        $receivablesIdList = $this->projectMapper->getAllReceivables($project);
+        if (count($receivablesIdList) > 0) {
+            $linkReceivables = '/projects/project/receivables/?id=' . $project->GetId();
         } else {
-            $linkReceivings = "";
+            $linkReceivables = "";
         }
-        return $linkReceivings;
+        return $linkReceivables;
        
     }
 

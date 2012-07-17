@@ -14,7 +14,7 @@ if (isset($actionData['parentTitle'])) {
 }
 ?>    
     
-<div id='confirmRealization-<?php print($actionData['id']);?>'>
+<div id='acknowledgeReceipt-<?php print($actionData['id']);?>'>
 <?php
     if (isset($actionData['linkDone']) && $actionData['linkDone'] != "") {
 ?>    
@@ -25,13 +25,20 @@ if (isset($actionData['parentTitle'])) {
 ?>    
     <?php if (isset($actionData['msgDone'])) print($actionData['msgDone']); ?>
 <?php
-    if (isset($actionData['acceptLink']) && $actionData['acceptLink'] != "") {
+    if (isset($actionData['rejectLink']) && $actionData['rejectLink'] != "") {
 ?>
 
-<div id='rejectDelivery-<?php print($actionData['id']);?>'>Realizada em: <?php print($actionData['finishDate']); ?><br /><a class="parent_info" href="<?php print($actionData['rejectLink']); ?>">rejeitar</a></div>
+<div id='rejectReceipt-<?php print($actionData['id']);?>'>Realizada em: <?php print($actionData['finishDate']); ?><br /><a class="parent_info" href="<?php print($actionData['rejectLink']); ?>">rejeitar</a></div>
 
 
-<div id='acknowledgeDelivery-<?php print($actionData['id']);?>'><a class="parent_info" href="<?php print($actionData['acceptLink']); ?>">registrar entrega</a></div>
+<?php
+}
+?>    
+    
+<?php
+    if (isset($actionData['acceptLink']) && $actionData['acceptLink'] != "") {
+?>
+<div id='acceptReceipt-<?php print($actionData['id']);?>'><a class="parent_info" href="<?php print($actionData['acceptLink']); ?>">Confirmar realização da tarefa</a></div>
 <?php
 }
 ?>    
@@ -128,7 +135,7 @@ if (isset($actionData['parentTitle'])) {
         while (list(, $actionInfo) = each($actionsList)) {
 ?>
 
-<p class="receiving_line"><?php print($actionInfo['title']) ?>
+<p class="receivable_line"><?php print($actionInfo['title']) ?>
  (<?php print($actionInfo['brood']) ?>) 
 <?php if (isset($actionInfo['editLink'])) { ?>
 <a href="<?php print($actionInfo['editLink']) ?>">Editar</a>

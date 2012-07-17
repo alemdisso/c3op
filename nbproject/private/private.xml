@@ -2,14 +2,16 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
-        <file>file:/C:/xampp/htdocs/c3op/application/modules/projects/controllers/HumanResourceController.php</file>
-        <file>file:/C:/xampp/htdocs/c3op/application/modules/projects/controllers/ProjectController.php</file>
+        <file>file:/C:/xampp/htdocs/c3op/library/C3op/Projects/ActionEventConstants.php</file>
+        <file>file:/C:/xampp/htdocs/c3op/library/C3op/Projects/ActionEventTypes.php</file>
         <file>file:/C:/xampp/htdocs/c3op/application/modules/projects/controllers/ActionController.php</file>
-        <file>file:/C:/xampp/htdocs/c3op/library/C3op/Projects/ProjectMapperBase.php</file>
-        <file>file:/C:/xampp/htdocs/c3op/library/C3op/Register/ContactMapperBase.php</file>
-        <file>file:/C:/xampp/htdocs/c3op/application/modules/projects/views/scripts/project/outlays.phtml</file>
-        <file>file:/C:/xampp/htdocs/c3op/library/C3op/Projects/OutlayMapperBase.php</file>
-        <file>file:/C:/xampp/htdocs/c3op/library/C3op/Projects/OutlayBase.php</file>
-        <file>file:/C:/xampp/htdocs/c3op/library/C3op/Projects/ActionStatusConstants.php</file>
+        <file>file:/C:/xampp/htdocs/c3op/library/C3op/Projects/ReceiptAcknowledgment.php</file>
+        <file>file:/C:/xampp/htdocs/c3op/library/C3op/Projects/ActionBase.php</file>
+        <file>file:/C:/xampp/htdocs/c3op/library/C3op/Projects/ActionMapperBase.php</file>
+        <file>file:/C:/xampp/htdocs/c3op/library/C3op/Projects/ActionEventBase.php</file>
+        <file>file:/C:/xampp/htdocs/c3op/public/js/ajax_funcs.js</file>
+        <file>file:/C:/xampp/htdocs/c3op/application/modules/projects/views/scripts/action/detail.phtml</file>
+        <file>file:/C:/xampp/htdocs/c3op/library/C3op/Projects/ReceiptRejection.php</file>
+        <file>file:/C:/xampp/htdocs/c3op/library/C3op/Projects/ReceiptAcceptance.php</file>
     </open-files>
 </project-private>
