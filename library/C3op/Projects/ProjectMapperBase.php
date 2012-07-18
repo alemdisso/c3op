@@ -244,6 +244,19 @@ class C3op_Projects_ProjectMapperBase {
         return $result;
     }
     
+    public function getAllDoneActions(C3op_Projects_Project $p) {
+        $result = array();
+        
+        foreach ($this->db->query(sprintf('SELECT a.id
+                    FROM projects_actions a
+                    WHERE a.done = 1 AND a.project = %d ', $p->GetId()
+                )) as $row) {
+            $result[] = $row['id'];
+        }        
+        
+        return $result;
+    }
+    
     
     
 }

@@ -208,38 +208,8 @@ class Projects_ProjectController extends Zend_Controller_Action
         
         $this->view->outlaysList = $outlaysList;
         
-        
- 
-        
     }
 
-    private function initProjectMapper()
-    {
-         $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
-    }
-    
-    private function InitProjectWithCheckedId(C3op_Projects_ProjectMapper $mapper)
-    {
-        return $mapper->findById($this->checkIdFromGet());
-    }
-
-    private function checkIdFromGet()
-    {
-        $data = $this->_request->getParams();
-        $filters = array(
-            'id' => new Zend_Filter_Alnum(),
-        );
-        $validators = array(
-            'id' => array('Digits', new Zend_Validate_GreaterThan(0)),
-        );
-        $input = new Zend_Filter_Input($filters, $validators, $data);
-        if ($input->isValid()) {
-            $id = $input->id;
-            return $id;
-        }
-        throw new C3op_Projects_ProjectException("Invalid Project Id from Get");
-
-    }
 
     public function receivablesAction()
     {
@@ -260,8 +230,6 @@ class Projects_ProjectController extends Zend_Controller_Action
             } else {
                 $title = "(#$receivablesCounter)";
             }
-            
-            
             
             $validator = new C3op_Util_ValidDate();
             if ($validator->isValid($thisReceivable->GetPredictedDate())) {
@@ -318,7 +286,62 @@ class Projects_ProjectController extends Zend_Controller_Action
 
         $this->view->projectInfo = $projectInfo;
     }
+    
+    public function payablesAction()
+    {
+        $id = $this->checkIdFromGet();
+        $thisProject = $this->projectMapper->findById($id);
+        
+        $this->initActionMapper();
+        $list = $this->projectMapper->getAllDoneActions($thisProject);
+        
+        $payablesList = array();
+        reset ($list);
+        foreach ($list as $actionId) {
+            $thisAction = $this->actionMapper->findById($actionId);            
+            $actionTitle = $thisAction->GetTitle();
+            $actionValue = C3op_Util_CurrencyDisplay::FormatCurrency(
+                               $this->actionMapper->getContractedValueForAction($thisAction)
+                           );
+                        
+            $payablesList[$actionId] = array(
+                'actionId'       => $actionId,
+                'actionTitle'    => $actionTitle,
+                'actionValue'    => $actionValue,
+            );
+        }
+        
+        $this->view->payablesList = $payablesList;
+        
+    }
 
+    private function initProjectMapper()
+    {
+         $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
+    }
+    
+    private function InitProjectWithCheckedId(C3op_Projects_ProjectMapper $mapper)
+    {
+        return $mapper->findById($this->checkIdFromGet());
+    }
+
+    private function checkIdFromGet()
+    {
+        $data = $this->_request->getParams();
+        $filters = array(
+            'id' => new Zend_Filter_Alnum(),
+        );
+        $validators = array(
+            'id' => array('Digits', new Zend_Validate_GreaterThan(0)),
+        );
+        $input = new Zend_Filter_Input($filters, $validators, $data);
+        if ($input->isValid()) {
+            $id = $input->id;
+            return $id;
+        }
+        throw new C3op_Projects_ProjectException("Invalid Project Id from Get");
+
+    }
 
     private function buildSpecialActionLabel(C3op_Projects_Action $action)
     {
@@ -442,7 +465,7 @@ class Projects_ProjectController extends Zend_Controller_Action
             $this->outlayMapper = new C3op_Projects_OutlayMapper($this->db);
         }        
     }
-    
+  
     
     private function initActionMapper()
     {
@@ -470,9 +493,7 @@ class Projects_ProjectController extends Zend_Controller_Action
             }
         }
         return "$myParcel/$totalParcels";
-        
-
-        
-        
     }
+
+    
 }

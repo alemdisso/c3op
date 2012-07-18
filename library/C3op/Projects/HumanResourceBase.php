@@ -7,6 +7,7 @@ class C3op_Projects_HumanResourceBase {
     protected $description;
     protected $contact;
     protected $value;
+    protected $status;
 
     function __construct($id=0) {
         $this->id = (int)$id;
@@ -14,6 +15,7 @@ class C3op_Projects_HumanResourceBase {
         $this->description = "";
         $this->contact = "";
         $this->value = "";
+        $this->status = "";
     }
 
     public function GetId() {
@@ -88,4 +90,20 @@ class C3op_Projects_HumanResourceBase {
         }
     } //SetValue
     
+    public function GetStatus() {
+        return $this->status;
+    } //GetStatus
+	
+    public function SetStatus($status) {
+        $validator = new C3op_Util_ValidPositiveInteger();
+        if ($validator->isValid($status)) {
+            if ($this->status != $status) {
+                $this->status = $status;
+            }
+        } else {
+            throw new C3op_Projects_HumanResourceException("This ($status) is not a valid status.");
+        }
+
+    } //SetStatus
+
 }

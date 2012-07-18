@@ -233,6 +233,29 @@ class C3op_Projects_ActionMapperBase
         $this->setAttributeValue($action, $receiptDate, 'receiptDate');
     }
     
+    public function getContractedValueForAction(C3op_Projects_Action $a, $includeAllSubordinatedActions = false)
+    {
+        $result = array();
+        foreach ($this->db->query(
+                sprintf(
+                    'SELECT SUM(value) as value FROM projects_human_resources WHERE action = %d AND status = %d;',
+                    $a->GetId(),
+                    C3op_Projects_HumanResourceStatusConstants::STATUS_CONTRACTED
+                    )
+                )
+                as $row) {
+            if (!is_null($row['value']))
+                return $row['value'];
+            else 
+                return 0;
+            
+        }
+        return 0;
+    }
+
+    
+    
+    
      private function UpdateDates(C3op_Projects_Action $action)
     {
         $this->db->exec(

@@ -1,0 +1,54 @@
+<h2>C3op</h2>
+<?php 
+/*
+ * If exists payables list
+ */
+if (is_array($this->payablesList)) {
+?>
+
+<?php 
+/*
+ * if there is payables in list
+ */
+    if (count($this->payablesList)) {
+?>
+
+
+<?php 
+/*
+ * iterate list and print title
+ */
+        while (list(, $payableData) = each($this->payablesList)) {
+?>
+
+<a href="/projects/action/detail/?id=<?php print($payableData['actionId']) ?>"><?php print($payableData['actionTitle']) ?></a>: <?php print($payableData['actionValue']) ?>
+
+
+<br/>
+<hr>
+    
+<?php
+}  // loop iterate list and print titlei
+?>
+
+
+
+
+    
+<?php
+    } else { // end else there is payables in list
+?>
+    <?php print("Não há ações realizadas.") ?>
+    
+<?php
+    } // end else there is payables in list
+?>
+<?php
+} else { // else exists payables list 
+?>
+    <?php print("Não existe lista de ações realizadas.") ?>
+
+    <?php
+} // end exists payables list
+?>
+<p />

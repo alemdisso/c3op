@@ -45,6 +45,7 @@ class C3op_Form_HumanResourceCreate extends Zend_Form
             $humanResource->SetValue($this->value->GetValue());
             $humanResource->SetAction($this->action->GetValue());
             $humanResourceMapper->insert($humanResource);
+            return $humanResource->GetId();
         }
     }
     

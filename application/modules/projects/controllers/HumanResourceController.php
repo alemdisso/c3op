@@ -20,10 +20,10 @@ class Projects_HumanResourceController extends Zend_Controller_Action
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
-                $form->process($postData);
+                $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');          
-                $this->_redirect('/projects/action/success-create');
+                    ->addMessage('The record was successfully updated.');
+                $this->_redirect('/projects/human-resource/success-create/?id=' . $id);
             } else throw new C3op_Projects_ActionException("An action must have a valid title.");
         } else {
             $data = $this->_request->getParams();
@@ -172,10 +172,14 @@ class Projects_HumanResourceController extends Zend_Controller_Action
     
     public function successCreateAction()
     {
+        $this->initHumanResourceMapper();
+        $humanResource =  $this->initHumanResourceWithCheckedId($this->humanResourceMapper);
+        $actionRelated = $humanResource->GetAction();
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
             $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();    
-            $this->getResponse()->setHeader('Refresh', '3; URL=/projects');
+            $this->getResponse()->setHeader('Refresh', '3; URL=/projects/action/detail/?id=' . $actionRelated);
         } else {
+            die ("no flashMessenger...");
             $this->_redirect('/projects');    
         } 
     }
@@ -271,5 +275,10 @@ class Projects_HumanResourceController extends Zend_Controller_Action
          $this->humanResourceMapper = new C3op_Projects_HumanResourceMapper($this->db);
     }
     
+    private function initActionWithCheckedId(C3op_Projects_ActionMapper $mapper)
+    {
+        return $mapper->findById($this->checkIdFromGet());
+    }
+
     
 }
