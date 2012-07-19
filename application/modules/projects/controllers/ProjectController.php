@@ -112,6 +112,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         $projectToBeDetailed = $this->InitProjectWithCheckedId($this->projectMapper);
         
         $linkReceivables = $this->manageReceivablesLink($projectToBeDetailed);
+        $linkPayables = $this->managePayablesLink($projectToBeDetailed);
         
         $projectProducts = $this->projectMapper->getAllProductsOf($projectToBeDetailed);
         $actionsList = array();
@@ -145,6 +146,7 @@ class Projects_ProjectController extends Zend_Controller_Action
             'title' => $projectToBeDetailed->GetTitle(),
             'editLink' => '/projects/project/edit/?id=' . $projectToBeDetailed->GetId(),
             'linkReceivables' => $linkReceivables,
+            'linkPayables' => $linkPayables,
             'beginDate' => C3op_Util_DateDisplay::FormatDateToShow($projectToBeDetailed->GetBeginDate()),
             'value' => C3op_Util_CurrencyDisplay::FormatCurrency($projectToBeDetailed->GetValue()),
             'linkActionCreate' => '/projects/action/create/?project=' . $projectToBeDetailed->GetId(),
@@ -376,6 +378,18 @@ class Projects_ProjectController extends Zend_Controller_Action
         $receivablesIdList = $this->projectMapper->getAllReceivables($project);
         if (count($receivablesIdList) > 0) {
             $linkReceivables = '/projects/project/receivables/?id=' . $project->GetId();
+        } else {
+            $linkReceivables = "";
+        }
+        return $linkReceivables;
+       
+    }
+
+    private function managePayablesLink(C3op_Projects_Project $project)
+    {
+        $payablesLink = $this->projectMapper->GetAllDoneActions($project);
+        if (count($payablesLink) > 0) {
+            $linkReceivables = '/projects/project/payables/?id=' . $project->GetId();
         } else {
             $linkReceivables = "";
         }

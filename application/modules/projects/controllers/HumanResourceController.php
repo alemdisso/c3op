@@ -55,10 +55,10 @@ class Projects_HumanResourceController extends Zend_Controller_Action
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
-                $form->process($postData);
+                $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage('The record was successfully updated.');          
-                $this->_redirect('/projects/human-resource/success-create');
+                $this->_redirect('/projects/human-resource/success-create/?id=' . $id);
             } else throw new C3op_Projects_ProjectException("Invalid data for new human resource.");
         } else {
             $data = $this->_request->getParams();
@@ -205,6 +205,21 @@ class Projects_HumanResourceController extends Zend_Controller_Action
         $dismissal->ContactDismiss($action, $humanResource, $this->humanResourceMapper);
 
         echo 'Contato dispensado';
+    }  
+  
+   public function contractContactAction()
+    {
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(TRUE);
+
+        $this->initHumanResourceMapper();
+        $this->initActionMapper();        
+        $humanResource =  $this->initHumanResourceWithCheckedId($this->humanResourceMapper);
+        $action = $this->actionMapper->findById($humanResource->GetContact());
+        $contracting = new C3op_Projects_HumanResourceContracting();
+        $contracting->ContactContract($action, $humanResource, $this->humanResourceMapper);
+
+        echo 'Contratação confirmada';
     }  
   
     

@@ -35,3 +35,8 @@ function dismissContactResponse(transport, id)
 $('dismissContact-'+id).innerHTML = transport.responseText;
 }
 
+function contractContactResponse(transport, id)
+{
+$('contractContact-'+id).innerHTML = transport.responseText;
+}
+

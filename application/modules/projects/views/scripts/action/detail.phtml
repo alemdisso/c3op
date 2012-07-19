@@ -96,6 +96,22 @@ if (isset($actionData['parentTitle'])) {
 }
 ?>    
     
+<?php
+    if (isset($humanResourceInfo['contractingLink']) && $humanResourceInfo['contractingLink'] != "") {
+?>
+<div id='contractContact-<?php print($humanResourceInfo['id']);?>'><a class="parent_info" href="<?php print($humanResourceInfo['contractingLink']); ?>">confirmar contratação de recurso</a></div>
+<?php
+}
+?>
+    
+<?php
+    if (isset($humanResourceInfo['contractedLabel']) && $humanResourceInfo['contractedLabel'] != "") {
+?><br />
+<?php print($humanResourceInfo['contractedLabel']); ?>
+<?php
+}
+?>
+    
 
 <br />
 
@@ -145,15 +161,20 @@ if (isset($actionData['parentTitle'])) {
 </p>
 
 <?php
-    if (isset($actionInfo['done']) && $actionInfo['done']) {
+    if (isset($actionInfo['rejectLink']) && $actionInfo['rejectLink']) {
 ?>
-<div id='rejectDelivery-<?php print($actionInfo['id']);?>'>Realizada em: <?php print($actionInfo['finishDate']); ?>(<a class="parent_info" href="<?php print($actionInfo['rejectLink']); ?>">rejeitar</a>)</div><br />
+<div id='rejectReceipt-<?php print($actionInfo['id']);?>'><a class="parent_info" href="<?php print($actionInfo['rejectLink']); ?>">rejeitar</a></div><br />
 <?php
 }
 ?>
 <br />
-
-
+<?php
+    if (isset($actionInfo['done']) && $actionInfo['done']) {
+?>
+Realizada em: <?php print($actionInfo['finishDate']); ?>
+<?php
+}
+?>
     
 <?php
     }  // loop iterate list and print title

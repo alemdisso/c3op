@@ -445,6 +445,13 @@ class Projects_ActionController extends Zend_Controller_Action
             
             $dismissalLink = $this->ManageDismissalLink($thisHumanResource);
             
+            $contractingLink = $this->ManageContractingLink($thisHumanResource);
+            
+            $contractedLabel = "";
+            if ($thisHumanResource->GetStatus() == C3op_Projects_HumanResourceStatusConstants::STATUS_CONTRACTED) {
+                $contractedLabel = "Recurso contratado";
+            }
+            
             $humanResourcesList[$humanResourceId] = array(
                 'id' => $humanResourceId,
                 'description' => $descriptionMessage,
@@ -454,6 +461,8 @@ class Projects_ActionController extends Zend_Controller_Action
                 'linkOutlays' => '/projects/human-resource/outlays/?id=' . $humanResourceId,
                 'totalOutlays' => $totalValueExistentOutlays,
                 'dismissalLink' => $dismissalLink,
+                'contractingLink' => $contractingLink,
+                'contractedLabel' => $contractedLabel,
             );
         }
         
@@ -479,10 +488,20 @@ class Projects_ActionController extends Zend_Controller_Action
     
     private function ManageDismissalLink(C3op_Projects_HumanResource $humanResource) {
         $dismissalLink = "";
-        if ($humanResource->GetContact() > 0) {
+        if (($humanResource->GetContact() > 0) 
+                && ($humanResource->GetStatus() == C3op_Projects_HumanResourceStatusConstants::STATUS_FORESEEN)) {
             $dismissalLink = sprintf("javascript:passIdToAjax('/projects/human-resource/dismiss-contact', %d, dismissContactResponse)", $humanResource->GetId());
         }
         return $dismissalLink;
+    }
+    
+    private function ManageContractingLink(C3op_Projects_HumanResource $humanResource) {
+        $contractingLink = "";
+        if (($humanResource->GetContact() > 0) 
+           && ($humanResource->GetStatus() == C3op_Projects_HumanResourceStatusConstants::STATUS_FORESEEN)) {
+            $contractingLink = sprintf("javascript:passIdToAjax('/projects/human-resource/contract-contact', %d, contractContactResponse)", $humanResource->GetId());
+        }
+        return $contractingLink;
     }
     
     

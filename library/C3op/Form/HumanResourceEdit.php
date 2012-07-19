@@ -35,6 +35,7 @@ class C3op_Form_HumanResourceEdit extends C3op_Form_HumanResourceCreate
             $humanResource->SetValue($this->value->GetValue());
             $humanResource->SetAction($this->action->GetValue());
             $humanResourceMapper->update($humanResource);
+            return $humanResource->GetId();
         }
     }
  }

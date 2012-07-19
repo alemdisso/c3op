@@ -70,6 +70,14 @@ class C3op_Projects_HumanResourceBase {
         if ($validator->isValid($contact)) {
             if ($this->contact != $contact) {
                 $this->contact = $contact;
+                if ($contact > 0) {
+                    $this->SetStatus(C3op_Projects_HumanResourceStatusConstants::STATUS_FORESEEN);
+                } else {
+                    if ($this->GetStatus() != C3op_Projects_HumanResourceStatusConstants::STATUS_CANCEL) {
+                        $this->SetStatus(C3op_Projects_HumanResourceStatusConstants::STATUS_UNDEFINED);
+                        
+                    }
+                }
             }
         } else {
             throw new C3op_Projects_HumanResourceException("This ($contact) is not a valid contact.");
