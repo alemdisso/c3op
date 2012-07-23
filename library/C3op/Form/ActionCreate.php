@@ -142,6 +142,7 @@ class C3op_Form_ActionCreate extends Zend_Form
             }
 
             $actionMapper->insert($action);
+            return $action->getId();
         }
     }
  }

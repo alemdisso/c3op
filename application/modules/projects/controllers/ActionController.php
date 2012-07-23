@@ -23,10 +23,10 @@ class Projects_ActionController extends Zend_Controller_Action
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
-                $form->process($postData);
+                $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage('The record was successfully updated.');          
-                $this->_redirect('/projects/action/success-create');
+                $this->_redirect('/projects/action/success-create/?id=' . $id);
             } else throw new C3op_Projects_ActionException("An action must have a valid title.");
         } else {
             $data = $this->_request->getParams();
@@ -197,9 +197,11 @@ class Projects_ActionController extends Zend_Controller_Action
 
     public function successCreateAction()
     {
+        $this->initActionMapper();
+        $action =  $this->initActionWithCheckedId($this->actionMapper);
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
             $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();    
-            $this->getResponse()->setHeader('Refresh', '3; URL=/projects');
+            $this->getResponse()->setHeader('Refresh', '3; URL=/projects/action/detail/?id=' . $action->getId());
         } else {
             $this->_redirect('/projects');    
         } 
@@ -326,7 +328,7 @@ class Projects_ActionController extends Zend_Controller_Action
         } else throw new C3op_Projects_ActionException("Action needs a positive integer project id to find other actions.");
    }
      
-    private function populateRequirementForReceivingField($projectId, C3op_Form_ActionCreate $form, $setedReceivingId = 0)
+    private function populateRequirementForReceivingField($projectId, C3op_Form_ActionCreate $form, $setedReceivableId = 0)
     {
         $validator = new C3op_Util_ValidId();
         if ($validator->isValid($projectId)) {
@@ -342,10 +344,10 @@ class Projects_ActionController extends Zend_Controller_Action
 
             while (list($key, $receivableId) = each($allReceivables)) {
                 $eachReceivable = $this->receivableMapper->findById($receivableId);
-                $requirementForReceivingField->addMultiOption($receivingId, $eachReceiving->GetTitle());
+                $requirementForReceivingField->addMultiOption($receivableId, $eachReceivable->GetTitle());
             }
             
-            $requirementForReceivingField->setValue($setedReceivingId);
+            $requirementForReceivingField->setValue($setedReceivableId);
         
         } else throw new C3op_Projects_ActionException("Action needs a positive integer project id to find possible receivables to to be a requirement.");
    }

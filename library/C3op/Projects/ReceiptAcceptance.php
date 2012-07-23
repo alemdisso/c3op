@@ -11,7 +11,8 @@ class C3op_Projects_ReceiptAcceptance {
         if ($action->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_RECEIVED) {
             $action->SetStatus(C3op_Projects_ActionStatusConstants::STATUS_DONE);
             $action->SetDone(true);
-            $action->SetRealFinishDate(date("Y-m-d"));
+            $mapper->FetchLastReceiptDate($action);
+            $action->SetRealFinishDate($action->GetReceiptDate($mapper));
             $mapper->update($action);
         }
         

@@ -179,7 +179,6 @@ class Projects_HumanResourceController extends Zend_Controller_Action
             $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();    
             $this->getResponse()->setHeader('Refresh', '3; URL=/projects/action/detail/?id=' . $actionRelated);
         } else {
-            die ("no flashMessenger...");
             $this->_redirect('/projects');    
         } 
     }
