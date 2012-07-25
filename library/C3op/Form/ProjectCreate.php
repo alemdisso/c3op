@@ -121,7 +121,7 @@ class C3op_Form_ProjectCreate extends Zend_Form
             ->addFilter('StringTrim');
         $this->addElement($object);
 
-        $summary = new Zend_Form_Element_TextArea('summary');
+        $summary = new Zend_Form_Element_Textarea('summary');
         $summary->setLabel('Sumário:')
             ->setAttrib('cols','8')
             ->setAttrib('rows','5')
@@ -130,7 +130,7 @@ class C3op_Form_ProjectCreate extends Zend_Form
             ->addFilter('StringTrim');
         $this->addElement($summary);
         
-        $observation = new Zend_Form_Element_TextArea('observation');
+        $observation = new Zend_Form_Element_Textarea('observation');
         $observation->setLabel('Observações:')
             ->setAttrib('cols','8')
             ->setAttrib('rows','5')

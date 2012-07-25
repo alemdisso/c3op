@@ -54,7 +54,7 @@ class C3op_Form_ActionCreate extends Zend_Form
         $responsible->addMultiOption(0, "escolha uma pessoa");
         $this->addElement($responsible);
         
-        $description = new Zend_Form_Element_TextArea('description');
+        $description = new Zend_Form_Element_Textarea('description');
         $description->setLabel('Descrição:')
             ->setAttrib('cols','8')
             ->setAttrib('rows','5')

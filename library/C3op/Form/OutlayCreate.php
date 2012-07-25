@@ -29,7 +29,7 @@ class C3op_Form_OutlayCreate extends Zend_Form
 
         $this->addElementText('predictedValue', 'Valor:', new C3op_Util_ValidPositiveFloat(), 50);
         $this->addElementText('predictedDate', 'Data:', new C3op_Util_ValidDate(), 50);
-        $observation = new Zend_Form_Element_TextArea('observation');
+        $observation = new Zend_Form_Element_Textarea('observation');
         $observation->setLabel('Observações:')
             ->setAttrib('cols','8')
             ->setAttrib('rows','5')
