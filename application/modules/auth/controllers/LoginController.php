@@ -36,7 +36,13 @@ class Auth_LoginController extends Zend_Controller_Action
 
                 }
 
-            } else throw new C3op_Projects_ProjectException("A project must have a valid title.");
+            } else {
+                $this->view->form = $form;
+                $this->view->message = 'You could not be logged in. Please try again.';
+                return $this->render('login');
+                
+            }
+                
         }
         
     }

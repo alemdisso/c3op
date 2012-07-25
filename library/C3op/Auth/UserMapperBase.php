@@ -23,8 +23,10 @@ class C3op_Auth_UserMapperBase {
     public function insert(C3op_Auth_User $new) {
         $data = array(
             'login' => $new->getLogin(),
+            'name' => $new->GetName(),
             'password' => $this->scrambleWithToken($new->GetRawPassword()),
             'email' => $new->GetEmail(),
+            'role' => $new->GetRole(),
             'status' => $new->GetStatus(),
             'first_login' => $new->GetFirstLogin(),
             'last_login' => $new->GetLastLogin(),
@@ -42,7 +44,7 @@ class C3op_Auth_UserMapperBase {
         }
         
         if ($o->GetRawPassword() != "") {
-            $setPassword = sprintf(', password = ', $this->scrambleWithToken($o->GetPassword()));
+            $setPassword = sprintf(', password = \'%s\' ', $this->scrambleWithToken($o->GetRawPassword()));
         } else {
             $setPassword = "";
         }
@@ -50,15 +52,19 @@ class C3op_Auth_UserMapperBase {
         $this->db->exec(
             sprintf(
                 'UPDATE auth_users SET login = \'%s\' 
-                    \'%s\'
+                    , name = \'%s\'
+                    %s
                     , email = \'%s\'
+                    , role = %d
                     , status = %d
                     , first_login = \'%s\'
                     , last_login = \'%s\'
                     WHERE id = %d;',
                 $o->GetLogin(),
+                $o->GetName(),
                 $setPassword,
                 $o->GetEmail(),
+                $o->GetRole(),
                 $o->GetStatus(),
                 $o->GetFirstLogin(),
                 $o->GetLastLogin(),
@@ -79,7 +85,9 @@ class C3op_Auth_UserMapperBase {
         $result = $this->db->fetchRow(
             sprintf(
                 'SELECT login
+                    , name
                     , email
+                    , role
                     , status
                     , first_login
                     , last_login
@@ -94,7 +102,9 @@ class C3op_Auth_UserMapperBase {
         
         $this->setAttributeValue($o, $id, 'id');
         $this->setAttributeValue($o, $result['login'], 'login');
+        $this->setAttributeValue($o, $result['name'], 'name');
         $this->setAttributeValue($o, $result['email'], 'email');
+        $this->setAttributeValue($o, $result['role'], 'role');
         $this->setAttributeValue($o, $result['status'], 'status');
         $this->setAttributeValue($o, $result['first_login'], 'firstLogin');
         $this->setAttributeValue($o, $result['last_login'], 'lastLogin');

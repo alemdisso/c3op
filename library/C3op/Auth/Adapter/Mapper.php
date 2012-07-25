@@ -49,7 +49,7 @@ class C3op_Auth_Adapter_Mapper implements Zend_Auth_Adapter_Interface
   {
       if ((!is_null($this->user)) && ($this->user instanceof C3op_Auth_User)) {
           return $this->user;
-      } else throw new C3op_Auth_AdapterMapperException('No authenticated user.');
+      } else throw new C3op_Auth_Adapter_MapperException('No authenticated user.');
 
   }
 

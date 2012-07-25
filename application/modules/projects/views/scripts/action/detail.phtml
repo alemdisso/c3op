@@ -1,3 +1,15 @@
+<script language="JavaScript">
+function exibe(id) {
+	if(document.getElementById(id).style.display=="none") {
+		document.getElementById(id).style.display = "inline";
+	}
+	else {
+		document.getElementById(id).style.display = "none";
+	}
+}
+
+
+</script>
 <?php 
 if (is_array($this->actionInfo)) {
     $actionData = $this->actionInfo;
@@ -99,8 +111,9 @@ if (isset($actionData['parentTitle'])) {
 <?php
     if (isset($humanResourceInfo['contractingLink']) && $humanResourceInfo['contractingLink'] != "") {
 ?>
-<div id='contractContact-<?php print($humanResourceInfo['id']);?>'><a class="parent_info" href="<?php print($humanResourceInfo['contractingLink']); ?>">confirmar contratação de recurso</a></div>
-<?php
+<!--<div id='contractContact-<?php print($humanResourceInfo['id']);?>'><a class="parent_info" href="<?php print($humanResourceInfo['contractingLink']); ?>">confirmar contratação de recurso</a></div>-->
+<a class="parent_info" href="#" onclick="javascript:exibe('conteudo');">confirmar contratação de recurso</a>
+<div id='conteudo' style="display:none;" >Formulário com data da ação?</div><?php
 }
 ?>
     

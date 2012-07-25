@@ -48,9 +48,6 @@ class Register_InstitutionController extends Zend_Controller_Action
                     $this->_helper->getHelper('FlashMessenger')
                         ->addMessage('The record was successfully updated.');          
                     $this->_redirect('/register/institution/success-create');
-
-                } else {
-//                    throw new C3op_Register_InstitutionException("Invalid data for institution.");
                 }
             } catch (Exception $e) {
                 $this->view->form = $form;

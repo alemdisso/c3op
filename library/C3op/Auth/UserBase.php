@@ -4,8 +4,10 @@ class C3op_Auth_UserBase {
 	
     protected $id;
     protected $login;
+    protected $name;
     protected $rawPassword;
     protected $email;
+    protected $role;
     protected $status;
     protected $firstLogin = "0000-00-00";
     protected $lastLogin = "0000-00-00";
@@ -36,7 +38,7 @@ class C3op_Auth_UserBase {
 	
     public function SetLogin($login)
     {
-        $validator = new C3op_Auth_UserValidLogin();
+        $validator = new C3op_Util_ValidString();
         if ($validator->isValid($login)) {
             if ($this->login != $login) {
                 $this->login = $login;
@@ -46,6 +48,23 @@ class C3op_Auth_UserBase {
         }
     } //SetLogin
 
+    public function GetName()
+    {
+        return $this->name;
+    } //GetName
+	
+    public function SetName($name)
+    {
+        $validator = new C3op_Util_ValidString();
+        if ($validator->isValid($name)) {
+            if ($this->name != $name) {
+                $this->name = $name;
+            }
+        } else {
+            throw new C3op_Auth_UserException("This ($name) is not a valid name.");
+        }
+    } //SetName
+
     public function GetRawPassword()
     {
         return $this->rawPassword;
@@ -53,7 +72,7 @@ class C3op_Auth_UserBase {
 	
     public function SetPassword($password) 
     {
-        if ($this->password != "") {
+        if ($password != "") {
             $this->rawPassword = $password;
         }
     }
@@ -65,7 +84,7 @@ class C3op_Auth_UserBase {
 	
     public function SetEmail($email)
     {
-        $validator = new C3op_Util_ValidLongString();
+        $validator = new C3op_Util_ValidEmail();
         if ($validator->isValid($email)) {
             if ($this->email != $email) {
                 $this->email = $email;
@@ -74,6 +93,39 @@ class C3op_Auth_UserBase {
             throw new C3op_Auth_UserException("This ($email) is not a valid email.");
         }
     } //SetEmail
+
+    public function GetRole() 
+    {
+        return $this->role;
+    }
+    
+    public function SetRole($role) 
+    {
+        switch ($role) {
+            case C3op_Access_RolesConstants::ROLE_UNKNOWN:
+            case C3op_Access_RolesConstants::ROLE_GUEST:
+            case C3op_Access_RolesConstants::ROLE_USER:
+            case C3op_Access_RolesConstants::ROLE_ASSISTANT:
+            case C3op_Access_RolesConstants::ROLE_ADMINISTRATOR:
+            case C3op_Access_RolesConstants::ROLE_CONTROLLER:
+            case C3op_Access_RolesConstants::ROLE_COORDINATOR:
+            case C3op_Access_RolesConstants::ROLE_MANAGER:
+            case C3op_Access_RolesConstants::ROLE_SYSADMIN:
+                $this->role = (int) $role;
+                break;
+            
+            case null:
+            case "":
+            case 0:
+            case false:
+                $this->role = C3op_Access_RolesConstants::ROLE_UNKNOWN;
+                break;
+                 
+            default:
+                throw new C3op_Access_RolesException("Invalid role.");
+                break;
+        }
+    }
 
      
     public function SetStatus($status) 

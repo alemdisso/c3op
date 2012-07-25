@@ -10,7 +10,7 @@ class C3op_Form_UserLogin extends Zend_Form
             ->setMethod('post');
         
         // create text input for name
-        $login = new Zend_Form_Element_Text('login');
+        $login = new Zend_Form_Element_Text('loginLogin');
         $loginValidator = new C3op_Register_ContactValidName();
         $login->setLabel('Usuário:')
             ->setOptions(array('size' => '50'))
@@ -22,7 +22,7 @@ class C3op_Form_UserLogin extends Zend_Form
         $this->addElement($login);
         
         // create text input for name
-        $password = new Zend_Form_Element_Password('password');
+        $password = new Zend_Form_Element_Password('passwordLogin');
         $passwordValidator = new C3op_Register_ContactValidName();
         $password->setLabel('Senha:')
             ->setOptions(array('size' => '50'))
@@ -50,17 +50,20 @@ class C3op_Form_UserLogin extends Zend_Form
         else
         {
 
-            $adapter = new C3op_Auth_Adapter_Mapper($this->login->GetValue(), $this->password->GetValue());
+            $adapter = new C3op_Auth_Adapter_Mapper($this->loginLogin->GetValue(), $this->passwordLogin->GetValue());
             $auth = Zend_Auth::getInstance();
             $result = $auth->authenticate($adapter);
-            $user = $adapter->getAuthenticatedUser();
-            //die("...{$user->GetId()}");
+            try {
+                $user = $adapter->getAuthenticatedUser();
+            } 
+            catch (Exception $e) {
+                return false;
+            }
             
             if ($user instanceOf C3op_Auth_User) {
                 return $user;
             } else {
                 
-                $this->view->message = 'You could not be logged in. Please try again.';
                 return false;
             }
         }
