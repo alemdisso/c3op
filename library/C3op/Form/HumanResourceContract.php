@@ -1,26 +1,44 @@
 <?php
-class C3op_Form_HumanResourceCreate extends Zend_Form
+class C3op_Form_HumanResourceContract extends Zend_Form
 {
     
     public function init()
     {
         $this->setName('newHumanResourceForm')
-            ->setAction('/projects/human-resource/create')
+            ->setAction('/projects/human-resource/contract')
             ->setMethod('post');
         
-        $action = new Zend_Form_Element_Hidden('action');
-        $action->addValidator('Int')
+        $humanResource = new Zend_Form_Element_Hidden('id');
+        $humanResource->addValidator('Int')
             ->addFilter('StringTrim');        
-        $this->addElement($action);
+        $this->addElement($humanResource);
         
-        $this->addElementText('description', 'Atributo:', new C3op_Util_ValidString(), 50);
-        $this->addElementText('value', 'Valor:', new C3op_Util_ValidPositiveFloat(), 50);
-
-        $contact = new Zend_Form_Element_Select('contact');
-        $contact->setLabel('Quem: ')
-                ->setRegisterInArrayValidator(false);
-        $contact->addMultiOption(0, "indefinido");
-        $this->addElement($contact);
+        $predictedBeginDate = new Zend_Form_Element_Text('predictedBeginDate');
+        $dateValidator = new C3op_Util_ValidDate();
+        $predictedBeginDate->setLabel('Data de início:')
+            ->setOptions(array('size' => '35'))
+            ->setRequired(true)
+            ->addValidator($dateValidator)
+            ->addFilter('StringTrim');
+        $this->addElement($predictedBeginDate);
+        
+        $predictedFinishDate = new Zend_Form_Element_Text('predictedFinishDate');
+        $predictedFinishDate->setLabel('Data de término:')
+            ->setOptions(array('size' => '35'))
+            ->setRequired(true)
+            ->addValidator('date')
+            ->addFilter('HtmlEntities')
+            ->addFilter('StringTrim');
+        $this->addElement($predictedFinishDate);
+        
+        $observation = new Zend_Form_Element_Textarea('observation');
+        $observation->setLabel('Observações:')
+            ->setAttrib('cols','8')
+            ->setAttrib('rows','5')
+            ->setRequired(false)
+            //->addFilter('HtmlEntities')
+            ->addFilter('StringTrim');
+        $this->addElement($observation);
         
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
@@ -39,13 +57,46 @@ class C3op_Form_HumanResourceCreate extends Zend_Form
         {
             $db = Zend_Registry::get('db');
             $humanResourceMapper = new C3op_Projects_HumanResourceMapper($db);
-            $humanResource = new C3op_Projects_HumanResource();
-            $humanResource->SetDescription($this->description->GetValue());
-            $humanResource->SetContact($this->contact->GetValue());
-            $humanResource->SetValue($this->value->GetValue());
-            $humanResource->SetAction($this->action->GetValue());
-            $humanResourceMapper->insert($humanResource);
-            return $humanResource->GetId();
+            $humanResource = $humanResourceMapper->findById($this->id->GetValue());
+            $actionMapper = new C3op_Projects_ActionMapper($this->db);
+            $itsAction = $actionMapper->findById($humanResource->GetAction());
+            
+            $predictedBeginDate = $this->predictedBeginDate->GetValue();
+            $dateValidator = new C3op_Util_ValidDate();
+            if ($dateValidator->isValid($predictedBeginDate)) {
+                $converter = new C3op_Util_DateConverter();                
+                $newBeginDate = $converter->convertDateToMySQLFormat($predictedBeginDate);
+            }
+            
+            $predictedFinishDate = $this->predictedFinishDate->GetValue();
+            $dateValidator = new C3op_Util_ValidDate();
+            if ($dateValidator->isValid($predictedFinishDate)){
+                $converter = new C3op_Util_DateConverter();                
+                $newFinishDate = $converter->convertDateToMySQLFormat($predictedFinishDate);
+            }
+
+            if (($itsAction->GetPredictedBeginDate() != $newBeginDate)
+                 || ($itsAction->SetPredictedFinishDate() != $newFinishDate)) {
+                $dateChanged = true;
+            } else {
+                $dateChanged = false;
+            }
+            $observation = $this->observation->GetValue();
+            if ($dateChanged && ($observation == "")) {
+                throw new C3op_Form_HumanResourceCreateException('Mudanças de data devem ser justificadas.');
+            } else {
+                C3op_Projects_HumanResourceContracting::ContactContract($itsAction, $humanResource, $humanResourceMapper);
+                if (($observation != "") && ($itsAction->GetPredictedBeginDate() != $newBeginDate)) {
+                    C3op_Projects_ActionDateChange::ChangePredictedBeginDate($itsAction, $actionMapper, $newBeginDate, $observation);
+                }
+                if (($observation != "") && ($itsAction->GetPredictedFinishDate() != $newFinishDate)) {
+                    C3op_Projects_ActionDateChange::ChangePredictedFinishDate($itsAction, $actionMapper, $newFinishDate, $observation);
+                }
+
+                $actionMapper->update($itsAction);
+                $humanResourceMapper->update($humanResource);
+                return $humanResource->GetId();
+            }
         }
     }
     

@@ -33,6 +33,7 @@ class Projects_HumanResourceController extends Zend_Controller_Action
             }
             $thisAction = $this->actionMapper->findById($actionId);
             $this->view->actionTitle = $thisAction->GetTitle();
+            $this->view->linkActionDetail = "/projects/action/detail/?id=" . $thisAction->getId();
             $actionField = $form->getElement('action');
             $actionField->setValue($actionId);
             $contactField = $form->getElement('contact');
@@ -101,6 +102,53 @@ class Projects_HumanResourceController extends Zend_Controller_Action
                     $contactField->addMultiOption($contactId, $eachContact->GetName());
                 }            
                 $contactField->setValue($thisHumanResource->getContact());
+
+                $this->view->actionTitle = $thisAction->GetTitle();
+                $this->view->linkActionDetail = "/projects/action/detail/?id=" . $thisHumanResource->getAction();
+                
+            }
+
+        }
+    }
+
+    public function contractAction()
+    {
+        $form = new C3op_Form_HumanResourceContract;
+        $this->view->form = $form;
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            if ($form->isValid($postData)) {
+                $id = $form->process($postData);
+                $this->_helper->getHelper('FlashMessenger')
+                    ->addMessage('The record was successfully updated.');          
+                $this->_redirect('/projects/human-resource/success-create/?id=' . $id);
+            } else throw new C3op_Projects_ProjectException("Invalid data.");
+        } else {
+            $data = $this->_request->getParams();
+            $filters = array(
+                'id' => new Zend_Filter_Alnum(),
+            );
+            $validators = array(
+                'id' => new C3op_Util_ValidId(),
+            );
+            $input = new Zend_Filter_Input($filters, $validators, $data);
+            if ($input->isValid()) {
+                
+                $id = $input->id;
+                $this->initHumanResourceMapper();
+                $thisHumanResource = $this->humanResourceMapper->findById($id);
+                $idField = $form->getElement('id');
+                $idField->setValue($id);
+                $this->initActionMapper();
+                $thisAction = $this->actionMapper->findById($thisHumanResource->getAction());
+                
+                $this->SetDateValueToFormField($form, 'predictedBeginDate', $thisAction->GetPredictedBeginDate());
+                $this->SetDateValueToFormField($form, 'predictedFinishDate', $thisAction->GetPredictedFinishDate());
+                $contactField = $form->getElement('contact');            
+                if (!isset($this->contactMapper)) {
+                    $this->contactMapper = new C3op_Register_ContactMapper($this->db);
+                }
+                $allContacts = $this->contactMapper->getAllIds();
 
                 $this->view->actionTitle = $thisAction->GetTitle();
                 $this->view->linkActionDetail = "/projects/action/detail/?id=" . $thisHumanResource->getAction();
@@ -206,20 +254,20 @@ class Projects_HumanResourceController extends Zend_Controller_Action
         echo 'Contato dispensado';
     }  
   
-   public function contractContactAction()
-    {
-        $this->_helper->layout->disableLayout();
-        $this->_helper->viewRenderer->setNoRender(TRUE);
-
-        $this->initHumanResourceMapper();
-        $this->initActionMapper();        
-        $humanResource =  $this->initHumanResourceWithCheckedId($this->humanResourceMapper);
-        $action = $this->actionMapper->findById($humanResource->GetContact());
-        $contracting = new C3op_Projects_HumanResourceContracting();
-        $contracting->ContactContract($action, $humanResource, $this->humanResourceMapper);
-
-        echo 'Contratação confirmada';
-    }  
+//   public function contractContactAction()
+//    {
+//        $this->_helper->layout->disableLayout();
+//        $this->_helper->viewRenderer->setNoRender(TRUE);
+//
+//        $this->initHumanResourceMapper();
+//        $this->initActionMapper();        
+//        $humanResource =  $this->initHumanResourceWithCheckedId($this->humanResourceMapper);
+//        $action = $this->actionMapper->findById($humanResource->GetContact());
+//        $contracting = new C3op_Projects_HumanResourceContracting();
+//        $contracting->ContactContract($action, $humanResource, $this->humanResourceMapper);
+//
+//        echo 'Contratação confirmada';
+//    }  
   
     
     
@@ -292,6 +340,16 @@ class Projects_HumanResourceController extends Zend_Controller_Action
     private function initActionWithCheckedId(C3op_Projects_ActionMapper $mapper)
     {
         return $mapper->findById($this->checkIdFromGet());
+    }
+
+    private function setDateValueToFormField(Zend_Form $form, $fieldName, $value)
+    {
+        $field = $form->getElement($fieldName);
+        if ($value != '0000-00-00')  {
+            $field->setValue(C3op_Util_DateDisplay::FormatDateToShow($value));
+        } else {
+            $field->setValue("");
+        }
     }
 
     

@@ -3,6 +3,8 @@
 class C3op_Projects_ActionEventConstants
 {
     const EVENT_PLANNING = 100;
+    const EVENT_PLANNED_BEGIN_DATE_CHANGE = 110;
+    const EVENT_PLANNED_FINISH_DATE_CHANGE = 120;
     const EVENT_CONTRACT_RESOURCE = 200;
     const EVENT_BEGIN_EXECUTION = 300;
     const EVENT_ACKNOWLEDGE_RECEIPT = 400;

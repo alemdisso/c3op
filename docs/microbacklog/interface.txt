@@ -1,0 +1,2 @@
+. criar ação automaticamente quando criar recebimento
+

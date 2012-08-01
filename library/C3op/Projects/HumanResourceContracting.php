@@ -2,7 +2,7 @@
 
 class C3op_Projects_HumanResourceContracting {
     
-    public function ContactContract(C3op_Projects_Action $action, 
+    public static function ContactContract(C3op_Projects_Action $action, 
                                    C3op_Projects_HumanResource $humanResource, 
                                    C3op_Projects_HumanResourceMapper $humanResourceMapper)
     {
@@ -12,7 +12,7 @@ class C3op_Projects_HumanResourceContracting {
             $humanResource->SetStatus(C3op_Projects_HumanResourceStatusConstants::STATUS_CONTRACTED);
             $humanResourceMapper->update($humanResource);
 
-            $this->LogContracting($action);
+            self::LogContracting($action);
         }
     
     }

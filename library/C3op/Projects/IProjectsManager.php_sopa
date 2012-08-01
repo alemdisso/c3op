@@ -1,9 +1,0 @@
-<?php
-interface C3op_Projects_IProjectsManager {
-
-    function returnEmptyProject();
-
-//    function createProject(C3op_Projects_Project $obj);
-//    
-//    function returnProjectsList();
-}
