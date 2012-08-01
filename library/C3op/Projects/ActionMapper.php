@@ -103,13 +103,12 @@ class C3op_Projects_ActionMapper
         $this->setAttributeValue($obj, $result['subordinated_to'], 'subordinatedTo');
         $this->setAttributeValue($obj, $result['responsible'], 'responsible');
         $this->setAttributeValue($obj, $result['milestone'], 'milestone');
-        $this->setAttributeValue($obj, $result['requirement_for_receiving'], 'requirementForReceiving');
-        
+        $this->setAttributeValue($obj, $result['requirement_for_receiving'], 'requirementForReceiving');        
 
         $this->identityMap[$obj] = $id;
         
-        $this->FetchDates($obj);
-        
+        $this->setDates($obj);
+        $check = new C3op_Projects_ActionCheckStart($obj, $this);
         return $obj;
 
     }
@@ -184,7 +183,7 @@ class C3op_Projects_ActionMapper
         $this->db->insert('projects_actions_dates', $data);
     }
     
-    private function FetchDates(C3op_Projects_Action $action)
+    private function setDates(C3op_Projects_Action $action)
     {
         $result = $this->db->fetchRow(
             sprintf(
@@ -195,14 +194,18 @@ class C3op_Projects_ActionMapper
         
         if (empty($result)) {
             $this->insertDates($action);
-            $this->FetchDates($action);
+            $this->setDates($action);
             return;
         }
+        
+        
+        
                 
         $this->setAttributeValue($action, $result['predicted_begin_date'], 'predictedBeginDate');
         $this->setAttributeValue($action, $result['predicted_finish_date'], 'predictedFinishDate');
         $this->setAttributeValue($action, $result['real_begin_date'], 'realBeginDate');
         $this->setAttributeValue($action, $result['real_finish_date'], 'realFinishDate');
+        
     }
     
    public function FetchLastReceiptDate(C3op_Projects_Action $action)

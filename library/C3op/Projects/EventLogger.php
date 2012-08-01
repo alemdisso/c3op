@@ -13,7 +13,7 @@ class C3op_Projects_EventLogger {
         if ($observation != "") {
             $event->SetObservation($observation);
         }
-        $eventMapper = new C3op_Projects_ActionEventMapperBase($action);
+        $eventMapper = new C3op_Projects_ActionEventMapper($action);
         $eventMapper->insert($event);
     }
     

@@ -92,6 +92,7 @@ class C3op_Projects_Action {
     
     public function SetStatus($status) 
     {
+        
         switch ($status) {
             case C3op_Projects_ActionStatusConstants::STATUS_NIL:
             case C3op_Projects_ActionStatusConstants::STATUS_PLAN:
