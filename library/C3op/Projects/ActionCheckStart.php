@@ -17,10 +17,12 @@ class C3op_Projects_ActionCheckStart {
     
     public function shouldStarted(C3op_Projects_Action $action) {
         
-        if (($action->getStatus() == C3op_Projects_ActionStatusConstants::STATUS_PLAN) 
-                && ($action->getPredictedBeginDate() <= date("Y-m-d 0:0:0"))){
-            return true;
-            
+        $dateValidator = new C3op_Util_ValidDate();
+        if ($dateValidator->isValid($action->getPredictedBeginDate())){
+            if (($action->getStatus() == C3op_Projects_ActionStatusConstants::STATUS_PLAN) 
+                    && ($action->getPredictedBeginDate() <= date("Y-m-d 0:0:0"))){
+                return true;
+            }
         }
         return false;
     }

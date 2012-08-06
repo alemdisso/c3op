@@ -61,11 +61,16 @@ class C3op_Form_HumanResourceContract extends Zend_Form
             $actionMapper = new C3op_Projects_ActionMapper($this->db);
             $itsAction = $actionMapper->findById($humanResource->GetAction());
             
+            $weHaveThedates = true;
             $predictedBeginDate = $this->predictedBeginDate->GetValue();
             $dateValidator = new C3op_Util_ValidDate();
+            
             if ($dateValidator->isValid($predictedBeginDate)) {
                 $converter = new C3op_Util_DateConverter();                
                 $newBeginDate = $converter->convertDateToMySQLFormat($predictedBeginDate);
+                
+            } else {
+                $weHaveThedates = false;
             }
             
             $predictedFinishDate = $this->predictedFinishDate->GetValue();
@@ -73,14 +78,25 @@ class C3op_Form_HumanResourceContract extends Zend_Form
             if ($dateValidator->isValid($predictedFinishDate)){
                 $converter = new C3op_Util_DateConverter();                
                 $newFinishDate = $converter->convertDateToMySQLFormat($predictedFinishDate);
-            }
-
-            if (($itsAction->GetPredictedBeginDate() != $newBeginDate)
-                 || ($itsAction->SetPredictedFinishDate() != $newFinishDate)) {
-                $dateChanged = true;
             } else {
-                $dateChanged = false;
+                $weHaveThedates = false;
             }
+            
+            if (!$weHaveThedates) {
+                throw new C3op_Form_HumanResourceCreateException('É obrigatório informar as datas contratadas.');
+            }
+            
+            $formerPredictedBeginDate = $itsAction->GetPredictedBeginDate();
+            $formerPredictedFinishDate = $itsAction->GetPredictedFinishDate();
+            
+            $dateChanged = false;
+            if (($dateValidator->isValid($formerPredictedBeginDate)) && ($formerPredictedBeginDate != $newBeginDate)) {
+                $dateChanged = true;
+            }
+            if (($dateValidator->isValid($formerPredictedFinishDate)) && ($formerPredictedFinishDate != $newFinishDate)) {
+                $dateChanged = true;
+            }
+            
             $observation = $this->observation->GetValue();
             if ($dateChanged && ($observation == "")) {
                 throw new C3op_Form_HumanResourceCreateException('Mudanças de data devem ser justificadas.');

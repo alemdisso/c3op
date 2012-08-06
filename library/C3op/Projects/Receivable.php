@@ -1,6 +1,6 @@
 <?php
 
-class C3op_Projects_ReceivableBase {
+class C3op_Projects_Receivable {
 	
     protected $id;
     protected $title;

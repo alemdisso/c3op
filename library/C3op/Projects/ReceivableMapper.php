@@ -1,6 +1,6 @@
 <?php
 
-class C3op_Projects_ReceivableMapperBase
+class C3op_Projects_ReceivableMapper
 {
     
     protected $db;
