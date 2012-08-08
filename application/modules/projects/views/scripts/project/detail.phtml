@@ -25,7 +25,20 @@ if ($projectData['linkPayables'] != "") {
 <a class="info" href="<?php print($projectData['linkPayables']) ?>">Consultar ações realizadas</a><br />
 <?php
 }
-
+?>
+<?php
+if ($projectData['linkUnacknowledged'] != "") {
+?>    
+<a class="info" href="<?php print($projectData['linkUnacknowledged']) ?>">Ações com início a confirmar</a><br />
+<?php
+}
+?>
+<?php
+if ($projectData['linkTree'] != "") {
+?>    
+<a class="info" href="<?php print($projectData['linkTree']) ?>">Árvore de ações</a><br />
+<?php
+}
 ?>
 </p>
 <h2>Produtos do Projeto</h2>

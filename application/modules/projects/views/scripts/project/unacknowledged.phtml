@@ -1,0 +1,52 @@
+<h2>C3op</h2>
+<?php 
+/*
+ * If exists acknowledgeded list
+ */
+if (is_array($this->unacknowledgededList)) {
+?>
+
+<?php 
+/*
+ * if there is acknowledgeded in list
+ */
+    if (count($this->unacknowledgededList)) {
+?>
+<?php 
+/*
+ * iterate list and print title
+ */
+        while (list(, $unacknowledgementData) = each($this->unacknowledgededList)) {
+?>
+
+<a href="/projects/action/detail/?id=<?php print($unacknowledgementData['actionId']) ?>"><?php print($unacknowledgementData['actionTitle']) ?></a>: <?php print($unacknowledgementData['actionStart']) ?>
+
+
+<br/>
+<hr>
+    
+<?php
+}  // loop iterate list and print titlei
+?>
+
+
+
+
+    
+<?php
+    } else { // end else there is acknowledgeded in list
+?>
+    <?php print("Não há ações a confirmar.") ?>
+    
+<?php
+    } // end else there is acknowledgeded in list
+?>
+<?php
+} else { // else exists acknowledgeded list 
+?>
+    <?php print("Não existe lista de ações a confirmar.") ?>
+
+    <?php
+} // end exists acknowledgeded list
+?>
+<p />

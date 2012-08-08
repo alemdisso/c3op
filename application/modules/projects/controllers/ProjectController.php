@@ -113,6 +113,8 @@ class Projects_ProjectController extends Zend_Controller_Action
         
         $linkReceivables = $this->manageReceivablesLink($projectToBeDetailed);
         $linkPayables = $this->managePayablesLink($projectToBeDetailed);
+        $linkUnacknowledged = $this->manageUnacknowledgedLink($projectToBeDetailed);
+        $linkTree = $this->manageTreeLink($projectToBeDetailed);
         
         $projectProducts = $this->projectMapper->getAllProductsOf($projectToBeDetailed);
         $actionsList = array();
@@ -147,6 +149,8 @@ class Projects_ProjectController extends Zend_Controller_Action
             'editLink' => '/projects/project/edit/?id=' . $projectToBeDetailed->GetId(),
             'linkReceivables' => $linkReceivables,
             'linkPayables' => $linkPayables,
+            'linkUnacknowledged' => $linkUnacknowledged,
+            'linkTree' => $linkTree,
             'beginDate' => C3op_Util_DateDisplay::FormatDateToShow($projectToBeDetailed->GetBeginDate()),
             'value' => C3op_Util_CurrencyDisplay::FormatCurrency($projectToBeDetailed->GetValue()),
             'linkActionCreate' => '/projects/action/create/?project=' . $projectToBeDetailed->GetId(),
@@ -154,6 +158,24 @@ class Projects_ProjectController extends Zend_Controller_Action
         );
 
         $this->view->projectInfo = $projectInfo;
+    }
+    
+    public function treeAction()
+    {
+        $this->initProjectMapper();
+        $project =  $this->InitProjectWithCheckedId($this->projectMapper);
+        $this->initActionMapper();
+        
+        $objTree = new C3op_Projects_ProjectTree();
+        $tree = $objTree->retrieveTree($project, $this->projectMapper, $this->actionMapper);
+        
+        $this->treeData = array();
+        $this->fillDataTree($tree);
+        
+        
+        $this->view->projectTree = $tree;
+        $this->view->treeData = $this->treeData;
+        
     }
     
     public function outlaysAction()
@@ -259,8 +281,7 @@ class Projects_ProjectController extends Zend_Controller_Action
                 );
                 
             }
-            
-            
+
             $receivablesList[$receivableId] = array(
                 'title' => $title,
                 'productsList' => $productsList,
@@ -303,7 +324,7 @@ class Projects_ProjectController extends Zend_Controller_Action
             $thisAction = $this->actionMapper->findById($actionId);            
             $actionTitle = $thisAction->GetTitle();
             $actionValue = C3op_Util_CurrencyDisplay::FormatCurrency(
-                               $this->actionMapper->getContractedValueForAction($thisAction)
+                               $this->actionMapper->getContractedValueJustForThisAction($thisAction)
                            );
                         
             $payablesList[$actionId] = array(
@@ -314,6 +335,34 @@ class Projects_ProjectController extends Zend_Controller_Action
         }
         
         $this->view->payablesList = $payablesList;
+        
+    }
+
+    public function unacknowledgedAction()
+    {
+        $id = $this->checkIdFromGet();
+        $thisProject = $this->projectMapper->findById($id);
+        
+        $this->initActionMapper();
+        $list = $this->projectMapper->getAllUnacknowledgededActions($thisProject, $this->actionMapper);
+        
+        $unacknowledgededList = array();
+        reset ($list);
+        foreach ($list as $actionId) {
+            $thisAction = $this->actionMapper->findById($actionId);            
+            $actionTitle = $thisAction->GetTitle();
+            $actionStart = C3op_Util_DateDisplay::FormatDateToShow(
+                               $thisAction->GetRealBeginDate()
+                           );
+                        
+            $unacknowledgededList[$actionId] = array(
+                'actionId'       => $actionId,
+                'actionTitle'    => $actionTitle,
+                'actionStart'    => $actionStart,
+            );
+        }
+        
+        $this->view->unacknowledgededList = $unacknowledgededList;
         
     }
 
@@ -397,36 +446,20 @@ class Projects_ProjectController extends Zend_Controller_Action
        
     }
 
-//    private function extractActionsJustBelow($actionsBelow, C3op_Projects_ActionMapper $mapper)
-//    {
-//        if (count($actionsBelow)) {
-//            if (count($this->detailProductBreeds) == $this->detailProductDepth) {
-//                $this->detailProductBreeds[$this->detailProductDepth++] = 1;
-//            } else {
-//                $this->detailProductBreeds[$this->detailProductDepth]++;
-//            }
-//        }
-//        
-//        foreach ($actionsBelow as $childAction) {
-//            if (isset($childAction['action'])) {
-//                $action = $childAction['action'];
-//                $this->detailProductBrood++;
-//                $immediateBreed = $mapper->getActionsSubordinatedTo($action);
-//                if (count($immediateBreed)) {
-//                    $depth = 1;
-//                    $brood = count($immediateBreed);
-//                    $newActionsBelow = array(array("action" => $action, "actionsBelow" => array()));
-//                    foreach ($immediateBreed as $newAction) {
-//                        $newAction["actionsBelow"] = $this->extractActionsJustBelow($newActionsBelow, $mapper);
-//                    }
-//                } else {
-//                    $depth = 0;
-//                    $brood = 0;
-//                }
-//            }
-//        }
-//    }
- 
+    private function manageUnacknowledgedLink(C3op_Projects_Project $project)
+    {
+        $linkUnacknowledged = '/projects/project/unacknowledged/?id=' . $project->GetId();
+        return $linkUnacknowledged;
+       
+    }
+
+    private function manageTreeLink(C3op_Projects_Project $project)
+    {
+        $linkTree = '/projects/project/tree/?id=' . $project->GetId();
+        return $linkTree;
+       
+    }
+
     private function setDateValueToFormField(C3op_Form_ProjectCreate $form, $fieldName, $value)
     {
         $field = $form->getElement($fieldName);
@@ -509,5 +542,36 @@ class Projects_ProjectController extends Zend_Controller_Action
         return "$myParcel/$totalParcels";
     }
 
-    
+   private function FillDataTree($tree)
+    {
+        $this->initActionMapper();
+        foreach ($tree as $id => $subTree) {
+            $loopAction = $this->actionMapper->findById($id);
+            $data = array();
+            $data["title"] = $loopAction->GetTitle();
+            
+            $contract = new C3op_Projects_ActionContracting($loopAction, $this->actionMapper);
+            if ($contract->isContracted()) {
+                $data["contracted"] = "contratada";                
+            } else {
+                $data["contracted"] = "";                
+            }
+
+            $data["value"] = C3op_Util_CurrencyDisplay::FormatCurrency(
+                    $this->actionMapper->getContractedValueForActionTree($loopAction));
+            
+            $done = new C3op_Projects_ActionDone($loopAction);
+            if ($done->isDone()) {
+                $data["done"] = "finalizada";
+            } else {
+                $data["done"] = "";
+            }
+            
+            $this->treeData[$id] = $data;
+            
+            
+            $this->FillDataTree($subTree);
+        }
+    }
+     
 }

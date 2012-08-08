@@ -258,6 +258,28 @@ class C3op_Projects_ProjectMapper
         return $result;
     }
     
+    public function getAllUnacknowledgededActions(C3op_Projects_Project $p
+                                        , C3op_Projects_ActionMapper $actionMapper) {
+        $result = array();
+        
+        foreach ($this->db->query(sprintf('SELECT a.id
+                    FROM projects_actions a 
+                    INNER JOIN projects_actions_dates d
+                    ON a.id = d.action
+                    WHERE a.status = %d AND a.project = %d ORDER BY d.real_begin_date'
+                , C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION
+                , $p->GetId()
+                )) as $row) {
+            
+            $action = $actionMapper->findById($row['id']);
+            $obj = new C3op_Projects_ActionStartMode($action, $actionMapper);
+            if ($obj->isUnacknowledged()) {
+                $result[] = $row['id'];
+            }
+        }        
+        return $result;
+    }
+    
     
     
 }

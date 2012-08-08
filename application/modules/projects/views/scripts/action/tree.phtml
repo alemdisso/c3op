@@ -1,0 +1,45 @@
+<?php 
+
+if (is_array($this->actionTree)) {
+    foreach ($this->actionTree as $id => $subTree) {
+        treeTable($id, $subTree, $this->treeData);
+    }
+}
+
+
+function treeTable($id, $tree, $data)
+{
+    print ("<table>");
+    print ("<tr>");
+    print ("<td>");
+    print ("<a href='/projects/action/detail/?id=$id'>{$data[$id]["title"]}</a>");
+    print ("</td>");
+    print ("<td>");
+    print ($data[$id]["contracted"]);
+    print ("</td>");
+    print ("<td>");
+    print ($data[$id]["done"]);
+    print ("</td>");
+    print ("<td>");
+    print ($data[$id]["value"]);
+    print ("</td>");
+    print ("</tr>");
+    if (count($tree) > 0) {
+        print("<tr>");
+        print ("<td>");
+        print ("&nbsp;");
+        print ("</td>");
+        print ("<td>");
+        foreach ($tree as $subId => $subTree) {
+            treeTable($subId, $subTree, $data);
+        }
+        print ("</td>");
+        print ("</tr>");
+        
+    }
+    
+    
+    print ("</table>");
+}
+
+

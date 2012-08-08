@@ -1,6 +1,6 @@
 <?php
 
-class C3op_Form_LinkageCreateException extends RuntimeException
+class C3op_Form_OutlayCreateException extends RuntimeException
 {
 }
 

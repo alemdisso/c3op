@@ -26,7 +26,7 @@
             <h2>Class Coverage Distribution</h2>
             <canvas id="classCoverageDistribution" width="475" height="200"></canvas>
             <script>
-            var ccd = new RGraph.Bar('classCoverageDistribution', [11,0,0,0,0,0,0,0,0,0,0,0]);
+            var ccd = new RGraph.Bar('classCoverageDistribution', [17,0,0,0,0,0,0,0,0,0,0,0]);
             ccd.Set('chart.background.barcolor1', 'white');
             ccd.Set('chart.background.barcolor2', 'white');
             ccd.Set('chart.colors', ['blue']);
@@ -43,7 +43,7 @@
             <h2>Class Complexity</h2>
             <canvas id="classComplexity" width="475" height="200"></canvas>
             <script>
-            var cc = new RGraph.Scatter('classComplexity', [[0,2,"blue","IndexController"],[0,2,"blue","Includes_FooterController"],[0,3,"blue","Includes_HeaderController"],[0,1,"blue","MediadorIncludes"],[0,28,"blue","Projects_ActionController"],[0,3,"blue","Projects_IndexController"],[0,41,"blue","Projects_ProjectController"],[0,22,"blue","Projects_ReceivingController"],[0,23,"blue","Register_ContactController"],[0,3,"blue","Register_IndexController"],[0,26,"blue","Register_InstitutionController"]]);
+            var cc = new RGraph.Scatter('classComplexity', [[0,5,"blue","Auth_LoginController"],[0,1,"blue","Auth_LogoutController"],[0,17,"blue","Auth_UserController"],[0,2,"blue","IndexController"],[0,2,"blue","Includes_FooterController"],[0,8,"blue","Includes_HeaderController"],[0,1,"blue","MediadorIncludes"],[0,71,"blue","Projects_ActionController"],[0,45,"blue","Projects_HumanResourceController"],[0,4,"blue","Projects_IndexController"],[0,26,"blue","Projects_OutlayController"],[0,60,"blue","Projects_ProjectController"],[0,21,"blue","Projects_ReceivableController"],[0,21,"blue","Register_ContactController"],[0,3,"blue","Register_IndexController"],[0,20,"blue","Register_InstitutionController"],[0,36,"blue","Register_LinkageController"]]);
             cc.Set('chart.xmax', 100);
             cc.Set('chart.background.barcolor1', 'white');
             cc.Set('chart.background.barcolor2', 'white');
@@ -59,13 +59,15 @@
           <td valign="top">
             <h2>Top Project Risks</h2>
             <ul>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#3">Projects_ProjectController</a> (1722)</li>
-              <li><a href="application_modules_projects_controllers_ActionController.php.html#3">Projects_ActionController</a> (812)</li>
-              <li><a href="application_modules_register_controllers_InstitutionController.php.html#3">Register_InstitutionController</a> (702)</li>
-              <li><a href="application_modules_register_controllers_ContactController.php.html#3">Register_ContactController</a> (552)</li>
-              <li><a href="application_modules_projects_controllers_ReceivingController.php.html#3">Projects_ReceivingController</a> (506)</li>
-              <li><a href="application_modules_includes_controllers_HeaderController.php.html#3">Includes_HeaderController</a> (12)</li>
-              <li><a href="application_modules_projects_controllers_IndexController.php.html#3">Projects_IndexController</a> (12)</li>
+              <li><a href="application_modules_register_controllers_LinkageController.php.html#3">Register_LinkageController</a> (1332)</li>
+              <li><a href="application_modules_projects_controllers_OutlayController.php.html#3">Projects_OutlayController</a> (702)</li>
+              <li><a href="application_modules_projects_controllers_ReceivableController.php.html#3">Projects_ReceivableController</a> (462)</li>
+              <li><a href="application_modules_register_controllers_ContactController.php.html#3">Register_ContactController</a> (462)</li>
+              <li><a href="application_modules_register_controllers_InstitutionController.php.html#3">Register_InstitutionController</a> (420)</li>
+              <li><a href="application_modules_auth_controllers_UserController.php.html#3">Auth_UserController</a> (306)</li>
+              <li><a href="application_modules_includes_controllers_HeaderController.php.html#3">Includes_HeaderController</a> (72)</li>
+              <li><a href="application_modules_auth_controllers_LoginController.php.html#3">Auth_LoginController</a> (30)</li>
+              <li><a href="application_modules_projects_controllers_IndexController.php.html#3">Projects_IndexController</a> (20)</li>
               <li><a href="application_modules_register_controllers_IndexController.php.html#3">Register_IndexController</a> (12)</li>
 
             </ul>
@@ -74,16 +76,16 @@
           <td valign="top">
             <h2>Least Tested Methods</h2>
             <ul>
-              <li><a href="application_modules_register_controllers_ContactController.php.html#14">Register_ContactController::indexAction</a> (0%)</li>
-              <li><a href="application_modules_register_controllers_ContactController.php.html#8">Register_ContactController::init</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ReceivingController.php.html#135">Projects_ReceivingController::formatDataToShow</a> (0%)</li>
-              <li><a href="application_modules_register_controllers_ContactController.php.html#37">Register_ContactController::createAction</a> (0%)</li>
-              <li><a href="application_modules_register_controllers_ContactController.php.html#55">Register_ContactController::editAction</a> (0%)</li>
-              <li><a href="application_modules_register_controllers_ContactController.php.html#91">Register_ContactController::successCreateAction</a> (0%)</li>
-              <li><a href="application_modules_register_controllers_ContactController.php.html#80">Register_ContactController::sucessAction</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ReceivingController.php.html#125">Projects_ReceivingController::setDateValueToFormField</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ReceivingController.php.html#119">Projects_ReceivingController::setValueToFormField</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ReceivingController.php.html#35">Projects_ReceivingController::editAction</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#447">Projects_ProjectController::PopulateClientField</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#462">Projects_ProjectController::PopulateOurResponsibleField</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#476">Projects_ProjectController::initOutlayMapper</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#440">Projects_ProjectController::formatDataToShow</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#430">Projects_ProjectController::setDateValueToFormField</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#376">Projects_ProjectController::manageReceivablesLink</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#388">Projects_ProjectController::managePayablesLink</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#484">Projects_ProjectController::initActionMapper</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#491">Projects_ProjectController::outlayAsAParcel</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ReceivableController.php.html#85">Projects_ReceivableController::successCreateAction</a> (0%)</li>
 
             </ul>
           </td>
@@ -95,7 +97,7 @@
 
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
-      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.2</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.8</a> and PHPUnit 3.5.15 at Mon Jun 4 11:35:42 BRT 2012.</td></tr>
+      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.2</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.8</a> and PHPUnit 3.5.15 at Tue Aug 7 9:54:09 BRT 2012.</td></tr>
     </table>
 
     <br/>

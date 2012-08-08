@@ -8,6 +8,7 @@ class Projects_ActionController extends Zend_Controller_Action
     private $receivableMapper;
     private $contactMapper;
     private $db;
+    private $treeData;
 
     public function init()
     {
@@ -71,21 +72,21 @@ class Projects_ActionController extends Zend_Controller_Action
                 $id = $input->id;
                 
                 $this->initActionMapper();
-                $thisAction = $this->actionMapper->findById($id);
+                $inputAction = $this->actionMapper->findById($id);
                 $titleField = $form->getElement('title');
-                $titleField->setValue($thisAction->getTitle());
+                $titleField->setValue($inputAction->getTitle());
                 $idField = $form->getElement('id');
                 $idField->setValue($id);
                 $milestoneField = $form->getElement('milestone');
-                $milestoneField->setValue($thisAction->getMilestone());
-                $projectId = $this->populateProjectFields($thisAction->GetProject(), $form);
+                $milestoneField->setValue($inputAction->getMilestone());
+                $projectId = $this->populateProjectFields($inputAction->GetProject(), $form);
                 $descriptionField = $form->getElement('description');
-                $descriptionField->setValue($thisAction->GetDescription());
-                $this->SetDateValueToFormField($form, 'predictedBeginDate', $thisAction->GetPredictedBeginDate());
-                $this->SetDateValueToFormField($form, 'predictedFinishDate', $thisAction->GetPredictedFinishDate());
+                $descriptionField->setValue($inputAction->GetDescription());
+                $this->SetDateValueToFormField($form, 'predictedBeginDate', $inputAction->GetPredictedBeginDate());
+                $this->SetDateValueToFormField($form, 'predictedFinishDate', $inputAction->GetPredictedFinishDate());
                 $statusField = $form->getElement('status');
-                $statusField->setValue($thisAction->GetStatus());
-                $this->populateRequirementForReceivingField($projectId, $form, $thisAction->GetRequirementForReceiving());
+                $statusField->setValue($inputAction->GetStatus());
+                $this->populateRequirementForReceivingField($projectId, $form, $inputAction->GetRequirementForReceiving());
                 $this->populateSubordinatedActionsField($projectId, $form, $id);
             }
 
@@ -117,8 +118,8 @@ class Projects_ActionController extends Zend_Controller_Action
         
         $immediateBreed = $this->actionMapper->getActionsSubordinatedTo($actionToBeDetailed);
         foreach ($immediateBreed as $actionId) {
-            $thisAction = $this->actionMapper->findById($actionId);
-            $nextBreed = $this->actionMapper->getActionsSubordinatedTo($thisAction);
+            $loopAction = $this->actionMapper->findById($actionId);
+            $nextBreed = $this->actionMapper->getActionsSubordinatedTo($loopAction);
             if (count($nextBreed) > 0) {
                 $broodMessage = count($nextBreed) . " ações diretamente subordinadas";
                 if (count($nextBreed)== 1) {
@@ -129,24 +130,38 @@ class Projects_ActionController extends Zend_Controller_Action
                 
             }
             
-            $rejectLink = $this->ManageRejectReceiptLink($thisAction);
+            $rejectLink = $this->ManageRejectReceiptLink($loopAction);
             
-            $actionTitle =  sprintf("<a href='/projects/action/detail/?id=%d'>%s</a>", $actionId, $thisAction->GetTitle());
+            $actionTitle =  sprintf("<a href='/projects/action/detail/?id=%d'>%s</a>", $actionId, $loopAction->GetTitle());
             $actionsList[$actionId] = array(
                 'id'         => $actionId,
                 'title'      => $actionTitle,
                 'brood'      => $broodMessage,
                 'editLink'   => '/projects/action/edit/?id=' . $actionId,
-                'done'       => $thisAction->GetDone(),
-                'finishDate' => C3op_Util_DateDisplay::FormatDateToShow($thisAction->GetRealFinishDate()),
-                'status'     => $thisAction->GetStatus(),
+                'done'       => $loopAction->GetDone(),
+                'finishDate' => C3op_Util_DateDisplay::FormatDateToShow($loopAction->GetRealFinishDate()),
+                'status'     => $loopAction->GetStatus(),
                 'rejectLink' => $rejectLink,
                 );
             
         }
         
         $id = $actionToBeDetailed->GetId();
+        $msgStart = "";
+        $msgAcknowledgement = "";
+        $linkAcknowledgement = "";
+        if ($actionToBeDetailed->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION) {
+            $msgStart = "Iniciada em " . $actionToBeDetailed->GetRealBeginDate();
+            
+            $obj = new C3op_Projects_ActionStartMode($actionToBeDetailed, $this->actionMapper);
+            if ($obj->isUnacknowledged()) {
+                $msgAcknowledgement = " (confirma?)";
+                $linkAcknowledgement =  "javascript:passIdToAjax('/projects/action/acknowledge-start', '$id', acknowledgeStartResponse);";
+            }
+        }
         
+        $msgDone = "";
+        $linkDone = "";
         if ($actionToBeDetailed->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_DONE) {
             $msgDone = "Ação realizada";
             $linkDone = "";
@@ -179,6 +194,9 @@ class Projects_ActionController extends Zend_Controller_Action
             'acceptLink'         => $acceptLink,
             'finishDate' => C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->GetRealFinishDate()),
             'msgDone'            => $msgDone,
+            'msgStart'            => $msgStart,
+            'linkAcknowledgement'           => $linkAcknowledgement,
+            'msgAcknowledgement'            => $msgAcknowledgement,
         );
         if ($actionToBeDetailed->GetSubordinatedTo() > 0) {
             $actionInfo['parentLink'] = '/projects/action/detail/?id=' . $actionToBeDetailed->GetSubordinatedTo();
@@ -192,6 +210,23 @@ class Projects_ActionController extends Zend_Controller_Action
         
 
         $this->view->actionInfo = $actionInfo;
+    }
+    
+    public function treeAction()
+    {
+        $this->initActionMapper();
+        $action =  $this->initActionWithCheckedId($this->actionMapper);
+        
+        $objTree = new C3op_Projects_ActionTree();
+        $tree = $objTree->retrieveTree($action, $this->actionMapper);
+        
+        $this->treeData = array();
+        $this->fillDataTree($tree);
+        
+        
+        $this->view->actionTree = $tree;
+        $this->view->treeData = $this->treeData;
+        
     }
     
 
@@ -255,6 +290,19 @@ class Projects_ActionController extends Zend_Controller_Action
         echo 'Entrega rejeitada';
     }  
   
+    public function acknowledgeStartAction()
+    {
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(TRUE);
+
+        $this->initActionMapper();
+        $actionToBeChanged =  $this->initActionWithCheckedId($this->actionMapper);
+        
+        $acknowledgment = new C3op_Projects_ActionAcknowledgeStart($actionToBeChanged);
+
+        echo 'Confirmado';
+    }    
+    
     private function initActionWithCheckedId(C3op_Projects_ActionMapper $mapper)
     {
         return $mapper->findById($this->checkIdFromGet());
@@ -274,7 +322,7 @@ class Projects_ActionController extends Zend_Controller_Action
             $id = $input->id;
             return $id;
         }
-        throw new C3op_Projects_ActionException("Invalid Project Id from Get");
+        throw new C3op_Projects_ActionException("Invalid Action Id from Get");
 
     }
 
@@ -287,9 +335,9 @@ class Projects_ActionController extends Zend_Controller_Action
             if (!isset($this->projectMapper)) {
                 $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
             }
-            $thisProject = $this->projectMapper->findById($projectId);
-            $this->view->projectTitle = $thisProject->GetTitle();
-            $this->view->linkProjectDetail = "/projects/project/detail/?id=" . $thisProject->GetId();
+            $theProject = $this->projectMapper->findById($projectId);
+            $this->view->projectTitle = $theProject->GetTitle();
+            $this->view->linkProjectDetail = "/projects/project/detail/?id=" . $theProject->GetId();
 
             return $projectId;
         } else throw new C3op_Projects_ActionException("Action needs a positive integer project id.");
@@ -306,16 +354,16 @@ class Projects_ActionController extends Zend_Controller_Action
             }
 
             if ($actionId > 0) {
-                $thisAction = $this->actionMapper->findById($actionId);
-                $parentActionId = $thisAction->GetSubordinatedTo();
-                $allOtherActionsInProject = $this->actionMapper->getAllOtherActions($thisAction);
+                $actionToBePopulated = $this->actionMapper->findById($actionId);
+                $parentActionId = $actionToBePopulated->GetSubordinatedTo();
+                $allOtherActionsInProject = $this->actionMapper->getAllOtherActions($actionToBePopulated);
                 
             } else {
                 if (!isset($this->projectMapper)) {
                     $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
                 }
-                $thisProject = $this->projectMapper->findById($projectId);
-                $allOtherActionsInProject = $this->projectMapper->getAllActions($thisProject);
+                $theProject = $this->projectMapper->findById($projectId);
+                $allOtherActionsInProject = $this->projectMapper->getAllActions($theProject);
             }
 
             while (list($key, $actionId) = each($allOtherActionsInProject)) {
@@ -339,8 +387,8 @@ class Projects_ActionController extends Zend_Controller_Action
             if (!isset($this->receivableMapper)) {
                 $this->receivableMapper = new C3op_Projects_ReceivableMapper($this->db);
             }
-            $thisProject = $this->projectMapper->findById($projectId);
-            $allReceivables = $this->projectMapper->getAllReceivables($thisProject);
+            $theProject = $this->projectMapper->findById($projectId);
+            $allReceivables = $this->projectMapper->getAllReceivables($theProject);
 
             while (list($key, $receivableId) = each($allReceivables)) {
                 $eachReceivable = $this->receivableMapper->findById($receivableId);
@@ -506,5 +554,36 @@ class Projects_ActionController extends Zend_Controller_Action
         return $contractingLink;
     }
     
+    private function FillDataTree($tree)
+    {
+        $this->initActionMapper();
+        foreach ($tree as $id => $subTree) {
+            $loopAction = $this->actionMapper->findById($id);
+            $data = array();
+            $data["title"] = $loopAction->GetTitle();
+            
+            $contract = new C3op_Projects_ActionContracting($loopAction, $this->actionMapper);
+            if ($contract->isContracted()) {
+                $data["contracted"] = "contratada";                
+            } else {
+                $data["contracted"] = "";                
+            }
+
+            $data["value"] = C3op_Util_CurrencyDisplay::FormatCurrency(
+                    $this->actionMapper->getContractedValueForActionTree($loopAction));
+            
+            $done = new C3op_Projects_ActionDone($loopAction);
+            if ($done->isDone()) {
+                $data["done"] = "finalizada";
+            } else {
+                $data["done"] = "";
+            }
+            
+            $this->treeData[$id] = $data;
+            
+            
+            $this->FillDataTree($subTree);
+        }
+    }
     
 }

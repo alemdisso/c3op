@@ -1,5 +1,5 @@
 <?php
-class C3op_Form_OutlayCreate extends Zend_Dojo_Form
+class C3op_Form_OutlayDojoCreate extends Zend_Dojo_Form
 {
     public $humanResourcesList;
     public function __construct($options = null)

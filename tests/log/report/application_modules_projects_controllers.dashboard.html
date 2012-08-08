@@ -26,7 +26,7 @@
             <h2>Class Coverage Distribution</h2>
             <canvas id="classCoverageDistribution" width="475" height="200"></canvas>
             <script>
-            var ccd = new RGraph.Bar('classCoverageDistribution', [4,0,0,0,0,0,0,0,0,0,0,0]);
+            var ccd = new RGraph.Bar('classCoverageDistribution', [6,0,0,0,0,0,0,0,0,0,0,0]);
             ccd.Set('chart.background.barcolor1', 'white');
             ccd.Set('chart.background.barcolor2', 'white');
             ccd.Set('chart.colors', ['blue']);
@@ -43,7 +43,7 @@
             <h2>Class Complexity</h2>
             <canvas id="classComplexity" width="475" height="200"></canvas>
             <script>
-            var cc = new RGraph.Scatter('classComplexity', [[0,28,"blue","Projects_ActionController"],[0,3,"blue","Projects_IndexController"],[0,41,"blue","Projects_ProjectController"],[0,22,"blue","Projects_ReceivingController"]]);
+            var cc = new RGraph.Scatter('classComplexity', [[0,71,"blue","Projects_ActionController"],[0,45,"blue","Projects_HumanResourceController"],[0,4,"blue","Projects_IndexController"],[0,26,"blue","Projects_OutlayController"],[0,60,"blue","Projects_ProjectController"],[0,21,"blue","Projects_ReceivableController"]]);
             cc.Set('chart.xmax', 100);
             cc.Set('chart.background.barcolor1', 'white');
             cc.Set('chart.background.barcolor2', 'white');
@@ -59,10 +59,12 @@
           <td valign="top">
             <h2>Top Project Risks</h2>
             <ul>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#3">Projects_ProjectController</a> (1722)</li>
-              <li><a href="application_modules_projects_controllers_ActionController.php.html#3">Projects_ActionController</a> (812)</li>
-              <li><a href="application_modules_projects_controllers_ReceivingController.php.html#3">Projects_ReceivingController</a> (506)</li>
-              <li><a href="application_modules_projects_controllers_IndexController.php.html#3">Projects_IndexController</a> (12)</li>
+              <li><a href="application_modules_projects_controllers_ActionController.php.html#3">Projects_ActionController</a> (5112)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#3">Projects_ProjectController</a> (3660)</li>
+              <li><a href="application_modules_projects_controllers_HumanResourceController.php.html#3">Projects_HumanResourceController</a> (2070)</li>
+              <li><a href="application_modules_projects_controllers_OutlayController.php.html#3">Projects_OutlayController</a> (702)</li>
+              <li><a href="application_modules_projects_controllers_ReceivableController.php.html#3">Projects_ReceivableController</a> (462)</li>
+              <li><a href="application_modules_projects_controllers_IndexController.php.html#3">Projects_IndexController</a> (20)</li>
 
             </ul>
           </td>
@@ -70,16 +72,16 @@
           <td valign="top">
             <h2>Least Tested Methods</h2>
             <ul>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#307">Projects_ProjectController::setValueToFormField</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#313">Projects_ProjectController::setDateValueToFormField</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#323">Projects_ProjectController::formatDataToShow</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#281">Projects_ProjectController::extractActionsBelow</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#269">Projects_ProjectController::manageReceivingsLink</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#162">Projects_ProjectController::checkIdFromGet</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#180">Projects_ProjectController::receivingsAction</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#241">Projects_ProjectController::buildSpecialActionLabel</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ReceivingController.php.html#9">Projects_ReceivingController::init</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ReceivingController.php.html#14">Projects_ReceivingController::createAction</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#87">Projects_ProjectController::successCreateAction</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#76">Projects_ProjectController::sucessAction</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#40">Projects_ProjectController::editAction</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#19">Projects_ProjectController::createAction</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#97">Projects_ProjectController::errorEditAction</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#105">Projects_ProjectController::detailAction</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#292">Projects_ProjectController::payablesAction</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#216">Projects_ProjectController::receivablesAction</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#159">Projects_ProjectController::outlaysAction</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#13">Projects_ProjectController::init</a> (0%)</li>
 
             </ul>
           </td>
@@ -91,7 +93,7 @@
 
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
-      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.2</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.8</a> and PHPUnit 3.5.15 at Mon Jun 4 11:35:42 BRT 2012.</td></tr>
+      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.2</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.8</a> and PHPUnit 3.5.15 at Tue Aug 7 9:54:09 BRT 2012.</td></tr>
     </table>
 
     <br/>

@@ -212,8 +212,9 @@ class C3op_Projects_ActionMapper
     {
         $result = $this->db->fetchRow(
             sprintf(
-                'SELECT timestamp FROM projects_actions_events WHERE action = %d ORDER BY timestamp DESC LIMIT 1;',
-                $action->GetId()
+                'SELECT timestamp FROM projects_actions_events WHERE action = %d AND type = %d ORDER BY timestamp DESC LIMIT 1;',
+                $action->GetId(),
+                C3op_Projects_ActionEventConstants::EVENT_ACKNOWLEDGE_RECEIPT
             )
         );
         
@@ -226,9 +227,46 @@ class C3op_Projects_ActionMapper
         $this->setAttributeValue($action, $receiptDate, 'receiptDate');
     }
     
-    public function getContractedValueForAction(C3op_Projects_Action $a, $includeAllSubordinatedActions = false)
+   public function GetLastAutoStartDate(C3op_Projects_Action $action)
     {
-        $result = array();
+        $result = $this->db->fetchRow(
+            sprintf(
+                'SELECT timestamp FROM projects_actions_events WHERE action = %d AND type = %d ORDER BY timestamp DESC LIMIT 1;',
+                $action->GetId(),
+                C3op_Projects_ActionEventConstants::EVENT_BEGIN_AUTOMATICALLY
+            )
+        );
+        
+        if (empty($result)) {
+            $autoStartDate = "0000-00-00";
+        } else {
+            $autoStartDate = $result['timestamp'];
+        }
+                
+        return $autoStartDate;
+    }
+    
+   public function GetLastAcknowledgeStartDate(C3op_Projects_Action $action)
+    {
+        $result = $this->db->fetchRow(
+            sprintf(
+                'SELECT timestamp FROM projects_actions_events WHERE action = %d AND type = %d ORDER BY timestamp DESC LIMIT 1;',
+                $action->GetId(),
+                C3op_Projects_ActionEventConstants::EVENT_BEGIN_ACKNOWLEDGMENT
+            )
+        );
+        
+        if (empty($result)) {
+            $acknowledgeDate = "0000-00-00";
+        } else {
+            $acknowledgeDate = $result['timestamp'];
+        }
+        return ($acknowledgeDate);
+                
+    }
+    
+    public function getContractedValueJustForThisAction(C3op_Projects_Action $a)
+    {
         foreach ($this->db->query(
                 sprintf(
                     'SELECT SUM(value) as value FROM projects_human_resources WHERE action = %d AND status = %d;',
@@ -246,9 +284,23 @@ class C3op_Projects_ActionMapper
         return 0;
     }
 
-    
-    
-    
+    public function getContractedValueForActionTree(C3op_Projects_Action $a)
+    {
+        $value = $this->getContractedValueJustForThisAction($a);
+        foreach ($this->db->query(
+                sprintf(
+                    'SELECT id FROM projects_actions WHERE subordinated_to = %d;',
+                    $a->GetId()
+                    )
+                )
+                as $row) {
+            $childAction = $this->findById($row['id']);
+            $value += $this->getContractedValueJustForThisAction($childAction);
+            
+        }
+        return $value;
+    }
+
     private function UpdateDates(C3op_Projects_Action $action)
     {
         $this->db->exec(
@@ -263,4 +315,25 @@ class C3op_Projects_ActionMapper
         );
 
     }
+    
+    public function getContractedHumanResources(C3op_Projects_Action $a)
+    {
+
+        $result = array();
+        foreach ($this->db->query(
+                sprintf(
+                    'SELECT id FROM projects_human_resources WHERE action = %d AND status = %d;',
+                    $a->GetId(),
+                    C3op_Projects_HumanResourceStatusConstants::STATUS_CONTRACTED
+                    ))
+                as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+        
+        
+            
+    }
+
+    
 }

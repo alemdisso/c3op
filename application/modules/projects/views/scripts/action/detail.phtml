@@ -25,6 +25,7 @@ if (isset($actionData['parentTitle'])) {
 <?php
 }
 ?>    
+
     
 <div id='acknowledgeReceipt-<?php print($actionData['id']);?>'>
 <?php
@@ -63,8 +64,16 @@ if (isset($actionData['parentTitle'])) {
 
 
 </p>
-<p /><br />
-
+<?php if (isset($actionData['msgStart'])) print($actionData['msgStart']); ?>
+<?php
+    if (isset($actionData['linkAcknowledgement']) && $actionData['linkAcknowledgement'] != "") {
+?>
+<div id='acknowledgeStart-<?php print($actionData['id']);?>'><a class="parent_info" href="<?php print($actionData['linkAcknowledgement']); ?>"><?php print($actionData['msgAcknowledgement']); ?></a></div>
+<?php
+}
+?>    
+    
+<br />
 <?php 
     $humanResourcesList = $actionData['humanResourcesList'];
     
