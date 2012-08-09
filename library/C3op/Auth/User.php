@@ -110,7 +110,7 @@ class C3op_Auth_User
             case C3op_Access_RolesConstants::ROLE_ADMINISTRATOR:
             case C3op_Access_RolesConstants::ROLE_CONTROLLER:
             case C3op_Access_RolesConstants::ROLE_COORDINATOR:
-            case C3op_Access_RolesConstants::ROLE_MANAGER:
+            case C3op_Access_RolesConstants::ROLE_DIRECTOR:
             case C3op_Access_RolesConstants::ROLE_SYSADMIN:
                 $this->role = (int) $role;
                 break;

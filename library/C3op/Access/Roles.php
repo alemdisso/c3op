@@ -9,9 +9,9 @@ class C3op_Access_Roles {
         C3op_Access_RolesConstants::ROLE_USER => "Cadastrado",
         C3op_Access_RolesConstants::ROLE_ASSISTANT => "Assistente administrativo",
         C3op_Access_RolesConstants::ROLE_ADMINISTRATOR => "Administrador",
-        C3op_Access_RolesConstants::ROLE_CONTROLLER => "Controller",
+        C3op_Access_RolesConstants::ROLE_DIRECTOR => "Gestor",
         C3op_Access_RolesConstants::ROLE_COORDINATOR => "Coordenador",
-        C3op_Access_RolesConstants::ROLE_MANAGER => "Gestor",
+        C3op_Access_RolesConstants::ROLE_DIRECTOR => "Diretor",
         C3op_Access_RolesConstants::ROLE_SYSADMIN => "Administrador do Sistema",
     );
     
@@ -23,9 +23,9 @@ class C3op_Access_Roles {
                 case C3op_Access_RolesConstants::ROLE_USER:
                 case C3op_Access_RolesConstants::ROLE_ASSISTANT:
                 case C3op_Access_RolesConstants::ROLE_ADMINISTRATOR:
-                case C3op_Access_RolesConstants::ROLE_CONTROLLER:
+                case C3op_Access_RolesConstants::ROLE_DIRECTOR:
                 case C3op_Access_RolesConstants::ROLE_COORDINATOR:
-                case C3op_Access_RolesConstants::ROLE_MANAGER:
+                case C3op_Access_RolesConstants::ROLE_DIRECTOR:
                 case C3op_Access_RolesConstants::ROLE_SYSADMIN:
                     return self::$roles[$role];
                     break;
