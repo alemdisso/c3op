@@ -63,6 +63,7 @@ class Includes_HeaderController extends Zend_Controller_Action
 
     public function includeLoginAction()
     {
+        
         /* Initialize model and retrieve data here */
 
         $dadosPagina = Array();

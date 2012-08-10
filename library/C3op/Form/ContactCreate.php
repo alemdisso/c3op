@@ -9,7 +9,7 @@ class C3op_Form_ContactCreate extends Zend_Form
             ->setAction('/register/contact/create')
             ->setMethod('post');
         
-        // create text input for name
+       // create text input for name
         $name = new Zend_Form_Element_Text('name');
 //        $nameValidator = new Zend_Validate_Regex("/^[0-9a-zA-ZÀ-ú]+[0-9A-Za-zÀ-ú\'\[\]\(\)\-\.\,\:\;\!\? ]{1,50}$/");
         $nameValidator = new C3op_Register_ContactValidName();
@@ -39,6 +39,10 @@ class C3op_Form_ContactCreate extends Zend_Form
             ->setOptions(array('class' => 'submit'));
         $this->addElement($submit);
 
+        $this->setDecorators(array(
+            'FormElements',
+            'Form'
+        ));
     }
     
     public function process($data) {

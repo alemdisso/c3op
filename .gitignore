@@ -1,6 +1,6 @@
 $ cat .gitignore
 
-# Ignorar arquivos espec�ficos
+# Ignorar
 .zfproject.xml
 application/Bootstrap.php
 application/configs/application.ini

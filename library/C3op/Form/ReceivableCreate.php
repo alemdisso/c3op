@@ -14,6 +14,7 @@ class C3op_Form_ReceivableCreate extends Zend_Form
             //->addFilter('HtmlEntities')
             ->addFilter('StringTrim');        
         $this->addElement($project);
+        $project->setDecorators(array('ViewHelper'));
 
         $this->addElementText('title', 'recebimento', new C3op_Util_ValidString, 50);
         $this->addElementText('predictedDate', 'Data Prevista', new C3op_Util_ValidDate, 50);
