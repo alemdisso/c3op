@@ -47,12 +47,12 @@ class Auth_LoginController extends Zend_Controller_Action
         
     }
     
-    public function logoutAction()
-    {
-        Zend_Auth::getInstance()->clearIdentity();
-        Zend_Session::destroy();
-        $this->_redirect('/auth/login');
-    }    
+//    public function logoutAction()
+//    {
+//        Zend_Auth::getInstance()->clearIdentity();
+//        Zend_Session::destroy();
+//        $this->_redirect('/auth/login');
+//    }    
     
     
 }

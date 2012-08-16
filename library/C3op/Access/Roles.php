@@ -4,8 +4,8 @@
 class C3op_Access_Roles {
     
     private static $roles = array(
-//        C3op_Access_RolesConstants::ROLE_UNKNOWN => "Desconhecido",
-//        C3op_Access_RolesConstants::ROLE_GUEST => "Convidado",
+        C3op_Access_RolesConstants::ROLE_UNKNOWN => "Desconhecido",
+        C3op_Access_RolesConstants::ROLE_GUEST => "Convidado",
         C3op_Access_RolesConstants::ROLE_USER => "Cadastrado",
         C3op_Access_RolesConstants::ROLE_ASSISTANT => "Assistente administrativo",
         C3op_Access_RolesConstants::ROLE_ADMINISTRATOR => "Administrador",
