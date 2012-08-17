@@ -6,6 +6,15 @@ class Projects_ReceivableController extends Zend_Controller_Action
     private $projectMapper;
     private $db;
 
+    public function preDispatch()
+    {
+        try {
+            $checker = new C3op_Access_PrivilegeChecker();
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+    
     public function init()
     {
         $this->db = Zend_Registry::get('db');

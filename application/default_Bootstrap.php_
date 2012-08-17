@@ -47,6 +47,33 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
     }
     
+    protected function _initUser()
+    {
+        $user = null;
+        $auth = Zend_Auth::getInstance();
+        if ($auth->hasIdentity()) {
+            $user = $auth->getIdentity();
+            if ($user instanceof C3op_Auth_User) {
+                // 
+                $userLastAccess = strtotime($user->GetLastLogin());
+                if ((time() - $userLastAccess) > 60*5) {
+                    $date = new Zend_Date();
+    //                $userMapper = new C3op_Auth_UserMapper();
+    //                $userMapper->RegisterLogin($user, $date->toString('YYYY-MM-dd HH:mm:ss'));
+                }
+            }
+        }
+        Zend_Registry::set('user', $user);
+        return $user;
+    }
+
+    protected function _initAcl()
+    {
+        $acl = new C3op_Access_Acl();
+        Zend_Registry::set('acl', $acl);
+        return $acl;
+    }    
+
 
 
 }

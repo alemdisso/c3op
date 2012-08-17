@@ -6,6 +6,14 @@ class Projects_HumanResourceController extends Zend_Controller_Action
     private $actionMapper;
     private $db;
 
+    public function preDispatch()
+    {
+        try {
+            $checker = new C3op_Access_PrivilegeChecker();
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
     public function init()
     {
         $this->db = Zend_Registry::get('db');
@@ -247,7 +255,7 @@ class Projects_HumanResourceController extends Zend_Controller_Action
         $this->initHumanResourceMapper();
         $this->initActionMapper();        
         $humanResource =  $this->initHumanResourceWithCheckedId($this->humanResourceMapper);
-        $action = $this->actionMapper->findById($humanResource->GetContact());
+        $action = $this->actionMapper->findById($humanResource->GetAction());
         $dismissal = new C3op_Projects_HumanResourceDismissal();
         $dismissal->ContactDismiss($action, $humanResource, $this->humanResourceMapper);
 

@@ -1,2 +1,3 @@
 . criar ação automaticamente quando criar recebimento
 
+. validar texto permitindo uso de aspas
