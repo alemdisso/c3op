@@ -10,6 +10,17 @@ class Projects_ProjectController extends Zend_Controller_Action
     private $institutionMapper;
     private $outlayMapper;
 
+    public function preDispatch()
+    {
+        try {
+            $checker = new C3op_Access_PrivilegeChecker();
+        } catch (Exception $e) {
+            $this->_helper->getHelper('FlashMessenger')
+                ->addMessage('Acesso negado');          
+            $this->_redirect('/projects' . $id);            
+        }
+    }
+
     public function init()
     {
         $this->db = Zend_Registry::get('db');

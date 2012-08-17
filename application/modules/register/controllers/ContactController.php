@@ -5,6 +5,17 @@ class Register_ContactController extends Zend_Controller_Action
     private $contactMapper;
     private $db;
 
+    public function preDispatch()
+    {
+        try {
+            $checker = new C3op_Access_PrivilegeChecker();
+        } catch (Exception $e) {
+            $this->_helper->getHelper('FlashMessenger')
+                ->addMessage('Acesso negado');          
+            $this->_redirect('/register' . $id);            
+        }
+    }
+    
     public function init()
     {
         $this->db = Zend_Registry::get('db');
