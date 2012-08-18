@@ -1,5 +1,5 @@
 <?php
-class C3op_Projects_ReceivableMapperException extends RuntimeException 
+class C3op_Projects_ReceivableMapperException extends RuntimeException
 {
 }
 

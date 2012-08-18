@@ -1,7 +1,7 @@
 <?php
 
 class C3op_Projects_HumanResourceStatusTypes {
-    
+
     private static $status = array(
         C3op_Projects_HumanResourceStatusConstants::STATUS_NIL => "Nulo",
         C3op_Projects_HumanResourceStatusConstants::STATUS_UNDEFINED => "Indefinido",
@@ -10,7 +10,7 @@ class C3op_Projects_HumanResourceStatusTypes {
         C3op_Projects_HumanResourceStatusConstants::STATUS_ACQUITTED => "Quitado",
         C3op_Projects_HumanResourceStatusConstants::STATUS_CANCEL => "Cancelado",
     );
-    
+
     public static function TitleForType($type)
     {
             switch ($type) {
@@ -22,15 +22,15 @@ class C3op_Projects_HumanResourceStatusTypes {
                 case C3op_Projects_HumanResourceStatusConstants::STATUS_CANCEL:
                     return self::$status[$type];
                     break;
-                
+
                 default:
                     return "Tipo desconhecido";
                     break;
             }
     }
-    
+
     public static function AllStatus()
     {
-        return self::$status;        
-    }   
+        return self::$status;
+    }
 }

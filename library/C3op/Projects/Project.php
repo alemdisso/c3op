@@ -2,7 +2,7 @@
 
 class C3op_Projects_Project
 {
-	
+
     protected $id;
     protected $title;
     protected $client;
@@ -19,8 +19,8 @@ class C3op_Projects_Project
     protected $object;
     protected $summary;
     protected $observation;
-    
-	
+
+
     function __construct($id=0) {
         $this->id = (int)$id;
         $this->title = "";
@@ -47,7 +47,7 @@ class C3op_Projects_Project
     {
         return $this->title;
     } //GetTitle
-	
+
     public function SetTitle($title)
     {
         $validator = new C3op_Projects_ProjectValidTitle();
@@ -64,8 +64,8 @@ class C3op_Projects_Project
     {
         return $this->client;
     }
-	
-    public function SetClient($client) 
+
+    public function SetClient($client)
     {
         if ($this->client != $client) {
             $validator = new C3op_Util_ValidPositiveInteger();
@@ -79,8 +79,8 @@ class C3op_Projects_Project
     {
         return $this->ourResponsible;
     }
-	
-    public function SetOurResponsible($ourResponsible) 
+
+    public function SetOurResponsible($ourResponsible)
     {
         if ($this->ourResponsible != $ourResponsible) {
             $validator = new C3op_Util_ValidPositiveInteger();
@@ -89,13 +89,13 @@ class C3op_Projects_Project
             }
         }
     }
-    
+
     public function GetResponsibleAtClient()
     {
         return $this->responsibleAtClient;
     }
-	
-    public function SetResponsibleAtClient($responsibleAtClient) 
+
+    public function SetResponsibleAtClient($responsibleAtClient)
     {
         if ($this->responsibleAtClient != $responsibleAtClient) {
             $validator = new C3op_Util_ValidPositiveInteger();
@@ -104,12 +104,12 @@ class C3op_Projects_Project
             }
         }
     }
-    
+
     public function GetBeginDate()
     {
         return $this->beginDate;
     } //GetBeginDate
-	
+
     public function SetBeginDate($beginDate)
     {
         if ($beginDate != "") {
@@ -128,7 +128,7 @@ class C3op_Projects_Project
     {
         return $this->finishDate;
     } //GetFinishDate
-	
+
     public function SetFinishDate($finishDate)
     {
         if ($finishDate != "") {
@@ -143,10 +143,10 @@ class C3op_Projects_Project
         }
     } //SetFinishDate
 
-    public function SetValue($value) 
+    public function SetValue($value)
     {
         $validator = new C3op_Util_ValidPositiveFloat();
-        
+
         if ($validator->isValid($value)) {
             $this->value = (float) $value;
         } else {
@@ -154,15 +154,15 @@ class C3op_Projects_Project
         }
     }
 
-    public function GetValue() 
+    public function GetValue()
     {
         return $this->value;
     }
 
-    public function SetStatus($status) 
+    public function SetStatus($status)
     {
         $validator = new C3op_Util_ValidPositiveFloat();
-        
+
         if ($validator->isValid($status)) {
             $this->status = (float) $status;
         } else {
@@ -170,17 +170,17 @@ class C3op_Projects_Project
         }
     }
 
-    public function GetStatus() 
+    public function GetStatus()
     {
         return $this->status;
     }
-    
-    public function GetContractNature() 
+
+    public function GetContractNature()
     {
         return $this->contractNature;
     }
-    
-    public function SetContractNature($contractNature) 
+
+    public function SetContractNature($contractNature)
     {
         switch ($contractNature) {
             case C3op_Projects_ContractNatureConstants::NATURE_CONTRACT:
@@ -192,26 +192,26 @@ class C3op_Projects_Project
             case C3op_Projects_ContractNatureConstants::NATURE_OTHER:
                 $this->contractNature = (int)$contractNature;
                 break;
-            
+
             case null:
             case "":
             case 0:
             case false:
                 $this->type = null;
                 break;
-                 
+
             default:
                 throw new C3op_Projects_ProjectException("Invalid contract nature.");
                 break;
         }
     }
-    
+
     public function GetAreaActivity()
     {
         return $this->areaActivity;
     }
-	
-    public function SetAreaActivity($areaActivity) 
+
+    public function SetAreaActivity($areaActivity)
     {
         if ($this->areaActivity != $areaActivity) {
             $validator = new C3op_Util_ValidPositiveInteger();
@@ -220,11 +220,11 @@ class C3op_Projects_Project
             }
         }
     }
-        
-    public function SetOverhead($overhead) 
+
+    public function SetOverhead($overhead)
     {
         $validator = new C3op_Util_ValidPositiveFloat();
-        
+
         if ($validator->isValid($overhead)) {
             $this->overhead = (float) $overhead;
         } else {
@@ -232,15 +232,15 @@ class C3op_Projects_Project
         }
     }
 
-    public function GetOverhead() 
+    public function GetOverhead()
     {
         return $this->overhead;
     }
 
-    public function SetManagementFee($managementFee) 
+    public function SetManagementFee($managementFee)
     {
         $validator = new C3op_Util_ValidPositiveFloat();
-        
+
         if ($validator->isValid($managementFee)) {
             $this->managementFee = (float) $managementFee;
         } else {
@@ -248,16 +248,16 @@ class C3op_Projects_Project
         }
     }
 
-    public function GetManagementFee() 
+    public function GetManagementFee()
     {
         return $this->managementFee;
     }
-    
+
     public function GetObject()
     {
         return $this->object;
     } //GetObject
-	
+
     public function SetObject($object)
     {
         $validator = new C3op_Util_ValidLongString();
@@ -274,7 +274,7 @@ class C3op_Projects_Project
     {
         return $this->summary;
     } //GetSummary
-	
+
     public function SetSummary($summary)
     {
         $validator = new C3op_Util_ValidLongString();
@@ -291,7 +291,7 @@ class C3op_Projects_Project
     {
         return $this->observation;
     } //GetObservation
-	
+
     public function SetObservation($observation)
     {
         $validator = new C3op_Util_ValidLongString();
@@ -304,6 +304,6 @@ class C3op_Projects_Project
         }
     } //SetObservation
 
-   
-    
+
+
 }

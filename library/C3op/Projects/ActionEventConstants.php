@@ -13,9 +13,9 @@ class C3op_Projects_ActionEventConstants
     const EVENT_CONFIRM_REALIZATION = 500;
     const EVENT_REGISTER_DELIVERY = 600;
     const EVENT_COMPLETE_ACTION = 700;
-    
-    const EVENT_DISMISS_RESOURCE = 1100;    
-    const EVENT_HALT_EXECUTION = 1200;    
+
+    const EVENT_DISMISS_RESOURCE = 1100;
+    const EVENT_HALT_EXECUTION = 1200;
     const EVENT_REJECT_RECEIPT = 1300;
     const EVENT_CANCEL_ACTION = 1400;
  }

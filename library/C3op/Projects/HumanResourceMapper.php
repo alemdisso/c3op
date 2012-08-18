@@ -1,10 +1,10 @@
 <?php
 
 class C3op_Projects_HumanResourceMapper {
-    
+
     protected $db;
     protected $identityMap;
-	
+
     function __construct() {
         $this->db = Zend_Registry::get('db');
         $this->identityMap = new SplObjectStorage;
@@ -14,10 +14,10 @@ class C3op_Projects_HumanResourceMapper {
         $result = array();
             foreach ($this->db->query('SELECT id FROM projects_human_resources;') as $row) {
             $result[] = $row['id'];
-        }        
+        }
         return $result;
     }
-    
+
     public function insert(C3op_Projects_HumanResource $new) {
         $data = array(
             'action' => $new->GetAction(),
@@ -29,17 +29,17 @@ class C3op_Projects_HumanResourceMapper {
         $this->db->insert('projects_human_resources', $data);
         $new->SetId((int)$this->db->lastInsertId());
         $this->identityMap[$new] = $new->GetId();
-        
+
     }
-    
+
     public function update(C3op_Projects_HumanResource $i) {
         if (!isset($this->identityMap[$i])) {
             throw new C3op_Projects_HumanResourceMapperException('Object has no ID, cannot update.');
         }
         $sql = sprintf(
-                    'UPDATE projects_human_resources SET action = %d, 
+                    'UPDATE projects_human_resources SET action = %d,
                         description =  \'%s\',
-                        contact = %d, 
+                        contact = %d,
                         value =  %f,
                         status = %d
                          WHERE id = %d;',
@@ -56,8 +56,8 @@ class C3op_Projects_HumanResourceMapper {
             throw new C3op_Projects_HumanResourceException("$sql failed");
         }
 
-    }    
-    
+    }
+
     public function findById($id) {
         $this->identityMap->rewind();
         while ($this->identityMap->valid()) {
@@ -66,7 +66,7 @@ class C3op_Projects_HumanResourceMapper {
             }
             $this->identityMap->next();
         }
-        
+
         $result = $this->db->fetchRow(
             sprintf(
                 'SELECT action, description, contact, value, status
@@ -78,7 +78,7 @@ class C3op_Projects_HumanResourceMapper {
             throw new C3op_Projects_HumanResourceMapperException(sprintf('There is no Human Resource with id #%d.', $id));
         }
         $obj = new C3op_Projects_HumanResource();
-        
+
         $this->setAttributeValue($obj, $id, 'id');
         $this->setAttributeValue($obj, $result['action'], 'action');
         $this->setAttributeValue($obj, $result['description'], 'description');
@@ -87,7 +87,7 @@ class C3op_Projects_HumanResourceMapper {
         $this->setAttributeValue($obj, $result['status'], 'status');
 
         $this->identityMap[$obj] = $id;
-        return $obj;        
+        return $obj;
 
         $this->FetchDates($obj);
     }
@@ -116,17 +116,17 @@ class C3op_Projects_HumanResourceMapper {
             foreach ($this->db->query(
                     sprintf('SELECT id FROM projects_human_resources WHERE action = %d;', $a->GetId())) as $row) {
             $result[] = $row['id'];
-        }        
+        }
         return $result;
     }
-    
+
    private function setAttributeValue(C3op_Projects_HumanResource $i, $fieldValue, $attributeName)
     {
         $attribute = new ReflectionProperty($i, $attributeName);
         $attribute->setAccessible(TRUE);
         $attribute->setValue($i, $fieldValue);
     }
-    
+
     public function getAllOutlays(C3op_Projects_HumanResource $h)
     {
         $result = array();

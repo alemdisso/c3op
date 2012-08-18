@@ -1,14 +1,14 @@
 <?php
 
 class C3op_Projects_ActionEvent {
-	
+
     protected $id;
     protected $action;
     protected $done=false;
     protected $type=0;
     protected $observation;
     protected $responsible = 0;
-    
+
     function __construct($action, $id=0)
     {
         $this->action = $action;
@@ -48,12 +48,12 @@ class C3op_Projects_ActionEvent {
 
     } //SetAction
 
-    public function GetType() 
+    public function GetType()
     {
         return $this->type;
     }
-    
-    public function SetType($type) 
+
+    public function SetType($type)
     {
         switch ($type) {
             case C3op_Projects_ActionEventConstants::EVENT_PLANNING:
@@ -73,25 +73,25 @@ class C3op_Projects_ActionEvent {
             case C3op_Projects_ActionEventConstants::EVENT_CANCEL_ACTION:
                 $this->type = (int)$type;
                 break;
-            
+
             case null:
             case "":
             case 0:
             case false:
                 $this->type = null;
                 break;
-                 
+
             default:
                 throw new C3op_Projects_ActionEventException("Invalid action\'s event type.");
                 break;
         }
     }
-    
+
     public function GetObservation()
     {
         return $this->observation;
     } //GetObservation
-	
+
     public function SetObservation($observation)
     {
         $validator = new C3op_Util_ValidLongString();
@@ -108,8 +108,8 @@ class C3op_Projects_ActionEvent {
     {
         return $this->responsible;
     }
-	
-    public function SetResponsible($responsible) 
+
+    public function SetResponsible($responsible)
     {
         if ($this->responsible != $responsible) {
             $validator = new C3op_Util_ValidPositiveInteger();
@@ -118,10 +118,10 @@ class C3op_Projects_ActionEvent {
             }
         }
     }
-    
+
     public function GetTimestamp()
     {
         return $this->timestamp;
     }
-	
+
 }

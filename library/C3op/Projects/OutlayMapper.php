@@ -1,10 +1,10 @@
 <?php
 
 class C3op_Projects_OutlayMapper
-{    
+{
     protected $db;
     protected $identityMap;
-	
+
     function __construct()
     {
         $this->db = Zend_Registry::get('db');
@@ -16,10 +16,10 @@ class C3op_Projects_OutlayMapper
         $result = array();
         foreach ($this->db->query('SELECT id FROM projects_outlays;') as $row) {
             $result[] = $row['id'];
-        }        
+        }
         return $result;
     }
-    
+
     public function insert(C3op_Projects_Outlay $new)
     {
         $data = array(
@@ -34,15 +34,15 @@ class C3op_Projects_OutlayMapper
         $this->db->insert('projects_outlays', $data);
         $new->SetId((int)$this->db->lastInsertId());
         $this->identityMap[$new] = $new->GetId();
-        
+
     }
-    
+
     public function update(C3op_Projects_Outlay $o)
     {
         if (!isset($this->identityMap[$o])) {
             throw new C3op_Projects_OutlayMapperException('Object has no ID, cannot update.');
         }
-        
+
         $this->db->exec(
             sprintf(
                 'UPDATE projects_outlays SET project = %d, action = %d, human_resource = %d, predicted_value = %.2f, predicted_date = \'%s\', recurrent = %d, observation = \'%s\' WHERE id = %d;',
@@ -57,8 +57,8 @@ class C3op_Projects_OutlayMapper
             )
         );
 
-    }    
-    
+    }
+
     public function findById($id)
     {
         $this->identityMap->rewind();
@@ -68,7 +68,7 @@ class C3op_Projects_OutlayMapper
             }
             $this->identityMap->next();
         }
-        
+
         $result = $this->db->fetchRow(
             sprintf(
                 'SELECT  project, action, human_resource, predicted_value, predicted_date, recurrent, observation FROM projects_outlays WHERE id = %d;',
@@ -88,7 +88,7 @@ class C3op_Projects_OutlayMapper
         $this->setAttributeValue($r, $result['observation'], 'observation');
 
         $this->identityMap[$r] = $id;
-        return $r;        
+        return $r;
 
     }
 
@@ -105,7 +105,7 @@ class C3op_Projects_OutlayMapper
         );
         unset($this->identityMap[$a]);
     }
-    
+
 
     private function setAttributeValue(C3op_Projects_Outlay $a, $fieldValue, $attributeName)
     {
@@ -113,16 +113,16 @@ class C3op_Projects_OutlayMapper
         $attribute->setAccessible(TRUE);
         $attribute->setValue($a, $fieldValue);
     }
-    
+
      public function getAllOutlaysForHumanResource(C3op_Projects_HumanResource $h) {
         $result = array();
             foreach ($this->db->query(
                     sprintf('SELECT id FROM projects_outlays WHERE human_resource = %d;', $h->GetId())) as $row) {
             $result[] = $row['id'];
-        }        
+        }
         return $result;
     }
 
 
-    
+
 }

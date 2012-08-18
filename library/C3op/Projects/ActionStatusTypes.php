@@ -1,7 +1,7 @@
 <?php
 
 class C3op_Projects_ActionStatusTypes {
-    
+
     private static $status = array(
         C3op_Projects_ActionStatusConstants::STATUS_NIL => "Nula",
         C3op_Projects_ActionStatusConstants::STATUS_PLAN => "Em Planejamento",
@@ -12,7 +12,7 @@ class C3op_Projects_ActionStatusTypes {
         C3op_Projects_ActionStatusConstants::STATUS_COMPLETE => "Completa",
         C3op_Projects_ActionStatusConstants::STATUS_ABORT => "Abortada",
     );
-    
+
     public static function TitleForType($type)
     {
             switch ($type) {
@@ -26,15 +26,15 @@ class C3op_Projects_ActionStatusTypes {
                 case C3op_Projects_ActionStatusConstants::STATUS_ABORT:
                     return self::$status[$type];
                     break;
-                
+
                 default:
                     return "Tipo desconhecido";
                     break;
             }
     }
-    
+
     public static function AllStatus()
     {
-        return self::$status;        
-    }   
+        return self::$status;
+    }
 }

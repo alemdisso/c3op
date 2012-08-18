@@ -1,7 +1,7 @@
 <?php
 
 class C3op_Projects_ProjectStatusTypes {
-    
+
     private static $titles = array(
         C3op_Projects_ProjectStatusConstants::STATUS_PROSPECTING => "Prospecção",
         C3op_Projects_ProjectStatusConstants::STATUS_PLANNING => "Planejamento",
@@ -11,7 +11,7 @@ class C3op_Projects_ProjectStatusTypes {
         C3op_Projects_ProjectStatusConstants::STATUS_CANCELED => "Cancelado",
         C3op_Projects_ProjectStatusConstants::STATUS_SUSPENDED => "Suspenso",
     );
-    
+
     public static function TitleForType($type)
     {
             switch ($type) {
@@ -24,15 +24,15 @@ class C3op_Projects_ProjectStatusTypes {
                 case C3op_Projects_ProjectStatusConstants::STATUS_SUSPENDED:
                     return self::$titles[$type];
                     break;
-                
+
                 default:
                     return "Tipo desconhecido";
                     break;
             }
     }
-    
+
     public static function AllTitles()
     {
-        return self::$titles;        
-    }   
+        return self::$titles;
+    }
 }

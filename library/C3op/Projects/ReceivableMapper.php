@@ -2,10 +2,10 @@
 
 class C3op_Projects_ReceivableMapper
 {
-    
+
     protected $db;
     protected $identityMap;
-	
+
     function __construct()
     {
         $this->db = Zend_Registry::get('db');
@@ -17,10 +17,10 @@ class C3op_Projects_ReceivableMapper
         $result = array();
         foreach ($this->db->query('SELECT id FROM projects_receivables;') as $row) {
             $result[] = $row['id'];
-        }        
+        }
         return $result;
     }
-    
+
     public function insert(C3op_Projects_Receivable $new)
     {
         $data = array(
@@ -34,9 +34,9 @@ class C3op_Projects_ReceivableMapper
         $this->db->insert('projects_receivables', $data);
         $new->SetId((int)$this->db->lastInsertId());
         $this->identityMap[$new] = $new->GetId();
-        
+
     }
-    
+
     public function update(C3op_Projects_Receivable $r)
     {
         if (!isset($this->identityMap[$r])) {
@@ -55,8 +55,8 @@ class C3op_Projects_ReceivableMapper
             )
         );
 
-    }    
-    
+    }
+
     public function findById($id)
     {
         $this->identityMap->rewind();
@@ -66,7 +66,7 @@ class C3op_Projects_ReceivableMapper
             }
             $this->identityMap->next();
         }
-        
+
         $result = $this->db->fetchRow(
             sprintf(
                 'SELECT title, project, predicted_date, real_date, predicted_value, real_value FROM projects_receivables WHERE id = %d;',
@@ -77,7 +77,7 @@ class C3op_Projects_ReceivableMapper
             throw new C3op_Projects_ReceivableMapperException(sprintf('There is no receivable with id #%d.', $id));
         }
         $project = $result['project'];
-        
+
         $r = new C3op_Projects_Receivable($result['project'], $result['predicted_date'], $result['predicted_value'], $id);
         $this->setAttributeValue($r, $id, 'id');
         $this->setAttributeValue($r, $result['title'], 'title');
@@ -85,7 +85,7 @@ class C3op_Projects_ReceivableMapper
         $this->setAttributeValue($r, $result['real_value'], 'realValue');
 
         $this->identityMap[$r] = $id;
-        return $r;        
+        return $r;
 
     }
 
@@ -102,7 +102,7 @@ class C3op_Projects_ReceivableMapper
         );
         unset($this->identityMap[$a]);
     }
-    
+
 
     private function setAttributeValue(C3op_Projects_Receivable $a, $fieldValue, $attributeName)
     {
@@ -110,7 +110,7 @@ class C3op_Projects_ReceivableMapper
         $attribute->setAccessible(TRUE);
         $attribute->setValue($a, $fieldValue);
     }
-    
+
     public function getAllProducts(C3op_Projects_Receivable $r)
     {
         $result = array();
@@ -126,5 +126,5 @@ class C3op_Projects_ReceivableMapper
         return $result;
     }
 
-    
+
 }

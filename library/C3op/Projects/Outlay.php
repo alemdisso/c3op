@@ -2,7 +2,7 @@
 
 class C3op_Projects_Outlay
 {
-	
+
     protected $id;
     protected $project;
     protected $action;
@@ -11,7 +11,7 @@ class C3op_Projects_Outlay
     protected $predictedValue;
     protected $recurrent;
     protected $observation;
-	
+
     function __construct($humanResource, $id=0) {
         $this->id = (int)$id;
         $this->humanResource = $humanResource;
@@ -35,8 +35,8 @@ class C3op_Projects_Outlay
     {
         return $this->project;
     }
-	
-    public function SetProject($project) 
+
+    public function SetProject($project)
     {
         if ($this->project != $project) {
             $validator = new C3op_Util_ValidPositiveInteger();
@@ -45,40 +45,40 @@ class C3op_Projects_Outlay
             }
         }
     }
-    
+
     public function GetAction()
     {
         return $this->action;
     }
-    
-    public function SetAction($action) 
+
+    public function SetAction($action)
     {
         $this->action = $action;
     }
-    
+
     public function GetHumanResource()
     {
         return $this->humanResource;
     }
-    
-    public function SetHumanResource($humanResource) 
+
+    public function SetHumanResource($humanResource)
     {
         $this->humanResource = $humanResource;
     }
-    
-    public function GetPredictedValue() 
+
+    public function GetPredictedValue()
     {
         return $this->predictedValue;
-        
+
     }
-    
-    public function SetPredictedValue($predictedValue) 
+
+    public function SetPredictedValue($predictedValue)
     {
         if ($predictedValue >= 0) {
             $this->predictedValue = (float) $predictedValue;
         } else {
             throw new C3op_Projects_OutlayException("Value must be a positive number.");
-            
+
         }
     }
 
@@ -87,10 +87,10 @@ class C3op_Projects_Outlay
         return $this->predictedDate;
 
     } //GetPredictedDate
-	
+
     public function SetPredictedDate($predictedDate)
     {
-    
+
         $dateValidator = new C3op_Util_ValidDate();
         if ($dateValidator->isValid($predictedDate)) {
             if ($this->predictedDate != $predictedDate) {
@@ -105,17 +105,17 @@ class C3op_Projects_Outlay
     {
         return $this->recurrent;
     }
-    
-    public function SetRecurrent($recurrent) 
+
+    public function SetRecurrent($recurrent)
     {
         $this->recurrent = $recurrent;
     }
-    
+
   public function GetObservation()
     {
         return $this->observation;
     } //GetObservation
-	
+
     public function SetObservation($observation)
     {
         $validator = new C3op_Util_ValidLongString();
@@ -128,8 +128,8 @@ class C3op_Projects_Outlay
         }
     } //SetObservation
 
-   
-     
-    
-    
+
+
+
+
 }

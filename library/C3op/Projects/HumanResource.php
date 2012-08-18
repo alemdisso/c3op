@@ -1,7 +1,7 @@
 <?php
 
 class C3op_Projects_HumanResource {
-	
+
     protected $id;
     protected $action;
     protected $description;
@@ -33,7 +33,7 @@ class C3op_Projects_HumanResource {
     public function GetAction() {
         return $this->action;
     } //GetAction
-	
+
     public function SetAction($action) {
         $validator = new C3op_Util_ValidPositiveInteger();
         if ($validator->isValid($action)) {
@@ -49,7 +49,7 @@ class C3op_Projects_HumanResource {
     public function GetDescription() {
         return $this->description;
     } //GetDescription
-	
+
     public function SetDescription($description) {
         $validator = new C3op_Util_ValidString();
         if ($validator->isValid($description)) {
@@ -64,7 +64,7 @@ class C3op_Projects_HumanResource {
     public function GetContact() {
         return $this->contact;
     } //GetContact
-	
+
     public function SetContact($contact) {
         $validator = new C3op_Util_ValidPositiveInteger();
         if ($validator->isValid($contact)) {
@@ -75,7 +75,7 @@ class C3op_Projects_HumanResource {
                 } else {
                     if ($this->GetStatus() != C3op_Projects_HumanResourceStatusConstants::STATUS_CANCEL) {
                         $this->SetStatus(C3op_Projects_HumanResourceStatusConstants::STATUS_UNDEFINED);
-                        
+
                     }
                 }
             }
@@ -88,7 +88,7 @@ class C3op_Projects_HumanResource {
     public function GetValue() {
         return $this->value;
     } //GetValue
-	
+
     public function SetValue($value) {
         $validator = new C3op_Util_ValidPositiveFloat();
         if ($validator->isValid($value)) {
@@ -97,11 +97,11 @@ class C3op_Projects_HumanResource {
             $this->value = "";
         }
     } //SetValue
-    
+
     public function GetStatus() {
         return $this->status;
     } //GetStatus
-	
+
     public function SetStatus($status) {
         $validator = new C3op_Util_ValidPositiveInteger();
         if ($validator->isValid($status)) {
@@ -114,10 +114,10 @@ class C3op_Projects_HumanResource {
 
     } //SetStatus
 
-    public function Realize() 
+    public function Realize()
     {
         $this->SetDone(true);
-        
+
     }
-    
+
 }

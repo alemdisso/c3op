@@ -1,7 +1,7 @@
 <?php
 
 class C3op_Projects_ActionEventTypes {
-    
+
     private static $types = array(
         C3op_Projects_ActionEventConstants::EVENT_PLANNING => "Entrando em planejamento",
         C3op_Projects_ActionEventConstants::EVENT_PLANNED_BEGIN_DATE_CHANGE => "Mudança da data de início prevista",
@@ -19,7 +19,7 @@ class C3op_Projects_ActionEventTypes {
         C3op_Projects_ActionEventConstants::EVENT_REJECT_DELIVERY => "Reprova entrega",
         C3op_Projects_ActionEventConstants::EVENT_CANCEL_ACTION => "Cancela ação",
     );
-    
+
     public static function TitleForType($type)
     {
             switch ($type) {
@@ -40,15 +40,15 @@ class C3op_Projects_ActionEventTypes {
                 case C3op_Projects_ActionEventConstants::EVENT_CANCEL_ACTION:
                     return self::$types[$type];
                     break;
-                
+
                 default:
                     return "Tipo desconhecido";
                     break;
             }
     }
-    
+
     public static function AllTypes()
     {
-        return self::$types;        
-    }   
+        return self::$types;
+    }
 }

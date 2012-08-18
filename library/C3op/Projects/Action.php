@@ -1,7 +1,7 @@
 <?php
 
 class C3op_Projects_Action {
-	
+
     protected $id;
     protected $title = "";
     protected $project;
@@ -18,7 +18,7 @@ class C3op_Projects_Action {
     protected $realBeginDate = "0000-00-00";
     protected $realFinishDate = "0000-00-00";
     protected $receiptDate = null;
-    
+
     function __construct($project, $id=0)
     {
         $this->project = $project;
@@ -42,13 +42,13 @@ class C3op_Projects_Action {
 
     } //SetId
 
-    public function GetTitle() 
+    public function GetTitle()
     {
         return $this->title;
 
     } //GetTitle
-	
-    public function SetTitle($title) 
+
+    public function SetTitle($title)
     {
         $validator = new C3op_Projects_ProjectValidTitle();
         if ($validator->isValid($title)) {
@@ -65,13 +65,13 @@ class C3op_Projects_Action {
     {
         return $this->project;
     }
-	
-    public function SetProject($project) 
+
+    public function SetProject($project)
     {
         $this->project = $project;
     }
-    
-    public function SetDone($done) 
+
+    public function SetDone($done)
     {
         if ($done) {
             $this->done = $done;
@@ -79,20 +79,20 @@ class C3op_Projects_Action {
             $this->done = 0;
         }
     }
-    
+
     public function GetDone()
     {
         return $this->done;
     }
-    
-    public function GetStatus() 
+
+    public function GetStatus()
     {
         return $this->status;
     }
-    
-    public function SetStatus($status) 
+
+    public function SetStatus($status)
     {
-        
+
         switch ($status) {
             case C3op_Projects_ActionStatusConstants::STATUS_NIL:
             case C3op_Projects_ActionStatusConstants::STATUS_PLAN:
@@ -104,25 +104,25 @@ class C3op_Projects_Action {
             case C3op_Projects_ActionStatusConstants::STATUS_ABORT:
                 $this->status = (int)$status;
                 break;
-            
+
             case null:
             case "":
             case 0:
             case false:
                 $this->type = null;
                 break;
-                 
+
             default:
                 throw new C3op_Projects_ActionException("Invalid action status.");
                 break;
         }
     }
-    
+
     public function GetDescription()
     {
         return $this->description;
     } //GetDescription
-	
+
     public function SetDescription($description)
     {
         $validator = new C3op_Util_ValidLongString();
@@ -139,7 +139,7 @@ class C3op_Projects_Action {
     {
         return $this->begin;
     } //GetBegin
-	
+
     public function SetBegin($begin)
     {
         if ($begin != "") {
@@ -154,23 +154,23 @@ class C3op_Projects_Action {
         }
     } //SetBegin
 
-    public function SetSubordinatedTo($subordinatedTo) 
+    public function SetSubordinatedTo($subordinatedTo)
     {
         $this->subordinatedTo = $subordinatedTo;
     }
-    
+
     public function GetSubordinatedTo()
     {
         return $this->subordinatedTo;
     }
-    
-    
+
+
     public function GetResponsible()
     {
         return $this->responsible;
     }
-	
-    public function SetResponsible($responsible) 
+
+    public function SetResponsible($responsible)
     {
         if ($this->responsible != $responsible) {
             $validator = new C3op_Util_ValidPositiveInteger();
@@ -179,8 +179,8 @@ class C3op_Projects_Action {
             }
         }
     }
-    
-    public function SetMilestone($milestone) 
+
+    public function SetMilestone($milestone)
     {
         if ($milestone) {
             $this->milestone = $milestone;
@@ -188,13 +188,13 @@ class C3op_Projects_Action {
             $this->milestone = 0;
         }
     }
-    
+
     public function GetMilestone()
     {
         return $this->milestone;
     }
-    
-    public function SetRequirementForReceiving($requirementForReceiving) 
+
+    public function SetRequirementForReceiving($requirementForReceiving)
     {
         if ($requirementForReceiving) {
             $this->requirementForReceiving = $requirementForReceiving;
@@ -202,17 +202,17 @@ class C3op_Projects_Action {
             $this->requirementForReceiving = 0;
         }
     }
-    
+
     public function GetRequirementForReceiving()
     {
         return $this->requirementForReceiving;
     }
-    
+
     public function GetPredictedBeginDate()
     {
         return $this->predictedBeginDate;
     } //GetPredictedBeginDate
-	
+
     public function SetPredictedBeginDate($predictedBeginDate)
     {
         if ($predictedBeginDate != "") {
@@ -231,7 +231,7 @@ class C3op_Projects_Action {
     {
         return $this->predictedFinishDate;
     } //GetPredictedFinishDate
-	
+
     public function SetPredictedFinishDate($predictedFinishDate)
     {
         if ($predictedFinishDate != "") {
@@ -250,7 +250,7 @@ class C3op_Projects_Action {
     {
         return $this->realBeginDate;
     } //GetRealBeginDate
-	
+
     public function SetRealBeginDate($realBeginDate)
     {
         if ($realBeginDate != "") {
@@ -269,7 +269,7 @@ class C3op_Projects_Action {
     {
         return $this->realFinishDate;
     } //GetRealFinishDate
-	
+
     public function SetRealFinishDate($realFinishDate)
     {
         if ($realFinishDate != "") {
@@ -284,21 +284,21 @@ class C3op_Projects_Action {
         }
     } //SetRealFinishDate
 
-    public function Realize() 
+    public function Realize()
     {
         $this->SetDone(true);
-        
+
     }
-    
+
     public function GetReceiptDate(C3op_Projects_ActionMapper $actionMapper)
     {
- 
+
         if (is_null($this->receiptDate)) {
             $actionMapper->FetchLastReceiptDate($this);
         }
-        
+
         return $this->receiptDate;
     } //GetRealFinishDate
-	
-    
+
+
 }

@@ -2,10 +2,10 @@
 
 class C3op_Projects_ProjectMapper
 {
-    
+
     protected $db;
     protected $identityMap;
-	
+
     function __construct() {
         $this->db = Zend_Registry::get('db');
         $this->identityMap = new SplObjectStorage;
@@ -15,10 +15,10 @@ class C3op_Projects_ProjectMapper
         $result = array();
         foreach ($this->db->query('SELECT id FROM projects_projects;') as $row) {
             $result[] = $row['id'];
-        }        
+        }
         return $result;
     }
-    
+
     public function insert(C3op_Projects_Project $new) {
         $data = array(
             'title' => $new->getTitle(),
@@ -37,13 +37,13 @@ class C3op_Projects_ProjectMapper
             'summary' => $new->GetSummary(),
             'observation' => $new->GetObservation(),
             );
-        
+
         $this->db->insert('projects_projects', $data);
         $new->SetId((int)$this->db->lastInsertId());
         $this->identityMap[$new] = $new->GetId();
-        
+
     }
-    
+
     public function update(C3op_Projects_Project $p) {
         if (!isset($this->identityMap[$p])) {
             throw new C3op_Projects_ProjectMapperException('Object has no ID, cannot update.');
@@ -57,11 +57,11 @@ class C3op_Projects_ProjectMapper
                     , begin_date = \'%s\'
                     , finish_date = \'%s\'
                     , status = %d
-                    , value = %f 
+                    , value = %f
                     , contract_nature = %d
                     , area_activity = %d
-                    , overhead = %f 
-                    , management_fee = %f 
+                    , overhead = %f
+                    , management_fee = %f
                     , object = \'%s\'
                     , summary = \'%s\'
                     , observation = \'%s\'
@@ -84,8 +84,8 @@ class C3op_Projects_ProjectMapper
                 $this->identityMap[$p]
             )
         );
-    }    
-    
+    }
+
     public function findById($id) {
         $this->identityMap->rewind();
         while ($this->identityMap->valid()) {
@@ -94,7 +94,7 @@ class C3op_Projects_ProjectMapper
             }
             $this->identityMap->next();
         }
-        
+
         $result = $this->db->fetchRow(
             sprintf(
                 'SELECT title
@@ -119,7 +119,7 @@ class C3op_Projects_ProjectMapper
             throw new C3op_Projects_ProjectMapperException(sprintf('There is no project with id #%d.', $id));
         }
         $p = new C3op_Projects_Project();
-        
+
         $this->setAttributeValue($p, $id, 'id');
         $this->setAttributeValue($p, $result['title'], 'title');
         $this->setAttributeValue($p, $result['client'], 'client');
@@ -136,9 +136,9 @@ class C3op_Projects_ProjectMapper
         $this->setAttributeValue($p, $result['object'], 'object');
         $this->setAttributeValue($p, $result['summary'], 'summary');
         $this->setAttributeValue($p, $result['observation'], 'observation');
-        
+
         $this->identityMap[$p] = $id;
-        return $p;        
+        return $p;
     }
 
     public function delete(C3op_Projects_Project $p) {
@@ -153,7 +153,7 @@ class C3op_Projects_ProjectMapper
         );
         unset($this->identityMap[$p]);
     }
-    
+
     public function getAllActions(C3op_Projects_Project $p)
     {
         $result = array();
@@ -165,11 +165,11 @@ class C3op_Projects_ProjectMapper
                 )
                 as $row) {
             $result[] = $row['id'];
-        }        
+        }
 
         return $result;
     }
-    
+
     public function getAllProducts(C3op_Projects_Project $p)
     {
         $result = array();
@@ -213,17 +213,17 @@ class C3op_Projects_ProjectMapper
                     )
                     as $row) {
                 $result[] = $row['id'];
-            }        
+            }
 
             return $result;
         } else throw new C3op_Projects_ActionMapperException("invalid action id to find subordinated for");
     }
- 
+
     public function getAllProductsOf(C3op_Projects_Project $p)
     {
             return $this->getAllActionsSubordinatedTo($p, 0);
     }
- 
+
     private function setAttributeValue(C3op_Projects_Project $p, $fieldValue, $attributeName)
     {
         $attribute = new ReflectionProperty($p, $attributeName);
@@ -233,7 +233,7 @@ class C3op_Projects_ProjectMapper
 
     public function getAllOutlaysRelatedToDoneActions(C3op_Projects_Project $p) {
         $result = array();
-        
+
         foreach ($this->db->query(sprintf('SELECT o.id, o.predicted_date
                     FROM projects_outlays o
                     INNER JOIN projects_actions a ON a.id = o.action
@@ -241,45 +241,45 @@ class C3op_Projects_ProjectMapper
                     WHERE a.done = 1 AND o.project = %d AND h.contact > 0 ORDER BY o.predicted_date', $p->GetId()
                 )) as $row) {
             $result[] = $row['id'];
-        }        
+        }
         return $result;
     }
-    
+
     public function getAllDoneActions(C3op_Projects_Project $p) {
         $result = array();
-        
+
         foreach ($this->db->query(sprintf('SELECT a.id
                     FROM projects_actions a
                     WHERE a.done = 1 AND a.project = %d ', $p->GetId()
                 )) as $row) {
             $result[] = $row['id'];
-        }        
-        
+        }
+
         return $result;
     }
-    
+
     public function getAllUnacknowledgededActions(C3op_Projects_Project $p
                                         , C3op_Projects_ActionMapper $actionMapper) {
         $result = array();
-        
+
         foreach ($this->db->query(sprintf('SELECT a.id
-                    FROM projects_actions a 
+                    FROM projects_actions a
                     INNER JOIN projects_actions_dates d
                     ON a.id = d.action
                     WHERE a.status = %d AND a.project = %d ORDER BY d.real_begin_date'
                 , C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION
                 , $p->GetId()
                 )) as $row) {
-            
+
             $action = $actionMapper->findById($row['id']);
             $obj = new C3op_Projects_ActionStartMode($action, $actionMapper);
             if ($obj->isUnacknowledged()) {
                 $result[] = $row['id'];
             }
-        }        
+        }
         return $result;
     }
-    
-    
-    
+
+
+
 }

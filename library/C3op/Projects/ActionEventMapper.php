@@ -2,11 +2,11 @@
 
 class C3op_Projects_ActionEventMapper
 {
-    
+
     protected $db;
     protected $action;
     protected $identityMap;
-	
+
     function __construct(C3op_Projects_Action $action)
     {
         $this->action = $action;
@@ -22,10 +22,10 @@ class C3op_Projects_ActionEventMapper
                             $this->action->GetId())
                  ) as $row) {
             $result[] = $row['id'];
-        }        
+        }
         return $result;
     }
-    
+
     public function insert(C3op_Projects_ActionEvent $new)
     {
 
@@ -37,11 +37,11 @@ class C3op_Projects_ActionEventMapper
             'responsible' => $new->GetResponsible(),
             );
         $this->db->insert('projects_actions_events', $data);
-        
+
         $new->SetId((int)$this->db->lastInsertId());
         $this->identityMap[$new] = $new->GetId();
     }
-    
+
     public function update(C3op_Projects_ActionEvent $obj)
     {
         if (!isset($this->identityMap[$obj])) {
@@ -59,9 +59,9 @@ class C3op_Projects_ActionEventMapper
                 $this->identityMap[$obj]
             )
         );
-        
-    }    
-    
+
+    }
+
     public function findById($id)
     {
         $this->identityMap->rewind();
@@ -71,7 +71,7 @@ class C3op_Projects_ActionEventMapper
             }
             $this->identityMap->next();
         }
-        
+
         $result = $this->db->fetchRow(
             sprintf(
                 'SELECT action, type, timestamp, observation, responsible FROM projects_actions WHERE id = %d;',
@@ -83,7 +83,7 @@ class C3op_Projects_ActionEventMapper
         }
         $action = $result['action'];
         $type = $result['type'];
-        
+
         $obj = new C3op_Projects_ActionEvent($action);
         $this->setAttributeValue($obj, $id, 'id');
         $this->setAttributeValue($obj, $result['action'], 'action');
@@ -91,11 +91,11 @@ class C3op_Projects_ActionEventMapper
         $this->setAttributeValue($obj, $result['timestamp'], 'timestamp');
         $this->setAttributeValue($obj, $result['observation'], 'observation');
         $this->setAttributeValue($obj, $result['responsible'], 'responsible');
-        
+
 
         $this->identityMap[$obj] = $id;
-        
-        return $obj;        
+
+        return $obj;
 
     }
 
@@ -112,5 +112,5 @@ class C3op_Projects_ActionEventMapper
         );
         unset($this->identityMap[$obj]);
     }
-    
+
 }

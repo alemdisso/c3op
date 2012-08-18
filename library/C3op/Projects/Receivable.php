@@ -1,18 +1,18 @@
 <?php
 
 class C3op_Projects_Receivable {
-	
+
     protected $id;
     protected $title;
     protected $predictedDate;
     protected $predictedValue;
     protected $realDate;
     protected $realValue;
-	
+
     function __construct($project, $predictedDate, $predictedValue, $id=0) {
         $this->id = (int)$id;
         $this->project = $project;
-        $this->predictedDate = $predictedDate;      
+        $this->predictedDate = $predictedDate;
         $this->predictedValue = $predictedValue;
     }
 
@@ -33,8 +33,8 @@ class C3op_Projects_Receivable {
     {
         return $this->project;
     }
-	
-    public function SetProject($project) 
+
+    public function SetProject($project)
     {
         if ($this->project != $project) {
             $validator = new C3op_Util_ValidPositiveInteger();
@@ -43,12 +43,12 @@ class C3op_Projects_Receivable {
             }
         }
     }
-    
-    public function GetTitle() 
+
+    public function GetTitle()
     {
         return $this->title;
     } //GetTitle
-	
+
     public function SetTitle($title)
     {
         $validator = new C3op_Util_ValidString();
@@ -67,10 +67,10 @@ class C3op_Projects_Receivable {
         return $this->predictedDate;
 
     } //GetPredictedDate
-	
+
     public function SetPredictedDate($predictedDate)
     {
-    
+
         $dateValidator = new C3op_Util_ValidDate();
         if ($dateValidator->isValid($predictedDate)) {
             if ($this->predictedDate != $predictedDate) {
@@ -81,12 +81,12 @@ class C3op_Projects_Receivable {
         }
     } //SetPredictedDate
 
-    public function GetRealDate() 
+    public function GetRealDate()
     {
         return $this->realDate;
 
     } //GetRealDate
-	
+
     public function SetRealDate($realDate)
     {
         if ($realDate != "") {
@@ -101,23 +101,23 @@ class C3op_Projects_Receivable {
         }
     } //SetRealDate
 
-    public function SetPredictedValue($predictedValue) 
+    public function SetPredictedValue($predictedValue)
     {
         if ($predictedValue >= 0) {
             $this->predictedValue = (float) $predictedValue;
         } else {
             throw new C3op_Projects_ReceivableException("Value must be a positive number.");
-            
+
         }
     }
 
-    public function GetPredictedValue() 
+    public function GetPredictedValue()
     {
         return $this->predictedValue;
-        
+
     }
-    
-    public function SetRealValue($realValue) 
+
+    public function SetRealValue($realValue)
     {
         if ($realValue >= 0) {
             $this->realValue = (float) $realValue;
@@ -126,9 +126,9 @@ class C3op_Projects_Receivable {
         }
     }
 
-    public function GetRealValue() 
+    public function GetRealValue()
     {
         return $this->realValue;
-        
-    }    
+
+    }
 }

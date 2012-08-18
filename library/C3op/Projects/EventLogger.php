@@ -1,7 +1,7 @@
 <?php
 
 class C3op_Projects_EventLogger {
-    
+
     public function init()
     {
     }
@@ -16,6 +16,6 @@ class C3op_Projects_EventLogger {
         $eventMapper = new C3op_Projects_ActionEventMapper($action);
         $eventMapper->insert($event);
     }
-    
+
 }
 

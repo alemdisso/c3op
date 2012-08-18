@@ -1,7 +1,7 @@
 <?php
 
 class C3op_Projects_ContractNatureTypes {
-    
+
     private static $titles = array(
         C3op_Projects_ContractNatureConstants::NATURE_CONTRACT => "Contrato",
         C3op_Projects_ContractNatureConstants::NATURE_AGREEMENT => "Convênio",
@@ -11,7 +11,7 @@ class C3op_Projects_ContractNatureTypes {
         C3op_Projects_ContractNatureConstants::NATURE_COOPERATION => "Acordo de cooperação",
         C3op_Projects_ContractNatureConstants::NATURE_OTHER => "Outras",
     );
-    
+
     public static function TitleForType($type)
     {
             switch ($type) {
@@ -24,15 +24,15 @@ class C3op_Projects_ContractNatureTypes {
                 case C3op_Projects_ContractNatureConstants::NATURE_OTHER:
                     return self::$titles[$type];
                     break;
-                
+
                 default:
                     return "Tipo desconhecido";
                     break;
             }
     }
-    
+
     public static function AllTitles()
     {
-        return self::$titles;        
-    }   
+        return self::$titles;
+    }
 }
