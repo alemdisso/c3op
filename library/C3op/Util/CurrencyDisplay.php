@@ -1,8 +1,8 @@
 <?php
 class C3op_Util_CurrencyDisplay {
 
-    
-    
+
+
     public static function FormatCurrency($rawValue)
     {
 
@@ -12,7 +12,7 @@ class C3op_Util_CurrencyDisplay {
             )
         );
 
-        
+
         return $currency;
     }
 }
