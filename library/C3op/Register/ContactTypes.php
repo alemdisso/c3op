@@ -1,7 +1,7 @@
 <?php
 
 class C3op_Register_ContactTypes {
-    
+
     private static $titles = array(
             C3op_Register_ContactConstants::CONTACT_GENERAL => "Geral",
             C3op_Register_ContactConstants::CONTACT_CLIENT => "Cliente",
@@ -10,7 +10,7 @@ class C3op_Register_ContactTypes {
             C3op_Register_ContactConstants::CONTACT_CONTRACTOR => "Contratado",
             C3op_Register_ContactConstants::CONTACT_SUPPLIER => "Fornecedor",
     );
-    
+
     public static function TitleForType($type)
     {
             switch ($type) {
@@ -22,15 +22,15 @@ class C3op_Register_ContactTypes {
                 case C3op_Register_ContactConstants::CONTACT_SUPPLIER:
                     return self::$titles[$type];
                     break;
-                
+
                 default:
                     return "Tipo desconhecido";
                     break;
             }
     }
-    
+
     public static function AllTitles()
     {
-        return self::$titles;        
-    }   
+        return self::$titles;
+    }
 }

@@ -2,10 +2,10 @@
 
 class C3op_Register_ContactMapper
 {
-    
+
     protected $db;
     protected $identityMap;
-	
+
     function __construct() {
         $this->db = Zend_Registry::get('db');
         $this->identityMap = new SplObjectStorage;
@@ -15,10 +15,10 @@ class C3op_Register_ContactMapper
         $result = array();
         foreach ($this->db->query('SELECT id FROM register_contacts;') as $row) {
             $result[] = $row['id'];
-        }        
+        }
         return $result;
     }
-    
+
     public function insert(C3op_Register_Contact $new) {
         $data = array(
             'name' => $new->GetName(),
@@ -27,9 +27,9 @@ class C3op_Register_ContactMapper
         $this->db->insert('register_contacts', $data);
         $new->SetId((int)$this->db->lastInsertId());
         $this->identityMap[$new] = $new->GetId();
-        
+
     }
-    
+
     public function update(C3op_Register_Contact $c) {
         if (!isset($this->identityMap[$c])) {
             throw new C3op_Register_ContactMapperException('Object has no ID, cannot update.');
@@ -43,8 +43,8 @@ class C3op_Register_ContactMapper
             )
         );
 
-    }    
-    
+    }
+
     public function findById($id) {
         $this->identityMap->rewind();
         while ($this->identityMap->valid()) {
@@ -53,7 +53,7 @@ class C3op_Register_ContactMapper
             }
             $this->identityMap->next();
         }
-        
+
         $result = $this->db->fetchRow(
             sprintf(
                 'SELECT name, type FROM register_contacts WHERE id = %d;',
@@ -64,13 +64,13 @@ class C3op_Register_ContactMapper
             throw new C3op_Register_ContactMapperException(sprintf('There is no contact with id #%d.', $id));
         }
         $c = new C3op_Register_Contact();
-        
+
         $this->setAttributeValue($c, $id, 'id');
         $this->setAttributeValue($c, $result['name'], 'name');
         $this->setAttributeValue($c, $result['type'], 'type');
-        
+
         $this->identityMap[$c] = $id;
-        return $c;        
+        return $c;
 
     }
 
@@ -93,7 +93,7 @@ class C3op_Register_ContactMapper
         $attribute->setAccessible(TRUE);
         $attribute->setValue($c, $fieldValue);
     }
-    
+
     public function getAllLinkages(C3op_Register_Contact $c)
     {
         $result = array();
@@ -118,10 +118,10 @@ class C3op_Register_ContactMapper
                     WHERE i.relationship_type =' . C3op_Register_InstitutionRelationshipConstants::RELATIONSHIP_CONTRACTING
                     ) as $row) {
             $result[] = $row['id'];
-        }        
+        }
         return $result;
     }
-    
-    
-    
+
+
+
 }

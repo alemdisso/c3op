@@ -2,7 +2,7 @@
 
 class C3op_Register_Institution
 {
-	
+
     protected $id;
     protected $name;
     protected $shortName;
@@ -56,7 +56,7 @@ class C3op_Register_Institution
     public function GetName() {
         return $this->name;
     } //GetName
-	
+
     public function SetName($name) {
         $validator = new C3op_Register_InstitutionValidName();
         if ($validator->isValid($name)) {
@@ -72,7 +72,7 @@ class C3op_Register_Institution
     public function GetShortName() {
         return $this->shortName;
     } //GetShortName
-	
+
     public function SetShortName($shortName) {
         $validator = new C3op_Register_InstitutionValidName();
         if (($validator->isValid($shortName)) && (strlen($shortName) <= 40)) {
@@ -88,7 +88,7 @@ class C3op_Register_Institution
     public function GetLegalEntity() {
         return $this->legalEntity;
     } //GetLegalEntity
-	
+
     public function SetLegalEntity($legalEntity) {
         if ($legalEntity == 1) {
             $this->legalEntity = $legalEntity;
@@ -100,7 +100,7 @@ class C3op_Register_Institution
     public function GetRegisterNumber() {
         return $this->registerNumber;
     } //GetRegisterNumber
-	
+
     public function SetRegisterNumber($registerNumber) {
         $validator = new C3op_Util_ValidString();
         if ($validator->isValid($registerNumber)) {
@@ -116,7 +116,7 @@ class C3op_Register_Institution
     public function GetStateRegistration() {
         return $this->stateRegistration;
     } //GetStateRegistration
-	
+
     public function SetStateRegistration($stateRegistration) {
         if ($stateRegistration) {
             $this->stateRegistration = $stateRegistration;
@@ -128,7 +128,7 @@ class C3op_Register_Institution
     public function GetLocalRegisterNumber() {
         return $this->localRegisterNumber;
     } //GetLocalRegisterNumber
-	
+
     public function SetLocalRegisterNumber($localRegisterNumber) {
         $validator = new C3op_Util_ValidString();
         if ($validator->isValid($localRegisterNumber)) {
@@ -144,7 +144,7 @@ class C3op_Register_Institution
     public function GetStreet() {
         return $this->street;
     } //GetStreet
-	
+
     public function SetStreet($street) {
         $validator = new C3op_Util_ValidString();
         if ($validator->isValid($street)) {
@@ -160,7 +160,7 @@ class C3op_Register_Institution
     public function GetStreetNumber() {
         return $this->streetNumber;
     } //GetStreetNumber
-	
+
     public function SetStreetNumber($streetNumber) {
         $validator = new C3op_Util_ValidString();
         if ($validator->isValid($streetNumber)) {
@@ -176,7 +176,7 @@ class C3op_Register_Institution
     public function GetAddressComplement() {
         return $this->addressComplement;
     } //GetAddressComplement
-	
+
     public function SetAddressComplement($addressComplement) {
         $validator = new C3op_Util_ValidString();
         if ($validator->isValid($addressComplement)) {
@@ -192,7 +192,7 @@ class C3op_Register_Institution
     public function GetZipCode() {
         return $this->zipCode;
     } //GetZipCode
-	
+
     public function SetZipCode($zipCode) {
         $validator = new C3op_Register_ValidZipCode();
         if ($validator->isValid($zipCode)) {
@@ -208,7 +208,7 @@ class C3op_Register_Institution
     public function GetDistrict() {
         return $this->district;
     } //GetDistrict
-	
+
     public function SetDistrict($district) {
         $validator = new C3op_Util_ValidString();
         if ($validator->isValid($district)) {
@@ -224,7 +224,7 @@ class C3op_Register_Institution
     public function GetCity() {
         return $this->city;
     } //GetCity
-	
+
     public function SetCity($city) {
         $validator = new C3op_Util_ValidString();
         if ($validator->isValid($city)) {
@@ -240,7 +240,7 @@ class C3op_Register_Institution
     public function GetState() {
         return $this->state;
     } //GetState
-	
+
     public function SetState($state) {
         $validator = new C3op_Register_ValidState();
         if ($validator->isValid($state)) {
@@ -256,7 +256,7 @@ class C3op_Register_Institution
     public function GetWebsite() {
         return $this->website;
     } //GetWebsite
-	
+
     public function SetWebsite($website) {
         $validator = new C3op_Util_ValidString();
         if ($validator->isValid($website)) {
@@ -269,12 +269,12 @@ class C3op_Register_Institution
 
     } //SetWebsite
 
-    public function GetType() 
+    public function GetType()
     {
         return $this->type;
     }
-    
-    public function SetType($type) 
+
+    public function SetType($type)
     {
         switch ($type) {
             case C3op_Register_InstitutionConstants::INSTITUTION_PUBLIC:
@@ -284,26 +284,26 @@ class C3op_Register_Institution
             case C3op_Register_InstitutionConstants::INSTITUTION_PERSONAL:
                 $this->type = (int) $type;
                 break;
-            
+
             case null:
             case "":
             case 0:
             case false:
                 $this->type = null;
                 break;
-                 
+
             default:
                 throw new C3op_Register_InstitutionException("Invalid type.");
                 break;
         }
     }
 
-    public function GetRelationshipType() 
+    public function GetRelationshipType()
     {
         return $this->relationshipType;
     }
-    
-    public function SetRelationshipType($relationShipType) 
+
+    public function SetRelationshipType($relationShipType)
     {
         switch ($relationShipType) {
             case C3op_Register_InstitutionRelationshipConstants::RELATIONSHIP_GENERAL:
@@ -313,14 +313,14 @@ class C3op_Register_Institution
             case C3op_Register_InstitutionRelationshipConstants::RELATIONSHIP_CONTRACTING:
                 $this->relationshipType = (int) $relationShipType;
                 break;
-            
+
             case null:
             case "":
             case 0:
             case false:
                 $this->relationshipType = null;
                 break;
-                 
+
             default:
                 throw new C3op_Register_InstitutionException("Invalid relationshiptype.");
                 break;

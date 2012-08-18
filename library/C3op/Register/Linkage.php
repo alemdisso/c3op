@@ -2,7 +2,7 @@
 
 class C3op_Register_Linkage
 {
-	
+
     protected $id;
     protected $contact;
     protected $institution;
@@ -34,7 +34,7 @@ class C3op_Register_Linkage
     public function GetContact() {
         return $this->contact;
     } //GetContact
-	
+
     public function SetContact($contact) {
         $validator = new C3op_Util_ValidPositiveInteger();
         if ($validator->isValid($contact)) {
@@ -50,7 +50,7 @@ class C3op_Register_Linkage
     public function GetInstitution() {
         return $this->institution;
     } //GetInstitution
-	
+
     public function SetInstitution($institution) {
         $validator = new C3op_Util_ValidPositiveInteger();
         if (($validator->isValid($institution)) && (strlen($institution) <= 40)) {
@@ -66,7 +66,7 @@ class C3op_Register_Linkage
     public function GetDepartment() {
         return $this->department;
     } //GetDepartment
-	
+
     public function SetDepartment($department) {
         $validator = new C3op_Util_ValidString();
         if ($validator->isValid($department)) {
@@ -81,7 +81,7 @@ class C3op_Register_Linkage
     public function GetState() {
         return $this->state;
     } //GetState
-	
+
     public function SetState($state) {
         if ($state) {
             $this->state = $state;
@@ -93,7 +93,7 @@ class C3op_Register_Linkage
     public function GetPosition() {
         return $this->position;
     } //GetPosition
-	
+
     public function SetPosition($position) {
         $validator = new C3op_Util_ValidString();
         if ($validator->isValid($position)) {

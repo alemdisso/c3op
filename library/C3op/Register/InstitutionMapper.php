@@ -2,10 +2,10 @@
 
 class C3op_Register_InstitutionMapper
 {
-    
+
     protected $db;
     protected $identityMap;
-	
+
     function __construct() {
         $this->db = Zend_Registry::get('db');
         $this->identityMap = new SplObjectStorage;
@@ -15,10 +15,10 @@ class C3op_Register_InstitutionMapper
         $result = array();
             foreach ($this->db->query('SELECT id FROM register_institutions;') as $row) {
             $result[] = $row['id'];
-        }        
+        }
         return $result;
     }
-    
+
     public function insert(C3op_Register_Institution $new) {
         $data = array(
             'name' => $new->GetName(),
@@ -41,16 +41,16 @@ class C3op_Register_InstitutionMapper
         $this->db->insert('register_institutions', $data);
         $new->SetId((int)$this->db->lastInsertId());
         $this->identityMap[$new] = $new->GetId();
-        
+
     }
-    
+
     public function update(C3op_Register_Institution $i) {
         if (!isset($this->identityMap[$i])) {
             throw new C3op_Register_InstitutionMapperException('Object has no ID, cannot update.');
         }
-        $sql = 
+        $sql =
                 sprintf(
-                    'UPDATE register_institutions SET name = \'%s\', 
+                    'UPDATE register_institutions SET name = \'%s\',
                         short_name =  \'%s\',
                         legal_entity = %d,
                         register_number =  \'%s\',
@@ -91,8 +91,8 @@ class C3op_Register_InstitutionMapper
             throw new C3op_Register_InstitutionException("$sql failed");
         }
 
-    }    
-    
+    }
+
     public function findById($id) {
         $this->identityMap->rewind();
         while ($this->identityMap->valid()) {
@@ -101,7 +101,7 @@ class C3op_Register_InstitutionMapper
             }
             $this->identityMap->next();
         }
-        
+
         $result = $this->db->fetchRow(
             sprintf(
                 'SELECT name, short_name, legal_entity, register_number, state_registration,
@@ -114,7 +114,7 @@ class C3op_Register_InstitutionMapper
             throw new C3op_Register_InstitutionMapperException(sprintf('There is no Institution with id #%d.', $id));
         }
         $i = new C3op_Register_Institution();
-        
+
         $this->setAttributeValue($i, $id, 'id');
         $this->setAttributeValue($i, $result['name'], 'name');
         $this->setAttributeValue($i, $result['short_name'], 'shortName');
@@ -134,7 +134,7 @@ class C3op_Register_InstitutionMapper
         $this->setAttributeValue($i, $result['relationship_type'], 'relationshipType');
 
         $this->identityMap[$i] = $id;
-        return $i;        
+        return $i;
 
     }
 
@@ -167,10 +167,10 @@ class C3op_Register_InstitutionMapper
             )
         )as $row) {
             $result[] = $row['id'];
-        }        
+        }
         return $result;
     }
-    
+
     public function getAllLinkages(C3op_Register_Institution $i)
     {
         $result = array();
@@ -186,7 +186,7 @@ class C3op_Register_InstitutionMapper
         return $result;
     }
 
-    
-    
-    
+
+
+
 }

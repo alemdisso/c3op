@@ -1,7 +1,7 @@
 <?php
 
 class C3op_Register_RelationshipTypes {
-    
+
     private static $titles = array(
             C3op_Register_InstitutionConstants::RELATIONSHIP_GENERAL => "Geral",
             C3op_Register_InstitutionConstants::RELATIONSHIP_CLIENT => "Cliente",
@@ -9,7 +9,7 @@ class C3op_Register_RelationshipTypes {
             C3op_Register_InstitutionConstants::RELATIONSHIP_SUPPLIER => "Fornecedor",
             C3op_Register_InstitutionConstants::RELATIONSHIP_CONTRACTING => "Contratante",
     );
-    
+
     public static function TitleForType($type)
     {
             switch ($type) {
@@ -20,15 +20,15 @@ class C3op_Register_RelationshipTypes {
                 case C3op_Register_InstitutionConstants::RELATIONSHIP_CONTRACTING:
                     return self::$titles[$type];
                     break;
-                
+
                 default:
                     return "Tipo desconhecido";
                     break;
             }
     }
-    
+
     public static function AllTitles()
     {
-        return self::$titles;        
-    }   
+        return self::$titles;
+    }
 }

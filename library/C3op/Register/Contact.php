@@ -1,11 +1,11 @@
 <?php
 
 class C3op_Register_Contact {
-	
+
     protected $id;
     protected $name;
     protected $type;
-	
+
     function __construct($id=0) {
         $this->id = (int)$id;
         $this->name = "";
@@ -29,7 +29,7 @@ class C3op_Register_Contact {
         return $this->name;
 
     } //GetName
-	
+
     public function SetName($name) {
         $validator = new C3op_Register_ContactValidName();
         if ($validator->isValid($name)) {
@@ -42,13 +42,13 @@ class C3op_Register_Contact {
 
     } //SetName
 
-    public function GetType() 
+    public function GetType()
     {
         return $this->type;
-        
+
     }
-    
-    public function SetType($type) 
+
+    public function SetType($type)
     {
         switch ($type) {
             case C3op_Register_ContactConstants::CONTACT_GENERAL:

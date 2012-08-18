@@ -2,10 +2,10 @@
 
 class C3op_Register_LinkageMapper
 {
-    
+
     protected $db;
     protected $identityMap;
-	
+
     function __construct() {
         $this->db = Zend_Registry::get('db');
         $this->identityMap = new SplObjectStorage;
@@ -15,10 +15,10 @@ class C3op_Register_LinkageMapper
         $result = array();
             foreach ($this->db->query('SELECT id FROM register_linkages;') as $row) {
             $result[] = $row['id'];
-        }        
+        }
         return $result;
     }
-    
+
     public function insert(C3op_Register_Linkage $new) {
         $data = array(
             'contact' => $new->GetContact(),
@@ -30,20 +30,20 @@ class C3op_Register_LinkageMapper
         $this->db->insert('register_linkages', $data);
         $new->SetId((int)$this->db->lastInsertId());
         $this->identityMap[$new] = $new->GetId();
-        
+
     }
-    
+
     public function update(C3op_Register_Linkage $i) {
         if (!isset($this->identityMap[$i])) {
             throw new C3op_Register_LinkageMapperException('Object has no ID, cannot update.');
         }
-        $sql = 
+        $sql =
                 sprintf(
-                    'UPDATE register_linkages SET contact = %d, 
+                    'UPDATE register_linkages SET contact = %d,
                         institution =  %d,
                         department =  \'%s\',
                         state =  \'%s\',
-                        position =  \'%s\' 
+                        position =  \'%s\'
                          WHERE id = %d;',
                     $i->GetContact(),
                     $i->GetInstitution(),
@@ -58,8 +58,8 @@ class C3op_Register_LinkageMapper
             throw new C3op_Register_LinkageException("$sql failed");
         }
 
-    }    
-    
+    }
+
     public function findById($id) {
         $this->identityMap->rewind();
         while ($this->identityMap->valid()) {
@@ -68,7 +68,7 @@ class C3op_Register_LinkageMapper
             }
             $this->identityMap->next();
         }
-        
+
         $result = $this->db->fetchRow(
             sprintf(
                 'SELECT contact, institution, department, state, position
@@ -80,7 +80,7 @@ class C3op_Register_LinkageMapper
             throw new C3op_Register_LinkageMapperException(sprintf('There is no Linkage with id #%d.', $id));
         }
         $i = new C3op_Register_Linkage();
-        
+
         $this->setAttributeValue($i, $id, 'id');
         $this->setAttributeValue($i, $result['contact'], 'contact');
         $this->setAttributeValue($i, $result['institution'], 'institution');
@@ -89,7 +89,7 @@ class C3op_Register_LinkageMapper
         $this->setAttributeValue($i, $result['position'], 'position');
 
         $this->identityMap[$i] = $id;
-        return $i;        
+        return $i;
 
     }
 
