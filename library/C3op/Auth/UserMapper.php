@@ -2,12 +2,12 @@
 
 class C3op_Auth_UserMapper
 {
-    
+
     protected $db;
     protected $identityMap;
     private $secretToken = "R2D2"; ///warning!!! changing this will block all previous passwords
-    
-	
+
+
     function __construct() {
         $this->db = Zend_Registry::get('db');
         $this->identityMap = new SplObjectStorage;
@@ -17,10 +17,10 @@ class C3op_Auth_UserMapper
         $result = array();
         foreach ($this->db->query('SELECT id FROM auth_users;') as $row) {
             $result[] = $row['id'];
-        }        
+        }
         return $result;
     }
-    
+
     public function insert(C3op_Auth_User $new) {
         $data = array(
             'login' => $new->getLogin(),
@@ -32,27 +32,27 @@ class C3op_Auth_UserMapper
             'first_login' => $new->GetFirstLogin(),
             'last_login' => $new->GetLastLogin(),
             );
-        
+
         $this->db->insert('auth_users', $data);
         $new->SetId((int)$this->db->lastInsertId());
         $this->identityMap[$new] = $new->GetId();
-        
+
     }
-    
+
     public function update(C3op_Auth_User $o) {
         if (!isset($this->identityMap[$o])) {
             throw new C3op_Auth_UserMapperException('Object has no ID, cannot update.');
         }
-        
+
         if ($o->GetRawPassword() != "") {
             $setPassword = sprintf(', password = \'%s\' ', $this->scrambleWithToken($o->GetRawPassword()));
         } else {
             $setPassword = "";
         }
-        
+
         $this->db->exec(
             sprintf(
-                'UPDATE auth_users SET login = \'%s\' 
+                'UPDATE auth_users SET login = \'%s\'
                     , name = \'%s\'
                     %s
                     , email = \'%s\'
@@ -72,8 +72,8 @@ class C3op_Auth_UserMapper
                 $this->identityMap[$o]
             )
         );
-    }    
-    
+    }
+
     public function findById($id) {
         $this->identityMap->rewind();
         while ($this->identityMap->valid()) {
@@ -82,7 +82,7 @@ class C3op_Auth_UserMapper
             }
             $this->identityMap->next();
         }
-        
+
         $result = $this->db->fetchRow(
             sprintf(
                 'SELECT login
@@ -100,7 +100,7 @@ class C3op_Auth_UserMapper
             throw new C3op_Auth_UserMapperException(sprintf('There is no project with id #%d.', $id));
         }
         $o = new C3op_Auth_User();
-        
+
         $this->setAttributeValue($o, $id, 'id');
         $this->setAttributeValue($o, $result['login'], 'login');
         $this->setAttributeValue($o, $result['name'], 'name');
@@ -109,9 +109,9 @@ class C3op_Auth_UserMapper
         $this->setAttributeValue($o, $result['status'], 'status');
         $this->setAttributeValue($o, $result['first_login'], 'firstLogin');
         $this->setAttributeValue($o, $result['last_login'], 'lastLogin');
-        
+
         $this->identityMap[$o] = $id;
-        return $o;        
+        return $o;
     }
 
     public function delete(C3op_Auth_User $o) {
@@ -126,7 +126,7 @@ class C3op_Auth_UserMapper
         );
         unset($this->identityMap[$o]);
     }
-    
+
     public function authenticateUser($login, $password)
     {
         foreach ($this->db->query(
@@ -141,17 +141,17 @@ class C3op_Auth_UserMapper
         }
         return null;
     }
- 
+
     private function setAttributeValue(C3op_Auth_User $o, $fieldValue, $attributeName)
     {
         $attribute = new ReflectionProperty($o, $attributeName);
         $attribute->setAccessible(TRUE);
         $attribute->setValue($o, $fieldValue);
     }
-    
+
     private function scrambleWithToken($password)
     {
         return md5($password . $this->secretToken);
     }
-    
+
 }

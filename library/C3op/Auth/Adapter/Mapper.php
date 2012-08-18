@@ -8,7 +8,7 @@ class C3op_Auth_Adapter_Mapper implements Zend_Auth_Adapter_Interface
   private $user;
 
   // constructor
-  // accepts username and password    
+  // accepts username and password
   public function __construct($login, $password)
   {
     $this->db = Zend_Registry::get('db');
@@ -29,9 +29,9 @@ class C3op_Auth_Adapter_Mapper implements Zend_Auth_Adapter_Interface
 //                    )
 //                );
     $userMapper = new C3op_Auth_UserMapper($this->db);
-            
+
     $user = $userMapper->authenticateUser($this->login, $this->password);
-            
+
     if ($user instanceof C3op_Auth_User && $user->GetID() > 0 ) {
       $this->user = $user;
       return new Zend_Auth_Result(
@@ -39,12 +39,12 @@ class C3op_Auth_Adapter_Mapper implements Zend_Auth_Adapter_Interface
     } else {
       $this->user = null;
       return new Zend_Auth_Result(
-        Zend_Auth_Result::FAILURE, null, 
+        Zend_Auth_Result::FAILURE, null,
           array('Authentication unsuccessful')
-      );      
+      );
     }
   }
-  
+
   public function getAuthenticatedUser()
   {
       if ((!is_null($this->user)) && ($this->user instanceof C3op_Auth_User)) {
@@ -59,26 +59,26 @@ class C3op_Auth_Adapter_Mapper implements Zend_Auth_Adapter_Interface
   {
     if (!$this->_resultArray) {
       return false;
-    } 
+    }
 
     if ($excludeFields != null) {
       $excludeFields = (array)$excludeFields;
       foreach ($this->_resultArray as $key => $value) {
-        if (!in_array($key, $excludeFields)) {  
-          $returnArray[$key] = $value;  
+        if (!in_array($key, $excludeFields)) {
+          $returnArray[$key] = $value;
         }
       }
-      return $returnArray;      
+      return $returnArray;
     } else {
-      return $this->_resultArray;        
-    }      
+      return $this->_resultArray;
+    }
   }
-  
+
     private function scrambleWithToken($password)
     {
         return md5($password . $this->secretToken);
     }
-    
-  
-  
+
+
+
 }

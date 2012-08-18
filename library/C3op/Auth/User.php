@@ -1,8 +1,8 @@
 <?php
 
-class C3op_Auth_User 
+class C3op_Auth_User
 {
-	
+
     protected $id;
     protected $login;
     protected $name;
@@ -12,8 +12,8 @@ class C3op_Auth_User
     protected $status;
     protected $firstLogin = "0000-00-00";
     protected $lastLogin = "0000-00-00";
-    
-	
+
+
     function __construct($id=0) {
         $this->id = (int)$id;
     }
@@ -36,7 +36,7 @@ class C3op_Auth_User
     {
         return $this->login;
     } //GetLogin
-	
+
     public function SetLogin($login)
     {
         $validator = new C3op_Util_ValidString();
@@ -53,7 +53,7 @@ class C3op_Auth_User
     {
         return $this->name;
     } //GetName
-	
+
     public function SetName($name)
     {
         $validator = new C3op_Util_ValidString();
@@ -70,8 +70,8 @@ class C3op_Auth_User
     {
         return $this->rawPassword;
     }
-	
-    public function SetPassword($password) 
+
+    public function SetPassword($password)
     {
         if ($password != "") {
             $this->rawPassword = $password;
@@ -82,7 +82,7 @@ class C3op_Auth_User
     {
         return $this->email;
     } //GetEmail
-	
+
     public function SetEmail($email)
     {
         $validator = new C3op_Util_ValidEmail();
@@ -95,12 +95,12 @@ class C3op_Auth_User
         }
     } //SetEmail
 
-    public function GetRole() 
+    public function GetRole()
     {
         return $this->role;
     }
-    
-    public function SetRole($role) 
+
+    public function SetRole($role)
     {
         switch ($role) {
             case C3op_Access_RolesConstants::ROLE_UNKNOWN:
@@ -114,25 +114,25 @@ class C3op_Auth_User
             case C3op_Access_RolesConstants::ROLE_SYSADMIN:
                 $this->role = (int) $role;
                 break;
-            
+
             case null:
             case "":
             case 0:
             case false:
                 $this->role = C3op_Access_RolesConstants::ROLE_UNKNOWN;
                 break;
-                 
+
             default:
                 throw new C3op_Access_RolesException("Invalid role.");
                 break;
         }
     }
 
-     
-    public function SetStatus($status) 
+
+    public function SetStatus($status)
     {
         $validator = new C3op_Util_ValidPositiveFloat();
-        
+
         if ($validator->isValid($status)) {
             $this->status = (float) $status;
         } else {
@@ -140,16 +140,16 @@ class C3op_Auth_User
         }
     }
 
-    public function GetStatus() 
+    public function GetStatus()
     {
         return $this->status;
     }
-    
+
     public function GetFirstLogin()
     {
         return $this->firstLogin;
     } //GetFirstLogin
-	
+
     public function SetFirstLogin($firstLogin)
     {
         if ($firstLogin != "") {
@@ -168,7 +168,7 @@ class C3op_Auth_User
     {
         return $this->lastLogin;
     } //GetLastLogin
-	
+
     public function SetLastLogin($lastLogin)
     {
         if ($lastLogin != "") {
