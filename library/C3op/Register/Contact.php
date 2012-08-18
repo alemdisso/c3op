@@ -5,10 +5,12 @@ class C3op_Register_Contact {
     protected $id;
     protected $name;
     protected $type;
+    protected $phoneNumbers;
 
     function __construct($id=0) {
         $this->id = (int)$id;
         $this->name = "";
+        $this->phoneNumbers = array();
     }
 
     public function GetId() {
@@ -65,5 +67,13 @@ class C3op_Register_Contact {
                 break;
         }
     }
+
+    public function GetPhoneNumbers() {
+        return $this->phoneNumbers;
+
+    } //GetPhoneNumbers
+
+    public function SetPhoneNumber($phoneNumber) {
+    } //SetPhoneNumbers
 
 }
