@@ -197,10 +197,7 @@ class C3op_Projects_ActionMapper
             $this->setDates($action);
             return;
         }
-
-
-
-
+        
         $this->setAttributeValue($action, $result['predicted_begin_date'], 'predictedBeginDate');
         $this->setAttributeValue($action, $result['predicted_finish_date'], 'predictedFinishDate');
         $this->setAttributeValue($action, $result['real_begin_date'], 'realBeginDate');
