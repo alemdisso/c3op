@@ -2,7 +2,7 @@
 
 
 class C3op_Access_Roles {
-    
+
     private static $roles = array(
         C3op_Access_RolesConstants::ROLE_UNKNOWN => "Desconhecido",
         C3op_Access_RolesConstants::ROLE_GUEST => "Convidado",
@@ -14,7 +14,7 @@ class C3op_Access_Roles {
         C3op_Access_RolesConstants::ROLE_DIRECTOR => "Diretor",
         C3op_Access_RolesConstants::ROLE_SYSADMIN => "Administrador do Sistema",
     );
-    
+
     public static function TitleForRole($role)
     {
             switch ($role) {
@@ -29,15 +29,15 @@ class C3op_Access_Roles {
                 case C3op_Access_RolesConstants::ROLE_SYSADMIN:
                     return self::$roles[$role];
                     break;
-                
+
                 default:
                     return "Papel desconhecido";
                     break;
             }
     }
-    
+
     public static function AllRoles()
     {
-        return self::$roles;        
-    }   
+        return self::$roles;
+    }
 }
