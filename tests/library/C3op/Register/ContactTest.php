@@ -86,6 +86,35 @@ class ContactTest extends ControllerTestCase
         $this->assertTrue(in_array($otherPhoneNumber, $phonesArray));
     }
 
+
+    public function testIfCanRemovePhoneNumbersAssociatedToContact()
+    {
+        $phoneNumber1 = array ("areaCode" => "21"
+                        , "localNumber" => "2234-5678"
+            );
+
+        $k1 = $this->contact->AddPhoneNumber($phoneNumber1);
+
+        $phoneNumber2 = array ("areaCode" => "21"
+                        , "localNumber" => "8989-0123"
+            );
+        $k2 = $this->contact->AddPhoneNumber($phoneNumber2);
+
+        $phonesArray = $this->contact->getPhoneNumbers();
+        $this->assertEquals(2, count($phonesArray));
+        $this->assertTrue(in_array($phoneNumber1, $phonesArray));
+        $this->assertTrue(in_array($phoneNumber2, $phonesArray));
+        $this->contact->RemovePhoneNumber($k1);
+        $phonesArray = $this->contact->GetPhoneNumbers();
+        $this->assertTrue(!in_array($phoneNumber1, $phonesArray));
+        $this->assertEquals(1, count($phonesArray));
+        $this->contact->RemovePhoneNumber($k2);
+        $phonesArray = $this->contact->GetPhoneNumbers();
+        $this->assertTrue(!in_array($phoneNumber2, $phonesArray));
+        $this->assertEquals(0, count($phonesArray));
+    }
+
+
     public function testIfCanAttributeNameToContact()
     {
         $someName = "some name with ç á and ã";
