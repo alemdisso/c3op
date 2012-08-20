@@ -32,18 +32,20 @@ class C3op_Register_ContactMapper
 
     }
 
-    public function update(C3op_Register_Contact $c) {
-        if (!isset($this->identityMap[$c])) {
+    public function update(C3op_Register_Contact $obj) {
+        if (!isset($this->identityMap[$obj])) {
             throw new C3op_Register_ContactMapperException('Object has no ID, cannot update.');
         }
         $this->db->exec(
             sprintf(
                 'UPDATE register_contacts SET name = \'%s\', type = %d WHERE id = %d;',
-                $c->GetName(),
-                $c->GetType(),
-                $this->identityMap[$c]
+                $obj->GetName(),
+                $obj->GetType(),
+                $this->identityMap[$obj]
             )
         );
+
+        $this->updatePhoneNumbers($obj);
 
     }
 
@@ -65,14 +67,18 @@ class C3op_Register_ContactMapper
         if (empty($result)) {
             throw new C3op_Register_ContactMapperException(sprintf('There is no contact with id #%d.', $id));
         }
-        $c = new C3op_Register_Contact();
+        $obj = new C3op_Register_Contact();
 
-        $this->setAttributeValue($c, $id, 'id');
-        $this->setAttributeValue($c, $result['name'], 'name');
-        $this->setAttributeValue($c, $result['type'], 'type');
+        $this->setAttributeValue($obj, $id, 'id');
+        $this->setAttributeValue($obj, $result['name'], 'name');
+        $this->setAttributeValue($obj, $result['type'], 'type');
 
-        $this->identityMap[$c] = $id;
-        return $c;
+        $this->identityMap[$obj] = $id;
+
+        $phoneNumbers = $this->fetchPhoneNumbers($obj);
+        $this->setAttributeValue($obj, $phoneNumbers, 'phoneNumbers');
+
+        return $obj;
 
     }
 
@@ -126,36 +132,85 @@ class C3op_Register_ContactMapper
 
     private function insertPhoneNumbers(C3op_Register_Contact $new)
     {
-        foreach($new->GetPhoneNumbers() as $phoneNumber)
+        foreach($new->GetPhoneNumbers() as $phoneNumber) {
             $data = array(
-                'contact' => $phoneNumber['contact'],
+                'contact' => $new->GetId(),
                 'area_code' => $phoneNumber['areaCode'],
                 'local_number' => $phoneNumber['localNumber'],
                 'label' => $phoneNumber['label'],
                 );
             $this->db->insert('register_contacts_phone_numbers', $data);
+        }
     }
 
-    private function setPhone(C3op_Projects_Action $action)
+    private function fetchPhoneNumbers(C3op_Register_Contact $contact)
     {
-        $result = $this->db->fetchRow(
-            sprintf(
-                'SELECT predicted_begin_date, predicted_finish_date, real_begin_date, real_finish_date FROM projects_actions_dates WHERE action = %d;',
-                $action->GetId()
-            )
-        );
+        $result = array();
+        if ($contact->GetId() > 0) {
+            foreach ($this->db->query(sprintf(
+                    'SELECT id, area_code, local_number, label FROM register_contacts_phone_numbers WHERE contact = %d;',
+                    $contact->GetId()
+                )
+                    ) as $row) {
+                $result[$row['id']] = array(
+                    'area_code' => $row['area_code'],
+                    'local_number' => $row['local_number'],
+                    'label' => $row['label'],
+                    );
+            }
+            return $result;
+        } else {
+            throw new C3op_Register_ContactMapperException('Can\'t fetch phone numbers for a contact that wasn\'t saved');
+        }
+    }
 
-        if (empty($result)) {
-            $this->insertDates($action);
-            $this->setDates($action);
-            return;
+    private function UpdatePhoneNumbers(C3op_Register_Contact $contact)
+    {
+
+        $currentPhoneNumbers = $contact->GetPhoneNumbers();
+        $oldPhoneNumbers = $this->fetchPhoneNumbers($contact);
+
+        foreach($oldPhoneNumbers as $key =>$phoneNumber){
+            if (isset($currentPhoneNumbers[$key])) {
+                $newPhoneNumber = $currentPhoneNumbers[$key];
+                if ($newPhoneNumber != $phoneNumber) {
+
+                    $this->db->exec(
+                    sprintf(
+                        'UPDATE register_contacts_phone_numbers SET area_code = \'%s\', local_number = \'%s\', label = \'%s\' WHERE id = %d;',
+                            $newPhoneNumber['area_code'],
+                            $newPhoneNumber['local_number'],
+                            $newPhoneNumber['label'],
+                            $key
+                        )
+                    );
+                }
+                unset($currentPhoneNumbers[$key]);
+            } else {
+                    $this->db->exec(
+                    sprintf(
+                        'DELETE FROM register_contacts_phone_numbers WHERE id = %d;',
+                            $key
+                        )
+                    );
+
+            }
+
+        }
+        reset ($currentPhoneNumbers);
+
+        foreach($currentPhoneNumbers as $key =>$phoneNumber){
+            $data = array(
+                'contact' => $contact->GetId(),
+                'area_code' => $phoneNumber['area_code'],
+                'local_number' => $phoneNumber['local_number'],
+                'label' => $phoneNumber['label'],
+                );
+            $this->db->insert('register_contacts_phone_numbers', $data);
         }
 
-        $this->setAttributeValue($action, $result['predicted_begin_date'], 'predictedBeginDate');
-        $this->setAttributeValue($action, $result['predicted_finish_date'], 'predictedFinishDate');
-        $this->setAttributeValue($action, $result['real_begin_date'], 'realBeginDate');
-        $this->setAttributeValue($action, $result['real_finish_date'], 'realFinishDate');
-
     }
+
+
 
 }

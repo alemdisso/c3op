@@ -25,8 +25,8 @@ class ContactTest extends ControllerTestCase
 
     public function testIfCanSetAPhoneNumberToContact()
     {
-        $aPhoneNumber = array ("areaCode" => "21"
-                        , "localNumber" => "2234-5678"
+        $aPhoneNumber = array ("area_code" => "21"
+                        , "local_number" => "2234-5678"
             );
 
         $this->contact->AddPhoneNumber($aPhoneNumber);
@@ -38,16 +38,16 @@ class ContactTest extends ControllerTestCase
 
     public function testIfCanSetTwoDifferentPhoneNumbersToContact()
     {
-        $aPhoneNumber = array ("areaCode" => "21"
-                        , "localNumber" => "2234-5678"
+        $aPhoneNumber = array ("area_code" => "21"
+                        , "local_number" => "2234-5678"
             );
 
         $this->contact->AddPhoneNumber($aPhoneNumber);
-        $otherPhoneNumber = array ("areaCode" => "21"
-                        , "localNumber" => "8989-0123"
+        $otherPhoneNumber = array ("area_code" => "21"
+                        , "local_number" => "8989-0123"
             );
-        $someElsePhoneNumber = array ("areaCode" => "21"
-                        , "localNumber" => "3267-7843"
+        $someElsePhoneNumber = array ("area_code" => "21"
+                        , "local_number" => "3267-7843"
             );
 
         $this->contact->AddPhoneNumber($otherPhoneNumber);
@@ -61,19 +61,19 @@ class ContactTest extends ControllerTestCase
 
     public function testIfCanChangeAPhoneNumberRelatedToContact()
     {
-        $aPhoneNumber = array ("areaCode" => "21"
-                        , "localNumber" => "2234-5678"
+        $aPhoneNumber = array ("area_code" => "21"
+                        , "local_number" => "2234-5678"
             );
 
         $keyAdd1 = $this->contact->AddPhoneNumber($aPhoneNumber);
 
-        $otherPhoneNumber = array ("areaCode" => "21"
-                        , "localNumber" => "8989-0123"
+        $otherPhoneNumber = array ("area_code" => "21"
+                        , "local_number" => "8989-0123"
             );
         $keyAdd2 = $this->contact->AddPhoneNumber($otherPhoneNumber);
 
         $phonesArray = $this->contact->getPhoneNumbers();
-        $phonesArray[$keyAdd1]["localNumber"] = "5678-0000";
+        $phonesArray[$keyAdd1]["local_number"] = "5678-0000";
         $newPhoneNumber = $phonesArray[$keyAdd1];
 
         $this->contact->SetPhoneNumbers($phonesArray);
@@ -89,14 +89,14 @@ class ContactTest extends ControllerTestCase
 
     public function testIfCanRemovePhoneNumbersAssociatedToContact()
     {
-        $phoneNumber1 = array ("areaCode" => "21"
-                        , "localNumber" => "2234-5678"
+        $phoneNumber1 = array ("area_code" => "21"
+                        , "local_number" => "2234-5678"
             );
 
         $k1 = $this->contact->AddPhoneNumber($phoneNumber1);
 
-        $phoneNumber2 = array ("areaCode" => "21"
-                        , "localNumber" => "8989-0123"
+        $phoneNumber2 = array ("area_code" => "21"
+                        , "local_number" => "8989-0123"
             );
         $k2 = $this->contact->AddPhoneNumber($phoneNumber2);
 

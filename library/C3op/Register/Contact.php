@@ -79,8 +79,14 @@ class C3op_Register_Contact {
         if (is_array($phoneNumbers)) {
             foreach ($phoneNumbers as $k => $phoneNumber) {
                 if (is_array($phoneNumber)) {
-                    if (!isset($phoneNumber["localNumber"])) {
+                    if (!isset($phoneNumber["local_number"])) {
                         throw new C3op_Projects_ActionException("A phone number must have at least a local number.");
+                    }
+                    if (!isset($phoneNumber["area_code"])) {
+                        $phoneNumber['area_code'] = "";
+                    }
+                    if (!isset($phoneNumber["label"])) {
+                        $phoneNumber['label'] = "";
                     }
                     $newArray[$k] = $phoneNumber;
                  }
@@ -96,7 +102,7 @@ class C3op_Register_Contact {
     public function AddPhoneNumber($phoneNumber) {
 
         if (is_array($phoneNumber)) {
-            if (!isset($phoneNumber["localNumber"])) {
+            if (!isset($phoneNumber["local_number"])) {
                 throw new C3op_Projects_ActionException("A phone number must have at least a local number.");
             }
             $this->phoneNumbers[] = $phoneNumber;
@@ -107,7 +113,7 @@ class C3op_Register_Contact {
             throw new C3op_Projects_ActionException("Array expected.");
         }
 
-    } //SetPhoneNumbers
+    } //AddPhoneNumber
 
     public function RemovePhoneNumber($key) {
 
