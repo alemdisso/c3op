@@ -74,6 +74,9 @@ class C3op_Register_Contact {
     } //GetPhoneNumbers
 
     public function SetPhoneNumber($phoneNumber) {
+
+        $this->phoneNumbers[] = $phoneNumber;
+
     } //SetPhoneNumbers
 
 }

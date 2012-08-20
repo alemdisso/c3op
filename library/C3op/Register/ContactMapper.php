@@ -28,6 +28,8 @@ class C3op_Register_ContactMapper
         $new->SetId((int)$this->db->lastInsertId());
         $this->identityMap[$new] = $new->GetId();
 
+        $this->insertPhoneNumbers($new);
+
     }
 
     public function update(C3op_Register_Contact $c) {
@@ -122,6 +124,38 @@ class C3op_Register_ContactMapper
         return $result;
     }
 
+    private function insertPhoneNumbers(C3op_Register_Contact $new)
+    {
+        foreach($new->GetPhoneNumbers() as $phoneNumber)
+            $data = array(
+                'contact' => $phoneNumber['contact'],
+                'area_code' => $phoneNumber['areaCode'],
+                'local_number' => $phoneNumber['localNumber'],
+                'label' => $phoneNumber['label'],
+                );
+            $this->db->insert('register_contacts_phone_numbers', $data);
+    }
 
+    private function setPhone(C3op_Projects_Action $action)
+    {
+        $result = $this->db->fetchRow(
+            sprintf(
+                'SELECT predicted_begin_date, predicted_finish_date, real_begin_date, real_finish_date FROM projects_actions_dates WHERE action = %d;',
+                $action->GetId()
+            )
+        );
+
+        if (empty($result)) {
+            $this->insertDates($action);
+            $this->setDates($action);
+            return;
+        }
+
+        $this->setAttributeValue($action, $result['predicted_begin_date'], 'predictedBeginDate');
+        $this->setAttributeValue($action, $result['predicted_finish_date'], 'predictedFinishDate');
+        $this->setAttributeValue($action, $result['real_begin_date'], 'realBeginDate');
+        $this->setAttributeValue($action, $result['real_finish_date'], 'realFinishDate');
+
+    }
 
 }
