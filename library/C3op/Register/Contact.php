@@ -73,9 +73,39 @@ class C3op_Register_Contact {
 
     } //GetPhoneNumbers
 
-    public function SetPhoneNumber($phoneNumber) {
+    public function SetPhoneNumbers($phoneNumbers) {
 
-        $this->phoneNumbers[] = $phoneNumber;
+        $newArray = array();
+        if (is_array($phoneNumbers)) {
+            foreach ($phoneNumbers as $phoneNumber) {
+                if (is_array($phoneNumber)) {
+                    if (!isset($phoneNumber["localNumber"])) {
+                        throw new C3op_Projects_ActionException("A phone number must have at least a local number.");
+                    }
+                    $newArray[] = $phoneNumber;
+                }
+            }
+        } else {
+            throw new C3op_Projects_ActionException("Phone numbers must be organized in an array to be setted.");
+        }
+
+        $this->phoneNumbers = $newArray;
+
+    } //SetPhoneNumbers
+
+    public function AddPhoneNumber($phoneNumber) {
+
+        if (is_array($phoneNumber)) {
+            if (!isset($phoneNumber["localNumber"])) {
+                throw new C3op_Projects_ActionException("A phone number must have at least a local number.");
+            }
+            $this->phoneNumbers[] = $phoneNumber;
+            end($this->phoneNumbers);
+            $lastId =  key($this->phoneNumbers);
+            return $lastId;
+        } else {
+            throw new C3op_Projects_ActionException("Array expected.");
+        }
 
     } //SetPhoneNumbers
 
