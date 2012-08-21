@@ -22,6 +22,8 @@ class PhoneValidationTest extends ControllerTestCase
        $this->assertTrue($validator->isValid($validPhoneNumber));
        $validPhoneNumber = "2345.76789";
        $this->assertTrue($validator->isValid($validPhoneNumber));
+       $validPhoneNumber = "23456789";
+       $this->assertTrue($validator->isValid($validPhoneNumber));
     }
 
     public function testThatCanValidateValidPhoneAreaCode() {
