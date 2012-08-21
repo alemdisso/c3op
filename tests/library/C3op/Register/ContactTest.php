@@ -67,14 +67,15 @@ class ContactTest extends ControllerTestCase
 
         $keyAdd1 = $this->contact->AddPhoneNumber($aPhoneNumber);
 
-        $otherPhoneNumber = array ("area_code" => "21"
-                        , "local_number" => "8989-0123"
+        $otherPhoneNumber = array ('area_code' => '21'
+                        , 'local_number' => '8989-0123'
+                        , 'label' => ''
             );
         $keyAdd2 = $this->contact->AddPhoneNumber($otherPhoneNumber);
 
         $phonesArray = $this->contact->getPhoneNumbers();
-        $phonesArray[$keyAdd1]["local_number"] = "5678-0000";
-        $newPhoneNumber = $phonesArray[$keyAdd1];
+        $newLocalNumber = "5678-0000";
+        $phonesArray[$keyAdd1]["local_number"] = $newLocalNumber;
 
         $this->contact->SetPhoneNumbers($phonesArray);
         $phonesArray = $this->contact->getPhoneNumbers();
@@ -82,7 +83,7 @@ class ContactTest extends ControllerTestCase
         $this->assertTrue(is_array($phonesArray));
         $this->assertEquals(2, count($phonesArray));
         $this->assertTrue(!in_array($aPhoneNumber, $phonesArray));
-        $this->assertTrue(in_array($newPhoneNumber, $phonesArray));
+        $this->assertEquals($newLocalNumber, $phonesArray[$keyAdd1]['local_number']);
         $this->assertTrue(in_array($otherPhoneNumber, $phonesArray));
     }
 
