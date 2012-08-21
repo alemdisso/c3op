@@ -129,6 +129,7 @@ class Register_ContactController extends Zend_Controller_Action
         $contactBeingDetailed = $this->contactMapper->findById($id);
 
         $phoneNumbersList = $contactBeingDetailed->getPhoneNumbers();
+        $phoneData = array();
         foreach($phoneNumbersList as $phoneId => $phoneNumber) {
             $phoneData[$phoneId] = array(
                 'area_code' => $phoneNumber['area_code'],

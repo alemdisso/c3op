@@ -135,8 +135,8 @@ class C3op_Register_ContactMapper
         foreach($new->GetPhoneNumbers() as $phoneNumber) {
             $data = array(
                 'contact' => $new->GetId(),
-                'area_code' => $phoneNumber['areaCode'],
-                'local_number' => $phoneNumber['localNumber'],
+                'area_code' => $phoneNumber['area_code'],
+                'local_number' => $phoneNumber['local_number'],
                 'label' => $phoneNumber['label'],
                 );
             $this->db->insert('register_contacts_phone_numbers', $data);

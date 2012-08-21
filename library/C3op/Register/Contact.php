@@ -100,7 +100,6 @@ class C3op_Register_Contact {
     } //SetPhoneNumbers
 
     public function AddPhoneNumber($phoneNumber) {
-
         if (is_array($phoneNumber)) {
             if (!isset($phoneNumber["local_number"])) {
                 throw new C3op_Projects_ActionException("A phone number must have at least a local number.");

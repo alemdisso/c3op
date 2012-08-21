@@ -107,6 +107,16 @@ class C3op_Form_ContactCreate extends Zend_Form
             $contact = new C3op_Register_Contact();
             $contact->SetName($this->name->GetValue());
             $contact->SetType($this->type->GetValue());
+            if ($this->localNumber->GetValue() != "") {
+                $phoneNumber = array(
+                        'area_code' => $this->areaCode->GetValue(),
+                        'local_number' => $this->localNumber->GetValue(),
+                        'label' => '',
+                        );
+                $contact->AddPhoneNumber($phoneNumber);
+            }
+
+
             $contactMapper->insert($contact);
         }
     }
