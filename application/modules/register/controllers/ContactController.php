@@ -128,6 +128,16 @@ class Register_ContactController extends Zend_Controller_Action
         $id = $this->checkIdFromGet();
         $contactBeingDetailed = $this->contactMapper->findById($id);
 
+        $phoneNumbersList = $contactBeingDetailed->getPhoneNumbers();
+        foreach($phoneNumbersList as $phoneId => $phoneNumber) {
+            $phoneData[$phoneId] = array(
+                'area_code' => $phoneNumber['area_code'],
+                'local_number' => $phoneNumber['local_number'],
+                'label' => $phoneNumber['label'],
+            );
+        }
+
+
         $linkagesIdsList = $this->contactMapper->getAllLinkages($contactBeingDetailed);
         $linkagesList = array();
 
@@ -149,9 +159,11 @@ class Register_ContactController extends Zend_Controller_Action
             );
         }
         $contactInfo = array(
+            'id' => $id,
             'name' => $contactBeingDetailed->GetName(),
             'editLink' => '/register/contact/edit/?id=' . $id   ,
             'linkLinkageCreate' => '/register/linkage/create/?contact=' . $id   ,
+            'phoneData' => $phoneData,
             'linkagesList' => $linkagesList,
         );
 
