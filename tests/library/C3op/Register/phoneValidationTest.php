@@ -29,6 +29,7 @@ class PhoneValidationTest extends ControllerTestCase
        $validAreaCode = "23";
        $this->assertTrue($validator->isValid($validAreaCode));
        $validAreaCode = "55 21";
+       $this->assertTrue($validator->isValid($validAreaCode));
     }
 
 
