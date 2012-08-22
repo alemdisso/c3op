@@ -118,6 +118,7 @@ class C3op_Form_ContactCreate extends Zend_Form
 
 
             $contactMapper->insert($contact);
-        }
+            return $contact->getId();
+       }
     }
 }

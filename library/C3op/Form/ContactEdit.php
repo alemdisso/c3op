@@ -38,6 +38,7 @@ class C3op_Form_ContactEdit extends C3op_Form_ContactCreate
 
             $contact->SetType($data['type']);
             $contactMapper->update($contact);
+            return $id;
         }
     }
  }

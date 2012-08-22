@@ -55,10 +55,10 @@ class Register_ContactController extends Zend_Controller_Action
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
-                $form->process($postData);
+                $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage('The record was successfully updated.');
-                $this->_redirect('/register/contact/success-create');
+                $this->_redirect('/register/contact/success-create/?id=' . $id);
 
             } else throw new C3op_Register_ContactException("Invalid data");
         }
@@ -71,10 +71,10 @@ class Register_ContactController extends Zend_Controller_Action
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
-                $form->process($postData);
+                $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage('The record was successfully updated.');
-                $this->_redirect('/register/contact/success-create');
+                $this->_redirect('/register/contact/success-create/?id=' . $id);
             } else throw new C3op_Register_ContactException("A contact must have a valid name.");
         } else {
             // GET
