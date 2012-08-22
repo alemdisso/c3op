@@ -1,7 +1,7 @@
 <div id="MainHeader">
   <h1>Consulta de Contatos</h1>
 </div>
-<?php 
+<?php
 /*
  * If exists contacts list
  */
@@ -10,7 +10,40 @@ if (is_array($this->contactInfo)) {
 ?>
 <p>Contato: <?php print($contactData['name']) ?></p>
 
-<?php 
+<?php
+/*
+ * iterate list and print title
+ */
+
+    $phoneNumbersList = $contactData['phoneData'];
+
+    if (count($phoneNumbersList) > 0) {
+
+
+?>
+<?php
+    foreach ($phoneNumbersList as $phoneId => $phoneInfo) {
+?>
+<?php if (isset($phoneInfo['label'])) { ?>
+<?php print($phoneInfo['label']) . ": " ?>
+<?php } ?>
+<?php if (isset($phoneInfo['local_number']) && ($phoneInfo['local_number'] != "")) { ?>
+<?php if (isset($phoneInfo['area_code']) && ($phoneInfo['area_code'] != "")) { ?>
+(<?php print($phoneInfo['area_code']) ?>)
+<?php } ?>
+<?php print($phoneInfo['local_number']) ?>
+<?php } ?>
+&nbsp;<a href="/register/contact/change-phone-number/?id=<?php print($phoneId); ?>">Editar</a>
+<br />
+<?php
+}  // loop iterate list and print titlei
+?>
+
+<?php } ?>
+<p />
+<a href="/register/contact/add-phone-number/?id=<?php print($this->contactInfo['id']) ?>">Adicionar telefone</a>
+<hr>
+<?php
 /*
  * iterate list and print title
  */
@@ -18,9 +51,9 @@ if (is_array($this->contactInfo)) {
     $linkagesList = $contactData['linkagesList'];
 
     if (count($linkagesList) > 0) {
-    
+
 ?>
-Vínculos<br/>    
+Vínculos<br/>
 <?php
     while (list(, $linkageInfo) = each($linkagesList)) {
 ?>
@@ -29,29 +62,29 @@ Vínculos<br/>
 <?php } ?><br/>
 <?php if (isset($linkageInfo['department']) && ($linkageInfo['department'] != "")) { ?>
 | Departamento: <?php print($linkageInfo['department']) ?>
-<?php } ?> 
+<?php } ?>
 <?php if (isset($linkageInfo['position']) && ($linkageInfo['position'] != "")) { ?>
 | Posição: <?php print($linkageInfo['position']) ?>
-<?php } ?> 
-
-<?php if (isset($linkageInfo['editLink'])) { ?>
-<a href="<?php print($linkageInfo['editLink']) ?>">Editar</a>
 <?php } ?>
+
+
+<a href="/register/linkage/edit/?id=<?php print($linkageInfo['id']); ?>">Editar</a>
+
 <hr>
 
 
-    
+
 <?php
 }  // loop iterate list and print titlei
 ?>
 
-<?php } ?> 
+<?php } ?>
             <p>
               <a href="<?php print($this->contactInfo['linkLinkageCreate']) ?>" class="button three columns alpha omega">Criar Novo Vínculo</a>
             </p>
-          </div><!-- Area -->  
+          </div><!-- Area -->
 <?php
-} else { // else exists contacts list 
+} else { // else exists contacts list
 ?>
     <?php print("Não há informações sobre este contato.") ?>
 
