@@ -1,55 +1,78 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="pt-br"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="pt-br"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="pt-br"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="pt-br"> <!--<![endif]-->
+<html>
+  <head>
+    <title><?php echo $this->layout()->title?></title>
 <?php include ("meta.phtml") ?>
 
-<link rel="stylesheet" href="/css/styles.css" type="text/css" media="screen"/>
-<link rel="stylesheet" href="/css/css3.css" type="text/css" media="screen"/>
-<link rel="stylesheet" href="/css/forms.css" type="text/css" media="screen" />
+    <meta charset="utf-8">
 
-<title><?php echo $this->layout()->title?></title>
+    <!-- Mobile Specific Metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" type="text/css" href="/css/base.css">
+    <link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+    <link rel="stylesheet" type="text/css" href="/css/formalize.css">
+    <link rel="stylesheet" type="text/css" href="/css/layout.css">
+    <link rel="stylesheet" type="text/css" href="/css/flexigrid.css" />
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Favicons
+    ================================================== -->
+    <link rel="shortcut icon"    href="/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon-72x72.png"   sizes="72x72">
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon-114x114.png" sizes="114x114">
+
+    <!-- Javascripts
+    ================================================== -->
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/jquery.formalize.js"></script>
+    <script type="text/javascript" src="/js/flexigrid.js"></script>
 
 <?php
 //$this->dojo()->setDjConfigOption('usePlainJson',true)
 //        ->addStylesheetModule('dijit.themes.tundra')
 //        ->setLocalPath("/js/dojo/dojo/dojo.js");
-//    
+//
 //echo $this->dojo();
 ?>
+    <script type="text/javascript" src="/js/prototype.js"></script>
+    <script type="text/javascript" src="/js/ajax_funcs.js"></script>
+    <script type="text/javascript" src="/js/jquery.js"></script>
 
+    <link rel="stylesheet" type="text/css" href="/css/anylinkcssmenu.css" />
+    <script type="text/javascript" src="/js/anylinkcssmenu.js"></script>
+    <script type="text/javascript">
+      anylinkcssmenu.init("anchorclass")
+    </script>
+
+    <script type="text/javascript" src="/js/flexigrid.js"></script>
+
+
+  </head>
+  <body>
+    <div class="container" id="Envelope">
 <?php
-
-
-
-//<script src="//ajax.googleapis.com/ajax/libs/dojo/1.7.2/dojo/dojo.js"
-//               data-dojo-config="async: true"></script>
-
-
+  if ($this->layout()->nestedLayout) {
+      $this->layout()->setLayout($this->layout()->nestedLayout);
+  } else {
+      $this->layout()->setLayout('inner');
+  }
+  echo $this->layout()->render();
 ?>
-<script type="text/javascript" src="/js/prototype.js"></script>
-<script type="text/javascript" src="/js/ajax_funcs.js"></script>
-
-</head>
-
-<body class="tundra">
-<!-- container -->
-<div id="container">
-<?php
-if ($this->layout()->nestedLayout) {
-    $this->layout()->setLayout($this->layout()->nestedLayout);   
-} else {
-    $this->layout()->setLayout('inner');
-}
-echo $this->layout()->render();
-?>
-
 <!-- footer -->
 <?php //echo $this->action('inclui', 'footer', 'includes') ?>
 <!-- /footer -->
-
-</div>
-<!-- /container -->
-
-</body>
+    </div><!-- #Envelope -->
+  </body>
 </html>

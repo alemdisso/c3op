@@ -2,18 +2,15 @@
 <?php echo $this->action('include', 'header', 'includes') ?>
 <!-- /header -->
 
-<!-- structure -->
-<div id="structure" class="clearfix">
+		<div id="Main" class="sixteen columns">
 
-<!-- content -->
-<div id="main_content_inner">
+  		<div class="spacer one column alpha"></div>
+      <div id="Stage" class="fourteen columns">
 <?php echo $this->layout()->content; ?>
-</div>
-<!-- /content -->
-
 <!-- apendix -->
-<div id="apendix">&nbsp;</div>
+      <div id="apendix">&nbsp;</div>
 <!-- /apendix -->
+    		</div><!-- #Stage -->
+  		<div class="spacer one column omega"></div>
 
-</div>
-<!-- /structure -->
+		</div><!-- #Main -->
