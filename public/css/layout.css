@@ -1,0 +1,301 @@
+/* 
+==== c3op ======================================================================
+     Function : Defines pages general layout 
+     Author   : Ricardo Porto
+     Date     : 10/08/2012
+-------------------------------------------------------------------------------- 
+     Based on Skeleton - http://getskeleton.com/
+-------------------------------------------------------------------------------- 
+*/
+
+/* 
+---- Table of Content ----------------------------------------------------------
+     #Site Styles
+     #Page Styles
+     #Media Queries
+     #Font-Face 
+-------------------------------------------------------------------------------- 
+*/
+
+
+/* - #Site Styles ----------------------------------------------------------- */
+
+.errors {
+  border: 1px #f00 solid;
+  padding: 5px;
+  background-color: #ffddcc;
+  -webkit-border-radius: 0px 10px 10px 10px;
+  -moz-border-radius: 0px 10px 10px 10px;
+  -ms-border-radius: 0px 10px 10px 10px;
+  -o-border-radius: 0px 10px 10px 10px;
+  border-radius: 0px 10px 10px 10px;
+  margin: 20px 10px;
+  position: absolute;
+  width: 130px; 
+}
+
+.FieldError {
+  -webkit-box-shadow: #f00 0 0 5px 0;
+  -moz-box-shadow: #f00 0 0 5px 0;
+  box-shadow: #f00 0 0 5px 0;
+  color: #f00;
+}
+
+.AllCaps {
+  text-transform: uppercase;
+}
+
+.SmallCaps {
+  font-variant:small-caps;
+}
+
+#Header,
+#Logo {
+  margin-top: 48px;
+}
+
+#Header h1 {
+  color: #c01f1f;
+  font-weight: bold;
+}
+
+#Header a {
+  color: #c01f1f;
+  font-style: italic;
+  font-weight: bold;
+}
+
+#Header #User {
+  float: right;
+  height: 100%;
+  border-right: 1px #eee solid;
+}
+
+#Header #User p {
+  color: #bb2f39;
+  border-left: 1px #eee solid;
+  float: left;
+  font-size: 12px;
+  height: 34px;
+  padding: 14px 10px 0 10px;
+}
+
+#Header #User p a {
+  color: #4c4c4c;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+#Menu {
+  border-top: #aaaaa9 1px solid;
+  border-bottom: #aaaaa9 1px solid;
+  height: 28px;
+}
+
+#Menu ul {
+  margin: 6px 0 -8px 0;
+  float: right;
+}
+
+#Menu ul li {
+  color: #aaaaa9;
+  float: left;
+  margin-left: 30px;
+  text-transform: uppercase;
+}
+
+#Menu ul li a {
+  color: #aaaaa9;
+  text-decoration: none;
+}
+
+#Menu ul li.active {
+  border-top: #363736 3px solid;
+  margin-top: -6px;
+  padding-top: 3px;
+}
+
+#Menu ul li.active a {
+  color: #363736;
+  font-weight: bold;
+}
+
+#Main {
+  background-color: #fff;
+  border: 1px #c0c0bf solid;
+  margin-top: 25px;
+  padding-bottom: 40px;
+}
+
+#MainHeader {
+  margin-top: 50px;
+  padding-bottom: 5px;
+  border-bottom: 1px #c0c0bf solid;
+}
+
+#MainHeader h1 {
+  font-size: 170%;
+  margin-bottom: 5px;
+}
+
+#MainHeader h1 a {
+  text-decoration: none;
+}
+
+#MainHeader h2 {
+  float: right;
+  font-size: 100%;
+}
+
+.MoreInfo {
+  float: right;
+  right: 0px;
+  margin-bottom: 5px;
+}
+
+.MoreInfo a {
+  color: #c01f1f;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.Area {
+  border-bottom: 1px #c0c0bf solid;
+  display: table;
+  padding: 20px 0 10px 0;
+  width: 100%; 
+}
+
+.Label {
+  text-align: right;
+  line-height: 110%;
+}
+
+/*  */
+
+dl.zend_form {
+  padding: 20px 0 10px 0; 
+  border-bottom: 1px #c0c0bf solid;
+}
+
+.Right {
+  text-align: right;
+}
+
+.button {
+  font-size: 9px;
+  height: 21px;
+  text-align: center;
+  text-transform: uppercase;
+  -webkit-appearance: none;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-background-clip: padding;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  background: #dddddd url('/public/images/button.png') repeat-x;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #dddddd));
+  background-image: -webkit-linear-gradient(#ffffff, #dddddd);
+  background-image: -moz-linear-gradient(#ffffff, #dddddd);
+  background-image: -o-linear-gradient(#ffffff, #dddddd);
+  background-image: -ms-linear-gradient(#ffffff, #dddddd);
+  background-image: linear-gradient(#ffffff, #dddddd);
+  border: 1px solid;
+  border-color: #dddddd #bbbbbb #999999;
+  cursor: pointer;
+  color: #333333;
+  outline: 0;
+  overflow: visible;
+  padding: 1px 0 0 0;
+  text-shadow: white 0 1px 1px;
+  text-decoration: none;
+  vertical-align: middle;
+  height: 19px;
+  width: auto;
+  *padding-top: 0;
+  *padding-bottom: 0;
+}
+
+a.button {
+  margin: 0 10px; 
+  text-decoration: none;
+}
+
+.Red { /* temporário */
+  background-color: #f00;
+}
+
+.Invisible {
+  color: #fff;
+}
+
+textarea,
+select,
+input[type="date"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="email"],
+input[type="month"],
+input[type="number"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="text"],
+input[type="time"],
+input[type="url"],
+input[type="week"] {
+  margin-bottom: 10px;
+}
+
+button,
+input[type="reset"],
+input[type="submit"],
+input[type="button"] {
+  font-family: inherit;
+  font-size: 75%;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+
+/* - #Page Styles ----------------------------------------------------------- */
+
+
+/* - #Media Queries --------------------------------------------------------- */
+
+  /* Smaller than standard 960 (devices and browsers) */
+  @media only screen and (max-width: 959px) {}
+
+  /* Tablet Portrait size to standard 960 (devices and browsers) */
+  @media only screen and (min-width: 768px) and (max-width: 959px) {}
+
+  /* All Mobile Sizes (devices and browser) */
+  @media only screen and (max-width: 767px) {}
+
+  /* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
+  @media only screen and (min-width: 480px) and (max-width: 767px) {}
+
+  /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
+  @media only screen and (max-width: 479px) {}
+
+
+/* - #Typography ------------------------------------------------------------ */
+
+    /*  This is the proper syntax for an @font-face file. Just create a "fonts" 
+        folder inside the public folder, copy your FontName into code below and 
+        remove comment brackets */
+
+/*
+@font-face {
+  font-family: 'FontName';
+  src: url('../fonts/FontName.eot');
+  src: url('../fonts/FontName.eot?iefix') format('eot'),
+  url('../fonts/FontName.woff') format('woff'),
+  url('../fonts/FontName.ttf') format('truetype'),
+  url('../fonts/FontName.svg#webfontZam02nTh') format('svg');
+  font-weight: normal;
+  font-style: normal; }
+*/

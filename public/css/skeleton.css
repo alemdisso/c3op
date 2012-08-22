@@ -1,0 +1,302 @@
+/* 
+==== c3op ======================================================================
+     Function : Defines pages general layout 
+     Author   : Ricardo Porto
+     Date     : 10/08/2012
+-------------------------------------------------------------------------------- 
+     Based on Skeleton - http://getskeleton.com/
+-------------------------------------------------------------------------------- 
+*/
+
+/* 
+---- Table of Content ----------------------------------------------------------
+    #Base 960 Grid
+    #Tablet (Portrait)
+    #Mobile (Portrait)
+    #Mobile (Landscape)
+    #Clearing 
+-------------------------------------------------------------------------------- 
+*/
+
+
+/* - #Base 960 Grid --------------------------------------------------------- */
+
+.container                                  { position: relative; width: 1120px; margin: 0 auto; padding: 0; }
+.container .column                          { float: left; display: inline; margin-left: 10px; margin-right: 10px; margin-bottom: 5px }
+.container .columns                         { float: left; display: inline; margin-left: 10px; margin-right: 10px; margin-bottom: 5px }
+.row                                        { margin-bottom: 20px; }
+.container .fraction                        { float: left; display: inline; margin-left: 0px; margin-right: 0px;background-color: blue;margin-bottom: 5px }
+
+/* Nested Column Classes */
+.column.alpha, .columns.alpha               { margin-left:  0; }
+.column.omega, .columns.omega               { margin-right: 0; }
+
+/* Base Grid */
+.container .one.column,
+.container .one.columns                     { width:   50px; }
+.container .two.columns                     { width:  120px; }
+.container .three.columns                   { width:  190px; }
+.container .four.columns                    { width:  260px; }
+.container .five.columns                    { width:  330px; }
+.container .six.columns                     { width:  400px; }
+.container .seven.columns                   { width:  470px; }
+.container .eight.columns                   { width:  540px; }
+.container .nine.columns                    { width:  610px; }
+.container .ten.columns                     { width:  680px; }
+.container .eleven.columns                  { width:  750px; }
+.container .twelve.columns                  { width:  820px; }
+.container .thirteen.columns                { width:  890px; }
+.container .fourteen.columns                { width:  960px; }
+.container .fifteen.columns                 { width: 1030px; }
+.container .sixteen.columns                 { width: 1100px; }
+
+.container .full.column                     { width: 100%; }
+
+.container .one-third.column                { width:  353px; }
+.container .two-thirds.column               { width:  726px; }
+
+/* Offsets */
+.container .offset-by-one                   { margin-left:   80px; }
+.container .offset-by-two                   { margin-left:  150px; }
+.container .offset-by-three                 { margin-left:  220px; }
+.container .offset-by-four                  { margin-left:  290px; }
+.container .offset-by-five                  { margin-left:  360px; }
+.container .offset-by-six                   { margin-left:  430px; }
+.container .offset-by-seven                 { margin-left:  500px; }
+.container .offset-by-eight                 { margin-left:  570px; }
+.container .offset-by-nine                  { margin-left:  640px; }
+.container .offset-by-ten                   { margin-left:  710px; }
+.container .offset-by-eleven                { margin-left:  780px; }
+.container .offset-by-twelve                { margin-left:  850px; }
+.container .offset-by-thirteen              { margin-left:  920px; }
+.container .offset-by-fourteen              { margin-left:  990px; }
+.container .offset-by-fifteen               { margin-left: 1060px; }
+
+.container .offset-by-one-third             { margin-left: 383px; }
+.container .offset-by-two-thirds            { margin-left: 756px; }
+
+.container .offset-by-one.alpha             { margin-left:   70px; }
+.container .offset-by-two.alpha             { margin-left:  140px; }
+.container .offset-by-three.alpha           { margin-left:  210px; }
+.container .offset-by-four.alpha            { margin-left:  280px; }
+.container .offset-by-five.alpha            { margin-left:  350px; }
+.container .offset-by-six.alpha             { margin-left:  420px; }
+.container .offset-by-seven.alpha           { margin-left:  490px; }
+.container .offset-by-eight.alpha           { margin-left:  560px; }
+.container .offset-by-nine.alpha            { margin-left:  630px; }
+.container .offset-by-ten.alpha             { margin-left:  700px; }
+.container .offset-by-eleven.alpha          { margin-left:  770px; }
+.container .offset-by-twelve.alpha          { margin-left:  840px; }
+.container .offset-by-thirteen.alpha        { margin-left:  910px; }
+.container .offset-by-fourteen.alpha        { margin-left:  980px; }
+.container .offset-by-fifteen.alpha         { margin-left: 1050px; }
+
+/* Insets */
+.container .inset-by-one                   { margin-right:   80px; }
+.container .inset-by-two                   { margin-right:  150px; }
+.container .inset-by-three                 { margin-right:  220px; }
+.container .inset-by-four                  { margin-right:  280px; }
+.container .inset-by-five                  { margin-right:  360px; }
+.container .inset-by-six                   { margin-right:  430px; }
+.container .inset-by-seven                 { margin-right:  500px; }
+.container .inset-by-eight                 { margin-right:  570px; }
+.container .inset-by-nine                  { margin-right:  640px; }
+.container .inset-by-ten                   { margin-right:  710px; }
+.container .inset-by-eleven                { margin-right:  780px; }
+.container .inset-by-twelve                { margin-right:  850px; }
+.container .inset-by-thirteen              { margin-right:  920px; }
+.container .inset-by-fourteen              { margin-right:  990px; }
+.container .inset-by-fifteen               { margin-right: 1060px; }
+
+.container .inset-by-one-third             { margin-right: 383px; }
+.container .inset-by-two-thirds            { margin-right: 756px; }
+
+.container .inset-by-one.omega             { margin-right:   70px; }
+.container .inset-by-two.omega             { margin-right:  140px; }
+.container .inset-by-three.omega           { margin-right:  210px; }
+.container .inset-by-four.omega            { margin-right:  270px; }
+.container .inset-by-five.omega            { margin-right:  350px; }
+.container .inset-by-six.omega             { margin-right:  420px; }
+.container .inset-by-seven.omega           { margin-right:  490px; }
+.container .inset-by-eight.omega           { margin-right:  560px; }
+.container .inset-by-nine.omega            { margin-right:  630px; }
+.container .inset-by-ten.omega             { margin-right:  700px; }
+.container .inset-by-eleven.omega          { margin-right:  770px; }
+.container .inset-by-twelve.omega          { margin-right:  840px; }
+.container .inset-by-thirteen.omega        { margin-right:  910px; }
+.container .inset-by-fourteen.omega        { margin-right:  980px; }
+.container .inset-by-fifteen.omega         { margin-right: 1050px; }
+
+
+/* - #Tablet (Portrait) ----------------------------------------------------- */
+/* Note: Design for a width of 768px */
+
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+  .container                                  { width: 768px; }
+  .container .column,
+  .container .columns                         { margin-left: 10px; margin-right: 10px;  }
+  .column.alpha, .columns.alpha               { margin-left: 0;    margin-right: 10px; }
+  .column.omega, .columns.omega               { margin-left: 10px; margin-right: 0; }
+  .alpha.omega                                { margin-left: 0;    margin-right: 0; }
+  
+  .container .one.column,
+  .container .one.columns                     { width:  28px; }
+  .container .two.columns                     { width:  76px; }
+  .container .three.columns                   { width: 124px; }
+  .container .four.columns                    { width: 172px; }
+  .container .five.columns                    { width: 220px; }
+  .container .six.columns                     { width: 268px; }
+  .container .seven.columns                   { width: 316px; }
+  .container .eight.columns                   { width: 364px; }
+  .container .nine.columns                    { width: 412px; }
+  .container .ten.columns                     { width: 460px; }
+  .container .eleven.columns                  { width: 508px; }
+  .container .twelve.columns                  { width: 556px; }
+  .container .thirteen.columns                { width: 604px; }
+  .container .fourteen.columns                { width: 652px; }
+  .container .fifteen.columns                 { width: 700px; }
+  .container .sixteen.columns                 { width: 748px; }
+  
+  .container .one-third.column                { width: 236px; }
+  .container .two-thirds.column               { width: 492px; }
+  
+  /* Offsets */
+  .container .offset-by-one                   { padding-left:  48px; }
+  .container .offset-by-two                   { padding-left:  96px; }
+  .container .offset-by-three                 { padding-left: 144px; }
+  .container .offset-by-four                  { padding-left: 192px; }
+  .container .offset-by-five                  { padding-left: 240px; }
+  .container .offset-by-six                   { padding-left: 288px; }
+  .container .offset-by-seven                 { padding-left: 336px; }
+  .container .offset-by-eight                 { padding-left: 384px; }
+  .container .offset-by-nine                  { padding-left: 432px; }
+  .container .offset-by-ten                   { padding-left: 480px; }
+  .container .offset-by-eleven                { padding-left: 528px; }
+  .container .offset-by-twelve                { padding-left: 576px; }
+  .container .offset-by-thirteen              { padding-left: 624px; }
+  .container .offset-by-fourteen              { padding-left: 672px; }
+  .container .offset-by-fifteen               { padding-left: 720px; }
+}
+
+
+/* - #Mobile (Portrait) ----------------------------------------------------- */
+    /* Note: Design for a width of 320px */
+
+@media only screen and (max-width: 767px) {
+  .container { width: 300px; }
+  .container .columns,
+  .container .column { margin: 0; }
+  
+  .container .one.column,
+  .container .one.columns,
+  .container .two.columns,
+  .container .three.columns,
+  .container .four.columns,
+  .container .five.columns,
+  .container .six.columns,
+  .container .seven.columns,
+  .container .eight.columns,
+  .container .nine.columns,
+  .container .ten.columns,
+  .container .eleven.columns,
+  .container .twelve.columns,
+  .container .thirteen.columns,
+  .container .fourteen.columns,
+  .container .fifteen.columns,
+  .container .sixteen.columns,
+  .container .one-third.column,
+  .container .two-thirds.column  { width: 300px; }
+  
+  /* Offsets */
+  .container .offset-by-one,
+  .container .offset-by-two,
+  .container .offset-by-three,
+  .container .offset-by-four,
+  .container .offset-by-five,
+  .container .offset-by-six,
+  .container .offset-by-seven,
+  .container .offset-by-eight,
+  .container .offset-by-nine,
+  .container .offset-by-ten,
+  .container .offset-by-eleven,
+  .container .offset-by-twelve,
+  .container .offset-by-thirteen,
+  .container .offset-by-fourteen,
+  .container .offset-by-fifteen { padding-left: 0; }
+}
+
+
+/* - #Mobile (Landscape) ---------------------------------------------------- */
+/* Note: Design for a width of 480px */
+
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .container { width: 420px; }
+  .container .columns,
+  .container .column { margin: 0; }
+  
+  .container .one.column,
+  .container .one.columns,
+  .container .two.columns,
+  .container .three.columns,
+  .container .four.columns,
+  .container .five.columns,
+  .container .six.columns,
+  .container .seven.columns,
+  .container .eight.columns,
+  .container .nine.columns,
+  .container .ten.columns,
+  .container .eleven.columns,
+  .container .twelve.columns,
+  .container .thirteen.columns,
+  .container .fourteen.columns,
+  .container .fifteen.columns,
+  .container .sixteen.columns,
+  .container .one-third.column,
+  .container .two-thirds.column { width: 420px; }
+}
+
+
+/* - #Clearing -------------------------------------------------------------- */
+    /* Self Clearing Goodness */
+
+.container:after { 
+  content: "\0020"; 
+  display: block; 
+  height: 0; 
+  clear: both; 
+  visibility: hidden; 
+}
+
+/* Use clearfix class on parent to clear nested columns,
+or wrap each row of columns in a <div class="row"> */
+.clearfix:before,
+.clearfix:after,
+.row:before,
+.row:after {
+  content: '\0020';
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+  height: 0; 
+}
+
+.row:after,
+.clearfix:after {
+  clear: both;
+}
+
+.row,
+.clearfix {
+  zoom: 1; 
+}
+
+/* You can also use a <br class="clear" /> to clear columns */
+.clear {
+  clear: both;
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
