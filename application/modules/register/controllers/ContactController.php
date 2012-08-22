@@ -183,8 +183,8 @@ class Register_ContactController extends Zend_Controller_Action
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage('The record was successfully updated.');
-                $this->_redirect('/register/linkage/success-create');
-            } else throw new C3op_Register_LinkageException("An linkage must have valid data.");
+                $this->_redirect('/register/contact/success-create');
+            } else throw new C3op_Register_ContactException("Invalid data for phone number.");
         } else {
             $contactId = $this->checkIdFromGet();
             $contactHasPhone = $this->contactMapper->findById($contactId);
@@ -213,8 +213,8 @@ class Register_ContactController extends Zend_Controller_Action
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage('The record was successfully updated.');
-                $this->_redirect('/register/linkage/success-create');
-            } else throw new C3op_Register_LinkageException("An linkage must have valid data.");
+                $this->_redirect('/register/contact/success-create');
+            } else throw new C3op_Register_ContactException("Invalid data for phone number.");
         } else {
             $data = $this->_request->getParams();
             $filters = array(
