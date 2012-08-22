@@ -4,27 +4,25 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
 
     /* conecta */
-    
+
     public function _initDbAdapter() {
-        $config = new Zend_Config_Ini(APPLICATION_PATH . "/configs/application.ini", "production");
-  
-        try {
+        $config = new Zend_Config_Ini(APPLICATION_PATH . "/configs/application.ini", "testing");
+
+       try {
             $db = Zend_Db::factory($config->conecta);
             $db->getConnection($db);
 
         } catch (Zend_Db_Adapter_Exception $e) {
-            //echo $e->getMessage();
+            echo $e->getMessage();
             die('Could not connect to database.');
 
         } catch (Zend_Exception $e) {
-            //echo $e->getMessage();
+            echo $e->getMessage();
             die('Could not connect to database.');
 
         }
 
         Zend_Registry::set('db', $db);
-
-
     }
 
 
@@ -46,7 +44,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Zend_Registry::set('Zend_Locale', $locale);
 
     }
-    
+
     protected function _initUser()
     {
         $user = null;
@@ -54,7 +52,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         if ($auth->hasIdentity()) {
             $user = $auth->getIdentity();
             if ($user instanceof C3op_Auth_User) {
-                // 
+                //
                 $userLastAccess = strtotime($user->GetLastLogin());
                 if ((time() - $userLastAccess) > 60*5) {
                     $date = new Zend_Date();
@@ -72,8 +70,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $acl = new C3op_Access_Acl();
         Zend_Registry::set('acl', $acl);
         return $acl;
-    }    
-
-
+    }
 
 }
