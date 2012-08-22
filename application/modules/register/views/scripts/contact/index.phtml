@@ -1,4 +1,6 @@
-<h2>C3op</h2>
+<div id="MainHeader">
+  <h1>Contatos</h1>
+</div>
 <?php 
 /*
  * If exists contacts list
@@ -12,37 +14,46 @@ if (is_array($this->contactsList)) {
  */
     if (count($this->contactsList)) {
 ?>
-
-
+            <div class="Area">
+              <table class="display dataTable">
+            		<thead>
+            			<tr>
+            				<th width="330">Nome</th>
+            				<th width="070">&nbsp;</th>
+            			</tr>
+            		</thead>
+            		<tbody>
 <?php 
 /*
  * iterate list and print title
  */
         while (list(, $contactData) = each($this->contactsList)) {
 ?>
-
-<a href="<?php print($contactData['linkDetail']) ?>"><?php print($contactData['name']) ?></a>
- | 
-
+            			<tr>
+            				<td><a href="<?php print($contactData['linkDetail']) ?>"><?php print($contactData['name']) ?></a></td>
 <?php if (isset($contactData['editLink'])) { ?>
-<a href="<?php print($contactData['editLink']) ?>">Editar</a>
+                    <td>
+                      <a href="#" class="anchorclass" rel="submenu1">Opções</a> 
+                      <div id="submenu1" class="anylinkcss">
+                        <ul>
+                          <li>
+                            <a href="<?php print($contactData['editLink']) ?>">Editar</a>
+                          </li>
+                        </ul>
+                      </div><!-- #submenu1 -->
+                    </td> 
+            			</tr>
 <?php } ?>
-
-<br />
-
-
-    
 <?php
 }  // loop iterate list and print titlei
 ?>
-
-
-
-
-    
+            		</tbody>
+            	</table><br>
 <?php
     } else { // end else there is contacts in list
 ?>
+          <div class="Area">
+          <h2>Instituições</h2>
     <?php print("Não há contatos cadastrados.") ?>
     
 <?php
@@ -56,5 +67,7 @@ if (is_array($this->contactsList)) {
     <?php
 } // end exists contacts list
 ?>
-<p />
-<a href="<?php print($this->createContactLink) ?>">Criar Novo Contato</a>
+            <p>
+              <a href="<?php print($this->createContactLink) ?>" class="button three columns alpha omega">Criar Novo Contato</a>
+            </p>
+          </div><!-- Area -->  
