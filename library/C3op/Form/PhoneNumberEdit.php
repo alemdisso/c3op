@@ -38,6 +38,7 @@ class C3op_Form_PhoneNumberEdit extends C3op_Form_PhoneNumberCreate
                     $phoneNumbers[$this->id->GetValue()] = $phoneNumber;
                     $contact->SetPhoneNumbers($phoneNumbers);
                     $contactMapper->update($contact);
+                    return $contact->GetId();
 
                 } else {
                     throw new C3op_Form_ContactEditException('Can\'t find this phone id at this contact phone list');

@@ -99,6 +99,8 @@ class C3op_Form_PhoneNumberCreate extends Zend_Form
 
 
             $contactMapper->update($contact);
+            return $contact->GetId();
+
         }
     }
 }

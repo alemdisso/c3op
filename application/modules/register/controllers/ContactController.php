@@ -105,9 +105,12 @@ class Register_ContactController extends Zend_Controller_Action
 
     public function successCreateAction()
     {
+        $this->initContactMapper();
+        $contact =  $this->initContactWithCheckedId($this->contactMapper);
+
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
             $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
-            $this->getResponse()->setHeader('Refresh', '3; URL=/register/contact');
+            $this->getResponse()->setHeader('Refresh', '3; URL=/register/contact/detail/?id=' . $contact->getId());
         } else {
             $this->_redirect('/register/contact');
         }
@@ -180,10 +183,10 @@ class Register_ContactController extends Zend_Controller_Action
             $form = new C3op_Form_PhoneNumberCreate();
             $this->view->form = $form;
             if ($form->isValid($postData)) {
-                $form->process($postData);
+                $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage('The record was successfully updated.');
-                $this->_redirect('/register/contact/success-create');
+                $this->_redirect('/register/contact/success-create/?id=' . $id);
             } else throw new C3op_Register_ContactException("Invalid data for phone number.");
         } else {
             $contactId = $this->checkIdFromGet();
@@ -210,10 +213,10 @@ class Register_ContactController extends Zend_Controller_Action
             $form = new C3op_Form_PhoneNumberEdit();
             $this->view->form = $form;
             if ($form->isValid($postData)) {
-                $form->process($postData);
+                $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage('The record was successfully updated.');
-                $this->_redirect('/register/contact/success-create');
+                $this->_redirect('/register/contact/success-create/?id=' . $id);
             } else throw new C3op_Register_ContactException("Invalid data for phone number.");
         } else {
             $data = $this->_request->getParams();
@@ -253,6 +256,13 @@ class Register_ContactController extends Zend_Controller_Action
         }
     }
 
+    private function initContactMapper()
+    {
+        if (!isset($this->contactMapper)) {
+            $this->contactMapper = new C3op_Register_ContactMapper($this->db);
+        }
+    }
+
     private function checkIdFromGet()
     {
         $data = $this->_request->getParams();
@@ -269,6 +279,12 @@ class Register_ContactController extends Zend_Controller_Action
         }
         throw new C3op_Register_ContactException("Invalid Contact Id from Get");
 
+    }
+
+
+    private function initContactWithCheckedId(C3op_Register_ContactMapper $mapper)
+    {
+        return $mapper->findById($this->checkIdFromGet());
     }
 
     private function SetValueToFormField(Zend_Form $form, $fieldName, $value)
