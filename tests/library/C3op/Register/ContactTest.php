@@ -25,8 +25,8 @@ class ContactTest extends ControllerTestCase
 
     public function testIfCanSetAPhoneNumberToContact()
     {
-        $aPhoneNumber = array ("areaCode" => "21"
-                        , "localNumber" => "2234-5678"
+        $aPhoneNumber = array ("area_code" => "21"
+                        , "local_number" => "2234-5678"
             );
 
         $this->contact->AddPhoneNumber($aPhoneNumber);
@@ -38,16 +38,16 @@ class ContactTest extends ControllerTestCase
 
     public function testIfCanSetTwoDifferentPhoneNumbersToContact()
     {
-        $aPhoneNumber = array ("areaCode" => "21"
-                        , "localNumber" => "2234-5678"
+        $aPhoneNumber = array ("area_code" => "21"
+                        , "local_number" => "2234-5678"
             );
 
         $this->contact->AddPhoneNumber($aPhoneNumber);
-        $otherPhoneNumber = array ("areaCode" => "21"
-                        , "localNumber" => "8989-0123"
+        $otherPhoneNumber = array ("area_code" => "21"
+                        , "local_number" => "8989-0123"
             );
-        $someElsePhoneNumber = array ("areaCode" => "21"
-                        , "localNumber" => "3267-7843"
+        $someElsePhoneNumber = array ("area_code" => "21"
+                        , "local_number" => "3267-7843"
             );
 
         $this->contact->AddPhoneNumber($otherPhoneNumber);
@@ -61,20 +61,21 @@ class ContactTest extends ControllerTestCase
 
     public function testIfCanChangeAPhoneNumberRelatedToContact()
     {
-        $aPhoneNumber = array ("areaCode" => "21"
-                        , "localNumber" => "2234-5678"
+        $aPhoneNumber = array ("area_code" => "21"
+                        , "local_number" => "2234-5678"
             );
 
         $keyAdd1 = $this->contact->AddPhoneNumber($aPhoneNumber);
 
-        $otherPhoneNumber = array ("areaCode" => "21"
-                        , "localNumber" => "8989-0123"
+        $otherPhoneNumber = array ('area_code' => '21'
+                        , 'local_number' => '8989-0123'
+                        , 'label' => ''
             );
         $keyAdd2 = $this->contact->AddPhoneNumber($otherPhoneNumber);
 
         $phonesArray = $this->contact->getPhoneNumbers();
-        $phonesArray[$keyAdd1]["localNumber"] = "5678-0000";
-        $newPhoneNumber = $phonesArray[$keyAdd1];
+        $newLocalNumber = "5678-0000";
+        $phonesArray[$keyAdd1]["local_number"] = $newLocalNumber;
 
         $this->contact->SetPhoneNumbers($phonesArray);
         $phonesArray = $this->contact->getPhoneNumbers();
@@ -82,9 +83,38 @@ class ContactTest extends ControllerTestCase
         $this->assertTrue(is_array($phonesArray));
         $this->assertEquals(2, count($phonesArray));
         $this->assertTrue(!in_array($aPhoneNumber, $phonesArray));
-        $this->assertTrue(in_array($newPhoneNumber, $phonesArray));
+        $this->assertEquals($newLocalNumber, $phonesArray[$keyAdd1]['local_number']);
         $this->assertTrue(in_array($otherPhoneNumber, $phonesArray));
     }
+
+
+    public function testIfCanRemovePhoneNumbersAssociatedToContact()
+    {
+        $phoneNumber1 = array ("area_code" => "21"
+                        , "local_number" => "2234-5678"
+            );
+
+        $k1 = $this->contact->AddPhoneNumber($phoneNumber1);
+
+        $phoneNumber2 = array ("area_code" => "21"
+                        , "local_number" => "8989-0123"
+            );
+        $k2 = $this->contact->AddPhoneNumber($phoneNumber2);
+
+        $phonesArray = $this->contact->getPhoneNumbers();
+        $this->assertEquals(2, count($phonesArray));
+        $this->assertTrue(in_array($phoneNumber1, $phonesArray));
+        $this->assertTrue(in_array($phoneNumber2, $phonesArray));
+        $this->contact->RemovePhoneNumber($k1);
+        $phonesArray = $this->contact->GetPhoneNumbers();
+        $this->assertTrue(!in_array($phoneNumber1, $phonesArray));
+        $this->assertEquals(1, count($phonesArray));
+        $this->contact->RemovePhoneNumber($k2);
+        $phonesArray = $this->contact->GetPhoneNumbers();
+        $this->assertTrue(!in_array($phoneNumber2, $phonesArray));
+        $this->assertEquals(0, count($phonesArray));
+    }
+
 
     public function testIfCanAttributeNameToContact()
     {

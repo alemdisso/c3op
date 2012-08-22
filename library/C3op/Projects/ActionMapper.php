@@ -107,7 +107,7 @@ class C3op_Projects_ActionMapper
 
         $this->identityMap[$obj] = $id;
 
-        $this->setDates($obj);
+        $this->fetchDates($obj);
         $check = new C3op_Projects_ActionCheckStart($obj, $this);
         return $obj;
 
@@ -183,7 +183,7 @@ class C3op_Projects_ActionMapper
         $this->db->insert('projects_actions_dates', $data);
     }
 
-    private function setDates(C3op_Projects_Action $action)
+    private function fetchDates(C3op_Projects_Action $action)
     {
         $result = $this->db->fetchRow(
             sprintf(
@@ -194,10 +194,10 @@ class C3op_Projects_ActionMapper
 
         if (empty($result)) {
             $this->insertDates($action);
-            $this->setDates($action);
+            $this->fetchDates($action);
             return;
         }
-        
+
         $this->setAttributeValue($action, $result['predicted_begin_date'], 'predictedBeginDate');
         $this->setAttributeValue($action, $result['predicted_finish_date'], 'predictedFinishDate');
         $this->setAttributeValue($action, $result['real_begin_date'], 'realBeginDate');

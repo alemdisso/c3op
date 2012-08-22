@@ -77,13 +77,19 @@ class C3op_Register_Contact {
 
         $newArray = array();
         if (is_array($phoneNumbers)) {
-            foreach ($phoneNumbers as $phoneNumber) {
+            foreach ($phoneNumbers as $k => $phoneNumber) {
                 if (is_array($phoneNumber)) {
-                    if (!isset($phoneNumber["localNumber"])) {
+                    if (!isset($phoneNumber["local_number"])) {
                         throw new C3op_Projects_ActionException("A phone number must have at least a local number.");
                     }
-                    $newArray[] = $phoneNumber;
-                }
+                    if (!isset($phoneNumber["area_code"])) {
+                        $phoneNumber['area_code'] = "";
+                    }
+                    if (!isset($phoneNumber["label"])) {
+                        $phoneNumber['label'] = "";
+                    }
+                    $newArray[$k] = $phoneNumber;
+                 }
             }
         } else {
             throw new C3op_Projects_ActionException("Phone numbers must be organized in an array to be setted.");
@@ -94,9 +100,8 @@ class C3op_Register_Contact {
     } //SetPhoneNumbers
 
     public function AddPhoneNumber($phoneNumber) {
-
         if (is_array($phoneNumber)) {
-            if (!isset($phoneNumber["localNumber"])) {
+            if (!isset($phoneNumber["local_number"])) {
                 throw new C3op_Projects_ActionException("A phone number must have at least a local number.");
             }
             $this->phoneNumbers[] = $phoneNumber;
@@ -106,7 +111,20 @@ class C3op_Register_Contact {
         } else {
             throw new C3op_Projects_ActionException("Array expected.");
         }
+    } //AddPhoneNumber
+
+    public function RemovePhoneNumber($key) {
+
+        if (is_array($this->phoneNumbers)) {
+            if (!isset($this->phoneNumbers[$key])) {
+                throw new C3op_Projects_ActionException("Phone number not found to be removed.");
+            }
+            unset($this->phoneNumbers[$key]);
+        } else {
+            throw new C3op_Projects_ActionException("Array expected.");
+        }
 
     } //SetPhoneNumbers
+
 
 }

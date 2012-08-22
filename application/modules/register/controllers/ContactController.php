@@ -11,17 +11,17 @@ class Register_ContactController extends Zend_Controller_Action
             $checker = new C3op_Access_PrivilegeChecker();
         } catch (Exception $e) {
             $this->_helper->getHelper('FlashMessenger')
-                ->addMessage('Acesso negado');          
-            $this->_redirect('/register' . $id);            
+                ->addMessage('Acesso negado');
+            $this->_redirect('/register');
         }
     }
-    
+
     public function init()
     {
         $this->db = Zend_Registry::get('db');
         $this->contactMapper = new C3op_Register_ContactMapper($this->db);
     }
-    
+
     public function indexAction()
     {
 
@@ -30,7 +30,7 @@ class Register_ContactController extends Zend_Controller_Action
         reset ($list);
         foreach ($list as $id) {
             $thisContact = $this->contactMapper->findById($id);
-            
+
             $contactsList[$id] = array(
                 'name' => $thisContact->GetName(),
                 'editLink' => '/register/contact/edit/?id=' . $id   ,
@@ -38,12 +38,12 @@ class Register_ContactController extends Zend_Controller_Action
                 'type' => C3op_Register_ContactTypes::TitleForType($thisContact->GetType()),
             );
         }
-        
+
         $this->view->contactsList = $contactsList;
-        
+
         $this->view->createContactLink = "/register/contact/create";
-        
- 
+
+
     }
 
     public function createAction()
@@ -57,7 +57,7 @@ class Register_ContactController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');          
+                    ->addMessage('The record was successfully updated.');
                 $this->_redirect('/register/contact/success-create');
 
             } else throw new C3op_Register_ContactException("Invalid data");
@@ -73,7 +73,7 @@ class Register_ContactController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');          
+                    ->addMessage('The record was successfully updated.');
                 $this->_redirect('/register/contact/success-create');
             } else throw new C3op_Register_ContactException("A contact must have a valid name.");
         } else {
@@ -105,12 +105,15 @@ class Register_ContactController extends Zend_Controller_Action
 
     public function successCreateAction()
     {
+        $this->initContactMapper();
+        $contact =  $this->initContactWithCheckedId($this->contactMapper);
+
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
-            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();    
-            $this->getResponse()->setHeader('Refresh', '3; URL=/register/contact');
+            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
+            $this->getResponse()->setHeader('Refresh', '3; URL=/register/contact/detail/?id=' . $contact->getId());
         } else {
-            $this->_redirect('/register/contact');    
-        } 
+            $this->_redirect('/register/contact');
+        }
     }
 
     public function errorEditAction()
@@ -126,35 +129,138 @@ class Register_ContactController extends Zend_Controller_Action
         $linkageMapper = new C3op_Register_LinkageMapper($this->db);
 
         $id = $this->checkIdFromGet();
-        $thisContact = $this->contactMapper->findById($id);
+        $contactBeingDetailed = $this->contactMapper->findById($id);
 
-        $linkagesIdsList = $this->contactMapper->getAllLinkages($thisContact);
+        $phoneNumbersList = $contactBeingDetailed->getPhoneNumbers();
+        $phoneData = array();
+        foreach($phoneNumbersList as $phoneId => $phoneNumber) {
+            $phoneData[$phoneId] = array(
+                'area_code' => $phoneNumber['area_code'],
+                'local_number' => $phoneNumber['local_number'],
+                'label' => $phoneNumber['label'],
+            );
+        }
+
+
+        $linkagesIdsList = $this->contactMapper->getAllLinkages($contactBeingDetailed);
         $linkagesList = array();
+
         reset ($linkagesList);
         foreach ($linkagesIdsList as $linkageId) {
-            $thisLinkage = $linkageMapper->findById($linkageId);
-            
-            if ($thisLinkage->GetInstitution() > 0) {
+            $contactLinkage = $linkageMapper->findById($linkageId);
+
+            if ($contactLinkage->GetInstitution() > 0) {
                 $institutionMapper = new C3op_Register_InstitutionMapper($this->db);
-                $thisInstitution = $institutionMapper->findById($thisLinkage->GetInstitution());
+                $institutionLinkedToContact = $institutionMapper->findById($contactLinkage->GetInstitution());
             }
-            
+
             $linkagesList[$linkageId] = array(
-                'institutionName' => $thisInstitution->GetName(),
-                'institutionEdit' => '/register/institution/edit/?id=' . $thisInstitution->GetId(),
-                'department' => $thisLinkage->GetDepartment(),
-                'position' => $thisLinkage->GetPosition(),
-                'editLink' => '/register/linkage/edit/?id=' . $linkageId   ,
+                'id'              => $linkageId,
+                'institutionName' => $institutionLinkedToContact->GetName(),
+                'institutionEdit' => '/register/institution/edit/?id=' . $institutionLinkedToContact->GetId(),
+                'department'      => $contactLinkage->GetDepartment(),
+                'position'        => $contactLinkage->GetPosition(),
+
             );
         }
         $contactInfo = array(
-            'name' => $thisContact->GetName(),
+            'id' => $id,
+            'name' => $contactBeingDetailed->GetName(),
             'editLink' => '/register/contact/edit/?id=' . $id   ,
             'linkLinkageCreate' => '/register/linkage/create/?contact=' . $id   ,
+            'phoneData' => $phoneData,
             'linkagesList' => $linkagesList,
         );
 
         $this->view->contactInfo = $contactInfo;
+    }
+
+    public function addPhoneNumberAction()
+    {
+        // cria form
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            $form = new C3op_Form_PhoneNumberCreate();
+            $this->view->form = $form;
+            if ($form->isValid($postData)) {
+                $id = $form->process($postData);
+                $this->_helper->getHelper('FlashMessenger')
+                    ->addMessage('The record was successfully updated.');
+                $this->_redirect('/register/contact/success-create/?id=' . $id);
+            } else throw new C3op_Register_ContactException("Invalid data for phone number.");
+        } else {
+            $contactId = $this->checkIdFromGet();
+            $contactHasPhone = $this->contactMapper->findById($contactId);
+            $data = $this->_request->getParams();
+            $form = new C3op_Form_PhoneNumberCreate();
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'contact', $contactId);
+
+            $this->view->form = $form;
+            $contactInfo = array(
+                'id' => $contactId,
+                'name' => $contactHasPhone->GetName(),
+            );
+
+            $this->view->contactInfo = $contactInfo;
+        }
+    }
+
+    public function changePhoneNumberAction()
+    {
+        // cria form
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            $form = new C3op_Form_PhoneNumberEdit();
+            $this->view->form = $form;
+            if ($form->isValid($postData)) {
+                $id = $form->process($postData);
+                $this->_helper->getHelper('FlashMessenger')
+                    ->addMessage('The record was successfully updated.');
+                $this->_redirect('/register/contact/success-create/?id=' . $id);
+            } else throw new C3op_Register_ContactException("Invalid data for phone number.");
+        } else {
+            $data = $this->_request->getParams();
+            $filters = array(
+                'phoneId' => new Zend_Filter_Alnum(),
+            );
+            $validators = array(
+                'phoneId' => array('Digits', new Zend_Validate_GreaterThan(0)),
+            );
+            $input = new Zend_Filter_Input($filters, $validators, $data);
+            if ($input->isValid()) {
+                $phoneId = $input->phoneId;
+            } else {
+                throw new C3op_Register_ContactException("Invalid Contact Id from Get");
+            }
+
+            $contactHasPhone = $this->contactMapper->findByPhoneId($phoneId);
+            $phoneNumbers = $contactHasPhone->GetPhoneNumbers();
+            $phoneNumber = $phoneNumbers[$phoneId];
+
+            $data = $this->_request->getParams();
+
+            $form = new C3op_Form_PhoneNumberEdit();
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'contact', $contactHasPhone->GetId());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $phoneId);
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'areaCode', $phoneNumber['area_code']);
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'localNumber', $phoneNumber['local_number']);
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'label', $phoneNumber['label']);
+
+            $this->view->form = $form;
+            $contactInfo = array(
+                'id' => $contactHasPhone->GetId(),
+                'name' => $contactHasPhone->GetName(),
+            );
+
+            $this->view->contactInfo = $contactInfo;
+        }
+    }
+
+    private function initContactMapper()
+    {
+        if (!isset($this->contactMapper)) {
+            $this->contactMapper = new C3op_Register_ContactMapper($this->db);
+        }
     }
 
     private function checkIdFromGet()
@@ -175,29 +281,17 @@ class Register_ContactController extends Zend_Controller_Action
 
     }
 
-    public function receivablesAction()
+
+    private function initContactWithCheckedId(C3op_Register_ContactMapper $mapper)
     {
-        $actionMapper = new C3op_Register_ActionMapper($this->db);
-
-        $id = $this->checkIdFromGet();
-        $thisContact = $this->contactMapper->findById($id);
-        $productsIdList = $this->contactMapper->getAllProducts($thisContact);
-        $productsList = array();
-        reset ($productsList);
-        foreach ($productsIdList as $actionId) {
-            $thisAction = $actionMapper->findById($actionId);
-
-            $productsList[$actionId] = array(
-                'name' => $thisAction->GetName(),
-                'editLink' => '/register/action/edit/?id=' . $actionId   ,
-            );
-        }
-        $contactInfo = array(
-            'name' => $thisContact->GetName(),
-            'editLink' => '/register/contact/edit/?id=' . $id   ,
-            'productsList' => $productsList,
-        );
-
-        $this->view->contactInfo = $contactInfo;
+        return $mapper->findById($this->checkIdFromGet());
     }
+
+    private function SetValueToFormField(Zend_Form $form, $fieldName, $value)
+    {
+        $field = $form->getElement($fieldName);
+        $field->setValue($value);
+    }
+
+
 }
