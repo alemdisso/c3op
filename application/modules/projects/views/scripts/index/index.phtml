@@ -1,4 +1,6 @@
-<h2>C3op</h2>
+<div id="MainHeader">
+  <h1>Projetos</h1>
+</div>
 <?php 
 /*
  * If exists projects list
@@ -10,52 +12,66 @@ if (is_array($this->projectsList)) {
 /*
  * if there is projects in list
  */
-    if (count($this->projectsList)) {
+  if (count($this->projectsList)) {
 ?>
-
-
+          <div class="Area">
+             <table class="display dataTable">
+            		<thead>
+            			<tr>
+            				<th width="220">Projeto</th>
+            				<th width="80">Início</th>
+            				<th width="100">Valor</th>
+            				<th width="100">&nbsp;</th>
+            			</tr>
+            		</thead>
+            		<tbody>
 <?php 
 /*
  * iterate list and print title
  */
-        while (list(, $projectData) = each($this->projectsList)) {
+    while (list(, $projectData) = each($this->projectsList)) {
 ?>
-
-<?php print($projectData['title']) ?> | <?php print($projectData['beginDate']) ?> | <?php print($projectData['value']) ?>
-
-<br/>
-    <?php if (isset($projectData['editLink'])) { ?>
-<a href="<?php print($projectData['editLink']) ?>">Editar</a>
+            			<tr>
+            				<td><a href="<?php print($projectData['linkProjectDetail']) ?>"><?php print($projectData['title']) ?></a></td>
+            				<td><?php print($projectData['beginDate']) ?></td>
+            				<td><?php print($projectData['value']) ?></td>
+                    <td>
+                      <a href="#" class="anchorclass" rel="submenu1">Opções</a> 
+                      <div id="submenu1" class="anylinkcss">
+                          <ul>
+<?php if (isset($projectData['editLink'])) { ?>
+                            <li>
+                              <a href="<?php print($projectData['editLink']) ?>">Editar</a>
+                            </li>
 <?php } ?>
-
 <?php if (isset($projectData['linkReceivableCreate'])) { ?>
- | <a href="<?php print($projectData['linkReceivableCreate']) ?>">Prever Recebimento</a>
+                            <li>
+                              <a href="<?php print($projectData['linkReceivableCreate']) ?>">Prever Recebimento</a>
+                            </li>
 <?php } ?>
-<?php if (isset($projectData['linkProjectReceivables'])) { ?>
- |  <a href="<?php print($projectData['linkProjectReceivables']) ?>">Recebimentos do Projeto</a> 
-<?php } ?>
-
 <?php if (isset($projectData['linkActionCreate'])) { ?>
- | <a href="<?php print($projectData['linkActionCreate']) ?>">Criar Ação</a>
+                            <li>
+                              <a href="<?php print($projectData['linkActionCreate']) ?>">Criar Ação</a>
+                            </li>
 <?php } ?>
- |  <a href="<?php print($projectData['linkProjectDetail']) ?>">Detalhamento do Projeto</a> (<?php print($projectData['actionsCount']) ?>) 
-
-<br />
-
-<hr>
-    
+                            <li>
+                              <a href="<?php print($projectData['linkProjectDetail']) ?>">Detalhamento do Projeto (<?php print($projectData['actionsCount']) ?>)</a>
+                            </li>
+                          </ul>
+                      </div><!-- #submenu1 -->
+                    </td>
+            			</tr>
 <?php
 }  // loop iterate list and print titlei
 ?>
-
-
-
-
-    
+            		</tbody>
+            	</table><br />
 <?php
     } else { // end else there is projects in list
 ?>
-    <?php print("Não há projetos cadastrados.") ?>
+          <div class="Area">
+          <h2>Projetos</h2>
+    <?php print("<p>Não há projetos cadastrados.</p>") ?>
     
 <?php
     } // end else there is projects in list
@@ -63,10 +79,12 @@ if (is_array($this->projectsList)) {
 <?php
 } else { // else exists projects list 
 ?>
-    <?php print("Não existe lista de projetos cadastrados.") ?>
+    <?php print("<p>Não existe lista de projetos cadastrados.</p>") ?>
 
     <?php
 } // end exists projects list
 ?>
-<p />
-<a href="<?php print($this->createProjectLink) ?>">Criar Novo Projeto</a>
+            <p>
+              <a href="<?php print($this->createProjectLink) ?>" class="button three columns alpha omega">Criar Novo Projeto</a>
+            </p>
+          </div><!-- Area -->  

@@ -1,205 +1,22 @@
-<script language="JavaScript">
-function exibe(id) {
-	if(document.getElementById(id).style.display=="none") {
-		document.getElementById(id).style.display = "inline";
-	}
-	else {
-		document.getElementById(id).style.display = "none";
-	}
-}
-
-
-</script>
 <?php 
-if (is_array($this->actionInfo)) {
-    $actionData = $this->actionInfo;
-?>
-<p class="project_title">Projeto: <a href="<?php print($actionData['projectDetailLink']) ?>"><?php print($actionData['projectTitle']) ?></a>
-</p>
-<p class="project_title">
-Ação: <?php print($actionData['actionTitle']) ?>
-<?php 
-if (isset($actionData['parentTitle'])) {
-?>
-    <span class="parent_info">(subordinada a <a class="parent_info" href="<?php print($actionData['parentLink']) ?>"><?php print($actionData['parentTitle']); ?></a>)</span>   
-<?php
-}
-?>    
-
-    
-<div id='acknowledgeReceipt-<?php print($actionData['id']);?>'>
-<?php
-    if (isset($actionData['linkDone']) && $actionData['linkDone'] != "") {
-?>    
-    
-    <a href="<?php print($actionData['linkDone']) ?>" ><?php print($actionData['msgDone']) ?></a>
-<?php
-} else {
-?>    
-    <?php if (isset($actionData['msgDone'])) print($actionData['msgDone']); ?>
-<?php
-    if (isset($actionData['rejectLink']) && $actionData['rejectLink'] != "") {
+if (is_array($this->actionData)) {
+    $actionData = $this->actionData;
 ?>
 
-<div id='rejectReceipt-<?php print($actionData['id']);?>'>Realizada em: <?php print($actionData['finishDate']); ?><br /><a class="parent_info" href="<?php print($actionData['rejectLink']); ?>">rejeitar</a></div>
-
-
-<?php
-}
-?>    
-    
-<?php
-    if (isset($actionData['acceptLink']) && $actionData['acceptLink'] != "") {
-?>
-<div id='acceptReceipt-<?php print($actionData['id']);?>'><a class="parent_info" href="<?php print($actionData['acceptLink']); ?>">Confirmar realização da tarefa</a></div>
-<?php
-}
-?>    
-    
-<?php
-}
-?>    
-    
-</div>
-
-
-</p>
-<?php if (isset($actionData['msgStart'])) print($actionData['msgStart']); ?>
-<?php
-    if (isset($actionData['linkAcknowledgement']) && $actionData['linkAcknowledgement'] != "") {
-?>
-<div id='acknowledgeStart-<?php print($actionData['id']);?>'><a class="parent_info" href="<?php print($actionData['linkAcknowledgement']); ?>"><?php print($actionData['msgAcknowledgement']); ?></a></div>
-<?php
-}
-?>    
-    
-<br />
-<?php 
-    $humanResourcesList = $actionData['humanResourcesList'];
-    
-    if (count($humanResourcesList)) {
-?>
-    Recursos Humanos:<br />
-<?php        
-    
-        while (list(, $humanResourceInfo) = each($humanResourcesList)) {
-?>
-
-<?php print($humanResourceInfo['description']) ?> (<?php print($humanResourceInfo['value']) ?>) 
-<?php if (isset($humanResourceInfo['editLink'])) { ?>
-<a href="<?php print($humanResourceInfo['editLink']) ?>">Editar</a>
- | <a href="<?php print($humanResourceInfo['linkCreateOutlay']) ?>">Prever desembolso</a>
-
-<?php   }
-
-?>
-
-<?php if (isset($humanResourceInfo['totalOutlays'])) {
-            if ($humanResourceInfo['totalOutlays'] > 0) {
-    
-    ?>
-(Desembolsos existentes: <a href="<?php print($humanResourceInfo['linkOutlays']) ?>"><?php print(C3op_Util_CurrencyDisplay::FormatCurrency($humanResourceInfo['totalOutlays'])); ?></a>)
-
-<?php   
-
-            }
-    }
-
-?>
-<?php
-    if (isset($humanResourceInfo['dismissalLink']) && $humanResourceInfo['dismissalLink'] != "") {
-?>
-
-<div id='dismissContact-<?php print($humanResourceInfo['id']);?>'><a class="parent_info" href="<?php print($humanResourceInfo['dismissalLink']); ?>">dispensar recurso</a></div>
-
-
-<?php
-}
-?>    
-    
-<?php
-    if (isset($humanResourceInfo['contractingLink']) && $humanResourceInfo['contractingLink'] != "") {
-?>
-<!--<div id='contractContact-<?php print($humanResourceInfo['id']);?>'><a class="parent_info" href="<?php print($humanResourceInfo['contractingLink']); ?>">confirmar contratação de recurso</a></div>-->
-<a class="parent_info" href="/projects/human-resource/contract/?id=<?php print($humanResourceInfo['id']);?>" >confirmar contratação de recurso</a>
-<div id='conteudo' style="display:none;" >Formulário com data da ação?</div><?php
-}
-?>
-    
-<?php
-    if (isset($humanResourceInfo['contractedLabel']) && $humanResourceInfo['contractedLabel'] != "") {
-?><br />
-<?php print($humanResourceInfo['contractedLabel']); ?>
-<?php
-}
-?>
-    
-
-<br />
-
-
-    
-<?php
-    }  // loop iterate list and print title
+<?php           
+ echo $actionData["title"];
+ 
+ while (list($k, $v) = each($actionData["listSubActions"])) {
+ 
+ echo "$v<br>"; 
+ 
  }
+
 ?>
 
-<br />
 
-<a href="/projects/human-resource/create/?actionId=<?php print($actionData['id']); ?>">Prever recurso humano</a>
- | <a href="<?php print($actionData['linkActionCreate']) ?>">Criar nova ação</a>
- | <a href="<?php print($actionData['editLink']) ?>">Editar</a>   
-
-<hr>
 
 <?php
-}
-?>
-<?php 
-/*
- * iterate list and print title
- */
-
-    $actionsList = $actionData['actionsList'];
-    
-    if (count($actionsList)) {
-?>
-    Essa ação é composta por:<br /><br />
-    
-    
-    
-<?php        
-    
-        while (list(, $actionInfo) = each($actionsList)) {
-?>
-
-<p class="receivable_line"><?php print($actionInfo['title']) ?>
- (<?php print($actionInfo['brood']) ?>) 
-<?php if (isset($actionInfo['editLink'])) { ?>
-<a href="<?php print($actionInfo['editLink']) ?>">Editar</a>
-<?php
-}
-?>
-</p>
-
-<?php
-    if (isset($actionInfo['rejectLink']) && $actionInfo['rejectLink']) {
-?>
-<div id='rejectReceipt-<?php print($actionInfo['id']);?>'><a class="parent_info" href="<?php print($actionInfo['rejectLink']); ?>">rejeitar</a></div><br />
-<?php
-}
-?>
-<br />
-<?php
-    if (isset($actionInfo['done']) && $actionInfo['done']) {
-?>
-Realizada em: <?php print($actionInfo['finishDate']); ?>
-<?php
-}
-?>
-    
-<?php
-    }  // loop iterate list and print title
- }
-?>
-
+}    else echo "???";
+?>    
+  
