@@ -7,13 +7,20 @@ class C3op_Form_UserLogin extends Zend_Form
         // initialize form
         $this->setName('loginForm')
             ->setAction('/auth/login')
+            ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
         
         // create text input for name
         $login = new Zend_Form_Element_Text('loginLogin');
         $loginValidator = new C3op_Register_ContactValidName();
         $login->setLabel('Usuário:')
-            ->setOptions(array('size' => '50'))
+              ->setDecorators(array(
+                  'ViewHelper',
+                  'Errors',
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'five columns alpha omega')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'one column alpha Right')),
+              ))
+            ->setOptions(array('class' => 'five columns omega'))
             ->setRequired(true)
             ->addValidator($loginValidator)
             ->addFilter('StringTrim')
@@ -25,19 +32,32 @@ class C3op_Form_UserLogin extends Zend_Form
         $password = new Zend_Form_Element_Password('passwordLogin');
         $passwordValidator = new C3op_Register_ContactValidName();
         $password->setLabel('Senha:')
-            ->setOptions(array('size' => '50'))
+              ->setDecorators(array(
+                  'ViewHelper',
+                  'Errors',
+                  array(array('data' => 'HtmlTag'), array('tag' => 'div', 'class' => 'five columns alpha omega')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'one column alpha Right')),
+              ))
+            ->setOptions(array('class' => 'five columns omega'))
             ->setRequired(true)
             ->addValidator($passwordValidator)
             ->addFilter('StringTrim')
                 ;
         // attach elements to form
         $this->addElement($password);
-        
                 
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
-        $submit->setLabel('Salvar')
-            ->setOptions(array('class' => 'submit'));
+        $submit->setLabel('Entrar')
+              ->setDecorators(array(
+                  'ViewHelper',
+                  'Errors',
+                  array(array('data' => 'HtmlTag'), array('tag' => 'div', 'class' => 'five columns alpha omega')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'one column alpha Invisible')),
+              ))
+            ->setOptions(array('class' => 'submit two columns'));
+
+
         $this->addElement($submit);
 
     }
