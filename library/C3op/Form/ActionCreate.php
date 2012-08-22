@@ -7,6 +7,7 @@ class C3op_Form_ActionCreate extends Zend_Form
         // initialize form
         $this->setName('newActionForm')
             ->setAction('/projects/action/create')
+            ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
         
         $project = new Zend_Form_Element_Hidden('project');
@@ -20,7 +21,13 @@ class C3op_Form_ActionCreate extends Zend_Form
         $title = new Zend_Form_Element_Text('title');
         $titleValidator = new C3op_Projects_ProjectValidTitle();
         $title->setLabel('Nome:')
-            ->setOptions(array('size' => '50'))
+                ->setDecorators(array(
+                    'ViewHelper',
+                    'Errors',
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                ))
+                ->setOptions(array('class' => 'eleven columns alpha omega'))
             ->setRequired(true)
             ->addValidator($titleValidator)
             ->addFilter('StringTrim')
@@ -30,7 +37,12 @@ class C3op_Form_ActionCreate extends Zend_Form
         
         $milestone = new Zend_Form_Element_Checkbox('milestone');
         $milestone->setLabel('Essa ação é um marco do projeto?')
-                ->addDecorator('Label', array('placement' => 'APPEND')) 
+                ->setDecorators(array(
+                    'ViewHelper',
+                    'Errors',
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'one column inset-by-ten omega')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                ))
                 ->setOptions(array('checked' => '1', 'unChecked' => '0'))
                 ->setValue('0')
                 ;
@@ -38,26 +50,53 @@ class C3op_Form_ActionCreate extends Zend_Form
                 
         $requirementForReceiving = new Zend_Form_Element_Select('requirementForReceiving');
         $requirementForReceiving->setLabel('É requisito para receber: ')
+                ->setDecorators(array(
+                    'ViewHelper',
+                    'Errors',
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'four columns')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                ))
+                ->setOptions(array('class' => 'four columns alpha omega'))
                 ->setRegisterInArrayValidator(false);
         $requirementForReceiving->addMultiOption(0, "(não é requisito para recebimento)");
         $this->addElement($requirementForReceiving);
         
         $subordinatedTo = new Zend_Form_Element_Select('subordinatedTo');
         $subordinatedTo->setLabel('Subordinada a: ')
+                ->setDecorators(array(
+                    'ViewHelper',
+                    'Errors',
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'five columns omega')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
+                ))
+                ->setOptions(array('class' => 'five columns alpha omega'))
                 ->setRegisterInArrayValidator(false);
         $subordinatedTo->addMultiOption(0, "nenhuma ação");
         $this->addElement($subordinatedTo);
         
         $responsible = new Zend_Form_Element_Select('responsible');
         $responsible->setLabel('Responsável: ')
+                ->setDecorators(array(
+                    'ViewHelper',
+                    'Errors',
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                ))
+                ->setOptions(array('class' => 'eleven columns alpha omega'))
                 ->setRegisterInArrayValidator(false);
         $responsible->addMultiOption(0, "escolha uma pessoa");
         $this->addElement($responsible);
         
         $description = new Zend_Form_Element_Textarea('description');
         $description->setLabel('Descrição:')
-            ->setAttrib('cols','8')
-            ->setAttrib('rows','5')
+              ->setDecorators(array(
+                  'ViewHelper',
+                  'Errors',
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+              ))
+            ->setAttrib('rows','8')
+            ->setOptions(array('class' => 'eleven columns alpha omega'))
             ->setRequired(false)
             //->addFilter('HtmlEntities')
             ->addFilter('StringTrim');
@@ -66,7 +105,13 @@ class C3op_Form_ActionCreate extends Zend_Form
         $predictedBeginDate = new Zend_Form_Element_Text('predictedBeginDate');
         $dateValidator = new C3op_Util_ValidDate();
         $predictedBeginDate->setLabel('Data de início:')
-            ->setOptions(array('size' => '35'))
+            ->setDecorators(array(
+                'ViewHelper',
+                'Errors',
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+            ))
+            ->setOptions(array('class' => 'three columns alpha omega'))
             ->setRequired(false)
             ->addValidator($dateValidator)
             ->addFilter('StringTrim');
@@ -74,7 +119,13 @@ class C3op_Form_ActionCreate extends Zend_Form
         
         $predictedFinishDate = new Zend_Form_Element_Text('predictedFinishDate');
         $predictedFinishDate->setLabel('Data de término:')
-            ->setOptions(array('size' => '35'))
+            ->setDecorators(array(
+                'ViewHelper',
+                'Errors',
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns inset-by-three omega')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
+            ))
+            ->setOptions(array('class' => 'three columns alpha omega'))
             ->setRequired(false)
             ->addValidator('date')
             ->addFilter('HtmlEntities')
@@ -83,8 +134,14 @@ class C3op_Form_ActionCreate extends Zend_Form
         
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
-        $submit->setLabel('Salvar')
-            ->setOptions(array('class' => 'submit'));
+        $submit->setLabel('Gravar')
+              ->setDecorators(array(
+                  'ViewHelper',
+                  'Errors',
+                  array(array('data' => 'HtmlTag'), array('tag' => 'div', 'class' => 'five columns inset-by-six omega')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Invisible')),
+              ))
+            ->setOptions(array('class' => 'submit two columns alpha omega'));
         $this->addElement($submit);
                 
 
