@@ -32,7 +32,7 @@ if (is_array($this->contactInfo)) {
 <?php } ?>
 <?php print($phoneInfo['local_number']) ?>
 <?php } ?>
-&nbsp;<a href="/register/contact/edit-phone-number/?id=<?php print($phoneId); ?>">Editar</a>
+&nbsp;<a href="/register/contact/change-phone-number/?phoneId=<?php print($phoneId); ?>">Editar</a>
 <br />
 <?php
 }  // loop iterate list and print titlei
@@ -67,9 +67,9 @@ Vínculos<br/>
 | Posição: <?php print($linkageInfo['position']) ?>
 <?php } ?>
 
-<?php if (isset($linkageInfo['editLink'])) { ?>
-<a href="<?php print($linkageInfo['editLink']) ?>">Editar</a>
-<?php } ?>
+
+<a href="/register/linkage/edit/?id=<?php print($linkageInfo['id']); ?>">Editar</a>
+
 <hr>
 
 

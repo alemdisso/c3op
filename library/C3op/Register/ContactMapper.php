@@ -82,6 +82,20 @@ class C3op_Register_ContactMapper
 
     }
 
+    public function findByPhoneId($phoneId) {
+        $result = $this->db->fetchRow(
+            sprintf(
+                'SELECT contact FROM register_contacts_phone_numbers WHERE id = %d;',
+                $phoneId
+            )
+        );
+        if (empty($result)) {
+            throw new C3op_Register_ContactMapperException(sprintf('There is no contact with a phone with this phone id #%d.', $phoneId));
+        }
+
+        return $this->findById($result['contact']);
+    }
+
     public function delete(C3op_Register_Contact $c) {
         if (!isset($this->identityMap[$c])) {
             throw new C3op_Register_ContactMapperException('Object has no ID, cannot delete.');

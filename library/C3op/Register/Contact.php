@@ -111,7 +111,6 @@ class C3op_Register_Contact {
         } else {
             throw new C3op_Projects_ActionException("Array expected.");
         }
-
     } //AddPhoneNumber
 
     public function RemovePhoneNumber($key) {
