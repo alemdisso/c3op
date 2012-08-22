@@ -20,11 +20,6 @@ function acknowledgeReceiptResponse(transport, id)
 $('acknowledgeReceipt-'+id).innerHTML = transport.responseText;
 }
 
-function acknowledgeStartResponse(transport, id)
-{
-$('acknowledgeStart-'+id).innerHTML = transport.responseText;
-}
-
 function rejectReceiptResponse(transport, id)
 {
 $('rejectReceipt-'+id).innerHTML = transport.responseText;
