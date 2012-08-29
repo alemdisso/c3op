@@ -1,12 +1,12 @@
 <?php
-class C3op_Form_PhoneNumberEdit extends C3op_Form_PhoneNumberCreate
+class C3op_Form_ContactPhoneNumberEdit extends C3op_Form_PhoneNumberEdit
 {
     public function __construct($options = null)
     {
         parent::__construct($options);
 
         $this->setName('newPhoneNumberForm')
-            ->setAction('/register/index/change-phone-number')
+            ->setAction('/register/contact/change-phone-number')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
@@ -18,6 +18,13 @@ class C3op_Form_PhoneNumberEdit extends C3op_Form_PhoneNumberCreate
         } else {
             throw  new C3op_Form_PhoneNumberCreateException('Not defined which phone number to edit.');
         }
+
+        $contact = new Zend_Form_Element_Hidden('contact');
+        $contact->addValidator('Int')
+            ->addFilter('StringTrim');
+        $this->addElement($contact);
+
+
 
     }
 

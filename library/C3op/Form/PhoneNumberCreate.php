@@ -1,17 +1,39 @@
 <?php
 class C3op_Form_PhoneNumberCreate extends Zend_Form
 {
-    public function init()
+    public function __construct($options = null)
     {
+        parent::__construct($options);
+
         $this->setName('newPhoneNumberForm')
-            ->setAction('/register/contact/add-phone-number')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
-        $contact = new Zend_Form_Element_Hidden('contact');
-        $contact->addValidator('Int')
-            ->addFilter('StringTrim');
-        $this->addElement($contact);
+        if (isset($options['id'])) {
+            $id = new Zend_Form_Element_Hidden('id');
+            $id->addValidator('Int')
+                ->addFilter('StringTrim');
+            $this->addElement($id);
+            $this->setAction('/register/index/change-phone-number');
+        }
+
+
+//        if (isset($options['contact'])) {
+//            $contact = new Zend_Form_Element_Hidden('contact');
+//            $contact->addValidator('Int')
+//                ->addFilter('StringTrim');
+//            $this->addElement($contact);
+//            $this->setAction('/register/contact/add-phone-number');
+//        } else if (isset($options['linkage'])) {
+//            $linkage = new Zend_Form_Element_Hidden('linkage');
+//            $linkage->addValidator('Int')
+//                //->addFilter('HtmlEntities')
+//                ->addFilter('StringTrim');
+//            $this->addElement($linkage);
+//            $this->setAction('/register/linkage/add-phone-number');
+//        } else {
+//            throw  new C3op_Form_PhoneNumberCreateException('Not defined what is this phone number related to.');
+//        }
 
         $label = new Zend_Form_Element_Text('label');
         $labelValidator = new C3op_Register_ContactValidName();
