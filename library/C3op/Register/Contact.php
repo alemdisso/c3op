@@ -74,43 +74,33 @@ class C3op_Register_Contact {
     } //GetPhoneNumbers
 
     public function SetPhoneNumbers($phoneNumbers) {
-
         $newArray = array();
         if (is_array($phoneNumbers)) {
+            $validator = new C3op_Register_ValidPhoneLocalNumber();
+
             foreach ($phoneNumbers as $k => $phoneNumber) {
-                if (is_array($phoneNumber)) {
-                    if (!isset($phoneNumber["local_number"])) {
+                if ($phoneNumber instanceOf C3op_Register_ContactPhoneNumber) {
+                    if ($validator->isValid($phoneNumber->GetLocalNumber())) {
+                        $newArray[$k] = $phoneNumber;
+                    } else {
                         throw new C3op_Projects_ActionException("A phone number must have at least a local number.");
                     }
-                    if (!isset($phoneNumber["area_code"])) {
-                        $phoneNumber['area_code'] = "";
-                    }
-                    if (!isset($phoneNumber["label"])) {
-                        $phoneNumber['label'] = "";
-                    }
-                    $newArray[$k] = $phoneNumber;
-                 }
+                }
             }
         } else {
             throw new C3op_Projects_ActionException("Phone numbers must be organized in an array to be setted.");
         }
-
         $this->phoneNumbers = $newArray;
-
     } //SetPhoneNumbers
 
-    public function AddPhoneNumber($phoneNumber) {
-        if (is_array($phoneNumber)) {
-            if (!isset($phoneNumber["local_number"])) {
-                throw new C3op_Projects_ActionException("A phone number must have at least a local number.");
-            }
+    public function AddPhoneNumber(C3op_Register_PhoneNumber $phoneNumber) {
+        $validator = new C3op_Register_ValidPhoneLocalNumber();
+        if ($validator->isValid($phoneNumber->GetLocalNumber())) {
             $this->phoneNumbers[] = $phoneNumber;
-            end($this->phoneNumbers);
-            $lastId =  key($this->phoneNumbers);
-            return $lastId;
         } else {
-            throw new C3op_Projects_ActionException("Array expected.");
+            throw new C3op_Projects_ActionException("A phone number must have at least a local number.");
         }
+
     } //AddPhoneNumber
 
     public function RemovePhoneNumber($key) {
@@ -121,7 +111,7 @@ class C3op_Register_Contact {
             }
             unset($this->phoneNumbers[$key]);
         } else {
-            throw new C3op_Projects_ActionException("Array expected.");
+            throw new C3op_Projects_ActionException("There isn\'t phone numbers to remove");
         }
 
     } //SetPhoneNumbers

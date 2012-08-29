@@ -89,18 +89,11 @@ class C3op_Form_PhoneNumberCreate extends Zend_Form
             $contactMapper = new C3op_Register_ContactMapper($db);
             $contact = $contactMapper->findById($this->contact->GetValue());
             if ($this->localNumber->GetValue() != "") {
-                $phoneNumber = array(
-                        'area_code' => $this->areaCode->GetValue(),
-                        'local_number' => $this->localNumber->GetValue(),
-                        'label' =>  $this->label->GetValue(),
-                        );
+                $phoneNumber = new C3op_Register_ContactPhoneNumber(0, $this->areaCode->GetValue(), $this->localNumber->GetValue(), $this->label->GetValue());
                 $contact->AddPhoneNumber($phoneNumber);
             }
-
-
             $contactMapper->update($contact);
             return $contact->GetId();
-
         }
     }
 }

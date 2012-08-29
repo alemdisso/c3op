@@ -29,12 +29,14 @@ class C3op_Form_PhoneNumberEdit extends C3op_Form_PhoneNumberCreate
             $contact = $contactMapper->findById($this->contact->GetValue());
             if ($this->localNumber->GetValue() != "") {
                 $phoneNumbers = $contact->GetPhoneNumbers();
+                print_r($phoneNumbers);
+                print("<BR>{$this->id->GetValue()}<BR>");
                 if (isset($phoneNumbers[$this->id->GetValue()])) {
-                    $phoneNumber = array(
-                            'area_code' => $this->areaCode->GetValue(),
-                            'local_number' => $this->localNumber->GetValue(),
-                            'label' =>  $this->label->GetValue(),
-                            );
+                    $phoneNumber = new C3op_Register_ContactPhoneNumber();
+                    $phoneNumber->SetId($this->id->GetValue());
+                    $phoneNumber->SetAreaCode($this->areaCode->GetValue());
+                    $phoneNumber->SetLocalNumber($this->localNumber->GetValue());
+                    $phoneNumber->SetLabel($this->label->GetValue());
                     $phoneNumbers[$this->id->GetValue()] = $phoneNumber;
                     $contact->SetPhoneNumbers($phoneNumbers);
                     $contactMapper->update($contact);

@@ -75,7 +75,7 @@ class C3op_Register_ContactMapper
 
         $this->identityMap[$obj] = $id;
 
-        $phoneNumbers = $this->fetchPhoneNumbers($obj);
+        $phoneNumbers = $this->findPhoneNumbers($obj);
         $this->setAttributeValue($obj, $phoneNumbers, 'phoneNumbers');
 
         return $obj;
@@ -92,7 +92,6 @@ class C3op_Register_ContactMapper
         if (empty($result)) {
             throw new C3op_Register_ContactMapperException(sprintf('There is no contact with a phone with this phone id #%d.', $phoneId));
         }
-
         return $this->findById($result['contact']);
     }
 
@@ -149,30 +148,27 @@ class C3op_Register_ContactMapper
         foreach($new->GetPhoneNumbers() as $phoneNumber) {
             $data = array(
                 'contact' => $new->GetId(),
-                'area_code' => $phoneNumber['area_code'],
-                'local_number' => $phoneNumber['local_number'],
-                'label' => $phoneNumber['label'],
+                'area_code' => $phoneNumber->GetAreaCode(),
+                'local_number' => $phoneNumber->GetLocalNumber(),
+                'label' => $phoneNumber->GetLabel(),
                 );
             $this->db->insert('register_contacts_phone_numbers', $data);
         }
     }
 
-    private function fetchPhoneNumbers(C3op_Register_Contact $contact)
+    private function findPhoneNumbers(C3op_Register_Contact $contact)
     {
-        $result = array();
+        $phoneNumbersArray = array();
         if ($contact->GetId() > 0) {
             foreach ($this->db->query(sprintf(
                     'SELECT id, area_code, local_number, label FROM register_contacts_phone_numbers WHERE contact = %d;',
                     $contact->GetId()
                 )
                     ) as $row) {
-                $result[$row['id']] = array(
-                    'area_code' => $row['area_code'],
-                    'local_number' => $row['local_number'],
-                    'label' => $row['label'],
-                    );
-            }
-            return $result;
+                $phoneNumber = new C3op_Register_ContactPhoneNumber($row['id'], $row['area_code'], $row['local_number'], $row['label']);
+                $phoneNumbersArray[$row['id']] = $phoneNumber;
+               }
+            return $phoneNumbersArray;
         } else {
             throw new C3op_Register_ContactMapperException('Can\'t fetch phone numbers for a contact that wasn\'t saved');
         }
@@ -180,45 +176,40 @@ class C3op_Register_ContactMapper
 
     private function UpdatePhoneNumbers(C3op_Register_Contact $contact)
     {
-
         $currentPhoneNumbers = $contact->GetPhoneNumbers();
-        $oldPhoneNumbers = $this->fetchPhoneNumbers($contact);
-
+        $oldPhoneNumbers = $this->findPhoneNumbers($contact);
         foreach($oldPhoneNumbers as $key =>$phoneNumber){
             if (isset($currentPhoneNumbers[$key])) {
                 $newPhoneNumber = $currentPhoneNumbers[$key];
                 if ($newPhoneNumber != $phoneNumber) {
-
                     $this->db->exec(
                     sprintf(
                         'UPDATE register_contacts_phone_numbers SET area_code = \'%s\', local_number = \'%s\', label = \'%s\' WHERE id = %d;',
-                            $newPhoneNumber['area_code'],
-                            $newPhoneNumber['local_number'],
-                            $newPhoneNumber['label'],
+                            $newPhoneNumber->GetAreaCode(),
+                            $newPhoneNumber->GetLocalNumber(),
+                            $newPhoneNumber->GetLabel(),
                             $key
                         )
                     );
                 }
                 unset($currentPhoneNumbers[$key]);
             } else {
-                    $this->db->exec(
-                    sprintf(
-                        'DELETE FROM register_contacts_phone_numbers WHERE id = %d;',
-                            $key
-                        )
-                    );
-
+                $this->db->exec(
+                sprintf(
+                    'DELETE FROM register_contacts_phone_numbers WHERE id = %d;',
+                        $key
+                    )
+                );
             }
 
         }
         reset ($currentPhoneNumbers);
-
         foreach($currentPhoneNumbers as $key =>$phoneNumber){
             $data = array(
                 'contact' => $contact->GetId(),
-                'area_code' => $phoneNumber['area_code'],
-                'local_number' => $phoneNumber['local_number'],
-                'label' => $phoneNumber['label'],
+                'area_code' => $phoneNumber->GetAreaCode(),
+                'local_number' => $phoneNumber->GetLocalNumber(),
+                'label' => $phoneNumber->GetLabel(),
                 );
             $this->db->insert('register_contacts_phone_numbers', $data);
         }

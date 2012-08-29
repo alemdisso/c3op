@@ -7,8 +7,11 @@ class C3op_Register_PhoneNumber {
     protected $localNumber;
     protected $label;
 
-    function __construct($id=0) {
+    function __construct($id=0, $areaCode="", $localNumber="", $label="") {
         $this->id = (int)$id;
+        $this->areaCode = $areaCode;
+        $this->localNumber = $localNumber;
+        $this->label = $label;
     }
 
     public function GetId() {
@@ -32,12 +35,12 @@ class C3op_Register_PhoneNumber {
 
     public function SetAreaCode($areaCode) {
         $validator = new C3op_Register_ValidPhoneAreaCode();
-        if ($validator->isValid($areaCode)) {
+        if (($areaCode == "") || ($validator->isValid($areaCode))) {
             if ($this->areaCode != $areaCode) {
                 $this->areaCode = $areaCode;
             }
         } else {
-            throw new C3op_Register_ContactException("This ($areaCode) is not a valid label.");
+            throw new C3op_Register_ContactException("This ($areaCode) is not a valid area code.");
         }
 
     } //SetAreaCode
@@ -65,8 +68,8 @@ class C3op_Register_PhoneNumber {
     } //GetLabel
 
     public function SetLabel($label) {
-        $validator = new C3op_Register_ContactValidName();
-        if ($validator->isValid($label)) {
+        $validator = new C3op_Util_ValidString();
+        if (($label == "") || ($validator->isValid($label))) {
             if ($this->label != $label) {
                 $this->label = $label;
             }

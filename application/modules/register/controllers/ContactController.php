@@ -131,13 +131,13 @@ class Register_ContactController extends Zend_Controller_Action
         $id = $this->checkIdFromGet();
         $contactBeingDetailed = $this->contactMapper->findById($id);
 
-        $phoneNumbersList = $contactBeingDetailed->getPhoneNumbers();
+        $phoneNumbersList = $contactBeingDetailed->GetPhoneNumbers();
         $phoneData = array();
         foreach($phoneNumbersList as $phoneId => $phoneNumber) {
-            $phoneData[$phoneId] = array(
-                'area_code' => $phoneNumber['area_code'],
-                'local_number' => $phoneNumber['local_number'],
-                'label' => $phoneNumber['label'],
+            $phoneData[$phoneNumber->GetId()] = array(
+                'area_code' => $phoneNumber->GetAreaCode(),
+                'local_number' => $phoneNumber->GetLocalNumber(),
+                'label' => $phoneNumber->GetLabel(),
             );
         }
 
@@ -221,14 +221,14 @@ class Register_ContactController extends Zend_Controller_Action
         } else {
             $data = $this->_request->getParams();
             $filters = array(
-                'phoneId' => new Zend_Filter_Alnum(),
+                'id' => new Zend_Filter_Alnum(),
             );
             $validators = array(
-                'phoneId' => array('Digits', new Zend_Validate_GreaterThan(0)),
+                'id' => array('Digits', new Zend_Validate_GreaterThan(0)),
             );
             $input = new Zend_Filter_Input($filters, $validators, $data);
             if ($input->isValid()) {
-                $phoneId = $input->phoneId;
+                $phoneId = $input->id;
             } else {
                 throw new C3op_Register_ContactException("Invalid Contact Id from Get");
             }
@@ -242,9 +242,9 @@ class Register_ContactController extends Zend_Controller_Action
             $form = new C3op_Form_PhoneNumberEdit();
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'contact', $contactHasPhone->GetId());
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $phoneId);
-            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'areaCode', $phoneNumber['area_code']);
-            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'localNumber', $phoneNumber['local_number']);
-            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'label', $phoneNumber['label']);
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'areaCode', $phoneNumber->GetAreaCode());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'localNumber', $phoneNumber->GetLocalNumber());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'label', $phoneNumber->GetLabel());
 
             $this->view->form = $form;
             $contactInfo = array(
