@@ -8,5 +8,5 @@ public/index.php
 
 /nbproject/**/* 
 /library/C3op/Form/Decorators.php
-/tests/log/
+/tests/log/**/*
 /nbproject/
