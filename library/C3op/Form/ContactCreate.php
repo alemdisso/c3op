@@ -9,7 +9,7 @@ class C3op_Form_ContactCreate extends Zend_Form
             ->setAction('/register/contact/create')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
-        
+
         // create text input for name
         $name = new Zend_Form_Element_Text('name');
 //        $nameValidator = new Zend_Validate_Regex("/^[0-9a-zA-ZÀ-ú]+[0-9A-Za-zÀ-ú\'\[\]\(\)\-\.\,\:\;\!\? ]{1,50}$/");
@@ -29,7 +29,41 @@ class C3op_Form_ContactCreate extends Zend_Form
                 ;
         // attach elements to form
         $this->addElement($name);
-        
+
+        $areaCode = new Zend_Form_Element_Text('areaCode');
+        $phoneValidator = new C3op_Register_ValidPhoneAreaCode();
+        $areaCode->setLabel('Código de área:')
+              ->setDecorators(array(
+                  'ViewHelper',
+                  'Errors',
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+              ))
+            ->setOptions(array('class' => 'eleven columns alpha omega'))
+            ->setRequired(false)
+            ->addValidator($phoneValidator)
+            ->addFilter('StringTrim')
+                ;
+        // attach elements to form
+        $this->addElement($areaCode);
+
+        $localNumber = new Zend_Form_Element_Text('localNumber');
+        $phoneValidator = new C3op_Register_ValidPhoneLocalNumber();
+        $localNumber->setLabel('Número local:')
+              ->setDecorators(array(
+                  'ViewHelper',
+                  'Errors',
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+              ))
+            ->setOptions(array('class' => 'eleven columns alpha omega'))
+            ->setRequired(false)
+            ->addValidator($phoneValidator)
+            ->addFilter('StringTrim')
+                ;
+        // attach elements to form
+        $this->addElement($localNumber);
+
         $type = new Zend_Form_Element_Select('type');
         $type->setLabel('Tipo')
                 ->setDecorators(array(
@@ -44,9 +78,9 @@ class C3op_Form_ContactCreate extends Zend_Form
         $type->addMultiOption(null, "(escolha um tipo)");
         while (list($key, $title) = each($titleTypes)) {
             $type->addMultiOption($key, $title);
-        }        
+        }
         $this->addElement($type);
-                
+
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
         $submit->setLabel('Gravar')
@@ -60,12 +94,12 @@ class C3op_Form_ContactCreate extends Zend_Form
         $this->addElement($submit);
 
     }
-    
+
     public function process($data) {
-        if ($this->isValid($data) !== true) 
+        if ($this->isValid($data) !== true)
         {
             throw new C3op_Form_ContactCreateException('Invalid data!');
-        } 
+        }
         else
         {
             $db = Zend_Registry::get('db');
@@ -73,7 +107,12 @@ class C3op_Form_ContactCreate extends Zend_Form
             $contact = new C3op_Register_Contact();
             $contact->SetName($this->name->GetValue());
             $contact->SetType($this->type->GetValue());
+            if ($this->localNumber->GetValue() != "") {
+                $phoneNumber = new C3op_Register_ContactPhoneNumber(0, $this->areaCode->GetValue(), $this->localNumber->GetValue(), '');
+                $contact->AddPhoneNumber($phoneNumber);
+            }
             $contactMapper->insert($contact);
+            return $contact->getId();
         }
     }
 }

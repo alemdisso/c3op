@@ -1,0 +1,53 @@
+<div id="MainHeader">
+  <h1>Consulta de Vínculo</h1>
+</div>
+<?php
+/*
+ * If exists linkages list
+ */
+if (is_array($this->linkageInfo)) {
+    $linkageData = $this->linkageInfo;
+?>
+<p>Instituição: <?php print($linkageData['institutionName']) ?></p>
+
+<?php
+/*
+ * iterate list and print title
+ */
+
+    $phoneNumbersList = $linkageData['phoneList'];
+
+    if (count($phoneNumbersList) > 0) {
+
+
+?>
+<?php
+    foreach ($phoneNumbersList as $phoneId => $phoneInfo) {
+?>
+<?php if (isset($phoneInfo['label'])) { ?>
+<?php print($phoneInfo['label']) . ": " ?>
+<?php } ?>
+<?php if (isset($phoneInfo['local_number']) && ($phoneInfo['local_number'] != "")) { ?>
+<?php if (isset($phoneInfo['area_code']) && ($phoneInfo['area_code'] != "")) { ?>
+(<?php print($phoneInfo['area_code']) ?>)
+<?php } ?>
+<?php print($phoneInfo['local_number']) ?>
+<?php } ?>
+&nbsp;<a href="/register/linkage/change-phone-number/?id=<?php print($phoneId); ?>">Editar</a>
+<br />
+<?php
+}  // loop iterate list and print titlei
+?>
+
+<?php } ?>
+<p />
+<a href="/register/linkage/add-phone-number/?linkage=<?php print($this->linkageInfo['id']) ?>">Adicionar telefone</a>
+<hr>
+<?php
+} else { // else exists linkages list
+?>
+    <?php print("Não há informações sobre este vínculo.") ?>
+
+    <?php
+} // end exists linkages list
+?>

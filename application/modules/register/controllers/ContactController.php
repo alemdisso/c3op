@@ -131,13 +131,13 @@ class Register_ContactController extends Zend_Controller_Action
         $id = $this->checkIdFromGet();
         $contactBeingDetailed = $this->contactMapper->findById($id);
 
-        $phoneNumbersList = $contactBeingDetailed->getPhoneNumbers();
+        $phoneNumbersList = $contactBeingDetailed->GetPhoneNumbers();
         $phoneData = array();
         foreach($phoneNumbersList as $phoneId => $phoneNumber) {
-            $phoneData[$phoneId] = array(
-                'area_code' => $phoneNumber['area_code'],
-                'local_number' => $phoneNumber['local_number'],
-                'label' => $phoneNumber['label'],
+            $phoneData[$phoneNumber->GetId()] = array(
+                'area_code' => $phoneNumber->GetAreaCode(),
+                'local_number' => $phoneNumber->GetLocalNumber(),
+                'label' => $phoneNumber->GetLabel(),
             );
         }
 
@@ -180,8 +180,10 @@ class Register_ContactController extends Zend_Controller_Action
         // cria form
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
-            $form = new C3op_Form_PhoneNumberCreate();
+            $options['contact'] = $postData['contact'];
+            $form = new C3op_Form_ContactPhoneNumberCreate($options);
             $this->view->form = $form;
+
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
@@ -189,10 +191,11 @@ class Register_ContactController extends Zend_Controller_Action
                 $this->_redirect('/register/contact/success-create/?id=' . $id);
             } else throw new C3op_Register_ContactException("Invalid data for phone number.");
         } else {
-            $contactId = $this->checkIdFromGet();
+            $contactId = $this->checkContactFromGet();
             $contactHasPhone = $this->contactMapper->findById($contactId);
             $data = $this->_request->getParams();
-            $form = new C3op_Form_PhoneNumberCreate();
+            $options['contact'] = $contactId;
+            $form = new C3op_Form_ContactPhoneNumberCreate($options);
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'contact', $contactId);
 
             $this->view->form = $form;
@@ -210,7 +213,8 @@ class Register_ContactController extends Zend_Controller_Action
         // cria form
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
-            $form = new C3op_Form_PhoneNumberEdit();
+            $options['id'] = $postData['id'];
+            $form = new C3op_Form_ContactPhoneNumberEdit($options);
             $this->view->form = $form;
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
@@ -221,14 +225,14 @@ class Register_ContactController extends Zend_Controller_Action
         } else {
             $data = $this->_request->getParams();
             $filters = array(
-                'phoneId' => new Zend_Filter_Alnum(),
+                'id' => new Zend_Filter_Alnum(),
             );
             $validators = array(
-                'phoneId' => array('Digits', new Zend_Validate_GreaterThan(0)),
+                'id' => array('Digits', new Zend_Validate_GreaterThan(0)),
             );
             $input = new Zend_Filter_Input($filters, $validators, $data);
             if ($input->isValid()) {
-                $phoneId = $input->phoneId;
+                $phoneId = $input->id;
             } else {
                 throw new C3op_Register_ContactException("Invalid Contact Id from Get");
             }
@@ -239,12 +243,13 @@ class Register_ContactController extends Zend_Controller_Action
 
             $data = $this->_request->getParams();
 
-            $form = new C3op_Form_PhoneNumberEdit();
+            $options['id'] = $data['id'];
+            $form = new C3op_Form_ContactPhoneNumberEdit($options);
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'contact', $contactHasPhone->GetId());
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $phoneId);
-            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'areaCode', $phoneNumber['area_code']);
-            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'localNumber', $phoneNumber['local_number']);
-            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'label', $phoneNumber['label']);
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'areaCode', $phoneNumber->GetAreaCode());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'localNumber', $phoneNumber->GetLocalNumber());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'label', $phoneNumber->GetLabel());
 
             $this->view->form = $form;
             $contactInfo = array(
@@ -276,6 +281,24 @@ class Register_ContactController extends Zend_Controller_Action
         if ($input->isValid()) {
             $id = $input->id;
             return $id;
+        }
+        throw new C3op_Register_ContactException("Invalid Contact Id from Get");
+
+    }
+
+   private function checkContactFromGet()
+    {
+        $data = $this->_request->getParams();
+        $filters = array(
+            'contact' => new Zend_Filter_Alnum(),
+        );
+        $validators = array(
+            'contact' => array('Digits', new Zend_Validate_GreaterThan(0)),
+        );
+        $input = new Zend_Filter_Input($filters, $validators, $data);
+        if ($input->isValid()) {
+            $contact = $input->contact;
+            return $contact;
         }
         throw new C3op_Register_ContactException("Invalid Contact Id from Get");
 
