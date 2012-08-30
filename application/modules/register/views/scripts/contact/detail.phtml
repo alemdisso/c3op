@@ -33,6 +33,7 @@ if (is_array($this->contactInfo)) {
   </div>
 </div><!-- .Area -->
 
+          <div class="Area">
 <?php
 /*
  * iterate list and print title
@@ -43,7 +44,6 @@ if (is_array($this->contactInfo)) {
     if (count($phoneNumbersList) > 0) {
 
 ?>
-          <div class="Area">
             <h2>Telefones</h2>
             <table id="Telefones" class="display dataTable">
               <thead>
@@ -91,12 +91,12 @@ if (is_array($this->contactInfo)) {
 ?>
               </tbody>
             </table>
-          </div><!-- .Area -->
 <?php } ?>
 
             <p>
               <a href="/register/contact/add-phone-number/?id=<?php print($this->contactInfo['id']) ?>" class="button three columns alpha omega">Adicionar telefone</a>
             </p>
+          </div><!-- .Area -->
 
 <?php
 /*
