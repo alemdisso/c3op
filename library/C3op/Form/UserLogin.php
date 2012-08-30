@@ -17,10 +17,10 @@ class C3op_Form_UserLogin extends Zend_Form
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
-                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'five columns alpha omega')),
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'five columns omega')),
                   array('Label', array('tag' => 'div', 'tagClass' => 'one column alpha Right')),
               ))
-            ->setOptions(array('class' => 'five columns omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(true)
             ->addValidator($loginValidator)
             ->addFilter('StringTrim')
@@ -35,10 +35,10 @@ class C3op_Form_UserLogin extends Zend_Form
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
-                  array(array('data' => 'HtmlTag'), array('tag' => 'div', 'class' => 'five columns alpha omega')),
+                  array(array('data' => 'HtmlTag'), array('tag' => 'div', 'class' => 'five columns omega')),
                   array('Label', array('tag' => 'div', 'tagClass' => 'one column alpha Right')),
               ))
-            ->setOptions(array('class' => 'five columns omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(true)
             ->addValidator($passwordValidator)
             ->addFilter('StringTrim')
@@ -49,15 +49,15 @@ class C3op_Form_UserLogin extends Zend_Form
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
         $submit->setLabel('Entrar')
-              ->setDecorators(array(
+               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
-                  array(array('data' => 'HtmlTag'), array('tag' => 'div', 'class' => 'five columns alpha omega')),
-                  array('Label', array('tag' => 'div', 'tagClass' => 'one column alpha Invisible')),
-              ))
-            ->setOptions(array('class' => 'submit two columns'));
-
-
+                  array(array('data' => 'HtmlTag'), 
+                  array('tag' => 'div', 'class' => 'two columns inset-by-three omega')),
+                  array('Label', 
+                  array('tag' => 'div', 'tagClass' => 'one column alpha Invisible')),
+               ))
+               ->setOptions(array('class' => 'submit Full alpha omega'));
         $this->addElement($submit);
 
     }

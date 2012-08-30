@@ -33,15 +33,18 @@ class C3op_Form_LinkageCreate extends Zend_Form
                 ->setDecorators(array(
                       'ViewHelper',
                       'Errors',
-                      array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
+                      array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'nine columns')),
+                      array('Description', array('escape' => false, 'tag' => 'div', 'class' => 'two columns omega')),
                       array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
                   ))
-                ->setOptions(array('class' => 'eleven columns alpha omega'))
+                ->setOptions(array('class' => 'Full alpha omega'))
+                ->setDescription('<a href="/register/institution/create" class="two columns button alpha omega">Nova Instituição</a>')
                 ->setRegisterInArrayValidator(false);
             $institution->addMultiOption(0, "(escolha uma...)");
             $this->addElement($institution);
         }
         
+
         // $this->addElementText('position', 'Cargo/Função:', new C3op_Util_ValidString(), 50);
 
         $shortName = new Zend_Form_Element_Text('position');
@@ -53,7 +56,7 @@ class C3op_Form_LinkageCreate extends Zend_Form
                   array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
                   array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
               ))
-            ->setOptions(array('class' => 'eleven columns alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(true)
             ->addValidator($validator)
 //            ->addFilter('HtmlEntities')
@@ -72,7 +75,7 @@ class C3op_Form_LinkageCreate extends Zend_Form
                   array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
                   array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
               ))
-            ->setOptions(array('class' => 'eleven columns alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(true)
             ->addValidator($validator)
 //            ->addFilter('HtmlEntities')
@@ -83,16 +86,17 @@ class C3op_Form_LinkageCreate extends Zend_Form
 
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
-        $submit->setLabel('Gravar')
-              ->setDecorators(array(
-                  'ViewHelper',
-                  'Errors',
-                  array(array('data' => 'HtmlTag'), array('tag' => 'div', 'class' => 'five columns inset-by-six omega')),
-                  array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Invisible')),
-              ))
-            ->setOptions(array('class' => 'submit two columns alpha omega'));
-        $this->addElement($submit);
-                
+        $submit ->setLabel('Gravar')
+                ->setDecorators(array('ViewHelper','Errors',
+                    array(array('data' => 'HtmlTag'),
+                    array('tag' => 'div','class' => 'two columns inset-by-nine omega')),
+                    array('Label',
+                      array('tag' => 'div','tagClass' => 'three columns alpha Invisible')
+                    ),
+                  ))
+                ->setOptions(array('class' => 'submit Full alpha omega'));
+        $this   ->addElement($submit);
+
     }
     
     public function init()

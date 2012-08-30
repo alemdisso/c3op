@@ -22,7 +22,7 @@ class C3op_Form_PhoneNumberCreate extends Zend_Form
                   array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
                   array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
               ))
-            ->setOptions(array('class' => 'eleven columns alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(true)
             ->addValidator($labelValidator)
             ->addFilter('StringTrim')
@@ -32,14 +32,14 @@ class C3op_Form_PhoneNumberCreate extends Zend_Form
 
         $areaCode = new Zend_Form_Element_Text('areaCode');
         $phoneValidator = new C3op_Register_ValidPhoneAreaCode();
-        $areaCode->setLabel('Código de área:')
+        $areaCode->setLabel('DDD:')
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
-                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'one column')),
                   array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
               ))
-            ->setOptions(array('class' => 'eleven columns alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(false)
             ->addValidator($phoneValidator)
             ->addFilter('StringTrim')
@@ -49,14 +49,14 @@ class C3op_Form_PhoneNumberCreate extends Zend_Form
 
         $localNumber = new Zend_Form_Element_Text('localNumber');
         $phoneValidator = new C3op_Register_ValidPhoneLocalNumber();
-        $localNumber->setLabel('Número local:')
+        $localNumber->setLabel('Número:')
               ->setDecorators(array(
                   'ViewHelper',
-                  'Errors',
-                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
-                  array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                  'Errors',             
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns inset-by-seven omega')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'one column Right')),
               ))
-            ->setOptions(array('class' => 'eleven columns alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(false)
             ->addValidator($phoneValidator)
             ->addFilter('StringTrim')
@@ -66,15 +66,16 @@ class C3op_Form_PhoneNumberCreate extends Zend_Form
 
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
-        $submit->setLabel('Gravar')
-              ->setDecorators(array(
-                  'ViewHelper',
-                  'Errors',
-                  array(array('data' => 'HtmlTag'), array('tag' => 'div', 'class' => 'five columns inset-by-six omega')),
-                  array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Invisible')),
-              ))
-            ->setOptions(array('class' => 'submit two columns alpha omega'));
-        $this->addElement($submit);
+        $submit ->setLabel('Gravar')
+                ->setDecorators(array('ViewHelper','Errors',
+                    array(array('data' => 'HtmlTag'),
+                    array('tag' => 'div','class' => 'two columns inset-by-nine omega')),
+                    array('Label',
+                      array('tag' => 'div','tagClass' => 'three columns alpha Invisible')
+                    ),
+                  ))
+                ->setOptions(array('class' => 'submit Full alpha omega'));
+        $this   ->addElement($submit);
 
     }
 

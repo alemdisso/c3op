@@ -21,7 +21,7 @@ class C3op_Form_ContactCreate extends Zend_Form
                   array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
                   array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
               ))
-            ->setOptions(array('class' => 'eleven columns alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(true)
             ->addValidator($nameValidator)
 //            ->addFilter('HtmlEntities')
@@ -31,17 +31,17 @@ class C3op_Form_ContactCreate extends Zend_Form
         $this->addElement($name);
         
         $type = new Zend_Form_Element_Select('type');
-        $type->setLabel('Tipo')
+        $type->setLabel('Relação com o Iets:')
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
                     array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
                     array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
                 ))
-                ->setOptions(array('class' => 'eleven columns alpha omega'))
+                ->setOptions(array('class' => 'Full alpha omega'))
                 ->setRequired(true);
         $titleTypes = C3op_Register_ContactTypes::AllTitles();
-        $type->addMultiOption(null, "(escolha um tipo)");
+        $type->addMultiOption(null, "(clique para escolher)");
         while (list($key, $title) = each($titleTypes)) {
             $type->addMultiOption($key, $title);
         }        
@@ -49,15 +49,16 @@ class C3op_Form_ContactCreate extends Zend_Form
                 
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
-        $submit->setLabel('Gravar')
-              ->setDecorators(array(
-                  'ViewHelper',
-                  'Errors',
-                  array(array('data' => 'HtmlTag'), array('tag' => 'div', 'class' => 'five columns inset-by-six omega')),
-                  array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Invisible')),
-              ))
-            ->setOptions(array('class' => 'submit two columns alpha omega'));
-        $this->addElement($submit);
+        $submit ->setLabel('Gravar')
+                ->setDecorators(array('ViewHelper','Errors',
+                    array(array('data' => 'HtmlTag'),
+                    array('tag' => 'div','class' => 'two columns inset-by-nine omega')),
+                    array('Label',
+                      array('tag' => 'div','tagClass' => 'three columns alpha Invisible')
+                    ),
+                  ))
+                ->setOptions(array('class' => 'submit Full alpha omega'));
+        $this   ->addElement($submit);
 
     }
     

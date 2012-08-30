@@ -27,7 +27,7 @@ class C3op_Form_ReceivableCreate extends Zend_Form
                     array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
                     array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
                 ))
-                ->setOptions(array('class' => 'eleven columns alpha omega'))
+                ->setOptions(array('class' => 'Full alpha omega'))
             ->addValidator(new C3op_Util_ValidString)
             ->addFilter('StringTrim')
                 ;
@@ -43,7 +43,7 @@ class C3op_Form_ReceivableCreate extends Zend_Form
                 array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns')),
                 array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
             ))
-            ->setOptions(array('class' => 'three columns alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->addValidator(new C3op_Util_ValidString)
             ->addFilter('StringTrim')
                 ;
@@ -59,7 +59,7 @@ class C3op_Form_ReceivableCreate extends Zend_Form
                 array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns inset-by-three omega')),
                 array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
             ))
-            ->setOptions(array('class' => 'three columns alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->addValidator(new C3op_Util_ValidString)
             ->addFilter('StringTrim')
                 ;
@@ -75,7 +75,7 @@ class C3op_Form_ReceivableCreate extends Zend_Form
                 array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns')),
                 array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
             ))
-            ->setOptions(array('class' => 'three columns alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->addValidator(new C3op_Util_ValidString)
             ->addFilter('StringTrim')
                 ;
@@ -91,7 +91,7 @@ class C3op_Form_ReceivableCreate extends Zend_Form
                 array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns inset-by-three omega')),
                 array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
             ))
-            ->setOptions(array('class' => 'three columns alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->addValidator(new C3op_Util_ValidString)
             ->addFilter('StringTrim')
                 ;
@@ -99,15 +99,16 @@ class C3op_Form_ReceivableCreate extends Zend_Form
 
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
-        $submit->setLabel('Gravar')
-              ->setDecorators(array(
-                  'ViewHelper',
-                  'Errors',
-                  array(array('data' => 'HtmlTag'), array('tag' => 'div', 'class' => 'five columns inset-by-six omega')),
-                  array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Invisible')),
-              ))
-            ->setOptions(array('class' => 'submit two columns alpha omega'));
-        $this->addElement($submit);
+        $submit ->setLabel('Gravar')
+                ->setDecorators(array('ViewHelper','Errors',
+                    array(array('data' => 'HtmlTag'),
+                    array('tag' => 'div','class' => 'two columns inset-by-nine omega')),
+                    array('Label',
+                      array('tag' => 'div','tagClass' => 'three columns alpha Invisible')
+                    ),
+                  ))
+                ->setOptions(array('class' => 'submit Full alpha omega'));
+        $this   ->addElement($submit);
 
     }
     
@@ -139,7 +140,6 @@ class C3op_Form_ReceivableCreate extends Zend_Form
                 $converter = new C3op_Util_DateConverter();                
                 $dateForMysql = $converter->convertDateToMySQLFormat($realDate);
                 $realDateConvertedToMySQL = $dateForMysql;
-                $receivable->SetRealDate($realDateConvertedToMySQL);
             }
             
             
@@ -147,6 +147,7 @@ class C3op_Form_ReceivableCreate extends Zend_Form
             $receivable = new C3op_Projects_Receivable($this->project->GetValue(),$predictedDateConvertedToMySQL, $this->predictedValue->GetValue());
             $receivable->SetTitle($this->title->GetValue());
             $receivable->SetProject((float)$this->project->GetValue());
+            $receivable->SetRealDate($realDateConvertedToMySQL);
             $receivable->SetRealValue((float)$this->realValue->GetValue());
             
             $receivableMapper->insert($receivable);

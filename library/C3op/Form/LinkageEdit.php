@@ -9,6 +9,7 @@ class C3op_Form_LinkageEdit extends C3op_Form_LinkageCreate
         
         $this->setName('editLinkageForm')
             ->setAction('/register/linkage/edit')
+            ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
         
         $id = new Zend_Form_Element_Hidden('id');
@@ -25,20 +26,73 @@ class C3op_Form_LinkageEdit extends C3op_Form_LinkageCreate
         
         $institution = new Zend_Form_Element_Select('institution');
         $institution->setLabel('Instituição: ')
+                ->setDecorators(array(
+                      'ViewHelper',
+                      'Errors',
+                      array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'nine columns')),
+                      array('Description', array('escape' => false, 'tag' => 'div', 'class' => 'two columns omega')),
+                      array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                  ))
+                ->setOptions(array('class' => 'Full alpha omega'))
+                ->setDescription('<a href="/register/institution/create" class="two columns button alpha omega">Nova Instituição</a>')
                 ->setRegisterInArrayValidator(false);
         $institution->addMultiOption(0, "(escolha uma...)");
         $this->addElement($institution);
         
-        $this->addElementText('position', 'Cargo/Função:', new C3op_Util_ValidString(), 50);
-        $this->addElementText('department', 'Departamento:', new C3op_Util_ValidString(), 50);
+        // $this->addElementText('position', 'Cargo/Função:', new C3op_Util_ValidString(), 50);
+
+        $shortName = new Zend_Form_Element_Text('position');
+        $validator = new C3op_Register_InstitutionValidName;
+        $shortName->setLabel('Cargo/Função:')
+              ->setDecorators(array(
+                  'ViewHelper',
+                  'Errors',
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+              ))
+            ->setOptions(array('class' => 'Full alpha omega'))
+            ->setRequired(true)
+            ->addValidator($validator)
+//            ->addFilter('HtmlEntities')
+            ->addFilter('StringTrim')
+                ;
+        $this->addElement($shortName);
+
+        // $this->addElementText('department', 'Departamento:', new C3op_Util_ValidString(), 50);
+
+        $shortName = new Zend_Form_Element_Text('department');
+        $validator = new C3op_Register_InstitutionValidName;
+        $shortName->setLabel('Departamento:')
+              ->setDecorators(array(
+                  'ViewHelper',
+                  'Errors',
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+              ))
+            ->setOptions(array('class' => 'Full alpha omega'))
+            ->setRequired(true)
+            ->addValidator($validator)
+//            ->addFilter('HtmlEntities')
+            ->addFilter('StringTrim')
+                ;
+        $this->addElement($shortName);
+
+        // [# É mesmo para exibir este campo, abaixo?  
         $this->addElementText('state', 'UF:', new C3op_Register_ValidState(), 30);
 
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
-        $submit->setLabel('Salvar')
-            ->setOptions(array('class' => 'submit'));
-        $this->addElement($submit);
-                
+        $submit ->setLabel('Gravar')
+                ->setDecorators(array('ViewHelper','Errors',
+                    array(array('data' => 'HtmlTag'),
+                    array('tag' => 'div','class' => 'two columns inset-by-nine omega')),
+                    array('Label',
+                      array('tag' => 'div','tagClass' => 'three columns alpha Invisible')
+                    ),
+                  ))
+                ->setOptions(array('class' => 'submit Full alpha omega'));
+        $this   ->addElement($submit);
+
     }
     
     public function init()
@@ -71,7 +125,6 @@ class C3op_Form_LinkageEdit extends C3op_Form_LinkageCreate
             $linkage = $linkageMapper->findById($id);      
             $linkage->SetDepartment($data['department']);
             $linkage->SetContact($data['contact']);
-            $linkage->SetState($data['state']);
             $linkage->SetInstitution($data['institution']);
             $linkage->SetPosition($data['position']);
 

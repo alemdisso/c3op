@@ -1,7 +1,5 @@
 .anchorclass {
   background-color: #efefef;
-  background: #efefef url(/public/images/arrowDown.png) no-repeat;
-  background-position: 50px;
   border: 1px #ddd solid;
   padding: 1px 25px 1px 8px;
   width: 50px;

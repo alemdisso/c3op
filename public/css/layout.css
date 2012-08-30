@@ -49,6 +49,10 @@
   font-variant:small-caps;
 }
 
+.Full {
+  width: 100%;
+}
+
 #Header,
 #Logo {
   margin-top: 48px;
@@ -125,6 +129,11 @@
   border: 1px #c0c0bf solid;
   margin-top: 25px;
   padding-bottom: 40px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
 }
 
 #MainHeader {
@@ -183,7 +192,8 @@ dl.zend_form {
 }
 
 .button {
-  font-size: 9px;
+  font-size: 10px;
+  -webkit-font-size: 10px;
   height: 21px;
   text-align: center;
   text-transform: uppercase;
@@ -223,6 +233,12 @@ a.button {
   margin: 0 10px; 
   text-decoration: none;
 }
+
+.anchorclass.button {
+  padding: 2px 5px;
+  background-position: 50px;
+  margin: 0px;
+} 
 
 .Red { /* temporário */
   background-color: #f00;

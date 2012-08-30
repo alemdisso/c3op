@@ -27,7 +27,7 @@ class C3op_Form_ActionCreate extends Zend_Form
                     array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
                     array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
                 ))
-                ->setOptions(array('class' => 'eleven columns alpha omega'))
+                ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(true)
             ->addValidator($titleValidator)
             ->addFilter('StringTrim')
@@ -56,7 +56,7 @@ class C3op_Form_ActionCreate extends Zend_Form
                     array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'four columns')),
                     array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
                 ))
-                ->setOptions(array('class' => 'four columns alpha omega'))
+                ->setOptions(array('class' => 'Full alpha omega'))
                 ->setRegisterInArrayValidator(false);
         $requirementForReceiving->addMultiOption(0, "(não é requisito para recebimento)");
         $this->addElement($requirementForReceiving);
@@ -69,7 +69,7 @@ class C3op_Form_ActionCreate extends Zend_Form
                     array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'five columns omega')),
                     array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
                 ))
-                ->setOptions(array('class' => 'five columns alpha omega'))
+                ->setOptions(array('class' => 'Full alpha omega'))
                 ->setRegisterInArrayValidator(false);
         $subordinatedTo->addMultiOption(0, "nenhuma ação");
         $this->addElement($subordinatedTo);
@@ -82,7 +82,7 @@ class C3op_Form_ActionCreate extends Zend_Form
                     array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
                     array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
                 ))
-                ->setOptions(array('class' => 'eleven columns alpha omega'))
+                ->setOptions(array('class' => 'Full alpha omega'))
                 ->setRegisterInArrayValidator(false);
         $responsible->addMultiOption(0, "escolha uma pessoa");
         $this->addElement($responsible);
@@ -96,7 +96,7 @@ class C3op_Form_ActionCreate extends Zend_Form
                   array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
               ))
             ->setAttrib('rows','8')
-            ->setOptions(array('class' => 'eleven columns alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(false)
             //->addFilter('HtmlEntities')
             ->addFilter('StringTrim');
@@ -111,7 +111,7 @@ class C3op_Form_ActionCreate extends Zend_Form
                 array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns')),
                 array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
             ))
-            ->setOptions(array('class' => 'three columns alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(false)
             ->addValidator($dateValidator)
             ->addFilter('StringTrim');
@@ -125,7 +125,7 @@ class C3op_Form_ActionCreate extends Zend_Form
                 array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns inset-by-three omega')),
                 array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
             ))
-            ->setOptions(array('class' => 'three columns alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(false)
             ->addValidator('date')
             ->addFilter('HtmlEntities')
@@ -134,16 +134,16 @@ class C3op_Form_ActionCreate extends Zend_Form
         
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
-        $submit->setLabel('Gravar')
-              ->setDecorators(array(
-                  'ViewHelper',
-                  'Errors',
-                  array(array('data' => 'HtmlTag'), array('tag' => 'div', 'class' => 'five columns inset-by-six omega')),
-                  array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Invisible')),
-              ))
-            ->setOptions(array('class' => 'submit two columns alpha omega'));
-        $this->addElement($submit);
-                
+        $submit ->setLabel('Gravar')
+                ->setDecorators(array('ViewHelper','Errors',
+                    array(array('data' => 'HtmlTag'),
+                    array('tag' => 'div','class' => 'two columns inset-by-nine omega')),
+                    array('Label',
+                      array('tag' => 'div','tagClass' => 'three columns alpha Invisible')
+                    ),
+                  ))
+                ->setOptions(array('class' => 'submit Full alpha omega'));
+        $this   ->addElement($submit);
 
     }
     
