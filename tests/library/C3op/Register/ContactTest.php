@@ -53,23 +53,23 @@ class ContactTest extends ControllerTestCase
 
     public function testIfCanChangeAPhoneNumberRelatedToContact()
     {
-        $aPhoneNumber = new C3op_Register_PhoneNumber(0, "21", "2234-5678");
-        $keyAdd1 = $this->contact->AddPhoneNumber($aPhoneNumber);
+        $aId = 0;
+        $aPhoneNumber = new C3op_Register_ContactPhoneNumber($aId, "21", "2234-5678");
+        $this->contact->AddPhoneNumber($aPhoneNumber);
 
-        $otherPhoneNumber = new C3op_Register_PhoneNumber(0, "21", "8989-0123");
-        $keyAdd2 = $this->contact->AddPhoneNumber($otherPhoneNumber);
+        $otherId = 1;
+        $otherPhoneNumber = new C3op_Register_ContactPhoneNumber($otherId, "21", "8989-0123");
+        $this->contact->AddPhoneNumber($otherPhoneNumber);
 
+        $newLocalNumber = "5678-0000";
         $phonesArray = $this->contact->getPhoneNumbers();
-        $aPhoneNumber->SetLocalNumber("5678-0000");
-        $phonesArray[$keyAdd1] = $aPhoneNumber;
-
+        $aPhoneNumber->SetLocalNumber($newLocalNumber);
         $this->contact->SetPhoneNumbers($phonesArray);
         $phonesArray = $this->contact->getPhoneNumbers();
 
         $this->assertTrue(is_array($phonesArray));
         $this->assertEquals(2, count($phonesArray));
-        $this->assertTrue(!in_array($aPhoneNumber, $phonesArray));
-        $this->assertEquals($newLocalNumber, $phonesArray[$keyAdd1]['local_number']);
+        $this->assertEquals($newLocalNumber, $phonesArray[$aId]->GetLocalNumber());
         $this->assertTrue(in_array($otherPhoneNumber, $phonesArray));
     }
 

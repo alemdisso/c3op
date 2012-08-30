@@ -79,7 +79,6 @@ class C3op_Register_Contact {
         $newArray = array();
         if (is_array($phoneNumbers)) {
             $validator = new C3op_Register_ValidPhoneLocalNumber();
-
             foreach ($phoneNumbers as $k => $phoneNumber) {
                 if ($phoneNumber instanceOf C3op_Register_ContactPhoneNumber) {
                     if ($validator->isValid($phoneNumber->GetLocalNumber())) {
@@ -105,19 +104,26 @@ class C3op_Register_Contact {
 
     } //AddPhoneNumber
 
-    public function RemovePhoneNumber(C3op_Register_PhoneNumber $phoneNumber) {
+    public function RemovePhoneNumber(C3op_Register_PhoneNumber $phoneNumberToBeRemoved) {
 
         if (is_array($this->phoneNumbers)) {
-            if (!isset($this->phoneNumbers[$phoneNumber->GetId()])) {
+
+            $found = false;
+            foreach ($this->phoneNumbers as $k => $eachPhoneNumber) {
+                if ($phoneNumberToBeRemoved === $eachPhoneNumber) {
+                    $found = true;
+                    unset($this->phoneNumbers[$k]);
+                    return true;
+                }
+            }
+            if (!$found) {
                 throw new C3op_Projects_ActionException("Phone number not found to be removed.");
             }
-            unset($this->phoneNumbers[$phoneNumber->GetId()]);
         } else {
             throw new C3op_Projects_ActionException("There isn\'t phone numbers to remove");
         }
 
     } //SetPhoneNumbers
-
 
     public function GetEmails() {
         return $this->emails;
