@@ -1,19 +1,23 @@
 <?php
 class C3op_Form_PhoneNumberEdit extends C3op_Form_PhoneNumberCreate
 {
-    public function init()
+    public function __construct($options = null)
     {
-        parent::init();
+        parent::__construct($options);
+
         $this->setName('newPhoneNumberForm')
-            ->setAction('/register/contact/change-phone-number')
+            ->setAction('/register/index/change-phone-number')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
-        $id = new Zend_Form_Element_Hidden('id');
-        $id->addValidator('Int')
-            ->addFilter('StringTrim');
-        $this->addElement($id);
-
+        if (isset($options['id'])) {
+            $id = new Zend_Form_Element_Hidden('id');
+            $id->addValidator('Int')
+                ->addFilter('StringTrim');
+            $this->addElement($id);
+        } else {
+            throw  new C3op_Form_PhoneNumberCreateException('Not defined which phone number to edit.');
+        }
 
     }
 
@@ -29,12 +33,14 @@ class C3op_Form_PhoneNumberEdit extends C3op_Form_PhoneNumberCreate
             $contact = $contactMapper->findById($this->contact->GetValue());
             if ($this->localNumber->GetValue() != "") {
                 $phoneNumbers = $contact->GetPhoneNumbers();
+                print_r($phoneNumbers);
+                print("<BR>{$this->id->GetValue()}<BR>");
                 if (isset($phoneNumbers[$this->id->GetValue()])) {
-                    $phoneNumber = array(
-                            'area_code' => $this->areaCode->GetValue(),
-                            'local_number' => $this->localNumber->GetValue(),
-                            'label' =>  $this->label->GetValue(),
-                            );
+                    $phoneNumber = new C3op_Register_ContactPhoneNumber();
+                    $phoneNumber->SetId($this->id->GetValue());
+                    $phoneNumber->SetAreaCode($this->areaCode->GetValue());
+                    $phoneNumber->SetLocalNumber($this->localNumber->GetValue());
+                    $phoneNumber->SetLabel($this->label->GetValue());
                     $phoneNumbers[$this->id->GetValue()] = $phoneNumber;
                     $contact->SetPhoneNumbers($phoneNumbers);
                     $contactMapper->update($contact);
