@@ -84,12 +84,12 @@ class C3op_Register_Contact {
                     if ($validator->isValid($phoneNumber->GetLocalNumber())) {
                         $newArray[$k] = $phoneNumber;
                     } else {
-                        throw new C3op_Projects_ActionException("A phone number must have at least a local number.");
+                        throw new C3op_Register_ContactException("A phone number must have at least a local number.");
                     }
                 }
             }
         } else {
-            throw new C3op_Projects_ActionException("Phone numbers must be organized in an array to be setted.");
+            throw new C3op_Register_ContactException("Phone numbers must be organized in an array to be setted.");
         }
         $this->phoneNumbers = $newArray;
     } //SetPhoneNumbers
@@ -99,7 +99,7 @@ class C3op_Register_Contact {
         if ($validator->isValid($phoneNumber->GetLocalNumber())) {
             $this->phoneNumbers[] = $phoneNumber;
         } else {
-            throw new C3op_Projects_ActionException("A phone number must have at least a local number.");
+            throw new C3op_Register_ContactException("A phone number must have at least a local number.");
         }
 
     } //AddPhoneNumber
@@ -117,10 +117,10 @@ class C3op_Register_Contact {
                 }
             }
             if (!$found) {
-                throw new C3op_Projects_ActionException("Phone number not found to be removed.");
+                throw new C3op_Register_ContactException("Phone number not found to be removed.");
             }
         } else {
-            throw new C3op_Projects_ActionException("There isn\'t phone numbers to remove");
+            throw new C3op_Register_ContactException("There isn\'t phone numbers to remove");
         }
 
     } //SetPhoneNumbers
@@ -133,29 +133,29 @@ class C3op_Register_Contact {
     public function SetEmails($emails) {
         $newArray = array();
         if (is_array($emails)) {
-            $validator = new C3op_Register_ValidPhoneLocalNumber();
+            $validator = new C3op_Util_ValidEmail();
 
             foreach ($emails as $k => $email) {
                 if ($email instanceOf C3op_Register_ContactEmail) {
-                    if ($validator->isValid($email->GetLocalNumber())) {
+                    if ($validator->isValid($email->GetEmail())) {
                         $newArray[$k] = $email;
                     } else {
-                        throw new C3op_Projects_ActionException("A phone number must have at least a local number.");
+                        throw new C3op_Register_ContactException("Invalid email.");
                     }
                 }
             }
         } else {
-            throw new C3op_Projects_ActionException("Phone numbers must be organized in an array to be setted.");
+            throw new C3op_Register_ContactException("Emails must be organized in an array to be setted.");
         }
         $this->emails = $newArray;
     } //SetEmails
 
     public function AddEmail(C3op_Register_Email $email) {
-        $validator = new C3op_Register_ValidPhoneLocalNumber();
-        if ($validator->isValid($email->GetLocalNumber())) {
+        $validator = new C3op_Util_ValidEmail();
+        if ($validator->isValid($email->GetEmail())) {
             $this->emails[] = $email;
         } else {
-            throw new C3op_Projects_ActionException("A phone number must have at least a local number.");
+            throw new C3op_Register_ContactException("Invalid email.");
         }
 
     } //AddEmail
@@ -173,13 +173,12 @@ class C3op_Register_Contact {
                 }
             }
             if (!$found) {
-                throw new C3op_Projects_ActionException("Phone number not found to be removed.");
+                throw new C3op_Register_ContactException("Email not found to be removed.");
             }
         } else {
-            throw new C3op_Projects_ActionException("There isn\'t phone numbers to remove");
+            throw new C3op_Register_ContactException("There isn\'t emails to remove");
         }
 
     } //SetEmails
-
 
 }

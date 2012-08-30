@@ -29,7 +29,7 @@ class C3op_Register_Email {
     } //GetEmail
 
     public function SetEmail($email) {
-        $validator = new C3op_Register_ValidPhoneEmail();
+        $validator = new C3op_Util_ValidEmail();
         if ($validator->isValid($email)) {
             if ($this->email != $email) {
                 $this->email = $email;

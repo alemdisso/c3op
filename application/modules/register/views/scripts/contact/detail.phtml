@@ -11,9 +11,6 @@ if (is_array($this->contactInfo)) {
 <p>Contato: <?php print($contactData['name']) ?></p>
 
 <?php
-/*
- * iterate list and print title
- */
 
     $phoneNumbersList = $contactData['phoneData'];
 
@@ -43,6 +40,41 @@ if (is_array($this->contactInfo)) {
 <p />
 <a href="/register/contact/add-phone-number/?contact=<?php print($this->contactInfo['id']) ?>">Adicionar telefone</a>
 <hr>
+
+
+<?php
+
+    $emailsList = $contactData['emailData'];
+
+    if (count($emailsList) > 0) {
+
+
+?>
+<?php
+    foreach ($emailsList as $emailId => $emailInfo) {
+?>
+<?php if (isset($emailInfo['label'])) { ?>
+<?php print($emailInfo['label']) . ": " ?>
+<?php } ?>
+<?php if (isset($emailInfo['email']) && ($emailInfo['email'] != "")) { ?>
+
+<?php print($emailInfo['email']) ?>
+<?php } ?>
+&nbsp;<a href="/register/contact/change-email/?id=<?php print($emailId); ?>">Editar</a>
+<br />
+<?php
+}  // loop iterate list and print titlei
+?>
+
+<?php } ?>
+<p />
+<a href="/register/contact/add-email/?contact=<?php print($this->contactInfo['id']) ?>">Adicionar email</a>
+<hr>
+
+
+
+
+
 <?php
 /*
  * iterate list and print title

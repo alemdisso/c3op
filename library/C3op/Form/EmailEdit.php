@@ -1,12 +1,12 @@
 <?php
-class C3op_Form_PhoneNumberEdit extends C3op_Form_PhoneNumberCreate
+class C3op_Form_EmailEdit extends C3op_Form_EmailCreate
 {
     public function __construct($options = null)
     {
         parent::__construct($options);
 
-        $this->setName('newPhoneNumberForm')
-            ->setAction('/register/index/change-phone-number')
+        $this->setName('newEmailForm')
+            ->setAction('/register/index/change-email')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
@@ -16,7 +16,7 @@ class C3op_Form_PhoneNumberEdit extends C3op_Form_PhoneNumberCreate
                 ->addFilter('StringTrim');
             $this->addElement($id);
         } else {
-            throw  new C3op_Form_PhoneNumberCreateException('Not defined which phone number to edit.');
+            throw  new C3op_Form_EmailCreateException('Not defined which email to edit.');
         }
 
     }
@@ -32,20 +32,19 @@ class C3op_Form_PhoneNumberEdit extends C3op_Form_PhoneNumberCreate
             $contactMapper = new C3op_Register_ContactMapper($db);
             $contact = $contactMapper->findById($this->contact->GetValue());
             if ($this->localNumber->GetValue() != "") {
-                $phoneNumbers = $contact->GetPhoneNumbers();
-                if (isset($phoneNumbers[$this->id->GetValue()])) {
-                    $phoneNumber = new C3op_Register_ContactPhoneNumber();
-                    $phoneNumber->SetId($this->id->GetValue());
-                    $phoneNumber->SetAreaCode($this->areaCode->GetValue());
-                    $phoneNumber->SetLocalNumber($this->localNumber->GetValue());
-                    $phoneNumber->SetLabel($this->label->GetValue());
-                    $phoneNumbers[$this->id->GetValue()] = $phoneNumber;
-                    $contact->SetPhoneNumbers($phoneNumbers);
+                $emails = $contact->GetEmails();
+                if (isset($emails[$this->id->GetValue()])) {
+                    $email = new C3op_Register_ContactEmail();
+                    $email->SetId($this->id->GetValue());
+                    $email->SetEmail($this->email->GetValue());
+                    $email->SetLabel($this->label->GetValue());
+                    $emails[$this->id->GetValue()] = $email;
+                    $contact->SetEmails($emails);
                     $contactMapper->update($contact);
                     return $contact->GetId();
 
                 } else {
-                    throw new C3op_Form_ContactEditException('Can\'t find this phone id at this contact phone list');
+                    throw new C3op_Form_ContactEditException('Can\'t find this email id at this contact email list');
                 }
             }
 

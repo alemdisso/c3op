@@ -275,6 +275,91 @@ class Register_LinkageController extends Zend_Controller_Action
         }
     }
 
+    public function addEmailAction()
+    {
+        // cria form
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            $options['linkage'] = $postData['linkage'];
+            $form = new C3op_Form_LinkageEmailCreate($options);
+            $this->view->form = $form;
+
+            if ($form->isValid($postData)) {
+                $id = $form->process($postData);
+                $this->_helper->getHelper('FlashMessenger')
+                    ->addMessage('The record was successfully updated.');
+                $this->_redirect('/register/linkage/success-create/?id=' . $id);
+            } else throw new C3op_Register_LinkageException("Invalid data for email.");
+        } else {
+            $linkageId = $this->checkLinkageFromGet();
+            $linkageHasEmail = $this->linkageMapper->findById($linkageId);
+            $data = $this->_request->getParams();
+            $options['linkage'] = $linkageId;
+            $form = new C3op_Form_LinkageEmailCreate($options);
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'linkage', $linkageId);
+
+            $this->view->form = $form;
+            $linkageInfo = array(
+                'id' => $linkageId,
+                'name' => $linkageHasEmail->GetName(),
+            );
+
+            $this->view->linkageInfo = $linkageInfo;
+        }
+    }
+
+    public function changeEmailAction()
+    {
+        // cria form
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            $options['id'] = $postData['id'];
+            $form = new C3op_Form_LinkageEmailEdit($options);
+            $this->view->form = $form;
+            if ($form->isValid($postData)) {
+                $id = $form->process($postData);
+                $this->_helper->getHelper('FlashMessenger')
+                    ->addMessage('The record was successfully updated.');
+                $this->_redirect('/register/linkage/success-create/?id=' . $id);
+            } else throw new C3op_Register_LinkageException("Invalid data for email.");
+        } else {
+            $data = $this->_request->getParams();
+            $filters = array(
+                'id' => new Zend_Filter_Alnum(),
+            );
+            $validators = array(
+                'id' => array('Digits', new Zend_Validate_GreaterThan(0)),
+            );
+            $input = new Zend_Filter_Input($filters, $validators, $data);
+            if ($input->isValid()) {
+                $emailId = $input->id;
+            } else {
+                throw new C3op_Register_LinkageException("Invalid Linkage Id from Get");
+            }
+
+            $linkageHasEmail = $this->linkageMapper->findByEmailId($emailId);
+            $emails = $linkageHasEmail->GetEmails();
+            $email = $emails[$emailId];
+
+            $data = $this->_request->getParams();
+
+            $options['id'] = $data['id'];
+            $form = new C3op_Form_LinkageEmailEdit($options);
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'linkage', $linkageHasEmail->GetId());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $emailId);
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'email', $email->GetEmail());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'label', $email->GetLabel());
+
+            $this->view->form = $form;
+            $linkageInfo = array(
+                'id' => $linkageHasEmail->GetId(),
+                'name' => $linkageHasEmail->GetName(),
+            );
+
+            $this->view->linkageInfo = $linkageInfo;
+        }
+    }
+
    public function removeAction()
     {
         // cria form

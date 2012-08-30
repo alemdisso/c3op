@@ -29,6 +29,7 @@ class C3op_Register_ContactMapper
         $this->identityMap[$new] = $new->GetId();
 
         $this->insertPhoneNumbers($new);
+        $this->insertEmails($new);
 
     }
 
@@ -46,6 +47,7 @@ class C3op_Register_ContactMapper
         );
 
         $this->updatePhoneNumbers($obj);
+        $this->updateEmails($obj);
 
     }
 
@@ -78,6 +80,9 @@ class C3op_Register_ContactMapper
         $phoneNumbers = $this->findPhoneNumbers($obj);
         $this->setAttributeValue($obj, $phoneNumbers, 'phoneNumbers');
 
+        $emails = $this->findEmails($obj);
+        $this->setAttributeValue($obj, $emails, 'emails');
+
         return $obj;
 
     }
@@ -91,6 +96,19 @@ class C3op_Register_ContactMapper
         );
         if (empty($result)) {
             throw new C3op_Register_ContactMapperException(sprintf('There is no contact with a phone with this phone id #%d.', $phoneId));
+        }
+        return $this->findById($result['contact']);
+    }
+
+    public function findByEmailId($emailId) {
+        $result = $this->db->fetchRow(
+            sprintf(
+                'SELECT contact FROM register_contacts_emails WHERE id = %d;',
+                $emailId
+            )
+        );
+        if (empty($result)) {
+            throw new C3op_Register_ContactMapperException(sprintf('There is no contact with a email with this email id #%d.', $emailId));
         }
         return $this->findById($result['contact']);
     }
@@ -224,7 +242,7 @@ class C3op_Register_ContactMapper
                 'email' => $email->GetEmail(),
                 'label' => $email->GetLabel(),
                 );
-            $this->db->insert('register_contacts_phone_numbers', $data);
+            $this->db->insert('register_contacts_emails', $data);
         }
     }
 
@@ -233,7 +251,7 @@ class C3op_Register_ContactMapper
         $emailsArray = array();
         if ($contact->GetId() > 0) {
             foreach ($this->db->query(sprintf(
-                    'SELECT id, email, label FROM register_contacts_phone_numbers WHERE contact = %d;',
+                    'SELECT id, email, label FROM register_contacts_emails WHERE contact = %d;',
                     $contact->GetId()
                 )
                     ) as $row) {
@@ -256,7 +274,7 @@ class C3op_Register_ContactMapper
                 if ($newEmail != $email) {
                     $this->db->exec(
                     sprintf(
-                        'UPDATE register_contacts_phone_numbers SET email = \'%s\', local_number = \'%s\', label = \'%s\' WHERE id = %d;',
+                        'UPDATE register_contacts_emails SET email = \'%s\', label = \'%s\' WHERE id = %d;',
                             $newEmail->GetEmail(),
                             $newEmail->GetLabel(),
                             $key
@@ -267,7 +285,7 @@ class C3op_Register_ContactMapper
             } else {
                 $this->db->exec(
                 sprintf(
-                    'DELETE FROM register_contacts_phone_numbers WHERE id = %d;',
+                    'DELETE FROM register_contacts_emails WHERE id = %d;',
                         $key
                     )
                 );
@@ -281,7 +299,7 @@ class C3op_Register_ContactMapper
                 'email' => $email->GetEmail(),
                 'label' => $email->GetLabel(),
                 );
-            $this->db->insert('register_contacts_phone_numbers', $data);
+            $this->db->insert('register_contacts_emails', $data);
         }
 
     }
