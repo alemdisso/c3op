@@ -160,17 +160,26 @@ class C3op_Register_Contact {
 
     } //AddEmail
 
-    public function RemoveEmail($key) {
+    public function RemoveEmail(C3op_Register_Email $emailToBeRemoved) {
 
         if (is_array($this->emails)) {
-            if (!isset($this->emails[$key])) {
+
+            $found = false;
+            foreach ($this->emails as $k => $eachEmail) {
+                if ($emailToBeRemoved === $eachEmail) {
+                    $found = true;
+                    unset($this->emails[$k]);
+                    return true;
+                }
+            }
+            if (!$found) {
                 throw new C3op_Projects_ActionException("Phone number not found to be removed.");
             }
-            unset($this->emails[$key]);
         } else {
             throw new C3op_Projects_ActionException("There isn\'t phone numbers to remove");
         }
 
     } //SetEmails
+
 
 }
