@@ -305,9 +305,10 @@ class Projects_ProjectController extends Zend_Controller_Action
         if ($receivablesTotalValue == $thisProject->GetValue()) {
             $projectValue = C3op_Util_CurrencyDisplay::FormatCurrency($receivablesTotalValue) . " (OK)";
         } else {
+/*  Desmembrado por RPorto em 2012-08-26          
             $projectValue = "Valor do Projeto: " . C3op_Util_CurrencyDisplay::FormatCurrency($thisProject->GetValue());
             $projectValue .= " Total dos recebimentos:" .  C3op_Util_CurrencyDisplay::FormatCurrency($receivablesTotalValue) . " (?)";
-            
+*/
         }
         
         $projectInfo = array(

@@ -18,7 +18,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
                   array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'six columns')),
                   array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
               ))
-            ->setOptions(array('class' => 'six columns alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(true)
             ->addValidator($validator)
 //            ->addFilter('HtmlEntities')
@@ -35,7 +35,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
                   array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns omega')),
                   array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
               ))
-            ->setOptions(array('class' => 'three columns alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(true)
             ->addValidator($validator)
 //            ->addFilter('HtmlEntities')
@@ -53,7 +53,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
                   array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'four columns')),
                   array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
               ))
-            ->setOptions(array('class' => 'four columns alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
         ;
         while (list($key, $title) = each($titleTypes)) {
             $type->addMultiOption($key, $title);
@@ -71,7 +71,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
                   array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'four columns omega')),
                   array('Label', array('tag' => 'div', 'tagClass' => 'three columns Right')),
               ))
-            ->setOptions(array('class' => 'four columns alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
         ;
         while (list($key, $title) = each($titleTypes)) {
             $relationshipType->addMultiOption($key, $title);
@@ -102,7 +102,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
                     array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns inset-by-five omega')),
                     array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
                 ))
-                ->setOptions(array('class' => 'three columns alpha omega'))
+                ->setOptions(array('class' => 'Full alpha omega'))
             ->addValidator(new C3op_Util_ValidString)
             ->addFilter('StringTrim')
                 ;
@@ -132,7 +132,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
                     array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns inset-by-five omega')),
                     array('Label', array('tag' => 'div', 'tagClass' => 'one column Right')),
                 ))
-                ->setOptions(array('class' => 'two columns alpha omega'))
+                ->setOptions(array('class' => 'Full alpha omega'))
             ->addValidator(new C3op_Util_ValidString)
             ->addFilter('StringTrim')
                 ;
@@ -149,7 +149,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
                   array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'six columns')),
                   array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
               ))
-            ->setOptions(array('class' => 'six columns alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(false)
             ->addValidator($validator)
 //            ->addFilter('HtmlEntities')
@@ -168,7 +168,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
                   array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'one column ')),
                   array('Label', array('tag' => 'div', 'tagClass' => 'one column Right')),
               ))
-            ->setOptions(array('class' => 'one column alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(false)
             ->addValidator($validator)
 //            ->addFilter('HtmlEntities')
@@ -187,7 +187,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
                   array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'one column omega')),
                   array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
               ))
-            ->setOptions(array('class' => 'one column alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(false)
             ->addValidator($validator)
 //            ->addFilter('HtmlEntities')
@@ -206,7 +206,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
                   array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'six columns')),
                   array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
               ))
-            ->setOptions(array('class' => 'six columns alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(false)
             ->addValidator($validator)
 //            ->addFilter('HtmlEntities')
@@ -225,7 +225,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
                   array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns omega')),
                   array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
               ))
-            ->setOptions(array('class' => 'three columns alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(false)
             ->addValidator($validator)
 //            ->addFilter('HtmlEntities')
@@ -244,7 +244,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
                   array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eight columns')),
                   array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
               ))
-            ->setOptions(array('class' => 'eight columns alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(false)
             ->addValidator($validator)
 //            ->addFilter('HtmlEntities')
@@ -263,7 +263,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
                   array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'one column omega')),
                   array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
               ))
-            ->setOptions(array('class' => 'one column alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(false)
             ->addValidator($validator)
 //            ->addFilter('HtmlEntities')
@@ -282,7 +282,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
                   array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
                   array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
               ))
-            ->setOptions(array('class' => 'eight columns alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(false)
             ->addValidator($validator)
 //            ->addFilter('HtmlEntities')
@@ -292,15 +292,16 @@ class C3op_Form_InstitutionCreate extends Zend_Form
         
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
-        $submit->setLabel('Gravar')
-              ->setDecorators(array(
-                  'ViewHelper',
-                  'Errors',
-                  array(array('data' => 'HtmlTag'), array('tag' => 'div', 'class' => 'five columns inset-by-six omega')),
-                  array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Invisible')),
-              ))
-            ->setOptions(array('class' => 'submit two columns alpha omega'));
-        $this->addElement($submit);
+        $submit ->setLabel('Gravar')
+                ->setDecorators(array('ViewHelper','Errors',
+                    array(array('data' => 'HtmlTag'),
+                    array('tag' => 'div','class' => 'two columns inset-by-nine omega')),
+                    array('Label',
+                      array('tag' => 'div','tagClass' => 'three columns alpha Invisible')
+                    ),
+                  ))
+                ->setOptions(array('class' => 'submit Full alpha omega'));
+        $this   ->addElement($submit);
 
     }
     

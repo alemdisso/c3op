@@ -1,0 +1,60 @@
+<h2>C3op</h2>
+<?php 
+/*
+ * If exists institutions list
+ */
+
+if (is_array($this->institutionsList)) {
+?>
+
+<?php 
+/*
+ * if there is institutions in list
+ */
+    if (count($this->institutionsList)) {
+?>
+
+
+<?php 
+/*
+ * iterate list and print title
+ */
+        while (list(, $institutionData) = each($this->institutionsList)) {
+?>
+
+<?php print($institutionData['name']) ?> | <?php print($institutionData['type']) ?>
+
+<?php if (isset($institutionData['editLink'])) { ?>
+<a href="<?php print($institutionData['editLink']) ?>">Editar</a>
+<?php } ?>
+
+<br />
+
+
+    
+<?php
+}  // loop iterate list and print titlei
+?>
+
+
+
+
+    
+<?php
+    } else { // end else there is institutions in list
+?>
+    <?php print("Não há instituições cadastradas.") ?>
+    
+<?php
+    } // end else there is institutions in list
+?>
+<?php
+} else { // else exists institutions list 
+?>
+    <?php print("Não existe lista de instituições cadastradas.") ?>
+
+    <?php
+} // end exists institutions list
+?>
+<p />
+<a href="<?php print($this->createInstitutionLink) ?>">Criar Nova Instituição</a>

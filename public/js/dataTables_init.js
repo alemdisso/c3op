@@ -3,7 +3,7 @@ $(document).ready(function() {
 	  "sPaginationType": "full_numbers",
     "oLanguage": {
       "sEmptyTable":      "Sem dados disponíveis na tabela",
-      "sInfo":            "Exibindo de _START_ até _END_ de _TOTAL_ registros",
+      "sInfo":            "Exibindo de _START_ a _END_ do total de _TOTAL_ registros",
       "sInfoEmpty":       "Sem registros a exibir",
       "sInfoFiltered":    " - filtrado do total de _MAX_ registros",
       "sInfoPostFix":     "", /* appended to sInfo at all times */

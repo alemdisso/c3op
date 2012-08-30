@@ -1,9 +1,10 @@
-<h2>C3op</h2>
+<div id="MainHeader">
+  <h1>Instituições</h1>
+</div>
 <?php 
 /*
  * If exists institutions list
  */
-
 if (is_array($this->institutionsList)) {
 ?>
 
@@ -13,37 +14,67 @@ if (is_array($this->institutionsList)) {
  */
     if (count($this->institutionsList)) {
 ?>
-
-
+            <div class="Area">
+            
+              <table class="display dataTable">
+            		<thead>
+            			<tr>
+            				<th width="330">Nome</th>
+            				<th width="190">Tipo</th>
+            				<th width="190">Cidade</th>
+            				<th width="020">UF</th>
+            				<th width="070">Relação</th>
+            				<th width="070">&nbsp;</th>
+            			</tr>
+            		</thead>
+            		<tbody>
 <?php 
 /*
  * iterate list and print title
  */
         while (list(, $institutionData) = each($this->institutionsList)) {
 ?>
-
-<?php print($institutionData['name']) ?> | <?php print($institutionData['type']) ?>
+                    <td>
+                      <?php print($institutionData['name']) ?>
+                    </td>
+                    <td>
+                      <?php print($institutionData['type']) ?>
+                    </td>
+                    <td>
+                      [#CIDADE]
+                    </td>
+                    <td>
+                      [#UF]
+                    </td>
+                    <td>
+                      [#RELAÇÃO]
+                    </td>
+                    
 
 <?php if (isset($institutionData['editLink'])) { ?>
-<a href="<?php print($institutionData['editLink']) ?>">Editar</a>
+                    <td>
+                      <a class="anchorclass button" rel="submenu1">Opções...</a> 
+                      <div id="submenu1" class="anylinkcss">
+                        <ul>
+                          <li>
+                            <a href="<?php print($institutionData['editLink']) ?>">Editar</a>
+                          </li>
+                        </ul>
+                      </div><!-- #submenu1 -->
+                    </td> 
+            			</tr>
 <?php } ?>
-
-<br />
-
-
-    
 <?php
 }  // loop iterate list and print titlei
 ?>
-
-
-
-
-    
+            		</tbody>
+            	</table><br />
 <?php
     } else { // end else there is institutions in list
 ?>
-    <?php print("Não há instituições cadastradas.") ?>
+          <div class="Area">
+          <h2>Instituições</h2>
+    <?php print("<p>Não há instituições cadastradas.</p>") ?>
     
 <?php
     } // end else there is institutions in list
@@ -56,5 +87,7 @@ if (is_array($this->institutionsList)) {
     <?php
 } // end exists institutions list
 ?>
-<p />
-<a href="<?php print($this->createInstitutionLink) ?>">Criar Nova Instituição</a>
+            <p>
+              <a href="<?php print($this->createInstitutionLink) ?>" class="button three columns alpha omega">Criar Nova Instituição</a>
+            </p>
+          </div><!-- Area -->  

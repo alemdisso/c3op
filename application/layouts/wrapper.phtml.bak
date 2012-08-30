@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="pt-br"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="pt-br"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="pt-br"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="pt-br"> <!--<![endif]-->
+<html>
+  <head>
+    <title><?php echo $this->layout()->title?></title>
+    <!-- [# Não está pegando o título ] -->
+<?php include ("meta.phtml") ?>
+
+    <meta charset="utf-8">
+
+    <!-- Mobile Specific Metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" type="text/css" href="/css/base.css">
+    <link rel="stylesheet" type="text/css" href="/css/skeleton.css">
+    <link rel="stylesheet" type="text/css" href="/css/formalize.css">
+    <link rel="stylesheet" type="text/css" href="/css/layout.css">
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Favicons
+    ================================================== -->
+    <link rel="shortcut icon"    href="/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon-72x72.png"   sizes="72x72">
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon-114x114.png" sizes="114x114">
+
+    <!-- Javascripts
+    ================================================== -->
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/jquery.formalize.js"></script>
+
+    <script type="text/javascript" src="/js/prototype.js"></script>
+    <script type="text/javascript" src="/js/ajax_funcs.js"></script>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/anylinkcssmenu.css" />
+    <script type="text/javascript" src="/js/anylinkcssmenu.js"></script>
+    <script type="text/javascript">
+      anylinkcssmenu.init("anchorclass")
+    </script>
+
+    <link rel="stylesheet" type="text/css" href="/css/datatables.css" />
+		<script type="text/javascript" src="/public/js/jquery.dataTables.js"></script>
+		<script type="text/javascript" src="/public/js/dataTables_init.js"></script>
+
+  </head>
+  <body>
+    <div class="container" id="Envelope">
+<?php
+  if ($this->layout()->nestedLayout) {
+      $this->layout()->setLayout($this->layout()->nestedLayout);
+  } else {
+      $this->layout()->setLayout('inner');
+  }
+  echo $this->layout()->render();
+?>
+<!-- footer -->
+<?php //echo $this->action('inclui', 'footer', 'includes') ?>
+<!-- /footer -->
+    </div><!-- #Envelope -->
+  </body>
+</html>

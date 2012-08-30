@@ -116,7 +116,7 @@ input[type="button"] {
   padding: 3px 10px;
   text-shadow: white 0 1px 1px;
   vertical-align: top;
-  width: auto;
+  /* width: auto; ############## Modified by RPorto 2012-08-26 */
   *padding-top: 2px;
   *padding-bottom: 0;
 }

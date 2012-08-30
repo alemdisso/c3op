@@ -65,6 +65,7 @@
 	color: #999;
   width: 60%;
 	float: left;
+	margin: 4px 0 8px 0;
 }
 
 .dataTables_paginate {
@@ -103,25 +104,25 @@
 }
 
 .paginate_disabled_previous {
-	background: url('/public/images/DataTables/back_disabled.png') no-repeat top left;
+	background: url('/images/DataTables/back_disabled.png') no-repeat top left;
 }
 
 .paginate_enabled_previous {
-	background: url('/public/images/DataTables/back_enabled.png') no-repeat top left;
+	background: url('/images/DataTables/back_enabled.png') no-repeat top left;
 }
 .paginate_enabled_previous:hover {
-	background: url('/public/images/DataTables/back_enabled_hover.png') no-repeat top left;
+	background: url('/images/DataTables/back_enabled_hover.png') no-repeat top left;
 }
 
 .paginate_disabled_next {
-	background: url('/public/images/DataTables/forward_disabled.png') no-repeat top right;
+	background: url('/images/DataTables/forward_disabled.png') no-repeat top right;
 }
 
 .paginate_enabled_next {
-	background: url('/public/images/DataTables/forward_enabled.png') no-repeat top right;
+	background: url('/images/DataTables/forward_enabled.png') no-repeat top right;
 }
 .paginate_enabled_next:hover {
-	background: url('/public/images/DataTables/forward_enabled_hover.png') no-repeat top right;
+	background: url('/images/DataTables/forward_enabled_hover.png') no-repeat top right;
 }
 
 
@@ -184,23 +185,23 @@ table.display td.center {
  */
 
 .sorting_asc {
-	background: url('/public/images/DataTables/sort_asc.png') no-repeat center right;
+	background: url('/images/DataTables/sort_asc.png') no-repeat center right;
 }
 
 .sorting_desc {
-	background: url('/public/images/DataTables/sort_desc.png') no-repeat center right;
+	background: url('/images/DataTables/sort_desc.png') no-repeat center right;
 }
 
 .sorting {
-	background: url('/public/images/DataTables/sort_both.png') no-repeat center right;
+	background: url('/images/DataTables/sort_both.png') no-repeat center right;
 }
 
 .sorting_asc_disabled {
-	background: url('/public/images/DataTables/sort_asc_disabled.png') no-repeat center right;
+	background: url('/images/DataTables/sort_asc_disabled.png') no-repeat center right;
 }
 
 .sorting_desc_disabled {
-	background: url('/public/images/DataTables/sort_desc_disabled.png') no-repeat center right;
+	background: url('/images/DataTables/sort_desc_disabled.png') no-repeat center right;
 }
  
 th:active {

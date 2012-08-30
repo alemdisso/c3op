@@ -7,23 +7,19 @@ class C3op_Form_UserCreate extends Zend_Form
         // initialize form
         $this->setName('newUserForm')
             ->setAction('/auth/user/create')
+            ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
-        
-        $login = new Zend_Form_Element_Text('login');
-        $loginValidator = new C3op_Util_ValidString();
-        $login->setLabel('Login:')
-            ->setOptions(array('size' => '50'))
-            ->setRequired(true)
-            ->addValidator($loginValidator)
-            ->addFilter('StringTrim')
-                ;
-        // attach elements to form
-        $this->addElement($login);
         
         $name = new Zend_Form_Element_Text('name');
         $nameValidator = new C3op_Util_ValidString();
         $name->setLabel('Nome:')
-            ->setOptions(array('size' => '50'))
+              ->setDecorators(array(
+                  'ViewHelper',
+                  'Errors',
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eight columns')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+              ))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(true)
             ->addValidator($nameValidator)
             ->addFilter('StringTrim')
@@ -31,10 +27,56 @@ class C3op_Form_UserCreate extends Zend_Form
         // attach elements to form
         $this->addElement($name);
         
+
+
+        $role = new Zend_Form_Element_Select('role');
+        $role->setLabel('Papel')
+              ->setDecorators(array(
+                  'ViewHelper',
+                  'Errors',
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns omega')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'one column Right')),
+              ))
+              ->setOptions(array('class' => 'Full alpha omega'))
+              ->setRequired(true);
+        $titleRoles = C3op_Access_Roles::AllRoles();
+        $role->addMultiOption(null, "(escolha um tipo)");
+        while (list($key, $title) = each($titleRoles)) {
+            $role->addMultiOption($key, $title);
+        }        
+        $this->addElement($role);
+
+
+
+
+
+        $login = new Zend_Form_Element_Text('login');
+        $loginValidator = new C3op_Util_ValidString();
+        $login->setLabel('Login:')
+              ->setDecorators(array(
+                  'ViewHelper',
+                  'Errors',
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+              ))
+            ->setOptions(array('class' => 'Full alpha omega'))
+            ->setRequired(true)
+            ->addValidator($loginValidator)
+            ->addFilter('StringTrim')
+                ;
+        // attach elements to form
+        $this->addElement($login);
+        
         $password = new Zend_Form_Element_Password('password');
         $passwordValidator = new C3op_Util_ValidString();
         $password->setLabel('Senha:')
-            ->setOptions(array('size' => '50'))
+              ->setDecorators(array(
+                  'ViewHelper',
+                  'Errors',
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'one column Right')),
+              ))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(true)
             ->addValidator($passwordValidator)
             ->addFilter('StringTrim')
@@ -45,7 +87,13 @@ class C3op_Form_UserCreate extends Zend_Form
         $email = new Zend_Form_Element_Text('email');
         $emailValidator = new C3op_Util_ValidEmail();
         $email->setLabel('Email:')
-            ->setOptions(array('size' => '50'))
+              ->setDecorators(array(
+                  'ViewHelper',
+                  'Errors',
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'five columns omega')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'one column Right')),
+              ))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(true)
             ->addValidator($emailValidator)
             ->addFilter('StringTrim')
@@ -53,20 +101,18 @@ class C3op_Form_UserCreate extends Zend_Form
         // attach elements to form
         $this->addElement($email);
         
-        $role = new Zend_Form_Element_Select('role');
-        $role->setLabel('Papel');
-        $titleRoles = C3op_Access_Roles::AllRoles();
-        $role->addMultiOption(null, "(escolha um tipo)");
-        while (list($key, $title) = each($titleRoles)) {
-            $role->addMultiOption($key, $title);
-        }        
-        $this->addElement($role);
-
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
-        $submit->setLabel('Salvar')
-            ->setOptions(array('class' => 'submit'));
-        $this->addElement($submit);
+        $submit ->setLabel('Gravar')
+                ->setDecorators(array('ViewHelper','Errors',
+                    array(array('data' => 'HtmlTag'),
+                    array('tag' => 'div','class' => 'two columns inset-by-nine omega')),
+                    array('Label',
+                      array('tag' => 'div','tagClass' => 'three columns alpha Invisible')
+                    ),
+                  ))
+                ->setOptions(array('class' => 'submit Full alpha omega'));
+        $this   ->addElement($submit);
 
     }
     
