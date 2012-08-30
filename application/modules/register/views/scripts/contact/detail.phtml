@@ -63,17 +63,17 @@ if (is_array($this->contactInfo)) {
                   <td>
 <?php if (isset($phoneInfo['area_code']) && ($phoneInfo['area_code'] != "")) { ?>
 (<?php print($phoneInfo['area_code']) ?>)
-<?php } else { print '&nbsp;'; }?>
+<?php } else { ?>&nbsp;<? } ?>
                   </td>
                   <td>
 <?php if (isset($phoneInfo['local_number']) && ($phoneInfo['local_number'] != "")) { ?>
 <?php print($phoneInfo['local_number']) ?>
-<?php } else { print '&nbsp;'; }?>
+<?php } else { ?>&nbsp;<? } ?>
                   </td>
                   <td>
 <?php if (isset($phoneInfo['label'])) { ?>
 <?php print($phoneInfo['label']) ?>
-<?php } else { print '&nbsp;'; }?>
+<?php } else { ?>&nbsp;<? } ?>
                   </td>
                   <td>
                     <a class="anchorclass button" rel="submenu1">Opções...</a> 
@@ -127,17 +127,17 @@ if (is_array($this->contactInfo)) {
                   <td>
 <?php if (isset($linkageInfo['institutionEdit'])) { ?>
 <a href="<?php print($linkageInfo['institutionEdit']) ?>"><?php print($linkageInfo['institutionName']) ?></a>
-<?php } else { print '&nbsp;'; }?>
+<?php } else { ?>&nbsp;<? } ?>
                   </td>
                   <td>
 <?php if (isset($linkageInfo['department']) && ($linkageInfo['department'] != "")) { ?>
 <?php print($linkageInfo['department']) ?>
-<?php } else { print '&nbsp;'; }?>
+<?php } else { ?>&nbsp;<? } ?>
                   </td>
                   <td>
 <?php if (isset($linkageInfo['position']) && ($linkageInfo['position'] != "")) { ?>
 <?php print($linkageInfo['position']) ?>
-<?php } else { print '&nbsp;'; }?>
+<?php } else { ?>&nbsp;<? } ?>
                   </td>
                   <td>
                     <a class="anchorclass button" rel="submenu1">Opções...</a> 
