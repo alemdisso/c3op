@@ -6,11 +6,13 @@ class C3op_Register_Contact {
     protected $name;
     protected $type;
     protected $phoneNumbers;
+    protected $emails;
 
     function __construct($id=0) {
         $this->id = (int)$id;
         $this->name = "";
         $this->phoneNumbers = array();
+        $this->emails = array();
     }
 
     public function GetId() {
@@ -103,18 +105,66 @@ class C3op_Register_Contact {
 
     } //AddPhoneNumber
 
-    public function RemovePhoneNumber($key) {
+    public function RemovePhoneNumber(C3op_Register_PhoneNumber $phoneNumber) {
 
         if (is_array($this->phoneNumbers)) {
-            if (!isset($this->phoneNumbers[$key])) {
+            if (!isset($this->phoneNumbers[$phoneNumber->GetId()])) {
                 throw new C3op_Projects_ActionException("Phone number not found to be removed.");
             }
-            unset($this->phoneNumbers[$key]);
+            unset($this->phoneNumbers[$phoneNumber->GetId()]);
         } else {
             throw new C3op_Projects_ActionException("There isn\'t phone numbers to remove");
         }
 
     } //SetPhoneNumbers
 
+
+    public function GetEmails() {
+        return $this->emails;
+
+    } //GetEmails
+
+    public function SetEmails($emails) {
+        $newArray = array();
+        if (is_array($emails)) {
+            $validator = new C3op_Register_ValidPhoneLocalNumber();
+
+            foreach ($emails as $k => $email) {
+                if ($email instanceOf C3op_Register_ContactEmail) {
+                    if ($validator->isValid($email->GetLocalNumber())) {
+                        $newArray[$k] = $email;
+                    } else {
+                        throw new C3op_Projects_ActionException("A phone number must have at least a local number.");
+                    }
+                }
+            }
+        } else {
+            throw new C3op_Projects_ActionException("Phone numbers must be organized in an array to be setted.");
+        }
+        $this->emails = $newArray;
+    } //SetEmails
+
+    public function AddEmail(C3op_Register_Email $email) {
+        $validator = new C3op_Register_ValidPhoneLocalNumber();
+        if ($validator->isValid($email->GetLocalNumber())) {
+            $this->emails[] = $email;
+        } else {
+            throw new C3op_Projects_ActionException("A phone number must have at least a local number.");
+        }
+
+    } //AddEmail
+
+    public function RemoveEmail($key) {
+
+        if (is_array($this->emails)) {
+            if (!isset($this->emails[$key])) {
+                throw new C3op_Projects_ActionException("Phone number not found to be removed.");
+            }
+            unset($this->emails[$key]);
+        } else {
+            throw new C3op_Projects_ActionException("There isn\'t phone numbers to remove");
+        }
+
+    } //SetEmails
 
 }

@@ -1,7 +1,7 @@
 <?php
 
-class C3op_Register_ContactPhoneNumber
-    extends C3op_Register_PhoneNumber {
+class C3op_Register_ContactEmail
+    extends C3op_Register_Email {
 
     protected $contact;
 

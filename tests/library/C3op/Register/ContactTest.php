@@ -25,9 +25,7 @@ class ContactTest extends ControllerTestCase
 
     public function testIfCanSetAPhoneNumberToContact()
     {
-        $aPhoneNumber = array ("area_code" => "21"
-                        , "local_number" => "2234-5678"
-            );
+        $aPhoneNumber = new C3op_Register_PhoneNumber(0, "21", "2234-5678");
 
         $this->contact->AddPhoneNumber($aPhoneNumber);
         $phonesArray = $this->contact->getPhoneNumbers();
@@ -38,17 +36,11 @@ class ContactTest extends ControllerTestCase
 
     public function testIfCanSetTwoDifferentPhoneNumbersToContact()
     {
-        $aPhoneNumber = array ("area_code" => "21"
-                        , "local_number" => "2234-5678"
-            );
+        $aPhoneNumber = new C3op_Register_PhoneNumber(0, "21", "2234-5678");
 
         $this->contact->AddPhoneNumber($aPhoneNumber);
-        $otherPhoneNumber = array ("area_code" => "21"
-                        , "local_number" => "8989-0123"
-            );
-        $someElsePhoneNumber = array ("area_code" => "21"
-                        , "local_number" => "3267-7843"
-            );
+        $otherPhoneNumber = new C3op_Register_PhoneNumber(0, "21", "8989-0123");
+        $someElsePhoneNumber = new C3op_Register_PhoneNumber(0, "21", "3267-7843");
 
         $this->contact->AddPhoneNumber($otherPhoneNumber);
         $phonesArray = $this->contact->getPhoneNumbers();
@@ -61,21 +53,15 @@ class ContactTest extends ControllerTestCase
 
     public function testIfCanChangeAPhoneNumberRelatedToContact()
     {
-        $aPhoneNumber = array ("area_code" => "21"
-                        , "local_number" => "2234-5678"
-            );
-
+        $aPhoneNumber = new C3op_Register_PhoneNumber(0, "21", "2234-5678");
         $keyAdd1 = $this->contact->AddPhoneNumber($aPhoneNumber);
 
-        $otherPhoneNumber = array ('area_code' => '21'
-                        , 'local_number' => '8989-0123'
-                        , 'label' => ''
-            );
+        $otherPhoneNumber = new C3op_Register_PhoneNumber(0, "21", "8989-0123");
         $keyAdd2 = $this->contact->AddPhoneNumber($otherPhoneNumber);
 
         $phonesArray = $this->contact->getPhoneNumbers();
-        $newLocalNumber = "5678-0000";
-        $phonesArray[$keyAdd1]["local_number"] = $newLocalNumber;
+        $aPhoneNumber->SetLocalNumber("5678-0000");
+        $phonesArray[$keyAdd1] = $aPhoneNumber;
 
         $this->contact->SetPhoneNumbers($phonesArray);
         $phonesArray = $this->contact->getPhoneNumbers();
@@ -90,26 +76,22 @@ class ContactTest extends ControllerTestCase
 
     public function testIfCanRemovePhoneNumbersAssociatedToContact()
     {
-        $phoneNumber1 = array ("area_code" => "21"
-                        , "local_number" => "2234-5678"
-            );
+        $phoneNumber1 = new C3op_Register_PhoneNumber(0, "21", "2234-5678");
 
         $k1 = $this->contact->AddPhoneNumber($phoneNumber1);
 
-        $phoneNumber2 = array ("area_code" => "21"
-                        , "local_number" => "8989-0123"
-            );
+        $phoneNumber2 = new C3op_Register_PhoneNumber(0, "21", "8989-0123");
         $k2 = $this->contact->AddPhoneNumber($phoneNumber2);
 
         $phonesArray = $this->contact->getPhoneNumbers();
         $this->assertEquals(2, count($phonesArray));
         $this->assertTrue(in_array($phoneNumber1, $phonesArray));
         $this->assertTrue(in_array($phoneNumber2, $phonesArray));
-        $this->contact->RemovePhoneNumber($k1);
+        $this->contact->RemovePhoneNumber($phoneNumber1);
         $phonesArray = $this->contact->GetPhoneNumbers();
         $this->assertTrue(!in_array($phoneNumber1, $phonesArray));
         $this->assertEquals(1, count($phonesArray));
-        $this->contact->RemovePhoneNumber($k2);
+        $this->contact->RemovePhoneNumber($phoneNumber2);
         $phonesArray = $this->contact->GetPhoneNumbers();
         $this->assertTrue(!in_array($phoneNumber2, $phonesArray));
         $this->assertEquals(0, count($phonesArray));
