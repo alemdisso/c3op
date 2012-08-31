@@ -141,6 +141,14 @@ class Register_ContactController extends Zend_Controller_Action
             );
         }
 
+        $emailsList = $contactBeingDetailed->GetEmails();
+        $emailData = array();
+        foreach($emailsList as $phoneId => $email) {
+            $emailData[$email->GetId()] = array(
+                'email' => $email->GetEmail(),
+                'label' => $email->GetLabel(),
+            );
+        }
 
         $linkagesIdsList = $this->contactMapper->getAllLinkages($contactBeingDetailed);
         $linkagesList = array();
@@ -169,6 +177,7 @@ class Register_ContactController extends Zend_Controller_Action
             'editLink' => '/register/contact/edit/?id=' . $id   ,
             'linkLinkageCreate' => '/register/linkage/create/?contact=' . $id   ,
             'phoneData' => $phoneData,
+            'emailData' => $emailData,
             'linkagesList' => $linkagesList,
         );
 
@@ -255,6 +264,94 @@ class Register_ContactController extends Zend_Controller_Action
             $contactInfo = array(
                 'id' => $contactHasPhone->GetId(),
                 'name' => $contactHasPhone->GetName(),
+            );
+
+            $this->view->contactInfo = $contactInfo;
+        }
+    }
+
+    public function addEmailAction()
+    {
+        // cria form
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            $options['contact'] = $postData['contact'];
+            $form = new C3op_Form_ContactEmailCreate($options);
+            $this->view->form = $form;
+
+            if ($form->isValid($postData)) {
+                $id = $form->process($postData);
+                $this->_helper->getHelper('FlashMessenger')
+                    ->addMessage('The record was successfully updated.');
+                $this->_redirect('/register/contact/success-create/?id=' . $id);
+            } else {
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
+        } else {
+            $contactId = $this->checkContactFromGet();
+            $contactHasEmail = $this->contactMapper->findById($contactId);
+            $data = $this->_request->getParams();
+            $options['contact'] = $contactId;
+            $form = new C3op_Form_ContactEmailCreate($options);
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'contact', $contactId);
+
+            $this->view->form = $form;
+            $contactInfo = array(
+                'id' => $contactId,
+                'name' => $contactHasEmail->GetName(),
+            );
+
+            $this->view->contactInfo = $contactInfo;
+        }
+    }
+
+    public function changeEmailAction()
+    {
+        // cria form
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            $options['id'] = $postData['id'];
+            $form = new C3op_Form_ContactEmailEdit($options);
+            $this->view->form = $form;
+            if ($form->isValid($postData)) {
+                $id = $form->process($postData);
+                $this->_helper->getHelper('FlashMessenger')
+                    ->addMessage('The record was successfully updated.');
+                $this->_redirect('/register/contact/success-create/?id=' . $id);
+            } else throw new C3op_Register_ContactException("Invalid data for email.");
+        } else {
+            $data = $this->_request->getParams();
+            $filters = array(
+                'id' => new Zend_Filter_Alnum(),
+            );
+            $validators = array(
+                'id' => array('Digits', new Zend_Validate_GreaterThan(0)),
+            );
+            $input = new Zend_Filter_Input($filters, $validators, $data);
+            if ($input->isValid()) {
+                $emailId = $input->id;
+            } else {
+                throw new C3op_Register_ContactException("Invalid Contact Id from Get");
+            }
+
+            $contactHasEmail = $this->contactMapper->findByEmailId($emailId);
+            $emails = $contactHasEmail->GetEmails();
+            $email = $emails[$emailId];
+
+            $data = $this->_request->getParams();
+
+            $options['id'] = $data['id'];
+            $form = new C3op_Form_ContactEmailEdit($options);
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'contact', $contactHasEmail->GetId());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $emailId);
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'email', $email->GetEmail());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'label', $email->GetLabel());
+
+            $this->view->form = $form;
+            $contactInfo = array(
+                'id' => $contactHasEmail->GetId(),
+                'name' => $contactHasEmail->GetName(),
             );
 
             $this->view->contactInfo = $contactInfo;

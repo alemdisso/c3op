@@ -29,6 +29,7 @@ class C3op_Register_ContactMapper
         $this->identityMap[$new] = $new->GetId();
 
         $this->insertPhoneNumbers($new);
+        $this->insertEmails($new);
 
     }
 
@@ -46,6 +47,7 @@ class C3op_Register_ContactMapper
         );
 
         $this->updatePhoneNumbers($obj);
+        $this->updateEmails($obj);
 
     }
 
@@ -78,6 +80,9 @@ class C3op_Register_ContactMapper
         $phoneNumbers = $this->findPhoneNumbers($obj);
         $this->setAttributeValue($obj, $phoneNumbers, 'phoneNumbers');
 
+        $emails = $this->findEmails($obj);
+        $this->setAttributeValue($obj, $emails, 'emails');
+
         return $obj;
 
     }
@@ -91,6 +96,19 @@ class C3op_Register_ContactMapper
         );
         if (empty($result)) {
             throw new C3op_Register_ContactMapperException(sprintf('There is no contact with a phone with this phone id #%d.', $phoneId));
+        }
+        return $this->findById($result['contact']);
+    }
+
+    public function findByEmailId($emailId) {
+        $result = $this->db->fetchRow(
+            sprintf(
+                'SELECT contact FROM register_contacts_emails WHERE id = %d;',
+                $emailId
+            )
+        );
+        if (empty($result)) {
+            throw new C3op_Register_ContactMapperException(sprintf('There is no contact with a email with this email id #%d.', $emailId));
         }
         return $this->findById($result['contact']);
     }
@@ -212,6 +230,76 @@ class C3op_Register_ContactMapper
                 'label' => $phoneNumber->GetLabel(),
                 );
             $this->db->insert('register_contacts_phone_numbers', $data);
+        }
+
+    }
+
+   private function insertEmails(C3op_Register_Contact $new)
+    {
+        foreach($new->GetEmails() as $email) {
+            $data = array(
+                'contact' => $new->GetId(),
+                'email' => $email->GetEmail(),
+                'label' => $email->GetLabel(),
+                );
+            $this->db->insert('register_contacts_emails', $data);
+        }
+    }
+
+    private function findEmails(C3op_Register_Contact $contact)
+    {
+        $emailsArray = array();
+        if ($contact->GetId() > 0) {
+            foreach ($this->db->query(sprintf(
+                    'SELECT id, email, label FROM register_contacts_emails WHERE contact = %d;',
+                    $contact->GetId()
+                )
+                    ) as $row) {
+                $email = new C3op_Register_ContactEmail($row['id'], $row['email'], $row['label']);
+                $emailsArray[$row['id']] = $email;
+               }
+            return $emailsArray;
+        } else {
+            throw new C3op_Register_ContactMapperException('Can\'t fetch emails for a contact that wasn\'t saved');
+        }
+    }
+
+    private function UpdateEmails(C3op_Register_Contact $contact)
+    {
+        $currentEmails = $contact->GetEmails();
+        $oldEmails = $this->findEmails($contact);
+        foreach($oldEmails as $key =>$email){
+            if (isset($currentEmails[$key])) {
+                $newEmail = $currentEmails[$key];
+                if ($newEmail != $email) {
+                    $this->db->exec(
+                    sprintf(
+                        'UPDATE register_contacts_emails SET email = \'%s\', label = \'%s\' WHERE id = %d;',
+                            $newEmail->GetEmail(),
+                            $newEmail->GetLabel(),
+                            $key
+                        )
+                    );
+                }
+                unset($currentEmails[$key]);
+            } else {
+                $this->db->exec(
+                sprintf(
+                    'DELETE FROM register_contacts_emails WHERE id = %d;',
+                        $key
+                    )
+                );
+            }
+
+        }
+        reset ($currentEmails);
+        foreach($currentEmails as $key =>$email){
+            $data = array(
+                'contact' => $contact->GetId(),
+                'email' => $email->GetEmail(),
+                'label' => $email->GetLabel(),
+                );
+            $this->db->insert('register_contacts_emails', $data);
         }
 
     }

@@ -16,7 +16,7 @@ class C3op_Register_ContactPhoneNumber
                 $this->contact = $contact;
             }
         } else {
-            throw new C3op_Register_LinkageException("This ($contact) is not a valid contact.");
+            throw new C3op_Register_ContactException("This ($contact) is not a valid contact.");
         }
 
     } //SetContact

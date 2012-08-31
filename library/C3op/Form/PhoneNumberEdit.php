@@ -33,8 +33,6 @@ class C3op_Form_PhoneNumberEdit extends C3op_Form_PhoneNumberCreate
             $contact = $contactMapper->findById($this->contact->GetValue());
             if ($this->localNumber->GetValue() != "") {
                 $phoneNumbers = $contact->GetPhoneNumbers();
-                print_r($phoneNumbers);
-                print("<BR>{$this->id->GetValue()}<BR>");
                 if (isset($phoneNumbers[$this->id->GetValue()])) {
                     $phoneNumber = new C3op_Register_ContactPhoneNumber();
                     $phoneNumber->SetId($this->id->GetValue());

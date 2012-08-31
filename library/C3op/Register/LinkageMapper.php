@@ -206,4 +206,74 @@ class C3op_Register_LinkageMapper
 
     }
 
+   private function insertEmails(C3op_Register_Linkage $new)
+    {
+        foreach($new->GetEmails() as $email) {
+            $data = array(
+                'linkage' => $new->GetId(),
+                'email' => $email->GetEmail(),
+                'label' => $email->GetLabel(),
+                );
+            $this->db->insert('register_linkages_emails', $data);
+        }
+    }
+
+    private function findEmails(C3op_Register_Linkage $linkage)
+    {
+        $emailsArray = array();
+        if ($linkage->GetId() > 0) {
+            foreach ($this->db->query(sprintf(
+                    'SELECT id, email, label FROM register_linkages_emails WHERE linkage = %d;',
+                    $linkage->GetId()
+                )
+                    ) as $row) {
+                $email = new C3op_Register_LinkageEmail($row['id'], $row['email'], $row['label']);
+                $emailsArray[$row['id']] = $email;
+               }
+            return $emailsArray;
+        } else {
+            throw new C3op_Register_LinkageMapperException('Can\'t fetch emails for a linkage that wasn\'t saved');
+        }
+    }
+
+    private function UpdateEmails(C3op_Register_Linkage $linkage)
+    {
+        $currentEmails = $linkage->GetEmails();
+        $oldEmails = $this->findEmails($linkage);
+        foreach($oldEmails as $key =>$email){
+            if (isset($currentEmails[$key])) {
+                $newEmail = $currentEmails[$key];
+                if ($newEmail != $email) {
+                    $this->db->exec(
+                    sprintf(
+                        'UPDATE register_linkages_emails SET email = \'%s\', label = \'%s\' WHERE id = %d;',
+                            $newEmail->GetEmail(),
+                            $newEmail->GetLabel(),
+                            $key
+                        )
+                    );
+                }
+                unset($currentEmails[$key]);
+            } else {
+                $this->db->exec(
+                sprintf(
+                    'DELETE FROM register_linkages_emails WHERE id = %d;',
+                        $key
+                    )
+                );
+            }
+
+        }
+        reset ($currentEmails);
+        foreach($currentEmails as $key =>$email){
+            $data = array(
+                'linkage' => $linkage->GetId(),
+                'email' => $email->GetEmail(),
+                'label' => $email->GetLabel(),
+                );
+            $this->db->insert('register_linkages_emails', $data);
+        }
+
+    }
+
 }
