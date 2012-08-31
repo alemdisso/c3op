@@ -284,7 +284,10 @@ class Register_ContactController extends Zend_Controller_Action
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage('The record was successfully updated.');
                 $this->_redirect('/register/contact/success-create/?id=' . $id);
-            } else throw new C3op_Register_ContactException("Invalid data for email.");
+            } else {
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
         } else {
             $contactId = $this->checkContactFromGet();
             $contactHasEmail = $this->contactMapper->findById($contactId);

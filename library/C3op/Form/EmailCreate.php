@@ -18,7 +18,7 @@ class C3op_Form_EmailCreate extends Zend_Form
         }
 
         $label = new Zend_Form_Element_Text('label');
-        $labelValidator = new C3op_Register_ContactValidName();
+        $labelValidator = new C3op_Util_ValidString();
         $label->setLabel('Descrição:')
               ->setDecorators(array(
                   'ViewHelper',
@@ -29,6 +29,7 @@ class C3op_Form_EmailCreate extends Zend_Form
             ->setOptions(array('class' => 'eleven columns alpha omega'))
             ->setRequired(true)
             ->addValidator($labelValidator)
+            ->setErrorMessages(array('Esse label está esquisito...'))
             ->addFilter('StringTrim')
                 ;
         // attach elements to form
