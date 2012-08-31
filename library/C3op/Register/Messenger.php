@@ -1,6 +1,6 @@
 <?php
 
-class C3op_Register_Email {
+class C3op_Register_Messenger {
 
     protected $id;
     protected $address;
@@ -20,7 +20,7 @@ class C3op_Register_Email {
         if (($this->id == 0) && ($id > 0)) {
             $this->id = (int)$id;
         } else {
-            throw new C3op_Register_EmailException('It\'s not possible to change a messenger\'s ID');
+            throw new C3op_Register_MessengerException('It\'s not possible to change a messenger\'s ID');
         }
     } //SetId
 
@@ -29,7 +29,7 @@ class C3op_Register_Email {
     } //GetAddress
 
     public function SetAddress($address) {
-        $validator = new C3op_Util_ValidEmail();
+        $validator = new C3op_Util_ValidMessenger();
         if ($validator->isValid($address)) {
             if ($this->address != $address) {
                 $this->address = $address;

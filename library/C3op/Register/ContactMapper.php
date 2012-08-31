@@ -304,6 +304,13 @@ class C3op_Register_ContactMapper
 
     }
 
+    private function insertMessengers(C3op_Register_Contact $new)
+    {
+        $mapper = new C3op_Register_ContactMessengerMapper($this->db, $this->identityMap);
+        $mapper->insertMessengers($new);
+
+    }
+
 
 
 }
