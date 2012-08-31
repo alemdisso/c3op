@@ -96,34 +96,64 @@ if (is_array($this->contactInfo)) {
           </div><!-- .Area -->
 
 
+
+
+
+          <div class="Area">
 <?php
 
     $emailsList = $contactData['emailData'];
 
     if (count($emailsList) > 0) {
 
-
 ?>
+            <h2>Emails</h2>
+            <table id="Emails" class="display dataTable">
+              <thead>
+                <tr>
+                  <th width="100">Endere&ccedil;o</th>
+                  <th width="220">Tipo</th>
+                  <th width="1%">&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody>
+
 <?php
     foreach ($emailsList as $emailId => $emailInfo) {
 ?>
+                <tr>
+                  <td>
+<?php if (isset($emailInfo['address']) && ($emailInfo['address'] != "")) { ?>
+<?php print($emailInfo['address']) ?>
+<?php } else { ?>&nbsp;<? } ?>
+                  </td>
+                  <td>
 <?php if (isset($emailInfo['label'])) { ?>
-<?php print($emailInfo['label']) . ": " ?>
-<?php } ?>
-<?php if (isset($emailInfo['email']) && ($emailInfo['email'] != "")) { ?>
-
-<?php print($emailInfo['email']) ?>
-<?php } ?>
-&nbsp;<a href="/register/contact/change-email/?id=<?php print($emailId); ?>">Editar</a>
-<br />
+<?php print($emailInfo['label']) ?>
+<?php } else { ?>&nbsp;<? } ?>
+                  </td>
+                  <td>
+                    <a class="anchorclass button" rel="submenu1">Opções...</a>
+                    <div id="submenu1" class="anylinkcss">
+                        <ul>
+                          <li>
+                            <a href="/register/contact/change-email/?id=<?php print($emailId); ?>">Editar</a>
+                          </li>
+                        </ul>
+                    </div><!-- #submenu1 -->
+                  </td>
+                </tr>
 <?php
 }  // loop iterate list and print titlei
 ?>
-
+              </tbody>
+            </table>
 <?php } ?>
-<p />
-<a href="/register/contact/add-email/?contact=<?php print($this->contactInfo['id']) ?>">Adicionar email</a>
-<hr>
+
+            <p>
+              <a href="/register/contact/add-email/?id=<?php print($this->contactInfo['id']) ?>" class="button three columns alpha omega">Adicionar email</a>
+            </p>
+          </div><!-- .Area -->
 
 <?php
 /*
