@@ -10,6 +10,7 @@ class C3op_Register_Linkage
     protected $state;
     protected $position;
     protected $phoneNumbers;
+    protected $emails;
 
     function __construct($id=0) {
         $this->id = (int)$id;
@@ -19,6 +20,7 @@ class C3op_Register_Linkage
         $this->state = "";
         $this->position = "";
         $this->phoneNumbers = array();
+        $this->emails = array();
     }
 
     public function GetId() {

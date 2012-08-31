@@ -138,9 +138,9 @@ class Register_LinkageController extends Zend_Controller_Action
     {
 
         $id = $this->checkIdFromGet();
-        $thisLinkage = $this->linkageMapper->findById($id);
+        $linkageBeingDetailed = $this->linkageMapper->findById($id);
 
-        $phoneNumbersList = $thisLinkage->GetPhoneNumbers();
+        $phoneNumbersList = $linkageBeingDetailed->GetPhoneNumbers();
         $phoneData = array();
         foreach($phoneNumbersList as $phoneId => $phoneNumber) {
             $phoneData[$phoneNumber->GetId()] = array(
@@ -149,18 +149,29 @@ class Register_LinkageController extends Zend_Controller_Action
                 'label' => $phoneNumber->GetLabel(),
             );
         }
-        if ($thisLinkage->GetInstitution() > 0) {
+        if ($linkageBeingDetailed->GetInstitution() > 0) {
             $institutionMapper = new C3op_Register_InstitutionMapper($this->db);
-            $institutionLinkedToContact = $institutionMapper->findById($thisLinkage->GetInstitution());
+            $institutionLinkedToContact = $institutionMapper->findById($linkageBeingDetailed->GetInstitution());
         }
+
+        $emailsList = $linkageBeingDetailed->GetEmails();
+        $emailData = array();
+        foreach($emailsList as $emailId => $email) {
+            $emailData[$email->GetId()] = array(
+                'email' => $email->GetEmail(),
+                'label' => $email->GetLabel(),
+            );
+        }
+
 
 
         $linkageInfo = array(
             'id'              => $id,
             'institutionName' => $institutionLinkedToContact->GetName(),
-            'department'      => $thisLinkage->GetDepartment(),
-            'position'        => $thisLinkage->GetPosition(),
-            'phoneList'     => $phoneData,
+            'department'      => $linkageBeingDetailed->GetDepartment(),
+            'position'        => $linkageBeingDetailed->GetPosition(),
+            'phoneData'     => $phoneData,
+            'emailData'     => $emailData,
         );
 
         $this->view->linkageInfo = $linkageInfo;
@@ -298,10 +309,20 @@ class Register_LinkageController extends Zend_Controller_Action
             $form = new C3op_Form_LinkageEmailCreate($options);
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'linkage', $linkageId);
 
+            if ($linkageHasEmail->GetInstitution() > 0) {
+                $institutionMapper = new C3op_Register_InstitutionMapper($this->db);
+                $institutionLinkedToContact = $institutionMapper->findById($linkageHasEmail->GetInstitution());
+            }
+            if ($linkageHasEmail->GetContact() > 0) {
+                $contactMapper = new C3op_Register_ContactMapper($this->db);
+                $contactLinkedToInstitution = $contactMapper->findById($linkageHasEmail->GetContact());
+            }
+
             $this->view->form = $form;
             $linkageInfo = array(
                 'id' => $linkageId,
-                'name' => $linkageHasEmail->GetName(),
+                'institutionName' => $institutionLinkedToContact->GetName(),
+                'contactName' => $contactLinkedToInstitution->GetName(),
             );
 
             $this->view->linkageInfo = $linkageInfo;
@@ -351,9 +372,20 @@ class Register_LinkageController extends Zend_Controller_Action
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'label', $email->GetLabel());
 
             $this->view->form = $form;
+            if ($linkageHasEmail->GetInstitution() > 0) {
+                $institutionMapper = new C3op_Register_InstitutionMapper($this->db);
+                $institutionLinkedToContact = $institutionMapper->findById($linkageHasEmail->GetInstitution());
+            }
+            if ($linkageHasEmail->GetContact() > 0) {
+                $contactMapper = new C3op_Register_ContactMapper($this->db);
+                $contactLinkedToInstitution = $contactMapper->findById($linkageHasEmail->GetContact());
+            }
+
+            $this->view->form = $form;
             $linkageInfo = array(
-                'id' => $linkageHasEmail->GetId(),
-                'name' => $linkageHasEmail->GetName(),
+                'id' => $linkageId,
+                'institutionName' => $institutionLinkedToContact->GetName(),
+                'contactName' => $contactLinkedToInstitution->GetName(),
             );
 
             $this->view->linkageInfo = $linkageInfo;
