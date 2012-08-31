@@ -3,12 +3,12 @@
 class C3op_Register_Email {
 
     protected $id;
-    protected $email;
+    protected $address;
     protected $label;
 
-    function __construct($id=0, $email="", $label="") {
+    function __construct($id=0, $address="", $label="") {
         $this->id = (int)$id;
-        $this->email = $email;
+        $this->address = $address;
         $this->label = $label;
     }
 
@@ -24,20 +24,20 @@ class C3op_Register_Email {
         }
     } //SetId
 
-    public function GetEmail() {
-        return $this->email;
-    } //GetEmail
+    public function GetAddress() {
+        return $this->address;
+    } //GetAddress
 
-    public function SetEmail($email) {
+    public function SetAddress($address) {
         $validator = new C3op_Util_ValidEmail();
-        if ($validator->isValid($email)) {
-            if ($this->email != $email) {
-                $this->email = $email;
+        if ($validator->isValid($address)) {
+            if ($this->address != $address) {
+                $this->address = $address;
             }
         } else {
-            throw new C3op_Register_ContactException("This ($email) is not a valid one.");
+            throw new C3op_Register_ContactException("This ($address) is not a valid one.");
         }
-    } //SetEmail
+    } //SetAddress
 
     public function GetLabel() {
         return $this->label;
