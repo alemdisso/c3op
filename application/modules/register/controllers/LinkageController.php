@@ -33,10 +33,10 @@ class Register_LinkageController extends Zend_Controller_Action
             $this->view->form = $form;
             if ($form->isValid($postData)) {
 
-                $form->process($postData);
+                $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage('The record was successfully updated.');
-                $this->_redirect('/register/linkage/success-create');
+                $this->_redirect('/register/linkage/success-create/?id=' . $id);
             } else throw new C3op_Register_LinkageException("An linkage must have valid data.");
         } else {
             $data = $this->_request->getParams();
