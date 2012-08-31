@@ -16,7 +16,6 @@ class C3op_Register_PhoneNumber {
 
     public function GetId() {
         return $this->id;
-
     } //GetId
 
     public function SetId($id) {
@@ -25,12 +24,10 @@ class C3op_Register_PhoneNumber {
         } else {
             throw new C3op_Register_PhoneNumberException('It\'s not possible to change a phone number\'s ID');
         }
-
     } //SetId
 
     public function GetAreaCode() {
         return $this->areaCode;
-
     } //GetAreaCode
 
     public function SetAreaCode($areaCode) {
@@ -42,12 +39,10 @@ class C3op_Register_PhoneNumber {
         } else {
             throw new C3op_Register_ContactException("This ($areaCode) is not a valid area code.");
         }
-
     } //SetAreaCode
 
     public function GetLocalNumber() {
         return $this->localNumber;
-
     } //GetLocalNumber
 
     public function SetLocalNumber($localNumber) {
@@ -59,12 +54,10 @@ class C3op_Register_PhoneNumber {
         } else {
             throw new C3op_Register_ContactException("This ($localNumber) is not a valid label.");
         }
-
     } //SetLocalNumber
 
     public function GetLabel() {
         return $this->label;
-
     } //GetLabel
 
     public function SetLabel($label) {
@@ -76,8 +69,5 @@ class C3op_Register_PhoneNumber {
         } else {
             throw new C3op_Register_ContactException("This ($label) is not a valid label.");
         }
-
     } //SetLabel
-
-
 }
