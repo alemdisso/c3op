@@ -158,7 +158,7 @@ class Register_LinkageController extends Zend_Controller_Action
         $emailData = array();
         foreach($emailsList as $emailId => $email) {
             $emailData[$email->GetId()] = array(
-                'email' => $email->GetEmail(),
+                'email' => $email->GetAddress(),
                 'label' => $email->GetLabel(),
             );
         }
@@ -368,7 +368,7 @@ class Register_LinkageController extends Zend_Controller_Action
             $form = new C3op_Form_LinkageEmailEdit($options);
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'linkage', $linkageHasEmail->GetId());
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $emailId);
-            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'email', $email->GetEmail());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'email', $email->GetAddress());
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'label', $email->GetLabel());
 
             $this->view->form = $form;

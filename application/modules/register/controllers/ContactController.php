@@ -145,7 +145,7 @@ class Register_ContactController extends Zend_Controller_Action
         $emailData = array();
         foreach($emailsList as $phoneId => $email) {
             $emailData[$email->GetId()] = array(
-                'email' => $email->GetEmail(),
+                'email' => $email->GetAddress(),
                 'label' => $email->GetLabel(),
             );
         }
@@ -345,7 +345,7 @@ class Register_ContactController extends Zend_Controller_Action
             $form = new C3op_Form_ContactEmailEdit($options);
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'contact', $contactHasEmail->GetId());
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $emailId);
-            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'email', $email->GetEmail());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'email', $email->GetAddress());
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'label', $email->GetLabel());
 
             $this->view->form = $form;
