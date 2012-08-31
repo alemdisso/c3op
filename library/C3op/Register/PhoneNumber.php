@@ -23,7 +23,7 @@ class C3op_Register_PhoneNumber {
         if (($this->id == 0) && ($id > 0)) {
             $this->id = (int)$id;
         } else {
-            throw new C3op_Register_PhoneNumberException('It\'s not possible to change a contact\'s ID');
+            throw new C3op_Register_PhoneNumberException('It\'s not possible to change a phone number\'s ID');
         }
 
     } //SetId
