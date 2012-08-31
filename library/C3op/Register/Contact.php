@@ -7,12 +7,14 @@ class C3op_Register_Contact {
     protected $type;
     protected $phoneNumbers;
     protected $emails;
+    protected $messengers;
 
     function __construct($id=0) {
         $this->id = (int)$id;
         $this->name = "";
         $this->phoneNumbers = array();
         $this->emails = array();
+        $this->messengers = array();
     }
 
     public function GetId() {
@@ -179,6 +181,62 @@ class C3op_Register_Contact {
             throw new C3op_Register_ContactException("There isn\'t emails to remove");
         }
 
-    } //SetEmails
+    } //RemoveEmail
+
+    public function GetMessengers() {
+        return $this->messengers;
+
+    } //GetMessengers
+
+    public function SetMessengers($messengers) {
+        $newArray = array();
+        if (is_array($messengers)) {
+            $validator = new C3op_Util_ValidMessenger();
+
+            foreach ($messengers as $k => $messenger) {
+                if ($messenger instanceOf C3op_Register_ContactMessenger) {
+                    if ($validator->isValid($messenger->GetMessenger())) {
+                        $newArray[$k] = $messenger;
+                    } else {
+                        throw new C3op_Register_ContactException("Invalid messenger.");
+                    }
+                }
+            }
+        } else {
+            throw new C3op_Register_ContactException("Messengers must be organized in an array to be setted.");
+        }
+        $this->messengers = $newArray;
+    } //SetMessengers
+
+    public function AddMessenger(C3op_Register_Messenger $messenger) {
+        $validator = new C3op_Util_ValidMessenger();
+        if ($validator->isValid($messenger->GetMessenger())) {
+            $this->messengers[] = $messenger;
+        } else {
+            throw new C3op_Register_ContactException("Invalid messenger.");
+        }
+
+    } //AddMessenger
+
+    public function RemoveMessenger(C3op_Register_Messenger $messengerToBeRemoved) {
+
+        if (is_array($this->messengers)) {
+
+            $found = false;
+            foreach ($this->messengers as $k => $eachMessenger) {
+                if ($messengerToBeRemoved === $eachMessenger) {
+                    $found = true;
+                    unset($this->messengers[$k]);
+                    return true;
+                }
+            }
+            if (!$found) {
+                throw new C3op_Register_ContactException("Messenger not found to be removed.");
+            }
+        } else {
+            throw new C3op_Register_ContactException("There isn\'t messengers to remove");
+        }
+
+    } //RemoveMessenger
 
 }

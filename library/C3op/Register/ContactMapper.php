@@ -30,6 +30,7 @@ class C3op_Register_ContactMapper
 
         $this->insertPhoneNumbers($new);
         $this->insertEmails($new);
+        $this->insertMessengers($new);
 
     }
 
@@ -48,6 +49,7 @@ class C3op_Register_ContactMapper
 
         $this->updatePhoneNumbers($obj);
         $this->updateEmails($obj);
+        $this->UpdateMessengers($obj);
 
     }
 
@@ -82,6 +84,9 @@ class C3op_Register_ContactMapper
 
         $emails = $this->findEmails($obj);
         $this->setAttributeValue($obj, $emails, 'emails');
+
+        $messengers = $this->findMessengers($obj);
+        $this->setAttributeValue($obj, $messengers, 'messengers');
 
         return $obj;
 
@@ -306,11 +311,22 @@ class C3op_Register_ContactMapper
 
     private function insertMessengers(C3op_Register_Contact $new)
     {
+
         $mapper = new C3op_Register_ContactMessengerMapper($this->db, $this->identityMap);
         $mapper->insertMessengers($new);
 
     }
 
+    private function findMessengers(C3op_Register_Contact $contact)
+    {
+        $mapper = new C3op_Register_ContactMessengerMapper($this->db, $this->identityMap);
+        return $mapper->findMessengers($contact);
+    }
 
+    private function UpdateMessengers(C3op_Register_Contact $contact)
+    {
+        $mapper = new C3op_Register_ContactMessengerMapper($this->db, $this->identityMap);
+        $mapper->updateMessengers($contact);
 
+    }
 }

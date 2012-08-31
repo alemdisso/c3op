@@ -4,12 +4,12 @@ class C3op_Register_Messenger {
 
     protected $id;
     protected $address;
-    protected $label;
+    protected $service;
 
-    function __construct($id=0, $address="", $label="") {
+    function __construct($id=0, $address="", $service="") {
         $this->id = (int)$id;
         $this->address = $address;
-        $this->label = $label;
+        $this->service = $service;
     }
 
     public function GetId() {
@@ -29,7 +29,7 @@ class C3op_Register_Messenger {
     } //GetAddress
 
     public function SetAddress($address) {
-        $validator = new C3op_Util_ValidMessenger();
+        $validator = new C3op_Util_ValidString();
         if ($validator->isValid($address)) {
             if ($this->address != $address) {
                 $this->address = $address;
@@ -39,19 +39,19 @@ class C3op_Register_Messenger {
         }
     } //SetAddress
 
-    public function GetLabel() {
-        return $this->label;
-    } //GetLabel
+    public function GetService() {
+        return $this->service;
+    } //GetService
 
-    public function SetLabel($label) {
+    public function SetService($service) {
         $validator = new C3op_Util_ValidString();
-        if (($label == "") || ($validator->isValid($label))) {
-            if ($this->label != $label) {
-                $this->label = $label;
+        if (($service == "") || ($validator->isValid($service))) {
+            if ($this->service != $service) {
+                $this->service = $service;
             }
         } else {
-            throw new C3op_Register_ContactException("This ($label) is not a valid label.");
+            throw new C3op_Register_ContactException("This ($service) is not a valid service.");
         }
-    } //SetLabel
+    } //SetService
 
 }
