@@ -77,7 +77,7 @@ if (is_array($this->contactInfo)) {
                     <div id="submenu1" class="anylinkcss">
                         <ul>
                           <li>
-                            <a href="/register/contact/change-phone-number/?id=<?php print($phoneId); ?>">Editar</a>
+                            <a href="/register/contact/change-phone-number/?contact=<?php print($phoneId); ?>">Editar</a>
                           </li>
                         </ul>
                     </div><!-- #submenu1 -->
@@ -91,7 +91,7 @@ if (is_array($this->contactInfo)) {
 <?php } ?>
 
             <p>
-              <a href="/register/contact/add-phone-number/?id=<?php print($this->contactInfo['id']) ?>" class="button three columns alpha omega">Adicionar telefone</a>
+              <a href="/register/contact/add-phone-number/?contact=<?php print($this->contactInfo['id']) ?>" class="button three columns alpha omega">Adicionar telefone</a>
             </p>
           </div><!-- .Area -->
 
@@ -137,7 +137,7 @@ if (is_array($this->contactInfo)) {
                     <div id="submenu1" class="anylinkcss">
                         <ul>
                           <li>
-                            <a href="/register/contact/change-email/?id=<?php print($emailId); ?>">Editar</a>
+                            <a href="/register/contact/change-email/?contact=<?php print($emailId); ?>">Editar</a>
                           </li>
                         </ul>
                     </div><!-- #submenu1 -->
@@ -151,7 +151,7 @@ if (is_array($this->contactInfo)) {
 <?php } ?>
 
             <p>
-              <a href="/register/contact/add-email/?id=<?php print($this->contactInfo['id']) ?>" class="button three columns alpha omega">Adicionar email</a>
+              <a href="/register/contact/add-email/?contact=<?php print($this->contactInfo['id']) ?>" class="button three columns alpha omega">Adicionar email</a>
             </p>
           </div><!-- .Area -->
 
@@ -201,7 +201,7 @@ if (is_array($this->contactInfo)) {
                     <div id="submenu1" class="anylinkcss">
                         <ul>
                           <li>
-                            <a href="/register/linkage/edit/?id=<?php print($linkageInfo['id']); ?>">Editar</a>
+                            <a href="/register/linkage/edit/?contact=<?php print($linkageInfo['id']); ?>">Editar</a>
                           </li>
                         </ul>
                     </div><!-- #submenu1 -->
