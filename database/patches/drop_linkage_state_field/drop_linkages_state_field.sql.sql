@@ -1,0 +1,1 @@
+ALTER TABLE `register_linkages` DROP `state`;
