@@ -47,8 +47,8 @@ class C3op_Register_ContactMapper
             )
         );
 
-        $this->updatePhoneNumbers($obj);
-        $this->updateEmails($obj);
+        $this->UpdatePhoneNumbers($obj);
+        $this->UpdateEmails($obj);
         $this->UpdateMessengers($obj);
 
     }
@@ -114,6 +114,19 @@ class C3op_Register_ContactMapper
         );
         if (empty($result)) {
             throw new C3op_Register_ContactMapperException(sprintf('There is no contact with a email with this email id #%d.', $emailId));
+        }
+        return $this->findById($result['contact']);
+    }
+
+    public function findByMessengerId($messengerId) {
+        $result = $this->db->fetchRow(
+            sprintf(
+                'SELECT contact FROM register_contacts_messengers WHERE id = %d;',
+                $messengerId
+            )
+        );
+        if (empty($result)) {
+            throw new C3op_Register_ContactMapperException(sprintf('There is no contact with a messenger with this id #%d.', $messengerId));
         }
         return $this->findById($result['contact']);
     }
@@ -197,7 +210,7 @@ class C3op_Register_ContactMapper
         }
     }
 
-    private function UpdatePhoneNumbers(C3op_Register_Contact $contact)
+    private function updatePhoneNumbers(C3op_Register_Contact $contact)
     {
         $currentPhoneNumbers = $contact->GetPhoneNumbers();
         $oldPhoneNumbers = $this->findPhoneNumbers($contact);
@@ -224,7 +237,6 @@ class C3op_Register_ContactMapper
                     )
                 );
             }
-
         }
         reset ($currentPhoneNumbers);
         foreach($currentPhoneNumbers as $key =>$phoneNumber){
@@ -236,7 +248,6 @@ class C3op_Register_ContactMapper
                 );
             $this->db->insert('register_contacts_phone_numbers', $data);
         }
-
     }
 
    private function insertEmails(C3op_Register_Contact $new)
@@ -269,7 +280,7 @@ class C3op_Register_ContactMapper
         }
     }
 
-    private function UpdateEmails(C3op_Register_Contact $contact)
+    private function updateEmails(C3op_Register_Contact $contact)
     {
         $currentEmails = $contact->GetEmails();
         $oldEmails = $this->findEmails($contact);
@@ -295,8 +306,8 @@ class C3op_Register_ContactMapper
                     )
                 );
             }
-
         }
+
         reset ($currentEmails);
         foreach($currentEmails as $key =>$email){
             $data = array(
@@ -311,10 +322,8 @@ class C3op_Register_ContactMapper
 
     private function insertMessengers(C3op_Register_Contact $new)
     {
-
         $mapper = new C3op_Register_ContactMessengerMapper($this->db, $this->identityMap);
         $mapper->insertMessengers($new);
-
     }
 
     private function findMessengers(C3op_Register_Contact $contact)
@@ -323,10 +332,9 @@ class C3op_Register_ContactMapper
         return $mapper->findMessengers($contact);
     }
 
-    private function UpdateMessengers(C3op_Register_Contact $contact)
+    private function updateMessengers(C3op_Register_Contact $contact)
     {
         $mapper = new C3op_Register_ContactMessengerMapper($this->db, $this->identityMap);
         $mapper->updateMessengers($contact);
-
     }
 }

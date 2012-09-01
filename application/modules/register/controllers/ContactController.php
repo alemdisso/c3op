@@ -150,6 +150,15 @@ class Register_ContactController extends Zend_Controller_Action
             );
         }
 
+        $messengersList = $contactBeingDetailed->GetMessengers();
+        $messengerData = array();
+        foreach($messengersList as $phoneId => $messenger) {
+            $messengerData[$messenger->GetId()] = array(
+                'address' => $messenger->GetAddress(),
+                'service' => $messenger->GetService(),
+            );
+        }
+
         $linkagesIdsList = $this->contactMapper->getAllLinkages($contactBeingDetailed);
         $linkagesList = array();
 
@@ -176,6 +185,7 @@ class Register_ContactController extends Zend_Controller_Action
             'editLink' => '/register/contact/edit/?id=' . $id   ,
             'phoneData' => $phoneData,
             'emailData' => $emailData,
+            'messengerData' => $messengerData,
             'linkagesList' => $linkagesList,
         );
 
@@ -358,6 +368,97 @@ class Register_ContactController extends Zend_Controller_Action
             $contactInfo = array(
                 'id' => $contactHasEmail->GetId(),
                 'name' => $contactHasEmail->GetName(),
+            );
+
+            $this->view->contactInfo = $contactInfo;
+        }
+    }
+
+    public function addMessengerAction()
+    {
+        // cria form
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            $validator = new C3op_Util_ValidPositiveInteger;
+            if (!$validator->isValid($postData['contact'])) {
+                throw new C3op_Register_MessengerException("Invalid contact id");
+            }
+            $options['contact'] = $postData['contact'];
+            $form = new C3op_Form_ContactMessengerCreate($options);
+            $this->view->form = $form;
+
+            if ($form->isValid($postData)) {
+                $id = $form->process($postData);
+                $this->_helper->getHelper('FlashMessenger')
+                    ->addMessage('The record was successfully updated.');
+                $this->_redirect('/register/contact/success-create/?id=' . $id);
+            } else {
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
+        } else {
+            $contactId = $this->checkContactFromGet();
+            $contactHasMessenger = $this->contactMapper->findById($contactId);
+            $data = $this->_request->getParams();
+            $options['contact'] = $contactId;
+            $form = new C3op_Form_ContactMessengerCreate($options);
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'contact', $contactId);
+
+            $this->view->form = $form;
+            $contactInfo = array(
+                'id' => $contactId,
+                'name' => $contactHasMessenger->GetName(),
+            );
+
+            $this->view->contactInfo = $contactInfo;
+        }
+    }
+
+    public function changeMessengerAction()
+    {
+        // cria form
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            $options['id'] = $postData['id'];
+            $form = new C3op_Form_ContactMessengerEdit($options);
+            $this->view->form = $form;
+            if ($form->isValid($postData)) {
+                $id = $form->process($postData);
+                $this->_helper->getHelper('FlashMessenger')
+                    ->addMessage('The record was successfully updated.');
+                $this->_redirect('/register/contact/success-create/?id=' . $id);
+            } else throw new C3op_Register_ContactException("Invalid data for messenger.");
+        } else {
+            $data = $this->_request->getParams();
+
+            $filters = array(
+                'messenger' => new Zend_Filter_Alnum(),
+            );
+            $validators = array(
+                'messenger' => array('Digits', new Zend_Validate_GreaterThan(0)),
+            );
+            $input = new Zend_Filter_Input($filters, $validators, $data);
+            if ($input->isValid()) {
+                $messengerId = $input->messenger;
+            } else {
+                throw new C3op_Register_ContactException("Invalid Messenger Id from Get");
+            }
+
+            $contactHasMessenger = $this->contactMapper->findByMessengerId($messengerId);
+            $messengers = $contactHasMessenger->GetMessengers();
+            $messenger = $messengers[$messengerId];
+
+            $options['id'] = $messengerId;
+            $form = new C3op_Form_ContactMessengerEdit($options);
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'contact', $contactHasMessenger->GetId());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $messengerId);
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'address', $messenger->GetAddress());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'service', $messenger->GetService());
+
+            $this->view->form = $form;
+            $contactInfo = array(
+                'id' => $contactHasMessenger->GetId(),
+                'name' => $contactHasMessenger->GetName(),
             );
 
             $this->view->contactInfo = $contactInfo;

@@ -191,11 +191,11 @@ class C3op_Register_Contact {
     public function SetMessengers($messengers) {
         $newArray = array();
         if (is_array($messengers)) {
-            $validator = new C3op_Util_ValidMessenger();
+            $validator = new C3op_Util_ValidString();
 
             foreach ($messengers as $k => $messenger) {
                 if ($messenger instanceOf C3op_Register_ContactMessenger) {
-                    if ($validator->isValid($messenger->GetMessenger())) {
+                    if ($validator->isValid($messenger->GetAddress())) {
                         $newArray[$k] = $messenger;
                     } else {
                         throw new C3op_Register_ContactException("Invalid messenger.");
@@ -209,8 +209,8 @@ class C3op_Register_Contact {
     } //SetMessengers
 
     public function AddMessenger(C3op_Register_Messenger $messenger) {
-        $validator = new C3op_Util_ValidMessenger();
-        if ($validator->isValid($messenger->GetMessenger())) {
+        $validator = new C3op_Util_ValidString();
+        if ($validator->isValid($messenger->GetAddress())) {
             $this->messengers[] = $messenger;
         } else {
             throw new C3op_Register_ContactException("Invalid messenger.");
