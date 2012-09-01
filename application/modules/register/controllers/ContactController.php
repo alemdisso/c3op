@@ -145,7 +145,7 @@ class Register_ContactController extends Zend_Controller_Action
         $emailData = array();
         foreach($emailsList as $phoneId => $email) {
             $emailData[$email->GetId()] = array(
-                'email' => $email->GetAddress(),
+                'address' => $email->GetAddress(),
                 'label' => $email->GetLabel(),
             );
         }
