@@ -1,12 +1,9 @@
 <?php
 class C3op_Form_LinkageCreate extends Zend_Form
 {
-
     public function __construct($options = null)
     {
         parent::__construct($options);
-        //$this->setAction($options['action'])->setMethod('post');
-        // initialize form
 
         $this->setName('newLinkageForm')
             ->setAction('/register/linkage/create')
@@ -24,7 +21,6 @@ class C3op_Form_LinkageCreate extends Zend_Form
         if (isset($options['institution'])) {
             $institution = new Zend_Form_Element_Hidden('institution');
             $institution->addValidator('Int')
-                //->addFilter('HtmlEntities')
                 ->addFilter('StringTrim');
             $this->addElement($institution);
         } else {
@@ -44,8 +40,6 @@ class C3op_Form_LinkageCreate extends Zend_Form
             $this->addElement($institution);
         }
 
-        // $this->addElementText('position', 'Cargo/Função:', new C3op_Util_ValidString(), 50);
-
         $shortName = new Zend_Form_Element_Text('position');
         $validator = new C3op_Register_InstitutionValidName;
         $shortName->setLabel('Cargo/Função:')
@@ -58,12 +52,9 @@ class C3op_Form_LinkageCreate extends Zend_Form
             ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(true)
             ->addValidator($validator)
-//            ->addFilter('HtmlEntities')
             ->addFilter('StringTrim')
                 ;
         $this->addElement($shortName);
-
-        // $this->addElementText('department', 'Departamento:', new C3op_Util_ValidString(), 50);
 
         $shortName = new Zend_Form_Element_Text('department');
         $validator = new C3op_Register_InstitutionValidName;
@@ -77,13 +68,10 @@ class C3op_Form_LinkageCreate extends Zend_Form
             ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(true)
             ->addValidator($validator)
-//            ->addFilter('HtmlEntities')
             ->addFilter('StringTrim')
                 ;
         $this->addElement($shortName);
 
-
-        // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
         $submit ->setLabel('Gravar')
                 ->setDecorators(array('ViewHelper','Errors',
@@ -95,12 +83,6 @@ class C3op_Form_LinkageCreate extends Zend_Form
                   ))
                 ->setOptions(array('class' => 'submit Full alpha omega'));
         $this   ->addElement($submit);
-
-    }
-
-    public function init()
-    {
-
 
     }
 
@@ -117,7 +99,6 @@ class C3op_Form_LinkageCreate extends Zend_Form
             $linkage = new C3op_Register_Linkage();
             $linkage->SetDepartment($this->department->GetValue());
             $linkage->SetPosition($this->position->GetValue());
-            // $linkage->SetState($this->state->GetValue());
             $linkage->SetContact($this->contact->GetValue());
 
             $institution = $this->institution->GetValue();
@@ -127,18 +108,5 @@ class C3op_Form_LinkageCreate extends Zend_Form
             return $linkage->GetId();
         }
     }
-
-    private function addElementText($fieldName, $label, $validator, $fieldSize)
-    {
-        $elementText = new Zend_Form_Element_Text($fieldName);
-        $elementText->setLabel($label)
-            ->setOptions(array('size' => "$fieldSize"))
-            ->addValidator($validator)
-            ->addFilter('StringTrim')
-                ;
-        $this->addElement($elementText);
-
-    }
-
 
 }

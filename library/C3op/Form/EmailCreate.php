@@ -35,9 +35,9 @@ class C3op_Form_EmailCreate extends Zend_Form
         // attach elements to form
         $this->addElement($label);
 
-        $email = new Zend_Form_Element_Text('email');
+        $address = new Zend_Form_Element_Text('address');
         $emailValidator = new C3op_Util_ValidEmail();
-        $email->setLabel('Email:')
+        $address->setLabel('Email:')
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -50,7 +50,7 @@ class C3op_Form_EmailCreate extends Zend_Form
             ->addFilter('StringTrim')
                 ;
         // attach elements to form
-        $this->addElement($email);
+        $this->addElement($address);
 
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');

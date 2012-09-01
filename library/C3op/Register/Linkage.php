@@ -7,7 +7,6 @@ class C3op_Register_Linkage
     protected $contact;
     protected $institution;
     protected $department;
-    protected $state;
     protected $position;
     protected $phoneNumbers;
     protected $emails;
@@ -17,7 +16,6 @@ class C3op_Register_Linkage
         $this->contact = "";
         $this->institution = "";
         $this->department = "";
-        $this->state = "";
         $this->position = "";
         $this->phoneNumbers = array();
         $this->emails = array();
@@ -81,18 +79,6 @@ class C3op_Register_Linkage
             throw new C3op_Register_LinkageException("This ($department) is not a valid department.");
         }
     } //SetDepartment
-
-    public function GetState() {
-        return $this->state;
-    } //GetState
-
-    public function SetState($state) {
-        if ($state) {
-            $this->state = $state;
-        } else {
-            $this->state = "";
-        }
-    } //SetState
 
     public function GetPosition() {
         return $this->position;

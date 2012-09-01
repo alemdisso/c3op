@@ -18,25 +18,9 @@ class C3op_Form_PhoneNumberCreate extends Zend_Form
         }
 
 
-//        if (isset($options['contact'])) {
-//            $contact = new Zend_Form_Element_Hidden('contact');
-//            $contact->addValidator('Int')
-//                ->addFilter('StringTrim');
-//            $this->addElement($contact);
-//            $this->setAction('/register/contact/add-phone-number');
-//        } else if (isset($options['linkage'])) {
-//            $linkage = new Zend_Form_Element_Hidden('linkage');
-//            $linkage->addValidator('Int')
-//                //->addFilter('HtmlEntities')
-//                ->addFilter('StringTrim');
-//            $this->addElement($linkage);
-//            $this->setAction('/register/linkage/add-phone-number');
-//        } else {
-//            throw  new C3op_Form_PhoneNumberCreateException('Not defined what is this phone number related to.');
-//        }
 
         $label = new Zend_Form_Element_Text('label');
-        $labelValidator = new C3op_Register_ContactValidName();
+        $labelValidator = new C3op_Util_ValidString();
         $label->setLabel('Descrição:')
               ->setDecorators(array(
                   'ViewHelper',
@@ -74,7 +58,7 @@ class C3op_Form_PhoneNumberCreate extends Zend_Form
         $localNumber->setLabel('Número:')
               ->setDecorators(array(
                   'ViewHelper',
-                  'Errors',             
+                  'Errors',
                   array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns inset-by-seven omega')),
                   array('Label', array('tag' => 'div', 'tagClass' => 'one column Right')),
               ))

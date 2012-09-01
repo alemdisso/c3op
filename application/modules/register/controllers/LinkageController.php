@@ -86,7 +86,6 @@ class Register_LinkageController extends Zend_Controller_Action
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $id);
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'department', $thisLinkage->getDepartment());
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'position', $thisLinkage->getPosition());
-            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'state', $thisLinkage->getState());
 
         }
     }

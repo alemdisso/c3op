@@ -139,7 +139,7 @@ class C3op_Register_Contact {
 
             foreach ($emails as $k => $email) {
                 if ($email instanceOf C3op_Register_ContactEmail) {
-                    if ($validator->isValid($email->GetEmail())) {
+                    if ($validator->isValid($email->GetAddress())) {
                         $newArray[$k] = $email;
                     } else {
                         throw new C3op_Register_ContactException("Invalid email.");
@@ -154,7 +154,7 @@ class C3op_Register_Contact {
 
     public function AddEmail(C3op_Register_Email $email) {
         $validator = new C3op_Util_ValidEmail();
-        if ($validator->isValid($email->GetEmail())) {
+        if ($validator->isValid($email->GetAddress())) {
             $this->emails[] = $email;
         } else {
             throw new C3op_Register_ContactException("Invalid email.");

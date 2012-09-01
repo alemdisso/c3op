@@ -1,12 +1,12 @@
 <?php
-class C3op_Form_EmailEdit extends C3op_Form_EmailCreate
+class C3op_Form_MessengerEdit extends C3op_Form_MessengerCreate
 {
     public function __construct($options = null)
     {
         parent::__construct($options);
 
-        $this->setName('newEmailForm')
-            ->setAction('/register/index/change-email')
+        $this->setName('newMessengerForm')
+            ->setAction('/register/index/change-messenger')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
@@ -16,9 +16,8 @@ class C3op_Form_EmailEdit extends C3op_Form_EmailCreate
                 ->addFilter('StringTrim');
             $this->addElement($id);
         } else {
-            throw  new C3op_Form_EmailCreateException('Not defined which email to edit.');
+            throw  new C3op_Form_MessengerCreateException('Not defined which messenger to edit.');
         }
-
     }
 
     public function process($data) {
@@ -32,23 +31,20 @@ class C3op_Form_EmailEdit extends C3op_Form_EmailCreate
             $contactMapper = new C3op_Register_ContactMapper($db);
             $contact = $contactMapper->findById($this->contact->GetValue());
             if ($this->localNumber->GetValue() != "") {
-                $emails = $contact->GetEmails();
-                if (isset($emails[$this->id->GetValue()])) {
-                    $email = new C3op_Register_ContactEmail();
-                    $email->SetId($this->id->GetValue());
-                    $email->SetAddress($this->address->GetValue());
-                    $email->SetLabel($this->label->GetValue());
-                    $emails[$this->id->GetValue()] = $email;
-                    $contact->SetEmails($emails);
+                $messengers = $contact->GetMessengers();
+                if (isset($messengers[$this->id->GetValue()])) {
+                    $messenger = new C3op_Register_ContactMessenger();
+                    $messenger->SetId($this->id->GetValue());
+                    $messenger->SetAddress($this->address->GetValue());
+                    $messenger->SetService($this->service->GetValue());
+                    $messengers[$this->id->GetValue()] = $messenger;
+                    $contact->SetMessengers($messengers);
                     $contactMapper->update($contact);
                     return $contact->GetId();
-
                 } else {
-                    throw new C3op_Form_ContactEditException('Can\'t find this email id at this contact email list');
+                    throw new C3op_Form_ContactEditException('Can\'t find this messenger id at this contact messenger list');
                 }
             }
-
-
         }
     }
 }

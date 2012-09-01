@@ -244,7 +244,7 @@ class C3op_Register_ContactMapper
         foreach($new->GetEmails() as $email) {
             $data = array(
                 'contact' => $new->GetId(),
-                'email' => $email->GetEmail(),
+                'email' => $email->GetAddress(),
                 'label' => $email->GetLabel(),
                 );
             $this->db->insert('register_contacts_emails', $data);
@@ -280,7 +280,7 @@ class C3op_Register_ContactMapper
                     $this->db->exec(
                     sprintf(
                         'UPDATE register_contacts_emails SET email = \'%s\', label = \'%s\' WHERE id = %d;',
-                            $newEmail->GetEmail(),
+                            $newEmail->GetAddress(),
                             $newEmail->GetLabel(),
                             $key
                         )
@@ -301,7 +301,7 @@ class C3op_Register_ContactMapper
         foreach($currentEmails as $key =>$email){
             $data = array(
                 'contact' => $contact->GetId(),
-                'email' => $email->GetEmail(),
+                'email' => $email->GetAddress(),
                 'label' => $email->GetLabel(),
                 );
             $this->db->insert('register_contacts_emails', $data);

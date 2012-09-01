@@ -6,24 +6,24 @@ class C3op_Form_LinkageEdit extends C3op_Form_LinkageCreate
         parent::__construct($options);
         //$this->setAction($options['action'])->setMethod('post');
         // initialize form
-        
+
         $this->setName('editLinkageForm')
             ->setAction('/register/linkage/edit')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
-        
+
         $id = new Zend_Form_Element_Hidden('id');
         $id->addValidator('Int')
             //->addFilter('HtmlEntities')
-            ->addFilter('StringTrim');        
+            ->addFilter('StringTrim');
         $this->addElement($id);
-        
+
         $contact = new Zend_Form_Element_Hidden('contact');
         $contact->addValidator('Int')
             //->addFilter('HtmlEntities')
-            ->addFilter('StringTrim');        
+            ->addFilter('StringTrim');
         $this->addElement($contact);
-        
+
         $institution = new Zend_Form_Element_Select('institution');
         $institution->setLabel('Instituição: ')
                 ->setDecorators(array(
@@ -38,7 +38,7 @@ class C3op_Form_LinkageEdit extends C3op_Form_LinkageCreate
                 ->setRegisterInArrayValidator(false);
         $institution->addMultiOption(0, "(escolha uma...)");
         $this->addElement($institution);
-        
+
         // $this->addElementText('position', 'Cargo/Função:', new C3op_Util_ValidString(), 50);
 
         $shortName = new Zend_Form_Element_Text('position');
@@ -77,9 +77,6 @@ class C3op_Form_LinkageEdit extends C3op_Form_LinkageCreate
                 ;
         $this->addElement($shortName);
 
-        // [# É mesmo para exibir este campo, abaixo?  
-        $this->addElementText('state', 'UF:', new C3op_Register_ValidState(), 30);
-
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
         $submit ->setLabel('Gravar')
@@ -94,7 +91,7 @@ class C3op_Form_LinkageEdit extends C3op_Form_LinkageCreate
         $this   ->addElement($submit);
 
     }
-    
+
     public function init()
     {
         parent::init();
@@ -103,26 +100,26 @@ class C3op_Form_LinkageEdit extends C3op_Form_LinkageCreate
         $this->setName('editLinkageForm')
             ->setAction('/register/linkage/edit')
             ->setMethod('post');
-        
+
         $id = new Zend_Form_Element_Hidden('id');
         $id->addValidator('Int')
             //->addFilter('HtmlEntities')
-            ->addFilter('StringTrim');        
+            ->addFilter('StringTrim');
         $this->addElement($id);
-        
-                        
+
+
 
     }
-    
+
     public function process($data) {
-        
+
         $db = Zend_Registry::get('db');
-        $linkageMapper = new C3op_Register_LinkageMapper($db);        
+        $linkageMapper = new C3op_Register_LinkageMapper($db);
         if ($this->isValid($data) !== true) {
             throw new C3op_Form_LinkageEditException('Invalid data!');
         } else {
             $id = $data['id'];
-            $linkage = $linkageMapper->findById($id);      
+            $linkage = $linkageMapper->findById($id);
             $linkage->SetDepartment($data['department']);
             $linkage->SetContact($data['contact']);
             $linkage->SetInstitution($data['institution']);
@@ -131,7 +128,7 @@ class C3op_Form_LinkageEdit extends C3op_Form_LinkageCreate
             $linkageMapper->update($linkage);
         }
     }
-    
+
     private function addElementText($fieldName, $label, $validator, $fieldSize)
     {
         $elementText = new Zend_Form_Element_Text($fieldName);
@@ -141,6 +138,6 @@ class C3op_Form_LinkageEdit extends C3op_Form_LinkageCreate
             ->addFilter('StringTrim')
                 ;
         $this->addElement($elementText);
-        
+
     }
 }

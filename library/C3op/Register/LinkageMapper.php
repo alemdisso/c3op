@@ -24,7 +24,6 @@ class C3op_Register_LinkageMapper
             'contact' => $new->GetContact(),
             'institution' => $new->GetInstitution(),
             'department' => $new->GetDepartment(),
-            'state' => $new->GetState(),
             'position' => $new->GetPosition(),
             );
         $this->db->insert('register_linkages', $data);
@@ -43,13 +42,11 @@ class C3op_Register_LinkageMapper
                     'UPDATE register_linkages SET contact = %d,
                         institution =  %d,
                         department =  \'%s\',
-                        state =  \'%s\',
                         position =  \'%s\'
                          WHERE id = %d;',
                     $obj->GetContact(),
                     $obj->GetInstitution(),
                     $obj->GetDepartment(),
-                    $obj->GetState(),
                     $obj->GetPosition(),
                     $this->identityMap[$obj]
                 );
@@ -73,7 +70,7 @@ class C3op_Register_LinkageMapper
 
         $result = $this->db->fetchRow(
             sprintf(
-                'SELECT contact, institution, department, state, position
+                'SELECT contact, institution, department, position
                      FROM register_linkages WHERE id = %d;',
                 $id
             )
@@ -87,7 +84,6 @@ class C3op_Register_LinkageMapper
         $this->setAttributeValue($obj, $result['contact'], 'contact');
         $this->setAttributeValue($obj, $result['institution'], 'institution');
         $this->setAttributeValue($obj, $result['department'], 'department');
-        $this->setAttributeValue($obj, $result['state'], 'state');
         $this->setAttributeValue($obj, $result['position'], 'position');
 
         $this->identityMap[$obj] = $id;

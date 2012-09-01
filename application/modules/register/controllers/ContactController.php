@@ -163,7 +163,6 @@ class Register_ContactController extends Zend_Controller_Action
             }
 
             $linkagesList[$linkageId] = array(
-                'id'              => $linkageId,
                 'institutionName' => $institutionLinkedToContact->GetName(),
                 'institutionEdit' => '/register/institution/edit/?id=' . $institutionLinkedToContact->GetId(),
                 'department'      => $contactLinkage->GetDepartment(),
@@ -175,7 +174,6 @@ class Register_ContactController extends Zend_Controller_Action
             'id' => $id,
             'name' => $contactBeingDetailed->GetName(),
             'editLink' => '/register/contact/edit/?id=' . $id   ,
-            'linkLinkageCreate' => '/register/linkage/create/?contact=' . $id   ,
             'phoneData' => $phoneData,
             'emailData' => $emailData,
             'linkagesList' => $linkagesList,
@@ -189,6 +187,10 @@ class Register_ContactController extends Zend_Controller_Action
         // cria form
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
+            $validator = new C3op_Util_ValidPositiveInteger;
+            if (!$validator->isValid($postData['contact'])) {
+                throw new C3op_Register_PhoneNumberException("Invalid contact id");
+            }
             $options['contact'] = $postData['contact'];
             $form = new C3op_Form_ContactPhoneNumberCreate($options);
             $this->view->form = $form;
@@ -202,7 +204,6 @@ class Register_ContactController extends Zend_Controller_Action
         } else {
             $contactId = $this->checkContactFromGet();
             $contactHasPhone = $this->contactMapper->findById($contactId);
-            $data = $this->_request->getParams();
             $options['contact'] = $contactId;
             $form = new C3op_Form_ContactPhoneNumberCreate($options);
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'contact', $contactId);
@@ -212,7 +213,6 @@ class Register_ContactController extends Zend_Controller_Action
                 'id' => $contactId,
                 'name' => $contactHasPhone->GetName(),
             );
-
             $this->view->contactInfo = $contactInfo;
         }
     }
@@ -222,6 +222,10 @@ class Register_ContactController extends Zend_Controller_Action
         // cria form
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
+            $validator = new C3op_Util_ValidPositiveInteger;
+            if (!$validator->isValid($postData['id'])) {
+                throw new C3op_Register_PhoneNumberException("Invalid phone number");
+            }
             $options['id'] = $postData['id'];
             $form = new C3op_Form_ContactPhoneNumberEdit($options);
             $this->view->form = $form;
@@ -234,14 +238,14 @@ class Register_ContactController extends Zend_Controller_Action
         } else {
             $data = $this->_request->getParams();
             $filters = array(
-                'id' => new Zend_Filter_Alnum(),
+                'phone' => new Zend_Filter_Alnum(),
             );
             $validators = array(
-                'id' => array('Digits', new Zend_Validate_GreaterThan(0)),
+                'phone' => array('Digits', new Zend_Validate_GreaterThan(0)),
             );
             $input = new Zend_Filter_Input($filters, $validators, $data);
             if ($input->isValid()) {
-                $phoneId = $input->id;
+                $phoneId = $input->phone;
             } else {
                 throw new C3op_Register_ContactException("Invalid Contact Id from Get");
             }
@@ -250,9 +254,8 @@ class Register_ContactController extends Zend_Controller_Action
             $phoneNumbers = $contactHasPhone->GetPhoneNumbers();
             $phoneNumber = $phoneNumbers[$phoneId];
 
-            $data = $this->_request->getParams();
 
-            $options['id'] = $data['id'];
+            $options['id'] = $phoneId;
             $form = new C3op_Form_ContactPhoneNumberEdit($options);
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'contact', $contactHasPhone->GetId());
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $phoneId);
@@ -275,6 +278,10 @@ class Register_ContactController extends Zend_Controller_Action
         // cria form
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
+            $validator = new C3op_Util_ValidPositiveInteger;
+            if (!$validator->isValid($postData['contact'])) {
+                throw new C3op_Register_EmailException("Invalid contact id");
+            }
             $options['contact'] = $postData['contact'];
             $form = new C3op_Form_ContactEmailCreate($options);
             $this->view->form = $form;
@@ -322,30 +329,29 @@ class Register_ContactController extends Zend_Controller_Action
             } else throw new C3op_Register_ContactException("Invalid data for email.");
         } else {
             $data = $this->_request->getParams();
+
             $filters = array(
-                'id' => new Zend_Filter_Alnum(),
+                'email' => new Zend_Filter_Alnum(),
             );
             $validators = array(
-                'id' => array('Digits', new Zend_Validate_GreaterThan(0)),
+                'email' => array('Digits', new Zend_Validate_GreaterThan(0)),
             );
             $input = new Zend_Filter_Input($filters, $validators, $data);
             if ($input->isValid()) {
-                $emailId = $input->id;
+                $emailId = $input->email;
             } else {
-                throw new C3op_Register_ContactException("Invalid Contact Id from Get");
+                throw new C3op_Register_ContactException("Invalid Email Id from Get");
             }
 
             $contactHasEmail = $this->contactMapper->findByEmailId($emailId);
             $emails = $contactHasEmail->GetEmails();
             $email = $emails[$emailId];
 
-            $data = $this->_request->getParams();
-
-            $options['id'] = $data['id'];
+            $options['id'] = $emailId;
             $form = new C3op_Form_ContactEmailEdit($options);
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'contact', $contactHasEmail->GetId());
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $emailId);
-            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'email', $email->GetAddress());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'address', $email->GetAddress());
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'label', $email->GetLabel());
 
             $this->view->form = $form;

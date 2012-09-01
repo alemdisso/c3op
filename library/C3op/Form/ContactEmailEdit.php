@@ -38,12 +38,12 @@ class C3op_Form_ContactEmailEdit extends C3op_Form_EmailEdit
             $db = Zend_Registry::get('db');
             $contactMapper = new C3op_Register_ContactMapper($db);
             $contact = $contactMapper->findById($this->contact->GetValue());
-            if ($this->email->GetValue() != "") {
+            if ($this->address->GetValue() != "") {
                 $emails = $contact->GetEmails();
                 if (isset($emails[$this->id->GetValue()])) {
                     $email = new C3op_Register_ContactEmail();
                     $email->SetId($this->id->GetValue());
-                    $email->SetEmail($this->email->GetValue());
+                    $email->SetAddress($this->address->GetValue());
                     $email->SetLabel($this->label->GetValue());
                     $emails[$this->id->GetValue()] = $email;
                     $contact->SetEmails($emails);
