@@ -24,13 +24,11 @@ class Register_ContactController extends Zend_Controller_Action
 
     public function indexAction()
     {
-
         $list = $this->contactMapper->getAllIds();
         $contactsList = array();
         reset ($list);
         foreach ($list as $id) {
             $thisContact = $this->contactMapper->findById($id);
-
             $contactsList[$id] = array(
                 'name' => $thisContact->GetName(),
                 'editLink' => '/register/contact/edit/?id=' . $id   ,
@@ -40,10 +38,7 @@ class Register_ContactController extends Zend_Controller_Action
         }
 
         $this->view->contactsList = $contactsList;
-
         $this->view->createContactLink = "/register/contact/create";
-
-
     }
 
     public function createAction()
@@ -126,46 +121,72 @@ class Register_ContactController extends Zend_Controller_Action
 
     public function detailAction()
     {
-        $linkageMapper = new C3op_Register_LinkageMapper($this->db);
 
+        // pageData
+        $pageData = array();
         $id = $this->checkIdFromGet();
         $contactBeingDetailed = $this->contactMapper->findById($id);
 
-        $phoneNumbersList = $contactBeingDetailed->GetPhoneNumbers();
-        $phoneData = array();
-        foreach($phoneNumbersList as $phoneId => $phoneNumber) {
-            $phoneData[$phoneNumber->GetId()] = array(
-                'area_code' => $phoneNumber->GetAreaCode(),
-                'local_number' => $phoneNumber->GetLocalNumber(),
+        //  contactInfo
+        //    id
+        //    name
+        //    relationship
+        $contactInfo = array(
+                'name' => $contactBeingDetailed->GetName(),
+                'relationship' => C3op_Register_ContactTypes::TitleForType($contactBeingDetailed->GetType())
+            );
+
+        //  phonesList
+        //   * phoneId =>
+        //      area_code
+        //      local_number
+        //      label
+        $objList = $contactBeingDetailed->GetPhoneNumbers();
+        $phonesList = array();
+        foreach($objList as $messengerId => $phoneNumber) {
+            $phonesList[$messengerId] = array(
+                'areaCode' => $phoneNumber->GetAreaCode(),
+                'localNumber' => $phoneNumber->GetLocalNumber(),
                 'label' => $phoneNumber->GetLabel(),
             );
         }
 
-        $emailsList = $contactBeingDetailed->GetEmails();
-        $emailData = array();
-        foreach($emailsList as $phoneId => $email) {
-            $emailData[$email->GetId()] = array(
+        //  emailsList
+        //    * emailId =>
+        //      address
+        //      label
+        $objList = $contactBeingDetailed->GetEmails();
+        $emailsList = array();
+        foreach($objList as $emailId => $email) {
+            $emailsList[$emailId] = array(
                 'address' => $email->GetAddress(),
                 'label' => $email->GetLabel(),
             );
         }
 
-        $messengersList = $contactBeingDetailed->GetMessengers();
-        $messengerData = array();
-        foreach($messengersList as $phoneId => $messenger) {
-            $messengerData[$messenger->GetId()] = array(
+        //  messengersList
+        //    * messengerId =>
+        //      address
+        //      service
+        $objList = $contactBeingDetailed->GetMessengers();
+        $messengersList = array();
+        foreach($objList as $messengerId => $messenger) {
+            $messengersList[$messengerId] = array(
                 'address' => $messenger->GetAddress(),
                 'service' => $messenger->GetService(),
             );
         }
 
-        $linkagesIdsList = $this->contactMapper->getAllLinkages($contactBeingDetailed);
+        //  linkagesList
+        //    * linkageId =>
+        //      institutionName
+        //      department
+        //      position
+        $linkageMapper = new C3op_Register_LinkageMapper($this->db);
+        $objList = $this->contactMapper->getAllLinkages($contactBeingDetailed);
         $linkagesList = array();
-
-        reset ($linkagesList);
-        foreach ($linkagesIdsList as $linkageId) {
+        foreach ($objList as $linkageId) {
             $contactLinkage = $linkageMapper->findById($linkageId);
-
             if ($contactLinkage->GetInstitution() > 0) {
                 $institutionMapper = new C3op_Register_InstitutionMapper($this->db);
                 $institutionLinkedToContact = $institutionMapper->findById($contactLinkage->GetInstitution());
@@ -173,23 +194,20 @@ class Register_ContactController extends Zend_Controller_Action
 
             $linkagesList[$linkageId] = array(
                 'institutionName' => $institutionLinkedToContact->GetName(),
-                'institutionEdit' => '/register/institution/edit/?id=' . $institutionLinkedToContact->GetId(),
                 'department'      => $contactLinkage->GetDepartment(),
                 'position'        => $contactLinkage->GetPosition(),
-
             );
         }
-        $contactInfo = array(
-            'id' => $id,
-            'name' => $contactBeingDetailed->GetName(),
-            'editLink' => '/register/contact/edit/?id=' . $id   ,
-            'phoneData' => $phoneData,
-            'emailData' => $emailData,
-            'messengerData' => $messengerData,
+
+        $pageData = array(
+            'contactInfo' => $contactInfo,
+            'phonesList' => $phonesList,
+            'emailsList' => $emailsList,
+            'messengersList' => $messengersList,
             'linkagesList' => $linkagesList,
         );
 
-        $this->view->contactInfo = $contactInfo;
+        $this->view->pageData = $pageData;
     }
 
     public function addPhoneNumberAction()

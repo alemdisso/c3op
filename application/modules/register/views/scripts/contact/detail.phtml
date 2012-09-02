@@ -1,12 +1,11 @@
 <?php
-/*
- * If exists contacts list
- */
-if (is_array($this->contactInfo)) {
-    $contactData = $this->contactInfo;
+$pageData = $this->pageData;
+
+if (is_array($pageData['contactInfo'])) {
+    $contactInfo = $pageData['contactInfo'];
 ?>
 <div id="MainHeader">
-  <h1>Contato: <?php print($contactData['name']) ?></h1>
+  <h1>Contato: <?php print($contactInfo['name']) ?></h1>
 </div>
 
 
@@ -18,7 +17,7 @@ if (is_array($this->contactInfo)) {
   </div>
   <div class="five columns">
     <p>
-      <?php print($contactData['name']) ?>
+      <?php print($contactInfo['name']) ?>
     </p>
   </div>
   <div class="two columns Right">
@@ -36,9 +35,9 @@ if (is_array($this->contactInfo)) {
           <div class="Area">
 <?php
 
-    $phoneNumbersList = $contactData['phoneData'];
+    $phonesList = $pageData['phonesList'];
 
-    if (count($phoneNumbersList) > 0) {
+    if (count($phonesList) > 0) {
 
 ?>
             <h2>Telefones</h2>
@@ -54,17 +53,17 @@ if (is_array($this->contactInfo)) {
               <tbody>
 
 <?php
-    foreach ($phoneNumbersList as $phoneId => $phoneInfo) {
+    foreach ($phonesList as $phoneId => $phoneInfo) {
 ?>
                 <tr>
                   <td>
-<?php if (isset($phoneInfo['area_code']) && ($phoneInfo['area_code'] != "")) { ?>
-(<?php print($phoneInfo['area_code']) ?>)
+<?php if (isset($phoneInfo['areaCode']) && ($phoneInfo['areaCode'] != "")) { ?>
+(<?php print($phoneInfo['areaCode']) ?>)
 <?php } else { ?>&nbsp;<? } ?>
                   </td>
                   <td>
-<?php if (isset($phoneInfo['local_number']) && ($phoneInfo['local_number'] != "")) { ?>
-<?php print($phoneInfo['local_number']) ?>
+<?php if (isset($phoneInfo['localNumber']) && ($phoneInfo['localNumber'] != "")) { ?>
+<?php print($phoneInfo['localNumber']) ?>
 <?php } else { ?>&nbsp;<? } ?>
                   </td>
                   <td>
@@ -102,7 +101,7 @@ if (is_array($this->contactInfo)) {
           <div class="Area">
 <?php
 
-    $emailsList = $contactData['emailData'];
+    $emailsList = $pageData['emailsList'];
 
     if (count($emailsList) > 0) {
 
@@ -161,7 +160,7 @@ if (is_array($this->contactInfo)) {
           <div class="Area">
 <?php
 
-    $messengersList = $contactData['messengerData'];
+    $messengersList = $pageData['messengersList'];
 
     if (count($messengersList) > 0) {
 
@@ -213,12 +212,13 @@ if (is_array($this->contactInfo)) {
               <a href="/register/contact/add-messenger/?contact=<?php print($this->contactInfo['id']) ?>" class="button three columns alpha omega">Adicionar serviço</a>
             </p>
           </div><!-- .Area -->
+          <div class="Area">
 <?php
 /*
  * iterate list and print title
  */
 
-    $linkagesList = $contactData['linkagesList'];
+    $linkagesList = $pageData['linkagesList'];
 
     if (count($linkagesList) > 0) {
 
@@ -236,12 +236,12 @@ if (is_array($this->contactInfo)) {
               </thead>
               <tbody>
 <?php
-    while (list($linkageId, $linkageInfo) = each($linkagesList)) {
+    foreach($linkagesList as $linkageId => $linkageInfo){
 ?>
                 <tr>
                   <td>
-<?php if (isset($linkageInfo['institutionEdit'])) { ?>
-<a href="<?php print($linkageInfo['institutionEdit']) ?>"><?php print($linkageInfo['institutionName']) ?></a>
+<?php if (isset($linkageInfo['institutionName'])) { ?>
+<a href="/register/institution/edit/?id=<?php print($linkageId) ?>"><?php print($linkageInfo['institutionName']) ?></a>
 <?php } else { ?>&nbsp;<? } ?>
                   </td>
                   <td>
