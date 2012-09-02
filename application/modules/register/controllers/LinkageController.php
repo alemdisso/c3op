@@ -36,7 +36,7 @@ class Register_LinkageController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage('The record was successfully updated.');
-                $this->_redirect('/register/linkage/success-create/?id=' . $id);
+                $this->_redirect('/register/linkage/success-create/?contact=' . $postData['contact']);
             } else throw new C3op_Register_LinkageException("An linkage must have valid data.");
         } else {
             $data = $this->_request->getParams();
@@ -63,7 +63,7 @@ class Register_LinkageController extends Zend_Controller_Action
                     $form->process($postData);
                     $this->_helper->getHelper('FlashMessenger')
                         ->addMessage('The record was successfully updated.');
-                    $this->_redirect('/register/linkage/success-create');
+                    $this->_redirect('/register/linkage/success-create/?contact=' . $postData['contact']);
 
                 }
 //                else throw new C3op_Register_LinkageException("Invalid data for linkage.");
@@ -104,12 +104,12 @@ class Register_LinkageController extends Zend_Controller_Action
     public function successCreateAction()
     {
 
-        $this->initLinkageMapper();
-        $linkage =  $this->initLinkageWithCheckedId($this->linkageMapper);
+        $mapper = new C3op_Register_ContactMapper();
+        $contact =  $this->initContactWithCheckedId($mapper);
 
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
             $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
-            $this->getResponse()->setHeader('Refresh', '3; URL=/register/linkage/detail/?id=' . $linkage->getId());
+            $this->getResponse()->setHeader('Refresh', '3; URL=/register/contact/detail/?id=' . $contact->getId());
         } else {
             $this->_redirect('/register');
         }
@@ -523,5 +523,30 @@ class Register_LinkageController extends Zend_Controller_Action
     {
         return $mapper->findById($this->checkIdFromGet());
     }
+
+    private function initContactWithCheckedId(C3op_Register_ContactMapper $mapper)
+    {
+        return $mapper->findById($this->checkContactFromGet());
+    }
+
+   private function checkContactFromGet()
+    {
+        $data = $this->_request->getParams();
+        $filters = array(
+            'contact' => new Zend_Filter_Alnum(),
+        );
+        $validators = array(
+            'contact' => array('Digits', new Zend_Validate_GreaterThan(0)),
+        );
+        $input = new Zend_Filter_Input($filters, $validators, $data);
+        if ($input->isValid()) {
+            $contact = $input->contact;
+            return $contact;
+        }
+        throw new C3op_Register_LinkageException("Invalid Contact Id from Get");
+
+    }
+
+
 
 }
