@@ -5,14 +5,14 @@ if (is_array($pageData['contactInfo'])) {
     $contactInfo = $pageData['contactInfo'];
 ?>
 <div id="MainHeader">
-  <h1>Contato: <?php print($contactInfo['name']) ?></h1>
+  <h1><?php echo $this->translate("Contato") ?>: <?php print($contactInfo['name']) ?></h1>
 </div>
 
 
 <div class="Area">
   <div class="three columns Right alpha">
     <p>
-      Nome:
+      <?php echo $this->translate("Nome") ?>:
     </p>
   </div>
   <div class="five columns">
@@ -22,7 +22,7 @@ if (is_array($pageData['contactInfo'])) {
   </div>
   <div class="two columns Right">
     <p>
-      Relação com o Iets:
+      <?php echo $this->translate("Relação conosco") ?>
     </p>
   </div>
   <div class="four columns omega">
@@ -40,13 +40,13 @@ if (is_array($pageData['contactInfo'])) {
     if (count($phonesList) > 0) {
 
 ?>
-            <h2>Telefones</h2>
+            <h2><?php echo $this->translate("Telefones") ?></h2>
             <table id="Telefones" class="display dataTable">
               <thead>
                 <tr>
-                  <th width="20">DDD</th>
-                  <th width="100">Número</th>
-                  <th width="220">Tipo</th>
+                  <th width="20"><?php echo $this->translate("Código de área") ?></th>
+                  <th width="100"><?php echo $this->translate("Número Local") ?></th>
+                  <th width="220"><?php echo $this->translate("Rótulo") ?></th>
                   <th width="1%">&nbsp;</th>
                 </tr>
               </thead>
@@ -72,11 +72,11 @@ if (is_array($pageData['contactInfo'])) {
 <?php } else { ?>&nbsp;<? } ?>
                   </td>
                   <td>
-                    <a class="anchorclass button" rel="submenu1">Opções...</a>
+                    <a class="anchorclass button" rel="submenu1"><?php echo $this->translate("Opções...") ?></a>
                     <div id="submenu1" class="anylinkcss">
                         <ul>
                           <li>
-                            <a href="/register/contact/change-phone-number/?phone=<?php print($phoneId); ?>">Editar</a>
+                            <a href="/register/contact/change-phone-number/?phone=<?php print($phoneId); ?>"><?php echo $this->translate("Editar") ?></a>
                           </li>
                         </ul>
                     </div><!-- #submenu1 -->
@@ -90,7 +90,7 @@ if (is_array($pageData['contactInfo'])) {
 <?php } ?>
 
             <p>
-              <a href="/register/contact/add-phone-number/?contact=<?php print($this->contactInfo['id']) ?>" class="button three columns alpha omega">Adicionar telefone</a>
+              <a href="/register/contact/add-phone-number/?contact=<?php print($this->contactInfo['id']) ?>" class="button three columns alpha omega"><?php echo $this->translate("Adicionar telefone") ?></a>
             </p>
           </div><!-- .Area -->
 
@@ -106,12 +106,12 @@ if (is_array($pageData['contactInfo'])) {
     if (count($emailsList) > 0) {
 
 ?>
-            <h2>Emails</h2>
+            <h2><?php echo $this->translate("Emails") ?></h2>
             <table id="Emails" class="display dataTable">
               <thead>
                 <tr>
-                  <th width="100">Endere&ccedil;o</th>
-                  <th width="220">Tipo</th>
+                  <th width="100"><?php echo $this->translate("Endere&ccedil;o") ?></th>
+                  <th width="220"><?php echo $this->translate("Tipo") ?></th>
                   <th width="1%">&nbsp;</th>
                 </tr>
               </thead>
@@ -132,11 +132,11 @@ if (is_array($pageData['contactInfo'])) {
 <?php } else { ?>&nbsp;<? } ?>
                   </td>
                   <td>
-                    <a class="anchorclass button" rel="submenu1">Opções...</a>
+                    <a class="anchorclass button" rel="submenu1"><?php echo $this->translate("Opções...") ?></a>
                     <div id="submenu1" class="anylinkcss">
                         <ul>
                           <li>
-                            <a href="/register/contact/change-email/?email=<?php print($emailId); ?>">Editar</a>
+                            <a href="/register/contact/change-email/?email=<?php print($emailId); ?>"><?php echo $this->translate("Editar") ?></a>
                           </li>
                         </ul>
                     </div><!-- #submenu1 -->
@@ -150,7 +150,7 @@ if (is_array($pageData['contactInfo'])) {
 <?php } ?>
 
             <p>
-              <a href="/register/contact/add-email/?contact=<?php print($this->contactInfo['id']) ?>" class="button three columns alpha omega">Adicionar email</a>
+              <a href="/register/contact/add-email/?contact=<?php print($this->contactInfo['id']) ?>" class="button three columns alpha omega"><?php echo $this->translate("Adicionar email") ?></a>
             </p>
           </div><!-- .Area -->
 
@@ -165,12 +165,12 @@ if (is_array($pageData['contactInfo'])) {
     if (count($messengersList) > 0) {
 
 ?>
-            <h2>Serviços de Mensagens</h2>
+            <h2><?php echo $this->translate("Serviços de Mensagens") ?></h2>
             <table id="Messengers" class="display dataTable">
               <thead>
                 <tr>
-                  <th width="100">Servi&ccedil;o</th>
-                  <th width="220">Conta</th>
+                  <th width="100"><?php echo $this->translate("Servi&ccedil;o") ?></th>
+                  <th width="220"><?php echo $this->translate("Conta") ?></th>
                   <th width="1%">&nbsp;</th>
                 </tr>
               </thead>
@@ -191,11 +191,11 @@ if (is_array($pageData['contactInfo'])) {
 <?php } else { ?>&nbsp;<? } ?>
                   </td>
                   <td>
-                    <a class="anchorclass button" rel="submenu1">Opções...</a>
+                    <a class="anchorclass button" rel="submenu1"><?php echo $this->translate("Opções...") ?></a>
                     <div id="submenu1" class="anylinkcss">
                         <ul>
                           <li>
-                            <a href="/register/contact/change-messenger/?messenger=<?php print($messengerId); ?>">Editar</a>
+                            <a href="/register/contact/change-messenger/?messenger=<?php print($messengerId); ?>"><?php echo $this->translate("Editar") ?></a>
                           </li>
                         </ul>
                     </div><!-- #submenu1 -->
@@ -209,7 +209,7 @@ if (is_array($pageData['contactInfo'])) {
 <?php } ?>
 
             <p>
-              <a href="/register/contact/add-messenger/?contact=<?php print($this->contactInfo['id']) ?>" class="button three columns alpha omega">Adicionar serviço</a>
+              <a href="/register/contact/add-messenger/?contact=<?php print($this->contactInfo['id']) ?>" class="button three columns alpha omega"><?php echo $this->translate("Adicionar serviço") ?></a>
             </p>
           </div><!-- .Area -->
           <div class="Area">
@@ -224,13 +224,13 @@ if (is_array($pageData['contactInfo'])) {
 
 ?>
           <div class="Area">
-            <h2>Vínculos</h2>
+            <h2><?php echo $this->translate("Vínculos") ?></h2>
             <table id="Telefones" class="display dataTable">
               <thead>
                 <tr>
-                  <th width="220">Instituição</th>
-                  <th width="80">Departamento</th>
-                  <th width="100">Posição</th>
+                  <th width="220"><?php echo $this->translate("Instituição") ?></th>
+                  <th width="80"><?php echo $this->translate("Departamento") ?></th>
+                  <th width="100"><?php echo $this->translate("Posição") ?></th>
                   <th width="1%">&nbsp;</th>
                 </tr>
               </thead>
@@ -255,11 +255,11 @@ if (is_array($pageData['contactInfo'])) {
 <?php } else { ?>&nbsp;<? } ?>
                   </td>
                   <td>
-                    <a class="anchorclass button" rel="submenu1">Opções...</a>
+                    <a class="anchorclass button" rel="submenu1"><?php echo $this->translate("Opções...") ?></a>
                     <div id="submenu1" class="anylinkcss">
                         <ul>
                           <li>
-                            <a href="/register/linkage/edit/?id=<?php print($linkageId); ?>">Editar</a>
+                            <a href="/register/linkage/edit/?id=<?php print($linkageId); ?>"><?php echo $this->translate("Editar") ?></a>
                           </li>
                         </ul>
                     </div><!-- #submenu1 -->
@@ -272,14 +272,14 @@ if (is_array($pageData['contactInfo'])) {
             </table>
 <?php } ?>
             <p>
-              <a href="/register/linkage/create/?contact=<?php print($this->contactInfo['id']) ?>" class="button three columns alpha omega">Criar Novo Vínculo</a>
+              <a href="/register/linkage/create/?contact=<?php print($this->contactInfo['id']) ?>" class="button three columns alpha omega"><?php echo $this->translate("Criar Novo Vínculo") ?></a>
             </p>
           </div><!-- Area -->
 <?php
 } else { // else exists contacts list
 ?>
           <div class="Area">
-    <?php print("Não há informações sobre este contato.") ?>
+    <?php echo $this->translate("Não há informações sobre este contato.") ?>
           </div><!-- Area -->
 
     <?php
