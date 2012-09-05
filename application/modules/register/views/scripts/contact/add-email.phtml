@@ -1,3 +1,3 @@
-<h2>Email</h2>
-Acrescentar email para <?php echo $this->contactInfo['name']; ?>
+<h2><?php echo $this->translate("Email") ?></h2>
+<?php echo sprintf($this->translate("Acrescentar email para %s"), $this->contactInfo['name']); ?>
 <?php echo $this->form; ?>

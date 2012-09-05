@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-03 17:32-0300\n"
-"PO-Revision-Date: 2012-09-04 22:30-0300\n"
+"POT-Creation-Date: 2012-09-04 22:49-0300\n"
+"PO-Revision-Date: 2012-09-04 22:49-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: English\n"
@@ -15,9 +15,18 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: application\\modules\\register\\views\\scripts\n"
 
+#: application\modules\register\views\scripts/contact/add-email.phtml:1
+msgid "Email"
+msgstr "Email"
+
+#: application\modules\register\views\scripts/contact/add-email.phtml:2
+#, php-format
+msgid "Acrescentar email para %s"
+msgstr "Add email to %s"
+
 #: application\modules\register\views\scripts/contact/detail.phtml:8
-msgid "Contato"
-msgstr "Contact"
+msgid "Contato:"
+msgstr "Contact:"
 
 #: application\modules\register\views\scripts/contact/detail.phtml:15
 msgid "Nome"
