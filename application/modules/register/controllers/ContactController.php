@@ -36,11 +36,9 @@ class Register_ContactController extends Zend_Controller_Action
         }
 
         $this->view->contactsList = $contactsList;
-//        $this->view->createContactLink = "/register/contact/create";
         $pageData = array(
             'contactsList' => $contactsList,
         );
-
         $this->view->pageData = $pageData;
     }
 
@@ -57,7 +55,6 @@ class Register_ContactController extends Zend_Controller_Action
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage('The record was successfully updated.');
                 $this->_redirect('/register/contact/success-create/?id=' . $id);
-
             } else throw new C3op_Register_ContactException("Invalid data");
         }
     }
@@ -87,6 +84,9 @@ class Register_ContactController extends Zend_Controller_Action
             $idField->setValue($id);
             $typeField = $form->getElement('type');
             $typeField->setValue($thisContact->GetType());
+            $pageData = array(
+              'contactData' => $contactData,
+            );
         }
     }
 
