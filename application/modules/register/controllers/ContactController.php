@@ -30,15 +30,16 @@ class Register_ContactController extends Zend_Controller_Action
         foreach ($list as $id) {
             $thisContact = $this->contactMapper->findById($id);
             $contactsList[$id] = array(
-                'name' => $thisContact->GetName(),
-                'editLink' => '/register/contact/edit/?id=' . $id   ,
-                'linkDetail' => '/register/contact/detail/?id=' . $id   ,
-                'type' => C3op_Register_ContactTypes::TitleForType($thisContact->GetType()),
+                'name'  => $thisContact->GetName(),
+                'type'  => C3op_Register_ContactTypes::TitleForType($thisContact->GetType()),
             );
         }
 
         $this->view->contactsList = $contactsList;
-        $this->view->createContactLink = "/register/contact/create";
+        $pageData = array(
+            'contactsList' => $contactsList,
+        );
+        $this->view->pageData = $pageData;
     }
 
     public function createAction()
@@ -54,7 +55,6 @@ class Register_ContactController extends Zend_Controller_Action
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage('The record was successfully updated.');
                 $this->_redirect('/register/contact/success-create/?id=' . $id);
-
             } else throw new C3op_Register_ContactException("Invalid data");
         }
     }
@@ -84,6 +84,9 @@ class Register_ContactController extends Zend_Controller_Action
             $idField->setValue($id);
             $typeField = $form->getElement('type');
             $typeField->setValue($thisContact->GetType());
+            $pageData = array(
+              'contactData' => $contactData,
+            );
         }
     }
 
