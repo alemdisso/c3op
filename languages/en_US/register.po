@@ -2,15 +2,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-05 09:40-0300\n"
-"PO-Revision-Date: 2012-09-05 09:41-0300\n"
+"POT-Creation-Date: 2012-09-05 15:23-0300\n"
+"PO-Revision-Date: 2012-09-05 15:23-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: English\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-KeywordsList: _;gettext;gettext_noop;translate\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;translate;setLabel\n"
 "X-Poedit-Basepath: C:\\xampp\\htdocs\\c3op\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: application\\modules\\register\\views\\scripts\n"
@@ -134,6 +134,64 @@ msgstr "Create new linkage"
 #: application\modules\register\views\scripts/contact/detail.phtml:282
 msgid "Não há informações sobre este contato."
 msgstr "There is no data about this contact."
+
+#: application\modules\register\views\scripts/contact/edit.phtml:5
+#, fuzzy
+msgid "Editar contato"
+msgstr "Edit"
+
+#: application\modules\register\views\scripts/contact/edit.phtml:7
+#, fuzzy
+msgid "Criar vínculo"
+msgstr "Create new linkage"
+
+#, fuzzy
+#~ msgid "Nome:"
+#~ msgstr "Name"
+
+#, fuzzy
+#~ msgid "Descrição:"
+#~ msgstr "Position"
+
+#, fuzzy
+#~ msgid "Código de área:"
+#~ msgstr "Area code"
+
+#, fuzzy
+#~ msgid "Número local:"
+#~ msgstr "Local number"
+
+#, fuzzy
+#~ msgid "Relação com o Iets:"
+#~ msgstr "Relationship with IETS"
+
+#, fuzzy
+#~ msgid "Email:"
+#~ msgstr "Email"
+
+#, fuzzy
+#~ msgid "Relação com o IETS: "
+#~ msgstr "Relationship with IETS"
+
+#, fuzzy
+#~ msgid "Inscrição: "
+#~ msgstr "Institution"
+
+#, fuzzy
+#~ msgid "Número:"
+#~ msgstr "Local number"
+
+#, fuzzy
+#~ msgid "Instituição: "
+#~ msgstr "Institution"
+
+#, fuzzy
+#~ msgid "Departamento:"
+#~ msgstr "Department"
+
+#, fuzzy
+#~ msgid "Conta:"
+#~ msgstr "Account"
 
 #~ msgid "Relationship with us"
 #~ msgstr "Relação com o IETS"

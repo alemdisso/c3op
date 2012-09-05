@@ -2,6 +2,6 @@
 $pageData = $this->pageData;
 $contactData = $pageData['contactData'];
 ?>
-<h2>Editar contato</h2>
+<h2><?php echo $this->translate("Editar contato") ?></h2>
 <?php echo $this->form; ?>
-<a href="/register/linkage/create/?contact=<?php print($contactData["id"]); ?>">Criar vínculo</a>
+<a href="/register/linkage/create/?contact=<?php print($contactData["id"]); ?>"><?php echo $this->translate("Criar vínculo") ?></a>
