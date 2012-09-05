@@ -132,7 +132,8 @@ class Register_ContactController extends Zend_Controller_Action
         //    name
         //    relationship
         $contactInfo = array(
-                'name' => $contactBeingDetailed->GetName(),
+                'id'           => $id,
+                'name'         => $contactBeingDetailed->GetName(),
                 'relationship' => C3op_Register_ContactTypes::TitleForType($contactBeingDetailed->GetType())
             );
 
