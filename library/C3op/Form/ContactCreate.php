@@ -10,9 +10,7 @@ class C3op_Form_ContactCreate extends Zend_Form
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
-        // create text input for name
         $name = new Zend_Form_Element_Text('name');
-//        $nameValidator = new Zend_Validate_Regex("/^[0-9a-zA-ZÀ-ú]+[0-9A-Za-zÀ-ú\'\[\]\(\)\-\.\,\:\;\!\? ]{1,50}$/");
         $nameValidator = new C3op_Register_ContactValidName();
         $name->setLabel('Nome:')
               ->setDecorators(array(
@@ -24,10 +22,7 @@ class C3op_Form_ContactCreate extends Zend_Form
             ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(true)
             ->addValidator($nameValidator)
-//            ->addFilter('HtmlEntities')
-            ->addFilter('StringTrim')
-                ;
-        // attach elements to form
+            ->addFilter('StringTrim');
         $this->addElement($name);
 
         $areaCode = new Zend_Form_Element_Text('areaCode');
@@ -42,9 +37,7 @@ class C3op_Form_ContactCreate extends Zend_Form
             ->setOptions(array('class' => 'eleven columns alpha omega'))
             ->setRequired(false)
             ->addValidator($phoneValidator)
-            ->addFilter('StringTrim')
-                ;
-        // attach elements to form
+            ->addFilter('StringTrim');
         $this->addElement($areaCode);
 
         $localNumber = new Zend_Form_Element_Text('localNumber');
@@ -59,9 +52,7 @@ class C3op_Form_ContactCreate extends Zend_Form
             ->setOptions(array('class' => 'eleven columns alpha omega'))
             ->setRequired(false)
             ->addValidator($phoneValidator)
-            ->addFilter('StringTrim')
-                ;
-        // attach elements to form
+            ->addFilter('StringTrim');
         $this->addElement($localNumber);
 
         $type = new Zend_Form_Element_Select('type');
@@ -83,16 +74,16 @@ class C3op_Form_ContactCreate extends Zend_Form
 
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
-        $submit ->setLabel('Gravar')
-                ->setDecorators(array('ViewHelper','Errors',
+        $submit->setLabel('Gravar')
+               ->setDecorators(array('ViewHelper','Errors',
                     array(array('data' => 'HtmlTag'),
                     array('tag' => 'div','class' => 'two columns inset-by-nine omega')),
                     array('Label',
                       array('tag' => 'div','tagClass' => 'three columns alpha Invisible')
                     ),
                   ))
-                ->setOptions(array('class' => 'submit Full alpha omega'));
-        $this   ->addElement($submit);
+               ->setOptions(array('class' => 'submit Full alpha omega'));
+        $this->addElement($submit);
 
     }
 
