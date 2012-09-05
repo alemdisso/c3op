@@ -103,19 +103,8 @@ class Register_ContactController extends Zend_Controller_Action
         }
     }
 
-    public function errorEditAction()
-    {
-        $flashMessenger = $this->_helper->getHelper('FlashMessenger');
-        $flashMessenger->setNamespace('messages');
-        $this->view->messages = $flashMessenger->getMessages();
-        $flashMessenger->addMessage('Id Inválido');
-    }
-
     public function detailAction()
     {
-
-        // pageData
-        $pageData = array();
         $id = $this->checkIdFromGet();
         $contactBeingDetailed = $this->contactMapper->findById($id);
 
