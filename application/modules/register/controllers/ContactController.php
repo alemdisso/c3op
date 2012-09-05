@@ -30,15 +30,18 @@ class Register_ContactController extends Zend_Controller_Action
         foreach ($list as $id) {
             $thisContact = $this->contactMapper->findById($id);
             $contactsList[$id] = array(
-                'name' => $thisContact->GetName(),
-                'editLink' => '/register/contact/edit/?id=' . $id   ,
-                'linkDetail' => '/register/contact/detail/?id=' . $id   ,
-                'type' => C3op_Register_ContactTypes::TitleForType($thisContact->GetType()),
+                'name'  => $thisContact->GetName(),
+                'type'  => C3op_Register_ContactTypes::TitleForType($thisContact->GetType()),
             );
         }
 
         $this->view->contactsList = $contactsList;
-        $this->view->createContactLink = "/register/contact/create";
+//        $this->view->createContactLink = "/register/contact/create";
+        $pageData = array(
+            'contactsList' => $contactsList,
+        );
+
+        $this->view->pageData = $pageData;
     }
 
     public function createAction()

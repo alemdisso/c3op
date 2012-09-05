@@ -1,18 +1,22 @@
+<?php
+$pageData = $this->pageData;
+$contactsList = $pageData['contactsList'];
+?>
 <div id="MainHeader">
   <h1>Contatos</h1>
 </div>
-<?php 
+<?php
 /*
  * If exists contacts list
  */
-if (is_array($this->contactsList)) {
+if (is_array($contactsList)) {
 ?>
 
-<?php 
+<?php
 /*
  * if there is contacts in list
  */
-    if (count($this->contactsList)) {
+    if (count($contactsList)) {
 ?>
             <div class="Area">
               <table class="display dataTable">
@@ -23,25 +27,25 @@ if (is_array($this->contactsList)) {
             			</tr>
             		</thead>
             		<tbody>
-<?php 
+<?php
 /*
  * iterate list and print title
  */
-        while (list(, $contactData) = each($this->contactsList)) {
+        foreach  ($contactsList as $contactId => $contactData) {
 ?>
             			<tr>
-            				<td><a href="<?php print($contactData['linkDetail']) ?>"><?php print($contactData['name']) ?></a></td>
+            				<td><a href="/register/contact/detail/?id=<?php print($contactId) ?>"><?php print($contactData['name']) ?></a></td>
 <?php if (isset($contactData['editLink'])) { ?>
                     <td>
-                      <a class="anchorclass button" rel="submenu1">Opções...</a> 
+                      <a class="anchorclass button" rel="submenu1">Opções...</a>
                       <div id="submenu1" class="anylinkcss">
                         <ul>
                           <li>
-                            <a href="<?php print($contactData['editLink']) ?>">Editar</a>
+                            <a href="/register/contact/edit/?id=<?php print($contactId) ?>">Editar</a>
                           </li>
                         </ul>
                       </div><!-- #submenu1 -->
-                    </td> 
+                    </td>
             			</tr>
 <?php } ?>
 <?php
@@ -55,12 +59,12 @@ if (is_array($this->contactsList)) {
           <div class="Area">
           <h2>Instituições</h2>
     <?php print("Não há contatos cadastrados.") ?>
-    
+
 <?php
     } // end else there is contacts in list
 ?>
 <?php
-} else { // else exists contacts list 
+} else { // else exists contacts list
 ?>
     <?php print("Não existe lista de contatos cadastrados.") ?>
 
@@ -68,6 +72,6 @@ if (is_array($this->contactsList)) {
 } // end exists contacts list
 ?>
             <p>
-              <a href="<?php print($this->createContactLink) ?>" class="button three columns alpha omega">Criar Novo Contato</a>
+              <a href="/register/contact/create" class="button three columns alpha omega">Criar Novo Contato</a>
             </p>
-          </div><!-- Area -->  
+          </div><!-- Area -->
