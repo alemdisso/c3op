@@ -90,17 +90,6 @@ class Register_ContactController extends Zend_Controller_Action
         }
     }
 
-    public function sucessAction()
-    {
-        if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
-            $this->view->messages = $this->_helper
-                ->getHelper('FlashMessenger')
-                ->getMessages();
-        } else {
-            $this->_redirect('/');
-        }
-    }
-
     public function successCreateAction()
     {
         $this->initContactMapper();
