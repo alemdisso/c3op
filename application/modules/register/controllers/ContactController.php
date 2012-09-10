@@ -219,11 +219,11 @@ class Register_ContactController extends Zend_Controller_Action
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'contact', $contactId);
 
             $this->view->form = $form;
-            $contactInfo = array(
+            $pageData = array(
                 'id' => $contactId,
-                'name' => $contactHasPhone->GetName(),
+                'contactName' => $contactHasPhone->GetName(),
             );
-            $this->view->contactInfo = $contactInfo;
+            $this->view->pageData = $pageData;
         }
     }
 
@@ -274,12 +274,12 @@ class Register_ContactController extends Zend_Controller_Action
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'label', $phoneNumber->GetLabel());
 
             $this->view->form = $form;
-            $contactInfo = array(
+            $pageData = array(
                 'id' => $contactHasPhone->GetId(),
-                'name' => $contactHasPhone->GetName(),
+                'contactName' => $contactHasPhone->GetName(),
             );
 
-            $this->view->contactInfo = $contactInfo;
+            $this->view->pageData = $pageData;
         }
     }
 
@@ -314,12 +314,12 @@ class Register_ContactController extends Zend_Controller_Action
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'contact', $contactId);
 
             $this->view->form = $form;
-            $contactInfo = array(
+            $pageData = array(
                 'id' => $contactId,
-                'name' => $contactHasEmail->GetName(),
+                'contactName' => $contactHasEmail->GetName(),
             );
 
-            $this->view->contactInfo = $contactInfo;
+            $this->view->pageData = $pageData;
         }
     }
 
@@ -365,12 +365,12 @@ class Register_ContactController extends Zend_Controller_Action
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'label', $email->GetLabel());
 
             $this->view->form = $form;
-            $contactInfo = array(
-                'id' => $contactHasEmail->GetId(),
-                'name' => $contactHasEmail->GetName(),
+            $pageData = array(
+                'id' => $contactHasMessenger->GetId(),
+                'contactName' => $contactHasMessenger->GetName(),
             );
 
-            $this->view->contactInfo = $contactInfo;
+            $this->view->pageData = $pageData;
         }
     }
 
@@ -405,12 +405,12 @@ class Register_ContactController extends Zend_Controller_Action
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'contact', $contactId);
 
             $this->view->form = $form;
-            $contactInfo = array(
+            $pageData = array(
                 'id' => $contactId,
-                'name' => $contactHasMessenger->GetName(),
+                'contactName' => $contactHasMessenger->GetName(),
             );
 
-            $this->view->contactInfo = $contactInfo;
+            $this->view->pageData = $pageData;
         }
     }
 
@@ -456,12 +456,12 @@ class Register_ContactController extends Zend_Controller_Action
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'service', $messenger->GetService());
 
             $this->view->form = $form;
-            $contactInfo = array(
+            $pageData = array(
                 'id' => $contactHasMessenger->GetId(),
-                'name' => $contactHasMessenger->GetName(),
+                'contactName' => $contactHasMessenger->GetName(),
             );
 
-            $this->view->contactInfo = $contactInfo;
+            $this->view->pageData = $pageData;
         }
     }
 

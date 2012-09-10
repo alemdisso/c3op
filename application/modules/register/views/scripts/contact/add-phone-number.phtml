@@ -1,5 +1,5 @@
 <div id="MainHeader">
-  <h1>Telefone</h1>
-  <p>Acrescentar telefone para <?php echo $this->contactInfo['name']; ?></p>
+  <h1><?php echo $this->translate("#Phone number") ?></h1>
+  <p><?php echo sprintf($this->translate("#Create %s's phone number", $this->pageData['contactName'])); ?></p>
 </div>
 <?php echo $this->form; ?>

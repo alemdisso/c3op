@@ -1,3 +1,5 @@
-<h2>Serviço de mensagens</h2>
-Alterar conta para <?php echo $this->contactInfo['name']; ?>
+<div id="MainHeader">
+<h1><?php echo $this->translate("#Service messenger") ?></h1>
+<?php echo sprintf($this->translate("#Change %s's service messenger", $this->pageData['contactName'])); ?>
+</div>
 <?php echo $this->form; ?>
