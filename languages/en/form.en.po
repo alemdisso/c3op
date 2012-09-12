@@ -1,0 +1,376 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: c3op\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-09-05 10:43-0300\n"
+"PO-Revision-Date: 2012-09-05 10:46-0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: English\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;translate;setLabel\n"
+"X-Poedit-Basepath: C:\\xampp\\htdocs\\c3op\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: library\\C3op\\Form\n"
+
+#: library\C3op\Form/ActionCreate.php:23
+#: library\C3op\Form/ContactCreate.php:17
+#: library\C3op\Form/InstitutionCreate.php:14
+#: library\C3op\Form/ProjectCreate.php:13 library\C3op\Form/UserCreate.php:15
+#, fuzzy
+msgid "Nome:"
+msgstr "Name"
+
+#: library\C3op\Form/ActionCreate.php:39
+msgid "Essa ação é um marco do projeto?"
+msgstr ""
+
+#: library\C3op\Form/ActionCreate.php:52
+msgid "É requisito para receber: "
+msgstr ""
+
+#: library\C3op\Form/ActionCreate.php:65
+msgid "Subordinada a: "
+msgstr ""
+
+#: library\C3op\Form/ActionCreate.php:78
+msgid "Responsável: "
+msgstr ""
+
+#: library\C3op\Form/ActionCreate.php:91 library\C3op\Form/EmailCreate.php:22
+#: library\C3op\Form/PhoneNumberCreate.php:24
+msgid "Descrição:"
+msgstr "Label"
+
+#: library\C3op\Form/ActionCreate.php:107
+#: library\C3op\Form/HumanResourceContract.php:18
+#: library\C3op\Form/ProjectCreate.php:75
+msgid "Data de início:"
+msgstr ""
+
+#: library\C3op\Form/ActionCreate.php:121
+#: library\C3op\Form/HumanResourceContract.php:26
+#: library\C3op\Form/ProjectCreate.php:89
+msgid "Data de término:"
+msgstr ""
+
+#: library\C3op\Form/ActionCreate.php:137
+#: library\C3op\Form/ContactCreate.php:86 library\C3op\Form/EmailCreate.php:57
+#: library\C3op\Form/InstitutionCreate.php:295
+#: library\C3op\Form/LinkageCreate.php:76 library\C3op\Form/LinkageEdit.php:82
+#: library\C3op\Form/MessengerCreate.php:58
+#: library\C3op\Form/PhoneNumberCreate.php:75
+#: library\C3op\Form/ProjectCreate.php:248
+#: library\C3op\Form/ReceivableCreate.php:102
+#: library\C3op\Form/UserCreate.php:106
+msgid "Gravar"
+msgstr "Save"
+
+#: library\C3op\Form/ActionEdit.php:22
+msgid "Status"
+msgstr ""
+
+#: library\C3op\Form/ActionEdit.php:31
+#: library\C3op\Form/HumanResourceContract.php:45
+#: library\C3op\Form/HumanResourceCreate.php:27
+#: library\C3op\Form/OutlayCreate.php:44
+msgid "Salvar"
+msgstr "Save"
+
+#: library\C3op\Form/ContactCreate.php:35
+#, fuzzy
+msgid "Código de área:"
+msgstr "Area code"
+
+#: library\C3op\Form/ContactCreate.php:52
+#, fuzzy
+msgid "Número local:"
+msgstr "Local number"
+
+#: library\C3op\Form/ContactCreate.php:68
+#, fuzzy
+msgid "Relação com o Iets:"
+msgstr "Relationship with IETS"
+
+#: library\C3op\Form/Decorators.php:9
+msgid "First Name:"
+msgstr ""
+
+#: library\C3op\Form/Decorators.php:11
+msgid "Last Name:"
+msgstr ""
+
+#: library\C3op\Form/EmailCreate.php:40 library\C3op\Form/UserCreate.php:89
+#, fuzzy
+msgid "Email:"
+msgstr "Email"
+
+#: library\C3op\Form/HumanResourceContract.php:35
+#: library\C3op\Form/OutlayCreate.php:33
+#: library\C3op\Form/ProjectCreate.php:233
+msgid "Observações:"
+msgstr "Observation:"
+
+#: library\C3op\Form/HumanResourceCreate.php:20
+msgid "Quem: "
+msgstr ""
+
+#: library\C3op\Form/InstitutionCreate.php:31
+msgid "Nome curto:"
+msgstr ""
+
+#: library\C3op\Form/InstitutionCreate.php:47
+msgid "Tipo"
+msgstr "Type"
+
+#: library\C3op\Form/InstitutionCreate.php:64
+#, fuzzy
+msgid "Relação com o IETS: "
+msgstr "Relationship with IETS"
+
+#: library\C3op\Form/InstitutionCreate.php:82
+msgid "Pessoa Jurídica: "
+msgstr ""
+
+#: library\C3op\Form/InstitutionCreate.php:98
+msgid "CNPJ / CPF:"
+msgstr ""
+
+#: library\C3op\Form/InstitutionCreate.php:112
+#, fuzzy
+msgid "Inscrição: "
+msgstr "Institution"
+
+#: library\C3op\Form/InstitutionCreate.php:128
+msgid "número:"
+msgstr ""
+
+#: library\C3op\Form/InstitutionCreate.php:145
+msgid "Logradouro:"
+msgstr ""
+
+#: library\C3op\Form/InstitutionCreate.php:164
+#: library\C3op\Form/PhoneNumberCreate.php:58
+#, fuzzy
+msgid "Número:"
+msgstr "Local number"
+
+#: library\C3op\Form/InstitutionCreate.php:183
+msgid "Complemento:"
+msgstr ""
+
+#: library\C3op\Form/InstitutionCreate.php:202
+msgid "Bairro:"
+msgstr ""
+
+#: library\C3op\Form/InstitutionCreate.php:221
+msgid "CEP:"
+msgstr ""
+
+#: library\C3op\Form/InstitutionCreate.php:240
+msgid "Cidade:"
+msgstr ""
+
+#: library\C3op\Form/InstitutionCreate.php:259
+msgid "UF:"
+msgstr ""
+
+#: library\C3op\Form/InstitutionCreate.php:278
+msgid "Website:"
+msgstr ""
+
+#: library\C3op\Form/LinkageCreate.php:28 library\C3op\Form/LinkageEdit.php:28
+#, fuzzy
+msgid "Instituição: "
+msgstr "Institution"
+
+#: library\C3op\Form/LinkageCreate.php:45 library\C3op\Form/LinkageEdit.php:46
+msgid "Cargo/Função:"
+msgstr ""
+
+#: library\C3op\Form/LinkageCreate.php:61 library\C3op\Form/LinkageEdit.php:65
+#, fuzzy
+msgid "Departamento:"
+msgstr "Department"
+
+#: library\C3op\Form/LinkageRemove.php:32
+msgid "Confirmo: remover!"
+msgstr ""
+
+#: library\C3op\Form/MessengerCreate.php:22
+msgid "Serviço:"
+msgstr ""
+
+#: library\C3op\Form/MessengerCreate.php:40
+#, fuzzy
+msgid "Conta:"
+msgstr "Account"
+
+#: library\C3op\Form/OutlayDojoCreate.php:52
+msgid "Observation:"
+msgstr ""
+
+#: library\C3op\Form/PhoneNumberCreate.php:41
+msgid "DDD:"
+msgstr ""
+
+#: library\C3op\Form/ProjectCreate.php:28
+msgid "Cliente: "
+msgstr ""
+
+#: library\C3op\Form/ProjectCreate.php:44
+msgid "Responsável pelo IETS: "
+msgstr ""
+
+#: library\C3op\Form/ProjectCreate.php:59
+msgid "Responsável pelo cliente: "
+msgstr ""
+
+#: library\C3op\Form/ProjectCreate.php:104
+msgid "Valor:"
+msgstr ""
+
+#: library\C3op\Form/ProjectCreate.php:122
+msgid "Status do Projeto:"
+msgstr ""
+
+#: library\C3op\Form/ProjectCreate.php:139
+msgid "Natureza do Contrato:"
+msgstr ""
+
+#: library\C3op\Form/ProjectCreate.php:156
+msgid "Área de atuação:"
+msgstr ""
+
+#: library\C3op\Form/ProjectCreate.php:173
+msgid "Overhead:"
+msgstr ""
+
+#: library\C3op\Form/ProjectCreate.php:188
+msgid "Taxa de Administração:"
+msgstr ""
+
+#: library\C3op\Form/ProjectCreate.php:205
+msgid "Objeto:"
+msgstr ""
+
+#: library\C3op\Form/ProjectCreate.php:219
+msgid "Sumário:"
+msgstr ""
+
+#: library\C3op\Form/ReceivableCreate.php:23
+msgid "Recebimento"
+msgstr ""
+
+#: library\C3op\Form/ReceivableCreate.php:39
+msgid "Data Prevista"
+msgstr ""
+
+#: library\C3op\Form/ReceivableCreate.php:55
+msgid "Data Realizada"
+msgstr ""
+
+#: library\C3op\Form/ReceivableCreate.php:71
+msgid "Valor Previsto"
+msgstr ""
+
+#: library\C3op\Form/ReceivableCreate.php:87
+msgid "Valor Realizado"
+msgstr ""
+
+#: library\C3op\Form/UserCreate.php:33
+msgid "Papel"
+msgstr ""
+
+#: library\C3op\Form/UserCreate.php:55
+msgid "Login:"
+msgstr ""
+
+#: library\C3op\Form/UserCreate.php:72 library\C3op\Form/UserLogin.php:34
+msgid "Senha:"
+msgstr ""
+
+#: library\C3op\Form/UserLogin.php:16
+msgid "Usuário:"
+msgstr ""
+
+#: library\C3op\Form/UserLogin.php:51
+msgid "Entrar"
+msgstr ""
+
+#~ msgid "Acrescentar email para %s"
+#~ msgstr "Add email to %s"
+
+#~ msgid "Serviço de mensagens"
+#~ msgstr "Messenger Services "
+
+#~ msgid "Acrescentar conta para %s"
+#~ msgstr "Add service to %s"
+
+#~ msgid "Contato:"
+#~ msgstr "Contact:"
+
+#~ msgid "Telefones"
+#~ msgstr "Phone numbers"
+
+#~ msgid "Rótulo"
+#~ msgstr "Type"
+
+#~ msgid "Opções..."
+#~ msgstr "Options..."
+
+#~ msgid "Editar"
+#~ msgstr "Edit"
+
+#~ msgid "Adicionar telefone"
+#~ msgstr "Add phone number"
+
+#~ msgid "Emails"
+#~ msgstr "Emails"
+
+#~ msgid "Endere&ccedil;o"
+#~ msgstr "Address"
+
+#~ msgid "Adicionar email"
+#~ msgstr "Add email"
+
+#~ msgid "Serviços de Mensagens"
+#~ msgstr "Messenger Services "
+
+#~ msgid "Servi&ccedil;o"
+#~ msgstr "Service"
+
+#~ msgid "Adicionar serviço"
+#~ msgstr "Add service"
+
+#~ msgid "Vínculos"
+#~ msgstr "Linkages"
+
+#~ msgid "Criar Novo Vínculo"
+#~ msgstr "Create new linkage"
+
+#~ msgid "Não há informações sobre este contato."
+#~ msgstr "There is no data about this contact."
+
+#~ msgid "Relationship with us"
+#~ msgstr "Relação com o IETS"
+
+#~ msgid "Phone numbers"
+#~ msgstr "Telefones"
+
+#, fuzzy
+#~ msgid "Code area"
+#~ msgstr "DDD"
+
+#, fuzzy
+#~ msgid "Local number"
+#~ msgstr "Número"
+
+#, fuzzy
+#~ msgid "Label"
+#~ msgstr "Tipo"
+
+#~ msgid "name"
+#~ msgstr "Nome"

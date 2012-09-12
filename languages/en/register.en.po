@@ -1,0 +1,341 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: c3op\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-09-12 16:38-0300\n"
+"PO-Revision-Date: 2012-09-12 17:08-0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: English\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;translate;setLabel\n"
+"X-Poedit-Basepath: C:\\xampp\\htdocs\\c3op\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: application\\modules\\register\\views\\scripts\n"
+
+#: application\modules\register\views\scripts/contact/add-email.phtml:2
+msgid "#Email addresses"
+msgstr "Email addresses"
+
+#: application\modules\register\views\scripts/contact/add-email.phtml:3
+#, php-format
+msgid "#Create %s's email address"
+msgstr "Create %s's email address"
+
+#: application\modules\register\views\scripts/contact/add-messenger.phtml:2
+msgid "#Service messengers"
+msgstr "Service messengers"
+
+#: application\modules\register\views\scripts/contact/add-messenger.phtml:3
+#, php-format
+msgid "#Create %s's service messenger"
+msgstr "Create %s's service messenger"
+
+#: application\modules\register\views\scripts/contact/add-phone-number.phtml:2
+#: application\modules\register\views\scripts/contact/change-phone-number.phtml:1
+msgid "#Phone number"
+msgstr "Phone number"
+
+#: application\modules\register\views\scripts/contact/add-phone-number.phtml:3
+#, php-format
+msgid "#Create %s's phone number"
+msgstr "Create %s's phone number"
+
+#: application\modules\register\views\scripts/contact/change-email.phtml:2
+msgid "#Email"
+msgstr "Email"
+
+#: application\modules\register\views\scripts/contact/change-email.phtml:3
+#, php-format
+msgid "#Change %s's email address"
+msgstr "Change %s's email address"
+
+#: application\modules\register\views\scripts/contact/change-messenger.phtml:2
+msgid "#Service messenger"
+msgstr "Service messenger"
+
+#: application\modules\register\views\scripts/contact/change-messenger.phtml:3
+#, php-format
+msgid "#Change %s's service messenger"
+msgstr "Change %s's service messenger"
+
+#: application\modules\register\views\scripts/contact/change-phone-number.phtml:2
+#, php-format
+msgid "#Change phone number of %s"
+msgstr "Change phone number of %s"
+
+#: application\modules\register\views\scripts/contact/create.phtml:2
+msgid "#Create contact"
+msgstr "Create contact"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:8
+msgid "#Contact:"
+msgstr "Contact:"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:15
+msgid "#Name:"
+msgstr "Name"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:25
+msgid "#Relationship"
+msgstr "Relationship with us"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:43
+msgid "#Phone Numbers"
+msgstr "Phone numbers"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:47
+msgid "#Area code"
+msgstr "Area Code"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:48
+msgid "#Local Number"
+msgstr "Local Number"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:49
+msgid "#Label"
+msgstr "Label"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:75
+#: application\modules\register\views\scripts/contact/detail.phtml:135
+#: application\modules\register\views\scripts/contact/detail.phtml:194
+#: application\modules\register\views\scripts/contact/detail.phtml:258
+#: application\modules\register\views\scripts/contact/index.phtml:40
+msgid "#Options..."
+msgstr "Options..."
+
+#: application\modules\register\views\scripts/contact/detail.phtml:79
+msgid "Editar"
+msgstr "Edit"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:93
+msgid "#Add phone number"
+msgstr "Add phone number"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:109
+msgid "#Emails"
+msgstr "Emails"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:113
+msgid "#Address"
+msgstr "Address"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:114
+msgid "#Type"
+msgstr "Type"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:139
+#: application\modules\register\views\scripts/contact/detail.phtml:198
+#: application\modules\register\views\scripts/contact/detail.phtml:262
+#: application\modules\register\views\scripts/contact/index.phtml:44
+msgid "#Edit"
+msgstr "Edit"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:153
+msgid "#Add email"
+msgstr "Add email"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:168
+msgid "#Messengers"
+msgstr "Messengers"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:172
+msgid "#Service"
+msgstr "Service"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:173
+msgid "#Service.Address"
+msgstr "Account"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:212
+msgid "#Add messenger"
+msgstr "Add Messenger"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:227
+msgid "Vínculos"
+msgstr "Linkages"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:231
+msgid "#Institution"
+msgstr "Institution"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:232
+msgid "#Departament"
+msgstr "Department"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:233
+msgid "#Position"
+msgstr "Position"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:275
+msgid "#Create new linkage"
+msgstr "Create new linkage"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:282
+msgid "#There is no data from this contact."
+msgstr "There is no data from this contact."
+
+#: application\modules\register\views\scripts/contact/edit.phtml:6
+msgid "#Edit contact"
+msgstr "Edit contact"
+
+#: application\modules\register\views\scripts/contact/edit.phtml:9
+msgid "#Create linkage"
+msgstr "Create linkage"
+
+#: application\modules\register\views\scripts/contact/error-edit.phtml:3
+msgid "#Generic error message"
+msgstr "An error occurred"
+
+#: application\modules\register\views\scripts/contact/index.phtml:6
+msgid "#Contacts"
+msgstr "Contacts"
+
+#: application\modules\register\views\scripts/contact/index.phtml:25
+msgid "#Name"
+msgstr "Name"
+
+#: application\modules\register\views\scripts/contact/index.phtml:62
+msgid "#No registered contacts"
+msgstr "No registered contacts"
+
+#: application\modules\register\views\scripts/contact/index.phtml:72
+msgid "#Contacts list was not found"
+msgstr "Contacts list was not found"
+
+#: application\modules\register\views\scripts/contact/index.phtml:77
+msgid "#Add new contact"
+msgstr "Add new contact"
+
+#: application\modules\register\views\scripts/contact/success-create.phtml:2
+msgid "#Success creating!"
+msgstr "Success creating!"
+
+#: application\modules\register\views\scripts/contact/success-update.phtml:2
+msgid "#Success updating!"
+msgstr "Success updating!"
+
+#~ msgid "Email"
+#~ msgstr "Email"
+
+#~ msgid "Acrescentar email para %s"
+#~ msgstr "Add email to %s"
+
+#~ msgid "Serviço de mensagens"
+#~ msgstr "Messenger Services "
+
+#~ msgid "Acrescentar conta para %s"
+#~ msgstr "Add service to %s"
+
+#, fuzzy
+#~ msgid "Criar vínculo"
+#~ msgstr "Create new linkage"
+
+#~ msgid "name"
+#~ msgstr "Nome"
+
+#~ msgid "Telefones"
+#~ msgstr "Phone numbers"
+
+#~ msgid "Código de área"
+#~ msgstr "Area code"
+
+#~ msgid "Número Local"
+#~ msgstr "Local number"
+
+#~ msgid "Rótulo"
+#~ msgstr "Type"
+
+#~ msgid "Opções..."
+#~ msgstr "Options..."
+
+#~ msgid "Adicionar telefone"
+#~ msgstr "Add phone number"
+
+#~ msgid "Endere&ccedil;o"
+#~ msgstr "Address"
+
+#~ msgid "Tipo"
+#~ msgstr "Type"
+
+#~ msgid "Serviços de Mensagens"
+#~ msgstr "Messenger Services "
+
+#~ msgid "Conta"
+#~ msgstr "Account"
+
+#~ msgid "Adicionar serviço"
+#~ msgstr "Add service"
+
+#~ msgid "Posição"
+#~ msgstr "Position"
+
+#~ msgid "Criar Novo Vínculo"
+#~ msgstr "Create new linkage"
+
+#~ msgid "Não há informações sobre este contato."
+#~ msgstr "There is no data about this contact."
+
+#~ msgid "My test"
+#~ msgstr "Contact:"
+
+#~ msgid "Nome"
+#~ msgstr "Name"
+
+#, fuzzy
+#~ msgid "Relação"
+#~ msgstr "Relationship with IETS"
+
+#, fuzzy
+#~ msgid "Nome:"
+#~ msgstr "Name"
+
+#, fuzzy
+#~ msgid "Descrição:"
+#~ msgstr "Position"
+
+#, fuzzy
+#~ msgid "Código de área:"
+#~ msgstr "Area code"
+
+#, fuzzy
+#~ msgid "Número local:"
+#~ msgstr "Local number"
+
+#, fuzzy
+#~ msgid "Relação com o Iets:"
+#~ msgstr "Relationship with IETS"
+
+#, fuzzy
+#~ msgid "Email:"
+#~ msgstr "Email"
+
+#, fuzzy
+#~ msgid "Relação com o IETS: "
+#~ msgstr "Relationship with IETS"
+
+#, fuzzy
+#~ msgid "Inscrição: "
+#~ msgstr "Institution"
+
+#, fuzzy
+#~ msgid "Número:"
+#~ msgstr "Local number"
+
+#, fuzzy
+#~ msgid "Instituição: "
+#~ msgstr "Institution"
+
+#, fuzzy
+#~ msgid "Departamento:"
+#~ msgstr "Department"
+
+#, fuzzy
+#~ msgid "Conta:"
+#~ msgstr "Account"
+
+#, fuzzy
+#~ msgid "Code area"
+#~ msgstr "DDD"
