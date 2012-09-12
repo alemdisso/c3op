@@ -3,23 +3,19 @@
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
 
-    /* conecta */
-
     public function _initDbAdapter() {
-        $config = new Zend_Config_Ini(APPLICATION_PATH . "/configs/application.ini", "testing");
+        //$config = new Zend_Config_Ini(APPLICATION_PATH . "/configs/application.ini", "development");
+        $config = new Zend_Config_Ini(APPLICATION_PATH . "/configs/application.ini", "production");
 
-       try {
+        try {
             $db = Zend_Db::factory($config->conecta);
             $db->getConnection($db);
 
         } catch (Zend_Db_Adapter_Exception $e) {
             echo $e->getMessage();
-            die('Could not connect to database.');
 
         } catch (Zend_Exception $e) {
             echo $e->getMessage();
-            die('Could not connect to database.');
-
         }
 
         Zend_Registry::set('db', $db);
@@ -30,19 +26,32 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         date_default_timezone_set('America/Sao_Paulo');
     }
 
-
     protected function _initLocale() {
         $session = new Zend_Session_Namespace('lang');
 
         if ($session->locale) {
             $locale = new Zend_Locale($session->locale);
-
         } else {
-            $locale = new Zend_Locale('pt_BR');
+            try {
+                $locale = new Zend_Locale('browser');
+            } catch (Zend_Locale_Exception $e) {
+                $locale = new Zend_Locale('pt_BR');
+            }
         }
-
         Zend_Registry::set('Zend_Locale', $locale);
+    }
 
+    protected function _initTranslate() {
+    $translate = new Zend_Translate('gettext',
+            APPLICATION_PATH . '/../languages/'
+                , null
+                ,array(
+                  'scan' => Zend_Translate::LOCALE_DIRECTORY
+                  ,'disableNotices' => 1
+                    )
+        );
+
+        Zend_Registry::set('Zend_Translate', $translate);
     }
 
     protected function _initUser()
@@ -52,7 +61,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         if ($auth->hasIdentity()) {
             $user = $auth->getIdentity();
             if ($user instanceof C3op_Auth_User) {
-                //
                 $userLastAccess = strtotime($user->GetLastLogin());
                 if ((time() - $userLastAccess) > 60*5) {
                     $date = new Zend_Date();
