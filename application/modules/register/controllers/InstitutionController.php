@@ -33,7 +33,7 @@ class Register_InstitutionController extends Zend_Controller_Action
 
             $institutionsList[$id] = array(
                 'name' => $thisInstitution->GetShortName(),
-                'editLink' => '/register/institution/edit/?id=' . $id   ,
+                //'editLink' => '/register/institution/edit/?id=' . $id   ,
                 'type' => C3op_Register_InstitutionTypes::TitleForType($thisInstitution->GetType()),
             );
         }

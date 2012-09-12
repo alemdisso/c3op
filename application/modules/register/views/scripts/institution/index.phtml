@@ -36,7 +36,7 @@ if (is_array($institutionsList)) {
 /*
  * iterate list and print title
  */
-        while (list(, $institutionData) = each($institutionsList)) {
+        foreach($institutionsList as $id => $institutionData) {
 ?>
                     <td>
                       <?php print($institutionData['name']) ?>
@@ -55,19 +55,18 @@ if (is_array($institutionsList)) {
                     </td>
 
 
-<?php if (isset($institutionData['editLink'])) { ?>
+
                     <td>
                       <a class="anchorclass button" rel="submenu1">Opções...</a>
                       <div id="submenu1" class="anylinkcss">
                         <ul>
                           <li>
-                            <a href="<?php print($institutionData['editLink']) ?>">Editar</a>
+                            <a href="/register/institution/edit/?id=<?php print($id) ?>">Editar</a>
                           </li>
                         </ul>
                       </div><!-- #submenu1 -->
                     </td>
             			</tr>
-<?php } ?>
 <?php
 }  // loop iterate list and print titlei
 ?>
