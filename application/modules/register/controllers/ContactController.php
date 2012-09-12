@@ -35,7 +35,6 @@ class Register_ContactController extends Zend_Controller_Action
             );
         }
 
-        $this->view->contactsList = $contactsList;
         $pageData = array(
             'contactsList' => $contactsList,
         );
