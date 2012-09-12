@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-12 17:33-0300\n"
-"PO-Revision-Date: 2012-09-12 17:33-0300\n"
+"POT-Creation-Date: 2012-09-12 19:11-0300\n"
+"PO-Revision-Date: 2012-09-12 19:12-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: English\n"
@@ -79,6 +79,7 @@ msgid "#Name:"
 msgstr "Name"
 
 #: application\modules\register\views\scripts/contact/detail.phtml:25
+#: application\modules\register\views\scripts/institution/index.phtml:30
 msgid "#Relationship"
 msgstr "Relationship with us"
 
@@ -103,6 +104,7 @@ msgstr "Label"
 #: application\modules\register\views\scripts/contact/detail.phtml:194
 #: application\modules\register\views\scripts/contact/detail.phtml:258
 #: application\modules\register\views\scripts/contact/index.phtml:40
+#: application\modules\register\views\scripts/institution/index.phtml:60
 msgid "#Options..."
 msgstr "Options..."
 
@@ -123,6 +125,7 @@ msgid "#Address"
 msgstr "Address"
 
 #: application\modules\register\views\scripts/contact/detail.phtml:114
+#: application\modules\register\views\scripts/institution/index.phtml:27
 msgid "#Type"
 msgstr "Type"
 
@@ -130,6 +133,7 @@ msgstr "Type"
 #: application\modules\register\views\scripts/contact/detail.phtml:198
 #: application\modules\register\views\scripts/contact/detail.phtml:262
 #: application\modules\register\views\scripts/contact/index.phtml:44
+#: application\modules\register\views\scripts/institution/index.phtml:64
 msgid "#Edit"
 msgstr "Edit"
 
@@ -195,6 +199,7 @@ msgid "#Contacts"
 msgstr "Contacts"
 
 #: application\modules\register\views\scripts/contact/index.phtml:25
+#: application\modules\register\views\scripts/institution/index.phtml:26
 msgid "#Name"
 msgstr "Name"
 
@@ -223,8 +228,32 @@ msgid "#Register"
 msgstr "Register"
 
 #: application\modules\register\views\scripts/index/index.phtml:5
+#: application\modules\register\views\scripts/institution/index.phtml:6
 msgid "#Institutions"
 msgstr "Institutions"
+
+#: application\modules\register\views\scripts/institution/index.phtml:28
+msgid "#City"
+msgstr "City"
+
+#: application\modules\register\views\scripts/institution/index.phtml:29
+msgid "#State"
+msgstr ""
+
+#: application\modules\register\views\scripts/institution/index.phtml:79
+#, fuzzy
+msgid "#No registered institutions"
+msgstr "No registered contacts"
+
+#: application\modules\register\views\scripts/institution/index.phtml:88
+#, fuzzy
+msgid "#Institutions list was not found"
+msgstr "Contacts list was not found"
+
+#: application\modules\register\views\scripts/institution/index.phtml:94
+#, fuzzy
+msgid "#Add new institution"
+msgstr "Institution"
 
 #~ msgid "Email"
 #~ msgstr "Email"

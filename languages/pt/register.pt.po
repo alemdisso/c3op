@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-12 17:32-0300\n"
-"PO-Revision-Date: 2012-09-12 17:33-0300\n"
+"POT-Creation-Date: 2012-09-12 19:15-0300\n"
+"PO-Revision-Date: 2012-09-12 19:24-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -103,6 +103,7 @@ msgstr "Tipo"
 #: application\modules\register\views\scripts/contact/detail.phtml:194
 #: application\modules\register\views\scripts/contact/detail.phtml:258
 #: application\modules\register\views\scripts/contact/index.phtml:40
+#: application\modules\register\views\scripts/institution/index.phtml:60
 msgid "#Options..."
 msgstr "Opções..."
 
@@ -123,6 +124,7 @@ msgid "#Address"
 msgstr "Endereço"
 
 #: application\modules\register\views\scripts/contact/detail.phtml:114
+#: application\modules\register\views\scripts/institution/index.phtml:27
 msgid "#Type"
 msgstr "Tipo"
 
@@ -130,6 +132,7 @@ msgstr "Tipo"
 #: application\modules\register\views\scripts/contact/detail.phtml:198
 #: application\modules\register\views\scripts/contact/detail.phtml:262
 #: application\modules\register\views\scripts/contact/index.phtml:44
+#: application\modules\register\views\scripts/institution/index.phtml:64
 msgid "#Edit"
 msgstr "Editar"
 
@@ -195,6 +198,7 @@ msgid "#Contacts"
 msgstr "Contatos"
 
 #: application\modules\register\views\scripts/contact/index.phtml:25
+#: application\modules\register\views\scripts/institution/index.phtml:26
 msgid "#Name"
 msgstr "Nome"
 
@@ -223,8 +227,33 @@ msgid "#Register"
 msgstr "Cadastro"
 
 #: application\modules\register\views\scripts/index/index.phtml:5
+#: application\modules\register\views\scripts/institution/index.phtml:6
 msgid "#Institutions"
 msgstr "Instituições"
+
+#: application\modules\register\views\scripts/institution/index.phtml:28
+msgid "#City"
+msgstr "Cidade"
+
+#: application\modules\register\views\scripts/institution/index.phtml:29
+msgid "#State"
+msgstr "UF"
+
+#: application\modules\register\views\scripts/institution/index.phtml:30
+msgid "#institution.index.Relationship"
+msgstr "Relação"
+
+#: application\modules\register\views\scripts/institution/index.phtml:79
+msgid "#No registered institutions."
+msgstr "Não há instituições cadastradas."
+
+#: application\modules\register\views\scripts/institution/index.phtml:88
+msgid "#Institutions list was not found."
+msgstr "Não existe lista de instituições cadastradas."
+
+#: application\modules\register\views\scripts/institution/index.phtml:94
+msgid "#Add new institution"
+msgstr "Criar Nova Instituição"
 
 #~ msgid "Número Local"
 #~ msgstr "Número"

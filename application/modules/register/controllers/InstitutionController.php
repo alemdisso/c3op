@@ -25,6 +25,14 @@ class Register_InstitutionController extends Zend_Controller_Action
     public function indexAction()
     {
 
+        //  institutiosList
+        //   * id =>
+        //      name
+        //      type
+        //      city
+        //      state
+        //      relationshipType
+
         $list = $this->institutionMapper->getAllIds();
         $institutionsList = array();
         reset ($list);
@@ -33,12 +41,13 @@ class Register_InstitutionController extends Zend_Controller_Action
 
             $institutionsList[$id] = array(
                 'name' => $thisInstitution->GetShortName(),
-                //'editLink' => '/register/institution/edit/?id=' . $id   ,
                 'type' => C3op_Register_InstitutionTypes::TitleForType($thisInstitution->GetType()),
+                'name' => $thisInstitution->GetShortName(),
+                'city' => $thisInstitution->GetCity(),
+                'state' => $thisInstitution->GetState(),
+                'relationshipType' => C3op_Register_RelationshipTypes::TitleForType($thisInstitution->GetRelationShipType()),
             );
         }
-
-        $this->view->institutionsList = $institutionsList;
 
         $this->view->createInstitutionLink = "/register/institution/create";
 
