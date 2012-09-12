@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-12 16:29-0300\n"
-"PO-Revision-Date: 2012-09-12 16:29-0300\n"
+"POT-Creation-Date: 2012-09-12 17:32-0300\n"
+"PO-Revision-Date: 2012-09-12 17:33-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -190,6 +190,7 @@ msgid "#Generic error message"
 msgstr "Ocorreu um erro."
 
 #: application\modules\register\views\scripts/contact/index.phtml:6
+#: application\modules\register\views\scripts/index/index.phtml:6
 msgid "#Contacts"
 msgstr "Contatos"
 
@@ -217,6 +218,14 @@ msgstr "Sucesso ao adicionar o registro"
 msgid "#Success updating!"
 msgstr "Sucesso ao atualizar registro"
 
+#: application\modules\register\views\scripts/index/index.phtml:2
+msgid "#Register"
+msgstr "Cadastro"
+
+#: application\modules\register\views\scripts/index/index.phtml:5
+msgid "#Institutions"
+msgstr "Instituições"
+
 #~ msgid "Número Local"
 #~ msgstr "Número"
 
@@ -228,9 +237,6 @@ msgstr "Sucesso ao atualizar registro"
 
 #~ msgid "name"
 #~ msgstr "Nome"
-
-#~ msgid "register.email"
-#~ msgstr "endereço eletrônico"
 
 #~ msgid "My test"
 #~ msgstr "Contato:"
