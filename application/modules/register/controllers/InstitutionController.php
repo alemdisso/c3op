@@ -11,17 +11,17 @@ class Register_InstitutionController extends Zend_Controller_Action
             $checker = new C3op_Access_PrivilegeChecker();
         } catch (Exception $e) {
             $this->_helper->getHelper('FlashMessenger')
-                ->addMessage('Acesso negado');          
-            $this->_redirect('/register' . $id);            
+                ->addMessage('Acesso negado');
+            $this->_redirect('/register' . $id);
         }
     }
-    
+
     public function init()
     {
         $this->db = Zend_Registry::get('db');
         $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
     }
-    
+
     public function indexAction()
     {
 
@@ -30,19 +30,24 @@ class Register_InstitutionController extends Zend_Controller_Action
         reset ($list);
         foreach ($list as $id) {
             $thisInstitution = $this->institutionMapper->findById($id);
-            
+
             $institutionsList[$id] = array(
                 'name' => $thisInstitution->GetShortName(),
                 'editLink' => '/register/institution/edit/?id=' . $id   ,
                 'type' => C3op_Register_InstitutionTypes::TitleForType($thisInstitution->GetType()),
             );
         }
-        
+
         $this->view->institutionsList = $institutionsList;
-        
+
         $this->view->createInstitutionLink = "/register/institution/create";
-        
- 
+
+        $pageData = array(
+            'institutionsList' => $institutionsList,
+        );
+        $this->view->pageData = $pageData;
+
+
     }
 
     public function createAction()
@@ -57,7 +62,7 @@ class Register_InstitutionController extends Zend_Controller_Action
                 if ($form->isValid($postData)) {
                     $form->process($postData);
                     $this->_helper->getHelper('FlashMessenger')
-                        ->addMessage('The record was successfully updated.');          
+                        ->addMessage('The record was successfully updated.');
                     $this->_redirect('/register/institution/success-create');
                 }
             } catch (Exception $e) {
@@ -77,10 +82,10 @@ class Register_InstitutionController extends Zend_Controller_Action
                 if ($form->isValid($postData)) {
                     $form->process($postData);
                     $this->_helper->getHelper('FlashMessenger')
-                        ->addMessage('The record was successfully updated.');          
+                        ->addMessage('The record was successfully updated.');
                     $this->_redirect('/register/institution/success-create');
 
-                } 
+                }
 //                else throw new C3op_Register_InstitutionException("Invalid data for institution.");
             } catch (Exception $e) {
                 throw $e;
@@ -126,11 +131,11 @@ class Register_InstitutionController extends Zend_Controller_Action
     public function successCreateAction()
     {
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
-            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();    
+            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
             $this->getResponse()->setHeader('Refresh', '3; URL=/register/institution');
         } else {
-            $this->_redirect('/register/institution');    
-        } 
+            $this->_redirect('/register/institution');
+        }
     }
 
     public function errorEditAction()
@@ -155,7 +160,7 @@ class Register_InstitutionController extends Zend_Controller_Action
         foreach ($linkagesIdsList as $linkageId) {
             $thisLinkage = $linkageMapper->findById($linkageId);
             $thisContact = $contactMapper->findById($thisLinkage->GetContact());
-            
+
             $linkagesList[$linkageId] = array(
                 'name' => $thisContact->GetName(),
                 'position' => $thisLinkage->GetPosition(),

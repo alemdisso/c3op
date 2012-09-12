@@ -1,21 +1,25 @@
+<?php
+$pageData = $this->pageData;
+$institutionsList = $pageData['institutionsList'];
+?>
 <div id="MainHeader">
   <h1>Instituições</h1>
 </div>
-<?php 
+<?php
 /*
  * If exists institutions list
  */
-if (is_array($this->institutionsList)) {
+if (is_array($institutionsList)) {
 ?>
 
-<?php 
+<?php
 /*
  * if there is institutions in list
  */
-    if (count($this->institutionsList)) {
+    if (count($institutionsList)) {
 ?>
             <div class="Area">
-            
+
               <table class="display dataTable">
             		<thead>
             			<tr>
@@ -28,11 +32,11 @@ if (is_array($this->institutionsList)) {
             			</tr>
             		</thead>
             		<tbody>
-<?php 
+<?php
 /*
  * iterate list and print title
  */
-        while (list(, $institutionData) = each($this->institutionsList)) {
+        while (list(, $institutionData) = each($institutionsList)) {
 ?>
                     <td>
                       <?php print($institutionData['name']) ?>
@@ -49,11 +53,11 @@ if (is_array($this->institutionsList)) {
                     <td>
                       [#RELAÇÃO]
                     </td>
-                    
+
 
 <?php if (isset($institutionData['editLink'])) { ?>
                     <td>
-                      <a class="anchorclass button" rel="submenu1">Opções...</a> 
+                      <a class="anchorclass button" rel="submenu1">Opções...</a>
                       <div id="submenu1" class="anylinkcss">
                         <ul>
                           <li>
@@ -61,7 +65,7 @@ if (is_array($this->institutionsList)) {
                           </li>
                         </ul>
                       </div><!-- #submenu1 -->
-                    </td> 
+                    </td>
             			</tr>
 <?php } ?>
 <?php
@@ -75,12 +79,12 @@ if (is_array($this->institutionsList)) {
           <div class="Area">
           <h2>Instituições</h2>
     <?php print("<p>Não há instituições cadastradas.</p>") ?>
-    
+
 <?php
     } // end else there is institutions in list
 ?>
 <?php
-} else { // else exists institutions list 
+} else { // else exists institutions list
 ?>
     <?php print("Não existe lista de instituições cadastradas.") ?>
 
@@ -90,4 +94,4 @@ if (is_array($this->institutionsList)) {
             <p>
               <a href="<?php print($this->createInstitutionLink) ?>" class="button three columns alpha omega">Criar Nova Instituição</a>
             </p>
-          </div><!-- Area -->  
+          </div><!-- Area -->
