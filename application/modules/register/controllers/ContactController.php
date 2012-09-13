@@ -301,6 +301,7 @@ class Register_ContactController extends Zend_Controller_Action
                     ->addMessage('The record was successfully updated.');
                 $this->_redirect('/register/contact/success-create/?id=' . $id);
             } else {
+                //form error: populate and go back
                 $form->populate($postData);
                 $this->view->form = $form;
             }

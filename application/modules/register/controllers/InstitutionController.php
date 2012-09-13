@@ -49,13 +49,10 @@ class Register_InstitutionController extends Zend_Controller_Action
             );
         }
 
-        $this->view->createInstitutionLink = "/register/institution/create";
-
         $pageData = array(
             'institutionsList' => $institutionsList,
         );
         $this->view->pageData = $pageData;
-
 
     }
 
@@ -67,17 +64,17 @@ class Register_InstitutionController extends Zend_Controller_Action
 
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
-            try {
-                if ($form->isValid($postData)) {
-                    $form->process($postData);
-                    $this->_helper->getHelper('FlashMessenger')
-                        ->addMessage('The record was successfully updated.');
-                    $this->_redirect('/register/institution/success-create');
-                }
-            } catch (Exception $e) {
+            if ($form->isValid($postData)) {
+                $form->process($postData);
+                $this->_helper->getHelper('FlashMessenger')
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                $this->_redirect('/register/institution/success-create');
+            } else {
+               //form error: populate and go back
+                $form->populate($postData);
                 $this->view->form = $form;
-                return $this->render('create');
             }
+
         }
     }
 
