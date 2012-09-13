@@ -11,7 +11,7 @@ class Register_ContactController extends Zend_Controller_Action
             $checker = new C3op_Access_PrivilegeChecker();
         } catch (Exception $e) {
             $this->_helper->getHelper('FlashMessenger')
-                ->addMessage('Acesso negado');
+                ->addMessage(_('#Access denied'));
             $this->_redirect('/register');
         }
     }
@@ -52,9 +52,13 @@ class Register_ContactController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');
+                    ->addMessage($this->view->translate('#The record was successfully created.'));
                 $this->_redirect('/register/contact/success-create/?id=' . $id);
-            } else throw new C3op_Register_ContactException("Invalid data");
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
         }
     }
 
@@ -67,9 +71,13 @@ class Register_ContactController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');
-                $this->_redirect('/register/contact/success-create/?id=' . $id);
-            } else throw new C3op_Register_ContactException("A contact must have a valid name.");
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                $this->_redirect('/register/contact/success-update/?id=' . $id);
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
         } else {
             // GET
             $id = $this->checkIdFromGet();
@@ -90,6 +98,19 @@ class Register_ContactController extends Zend_Controller_Action
     }
 
     public function successCreateAction()
+    {
+        $this->initContactMapper();
+        $contact =  $this->initContactWithCheckedId($this->contactMapper);
+
+        if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
+            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
+            $this->getResponse()->setHeader('Refresh', '3; URL=/register/contact/detail/?id=' . $contact->getId());
+        } else {
+            $this->_redirect('/register/contact');
+        }
+    }
+
+    public function successUpdateAction()
     {
         $this->initContactMapper();
         $contact =  $this->initContactWithCheckedId($this->contactMapper);
@@ -198,7 +219,7 @@ class Register_ContactController extends Zend_Controller_Action
             $postData = $this->getRequest()->getPost();
             $validator = new C3op_Util_ValidPositiveInteger;
             if (!$validator->isValid($postData['contact'])) {
-                throw new C3op_Register_PhoneNumberException("Invalid contact id");
+                throw new C3op_Register_PhoneNumberException(_("#Invalid contact id"));
             }
             $options['contact'] = $postData['contact'];
             $form = new C3op_Form_ContactPhoneNumberCreate($options);
@@ -207,9 +228,13 @@ class Register_ContactController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');
+                    ->addMessage(_('#The record was successfully updated.'));
                 $this->_redirect('/register/contact/success-create/?id=' . $id);
-            } else throw new C3op_Register_ContactException("Invalid data for phone number.");
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
         } else {
             $contactId = $this->checkContactFromGet();
             $contactHasPhone = $this->contactMapper->findById($contactId);
@@ -233,7 +258,7 @@ class Register_ContactController extends Zend_Controller_Action
             $postData = $this->getRequest()->getPost();
             $validator = new C3op_Util_ValidPositiveInteger;
             if (!$validator->isValid($postData['id'])) {
-                throw new C3op_Register_PhoneNumberException("Invalid phone number");
+                throw new C3op_Register_PhoneNumberException(_("#Invalid phone number"));
             }
             $options['id'] = $postData['id'];
             $form = new C3op_Form_ContactPhoneNumberEdit($options);
@@ -241,9 +266,13 @@ class Register_ContactController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');
+                    ->addMessage(_('#The record was successfully updated.'));
                 $this->_redirect('/register/contact/success-create/?id=' . $id);
-            } else throw new C3op_Register_ContactException("Invalid data for phone number.");
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
         } else {
             $data = $this->_request->getParams();
             $filters = array(
@@ -256,7 +285,7 @@ class Register_ContactController extends Zend_Controller_Action
             if ($input->isValid()) {
                 $phoneId = $input->phone;
             } else {
-                throw new C3op_Register_ContactException("Invalid Contact Id from Get");
+                throw new C3op_Register_ContactException(_("#Invalid Contact Id from Get"));
             }
 
             $contactHasPhone = $this->contactMapper->findByPhoneId($phoneId);
@@ -289,7 +318,7 @@ class Register_ContactController extends Zend_Controller_Action
             $postData = $this->getRequest()->getPost();
             $validator = new C3op_Util_ValidPositiveInteger;
             if (!$validator->isValid($postData['contact'])) {
-                throw new C3op_Register_EmailException("Invalid contact id");
+                throw new C3op_Register_EmailException(_("#Invalid contact id"));
             }
             $options['contact'] = $postData['contact'];
             $form = new C3op_Form_ContactEmailCreate($options);
@@ -298,7 +327,7 @@ class Register_ContactController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');
+                    ->addMessage(_('#The record was successfully updated.'));
                 $this->_redirect('/register/contact/success-create/?id=' . $id);
             } else {
                 //form error: populate and go back
@@ -334,9 +363,13 @@ class Register_ContactController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');
+                    ->addMessage(_('#The record was successfully updated.'));
                 $this->_redirect('/register/contact/success-create/?id=' . $id);
-            } else throw new C3op_Register_ContactException("Invalid data for email.");
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
         } else {
             $data = $this->_request->getParams();
 
@@ -350,7 +383,7 @@ class Register_ContactController extends Zend_Controller_Action
             if ($input->isValid()) {
                 $emailId = $input->email;
             } else {
-                throw new C3op_Register_ContactException("Invalid Email Id from Get");
+                throw new C3op_Register_ContactException(_("#Invalid Email Id from Get"));
             }
 
             $contactHasEmail = $this->contactMapper->findByEmailId($emailId);
@@ -381,7 +414,7 @@ class Register_ContactController extends Zend_Controller_Action
             $postData = $this->getRequest()->getPost();
             $validator = new C3op_Util_ValidPositiveInteger;
             if (!$validator->isValid($postData['contact'])) {
-                throw new C3op_Register_MessengerException("Invalid contact id");
+                throw new C3op_Register_MessengerException(_("#Invalid contact id"));
             }
             $options['contact'] = $postData['contact'];
             $form = new C3op_Form_ContactMessengerCreate($options);
@@ -390,7 +423,7 @@ class Register_ContactController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');
+                    ->addMessage(_('#The record was successfully updated.'));
                 $this->_redirect('/register/contact/success-create/?id=' . $id);
             } else {
                 $form->populate($postData);
@@ -425,9 +458,13 @@ class Register_ContactController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');
+                    ->addMessage(_('#The record was successfully updated.'));
                 $this->_redirect('/register/contact/success-create/?id=' . $id);
-            } else throw new C3op_Register_ContactException("Invalid data for messenger.");
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
         } else {
             $data = $this->_request->getParams();
 
@@ -441,7 +478,7 @@ class Register_ContactController extends Zend_Controller_Action
             if ($input->isValid()) {
                 $messengerId = $input->messenger;
             } else {
-                throw new C3op_Register_ContactException("Invalid Messenger Id from Get");
+            throw new C3op_Register_ContactException(_("#Invalid Contact Id from Get"));
             }
 
             $contactHasMessenger = $this->contactMapper->findByMessengerId($messengerId);
@@ -485,9 +522,9 @@ class Register_ContactController extends Zend_Controller_Action
         if ($input->isValid()) {
             $id = $input->id;
             return $id;
+        } else {
+            throw new C3op_Register_ContactException(_("#Invalid Contact Id from Get"));
         }
-        throw new C3op_Register_ContactException("Invalid Contact Id from Get");
-
     }
 
    private function checkContactFromGet()
@@ -503,9 +540,9 @@ class Register_ContactController extends Zend_Controller_Action
         if ($input->isValid()) {
             $contact = $input->contact;
             return $contact;
+        } else {
+            throw new C3op_Register_ContactException(_("#Invalid Contact Id from Get"));
         }
-        throw new C3op_Register_ContactException("Invalid Contact Id from Get");
-
     }
 
 
