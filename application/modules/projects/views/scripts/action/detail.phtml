@@ -14,17 +14,51 @@ function exibe(id) {
 if (is_array($this->actionInfo)) {
     $actionData = $this->actionInfo;
 ?>
-<p class="project_title">Projeto: <a href="<?php print($actionData['projectDetailLink']) ?>"><?php print($actionData['projectTitle']) ?></a>
-</p>
-<p class="project_title">
-Ação: <?php print($actionData['actionTitle']) ?>
+    <div id="MainHeader">
+      <h1>Projeto <a href="<?php print($actionData['projectDetailLink']) ?>"><?php print($actionData['projectTitle']) ?></a></h1>
+      <p>
+        Detalhamento da ação <?php print($actionData['actionTitle']) ?>
+      </p>
+    </div><!-- MainHeader -->
+
+    <div class="Area">
+
 <?php
 if (isset($actionData['parentTitle'])) {
 ?>
-    <span class="parent_info">(subordinada a <a class="parent_info" href="<?php print($actionData['parentLink']) ?>"><?php print($actionData['parentTitle']); ?></a>)</span>
+    <div class="three columns alpha Right">
+      Subordinada a: 
+    </div>
+    <div class="eleven columns omega">
+      <a class="parent_info" href="<?php print($actionData['parentLink']) ?>"><?php print($actionData['parentTitle']); ?></a>)
+    </div>
 <?php
 }
 ?>
+
+    <div class="three columns alpha Right">
+      Iniciada em:
+    </div>
+    <div class="one column">
+<?php if (isset($actionData['msgStart'])) print($actionData['msgStart']); ?>
+    </div>
+    <div class="two columns inset-by-eight omega">
+<?php
+    if (isset($actionData['linkAcknowledgement']) && $actionData['linkAcknowledgement'] != "") {
+?>
+      <!-- # Esta div é necessária? (id) -->
+      <div id='acknowledgeStart-<?php print($actionData['id']);?>'>
+        <a class="button two columns alpha omega" href="<?php print($actionData['linkAcknowledgement']); ?>"><?php print($actionData['msgAcknowledgement']); ?></a>
+      </div>
+<?php
+}
+?>
+    </div>
+
+
+
+
+
 
 
 <div id='acknowledgeReceipt-<?php print($actionData['id']);?>'>
@@ -63,15 +97,57 @@ if (isset($actionData['parentTitle'])) {
 </div>
 
 
-</p>
-<?php if (isset($actionData['msgStart'])) print($actionData['msgStart']); ?>
+
+
 <?php
-    if (isset($actionData['linkAcknowledgement']) && $actionData['linkAcknowledgement'] != "") {
+    $humanResourcesList = $actionData['humanResourcesList'];
+
+    if (count($humanResourcesList)) {
 ?>
-<div id='acknowledgeStart-<?php print($actionData['id']);?>'><a class="parent_info" href="<?php print($actionData['linkAcknowledgement']); ?>"><?php print($actionData['msgAcknowledgement']); ?></a></div>
+             <h2>Recursos humanos</h2>
+             <table id="RecursosHumanos" class="display dataTable">
+            		<thead>
+            			<tr>
+            				<th width="220">Nome</th>
+            				<th width="80">Atributo</th>
+            				<th width="100">Valor</th>
+            				<th width="100">&nbsp;</th>
+            			</tr>
+            		</thead>
+            		<tbody>
 <?php
-}
+        while (list(, $humanResourceInfo) = each($humanResourcesList)) {
 ?>
+                  <tr>
+                    <td>
+                      <?php print($humanResourceInfo['contactName']) ?>
+                    </td>
+                    <td>
+                      <?php print($humanResourceInfo['description']) ?>
+                    </td>
+                    <td>
+                      <?php print($humanResourceInfo['value']) ?>
+                    </td>
+                    <td>
+
+                    </td>
+                  </tr>
+
+<?php
+    }  // loop iterate list and print title
+ }
+?>
+             </table>
+
+
+
+
+
+
+</div><!-- .Area -->
+
+
+
 
 <br />
 <?php
@@ -143,6 +219,10 @@ if (isset($actionData['parentTitle'])) {
     }  // loop iterate list and print title
  }
 ?>
+
+
+<!-- FIM DA LISTA DE RECURSOS HUMANOS -->
+
 
 <br />
 

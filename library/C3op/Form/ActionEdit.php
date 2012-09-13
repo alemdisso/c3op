@@ -19,7 +19,14 @@ class C3op_Form_ActionEdit extends C3op_Form_ActionCreate
         $this->removeElement('submit');
 
         $status = new Zend_Form_Element_Select('status');
-        $status->setLabel('Status');
+        $status->setLabel('Status')
+                ->setDecorators(array(
+                    'ViewHelper',
+                    'Errors',
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns inset-by-eight omega')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                ))
+                ->setOptions(array('class' => 'Full alpha omega'));
         $statusTypes = C3op_Projects_ActionStatusTypes::AllStatus();
         while (list($key, $title) = each($statusTypes)) {
             $status->addMultiOption($key, $title);
@@ -28,10 +35,16 @@ class C3op_Form_ActionEdit extends C3op_Form_ActionCreate
 
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
-        $submit->setLabel('Salvar')
-            ->setOptions(array('class' => 'submit'));
-        $this->addElement($submit);
-
+        $submit ->setLabel('Gravar')
+                ->setDecorators(array('ViewHelper','Errors',
+                    array(array('data' => 'HtmlTag'),
+                    array('tag' => 'div','class' => 'two columns inset-by-nine omega')),
+                    array('Label',
+                      array('tag' => 'div','tagClass' => 'three columns alpha Invisible')
+                    ),
+                  ))
+                ->setOptions(array('class' => 'submit Full alpha omega'));
+        $this   ->addElement($submit);
 
     }
 

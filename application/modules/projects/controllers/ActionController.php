@@ -160,11 +160,12 @@ class Projects_ActionController extends Zend_Controller_Action
         $msgAcknowledgement = "";
         $linkAcknowledgement = "";
         if ($actionToBeDetailed->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION) {
-            $msgStart = "Iniciada em " . $actionToBeDetailed->GetRealBeginDate();
+//            $msgStart = "Iniciada em " . $actionToBeDetailed->GetRealBeginDate();
+            $msgStart = $actionToBeDetailed->GetRealBeginDate();
 
             $obj = new C3op_Projects_ActionStartMode($actionToBeDetailed, $this->actionMapper);
             if ($obj->isUnacknowledged()) {
-                $msgAcknowledgement = " (confirma?)";
+                $msgAcknowledgement = "Confirmar";
                 $linkAcknowledgement =  "javascript:passIdToAjax('/projects/action/acknowledge-start', '$id', acknowledgeStartResponse);";
             }
         }
@@ -497,9 +498,8 @@ class Projects_ActionController extends Zend_Controller_Action
                     $descriptionMessage = "$contactName: $descriptionMessage";
                 } else {
                     $descriptionMessage = "$contactName";
-
                 }
-
+               $theName = "$contactName";
             }
 
             $dismissalLink = $this->ManageDismissalLink($thisHumanResource);
