@@ -1,3 +1,11 @@
+<?php 
+
+$pageData = $this->pageData;
+$actionInfo = $pageData['actionInfo'];
+
+?>
+
+
 <script language="JavaScript">
 function exibe(id) {
 	if(document.getElementById(id).style.display=="none") {
@@ -11,8 +19,8 @@ function exibe(id) {
 
 </script>
 <?php
-if (is_array($this->actionInfo)) {
-    $actionData = $this->actionInfo;
+if (is_array($actionInfo)) {
+    $actionData = $actionInfo;
 ?>
     <div id="MainHeader">
       <h1>Projeto <a href="<?php print($actionData['projectDetailLink']) ?>"><?php print($actionData['projectTitle']) ?></a></h1>
@@ -109,7 +117,7 @@ if (isset($actionData['parentTitle'])) {
             		<thead>
             			<tr>
             				<th width="220">Nome</th>
-            				<th width="80">Atributo</th>
+            				<th width="80">Papel</th>
             				<th width="100">Valor</th>
             				<th width="100">&nbsp;</th>
             			</tr>
@@ -120,7 +128,7 @@ if (isset($actionData['parentTitle'])) {
 ?>
                   <tr>
                     <td>
-                      <?php print($humanResourceInfo['contactName']) ?>
+                      <a href="/projects/human-resource/edit/?id=<?php print($humanResourceInfo['id']) ?>"><?php print($humanResourceInfo['contactName']) ?></a>
                     </td>
                     <td>
                       <?php print($humanResourceInfo['description']) ?>
@@ -162,19 +170,15 @@ if (isset($actionData['parentTitle'])) {
 ?>
 
 <?php print($humanResourceInfo['description']) ?> (<?php print($humanResourceInfo['value']) ?>)
-<?php if (isset($humanResourceInfo['editLink'])) { ?>
-<a href="<?php print($humanResourceInfo['editLink']) ?>">Editar</a>
- | <a href="<?php print($humanResourceInfo['linkCreateOutlay']) ?>">Prever desembolso</a>
+<a href="/projects/human-resource/edit/?id=<?php print($humanResourceInfo['id']) ?>">Editar</a>
+ | <a href="/projects/outlay/create/?humanResource=<?php print($humanResourceInfo['id']) ?>">Prever desembolso</a>
 
-<?php   }
-
-?>
 
 <?php if (isset($humanResourceInfo['totalOutlays'])) {
             if ($humanResourceInfo['totalOutlays'] > 0) {
 
     ?>
-(Desembolsos existentes: <a href="<?php print($humanResourceInfo['linkOutlays']) ?>"><?php print(C3op_Util_CurrencyDisplay::FormatCurrency($humanResourceInfo['totalOutlays'])); ?></a>)
+(Desembolsos existentes: <a href="/projects/human-resource/outlays/?id=<?php print($humanResourceInfo['id']) ?>"><?php print(C3op_Util_CurrencyDisplay::FormatCurrency($humanResourceInfo['totalOutlays'])); ?></a>)
 
 <?php
 
