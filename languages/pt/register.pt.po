@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-12 19:15-0300\n"
-"PO-Revision-Date: 2012-09-12 19:24-0300\n"
+"POT-Creation-Date: 2012-09-13 18:54-0300\n"
+"PO-Revision-Date: 2012-09-13 18:55-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -14,6 +14,7 @@ msgstr ""
 "X-Poedit-Basepath: C:\\xampp\\htdocs\\c3op\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: application\\modules\\register\\views\\scripts\n"
+"X-Poedit-SearchPath-1: library\\C3op\\register\n"
 
 #: application\modules\register\views\scripts/contact/add-email.phtml:2
 msgid "#Email addresses"
@@ -132,6 +133,7 @@ msgstr "Tipo"
 #: application\modules\register\views\scripts/contact/detail.phtml:198
 #: application\modules\register\views\scripts/contact/detail.phtml:262
 #: application\modules\register\views\scripts/contact/index.phtml:44
+#: application\modules\register\views\scripts/institution/detail.phtml:23
 #: application\modules\register\views\scripts/institution/index.phtml:64
 msgid "#Edit"
 msgstr "Editar"
@@ -230,6 +232,18 @@ msgstr "Cadastro"
 #: application\modules\register\views\scripts/institution/index.phtml:6
 msgid "#Institutions"
 msgstr "Instituições"
+
+#: application\modules\register\views\scripts/institution/detail.phtml:10
+msgid "#Contacts in this institution"
+msgstr "Contatos nessa instituição"
+
+#: application\modules\register\views\scripts/institution/detail.phtml:29
+msgid "#Add new linkage"
+msgstr "Adicionar vínculo"
+
+#: application\modules\register\views\scripts/institution/detail.phtml:33
+msgid "#There is no data about this institution."
+msgstr "Não há informações sobre essa instituição."
 
 #: application\modules\register\views\scripts/institution/index.phtml:28
 msgid "#City"

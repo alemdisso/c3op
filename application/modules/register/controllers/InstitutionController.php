@@ -11,7 +11,7 @@ class Register_InstitutionController extends Zend_Controller_Action
             $checker = new C3op_Access_PrivilegeChecker();
         } catch (Exception $e) {
             $this->_helper->getHelper('FlashMessenger')
-                ->addMessage('Acesso negado');
+                ->addMessage(_('#Access denied'));
             $this->_redirect('/register' . $id);
         }
     }
@@ -24,7 +24,6 @@ class Register_InstitutionController extends Zend_Controller_Action
 
     public function indexAction()
     {
-
         //  institutiosList
         //   * id =>
         //      name
@@ -38,7 +37,6 @@ class Register_InstitutionController extends Zend_Controller_Action
         reset ($list);
         foreach ($list as $id) {
             $thisInstitution = $this->institutionMapper->findById($id);
-
             $institutionsList[$id] = array(
                 'name' => $thisInstitution->GetShortName(),
                 'type' => C3op_Register_InstitutionTypes::TitleForType($thisInstitution->GetType()),
@@ -53,7 +51,6 @@ class Register_InstitutionController extends Zend_Controller_Action
             'institutionsList' => $institutionsList,
         );
         $this->view->pageData = $pageData;
-
     }
 
     public function createAction()
@@ -68,13 +65,12 @@ class Register_InstitutionController extends Zend_Controller_Action
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/register/institution/success-create');
+                $this->_redirect('/register/institution/success');
             } else {
                //form error: populate and go back
                 $form->populate($postData);
                 $this->view->form = $form;
             }
-
         }
     }
 
@@ -84,19 +80,15 @@ class Register_InstitutionController extends Zend_Controller_Action
         $this->view->form = $form;
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
-            try {
-                if ($form->isValid($postData)) {
-                    $form->process($postData);
-                    $this->_helper->getHelper('FlashMessenger')
-                        ->addMessage('The record was successfully updated.');
-                    $this->_redirect('/register/institution/success-create');
-
-                }
-//                else throw new C3op_Register_InstitutionException("Invalid data for institution.");
-            } catch (Exception $e) {
-                throw $e;
+            if ($form->isValid($postData)) {
+                $form->process($postData);
+                $this->_helper->getHelper('FlashMessenger')
+                    ->addMessage('The record was successfully updated.');
+                $this->_redirect('/register/institution/success');
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
                 $this->view->form = $form;
-                return $this->render('edit');
             }
         } else {
             // GET
@@ -119,7 +111,6 @@ class Register_InstitutionController extends Zend_Controller_Action
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'website', $thisInstitution->getWebsite());
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'type', $thisInstitution->getType());
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'relationshipType', $thisInstitution->getRelationshipType());
-
         }
     }
 
@@ -134,7 +125,7 @@ class Register_InstitutionController extends Zend_Controller_Action
         }
     }
 
-    public function successCreateAction()
+    public function successAction()
     {
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
             $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
@@ -142,14 +133,6 @@ class Register_InstitutionController extends Zend_Controller_Action
         } else {
             $this->_redirect('/register/institution');
         }
-    }
-
-    public function errorEditAction()
-    {
-        $flashMessenger = $this->_helper->getHelper('FlashMessenger');
-        $flashMessenger->setNamespace('messages');
-        $this->view->messages = $flashMessenger->getMessages();
-        $flashMessenger->addMessage('Id Inválido');
     }
 
     public function detailAction()
@@ -168,20 +151,23 @@ class Register_InstitutionController extends Zend_Controller_Action
             $thisContact = $contactMapper->findById($thisLinkage->GetContact());
 
             $linkagesList[$linkageId] = array(
-                'name' => $thisContact->GetName(),
+                'contactId' => $thisContact->getId(),
+                'contactName' => $thisContact->GetName(),
                 'position' => $thisLinkage->GetPosition(),
                 'department' => $thisLinkage->GetDepartment(),
-                'editLink' => '/register/contact/edit/?id=' . $linkageId   ,
             );
         }
+
         $institutionInfo = array(
+            'id' => $id,
             'name' => $thisInstitution->GetName(),
-            'editLink' => '/register/institution/edit/?id=' . $id   ,
-            'linkLinkageCreate' => '/register/linkage/create/?institution=' . $id,
-            'contactsList' => $linkagesList,
+            'linkagesList' => $linkagesList,
         );
 
-        $this->view->institutionInfo = $institutionInfo;
+        $pageData = array(
+            'institutionInfo' => $institutionInfo,
+        );
+        $this->view->pageData = $pageData;
     }
 
     private function checkIdFromGet()
@@ -197,8 +183,9 @@ class Register_InstitutionController extends Zend_Controller_Action
         if ($input->isValid()) {
             $id = $input->id;
             return $id;
+        } else {
+            throw new C3op_Register_InstitutionException(_("#Invalid Institution Id from Get"));
         }
-        throw new C3op_Register_InstitutionException("Invalid Institution Id from Get");
 
     }
 
