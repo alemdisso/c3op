@@ -12,7 +12,7 @@ class Register_InstitutionController extends Zend_Controller_Action
         } catch (Exception $e) {
             $this->_helper->getHelper('FlashMessenger')
                 ->addMessage(_('#Access denied'));
-            $this->_redirect('/register' . $id);
+            $this->_redirect('/register');
         }
     }
 
@@ -64,7 +64,7 @@ class Register_InstitutionController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                    ->addMessage($this->view->translate('#The record was successfully created.'));
                 $this->_redirect('/register/institution/success');
             } else {
                //form error: populate and go back
@@ -83,7 +83,7 @@ class Register_InstitutionController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
                 $this->_redirect('/register/institution/success');
             } else {
                 //form error: populate and go back
@@ -131,7 +131,7 @@ class Register_InstitutionController extends Zend_Controller_Action
             $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
             $this->getResponse()->setHeader('Refresh', '3; URL=/register/institution');
         } else {
-            $this->_redirect('/register/institution');
+            $this->_redirect('/register');
         }
     }
 

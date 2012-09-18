@@ -11,8 +11,8 @@ class Register_LinkageController extends Zend_Controller_Action
             $checker = new C3op_Access_PrivilegeChecker();
         } catch (Exception $e) {
             $this->_helper->getHelper('FlashMessenger')
-                ->addMessage('Acesso negado');
-            $this->_redirect('/register' . $id);
+                ->addMessage(_('#Access denied'));
+            $this->_redirect('/register');
         }
     }
 
@@ -35,9 +35,13 @@ class Register_LinkageController extends Zend_Controller_Action
 
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');
-                $this->_redirect('/register/linkage/success-create/?contact=' . $postData['contact']);
-            } else throw new C3op_Register_LinkageException("An linkage must have valid data.");
+                    ->addMessage($this->view->translate('#The record was successfully created.'));
+                $this->_redirect('/register/linkage/success/?contact=' . $postData['contact']);
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
         } else {
             $data = $this->_request->getParams();
             $contactId = $data['contact'];
@@ -58,19 +62,15 @@ class Register_LinkageController extends Zend_Controller_Action
             $options['contact'] = $postData['contact'];
             $form = new C3op_Form_LinkageEdit($options);
             $this->view->form = $form;
-            try {
-                if ($form->isValid($postData)) {
-                    $form->process($postData);
-                    $this->_helper->getHelper('FlashMessenger')
-                        ->addMessage('The record was successfully updated.');
-                    $this->_redirect('/register/linkage/success-create/?contact=' . $postData['contact']);
-
-                }
-//                else throw new C3op_Register_LinkageException("Invalid data for linkage.");
-            } catch (Exception $e) {
-                throw $e;
+            if ($form->isValid($postData)) {
+                $form->process($postData);
+                $this->_helper->getHelper('FlashMessenger')
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                $this->_redirect('/register/linkage/success/?contact=' . $postData['contact']);
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
                 $this->view->form = $form;
-                return $this->render('edit');
             }
         } else {
             // GET
@@ -86,24 +86,11 @@ class Register_LinkageController extends Zend_Controller_Action
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $id);
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'department', $thisLinkage->getDepartment());
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'position', $thisLinkage->getPosition());
-
         }
     }
 
-    public function sucessAction()
+    public function successAction()
     {
-        if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
-            $this->view->messages = $this->_helper
-                ->getHelper('FlashMessenger')
-                ->getMessages();
-        } else {
-            $this->_redirect('/register/linkage');
-        }
-    }
-
-    public function successCreateAction()
-    {
-
         $mapper = new C3op_Register_ContactMapper();
         $contact =  $this->initContactWithCheckedId($mapper);
 
@@ -111,17 +98,7 @@ class Register_LinkageController extends Zend_Controller_Action
             $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
             $this->getResponse()->setHeader('Refresh', '3; URL=/register/contact/detail/?id=' . $contact->getId());
         } else {
-            $this->_redirect('/register');
-        }
-    }
-
-    public function successRemoveAction()
-    {
-        if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
-            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
-            $this->getResponse()->setHeader('Refresh', '3; URL=/register');
-        } else {
-            $this->_redirect('/register');
+            $this->_redirect('/register/contact/detail/?id=' . $contact->getId());
         }
     }
 
@@ -130,7 +107,6 @@ class Register_LinkageController extends Zend_Controller_Action
         $flashMessenger = $this->_helper->getHelper('FlashMessenger');
         $flashMessenger->setNamespace('messages');
         $this->view->messages = $flashMessenger->getMessages();
-        $flashMessenger->addMessage('Id Inválido');
     }
 
     public function detailAction()
@@ -162,8 +138,6 @@ class Register_LinkageController extends Zend_Controller_Action
             );
         }
 
-
-
         $linkageInfo = array(
             'id'              => $id,
             'institutionName' => $institutionLinkedToContact->GetName(),
@@ -189,8 +163,12 @@ class Register_LinkageController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage('The record was successfully updated.');
-                $this->_redirect('/register/linkage/success-create/?id=' . $id);
-            } else throw new C3op_Register_LinkageException("Invalid data for phone number.");
+                $this->_redirect('/register/linkage/success/?id=' . $id);
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
         } else {
             $linkageId = $this->checkLinkageFromGet();
             $linkageHasPhone = $this->linkageMapper->findById($linkageId);
@@ -230,9 +208,13 @@ class Register_LinkageController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
                 $this->_redirect('/register/linkage/success-create/?id=' . $id);
-            } else throw new C3op_Register_LinkageException("Invalid data for phone number.");
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
         } else {
             $data = $this->_request->getParams();
             $filters = array(
@@ -245,7 +227,7 @@ class Register_LinkageController extends Zend_Controller_Action
             if ($input->isValid()) {
                 $phoneId = $input->id;
             } else {
-                throw new C3op_Register_LinkageException("Invalid Linkage Id from Get");
+                throw new C3op_Register_LinkageException(_("#Invalid Linkage Id from Get"));
             }
 
             $linkageHasPhone = $this->linkageMapper->findByPhoneId($phoneId);
@@ -297,7 +279,7 @@ class Register_LinkageController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');
+                    ->addMessage(_('#The record was successfully updated.'));
                 $this->_redirect('/register/linkage/success-create/?id=' . $id);
             } else throw new C3op_Register_LinkageException("Invalid data for email.");
         } else {
@@ -339,8 +321,8 @@ class Register_LinkageController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');
-                $this->_redirect('/register/linkage/success-create/?id=' . $id);
+                    ->addMessage(_('#The record was successfully updated.'));
+                $this->_redirect('/register/linkage/success/?id=' . $id);
             } else throw new C3op_Register_LinkageException("Invalid data for email.");
         } else {
             $data = $this->_request->getParams();
@@ -354,7 +336,7 @@ class Register_LinkageController extends Zend_Controller_Action
             if ($input->isValid()) {
                 $emailId = $input->id;
             } else {
-                throw new C3op_Register_LinkageException("Invalid Linkage Id from Get");
+                throw new C3op_Register_LinkageException(_("#Invalid Linkage Id from Get"));
             }
 
             $linkageHasEmail = $this->linkageMapper->findByEmailId($emailId);
@@ -401,9 +383,13 @@ class Register_LinkageController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully removed.');
-                $this->_redirect('/register/linkage/success-remove');
-            } else throw new C3op_Register_LinkageException("An linkage must have valid data.");
+                    ->addMessage(_('#The record was successfully removed.'));
+                $this->_redirect('/register/linkage/success');
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
         } else {
             $data = $this->_request->getParams();
             $form = new C3op_Form_LinkageRemove();
@@ -423,7 +409,7 @@ class Register_LinkageController extends Zend_Controller_Action
                 $this->contactMapper = new C3op_Register_ContactMapper($this->db);
             }
             $thisContact = $this->contactMapper->findById($contactId);
-            $this->view->removalMessage = sprintf("Confirma a remoção do vínculo entre %s e %s?", $thisContact->GetName(), $thisInstitution->GetName());
+            $this->view->removalMessage = sprintf(_("Confirma a remoção do vínculo entre %s e %s?"), $thisContact->GetName(), $thisInstitution->GetName());
             $this->view->form = $form;
         }
     }
@@ -496,7 +482,7 @@ class Register_LinkageController extends Zend_Controller_Action
             $id = $input->id;
             return $id;
         }
-        throw new C3op_Register_LinkageException("Invalid Linkage Id from Get");
+        throw new C3op_Register_LinkageException(_("#Invalid Linkage Id from Get"));
 
     }
 
@@ -514,10 +500,8 @@ class Register_LinkageController extends Zend_Controller_Action
             $linkage = $input->linkage;
             return $linkage;
         }
-        throw new C3op_Register_LinkageException("Invalid Linkage Id from Get");
-
+        throw new C3op_Register_LinkageException(_("#Invalid Linkage Id from Get"));
     }
-
 
     private function initLinkageWithCheckedId(C3op_Register_LinkageMapper $mapper)
     {
@@ -543,10 +527,7 @@ class Register_LinkageController extends Zend_Controller_Action
             $contact = $input->contact;
             return $contact;
         }
-        throw new C3op_Register_LinkageException("Invalid Contact Id from Get");
-
+        throw new C3op_Register_LinkageException(_("#Invalid Contact Id from Get"));
     }
-
-
 
 }
