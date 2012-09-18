@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-13 18:54-0300\n"
-"PO-Revision-Date: 2012-09-13 18:55-0300\n"
+"POT-Creation-Date: 2012-09-18 12:32-0300\n"
+"PO-Revision-Date: 2012-09-18 12:32-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -191,6 +191,7 @@ msgid "#Create linkage"
 msgstr "Criar novo vínculo"
 
 #: application\modules\register\views\scripts/contact/error-edit.phtml:3
+#: application\modules\register\views\scripts/institution/error-edit.phtml:3
 msgid "#Generic error message"
 msgstr "Ocorreu um erro."
 
@@ -233,6 +234,10 @@ msgstr "Cadastro"
 msgid "#Institutions"
 msgstr "Instituições"
 
+#: application\modules\register\views\scripts/institution/create.phtml:2
+msgid "#Create institution"
+msgstr "Adicionar instituição"
+
 #: application\modules\register\views\scripts/institution/detail.phtml:10
 msgid "#Contacts in this institution"
 msgstr "Contatos nessa instituição"
@@ -244,6 +249,10 @@ msgstr "Adicionar vínculo"
 #: application\modules\register\views\scripts/institution/detail.phtml:33
 msgid "#There is no data about this institution."
 msgstr "Não há informações sobre essa instituição."
+
+#: application\modules\register\views\scripts/institution/edit.phtml:2
+msgid "#Edit institution"
+msgstr "Editar instituição"
 
 #: application\modules\register\views\scripts/institution/index.phtml:28
 msgid "#City"
@@ -268,6 +277,10 @@ msgstr "Não existe lista de instituições cadastradas."
 #: application\modules\register\views\scripts/institution/index.phtml:94
 msgid "#Add new institution"
 msgstr "Criar Nova Instituição"
+
+#: application\modules\register\views\scripts/institution/success.phtml:2
+msgid "#Success!"
+msgstr "Sucesso!"
 
 #~ msgid "Número Local"
 #~ msgstr "Número"

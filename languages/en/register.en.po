@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-13 18:55-0300\n"
-"PO-Revision-Date: 2012-09-13 18:56-0300\n"
+"POT-Creation-Date: 2012-09-18 12:36-0300\n"
+"PO-Revision-Date: 2012-09-18 12:36-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: English\n"
@@ -190,6 +190,7 @@ msgid "#Create linkage"
 msgstr "Create linkage"
 
 #: application\modules\register\views\scripts/contact/error-edit.phtml:3
+#: application\modules\register\views\scripts/institution/error-edit.phtml:3
 msgid "#Generic error message"
 msgstr "An error occurred"
 
@@ -232,6 +233,11 @@ msgstr "Register"
 msgid "#Institutions"
 msgstr "Institutions"
 
+#: application\modules\register\views\scripts/institution/create.phtml:2
+#, fuzzy
+msgid "#Create institution"
+msgstr "No registered institutions."
+
 #: application\modules\register\views\scripts/institution/detail.phtml:10
 msgid "#Contacts in this institution"
 msgstr "Contacts in this institution"
@@ -243,6 +249,11 @@ msgstr "Add new linkage"
 #: application\modules\register\views\scripts/institution/detail.phtml:33
 msgid "#There is no data about this institution."
 msgstr "There is no data about this institution."
+
+#: application\modules\register\views\scripts/institution/edit.phtml:2
+#, fuzzy
+msgid "#Edit institution"
+msgstr "Institution"
 
 #: application\modules\register\views\scripts/institution/index.phtml:28
 msgid "#City"
@@ -267,6 +278,11 @@ msgstr "Institutions list was not found."
 #: application\modules\register\views\scripts/institution/index.phtml:94
 msgid "#Add new institution"
 msgstr "Add new institution"
+
+#: application\modules\register\views\scripts/institution/success.phtml:2
+#, fuzzy
+msgid "#Success!"
+msgstr "Success creating!"
 
 #~ msgid "Email"
 #~ msgstr "Email"

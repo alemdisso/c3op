@@ -19,7 +19,7 @@ class C3op_Form_EmailCreate extends Zend_Form
 
         $label = new Zend_Form_Element_Text('label');
         $labelValidator = new C3op_Util_ValidString();
-        $label->setLabel('Descrição:')
+        $label->setLabel(_('#Label:'))
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -29,7 +29,7 @@ class C3op_Form_EmailCreate extends Zend_Form
             ->setOptions(array('class' => 'eleven columns alpha omega'))
             ->setRequired(true)
             ->addValidator($labelValidator)
-            ->setErrorMessages(array('Esse label está esquisito...'))
+            ->setErrorMessages(array('#Not a valid label'))
             ->addFilter('StringTrim')
                 ;
         // attach elements to form
@@ -37,7 +37,7 @@ class C3op_Form_EmailCreate extends Zend_Form
 
         $address = new Zend_Form_Element_Text('address');
         $emailValidator = new C3op_Util_ValidEmail();
-        $address->setLabel('Email:')
+        $address->setLabel(_('#Email:'))
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -54,7 +54,7 @@ class C3op_Form_EmailCreate extends Zend_Form
 
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
-        $submit->setLabel('Gravar')
+        $submit->setLabel(_('#Submit'))
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',

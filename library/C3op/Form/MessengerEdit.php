@@ -16,7 +16,7 @@ class C3op_Form_MessengerEdit extends C3op_Form_MessengerCreate
                 ->addFilter('StringTrim');
             $this->addElement($id);
         } else {
-            throw  new C3op_Form_MessengerCreateException('Not defined which messenger to edit.');
+            throw  new C3op_Form_MessengerCreateException(_('#Not defined which messenger to edit.'));
         }
     }
 
@@ -42,7 +42,7 @@ class C3op_Form_MessengerEdit extends C3op_Form_MessengerCreate
                     $contactMapper->update($contact);
                     return $contact->GetId();
                 } else {
-                    throw new C3op_Form_ContactEditException('Can\'t find this messenger id at this contact messenger list');
+                    throw new C3op_Form_ContactEditException(_('#Can\'t find this messenger id at this contact messenger list'));
                 }
             }
         }

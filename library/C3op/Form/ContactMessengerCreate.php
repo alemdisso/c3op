@@ -12,16 +12,14 @@ class C3op_Form_ContactMessengerCreate extends C3op_Form_MessengerCreate
             $this->addElement($contact);
             $this->setAction('/register/contact/add-messenger');
         } else {
-            throw  new C3op_Form_MessengerCreateException('Not defined what is this messenger related to.');
+            throw  new C3op_Form_MessengerCreateException(_('#Not defined what is this messenger related to.'));
         }
-
-
     }
 
     public function process($data) {
         if ($this->isValid($data) !== true)
         {
-            throw new C3op_Form_ContactCreateException('Invalid data!');
+            throw new C3op_Form_ContactCreateException(_('#Invalid data!'));
         }
         else
         {
