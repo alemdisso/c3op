@@ -9,9 +9,10 @@ class C3op_Form_InstitutionCreate extends Zend_Form
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
-        $name = new Zend_Form_Element_Text('name');
+        $element = new Zend_Form_Element_Text('name');
         $validator = new C3op_Register_InstitutionValidName;
-        $name->setLabel('Nome:')
+        $element->setLabel(_('#Name:'))
+              ->addErrorMessage(_("#Name is required"))
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -21,14 +22,14 @@ class C3op_Form_InstitutionCreate extends Zend_Form
             ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(true)
             ->addValidator($validator)
-//            ->addFilter('HtmlEntities')
-            ->addFilter('StringTrim')
-                ;
-        $this->addElement($name);
-        
-        $shortName = new Zend_Form_Element_Text('shortName');
+            ->addFilter('StringTrim');
+
+        $this->addElement($element);
+
+        $element = new Zend_Form_Element_Text('shortName');
         $validator = new C3op_Register_InstitutionValidName;
-        $shortName->setLabel('Nome curto:')
+        $element->setLabel(_('#Short name:'))
+              ->addErrorMessage(_("#Shortname is required"))
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -38,48 +39,46 @@ class C3op_Form_InstitutionCreate extends Zend_Form
             ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(true)
             ->addValidator($validator)
-//            ->addFilter('HtmlEntities')
-            ->addFilter('StringTrim')
-                ;
-        $this->addElement($shortName);
+            ->addFilter('StringTrim');
 
-        $type = new Zend_Form_Element_Select('type');
-        $type->setLabel('Tipo');
+        $this->addElement($element);
+
+        $element = new Zend_Form_Element_Select('type');
+        $element->setLabel(_('#Type:'));
         $titleTypes = C3op_Register_InstitutionTypes::AllTitles();
-        $type->addMultiOption(null, "(escolha um tipo)")
+        $element->addMultiOption(null, _("#(choose a type)"))
             ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
                   array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'four columns')),
                   array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
               ))
-            ->setOptions(array('class' => 'Full alpha omega'))
-        ;
-        while (list($key, $title) = each($titleTypes)) {
-            $type->addMultiOption($key, $title);
-        }        
-        $this->addElement($type);
+            ->setOptions(array('class' => 'Full alpha omega'));
 
-        $relationshipType = new Zend_Form_Element_Select('relationshipType');
-        $relationshipType->setLabel('Relação com o IETS: ');
-//                ->setRequired(true);
+        while (list($key, $title) = each($titleTypes)) {
+            $element->addMultiOption($key, $title);
+        }
+        $this->addElement($element);
+
+        $element = new Zend_Form_Element_Select('relationshipType');
+        $element->setLabel(_('#Relationship with us: '));
         $titleTypes = C3op_Register_RelationshipTypes::AllTitles();
-        $relationshipType->addMultiOption(null, "(escolha um tipo)")
+        $element->addMultiOption(null, _("#(choose a type)"))
             ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
                   array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'four columns omega')),
                   array('Label', array('tag' => 'div', 'tagClass' => 'three columns Right')),
               ))
-            ->setOptions(array('class' => 'Full alpha omega'))
-        ;
-        while (list($key, $title) = each($titleTypes)) {
-            $relationshipType->addMultiOption($key, $title);
-        }                
-        $this->addElement($relationshipType);
+            ->setOptions(array('class' => 'Full alpha omega'));
 
-        $legalEntity = new Zend_Form_Element_Checkbox('legalEntity');
-        $legalEntity->setLabel('Pessoa Jurídica: ')
+        while (list($key, $title) = each($titleTypes)) {
+            $element->addMultiOption($key, $title);
+        }
+        $this->addElement($element);
+
+        $element = new Zend_Form_Element_Checkbox('legalEntity');
+        $element->setLabel(_('#Legal entity:'))
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
@@ -89,13 +88,10 @@ class C3op_Form_InstitutionCreate extends Zend_Form
                 ->setOptions(array('checked' => '1', 'unChecked' => '0'))
                 ->setValue('0')
                 ;
-        $this->addElement($legalEntity);
-        
-        
-        // $this->addElementText('registerNumber', 'CNPJ / CPF:', new C3op_Util_ValidString, 50);
-        
-        $elementText = new Zend_Form_Element_Text('registerNumber');
-        $elementText->setLabel('CNPJ / CPF:')
+        $this->addElement($element);
+
+        $element = new Zend_Form_Element_Text('registerNumber');
+        $element->setLabel('#Register Number:')
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
@@ -106,26 +102,26 @@ class C3op_Form_InstitutionCreate extends Zend_Form
             ->addValidator(new C3op_Util_ValidString)
             ->addFilter('StringTrim')
                 ;
-        $this->addElement($elementText);
-        
-        $stateRegistration = new Zend_Form_Element_Radio('stateRegistration');
-        $stateRegistration->setLabel('Inscrição: ')
+        $this->addElement($element);
+
+        $element = new Zend_Form_Element_Radio('stateRegistration');
+        $element->setLabel('#State Registration: ')
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
                     array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns')),
                     array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
                 ))
-                ->setMultiOptions(array('1' => 'estadual', '0' => 'municipal'))
+                ->setMultiOptions(array('1' => _('#institution.registration.state'), '0' => _('#municipal')))
                 ->setSeparator('&nbsp;')
                 ->setValue('1')
                 ;
-        $this->addElement($stateRegistration);
+        $this->addElement($element);
 
         // $this->addElementText('localRegisterNumber', 'Estadual / Municipal', new C3op_Util_ValidString, 50);
-        
-        $elementText = new Zend_Form_Element_Text('localRegisterNumber');
-        $elementText->setLabel('número:')
+
+        $element = new Zend_Form_Element_Text('localRegisterNumber');
+        $element->setLabel(_('#Local register number:'))
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
@@ -136,13 +132,11 @@ class C3op_Form_InstitutionCreate extends Zend_Form
             ->addValidator(new C3op_Util_ValidString)
             ->addFilter('StringTrim')
                 ;
-        $this->addElement($elementText);
-        
-        // $this->addElementText('street', 'Logradouro:', new C3op_Util_ValidString, 80);
+        $this->addElement($element);
 
-        $name = new Zend_Form_Element_Text('street');
+        $element = new Zend_Form_Element_Text('street');
         $validator = new C3op_Register_InstitutionValidName;
-        $name->setLabel('Logradouro:')
+        $element->setLabel('#Street:')
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -152,16 +146,13 @@ class C3op_Form_InstitutionCreate extends Zend_Form
             ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(false)
             ->addValidator($validator)
-//            ->addFilter('HtmlEntities')
             ->addFilter('StringTrim')
                 ;
-        $this->addElement($name);
-        
-        // $this->addElementText('streetNumber', 'Número:', new C3op_Util_ValidString, 10);
+        $this->addElement($element);
 
-        $shortName = new Zend_Form_Element_Text('streetNumber');
+        $element = new Zend_Form_Element_Text('streetNumber');
         $validator = new C3op_Register_InstitutionValidName;
-        $shortName->setLabel('Número:')
+        $element->setLabel(_('#Street number'))
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -171,16 +162,13 @@ class C3op_Form_InstitutionCreate extends Zend_Form
             ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(false)
             ->addValidator($validator)
-//            ->addFilter('HtmlEntities')
             ->addFilter('StringTrim')
                 ;
-        $this->addElement($shortName);
+        $this->addElement($element);
 
-        // $this->addElementText('addressComplement', 'Complemento:', new C3op_Util_ValidString, 80);
-
-        $shortName = new Zend_Form_Element_Text('addressComplement');
+        $element = new Zend_Form_Element_Text('addressComplement');
         $validator = new C3op_Register_InstitutionValidName;
-        $shortName->setLabel('Complemento:')
+        $element->setLabel(_('#Address Complement:'))
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -190,16 +178,13 @@ class C3op_Form_InstitutionCreate extends Zend_Form
             ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(false)
             ->addValidator($validator)
-//            ->addFilter('HtmlEntities')
             ->addFilter('StringTrim')
                 ;
-        $this->addElement($shortName);
+        $this->addElement($element);
 
-        // $this->addElementText('district', 'Bairro:', new C3op_Util_ValidString, 30);
-
-        $name = new Zend_Form_Element_Text('district');
+        $element = new Zend_Form_Element_Text('district');
         $validator = new C3op_Register_InstitutionValidName;
-        $name->setLabel('Bairro:')
+        $element->setLabel(_('#District'))
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -209,16 +194,13 @@ class C3op_Form_InstitutionCreate extends Zend_Form
             ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(false)
             ->addValidator($validator)
-//            ->addFilter('HtmlEntities')
             ->addFilter('StringTrim')
                 ;
-        $this->addElement($name);
-        
-        // $this->addElementText('zipCode', 'CEP:', new C3op_Register_ValidZipCode(), 30);
+        $this->addElement($element);
 
-        $shortName = new Zend_Form_Element_Text('zipCode');
+        $element = new Zend_Form_Element_Text('zipCode');
         $validator = new C3op_Register_InstitutionValidName;
-        $shortName->setLabel('CEP:')
+        $element->setLabel('#ZIP Code:')
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -228,16 +210,13 @@ class C3op_Form_InstitutionCreate extends Zend_Form
             ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(false)
             ->addValidator($validator)
-//            ->addFilter('HtmlEntities')
             ->addFilter('StringTrim')
                 ;
-        $this->addElement($shortName);
+        $this->addElement($element);
 
-        // $this->addElementText('city', 'Cidade:', new C3op_Util_ValidString, 50);
-
-        $name = new Zend_Form_Element_Text('city');
+        $element = new Zend_Form_Element_Text('city');
         $validator = new C3op_Register_InstitutionValidName;
-        $name->setLabel('Cidade:')
+        $element->setLabel(_('#City:'))
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -250,13 +229,12 @@ class C3op_Form_InstitutionCreate extends Zend_Form
 //            ->addFilter('HtmlEntities')
             ->addFilter('StringTrim')
                 ;
-        $this->addElement($name);
-        
-        // $this->addElementText('state', 'UF:', new C3op_Register_ValidState(), 30);
+        $this->addElement($element);
 
-        $shortName = new Zend_Form_Element_Text('state');
+
+        $element = new Zend_Form_Element_Text('state');
         $validator = new C3op_Register_InstitutionValidName;
-        $shortName->setLabel('UF:')
+        $element->setLabel(_('#State:'))
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -266,16 +244,13 @@ class C3op_Form_InstitutionCreate extends Zend_Form
             ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(false)
             ->addValidator($validator)
-//            ->addFilter('HtmlEntities')
             ->addFilter('StringTrim')
                 ;
-        $this->addElement($shortName);
+        $this->addElement($element);
 
-        // $this->addElementText('website', 'Website:', new C3op_Util_ValidString, 30);
-        
-        $name = new Zend_Form_Element_Text('website');
+        $element = new Zend_Form_Element_Text('website');
         $validator = new C3op_Register_InstitutionValidName;
-        $name->setLabel('Website:')
+        $element->setLabel(_('#Website:'))
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -285,14 +260,13 @@ class C3op_Form_InstitutionCreate extends Zend_Form
             ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(false)
             ->addValidator($validator)
-//            ->addFilter('HtmlEntities')
             ->addFilter('StringTrim')
                 ;
-        $this->addElement($name);
-        
+        $this->addElement($element);
+
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
-        $submit ->setLabel('Gravar')
+        $submit ->setLabel(_('#Submit'))
                 ->setDecorators(array('ViewHelper','Errors',
                     array(array('data' => 'HtmlTag'),
                     array('tag' => 'div','class' => 'two columns inset-by-nine omega')),
@@ -304,21 +278,21 @@ class C3op_Form_InstitutionCreate extends Zend_Form
         $this   ->addElement($submit);
 
     }
-    
+
     public function process($data) {
-        
-        
-        if ($this->isValid($data) !== true) 
+
+
+        if ($this->isValid($data) !== true)
         {
             print_r($this->getErrorMessages());
             die();
-            throw new C3op_Form_InstitutionCreateException('Invalid data!');
-        } 
+            throw new C3op_Form_InstitutionCreateException(_('#Invalid data!'));
+        }
         else
         {
             $db = Zend_Registry::get('db');
             $institutionMapper = new C3op_Register_InstitutionMapper($db);
-            
+
             $institution = new C3op_Register_Institution();
             $institution->SetName($this->name->GetValue());
             $institution->SetShortName($this->shortName->GetValue());
@@ -335,14 +309,14 @@ class C3op_Form_InstitutionCreate extends Zend_Form
             $institution->SetState($this->state->GetValue());
             $institution->SetWebsite($this->website->GetValue());
             $institution->SetType($this->type->GetValue());
-                
+
             $institution->SetRelationshipType($this->relationshipType->GetValue());
-            
-            
+
+
             $institutionMapper->insert($institution);
         }
     }
-    
+
     private function addElementText($fieldName, $label, $validator, $fieldSize)
     {
         $elementText = new Zend_Form_Element_Text($fieldName);
@@ -352,7 +326,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
             ->addFilter('StringTrim')
                 ;
         $this->addElement($elementText);
-        
+
     }
-    
+
  }

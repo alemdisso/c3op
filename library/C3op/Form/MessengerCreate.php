@@ -19,7 +19,7 @@ class C3op_Form_MessengerCreate extends Zend_Form
 
         $service = new Zend_Form_Element_Text('service');
         $serviceValidator = new C3op_Util_ValidString();
-        $service->setLabel('Serviço:')
+        $service->setLabel(_('#Service:'))
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -29,7 +29,7 @@ class C3op_Form_MessengerCreate extends Zend_Form
             ->setOptions(array('class' => 'eleven columns alpha omega'))
             ->setRequired(true)
             ->addValidator($serviceValidator)
-            ->setErrorMessages(array('Invalid service'))
+            ->setErrorMessages(array(_('#Invalid service')))
             ->addFilter('StringTrim')
                 ;
         // attach elements to form
@@ -37,7 +37,7 @@ class C3op_Form_MessengerCreate extends Zend_Form
 
         $address = new Zend_Form_Element_Text('address');
         $messengerValidator = new C3op_Util_ValidString();
-        $address->setLabel('Conta:')
+        $address->setLabel(_('#messenger.Address:'))
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -47,7 +47,7 @@ class C3op_Form_MessengerCreate extends Zend_Form
             ->setOptions(array('class' => 'eleven columns alpha omega'))
             ->setRequired(false)
             ->addValidator($messengerValidator)
-            ->setErrorMessages(array('Invalid address'))
+            ->setErrorMessages(array(_('#Invalid address')))
             ->addFilter('StringTrim')
                 ;
         // attach elements to form
@@ -55,7 +55,7 @@ class C3op_Form_MessengerCreate extends Zend_Form
 
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
-        $submit->setLabel('Gravar')
+        $submit->setLabel(_('#Submit'))
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -70,7 +70,7 @@ class C3op_Form_MessengerCreate extends Zend_Form
     public function process($data) {
         if ($this->isValid($data) !== true)
         {
-            throw new C3op_Form_ContactCreateException('Invalid data!');
+            throw new C3op_Form_ContactCreateException(_('#Invalid data!'));
         }
         else
         {

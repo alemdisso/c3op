@@ -1,3 +1,5 @@
-<h2><?php echo $this->translate("Email") ?></h2>
-<?php echo sprintf($this->translate("Acrescentar email para %s"), $this->contactInfo['name']); ?>
+<div id="MainHeader">
+<h1><?php echo $this->translate("#Email addresses") ?></h1>
+<?php echo sprintf($this->translate("#Create %s's email address"), $this->pageData['contactName']); ?>
+</div>
 <?php echo $this->form; ?>

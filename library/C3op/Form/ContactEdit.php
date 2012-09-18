@@ -12,16 +12,11 @@ class C3op_Form_ContactEdit extends C3op_Form_ContactCreate
 
         $id = new Zend_Form_Element_Hidden('id');
         $id->addValidator('Int')
-            //->addFilter('HtmlEntities')
             ->addFilter('StringTrim');
         $this->addElement($id);
 
         $this->removeElement('areaCode');
         $this->removeElement('localNumber');
-
-
-
-
     }
 
     public function process($data) {
@@ -30,7 +25,7 @@ class C3op_Form_ContactEdit extends C3op_Form_ContactCreate
         $contactMapper = new C3op_Register_ContactMapper($db);
 
         if ($this->isValid($data) !== true) {
-            throw new C3op_Form_ContactEditException('Invalid data!');
+            throw new C3op_Form_ContactEditException(_('#Invalid data!'));
         } else {
             $id = $data['id'];
             $contact = $contactMapper->findById($id);
@@ -41,4 +36,4 @@ class C3op_Form_ContactEdit extends C3op_Form_ContactCreate
             return $id;
         }
     }
- }
+}

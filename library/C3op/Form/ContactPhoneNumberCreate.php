@@ -12,16 +12,14 @@ class C3op_Form_ContactPhoneNumberCreate extends C3op_Form_PhoneNumberCreate
             $this->addElement($contact);
             $this->setAction('/register/contact/add-phone-number');
         } else {
-            throw  new C3op_Form_PhoneNumberCreateException('Not defined what is this phone number related to.');
+            throw  new C3op_Form_PhoneNumberCreateException(_('#Not defined what is this phone number related to.'));
         }
-
-
     }
 
     public function process($data) {
         if ($this->isValid($data) !== true)
         {
-            throw new C3op_Form_ContactCreateException('Invalid data!');
+            throw new C3op_Form_ContactCreateException(_('#Invalid data!'));
         }
         else
         {

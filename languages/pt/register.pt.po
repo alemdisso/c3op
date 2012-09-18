@@ -1,0 +1,306 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: c3op\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-09-18 12:32-0300\n"
+"PO-Revision-Date: 2012-09-18 12:32-0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: Português\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;translate\n"
+"X-Poedit-Basepath: C:\\xampp\\htdocs\\c3op\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: application\\modules\\register\\views\\scripts\n"
+"X-Poedit-SearchPath-1: library\\C3op\\register\n"
+
+#: application\modules\register\views\scripts/contact/add-email.phtml:2
+msgid "#Email addresses"
+msgstr "Emails"
+
+#: application\modules\register\views\scripts/contact/add-email.phtml:3
+#, php-format
+msgid "#Create %s's email address"
+msgstr "Adicionar email para %s"
+
+#: application\modules\register\views\scripts/contact/add-messenger.phtml:2
+msgid "#Service messengers"
+msgstr "Serviços de mensagens"
+
+#: application\modules\register\views\scripts/contact/add-messenger.phtml:3
+#, php-format
+msgid "#Create %s's service messenger"
+msgstr "Adicionar serviço de %s"
+
+#: application\modules\register\views\scripts/contact/add-phone-number.phtml:2
+#: application\modules\register\views\scripts/contact/change-phone-number.phtml:1
+msgid "#Phone number"
+msgstr "Telefone"
+
+#: application\modules\register\views\scripts/contact/add-phone-number.phtml:3
+#, php-format
+msgid "#Create %s's phone number"
+msgstr "Adicionar telefone de %s"
+
+#: application\modules\register\views\scripts/contact/change-email.phtml:2
+msgid "#Email"
+msgstr "Email"
+
+#: application\modules\register\views\scripts/contact/change-email.phtml:3
+#, php-format
+msgid "#Change %s's email address"
+msgstr "Alterar email de %s"
+
+#: application\modules\register\views\scripts/contact/change-messenger.phtml:2
+msgid "#Service messenger"
+msgstr "Serviço de mensagens"
+
+#: application\modules\register\views\scripts/contact/change-messenger.phtml:3
+#, php-format
+msgid "#Change %s's service messenger"
+msgstr "Alterar endereço de %s"
+
+#: application\modules\register\views\scripts/contact/change-phone-number.phtml:2
+#, php-format
+msgid "#Change phone number of %s"
+msgstr "Alterar telefone de %s"
+
+#: application\modules\register\views\scripts/contact/create.phtml:2
+msgid "#Create contact"
+msgstr "Criar contato"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:8
+msgid "#Contact:"
+msgstr "Contato:"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:15
+msgid "#Name:"
+msgstr "Nome:"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:25
+msgid "#Relationship"
+msgstr "Relação com o IETS"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:43
+msgid "#Phone Numbers"
+msgstr "Telefones"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:47
+msgid "#Area code"
+msgstr "DDD"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:48
+msgid "#Local Number"
+msgstr "Número"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:49
+msgid "#Label"
+msgstr "Tipo"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:75
+#: application\modules\register\views\scripts/contact/detail.phtml:135
+#: application\modules\register\views\scripts/contact/detail.phtml:194
+#: application\modules\register\views\scripts/contact/detail.phtml:258
+#: application\modules\register\views\scripts/contact/index.phtml:40
+#: application\modules\register\views\scripts/institution/index.phtml:60
+msgid "#Options..."
+msgstr "Opções..."
+
+#: application\modules\register\views\scripts/contact/detail.phtml:79
+msgid "Editar"
+msgstr ""
+
+#: application\modules\register\views\scripts/contact/detail.phtml:93
+msgid "#Add phone number"
+msgstr "Acrescentar telefone"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:109
+msgid "#Emails"
+msgstr "Emails"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:113
+msgid "#Address"
+msgstr "Endereço"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:114
+#: application\modules\register\views\scripts/institution/index.phtml:27
+msgid "#Type"
+msgstr "Tipo"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:139
+#: application\modules\register\views\scripts/contact/detail.phtml:198
+#: application\modules\register\views\scripts/contact/detail.phtml:262
+#: application\modules\register\views\scripts/contact/index.phtml:44
+#: application\modules\register\views\scripts/institution/detail.phtml:23
+#: application\modules\register\views\scripts/institution/index.phtml:64
+msgid "#Edit"
+msgstr "Editar"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:153
+msgid "#Add email"
+msgstr "Acrescentar email"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:168
+msgid "#Messengers"
+msgstr "Serviços de mensagens"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:172
+msgid "#Service"
+msgstr "Serviço"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:173
+msgid "#Service.Address"
+msgstr "Conta"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:212
+msgid "#Add messenger"
+msgstr "Adicionar serviço"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:227
+msgid "Vínculos"
+msgstr ""
+
+#: application\modules\register\views\scripts/contact/detail.phtml:231
+msgid "#Institution"
+msgstr "Instituição"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:232
+msgid "#Departament"
+msgstr "Departamento"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:233
+msgid "#Position"
+msgstr "Posição"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:275
+msgid "#Create new linkage"
+msgstr "Criar novo vínculo"
+
+#: application\modules\register\views\scripts/contact/detail.phtml:282
+msgid "#There is no data from this contact."
+msgstr "Não há informações sobre esse contato."
+
+#: application\modules\register\views\scripts/contact/edit.phtml:6
+msgid "#Edit contact"
+msgstr "Editar contato"
+
+#: application\modules\register\views\scripts/contact/edit.phtml:9
+msgid "#Create linkage"
+msgstr "Criar novo vínculo"
+
+#: application\modules\register\views\scripts/contact/error-edit.phtml:3
+#: application\modules\register\views\scripts/institution/error-edit.phtml:3
+msgid "#Generic error message"
+msgstr "Ocorreu um erro."
+
+#: application\modules\register\views\scripts/contact/index.phtml:6
+#: application\modules\register\views\scripts/index/index.phtml:6
+msgid "#Contacts"
+msgstr "Contatos"
+
+#: application\modules\register\views\scripts/contact/index.phtml:25
+#: application\modules\register\views\scripts/institution/index.phtml:26
+msgid "#Name"
+msgstr "Nome"
+
+#: application\modules\register\views\scripts/contact/index.phtml:62
+msgid "#No registered contacts"
+msgstr "Não há contatos cadastrados"
+
+#: application\modules\register\views\scripts/contact/index.phtml:72
+msgid "#Contacts list was not found"
+msgstr "Não foi encontrada uma lista de contatos"
+
+#: application\modules\register\views\scripts/contact/index.phtml:77
+msgid "#Add new contact"
+msgstr "Adicionar contato"
+
+#: application\modules\register\views\scripts/contact/success-create.phtml:2
+msgid "#Success creating!"
+msgstr "Sucesso ao adicionar o registro"
+
+#: application\modules\register\views\scripts/contact/success-update.phtml:2
+msgid "#Success updating!"
+msgstr "Sucesso ao atualizar registro"
+
+#: application\modules\register\views\scripts/index/index.phtml:2
+msgid "#Register"
+msgstr "Cadastro"
+
+#: application\modules\register\views\scripts/index/index.phtml:5
+#: application\modules\register\views\scripts/institution/index.phtml:6
+msgid "#Institutions"
+msgstr "Instituições"
+
+#: application\modules\register\views\scripts/institution/create.phtml:2
+msgid "#Create institution"
+msgstr "Adicionar instituição"
+
+#: application\modules\register\views\scripts/institution/detail.phtml:10
+msgid "#Contacts in this institution"
+msgstr "Contatos nessa instituição"
+
+#: application\modules\register\views\scripts/institution/detail.phtml:29
+msgid "#Add new linkage"
+msgstr "Adicionar vínculo"
+
+#: application\modules\register\views\scripts/institution/detail.phtml:33
+msgid "#There is no data about this institution."
+msgstr "Não há informações sobre essa instituição."
+
+#: application\modules\register\views\scripts/institution/edit.phtml:2
+msgid "#Edit institution"
+msgstr "Editar instituição"
+
+#: application\modules\register\views\scripts/institution/index.phtml:28
+msgid "#City"
+msgstr "Cidade"
+
+#: application\modules\register\views\scripts/institution/index.phtml:29
+msgid "#State"
+msgstr "UF"
+
+#: application\modules\register\views\scripts/institution/index.phtml:30
+msgid "#institution.index.Relationship"
+msgstr "Relação"
+
+#: application\modules\register\views\scripts/institution/index.phtml:79
+msgid "#No registered institutions."
+msgstr "Não há instituições cadastradas."
+
+#: application\modules\register\views\scripts/institution/index.phtml:88
+msgid "#Institutions list was not found."
+msgstr "Não existe lista de instituições cadastradas."
+
+#: application\modules\register\views\scripts/institution/index.phtml:94
+msgid "#Add new institution"
+msgstr "Criar Nova Instituição"
+
+#: application\modules\register\views\scripts/institution/success.phtml:2
+msgid "#Success!"
+msgstr "Sucesso!"
+
+#~ msgid "Número Local"
+#~ msgstr "Número"
+
+#~ msgid "Rótulo"
+#~ msgstr "Tipo"
+
+#~ msgid "Conta"
+#~ msgstr "Conta"
+
+#~ msgid "name"
+#~ msgstr "Nome"
+
+#~ msgid "My test"
+#~ msgstr "Contato:"
+
+#, fuzzy
+#~ msgid "Relação"
+#~ msgstr "Relação com o IETS"
+
+#, fuzzy
+#~ msgid "Code area"
+#~ msgstr "DDD"

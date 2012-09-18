@@ -13,7 +13,6 @@ class C3op_Form_LinkageCreate extends Zend_Form
         if (isset($options['contact'])) {
             $contact = new Zend_Form_Element_Hidden('contact');
             $contact->addValidator('Int')
-                //->addFilter('HtmlEntities')
                 ->addFilter('StringTrim');
             $this->addElement($contact);
         }
@@ -25,7 +24,7 @@ class C3op_Form_LinkageCreate extends Zend_Form
             $this->addElement($institution);
         } else {
             $institution = new Zend_Form_Element_Select('institution');
-            $institution->setLabel('Instituição: ')
+            $institution->setLabel(_('#Institution: '))
                 ->setDecorators(array(
                       'ViewHelper',
                       'Errors',
@@ -36,13 +35,13 @@ class C3op_Form_LinkageCreate extends Zend_Form
                 ->setOptions(array('class' => 'Full alpha omega'))
                 ->setDescription('<a href="/register/institution/create" class="two columns button alpha omega">Nova Instituição</a>')
                 ->setRegisterInArrayValidator(false);
-            $institution->addMultiOption(0, "(escolha uma...)");
+            $institution->addMultiOption(0, "#(linkage.institution.choose one...)");
             $this->addElement($institution);
         }
 
         $shortName = new Zend_Form_Element_Text('position');
         $validator = new C3op_Register_InstitutionValidName;
-        $shortName->setLabel('Cargo/Função:')
+        $shortName->setLabel(_('#Position:')) //Cargo/Função:
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -58,7 +57,7 @@ class C3op_Form_LinkageCreate extends Zend_Form
 
         $shortName = new Zend_Form_Element_Text('department');
         $validator = new C3op_Register_InstitutionValidName;
-        $shortName->setLabel('Departamento:')
+        $shortName->setLabel(_('#Departament:'))
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -73,7 +72,7 @@ class C3op_Form_LinkageCreate extends Zend_Form
         $this->addElement($shortName);
 
         $submit = new Zend_Form_Element_Submit('submit');
-        $submit ->setLabel('Gravar')
+        $submit ->setLabel(_('#Submit'))
                 ->setDecorators(array('ViewHelper','Errors',
                     array(array('data' => 'HtmlTag'),
                     array('tag' => 'div','class' => 'two columns inset-by-nine omega')),
@@ -89,7 +88,7 @@ class C3op_Form_LinkageCreate extends Zend_Form
     public function process($data) {
         if ($this->isValid($data) !== true)
         {
-            throw new C3op_Form_LinkageCreateException('Invalid data!');
+            throw new C3op_Form_LinkageCreateException(_('#Invalid data!'));
         }
         else
         {

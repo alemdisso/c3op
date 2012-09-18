@@ -16,22 +16,19 @@ class C3op_Form_ContactPhoneNumberEdit extends C3op_Form_PhoneNumberEdit
                 ->addFilter('StringTrim');
             $this->addElement($id);
         } else {
-            throw  new C3op_Form_PhoneNumberCreateException('Not defined which phone number to edit.');
+            throw  new C3op_Form_PhoneNumberCreateException(_('#Not defined which phone number to edit.'));
         }
 
         $contact = new Zend_Form_Element_Hidden('contact');
         $contact->addValidator('Int')
             ->addFilter('StringTrim');
         $this->addElement($contact);
-
-
-
     }
 
     public function process($data) {
         if ($this->isValid($data) !== true)
         {
-            throw new C3op_Form_ContactCreateException('Invalid data!');
+            throw new C3op_Form_ContactCreateException(_('#Invalid data!'));
         }
         else
         {
@@ -52,11 +49,9 @@ class C3op_Form_ContactPhoneNumberEdit extends C3op_Form_PhoneNumberEdit
                     return $contact->GetId();
 
                 } else {
-                    throw new C3op_Form_ContactEditException('Can\'t find this phone id at this contact phone list');
+                    throw new C3op_Form_ContactEditException(_('#Can\'t find this phone id at this contact phone list'));
                 }
             }
-
-
         }
     }
 }

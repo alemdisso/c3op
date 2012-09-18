@@ -1,47 +1,36 @@
-<?php 
-/*
- * If exists institutions list
- */
-if (is_array($this->institutionInfo)) {
-    $institutionData = $this->institutionInfo;
-?>
-<p class="project_title"><?php print($institutionData['name']) ?>
-</p>
+<?php
+$pageData = $this->pageData;
 
-</p>
-<h2>Contatos nessa instituição</h2>
-<?php 
+if (is_array($pageData['institutionInfo'])) {
+    $institutionInfo = $pageData['institutionInfo'];
+?>
+<h1>
+<p class="project_title"><?php print($institutionInfo['name']) ?></p>
+</h1>
+<h2><? print($this->translate("#Contacts in this institution")) ?></h2>
+<?php
 /*
  * iterate list and print title
  */
 
-    $contactsList = $institutionData['contactsList'];
-    
-    while (list(, $contactInfo) = each($contactsList)) {
+    $linkagesList = $institutionInfo['linkagesList'];
+
+    foreach ($linkagesList as $id => $linkageInfo) {
 ?>
 <p class="project_product_line">
-<?php print($contactInfo['name']) ?>&nbsp;(<?php print($contactInfo['position']) ?>) | 
-<?php print($contactInfo['department']) ?> | 
-<?php if (isset($contactInfo['editLink'])) { ?>
-<a href="<?php print($contactInfo['editLink']) ?>">Editar</a>
-<?php } ?>
+<?php print($linkageInfo['contactName']) ?>&nbsp;(<?php print($linkageInfo['position']) ?>) |
+<?php print($linkageInfo['department']) ?> |
+<a href="/register/contact/edit/?id=<?php print($linkageInfo['contactId']) ?>"><? print($this->translate("#Edit")) ?></a>
 </p>
-
-    
 <?php
 }  // loop iterate list
 ?>
-
-
-
 <p />
-<br /><br /><a href="<?php print($this->institutionInfo['linkLinkageCreate']) ?>">Criar Novo Vínclulo</a>
-
-    
+<br /><br /><a href="/register/linkage/create/?institution=<?php print($institutionInfo['id']) ?>"><? print($this->translate("#Add new linkage")) ?></a>
 <?php
-} else { // else exists institutions list 
+} else { // else exists institutions list
 ?>
-    <?php print("Não há informações para esta instituição.") ?>
+    <?php print($this->translate("#There is no data about this institution.")) ?>
 
     <?php
 } // end exists institutions list

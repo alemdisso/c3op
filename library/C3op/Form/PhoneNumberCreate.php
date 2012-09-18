@@ -21,7 +21,7 @@ class C3op_Form_PhoneNumberCreate extends Zend_Form
 
         $label = new Zend_Form_Element_Text('label');
         $labelValidator = new C3op_Util_ValidString();
-        $label->setLabel('Descrição:')
+        $label->setLabel(_('#Label:'))
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -38,8 +38,8 @@ class C3op_Form_PhoneNumberCreate extends Zend_Form
 
         $areaCode = new Zend_Form_Element_Text('areaCode');
         $phoneValidator = new C3op_Register_ValidPhoneAreaCode();
-        $areaCode->setLabel('DDD:')
-              ->setDecorators(array(
+        $areaCode->setLabel(_('#Area code:'))
+            ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
                   array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'one column')),
@@ -49,8 +49,7 @@ class C3op_Form_PhoneNumberCreate extends Zend_Form
             ->setRequired(false)
             ->addValidator($phoneValidator)
             ->addFilter('StringTrim')
-                ;
-        // attach elements to form
+            ;
         $this->addElement($areaCode);
 
         $localNumber = new Zend_Form_Element_Text('localNumber');

@@ -14,9 +14,6 @@ class C3op_Form_InstitutionEdit extends C3op_Form_InstitutionCreate
         $id->addValidator('Int')
             ->addFilter('StringTrim');
         $this->addElement($id);
-
-
-
     }
 
     public function process($data) {
@@ -25,7 +22,7 @@ class C3op_Form_InstitutionEdit extends C3op_Form_InstitutionCreate
         $institutionMapper = new C3op_Register_InstitutionMapper($db);
 
         if ($this->isValid($data) !== true) {
-            throw new C3op_Form_InstitutionEditException('Invalid data!');
+            throw new C3op_Form_InstitutionEditException(_('#Invalid data!'));
         } else {
             $id = $data['id'];
             $institution = $institutionMapper->findById($id);

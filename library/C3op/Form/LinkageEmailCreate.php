@@ -12,7 +12,7 @@ class C3op_Form_LinkageEmailCreate extends C3op_Form_EmailCreate
             $this->addElement($linkage);
             $this->setAction('/register/linkage/add-email');
         } else {
-            throw  new C3op_Form_EmailCreateException('Not defined what is this email related to.');
+            throw  new C3op_Form_EmailCreateException(_('#Not defined what is this email related to.'));
         }
 
 
@@ -21,7 +21,7 @@ class C3op_Form_LinkageEmailCreate extends C3op_Form_EmailCreate
     public function process($data) {
         if ($this->isValid($data) !== true)
         {
-            throw new C3op_Form_LinkageCreateException('Invalid data!');
+            throw new C3op_Form_LinkageCreateException(_('#Invalid data!'));
         }
         else
         {

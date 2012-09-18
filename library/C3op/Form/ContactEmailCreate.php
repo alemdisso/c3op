@@ -12,7 +12,7 @@ class C3op_Form_ContactEmailCreate extends C3op_Form_EmailCreate
             $this->addElement($contact);
             $this->setAction('/register/contact/add-email');
         } else {
-            throw  new C3op_Form_EmailCreateException('Not defined what is this email related to.');
+            throw  new C3op_Form_EmailCreateException(_('#Not defined what is this email related to.'));
         }
 
 

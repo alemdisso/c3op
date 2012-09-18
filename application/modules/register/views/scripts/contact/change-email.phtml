@@ -1,3 +1,5 @@
-<h2>Email</h2>
-Alterar email para <?php echo $this->contactInfo['name']; ?>
+<div id="MainHeader">
+<h1><?php echo $this->translate("#Email") ?></h1>
+<?php echo sprintf($this->translate("#Change %s's email address", $this->pageData['contactName'])); ?>
+</div>
 <?php echo $this->form; ?>

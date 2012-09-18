@@ -1,38 +1,42 @@
+<?php
+$pageData = $this->pageData;
+$institutionsList = $pageData['institutionsList'];
+?>
 <div id="MainHeader">
-  <h1>Instituições</h1>
+  <h1><?php echo $this->translate("#Institutions") ?></h1>
 </div>
-<?php 
+<?php
 /*
  * If exists institutions list
  */
-if (is_array($this->institutionsList)) {
+if (is_array($institutionsList)) {
 ?>
 
-<?php 
+<?php
 /*
  * if there is institutions in list
  */
-    if (count($this->institutionsList)) {
+    if (count($institutionsList)) {
 ?>
             <div class="Area">
-            
+
               <table class="display dataTable">
             		<thead>
             			<tr>
-            				<th width="330">Nome</th>
-            				<th width="190">Tipo</th>
-            				<th width="190">Cidade</th>
-            				<th width="020">UF</th>
-            				<th width="070">Relação</th>
+            				<th width="330"><?php echo $this->translate("#Name") ?></th>
+            				<th width="190"><?php echo $this->translate("#Type") ?></th>
+            				<th width="190"><?php echo $this->translate("#City") ?></th>
+            				<th width="020"><?php echo $this->translate("#State") ?></th>
+            				<th width="070"><?php echo $this->translate("#institution.index.Relationship") ?></th>
             				<th width="070">&nbsp;</th>
             			</tr>
             		</thead>
             		<tbody>
-<?php 
+<?php
 /*
  * iterate list and print title
  */
-        while (list(, $institutionData) = each($this->institutionsList)) {
+        foreach($institutionsList as $id => $institutionData) {
 ?>
                     <td>
                       <?php print($institutionData['name']) ?>
@@ -41,29 +45,28 @@ if (is_array($this->institutionsList)) {
                       <?php print($institutionData['type']) ?>
                     </td>
                     <td>
-                      [#CIDADE]
+                      <?php print($institutionData['city']) ?>
                     </td>
                     <td>
-                      [#UF]
+                      <?php print($institutionData['state']) ?>
                     </td>
                     <td>
-                      [#RELAÇÃO]
+                      <?php print($institutionData['relationshipType']) ?>
                     </td>
-                    
 
-<?php if (isset($institutionData['editLink'])) { ?>
+
+
                     <td>
-                      <a class="anchorclass button" rel="submenu1">Opções...</a> 
+                      <a class="anchorclass button" rel="submenu1"><?php echo $this->translate("#Options...") ?></a>
                       <div id="submenu1" class="anylinkcss">
                         <ul>
                           <li>
-                            <a href="<?php print($institutionData['editLink']) ?>">Editar</a>
+                            <a href="/register/institution/edit/?id=<?php print($id) ?>"><?php echo $this->translate("#Edit") ?></a>
                           </li>
                         </ul>
                       </div><!-- #submenu1 -->
-                    </td> 
+                    </td>
             			</tr>
-<?php } ?>
 <?php
 }  // loop iterate list and print titlei
 ?>
@@ -72,22 +75,22 @@ if (is_array($this->institutionsList)) {
 <?php
     } else { // end else there is institutions in list
 ?>
-          <div class="Area">
-          <h2>Instituições</h2>
-    <?php print("<p>Não há instituições cadastradas.</p>") ?>
-    
+          <div class="Area"><p>
+<?php echo $this->translate("#No registered institutions.") ?>
+              </p>
+</div><!-- Area -->
 <?php
     } // end else there is institutions in list
 ?>
 <?php
-} else { // else exists institutions list 
+} else { // else exists institutions list
 ?>
-    <?php print("Não existe lista de instituições cadastradas.") ?>
+<div class="Area"><?php echo $this->translate("#Institutions list was not found.") ?></div><!-- Area -->
 
     <?php
 } // end exists institutions list
 ?>
-            <p>
-              <a href="<?php print($this->createInstitutionLink) ?>" class="button three columns alpha omega">Criar Nova Instituição</a>
-            </p>
-          </div><!-- Area -->  
+<div class="Area">            <p>
+              <a href="/register/institution/create" class="button three columns alpha omega"><?php echo $this->translate("#Add new institution") ?></a>
+            </p></div>
+          <!-- Area -->

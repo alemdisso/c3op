@@ -16,7 +16,7 @@ class C3op_Form_ContactEmailEdit extends C3op_Form_EmailEdit
                 ->addFilter('StringTrim');
             $this->addElement($id);
         } else {
-            throw  new C3op_Form_EmailCreateException('Not defined which email to edit.');
+            throw  new C3op_Form_EmailCreateException(_('#Not defined which email to edit.'));
         }
 
         $contact = new Zend_Form_Element_Hidden('contact');
@@ -31,7 +31,7 @@ class C3op_Form_ContactEmailEdit extends C3op_Form_EmailEdit
     public function process($data) {
         if ($this->isValid($data) !== true)
         {
-            throw new C3op_Form_ContactCreateException('Invalid data!');
+            throw new C3op_Form_ContactCreateException(_('#Invalid data!'));
         }
         else
         {
@@ -51,7 +51,7 @@ class C3op_Form_ContactEmailEdit extends C3op_Form_EmailEdit
                     return $contact->GetId();
 
                 } else {
-                    throw new C3op_Form_ContactEditException('Can\'t find this email id at this contact email list');
+                    throw new C3op_Form_ContactEditException(_('#Can\'t find this email id at this contact email list'));
                 }
             }
 
