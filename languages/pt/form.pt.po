@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-18 12:34-0300\n"
-"PO-Revision-Date: 2012-09-18 12:34-0300\n"
+"POT-Creation-Date: 2012-09-18 12:51-0300\n"
+"PO-Revision-Date: 2012-09-18 12:53-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -55,7 +55,6 @@ msgid "Data de término:"
 msgstr ""
 
 #: library\C3op\Form/ActionCreate.php:137
-#: library\C3op\Form/LinkageCreate.php:76 library\C3op\Form/LinkageEdit.php:82
 #: library\C3op\Form/PhoneNumberCreate.php:74
 #: library\C3op\Form/ProjectCreate.php:248
 #: library\C3op\Form/ReceivableCreate.php:102
@@ -93,6 +92,7 @@ msgstr "(clique para escolher)"
 
 #: library\C3op\Form/ContactCreate.php:77 library\C3op\Form/EmailCreate.php:57
 #: library\C3op\Form/InstitutionCreate.php:269
+#: library\C3op\Form/LinkageCreate.php:75 library\C3op\Form/LinkageEdit.php:76
 #: library\C3op\Form/MessengerCreate.php:58
 msgid "#Submit"
 msgstr "Gravar"
@@ -106,17 +106,25 @@ msgstr "Gravar"
 #: library\C3op\Form/EmailEdit.php:27
 #: library\C3op\Form/InstitutionCreate.php:289
 #: library\C3op\Form/InstitutionEdit.php:25
+#: library\C3op\Form/LinkageCreate.php:91
+#: library\C3op\Form/LinkageEmailCreate.php:24
+#: library\C3op\Form/LinkageEmailEdit.php:34
+#: library\C3op\Form/LinkagePhoneNumberCreate.php:22
+#: library\C3op\Form/LinkagePhoneNumberEdit.php:31
+#: library\C3op\Form/LinkageRemove.php:36
 #: library\C3op\Form/MessengerCreate.php:73
 #: library\C3op\Form/PhoneNumberEdit.php:26
 msgid "#Invalid data!"
 msgstr "Dados inválidos!"
 
 #: library\C3op\Form/ContactEmailCreate.php:15
+#: library\C3op\Form/LinkageEmailCreate.php:15
 msgid "#Not defined what is this email related to."
 msgstr "Not defined what is this email related to."
 
 #: library\C3op\Form/ContactEmailEdit.php:19
 #: library\C3op\Form/EmailEdit.php:19
+#: library\C3op\Form/LinkageEmailEdit.php:19
 msgid "#Not defined which email to edit."
 msgstr "Not defined which email to edit."
 
@@ -140,10 +148,12 @@ msgid "#Can't find this messenger id at this contact messenger list"
 msgstr "Can't find this messenger id at this contact messenger list"
 
 #: library\C3op\Form/ContactPhoneNumberCreate.php:15
+#: library\C3op\Form/LinkagePhoneNumberCreate.php:15
 msgid "#Not defined what is this phone number related to."
 msgstr "Not defined what is this phone number related to."
 
 #: library\C3op\Form/ContactPhoneNumberEdit.php:19
+#: library\C3op\Form/LinkagePhoneNumberEdit.php:19
 #: library\C3op\Form/PhoneNumberEdit.php:19
 msgid "#Not defined which phone number to edit."
 msgstr "Not defined which phone number to edit."
@@ -265,23 +275,33 @@ msgstr "UF:"
 msgid "#Website:"
 msgstr "Website:"
 
-#: library\C3op\Form/LinkageCreate.php:28 library\C3op\Form/LinkageEdit.php:28
-#, fuzzy
-msgid "Instituição: "
-msgstr "Institution"
+#: library\C3op\Form/LinkageCreate.php:27
+msgid "#Institution: "
+msgstr "Instituição"
 
-#: library\C3op\Form/LinkageCreate.php:45 library\C3op\Form/LinkageEdit.php:46
-msgid "Cargo/Função:"
-msgstr ""
+#: library\C3op\Form/LinkageCreate.php:44 library\C3op\Form/LinkageEdit.php:44
+msgid "#Position:"
+msgstr "Cargo / Função:"
 
-#: library\C3op\Form/LinkageCreate.php:61 library\C3op\Form/LinkageEdit.php:65
-#, fuzzy
-msgid "Departamento:"
-msgstr "Department"
+#: library\C3op\Form/LinkageCreate.php:60 library\C3op\Form/LinkageEdit.php:60
+msgid "#Departament:"
+msgstr "Departmento:"
 
-#: library\C3op\Form/LinkageRemove.php:32
-msgid "Confirmo: remover!"
-msgstr ""
+#: library\C3op\Form/LinkageEdit.php:27
+msgid "#Institution:"
+msgstr "Instituição:"
+
+#: library\C3op\Form/LinkageEmailEdit.php:54
+msgid "#Can't find this email id at this linkage email list"
+msgstr "Can't find this email id at this linkage email list"
+
+#: library\C3op\Form/LinkagePhoneNumberEdit.php:52
+msgid "#Can't find this phone id at this linkage phone list"
+msgstr "Can't find this phone id at this linkage phone list"
+
+#: library\C3op\Form/LinkageRemove.php:28
+msgid "#I confirm: remove!"
+msgstr "Confirmo: remova!"
 
 #: library\C3op\Form/MessengerCreate.php:22
 msgid "#Service:"
@@ -301,7 +321,7 @@ msgstr "Invalid address"
 
 #: library\C3op\Form/OutlayDojoCreate.php:52
 msgid "Observation:"
-msgstr ""
+msgstr "Observação:"
 
 #: library\C3op\Form/PhoneNumberCreate.php:57
 #, fuzzy
