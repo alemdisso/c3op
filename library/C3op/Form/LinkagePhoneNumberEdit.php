@@ -16,7 +16,7 @@ class C3op_Form_LinkagePhoneNumberEdit extends C3op_Form_PhoneNumberEdit
                 ->addFilter('StringTrim');
             $this->addElement($id);
         } else {
-            throw  new C3op_Form_PhoneNumberCreateException('Not defined which phone number to edit.');
+            throw  new C3op_Form_PhoneNumberCreateException(_('#Not defined which phone number to edit.'));
         }
 
         $linkage = new Zend_Form_Element_Hidden('linkage');
@@ -28,7 +28,7 @@ class C3op_Form_LinkagePhoneNumberEdit extends C3op_Form_PhoneNumberEdit
     public function process($data) {
         if ($this->isValid($data) !== true)
         {
-            throw new C3op_Form_LinkageCreateException('Invalid data!');
+            throw new C3op_Form_LinkageCreateException(_('#Invalid data!'));
         }
         else
         {
@@ -49,11 +49,9 @@ class C3op_Form_LinkagePhoneNumberEdit extends C3op_Form_PhoneNumberEdit
                     return $linkage->GetId();
 
                 } else {
-                    throw new C3op_Form_LinkageEditException('Can\'t find this phone id at this linkage phone list');
+                    throw new C3op_Form_LinkageEditException(_('#Can\'t find this phone id at this linkage phone list'));
                 }
             }
-
-
         }
     }
 }
