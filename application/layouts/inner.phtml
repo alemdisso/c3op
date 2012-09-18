@@ -1,3 +1,11 @@
+
+<?php
+
+$controller = Zend_Controller_Front::getInstance();
+$request = $controller->getRequest();
+$controller->setParam('outerModule', $request->getModuleName());
+$params = $controller->getParams();
+?>
 <!-- header -->
 <?php echo $this->action('include', 'header', 'includes') ?>
 <!-- /header -->
