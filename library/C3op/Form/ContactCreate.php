@@ -27,7 +27,7 @@ class C3op_Form_ContactCreate extends Zend_Form
 
         $areaCode = new Zend_Form_Element_Text('areaCode');
         $phoneValidator = new C3op_Register_ValidPhoneAreaCode();
-        $areaCode->setLabel('Código de área:')
+        $areaCode->setLabel(_('#Area code:'))
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -42,7 +42,7 @@ class C3op_Form_ContactCreate extends Zend_Form
 
         $localNumber = new Zend_Form_Element_Text('localNumber');
         $phoneValidator = new C3op_Register_ValidPhoneLocalNumber();
-        $localNumber->setLabel('Número local:')
+        $localNumber->setLabel(_('#Local number:'))
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -56,7 +56,7 @@ class C3op_Form_ContactCreate extends Zend_Form
         $this->addElement($localNumber);
 
         $type = new Zend_Form_Element_Select('type');
-        $type->setLabel('Relação com o Iets:')
+        $type->setLabel(_('#Relationship with us:'))
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
@@ -66,7 +66,7 @@ class C3op_Form_ContactCreate extends Zend_Form
                 ->setOptions(array('class' => 'Full alpha omega'))
                 ->setRequired(true);
         $titleTypes = C3op_Register_ContactTypes::AllTitles();
-        $type->addMultiOption(null, "(clique para escolher)");
+        $type->addMultiOption(null, _("#(click to choice)"));
         while (list($key, $title) = each($titleTypes)) {
             $type->addMultiOption($key, $title);
         }
@@ -74,7 +74,7 @@ class C3op_Form_ContactCreate extends Zend_Form
 
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
-        $submit->setLabel('Gravar')
+        $submit->setLabel(_('#Submit'))
                ->setDecorators(array('ViewHelper','Errors',
                     array(array('data' => 'HtmlTag'),
                     array('tag' => 'div','class' => 'two columns inset-by-nine omega')),
@@ -90,7 +90,7 @@ class C3op_Form_ContactCreate extends Zend_Form
     public function process($data) {
         if ($this->isValid($data) !== true)
         {
-            throw new C3op_Form_ContactCreateException('Invalid data!');
+            throw new C3op_Form_ContactCreateException(_('#Invalid data!'));
         }
         else
         {

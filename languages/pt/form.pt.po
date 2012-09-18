@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-06 21:16-0300\n"
-"PO-Revision-Date: 2012-09-06 21:18-0300\n"
+"POT-Creation-Date: 2012-09-18 10:57-0300\n"
+"PO-Revision-Date: 2012-09-18 10:58-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -58,7 +58,7 @@ msgstr ""
 
 #: library\C3op\Form/ActionCreate.php:137
 #: library\C3op\Form/ContactCreate.php:77 library\C3op\Form/EmailCreate.php:57
-#: library\C3op\Form/InstitutionCreate.php:295
+#: library\C3op\Form/InstitutionCreate.php:294
 #: library\C3op\Form/LinkageCreate.php:76 library\C3op\Form/LinkageEdit.php:82
 #: library\C3op\Form/MessengerCreate.php:58
 #: library\C3op\Form/PhoneNumberCreate.php:75
@@ -80,9 +80,8 @@ msgid "Salvar"
 msgstr "Save"
 
 #: library\C3op\Form/ContactCreate.php:30
-#, fuzzy
-msgid "Código de área:"
-msgstr "Area code"
+msgid "#Area code:"
+msgstr "teste"
 
 #: library\C3op\Form/ContactCreate.php:45
 #, fuzzy
@@ -117,8 +116,16 @@ msgstr "Observation:"
 msgid "Quem: "
 msgstr ""
 
+#: library\C3op\Form/InstitutionCreate.php:15
+msgid "#Name is required"
+msgstr ""
+
 #: library\C3op\Form/InstitutionCreate.php:31
 msgid "Nome curto:"
+msgstr ""
+
+#: library\C3op\Form/InstitutionCreate.php:32
+msgid "#Shortname is required"
 msgstr ""
 
 #: library\C3op\Form/InstitutionCreate.php:47
@@ -130,54 +137,54 @@ msgstr "Type"
 msgid "Relação com o IETS: "
 msgstr "Relationship with IETS"
 
-#: library\C3op\Form/InstitutionCreate.php:82
+#: library\C3op\Form/InstitutionCreate.php:81
 msgid "Pessoa Jurídica: "
 msgstr ""
 
-#: library\C3op\Form/InstitutionCreate.php:98
+#: library\C3op\Form/InstitutionCreate.php:97
 msgid "CNPJ / CPF:"
 msgstr ""
 
-#: library\C3op\Form/InstitutionCreate.php:112
+#: library\C3op\Form/InstitutionCreate.php:111
 #, fuzzy
 msgid "Inscrição: "
 msgstr "Institution"
 
-#: library\C3op\Form/InstitutionCreate.php:128
+#: library\C3op\Form/InstitutionCreate.php:127
 msgid "número:"
 msgstr ""
 
-#: library\C3op\Form/InstitutionCreate.php:145
+#: library\C3op\Form/InstitutionCreate.php:144
 msgid "Logradouro:"
 msgstr ""
 
-#: library\C3op\Form/InstitutionCreate.php:164
+#: library\C3op\Form/InstitutionCreate.php:163
 #: library\C3op\Form/PhoneNumberCreate.php:58
 #, fuzzy
 msgid "Número:"
 msgstr "Local number"
 
-#: library\C3op\Form/InstitutionCreate.php:183
+#: library\C3op\Form/InstitutionCreate.php:182
 msgid "Complemento:"
 msgstr ""
 
-#: library\C3op\Form/InstitutionCreate.php:202
+#: library\C3op\Form/InstitutionCreate.php:201
 msgid "Bairro:"
 msgstr ""
 
-#: library\C3op\Form/InstitutionCreate.php:221
+#: library\C3op\Form/InstitutionCreate.php:220
 msgid "CEP:"
 msgstr ""
 
-#: library\C3op\Form/InstitutionCreate.php:240
+#: library\C3op\Form/InstitutionCreate.php:239
 msgid "Cidade:"
 msgstr ""
 
-#: library\C3op\Form/InstitutionCreate.php:259
+#: library\C3op\Form/InstitutionCreate.php:258
 msgid "UF:"
 msgstr ""
 
-#: library\C3op\Form/InstitutionCreate.php:278
+#: library\C3op\Form/InstitutionCreate.php:277
 msgid "Website:"
 msgstr ""
 
@@ -299,6 +306,10 @@ msgstr ""
 #: library\C3op\Form/UserLogin.php:51
 msgid "Entrar"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Código de área:"
+#~ msgstr "Area code"
 
 #~ msgid "Acrescentar email para %s"
 #~ msgstr "Add email to %s"
