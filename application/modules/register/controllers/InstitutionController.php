@@ -37,13 +37,16 @@ class Register_InstitutionController extends Zend_Controller_Action
         reset ($list);
         foreach ($list as $id) {
             $thisInstitution = $this->institutionMapper->findById($id);
+            $types = new C3op_Register_InstitutionTypes();
+            $relationshipTypes = new C3op_Register_RelationshipTypes();
+
             $institutionsList[$id] = array(
                 'name' => $thisInstitution->GetShortName(),
-                'type' => C3op_Register_InstitutionTypes::TitleForType($thisInstitution->GetType()),
+                'type' => $types->TitleForType($thisInstitution->GetType()),
                 'name' => $thisInstitution->GetShortName(),
                 'city' => $thisInstitution->GetCity(),
                 'state' => $thisInstitution->GetState(),
-                'relationshipType' => C3op_Register_RelationshipTypes::TitleForType($thisInstitution->GetRelationShipType()),
+                'relationshipType' => $relationshipTypes->TitleForType($thisInstitution->GetRelationShipType()),
             );
         }
 

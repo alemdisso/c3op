@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-18 12:54-0300\n"
-"PO-Revision-Date: 2012-09-18 12:54-0300\n"
+"POT-Creation-Date: 2012-09-18 22:03-0300\n"
+"PO-Revision-Date: 2012-09-18 22:03-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: English\n"
@@ -14,6 +14,50 @@ msgstr ""
 "X-Poedit-Basepath: C:\\xampp\\htdocs\\c3op\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: application\\modules\\register\\views\\scripts\n"
+"X-Poedit-SearchPath-1: library\\C3op\\register\n"
+
+#: library\C3op\register/InstitutionTypes.php:9
+#, fuzzy
+msgid "#Government"
+msgstr "Department"
+
+#: library\C3op\register/InstitutionTypes.php:10
+#, fuzzy
+msgid "#Private Entity"
+msgstr "Create contact"
+
+#: library\C3op\register/InstitutionTypes.php:11
+msgid "#Research Institute"
+msgstr ""
+
+#: library\C3op\register/InstitutionTypes.php:12
+msgid "#Non Governmental Organization"
+msgstr ""
+
+#: library\C3op\register/InstitutionTypes.php:13
+msgid "#Particular"
+msgstr ""
+
+#: library\C3op\register/RelationshipTypes.php:9
+msgid "#General"
+msgstr ""
+
+#: library\C3op\register/RelationshipTypes.php:10
+msgid "#Client"
+msgstr ""
+
+#: library\C3op\register/RelationshipTypes.php:11
+msgid "#Partner"
+msgstr ""
+
+#: library\C3op\register/RelationshipTypes.php:12
+msgid "#Supplier"
+msgstr ""
+
+#: library\C3op\register/RelationshipTypes.php:13
+#, fuzzy
+msgid "#Contractor"
+msgstr "Contact:"
 
 #: application\modules\register\views\scripts/contact/add-email.phtml:2
 msgid "#Email addresses"

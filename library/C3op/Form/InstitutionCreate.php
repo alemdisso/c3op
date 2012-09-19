@@ -45,7 +45,8 @@ class C3op_Form_InstitutionCreate extends Zend_Form
 
         $element = new Zend_Form_Element_Select('type');
         $element->setLabel(_('#Type:'));
-        $titleTypes = C3op_Register_InstitutionTypes::AllTitles();
+        $types = new C3op_Register_InstitutionTypes();
+        $titleTypes = $types->AllTitles();
         $element->addMultiOption(null, _("#(choose a type)"))
             ->setDecorators(array(
                   'ViewHelper',
@@ -62,7 +63,8 @@ class C3op_Form_InstitutionCreate extends Zend_Form
 
         $element = new Zend_Form_Element_Select('relationshipType');
         $element->setLabel(_('#Relationship with us: '));
-        $titleTypes = C3op_Register_RelationshipTypes::AllTitles();
+        $relationshipTypes = new C3op_Register_RelationshipTypes();
+        $titleTypes = $relationshipTypes->AllTitles();
         $element->addMultiOption(null, _("#(choose a type)"))
             ->setDecorators(array(
                   'ViewHelper',
