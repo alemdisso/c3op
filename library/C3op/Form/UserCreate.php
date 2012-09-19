@@ -9,7 +9,7 @@ class C3op_Form_UserCreate extends Zend_Form
             ->setAction('/auth/user/create')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
-        
+
         $name = new Zend_Form_Element_Text('name');
         $nameValidator = new C3op_Util_ValidString();
         $name->setLabel('Nome:')
@@ -26,7 +26,7 @@ class C3op_Form_UserCreate extends Zend_Form
                 ;
         // attach elements to form
         $this->addElement($name);
-        
+
 
 
         $role = new Zend_Form_Element_Select('role');
@@ -39,16 +39,13 @@ class C3op_Form_UserCreate extends Zend_Form
               ))
               ->setOptions(array('class' => 'Full alpha omega'))
               ->setRequired(true);
-        $titleRoles = C3op_Access_Roles::AllRoles();
+        $rolesObj = new C3op_Access_Roles();
+        $roles = $rolesObj->AllRoles();
         $role->addMultiOption(null, "(escolha um tipo)");
-        while (list($key, $title) = each($titleRoles)) {
+        while (list($key, $title) = each($roles)) {
             $role->addMultiOption($key, $title);
-        }        
+        }
         $this->addElement($role);
-
-
-
-
 
         $login = new Zend_Form_Element_Text('login');
         $loginValidator = new C3op_Util_ValidString();
@@ -66,7 +63,7 @@ class C3op_Form_UserCreate extends Zend_Form
                 ;
         // attach elements to form
         $this->addElement($login);
-        
+
         $password = new Zend_Form_Element_Password('password');
         $passwordValidator = new C3op_Util_ValidString();
         $password->setLabel('Senha:')
@@ -83,7 +80,7 @@ class C3op_Form_UserCreate extends Zend_Form
                 ;
         // attach elements to form
         $this->addElement($password);
-        
+
         $email = new Zend_Form_Element_Text('email');
         $emailValidator = new C3op_Util_ValidEmail();
         $email->setLabel('Email:')
@@ -100,7 +97,7 @@ class C3op_Form_UserCreate extends Zend_Form
                 ;
         // attach elements to form
         $this->addElement($email);
-        
+
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
         $submit ->setLabel('Gravar')
@@ -115,12 +112,12 @@ class C3op_Form_UserCreate extends Zend_Form
         $this   ->addElement($submit);
 
     }
-    
+
     public function process($data) {
-        if ($this->isValid($data) !== true) 
+        if ($this->isValid($data) !== true)
         {
             throw new C3op_Form_UserCreateException('Invalid data!');
-        } 
+        }
         else
         {
             $db = Zend_Registry::get('db');
