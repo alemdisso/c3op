@@ -9,11 +9,11 @@ class C3op_Form_UserLogin extends Zend_Form
             ->setAction('/auth/login')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
-        
+
         // create text input for name
         $login = new Zend_Form_Element_Text('loginLogin');
         $loginValidator = new C3op_Register_ContactValidName();
-        $login->setLabel('Usuário:')
+        $login->setLabel(_('#User:'))
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -27,11 +27,11 @@ class C3op_Form_UserLogin extends Zend_Form
                 ;
         // attach elements to form
         $this->addElement($login);
-        
+
         // create text input for name
         $password = new Zend_Form_Element_Password('passwordLogin');
         $passwordValidator = new C3op_Register_ContactValidName();
-        $password->setLabel('Senha:')
+        $password->setLabel(_('#Password:'))
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -45,28 +45,28 @@ class C3op_Form_UserLogin extends Zend_Form
                 ;
         // attach elements to form
         $this->addElement($password);
-                
+
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
-        $submit->setLabel('Entrar')
+        $submit->setLabel(_('#Login'))
                ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
-                  array(array('data' => 'HtmlTag'), 
+                  array(array('data' => 'HtmlTag'),
                   array('tag' => 'div', 'class' => 'two columns inset-by-three omega')),
-                  array('Label', 
+                  array('Label',
                   array('tag' => 'div', 'tagClass' => 'one column alpha Invisible')),
                ))
                ->setOptions(array('class' => 'submit Full alpha omega'));
         $this->addElement($submit);
 
     }
-    
+
     public function process($data) {
-        if ($this->isValid($data) !== true) 
+        if ($this->isValid($data) !== true)
         {
-            throw new C3op_Form_UserLoginException('Invalid data!');
-        } 
+            throw new C3op_Form_UserLoginException(_('#Invalid data!'));
+        }
         else
         {
 
@@ -75,15 +75,15 @@ class C3op_Form_UserLogin extends Zend_Form
             $result = $auth->authenticate($adapter);
             try {
                 $user = $adapter->getAuthenticatedUser();
-            } 
+            }
             catch (Exception $e) {
                 return false;
             }
-            
+
             if ($user instanceOf C3op_Auth_User) {
                 return $user;
             } else {
-                
+
                 return false;
             }
         }
@@ -98,6 +98,6 @@ class C3op_Form_UserLogin extends Zend_Form
         } else {
             $this->_redirect('/');
         }
-    }    
-    
+    }
+
 }

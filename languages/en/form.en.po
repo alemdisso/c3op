@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-18 12:54-0300\n"
-"PO-Revision-Date: 2012-09-18 12:54-0300\n"
+"POT-Creation-Date: 2012-09-19 19:34-0300\n"
+"PO-Revision-Date: 2012-09-19 19:34-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: English\n"
@@ -17,7 +17,7 @@ msgstr ""
 
 #: library\C3op\Form/ActionCreate.php:23
 #: library\C3op\Form/ContactCreate.php:15
-#: library\C3op\Form/ProjectCreate.php:13 library\C3op\Form/UserCreate.php:15
+#: library\C3op\Form/ProjectCreate.php:13
 #, fuzzy
 msgid "Nome:"
 msgstr "Name"
@@ -58,7 +58,6 @@ msgstr ""
 #: library\C3op\Form/PhoneNumberCreate.php:74
 #: library\C3op\Form/ProjectCreate.php:248
 #: library\C3op\Form/ReceivableCreate.php:102
-#: library\C3op\Form/UserCreate.php:106
 msgid "Gravar"
 msgstr "Save"
 
@@ -93,9 +92,10 @@ msgid "#(click to choice)"
 msgstr ""
 
 #: library\C3op\Form/ContactCreate.php:77 library\C3op\Form/EmailCreate.php:57
-#: library\C3op\Form/InstitutionCreate.php:269
+#: library\C3op\Form/InstitutionCreate.php:271
 #: library\C3op\Form/LinkageCreate.php:75 library\C3op\Form/LinkageEdit.php:76
 #: library\C3op\Form/MessengerCreate.php:58
+#: library\C3op\Form/UserCreate.php:101
 msgid "#Submit"
 msgstr ""
 
@@ -106,7 +106,7 @@ msgstr ""
 #: library\C3op\Form/ContactPhoneNumberCreate.php:22
 #: library\C3op\Form/ContactPhoneNumberEdit.php:31
 #: library\C3op\Form/EmailEdit.php:27
-#: library\C3op\Form/InstitutionCreate.php:289
+#: library\C3op\Form/InstitutionCreate.php:291
 #: library\C3op\Form/InstitutionEdit.php:25
 #: library\C3op\Form/LinkageCreate.php:91
 #: library\C3op\Form/LinkageEmailCreate.php:24
@@ -116,6 +116,8 @@ msgstr ""
 #: library\C3op\Form/LinkageRemove.php:36
 #: library\C3op\Form/MessengerCreate.php:73
 #: library\C3op\Form/PhoneNumberEdit.php:26
+#: library\C3op\Form/UserCreate.php:117 library\C3op\Form/UserEdit.php:28
+#: library\C3op\Form/UserLogin.php:68
 msgid "#Invalid data!"
 msgstr ""
 
@@ -179,7 +181,7 @@ msgstr ""
 msgid "#Label:"
 msgstr "Tipo"
 
-#: library\C3op\Form/EmailCreate.php:40
+#: library\C3op\Form/EmailCreate.php:40 library\C3op\Form/UserCreate.php:84
 #, fuzzy
 msgid "#Email:"
 msgstr "Email"
@@ -195,6 +197,7 @@ msgid "Quem: "
 msgstr ""
 
 #: library\C3op\Form/InstitutionCreate.php:14
+#: library\C3op\Form/UserCreate.php:15
 msgid "#Name:"
 msgstr ""
 
@@ -214,70 +217,70 @@ msgstr ""
 msgid "#Type:"
 msgstr ""
 
-#: library\C3op\Form/InstitutionCreate.php:49
-#: library\C3op\Form/InstitutionCreate.php:66
+#: library\C3op\Form/InstitutionCreate.php:50
+#: library\C3op\Form/InstitutionCreate.php:68
 msgid "#(choose a type)"
 msgstr ""
 
-#: library\C3op\Form/InstitutionCreate.php:64
+#: library\C3op\Form/InstitutionCreate.php:65
 #, fuzzy
 msgid "#Relationship with us: "
 msgstr "Relação com o IETS"
 
-#: library\C3op\Form/InstitutionCreate.php:81
+#: library\C3op\Form/InstitutionCreate.php:83
 msgid "#Legal entity:"
 msgstr ""
 
-#: library\C3op\Form/InstitutionCreate.php:94
+#: library\C3op\Form/InstitutionCreate.php:96
 msgid "#Register Number:"
 msgstr ""
 
-#: library\C3op\Form/InstitutionCreate.php:108
+#: library\C3op\Form/InstitutionCreate.php:110
 msgid "#State Registration: "
 msgstr ""
 
-#: library\C3op\Form/InstitutionCreate.php:115
+#: library\C3op\Form/InstitutionCreate.php:117
 msgid "#institution.registration.state"
 msgstr ""
 
-#: library\C3op\Form/InstitutionCreate.php:115
+#: library\C3op\Form/InstitutionCreate.php:117
 msgid "#municipal"
 msgstr ""
 
-#: library\C3op\Form/InstitutionCreate.php:124
+#: library\C3op\Form/InstitutionCreate.php:126
 #, fuzzy
 msgid "#Local register number:"
 msgstr "Número"
 
-#: library\C3op\Form/InstitutionCreate.php:139
+#: library\C3op\Form/InstitutionCreate.php:141
 msgid "#Street:"
 msgstr ""
 
-#: library\C3op\Form/InstitutionCreate.php:155
+#: library\C3op\Form/InstitutionCreate.php:157
 msgid "#Street number"
 msgstr ""
 
-#: library\C3op\Form/InstitutionCreate.php:171
+#: library\C3op\Form/InstitutionCreate.php:173
 msgid "#Address Complement:"
 msgstr ""
 
-#: library\C3op\Form/InstitutionCreate.php:187
+#: library\C3op\Form/InstitutionCreate.php:189
 msgid "#District"
 msgstr ""
 
-#: library\C3op\Form/InstitutionCreate.php:203
+#: library\C3op\Form/InstitutionCreate.php:205
 msgid "#ZIP Code:"
 msgstr ""
 
-#: library\C3op\Form/InstitutionCreate.php:219
+#: library\C3op\Form/InstitutionCreate.php:221
 msgid "#City:"
 msgstr ""
 
-#: library\C3op\Form/InstitutionCreate.php:237
+#: library\C3op\Form/InstitutionCreate.php:239
 msgid "#State:"
 msgstr ""
 
-#: library\C3op\Form/InstitutionCreate.php:253
+#: library\C3op\Form/InstitutionCreate.php:255
 msgid "#Website:"
 msgstr ""
 
@@ -402,30 +405,29 @@ msgstr ""
 msgid "Valor Realizado"
 msgstr ""
 
-#: library\C3op\Form/UserCreate.php:33
-msgid "Papel"
+#: library\C3op\Form/UserCreate.php:31
+msgid "#Role"
 msgstr ""
 
-#: library\C3op\Form/UserCreate.php:55
-msgid "Login:"
+#: library\C3op\Form/UserCreate.php:50
+msgid "#Login Name:"
 msgstr ""
 
-#: library\C3op\Form/UserCreate.php:72 library\C3op\Form/UserLogin.php:34
-msgid "Senha:"
+#: library\C3op\Form/UserCreate.php:67 library\C3op\Form/UserLogin.php:34
+msgid "#Password:"
 msgstr ""
-
-#: library\C3op\Form/UserCreate.php:89
-#, fuzzy
-msgid "Email:"
-msgstr "Email"
 
 #: library\C3op\Form/UserLogin.php:16
-msgid "Usuário:"
+msgid "#User:"
 msgstr ""
 
 #: library\C3op\Form/UserLogin.php:51
-msgid "Entrar"
+msgid "#Login"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Email:"
+#~ msgstr "Email"
 
 #, fuzzy
 #~ msgid "Código de área:"

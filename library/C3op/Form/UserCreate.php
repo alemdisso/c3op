@@ -12,7 +12,7 @@ class C3op_Form_UserCreate extends Zend_Form
 
         $name = new Zend_Form_Element_Text('name');
         $nameValidator = new C3op_Util_ValidString();
-        $name->setLabel('Nome:')
+        $name->setLabel(_('#Name:'))
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -27,10 +27,8 @@ class C3op_Form_UserCreate extends Zend_Form
         // attach elements to form
         $this->addElement($name);
 
-
-
         $role = new Zend_Form_Element_Select('role');
-        $role->setLabel('Papel')
+        $role->setLabel(_('#Role'))
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -49,7 +47,7 @@ class C3op_Form_UserCreate extends Zend_Form
 
         $login = new Zend_Form_Element_Text('login');
         $loginValidator = new C3op_Util_ValidString();
-        $login->setLabel('Login:')
+        $login->setLabel(_('#Login Name:'))
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -66,7 +64,7 @@ class C3op_Form_UserCreate extends Zend_Form
 
         $password = new Zend_Form_Element_Password('password');
         $passwordValidator = new C3op_Util_ValidString();
-        $password->setLabel('Senha:')
+        $password->setLabel(_('#Password:'))
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -83,7 +81,7 @@ class C3op_Form_UserCreate extends Zend_Form
 
         $email = new Zend_Form_Element_Text('email');
         $emailValidator = new C3op_Util_ValidEmail();
-        $email->setLabel('Email:')
+        $email->setLabel(_('#Email:'))
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -100,7 +98,7 @@ class C3op_Form_UserCreate extends Zend_Form
 
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
-        $submit ->setLabel('Gravar')
+        $submit ->setLabel(_('#Submit'))
                 ->setDecorators(array('ViewHelper','Errors',
                     array(array('data' => 'HtmlTag'),
                     array('tag' => 'div','class' => 'two columns inset-by-nine omega')),
@@ -116,7 +114,7 @@ class C3op_Form_UserCreate extends Zend_Form
     public function process($data) {
         if ($this->isValid($data) !== true)
         {
-            throw new C3op_Form_UserCreateException('Invalid data!');
+            throw new C3op_Form_UserCreateException(_('#Invalid data!'));
         }
         else
         {
