@@ -11,11 +11,11 @@ class Auth_UserController extends Zend_Controller_Action
             $checker = new C3op_Access_PrivilegeChecker();
         } catch (Exception $e) {
             $this->_helper->getHelper('FlashMessenger')
-                ->addMessage('Acesso negado');          
-            $this->_redirect('/' . $id);            
+                ->addMessage(_('#Access denied'));
+            $this->_redirect('/' . $id);
         }
     }
-    
+
     public function init()
     {
         $this->db = Zend_Registry::get('db');
@@ -33,10 +33,10 @@ class Auth_UserController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');          
+                    ->addMessage(_('#The record was successfully updated.'));
                 $this->_redirect('/auth/user/success-create');
 
-            } else throw new C3op_Auth_UserException("A user must have a valid title.");
+            } else throw new C3op_Auth_UserException(_("#A user must have a valid title."));
         } else {
 
         }
@@ -52,15 +52,15 @@ class Auth_UserController extends Zend_Controller_Action
                 if ($form->isValid($postData)) {
                     $form->process($postData);
                     $this->_helper->getHelper('FlashMessenger')
-                        ->addMessage('The record was successfully updated.');          
+                        ->addMessage(_('#The record was successfully updated.'));
                     $this->_redirect('/auth/user/success-create');
                 }
             } catch (Exception $e) {
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage($e->getMessage());          
+                    ->addMessage($e->getMessage());
                 $this->view->form = $form;
                 return $this->render('create');
-                
+
             }
         } else {
             // GET
@@ -88,11 +88,11 @@ class Auth_UserController extends Zend_Controller_Action
     public function successCreateAction()
     {
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
-            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();    
+            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
             $this->getResponse()->setHeader('Refresh', '3; URL=/');
         } else {
-            $this->_redirect('/');    
-        } 
+            $this->_redirect('/');
+        }
     }
 
     public function errorEditAction()
@@ -128,9 +128,6 @@ class Auth_UserController extends Zend_Controller_Action
             $id = $input->id;
             return $id;
         }
-        throw new C3op_Auth_UserException("Invalid User Id from Get");
-
+        throw new C3op_Auth_UserException(_("#Invalid User Id from Get"));
     }
-
-    
 }

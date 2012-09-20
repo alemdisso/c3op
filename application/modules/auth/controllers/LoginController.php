@@ -5,14 +5,14 @@ class Auth_LoginController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        
+
         $layoutHelper = $this->_helper->getHelper('Layout');
         $layout = $layoutHelper->getLayoutInstance();
 
-        $layout->title = "IETS";
-        
+        $layout->title = _("#Window title");
+
         $layout->nestedLayout = 'login';
-        
+
         $form = new C3op_Form_UserLogin;
         $this->view->form = $form;
 
@@ -38,21 +38,21 @@ class Auth_LoginController extends Zend_Controller_Action
 
             } else {
                 $this->view->form = $form;
-                $this->view->message = 'You could not be logged in. Please try again.';
+                $this->view->message = _('#You could not be logged in. Please try again.');
                 return $this->render('login');
-                
+
             }
-                
+
         }
-        
+
     }
-    
+
 //    public function logoutAction()
 //    {
 //        Zend_Auth::getInstance()->clearIdentity();
 //        Zend_Session::destroy();
 //        $this->_redirect('/auth/login');
-//    }    
-    
-    
+//    }
+
+
 }

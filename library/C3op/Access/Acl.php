@@ -5,7 +5,8 @@ class C3op_Access_Acl extends Zend_Acl
 
 public function __construct() {
 
-    $roles = C3op_Access_Roles::AllRoles();
+    $rolesObj = new C3op_Access_Roles();
+    $roles = $rolesObj->AllRoles();
     $previousRole = null;
     while (list($role, $label) = each($roles)) {
         if ($role != C3op_Access_RolesConstants::ROLE_SYSADMIN) {
