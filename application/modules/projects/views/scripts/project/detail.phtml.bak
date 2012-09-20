@@ -1,0 +1,457 @@
+<?php 
+/*
+ * If exists projects list
+ */
+if (is_array($this->projectInfo)) {
+    $projectData = $this->projectInfo;
+?>
+<div id="MainHeader">
+  <h1>Projeto <?php print($projectData['title']) ?></h1>
+</div>
+
+<div class="Area">
+
+<div class="three columns alpha Right">
+  Cliente: 
+</div>
+<div class="seven columns">
+  [#CNSeg]                                           <!-- <?php print($projectData['client']) ?>  -->
+</div>
+<div class="three columns Right">
+  Overhead:
+</div>
+<div class="one column omega">
+  [#20,00%]                                          <!-- <?php print($projectData['overhead']) ?> -->
+</div>
+
+<div class="three columns alpha Right">
+  Área de atuação: 
+</div>
+<div class="seven columns">
+  [#Desenvolvimento local e micro empreendimento]    <!-- <?php print($projectData['areaActivity']) ?> -->
+</div>
+<div class="three columns Right">
+  Taxa de administração:
+</div>
+<div class="one column omega">
+  [#0,00]                                            <!-- <?php print($projectData['managementFee']) ?> -->
+</div>
+
+<div class="three columns alpha Right">
+  Responsável pelo Iets: 
+</div>
+<div class="seven columns">
+  [#Manuel Thedim]                                   <!-- <?php print($projectData['ourResponsible']) ?> -->
+</div>
+<div class="three columns Right">
+  Valor do contrato:
+</div>
+<div class="one column omega">
+  <?php print($projectData['value']) ?>
+</div>
+
+<div class="three columns alpha Right">
+  Responsável pelo cliente: 
+</div>
+<div class="seven columns">
+  [#Ricardo Tavares]                                 <!-- <?php print($projectData['responsibleAtClient']) ?> -->
+</div>
+<div class="three columns Right">
+  Data do contrato:
+</div>
+<div class="one column omega">
+  <?php print($projectData['beginDate']) ?>
+</div>
+
+<?php
+if ($projectData['linkReceivables'] != "") {
+?>    
+          <div class="Area">
+             <h2>Recebimentos</h2>
+             <table id="Produtos" class="display dataTable">
+            		<thead>
+            			<tr>
+            				<th width="220">Produto</th>
+            				<th width="80">Data prevista</th>
+            				<th width="100">Data real</th>
+            				<th width="80">Valor previsto</th>
+            				<th width="100">Valor real</th>
+            				<th width="100">&nbsp;</th>
+            			</tr>
+            		</thead>
+            		<tbody>
+            			<tr>
+            				<td>
+                      <!-- [# LINK PARA O DETALHAMENTO DO PRODUTO (AÇÃO?) + NOME DO PRODUTO ] -->
+                      <a href="#">Projeto executivo</a>
+                    </td>
+            				<td>
+                      <!-- [# DATA FINAL PREVISTA DO PRODUTO ] -->
+                      [#11/12/2012]
+                    </td>
+            				<td>
+                      <!-- [# DATA FINAL REAL DO PRODUTO ] -->
+                      [#11/12/2012]
+                    </td>
+            				<td class="Right">
+                      <!-- [# VALOR PREVISTO DO PRODUTO ] -->
+                      [#11/12/2012]
+                    </td>
+            				<td class="Right">
+                      <!-- [# VALOR REAL DO PRODUTO ] -->
+                      [#11/12/2012]
+                    </td>
+                    <td>
+                      <a class="anchorclass button" rel="submenu1">Opções...</a> 
+                      <div id="submenu1" class="anylinkcss">
+                          <ul>
+                            <li>
+                              <!-- [# LINK PARA A EDIÇÃO DO PRODUTO ] -->
+                              <a href="#">Editar</a>
+                            </li>
+                            <li>
+                              <!-- [# LINK PARA FORM DE INCLUSÃO DE RECEBIMENTO -> VAI ABRIR EM BOX DE DIÁLOGO MODAL ] -->
+                              <a href="<#">Informar recebimento</a>
+                            </li>
+                            <li>
+                              <!-- [# LINK PARA PÁGINA DE DETALHAMENTO DO PRODUTO ] -->
+                              <a href="">Detalhamento do produto</a>
+                            </li>
+                          </ul>
+                      </div><!-- #submenu1 -->
+                    </td>
+            			</tr>
+
+            			<tr>
+            				<td>
+                      <!-- [# LINK PARA O DETALHAMENTO DO PRODUTO (AÇÃO?) + NOME DO PRODUTO ] -->
+                      <a href="#">Pesquisa qualitativa</a>
+                    </td>
+            				<td>
+                      <!-- [# DATA FINAL PREVISTA DO PRODUTO ] -->
+                      [#11/12/2012]
+                    </td>
+            				<td>
+                      <!-- [# DATA FINAL REAL DO PRODUTO ] -->
+                      &nbsp;
+                    </td>
+            				<td class="Right">
+                      <!-- [# VALOR PREVISTO DO PRODUTO ] -->
+                      [#11/12/2012]
+                    </td>
+            				<td class="Right">
+                      <!-- [# VALOR REAL DO PRODUTO ] -->
+                      &nbsp;
+                    </td>
+                    <td>
+                      <a class="anchorclass button" rel="submenu1">Opções...</a> 
+                      <div id="submenu1" class="anylinkcss">
+                          <ul>
+                            <li>
+                              <!-- [# LINK PARA A EDIÇÃO DO PRODUTO ] -->
+                              <a href="#">Editar</a>
+                            </li>
+                            <li>
+                              <!-- [# LINK PARA FORM DE INCLUSÃO DE RECEBIMENTO -> VAI ABRIR EM BOX DE DIÁLOGO MODAL ] -->
+                              <a href="<#">Informar recebimento</a>
+                            </li>
+                            <li>
+                              <!-- [# LINK PARA PÁGINA DE DETALHAMENTO DO PRODUTO ] -->
+                              <a href="">Detalhamento do produto</a>
+                            </li>
+                          </ul>
+                      </div><!-- #submenu1 -->
+                    </td>
+            			</tr>
+
+            		</tbody>
+            	</table><br />
+
+            <p>
+              <!-- [# LINK PARA PÁGINA DE CRIAÇÃO DE RECEBIMENTO ] <?php print($projectData['linkReceivableCreate']) ?> -->
+              <a href="#" class="button three columns alpha omega">Prever recebimento</a>
+            </p>
+          </div><!-- Area -->  
+
+
+
+          <div class="Area">
+             <h2>Pagamentos</h2>
+             <table id="Produtos" class="display dataTable">
+            		<thead>
+            			<tr>
+            				<th width="220">Ação</th>
+            				<th width="80">Beneficiado</th>
+            				<th width="100">Data prevista</th>
+            				<th width="100">Data real</th>
+            				<th width="80">Valor previsto</th>
+            				<th width="100">Valor real</th>
+            				<th width="100">&nbsp;</th>
+            			</tr>
+            		</thead>
+            		<tbody>
+            			<tr>
+            				<td>
+                      <!-- [# LINK PARA O DETALHAMENTO DA AÇÃO + NOME DA AÇÃO ] -->
+                      <a href="#">Projeto executivo</a>
+                    </td>
+            				<td>
+                      <!-- [# LINK PARA O RECURSO OU FORNECEDOR BENEFICIADO + NOME DO RECURSO OU FORNECEDOR BENEFICIADO ] -->
+                      <a href="#">Kelly Miranda</a>
+                    </td>
+            				<td>
+                      <!-- [# DATA FINAL PREVISTA DO PRODUTO ] -->
+                      [#11/12/2012]
+                    </td>
+            				<td>
+                      <!-- [# DATA FINAL REAL DO PRODUTO ] -->
+                      [#11/12/2012]
+                    </td>
+            				<td class="Right">
+                      <!-- [# VALOR PREVISTO DO PRODUTO ] -->
+                      [#11/12/2012]
+                    </td>
+            				<td class="Right">
+                      <!-- [# VALOR REAL DO PRODUTO ] -->
+                      [#11/12/2012]
+                    </td>
+                    <td>
+                      <a class="anchorclass button" rel="submenu1">Opções...</a> 
+                      <div id="submenu1" class="anylinkcss">
+                          <ul>
+                            <li>
+                              <!-- [# LINK PARA A EDIÇÃO DA AÇÃO ] -->
+                              <a href="#">Editar</a>
+                            </li>
+                            <li>
+                              <!-- [# LINK PARA FORM DE INCLUSÃO DE PAGAMENTO -> VAI ABRIR EM BOX DE DIÁLOGO MODAL ] -->
+                              <a href="<#">Informar pagamento</a>
+                            </li>
+                            <li>
+                              <!-- [# LINK PARA PÁGINA DE DETALHAMENTO DO PRODUTO ] -->
+                              <a href="">Detalhamento da ação</a>
+                            </li>
+                          </ul>
+                      </div><!-- #submenu1 -->
+                    </td>
+            			</tr>
+
+            			<tr>
+            				<td>
+                      <!-- [# LINK PARA O DETALHAMENTO DA AÇÃO + NOME DA AÇÃO ] -->
+                      <a href="#">Pesquisa qualitativa</a>
+                    </td>
+            				<td>
+                      <!-- [# LINK PARA O RECURSO OU FORNECEDOR BENEFICIADO + NOME DO RECURSO OU FORNECEDOR BENEFICIADO ] -->
+                      <a href="#">Qualipolls Ltda.</a>
+                    </td>
+            				<td>
+                      <!-- [# DATA FINAL PREVISTA DO PAGAMENTO ] -->
+                      [#11/12/2012]
+                    </td>
+            				<td>
+                      <!-- [# DATA FINAL REAL DO PAGAMENTO ] -->
+                      &nbsp;
+                    </td>
+            				<td class="Right">
+                      <!-- [# VALOR PREVISTO DO PAGAMENTO ] -->
+                      [#7.200,00]
+                    </td>
+            				<td class="Right">
+                      <!-- [# VALOR REAL DO PAGAMENTO ] -->
+                      &nbsp;
+                    </td>
+                    <td>
+                      <a class="anchorclass button" rel="submenu1">Opções...</a> 
+                      <div id="submenu1" class="anylinkcss">
+                          <ul>
+                            <li>
+                              <!-- [# LINK PARA A EDIÇÃO DA AÇÃO ] -->
+                              <a href="#">Editar</a>
+                            </li>
+                            <li>
+                              <!-- [# LINK PARA FORM DE INCLUSÃO DE PAGAMENTO -> VAI ABRIR EM BOX DE DIÁLOGO MODAL ] -->
+                              <a href="<#">Informar pagamento</a>
+                            </li>
+                            <li>
+                              <!-- [# LINK PARA PÁGINA DE DETALHAMENTO DO PRODUTO ] -->
+                              <a href="">Detalhamento da ação</a>
+                            </li>
+                          </ul>
+                      </div><!-- #submenu1 -->
+                    </td>
+            			</tr>
+
+            		</tbody>
+            	</table><br />
+
+            <p>
+              <!-- [# LINK PARA PÁGINA DE CRIAÇÃO DE PAGAMENTO ] -->
+              <a href="#" class="button three columns alpha omega">Prever pagamento</a>
+            </p>
+          </div><!-- Area -->  
+
+
+
+          <div class="Area">
+           <h2>Equipe</h2>
+             <table id="Produtos" class="display dataTable">
+            		<thead>
+            			<tr>
+            				<th width="220">Nome</th>
+            				<th width="80">Função</th>
+            				<th width="100">E-mail</th>
+            				<th width="100">Telefone</th>
+            				<th width="100">&nbsp;</th>
+            			</tr>
+            		</thead>
+            		<tbody>
+            			<tr>
+            				<td>
+                      <!-- [# LINK PARA A PÁGINA DO CONTATO + NOME DO CONTATO ] -->
+                      <a href="#">Kelly Miranda</a>
+                    </td>
+            				<td>
+                      <!-- [# NOME DA FUNÇÃO ] -->
+                      Controller <!-- controller mudou de nome -->
+                    </td>
+            				<td>
+                      <!-- [# E-MAIL DO CONTATO ] -->
+                      <a href="mailto:kelly@iets.org.br">kelly@iets.org.br</a>
+                    </td>
+            				<td>
+                      <!-- [# TELEFONE DO CONTATO ] -->
+                      (21) 9999-9999
+                    </td>
+                    <td>
+                      <a class="anchorclass button" rel="submenu1">Opções...</a> 
+                      <div id="submenu1" class="anylinkcss">
+                          <ul>
+                            <li>
+                              <!-- [# LINK PARA A EDIÇÃO DO CONTATO ] -->
+                              <a href="#">Editar</a>
+                            </li>
+                            <li>
+                              <!-- [# LINK PARA PÁGINA DO CONTATO ] -->
+                              <a href="">Ver contato</a>
+                            </li>
+                          </ul>
+                      </div><!-- #submenu1 -->
+                    </td>
+            			</tr>
+
+            			<tr>
+            				<td>
+                      <!-- [# LINK PARA A PÁGINA DO CONTATO + NOME DO CONTATO ] -->
+                      <a href="#">José da Silva</a>
+                    </td>
+            				<td>
+                      <!-- [# NOME DA FUNÇÃO ] -->
+                      Pesquisador
+                    </td>
+            				<td>
+                      <!-- [# E-MAIL DO CONTATO ] -->
+                      <a href="mailto:jodasilva@gmail.com">jodasilva@gmail.com</a>
+                    </td>
+            				<td>
+                      <!-- [# TELEFONE DO CONTATO ] -->
+                      (21) 8787-8787
+                    </td>
+                    <td>
+                      <a class="anchorclass button" rel="submenu1">Opções...</a> 
+                      <div id="submenu1" class="anylinkcss">
+                          <ul>
+                            <li>
+                              <!-- [# LINK PARA A EDIÇÃO DO CONTATO ] -->
+                              <a href="#">Editar</a>
+                            </li>
+                            <li>
+                              <!-- [# LINK PARA PÁGINA DO CONTATO ] -->
+                              <a href="">Ver contato</a>
+                            </li>
+                          </ul>
+                      </div><!-- #submenu1 -->
+                    </td>
+            			</tr>
+
+            		</tbody>
+            	</table><br />
+
+            <p>
+              <!-- [# LINK PARA PÁGINA DE VINCULAÇÃO DE CONTATO À EQUIPE DO PROJETO ] -->
+              <a href="#" class="button three columns alpha omega">Incluir membro</a>
+            </p>
+          </div><!-- Area -->  
+
+
+
+<a class="info" href="<?php print($projectData['linkReceivables']) ?>">Consultar recebimentos do Projeto</a><br />
+
+
+
+
+
+<?php
+}
+
+?>
+<?php
+if ($projectData['linkPayables'] != "") {
+?>    
+<a class="info" href="<?php print($projectData['linkPayables']) ?>">Consultar ações realizadas</a><br />
+<?php
+}
+?>
+<?php
+if ($projectData['linkUnacknowledged'] != "") {
+?>    
+<a class="info" href="<?php print($projectData['linkUnacknowledged']) ?>">Ações com início a confirmar</a><br />
+<?php
+}
+?>
+<?php
+if ($projectData['linkTree'] != "") {
+?>    
+<a class="info" href="<?php print($projectData['linkTree']) ?>">Árvore de ações</a><br />
+<?php
+}
+?>
+</div><!-- .Area -->
+</p>
+<h2>Produtos do Projeto</h2>
+<?php 
+/*
+ * iterate list and print title
+ */
+
+    $actionsList = $projectData['actionsList'];
+    
+    while (list(, $actionInfo) = each($actionsList)) {
+?>
+<p class="project_product_line">
+<?php print($actionInfo['title']) ?>&nbsp;<?php print($actionInfo['specialAction']) ?> | 
+(<?php print($actionInfo['brood']) ?>) | 
+<?php if (isset($actionInfo['editLink'])) { ?>
+<a href="<?php print($actionInfo['editLink']) ?>">Editar</a>
+<?php } ?>
+</p>
+
+    
+<?php
+}  // loop iterate list and print titlei
+?>
+
+
+
+<p />
+<br /><br /><a href="<?php print($this->projectInfo['linkActionCreate']) ?>">Criar Nova Ação</a>
+
+    
+<?php
+} else { // else exists projects list 
+?>
+    <?php print("Não há informações para este projeto.") ?>
+
+    <?php
+} // end exists projects list
+?>
