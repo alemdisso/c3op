@@ -156,6 +156,41 @@ class Projects_ProjectController extends Zend_Controller_Action
         }
         
         $projectInfo = array(
+            // ### campos dos dados gerais do projeto 
+            'client' => '###CNSeg',
+            'overhead' => '###20',
+            'area' => '###Desenvolvimento local e microempreendimento',
+            'managementFee' => '###0',
+            'ourResponsible' => '###Manuel Thedim',
+            'responsibleAtClient' => '###Ricardo Tavares',
+            // ### campos da guia Recebimentos
+            'linkReceivable' => '#',   // ### link para os detalhes do recebimento
+            'receivableTitle' => '###Pesquisa Qualitativa',
+            'receivablePredictedDate' => '###11/12/2012',
+            'receivableRealDate' => '###11/12/2012',
+            'receivablePredictedValue' => '###35.400,00',
+            'receivableRealValue' => '###35.400,00',
+            'receivableEditLink' => '#',   // ### link para o form de edição do recebimento
+            'receivableConfirmationLink' => '#',   // ### link para a confirmação do recebimento
+            // ### campos da guia Pagamentos
+            'linkOutlay' => '#',   // ### link para os detalhes do desembolso
+            'outlayActionTitle' => '###Projeto executivo',   // ### título do desembolso
+            'linkSupplier' => '#',   // ### link para o fornecedor 
+            'outlayActionSupplier' => '###Kelly Miranda', 
+            'outlayPredictedDate' => '###11/12/2012',
+            'outlayRealDate' => '###11/12/2012',
+            'outlayPredictedValue' => '###5.400,00',
+            'outlayRealValue' => '###5.400,00',
+            'outlayEditLink' => '#',   // ### link para o form de edição do desembolso
+            'outlayConfirmationLink' => '#',   // ### link para a confirmação do desembolso
+            // ### campos da guia Equipe
+            'linkHumanResource' => '#',   // ### link para os detalhes do contato
+            'humanResourceName' => '###Kelly Miranda',   // ### nome do contato
+            'humanResourceFunction' => '###Controller',
+            'humanResourceEmail' => '###kelly@iets.org.br',
+            'humanResourcePhone' => '###(21) 9999-9999',
+            'humanResourceEditLink' => '#',   // ### link para o form de edição do contato
+            
             'title' => $projectToBeDetailed->GetTitle(),
             'editLink' => '/projects/project/edit/?id=' . $projectToBeDetailed->GetId(),
             'linkReceivables' => $linkReceivables,
