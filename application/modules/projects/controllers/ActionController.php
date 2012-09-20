@@ -115,6 +115,8 @@ class Projects_ActionController extends Zend_Controller_Action
 
     public function detailAction()
     {
+        $pageData = array();
+
         $actionsList = array();
         $this->initActionMapper();
         $this->initProjectMapper();
@@ -122,6 +124,15 @@ class Projects_ActionController extends Zend_Controller_Action
 
         $actionToBeDetailed =  $this->initActionWithCheckedId($this->actionMapper);
         $projectToBeDetailed = $this->projectMapper->findById($actionToBeDetailed->getProject());
+
+
+        // humanResourceList
+        //   * humanResourceInfo
+        //      id
+        //      name
+        //      description
+        //      valor
+        //      contractingStatus        
 
         $humanResourcesList = $this->GetHumanResourcesList($actionToBeDetailed);
 
@@ -160,11 +171,12 @@ class Projects_ActionController extends Zend_Controller_Action
         $msgAcknowledgement = "";
         $linkAcknowledgement = "";
         if ($actionToBeDetailed->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION) {
-            $msgStart = "Iniciada em " . $actionToBeDetailed->GetRealBeginDate();
+//            $msgStart = "Iniciada em " . $actionToBeDetailed->GetRealBeginDate();
+            $msgStart = $actionToBeDetailed->GetRealBeginDate();
 
             $obj = new C3op_Projects_ActionStartMode($actionToBeDetailed, $this->actionMapper);
             if ($obj->isUnacknowledged()) {
-                $msgAcknowledgement = " (confirma?)";
+                $msgAcknowledgement = "Confirmar";
                 $linkAcknowledgement =  "javascript:passIdToAjax('/projects/action/acknowledge-start', '$id', acknowledgeStartResponse);";
             }
         }
@@ -188,8 +200,25 @@ class Projects_ActionController extends Zend_Controller_Action
         $acceptLink = $this->ManageAcceptanceLink($actionToBeDetailed);
 
 
+
+        //  actionInfo
+        //    id
+        //    projectName
+        //    name
+        //    status
+        //    relationship
+//        $actionInfo = array(
+//                'id'           => $actionToBeDetailed->getId(),
+//                'projectTitle'  => "Estou Seguro",
+//                'title'         => $actionToBeDetailed->GetTitle(),
+//                'relationship' => C3op_Register_ContactTypes::TitleForType($contactBeingDetailed->GetType())
+//            );
+
         $actionInfo = array(
-            'projectTitle'       => $projectToBeDetailed->GetTitle(),
+            'id'           => $actionToBeDetailed->getId(),
+            'projectTitle'  => "###Estou Seguro",
+            'title'         => $actionToBeDetailed->GetTitle(),
+            //'projectTitle'       => $projectToBeDetailed->GetTitle(),
             'projectDetailLink'  => '/projects/project/detail/?id=' . $projectToBeDetailed->GetId(),
             'editLinkProject'    => '/projects/project/edit/?id=' . $projectToBeDetailed->GetId(),
             'actionTitle'        => $actionToBeDetailed->GetTitle(),
@@ -217,6 +246,12 @@ class Projects_ActionController extends Zend_Controller_Action
         }
 
 
+        $pageData = array(
+                      'actionInfo' => $actionInfo,
+                      'humanResourcesList' => $humanResourcesList,
+                    );
+
+        $this->view->pageData = $pageData;
 
         $this->view->actionInfo = $actionInfo;
     }
@@ -478,6 +513,17 @@ class Projects_ActionController extends Zend_Controller_Action
 
      private function getHumanResourcesList(C3op_Projects_Action $action)
     {
+
+        // humanResourceList
+        //   * humanResourceInfo
+        //      id
+        //      name
+        //      description
+        //      valor
+        //      contractingStatus        
+
+
+
         $humanResourcesList = array();
         $humanResourcesIdsList = $this->humanResourceMapper->getAllHumanResourcesOnAction($action);
 
@@ -489,17 +535,12 @@ class Projects_ActionController extends Zend_Controller_Action
             $descriptionMessage = $thisHumanResource->GetDescription();
 
             $contactId = $thisHumanResource->GetContact();
+            $actionId = $action->GetId();
+            $contactName = "(indefinido)";
             if ($contactId > 0) {
                 $this->initContactMapper();
                 $contractedContact = $this->contactMapper->findById($contactId);
                 $contactName = $contractedContact->GetName();
-                if ($descriptionMessage != "") {
-                    $descriptionMessage = "$contactName: $descriptionMessage";
-                } else {
-                    $descriptionMessage = "$contactName";
-
-                }
-
             }
 
             $dismissalLink = $this->ManageDismissalLink($thisHumanResource);
@@ -513,10 +554,10 @@ class Projects_ActionController extends Zend_Controller_Action
 
             $humanResourcesList[$humanResourceId] = array(
                 'id' => $humanResourceId,
+                'contactName' => $contactName,
                 'description' => $descriptionMessage,
                 'value' => $currencyValue,
-                'editLink' => '/projects/human-resource/edit/?id=' . $humanResourceId,
-                'linkCreateOutlay' => '/projects/outlay/create/?humanResource=' . $humanResourceId,
+                'contractingStatus' => $contractedLabel,
                 'linkOutlays' => '/projects/human-resource/outlays/?id=' . $humanResourceId,
                 'totalOutlays' => $totalValueExistentOutlays,
                 'dismissalLink' => $dismissalLink,

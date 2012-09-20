@@ -65,11 +65,12 @@ if (is_array($pageData['contactInfo'])) {
 <?php if (isset($phoneInfo['localNumber']) && ($phoneInfo['localNumber'] != "")) { ?>
 <?php print($phoneInfo['localNumber']) ?>
 <?php } else { ?>&nbsp;<? } ?>
+
                   </td>
                   <td>
 <?php if (isset($phoneInfo['label'])) { ?>
 <?php print($phoneInfo['label']) ?>
-<?php } else { ?>&nbsp;<? } ?>
+<?php } else { print '&nbsp;'; }?>
                   </td>
                   <td>
                     <a class="anchorclass button" rel="submenu1"><?php echo $this->translate("#Options...") ?></a>
@@ -247,12 +248,12 @@ if (is_array($pageData['contactInfo'])) {
                   <td>
 <?php if (isset($linkageInfo['department']) && ($linkageInfo['department'] != "")) { ?>
 <?php print($linkageInfo['department']) ?>
-<?php } else { ?>&nbsp;<? } ?>
+<?php } else { print '&nbsp;'; }?>
                   </td>
                   <td>
 <?php if (isset($linkageInfo['position']) && ($linkageInfo['position'] != "")) { ?>
 <?php print($linkageInfo['position']) ?>
-<?php } else { ?>&nbsp;<? } ?>
+<?php } else { print '&nbsp;'; }?>
                   </td>
                   <td>
                     <a class="anchorclass button" rel="submenu1"><?php echo $this->translate("#Options...") ?></a>
