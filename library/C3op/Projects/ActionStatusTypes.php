@@ -2,18 +2,23 @@
 
 class C3op_Projects_ActionStatusTypes {
 
-    private static $status = array(
-        C3op_Projects_ActionStatusConstants::STATUS_NIL => "Nula",
-        C3op_Projects_ActionStatusConstants::STATUS_PLAN => "Em Planejamento",
-        C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION => "Em Execução",
-        C3op_Projects_ActionStatusConstants::STATUS_RECEIVED => "Recebida",
-        C3op_Projects_ActionStatusConstants::STATUS_DONE => "Realizada",
-        C3op_Projects_ActionStatusConstants::STATUS_DELIVERED => "Entregue",
-        C3op_Projects_ActionStatusConstants::STATUS_COMPLETE => "Completa",
-        C3op_Projects_ActionStatusConstants::STATUS_ABORT => "Abortada",
-    );
+    private $status = array();
 
-    public static function TitleForType($type)
+
+    public function __construct() {
+        $this->status = array(
+            C3op_Projects_ActionStatusConstants::STATUS_NIL => _("#Nil"),
+            C3op_Projects_ActionStatusConstants::STATUS_PLAN => _("#Planning"),
+            C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION => _("#In Execution"),
+            C3op_Projects_ActionStatusConstants::STATUS_RECEIVED => _("#Received"),
+            C3op_Projects_ActionStatusConstants::STATUS_DONE => _("#Done"),
+            C3op_Projects_ActionStatusConstants::STATUS_DELIVERED => _("#Delivered"),
+            C3op_Projects_ActionStatusConstants::STATUS_COMPLETE => _("#Complete"),
+            C3op_Projects_ActionStatusConstants::STATUS_ABORTED => _("#Aborted"),
+        );
+    }
+
+    public function TitleForType($type)
     {
             switch ($type) {
                 case C3op_Projects_ActionStatusConstants::STATUS_NIL:
@@ -23,8 +28,8 @@ class C3op_Projects_ActionStatusTypes {
                 case C3op_Projects_ActionStatusConstants::STATUS_DONE:
                 case C3op_Projects_ActionStatusConstants::STATUS_DELIVERED:
                 case C3op_Projects_ActionStatusConstants::STATUS_COMPLETE:
-                case C3op_Projects_ActionStatusConstants::STATUS_ABORT:
-                    return self::$status[$type];
+                case C3op_Projects_ActionStatusConstants::STATUS_ABORTED:
+                    return $this->status[$type];
                     break;
 
                 default:
@@ -33,8 +38,8 @@ class C3op_Projects_ActionStatusTypes {
             }
     }
 
-    public static function AllStatus()
+    public function AllStatus()
     {
-        return self::$status;
+        return $this->status;
     }
 }

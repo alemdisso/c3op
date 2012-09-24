@@ -101,7 +101,7 @@ class C3op_Projects_Action {
             case C3op_Projects_ActionStatusConstants::STATUS_DONE:
             case C3op_Projects_ActionStatusConstants::STATUS_DELIVERED:
             case C3op_Projects_ActionStatusConstants::STATUS_COMPLETE:
-            case C3op_Projects_ActionStatusConstants::STATUS_ABORT:
+            case C3op_Projects_ActionStatusConstants::STATUS_ABORTED:
                 $this->status = (int)$status;
                 break;
 

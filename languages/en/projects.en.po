@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-24 13:33-0300\n"
-"PO-Revision-Date: 2012-09-24 13:34-0300\n"
+"POT-Creation-Date: 2012-09-24 13:46-0300\n"
+"PO-Revision-Date: 2012-09-24 13:46-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: English\n"
@@ -36,12 +36,26 @@ msgstr ""
 "It needs a positive integer project id to find other actions from same "
 "project."
 
+#: library\C3op\projects/ActionStatusTypes.php:7
+msgid "#Em Planejamento"
+msgstr ""
+
 #: application\modules\projects/views/scripts/action/create.phtml:2
 msgid "#New action"
 msgstr "New action"
 
 #: application\modules\projects/views/scripts/action/create.phtml:3
 msgid "#Project:"
+msgstr "Project:"
+
+#: application\modules\projects/views/scripts/action/edit.phtml:2
+#, fuzzy
+msgid "#Edit action"
+msgstr "Editar contato"
+
+#: application\modules\projects/views/scripts/action/edit.phtml:3
+#, fuzzy
+msgid "#Project"
 msgstr "Project:"
 
 #: application\modules\projects/views/scripts/action/success.phtml:2
@@ -193,9 +207,6 @@ msgstr "Success!"
 
 #~ msgid "#There is no data from this contact."
 #~ msgstr "Não há informações sobre esse contato."
-
-#~ msgid "#Edit contact"
-#~ msgstr "Editar contato"
 
 #~ msgid "#Create linkage"
 #~ msgstr "Criar novo vínculo"

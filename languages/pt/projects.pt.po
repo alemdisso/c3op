@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-24 13:25-0300\n"
-"PO-Revision-Date: 2012-09-24 13:26-0300\n"
+"POT-Creation-Date: 2012-09-24 14:14-0300\n"
+"PO-Revision-Date: 2012-09-24 14:16-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -36,6 +36,38 @@ msgstr ""
 "It needs a positive integer project id to find other actions from same "
 "project."
 
+#: library\C3op\projects/ActionStatusTypes.php:10
+msgid "#Nil"
+msgstr "Nula"
+
+#: library\C3op\projects/ActionStatusTypes.php:11
+msgid "#Planning"
+msgstr "Em Planejamento"
+
+#: library\C3op\projects/ActionStatusTypes.php:12
+msgid "#In Execution"
+msgstr "Em Execução"
+
+#: library\C3op\projects/ActionStatusTypes.php:13
+msgid "#Received"
+msgstr "Recebida"
+
+#: library\C3op\projects/ActionStatusTypes.php:14
+msgid "#Done"
+msgstr "Realizada"
+
+#: library\C3op\projects/ActionStatusTypes.php:15
+msgid "#Delivered"
+msgstr "Entregue"
+
+#: library\C3op\projects/ActionStatusTypes.php:16
+msgid "#Complete"
+msgstr "Completa"
+
+#: library\C3op\projects/ActionStatusTypes.php:17
+msgid "#Aborted"
+msgstr "Abortada"
+
 #: application\modules\projects/views/scripts/action/create.phtml:2
 msgid "#New action"
 msgstr "Nova ação"
@@ -44,9 +76,20 @@ msgstr "Nova ação"
 msgid "#Project:"
 msgstr "Projeto:"
 
+#: application\modules\projects/views/scripts/action/edit.phtml:2
+msgid "#Edit action"
+msgstr "Editar ação"
+
+#: application\modules\projects/views/scripts/action/edit.phtml:3
+msgid "#Project"
+msgstr "Projeto"
+
 #: application\modules\projects/views/scripts/action/success.phtml:2
 msgid "#Sucess!!!"
 msgstr "Sucesso!"
+
+#~ msgid "#Em Planejamento"
+#~ msgstr "Teste"
 
 #, fuzzy
 #~ msgid "#Invalid contact id"
@@ -179,9 +222,6 @@ msgstr "Sucesso!"
 #~ msgid "#Add messenger"
 #~ msgstr "Adicionar serviço"
 
-#~ msgid "#Institution"
-#~ msgstr "Instituição"
-
 #~ msgid "#Departament"
 #~ msgstr "Departamento"
 
@@ -193,9 +233,6 @@ msgstr "Sucesso!"
 
 #~ msgid "#There is no data from this contact."
 #~ msgstr "Não há informações sobre esse contato."
-
-#~ msgid "#Edit contact"
-#~ msgstr "Editar contato"
 
 #~ msgid "#Create linkage"
 #~ msgstr "Criar novo vínculo"

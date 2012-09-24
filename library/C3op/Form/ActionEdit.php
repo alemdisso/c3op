@@ -10,16 +10,15 @@ class C3op_Form_ActionEdit extends C3op_Form_ActionCreate
             ->setAction('/projects/action/edit')
             ->setMethod('post');
 
-        $id = new Zend_Form_Element_Hidden('id');
-        $id->addValidator('Int')
-            //->addFilter('HtmlEntities')
+        $element = new Zend_Form_Element_Hidden('id');
+        $element->addValidator('Int')
             ->addFilter('StringTrim');
-        $this->addElement($id);
+        $this->addElement($element);
 
         $this->removeElement('submit');
 
-        $status = new Zend_Form_Element_Select('status');
-        $status->setLabel('Status')
+        $element = new Zend_Form_Element_Select('status');
+        $element->setLabel('#Status:')
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
@@ -27,24 +26,25 @@ class C3op_Form_ActionEdit extends C3op_Form_ActionCreate
                     array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
                 ))
                 ->setOptions(array('class' => 'Full alpha omega'));
-        $statusTypes = C3op_Projects_ActionStatusTypes::AllStatus();
+        $obj = new C3op_Projects_ActionStatusTypes();
+        $statusTypes = $obj->AllStatus();
         while (list($key, $title) = each($statusTypes)) {
-            $status->addMultiOption($key, $title);
+            $element->addMultiOption($key, _($title));
         }
-        $this->addElement($status);
+        $this->addElement($element);
 
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
-        $submit ->setLabel('Gravar')
-                ->setDecorators(array('ViewHelper','Errors',
+        $submit->setLabel('#Submit')
+               ->setDecorators(array('ViewHelper','Errors',
                     array(array('data' => 'HtmlTag'),
                     array('tag' => 'div','class' => 'two columns inset-by-nine omega')),
                     array('Label',
                       array('tag' => 'div','tagClass' => 'three columns alpha Invisible')
                     ),
                   ))
-                ->setOptions(array('class' => 'submit Full alpha omega'));
-        $this   ->addElement($submit);
+               ->setOptions(array('class' => 'submit Full alpha omega'));
+        $this->addElement($submit);
 
     }
 
@@ -82,8 +82,6 @@ class C3op_Form_ActionEdit extends C3op_Form_ActionCreate
                 $dateForMysql = $converter->convertDateToMySQLFormat($predictedFinishDate);
                 $action->SetPredictedFinishDate($dateForMysql);
             }
-
-
 
             $actionMapper->update($action);
             return $id;
