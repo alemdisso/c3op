@@ -1,0 +1,284 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: c3op\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-09-24 13:33-0300\n"
+"PO-Revision-Date: 2012-09-24 13:34-0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: English\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;translate\n"
+"X-Poedit-Basepath: C:\\xampp\\htdocs\\c3op\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: application\\modules\\projects\n"
+"X-Poedit-SearchPath-1: library\\C3op\\projects\n"
+
+#: application\modules\projects/controllers/ActionController.php:38
+msgid "#The record was successfully created."
+msgstr "The record was successfully created."
+
+#: application\modules\projects/controllers/ActionController.php:72
+msgid "#The record was successfully updated."
+msgstr "The record was successfully updated."
+
+#: application\modules\projects/controllers/ActionController.php:401
+msgid "#It needs a positive integer project id to populate project fields."
+msgstr "It needs a positive integer project id to populate project fields."
+
+#: application\modules\projects/controllers/ActionController.php:434
+msgid ""
+"#It needs a positive integer project id to find other actions from same "
+"project."
+msgstr ""
+"It needs a positive integer project id to find other actions from same "
+"project."
+
+#: application\modules\projects/views/scripts/action/create.phtml:2
+msgid "#New action"
+msgstr "New action"
+
+#: application\modules\projects/views/scripts/action/create.phtml:3
+msgid "#Project:"
+msgstr "Project:"
+
+#: application\modules\projects/views/scripts/action/success.phtml:2
+msgid "#Sucess!!!"
+msgstr "Success!"
+
+#, fuzzy
+#~ msgid "#Invalid contact id"
+#~ msgstr "Editar contato"
+
+#, fuzzy
+#~ msgid "#Invalid phone number"
+#~ msgstr "Acrescentar telefone"
+
+#~ msgid "#Name"
+#~ msgstr "Nome"
+
+#~ msgid "#Government"
+#~ msgstr "Poder público"
+
+#~ msgid "#Private Entity"
+#~ msgstr "Entidade Privada"
+
+#~ msgid "#Research Institute"
+#~ msgstr "Instituto de pesquisa"
+
+#~ msgid "#Non Governmental Organization"
+#~ msgstr "Organização Não Governamental"
+
+#~ msgid "#Particular"
+#~ msgstr "Particular"
+
+#~ msgid "#General"
+#~ msgstr "Geral"
+
+#~ msgid "#Client"
+#~ msgstr "Cliente"
+
+#~ msgid "#Partner"
+#~ msgstr "Parceiro"
+
+#~ msgid "#Supplier"
+#~ msgstr "Fornecedor"
+
+#~ msgid "#Contractor"
+#~ msgstr "Contratante"
+
+#~ msgid "#Email addresses"
+#~ msgstr "Emails"
+
+#~ msgid "#Create %s's email address"
+#~ msgstr "Adicionar email para %s"
+
+#~ msgid "#Service messengers"
+#~ msgstr "Serviços de mensagens"
+
+#~ msgid "#Create %s's service messenger"
+#~ msgstr "Adicionar serviço de %s"
+
+#~ msgid "#Phone number"
+#~ msgstr "Telefone"
+
+#~ msgid "#Create %s's phone number"
+#~ msgstr "Adicionar telefone de %s"
+
+#~ msgid "#Email"
+#~ msgstr "Email"
+
+#~ msgid "#Change %s's email address"
+#~ msgstr "Alterar email de %s"
+
+#~ msgid "#Service messenger"
+#~ msgstr "Serviço de mensagens"
+
+#~ msgid "#Change %s's service messenger"
+#~ msgstr "Alterar endereço de %s"
+
+#~ msgid "#Change phone number of %s"
+#~ msgstr "Alterar telefone de %s"
+
+#~ msgid "#Create contact"
+#~ msgstr "Criar contato"
+
+#~ msgid "#Contact:"
+#~ msgstr "Contato:"
+
+#~ msgid "#Name:"
+#~ msgstr "Nome:"
+
+#~ msgid "#Relationship"
+#~ msgstr "Relação com o IETS"
+
+#~ msgid "#Phone Numbers"
+#~ msgstr "Telefones"
+
+#~ msgid "#Area code"
+#~ msgstr "DDD"
+
+#~ msgid "#Local Number"
+#~ msgstr "Número"
+
+#~ msgid "#Label"
+#~ msgstr "Tipo"
+
+#~ msgid "#Options..."
+#~ msgstr "Opções..."
+
+#~ msgid "#Add phone number"
+#~ msgstr "Acrescentar telefone"
+
+#~ msgid "#Emails"
+#~ msgstr "Emails"
+
+#~ msgid "#Address"
+#~ msgstr "Endereço"
+
+#~ msgid "#Type"
+#~ msgstr "Tipo"
+
+#~ msgid "#Edit"
+#~ msgstr "Editar"
+
+#~ msgid "#Add email"
+#~ msgstr "Acrescentar email"
+
+#~ msgid "#Messengers"
+#~ msgstr "Serviços de mensagens"
+
+#~ msgid "#Service"
+#~ msgstr "Serviço"
+
+#~ msgid "#Service.Address"
+#~ msgstr "Conta"
+
+#~ msgid "#Add messenger"
+#~ msgstr "Adicionar serviço"
+
+#~ msgid "#Institution"
+#~ msgstr "Instituição"
+
+#~ msgid "#Departament"
+#~ msgstr "Departamento"
+
+#~ msgid "#Position"
+#~ msgstr "Posição"
+
+#~ msgid "#Create new linkage"
+#~ msgstr "Criar novo vínculo"
+
+#~ msgid "#There is no data from this contact."
+#~ msgstr "Não há informações sobre esse contato."
+
+#~ msgid "#Edit contact"
+#~ msgstr "Editar contato"
+
+#~ msgid "#Create linkage"
+#~ msgstr "Criar novo vínculo"
+
+#~ msgid "#Generic error message"
+#~ msgstr "Ocorreu um erro."
+
+#~ msgid "#Contacts"
+#~ msgstr "Contatos"
+
+#~ msgid "#No registered contacts"
+#~ msgstr "Não há contatos cadastrados"
+
+#~ msgid "#Contacts list was not found"
+#~ msgstr "Não foi encontrada uma lista de contatos"
+
+#~ msgid "#Add new contact"
+#~ msgstr "Adicionar contato"
+
+#~ msgid "#Success creating!"
+#~ msgstr "Sucesso ao adicionar o registro"
+
+#~ msgid "#Success updating!"
+#~ msgstr "Sucesso ao atualizar registro"
+
+#~ msgid "#Register"
+#~ msgstr "Cadastro"
+
+#~ msgid "#Institutions"
+#~ msgstr "Instituições"
+
+#~ msgid "#Create institution"
+#~ msgstr "Adicionar instituição"
+
+#~ msgid "#Contacts in this institution"
+#~ msgstr "Contatos nessa instituição"
+
+#~ msgid "#Add new linkage"
+#~ msgstr "Adicionar vínculo"
+
+#~ msgid "#There is no data about this institution."
+#~ msgstr "Não há informações sobre essa instituição."
+
+#~ msgid "#Edit institution"
+#~ msgstr "Editar instituição"
+
+#~ msgid "#City"
+#~ msgstr "Cidade"
+
+#~ msgid "#State"
+#~ msgstr "UF"
+
+#~ msgid "#institution.index.Relationship"
+#~ msgstr "Relação"
+
+#~ msgid "#No registered institutions."
+#~ msgstr "Não há instituições cadastradas."
+
+#~ msgid "#Institutions list was not found."
+#~ msgstr "Não existe lista de instituições cadastradas."
+
+#~ msgid "#Add new institution"
+#~ msgstr "Criar Nova Instituição"
+
+#~ msgid "Número Local"
+#~ msgstr "Número"
+
+#~ msgid "Rótulo"
+#~ msgstr "Tipo"
+
+#~ msgid "Conta"
+#~ msgstr "Conta"
+
+#~ msgid "name"
+#~ msgstr "Nome"
+
+#~ msgid "My test"
+#~ msgstr "Contato:"
+
+#, fuzzy
+#~ msgid "Relação"
+#~ msgstr "Relação com o IETS"
+
+#, fuzzy
+#~ msgid "Code area"
+#~ msgstr "DDD"

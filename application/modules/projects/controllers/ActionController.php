@@ -36,7 +36,7 @@ class Projects_ActionController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully created.'));
-                $this->_redirect('/projects/action/success-create/?id=' . $id);
+                $this->_redirect('/projects/action/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -70,7 +70,7 @@ class Projects_ActionController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/action/success-create/?id=' . $id);
+                $this->_redirect('/projects/action/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -289,13 +289,12 @@ class Projects_ActionController extends Zend_Controller_Action
     }
 
 
-    public function successCreateAction()
+    public function successAction()
     {
-        $this->initActionMapper();
-        $action =  $this->initActionWithCheckedId($this->actionMapper);
+        $actionId = $this->checkIdFromGet();
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
             $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
-            $this->getResponse()->setHeader('Refresh', '3; URL=/projects/action/detail/?id=' . $action->getId());
+            $this->getResponse()->setHeader('Refresh', '3; URL=/projects/action/detail/?id=' . $actionId);
         } else {
             $this->_redirect('/projects');
         }
