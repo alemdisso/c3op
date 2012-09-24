@@ -215,10 +215,24 @@ class Projects_ActionController extends Zend_Controller_Action
 //            );
 
         $actionInfo = array(
+            'status'  => "###Em execução",
+            'description'  => "###Aqui entra o conteúdo do campo description, da tabela projects_actions. Lorem ipsum dolor sit amet, consectetuer adisiping elit.",
+            'predictedBeginDate'  => "01/01/1980",
+            'predictedFinishDate'  => "12/12/1980",
+            'milestone'  => "Não é marco", // ### boleano [É marco | Não é marco ]
+            'realFinishDate'  => "11/11/1980",
+            'responsible'  => "###Kelly Miranda",
+            'msgNoStart'  => "###Não iniciada",
+            'humanResourceId'  => "#",
+            'humanResourceContactName'  => "###Kelly Miranda",
+            'humanResourceDescription'  => "###Redator",
+            'humanResourceValue'  => "###1.500,00",
+            'humanResourceContract'  => "###Contratado",
+            'humanResourceDismissalLink'  => "#",
+
             'id'           => $actionToBeDetailed->getId(),
-            'projectTitle'  => "###Estou Seguro",
             'title'         => $actionToBeDetailed->GetTitle(),
-            //'projectTitle'       => $projectToBeDetailed->GetTitle(),
+            'projectTitle'       => $projectToBeDetailed->GetTitle(),
             'projectDetailLink'  => '/projects/project/detail/?id=' . $projectToBeDetailed->GetId(),
             'editLinkProject'    => '/projects/project/edit/?id=' . $projectToBeDetailed->GetId(),
             'actionTitle'        => $actionToBeDetailed->GetTitle(),
@@ -232,9 +246,12 @@ class Projects_ActionController extends Zend_Controller_Action
             'acceptLink'         => $acceptLink,
             'finishDate' => C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->GetRealFinishDate()),
             'msgDone'            => $msgDone,
+            'msgDone'            => '09/09/1980',
             'msgStart'            => $msgStart,
+            'msgStart'            => '02/02/1980',
             'linkAcknowledgement'           => $linkAcknowledgement,
             'msgAcknowledgement'            => $msgAcknowledgement,
+            'msgAcknowledgement'            => "Iniciar ação",
         );
         if ($actionToBeDetailed->GetSubordinatedTo() > 0) {
             $actionInfo['parentLink'] = '/projects/action/detail/?id=' . $actionToBeDetailed->GetSubordinatedTo();

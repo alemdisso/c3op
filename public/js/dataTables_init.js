@@ -8,7 +8,7 @@ $(document).ready(function() {
       "sInfoFiltered":    " - filtrado do total de _MAX_ registros",
       "sInfoPostFix":     "", /* appended to sInfo at all times */
       "sInfoThousands":   ".",
-      "sLengthMenu":      "Exibir _MENU_ registros",
+      "sLengthMenu":      "Exibir até _MENU_ registros",
       "sLoadingRecords":  "Aguarde - carregando...",
       "sProcessing":      "Aguarde - processando...",
       "sSearch":          "Filtrar:",
