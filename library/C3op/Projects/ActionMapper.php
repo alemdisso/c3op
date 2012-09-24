@@ -205,7 +205,7 @@ class C3op_Projects_ActionMapper
 
     }
 
-   public function FetchLastReceiptDate(C3op_Projects_Action $action)
+   public function fetchLastReceiptDate(C3op_Projects_Action $action)
     {
         $result = $this->db->fetchRow(
             sprintf(
@@ -224,7 +224,7 @@ class C3op_Projects_ActionMapper
         $this->setAttributeValue($action, $receiptDate, 'receiptDate');
     }
 
-   public function GetLastAutoStartDate(C3op_Projects_Action $action)
+   public function getLastAutoStartDate(C3op_Projects_Action $action)
     {
         $result = $this->db->fetchRow(
             sprintf(
@@ -243,7 +243,7 @@ class C3op_Projects_ActionMapper
         return $autoStartDate;
     }
 
-   public function GetLastAcknowledgeStartDate(C3op_Projects_Action $action)
+   public function getLastAcknowledgeStartDate(C3op_Projects_Action $action)
     {
         $result = $this->db->fetchRow(
             sprintf(
@@ -298,7 +298,7 @@ class C3op_Projects_ActionMapper
         return $value;
     }
 
-    private function UpdateDates(C3op_Projects_Action $action)
+    private function updateDates(C3op_Projects_Action $action)
     {
         $this->db->exec(
         sprintf(

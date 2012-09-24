@@ -26,13 +26,13 @@ class C3op_Projects_Action {
 
     }
 
-    public function GetId()
+    public function getId()
     {
         return $this->id;
 
     } //GetId
 
-    public function SetId($id)
+    public function setId($id)
     {
         if (($this->id == 0) && ($id > 0)) {
             $this->id = (int)$id;
@@ -42,13 +42,13 @@ class C3op_Projects_Action {
 
     } //SetId
 
-    public function GetTitle()
+    public function getTitle()
     {
         return $this->title;
 
     } //GetTitle
 
-    public function SetTitle($title)
+    public function setTitle($title)
     {
         $validator = new C3op_Projects_ProjectValidTitle();
         if ($validator->isValid($title)) {
@@ -61,17 +61,17 @@ class C3op_Projects_Action {
 
     } //SetTitle
 
-    public function GetProject()
+    public function getProject()
     {
         return $this->project;
     }
 
-    public function SetProject($project)
+    public function setProject($project)
     {
         $this->project = $project;
     }
 
-    public function SetDone($done)
+    public function setDone($done)
     {
         if ($done) {
             $this->done = $done;
@@ -80,17 +80,17 @@ class C3op_Projects_Action {
         }
     }
 
-    public function GetDone()
+    public function getDone()
     {
         return $this->done;
     }
 
-    public function GetStatus()
+    public function getStatus()
     {
         return $this->status;
     }
 
-    public function SetStatus($status)
+    public function setStatus($status)
     {
 
         switch ($status) {
@@ -118,12 +118,12 @@ class C3op_Projects_Action {
         }
     }
 
-    public function GetDescription()
+    public function getDescription()
     {
         return $this->description;
     } //GetDescription
 
-    public function SetDescription($description)
+    public function setDescription($description)
     {
         $validator = new C3op_Util_ValidLongString();
         if ($validator->isValid($description)) {
@@ -135,12 +135,12 @@ class C3op_Projects_Action {
         }
     } //SetDescription
 
-    public function GetBegin()
+    public function getBegin()
     {
         return $this->begin;
     } //GetBegin
 
-    public function SetBegin($begin)
+    public function setBegin($begin)
     {
         if ($begin != "") {
             $dateValidator = new C3op_Util_ValidDate();
@@ -154,23 +154,23 @@ class C3op_Projects_Action {
         }
     } //SetBegin
 
-    public function SetSubordinatedTo($subordinatedTo)
+    public function setSubordinatedTo($subordinatedTo)
     {
         $this->subordinatedTo = $subordinatedTo;
     }
 
-    public function GetSubordinatedTo()
+    public function getSubordinatedTo()
     {
         return $this->subordinatedTo;
     }
 
 
-    public function GetResponsible()
+    public function getResponsible()
     {
         return $this->responsible;
     }
 
-    public function SetResponsible($responsible)
+    public function setResponsible($responsible)
     {
         if ($this->responsible != $responsible) {
             $validator = new C3op_Util_ValidPositiveInteger();
@@ -180,7 +180,7 @@ class C3op_Projects_Action {
         }
     }
 
-    public function SetMilestone($milestone)
+    public function setMilestone($milestone)
     {
         if ($milestone) {
             $this->milestone = $milestone;
@@ -189,12 +189,12 @@ class C3op_Projects_Action {
         }
     }
 
-    public function GetMilestone()
+    public function getMilestone()
     {
         return $this->milestone;
     }
 
-    public function SetRequirementForReceiving($requirementForReceiving)
+    public function setRequirementForReceiving($requirementForReceiving)
     {
         if ($requirementForReceiving) {
             $this->requirementForReceiving = $requirementForReceiving;
@@ -203,17 +203,17 @@ class C3op_Projects_Action {
         }
     }
 
-    public function GetRequirementForReceiving()
+    public function getRequirementForReceiving()
     {
         return $this->requirementForReceiving;
     }
 
-    public function GetPredictedBeginDate()
+    public function getPredictedBeginDate()
     {
         return $this->predictedBeginDate;
     } //GetPredictedBeginDate
 
-    public function SetPredictedBeginDate($predictedBeginDate)
+    public function setPredictedBeginDate($predictedBeginDate)
     {
         if ($predictedBeginDate != "") {
             $dateValidator = new C3op_Util_ValidDate();
@@ -227,12 +227,12 @@ class C3op_Projects_Action {
         }
     } //SetPredictedBeginDate
 
-    public function GetPredictedFinishDate()
+    public function getPredictedFinishDate()
     {
         return $this->predictedFinishDate;
     } //GetPredictedFinishDate
 
-    public function SetPredictedFinishDate($predictedFinishDate)
+    public function setPredictedFinishDate($predictedFinishDate)
     {
         if ($predictedFinishDate != "") {
             $dateValidator = new C3op_Util_ValidDate();
@@ -246,12 +246,12 @@ class C3op_Projects_Action {
         }
     } //SetPredictedFinishDate
 
-    public function GetRealBeginDate()
+    public function getRealBeginDate()
     {
         return $this->realBeginDate;
     } //GetRealBeginDate
 
-    public function SetRealBeginDate($realBeginDate)
+    public function setRealBeginDate($realBeginDate)
     {
         if ($realBeginDate != "") {
             $dateValidator = new C3op_Util_ValidDate();
@@ -265,12 +265,12 @@ class C3op_Projects_Action {
         }
     } //SetRealBeginDate
 
-    public function GetRealFinishDate()
+    public function getRealFinishDate()
     {
         return $this->realFinishDate;
     } //GetRealFinishDate
 
-    public function SetRealFinishDate($realFinishDate)
+    public function setRealFinishDate($realFinishDate)
     {
         if ($realFinishDate != "") {
             $dateValidator = new C3op_Util_ValidDate();
@@ -284,13 +284,7 @@ class C3op_Projects_Action {
         }
     } //SetRealFinishDate
 
-    public function Realize()
-    {
-        $this->SetDone(true);
-
-    }
-
-    public function GetReceiptDate(C3op_Projects_ActionMapper $actionMapper)
+    public function getReceiptDate(C3op_Projects_ActionMapper $actionMapper)
     {
 
         if (is_null($this->receiptDate)) {

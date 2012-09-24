@@ -35,9 +35,13 @@ class Projects_ActionController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');
+                    ->addMessage($this->view->translate('#The record was successfully created.'));
                 $this->_redirect('/projects/action/success-create/?id=' . $id);
-            } else throw new C3op_Projects_ActionException("An action must have a valid title.");
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
         } else {
             $data = $this->_request->getParams();
             if (isset($data['subordinatedTo'])) {
@@ -50,7 +54,7 @@ class Projects_ActionController extends Zend_Controller_Action
                 $projectId = $data['project'];
             }
             $this->populateProjectFields($projectId, $form);
-            $this->PopulateResponsibleField($form);
+            $this->populateResponsibleField($form);
             $this->populateRequirementForReceivingField($projectId, $form);
             $this->populateSubordinatedActionsField($projectId, $form, 0, $subordinatedTo);
         }
@@ -65,9 +69,13 @@ class Projects_ActionController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
                 $this->_redirect('/projects/action/success-create/?id=' . $id);
-            } else throw new C3op_Projects_ProjectException("A project must have a valid title.");
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
         } else {
             $data = $this->_request->getParams();
             $filters = array(
@@ -82,20 +90,27 @@ class Projects_ActionController extends Zend_Controller_Action
 
                 $this->initActionMapper();
                 $inputAction = $this->actionMapper->findById($id);
-                $titleField = $form->getElement('title');
-                $titleField->setValue($inputAction->getTitle());
-                $idField = $form->getElement('id');
-                $idField->setValue($id);
-                $milestoneField = $form->getElement('milestone');
-                $milestoneField->setValue($inputAction->getMilestone());
-                $projectId = $this->populateProjectFields($inputAction->GetProject(), $form);
-                $descriptionField = $form->getElement('description');
-                $descriptionField->setValue($inputAction->GetDescription());
-                $this->SetDateValueToFormField($form, 'predictedBeginDate', $inputAction->GetPredictedBeginDate());
-                $this->SetDateValueToFormField($form, 'predictedFinishDate', $inputAction->GetPredictedFinishDate());
-                $statusField = $form->getElement('status');
-                $statusField->setValue($inputAction->GetStatus());
-                $this->populateRequirementForReceivingField($projectId, $form, $inputAction->GetRequirementForReceiving());
+                $element = $form->getElement('title');
+                $element->setValue($inputAction->getTitle());
+
+                $element = $form->getElement('id');
+                $element->setValue($id);
+
+                $element = $form->getElement('milestone');
+                $element->setValue($inputAction->getMilestone());
+
+                $projectId = $this->populateProjectFields($inputAction->getProject(), $form);
+
+                $element = $form->getElement('description');
+                $element->setValue($inputAction->getDescription());
+
+                $this->setDateValueToFormField($form, 'predictedBeginDate', $inputAction->getPredictedBeginDate());
+                $this->setDateValueToFormField($form, 'predictedFinishDate', $inputAction->getPredictedFinishDate());
+
+                $element = $form->getElement('status');
+                $element->setValue($inputAction->getStatus());
+
+                $this->populateRequirementForReceivingField($projectId, $form, $inputAction->getRequirementForReceiving());
                 $this->populateSubordinatedActionsField($projectId, $form, $id);
             }
 
@@ -132,7 +147,7 @@ class Projects_ActionController extends Zend_Controller_Action
         //      name
         //      description
         //      valor
-        //      contractingStatus        
+        //      contractingStatus
 
         $humanResourcesList = $this->GetHumanResourcesList($actionToBeDetailed);
 
@@ -150,7 +165,7 @@ class Projects_ActionController extends Zend_Controller_Action
 
             }
 
-            $rejectLink = $this->ManageRejectReceiptLink($loopAction);
+            $rejectLink = $this->manageRejectReceiptLink($loopAction);
 
             $actionTitle =  sprintf("<a href='/projects/action/detail/?id=%d'>%s</a>", $actionId, $loopAction->GetTitle());
             $actionsList[$actionId] = array(
@@ -190,14 +205,14 @@ class Projects_ActionController extends Zend_Controller_Action
         } elseif ($actionToBeDetailed->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_RECEIVED) {
             $msgDone = "Ação recebida em " . $actionToBeDetailed->GetReceiptDate($this->actionMapper);
             $linkDone = "";
-            $acceptLink = $this->ManageAcceptanceLink($actionToBeDetailed);
+            $acceptLink = $this->manageAcceptanceLink($actionToBeDetailed);
         } else {
             $msgDone = "Confirma que ação foi entregue ao IETS";
             $linkDone = "javascript:passIdToAjax('/projects/action/acknowledge-receipt', '$id', acknowledgeReceiptResponse);";
         }
 
-        $rejectLink = $this->ManageRejectReceiptLink($actionToBeDetailed);
-        $acceptLink = $this->ManageAcceptanceLink($actionToBeDetailed);
+        $rejectLink = $this->manageRejectReceiptLink($actionToBeDetailed);
+        $acceptLink = $this->manageAcceptanceLink($actionToBeDetailed);
 
 
 
@@ -384,7 +399,7 @@ class Projects_ActionController extends Zend_Controller_Action
             $this->view->linkProjectDetail = "/projects/project/detail/?id=" . $theProject->GetId();
 
             return $projectId;
-        } else throw new C3op_Projects_ActionException("Action needs a positive integer project id.");
+        } else throw new C3op_Projects_ActionException(_("#It needs a positive integer project id to populate project fields."));
 
    }
 
@@ -417,7 +432,7 @@ class Projects_ActionController extends Zend_Controller_Action
 
             $subordinatedToField->setValue($parentActionId);
 
-        } else throw new C3op_Projects_ActionException("Action needs a positive integer project id to find other actions.");
+        } else throw new C3op_Projects_ActionException(_("#It needs a positive integer project id to find other actions from same project."));
    }
 
     private function populateRequirementForReceivingField($projectId, C3op_Form_ActionCreate $form, $setedReceivableId = 0)
@@ -444,9 +459,8 @@ class Projects_ActionController extends Zend_Controller_Action
         } else throw new C3op_Projects_ActionException("Action needs a positive integer project id to find possible receivables to to be a requirement.");
    }
 
-    private function PopulateResponsibleField(Zend_Form $form, $currentResponsible = 0)
+    private function populateResponsibleField(Zend_Form $form, $currentResponsible = 0)
     {
-
             $this->initContactMapper();
             $responsibleField = $form->getElement('responsible');
             $allThatCanBeResponsible = $this->contactMapper->getAllContactThatAreLinkedToAContractant();
@@ -520,7 +534,7 @@ class Projects_ActionController extends Zend_Controller_Action
         //      name
         //      description
         //      valor
-        //      contractingStatus        
+        //      contractingStatus
 
 
 
@@ -543,9 +557,9 @@ class Projects_ActionController extends Zend_Controller_Action
                 $contactName = $contractedContact->GetName();
             }
 
-            $dismissalLink = $this->ManageDismissalLink($thisHumanResource);
+            $dismissalLink = $this->manageDismissalLink($thisHumanResource);
 
-            $contractingLink = $this->ManageContractingLink($thisHumanResource);
+            $contractingLink = $this->manageContractingLink($thisHumanResource);
 
             $contractedLabel = "";
             if ($thisHumanResource->GetStatus() == C3op_Projects_HumanResourceStatusConstants::STATUS_CONTRACTED) {
@@ -570,7 +584,7 @@ class Projects_ActionController extends Zend_Controller_Action
 
     }
 
-    private function ManageRejectReceiptLink(C3op_Projects_Action $action) {
+    private function manageRejectReceiptLink(C3op_Projects_Action $action) {
         $rejectLink = "";
         if ($action->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_RECEIVED) {
             $rejectLink = sprintf("javascript:passIdToAjax('/projects/action/reject-receipt', %d, rejectReceiptResponse)", $action->GetId());
@@ -578,7 +592,7 @@ class Projects_ActionController extends Zend_Controller_Action
         return $rejectLink;
     }
 
-    private function ManageAcceptanceLink(C3op_Projects_Action $action) {
+    private function manageAcceptanceLink(C3op_Projects_Action $action) {
         $acceptLink = "";
         if ($action->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_RECEIVED) {
             $acceptLink = sprintf("javascript:passIdToAjax('/projects/action/accept-receipt', %d, acceptReceiptResponse)", $action->GetId());
@@ -586,7 +600,7 @@ class Projects_ActionController extends Zend_Controller_Action
         return $acceptLink;
     }
 
-    private function ManageDismissalLink(C3op_Projects_HumanResource $humanResource) {
+    private function manageDismissalLink(C3op_Projects_HumanResource $humanResource) {
         $dismissalLink = "";
         if (($humanResource->GetContact() > 0)
                 && ($humanResource->GetStatus() == C3op_Projects_HumanResourceStatusConstants::STATUS_FORESEEN)) {
@@ -595,7 +609,7 @@ class Projects_ActionController extends Zend_Controller_Action
         return $dismissalLink;
     }
 
-    private function ManageContractingLink(C3op_Projects_HumanResource $humanResource) {
+    private function manageContractingLink(C3op_Projects_HumanResource $humanResource) {
         $contractingLink = "";
         if (($humanResource->GetContact() > 0)
            && ($humanResource->GetStatus() == C3op_Projects_HumanResourceStatusConstants::STATUS_FORESEEN)) {
@@ -604,7 +618,7 @@ class Projects_ActionController extends Zend_Controller_Action
         return $contractingLink;
     }
 
-    private function FillDataTree($tree)
+    private function fillDataTree($tree)
     {
         $this->initActionMapper();
         foreach ($tree as $id => $subTree) {
@@ -632,7 +646,7 @@ class Projects_ActionController extends Zend_Controller_Action
             $this->treeData[$id] = $data;
 
 
-            $this->FillDataTree($subTree);
+            $this->fillDataTree($subTree);
         }
     }
 
