@@ -42,7 +42,7 @@ if (is_array($institutionsList)) {
                       <?php print($institutionData['name']) ?>
                     </td>
                     <td>
-                      <?php print($institutionData['type']) ?>
+                      <?php print($this->translate($institutionData['type'])) ?>
                     </td>
                     <td>
                       <?php print($institutionData['city']) ?>
@@ -51,7 +51,7 @@ if (is_array($institutionsList)) {
                       <?php print($institutionData['state']) ?>
                     </td>
                     <td>
-                      <?php print($institutionData['relationshipType']) ?>
+                      <?php print($this->translate($institutionData['relationshipType'])) ?>
                     </td>
 
 

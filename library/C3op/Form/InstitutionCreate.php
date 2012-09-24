@@ -77,6 +77,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
         while (list($key, $title) = each($titleTypes)) {
             $element->addMultiOption($key, $title);
         }
+
         $this->addElement($element);
 
         $element = new Zend_Form_Element_Checkbox('legalEntity');
