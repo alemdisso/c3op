@@ -33,7 +33,7 @@ class C3op_Projects_ActionStatusTypes {
                     break;
 
                 default:
-                    return "Tipo desconhecido";
+                    return _("#Unknown type");
                     break;
             }
     }

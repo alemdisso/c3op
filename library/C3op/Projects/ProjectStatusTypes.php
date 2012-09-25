@@ -32,7 +32,7 @@ class C3op_Projects_ProjectStatusTypes {
                     break;
 
                 default:
-                    return "Tipo desconhecido";
+                    return _("#Unknown type");
                     break;
             }
     }

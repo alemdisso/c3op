@@ -26,11 +26,11 @@ class Projects_IndexController extends Zend_Controller_Action
         //   * id =>
         //      projectName
         //      clientName
-        //      field
+        //      areaActivity
         //      status
-        //      physical_progress
-        //      payed_percentage
-        //      received_percentage
+        //      physicalProgress
+        //      payedPercentage
+        //      receivedPercentage
 
         $list = $this->projectMapper->getAllIds();
         $projectsList = array();
@@ -40,11 +40,24 @@ class Projects_IndexController extends Zend_Controller_Action
             $thisProject = $this->projectMapper->findById($id);
             $thisClient = $this->institutionMapper->findById($thisProject->getClient());
 
-            //$actionsCount = count($this->projectMapper->GetAllActions($thisProject));
+            $obj = new C3op_Projects_AreaActivityTypes();
+            $areaActivity = $obj->TitleForType($thisProject->getAreaActivity());
+
+            $obj = new C3op_Projects_ProjectStatusTypes();
+            $status = $obj->TitleForType($thisProject->getStatus());
+
+            $actionsCount = count($this->projectMapper->GetAllActions($thisProject));
 
             $projectsList[$id] = array(
                 'projectName' => $thisProject->GetTitle(),
                 'clientName' => $thisClient->GetShortName(),
+                'areaActivity' => $areaActivity,
+                'status' => $status,
+                'physicalProgress' => '[#12%]',
+                'payedPercentage' => '[#10%]',
+                'receivedPercentage' => '[#11%]',
+
+
                 'beginDate' => C3op_Util_DateDisplay::FormatDateToShow($thisProject->GetBeginDate()),
                 'value' => C3op_Util_CurrencyDisplay::FormatCurrency($thisProject->GetValue()),
                 'linkActionCreate' => '/projects/action/create/?project=' . $id,

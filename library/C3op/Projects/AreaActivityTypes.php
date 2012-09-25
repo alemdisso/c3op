@@ -31,7 +31,7 @@ class C3op_Projects_AreaActivityTypes {
                     break;
 
                 default:
-                    return "Tipo desconhecido";
+                    return _("#Unknown type");
                     break;
             }
     }

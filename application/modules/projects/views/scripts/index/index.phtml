@@ -45,32 +45,32 @@ if (is_array($projectsList)) {
             			<tr>
             				<td><a href="/projects/project/edit/?id=<?php print($id) ?>"><?php print($projectData['projectName']) ?></a></td>
             				<td><?php print($projectData['clientName']) ?></td>
-            				<td>[#Área de atuação do Iets]</td>
-            				<td>[#Status]</td>
-            				<td>[#12%]</td>
-            				<td>[#10%]</td>
-            				<td>[#0%]</td>
+            				<td><?php print($this->translate($projectData['areaActivity'])) ?></td>
+            				<td><?php print($this->translate($projectData['status'])) ?></td>
+            				<td><?php print($projectData['physicalProgress']) ?></td>
+            				<td><?php print($projectData['payedPercentage']) ?></td>
+            				<td><?php print($projectData['receivedPercentage']) ?></td>
                     <td>
-                      <a class="anchorclass button" rel="submenu1">Opções...</a>
+                      <a class="anchorclass button" rel="submenu1"><?php echo $this->translate("#Options...") ?></a>
                       <div id="submenu1" class="anylinkcss">
                           <ul>
 <?php if (isset($projectData['editLink'])) { ?>
                             <li>
-                              <a href="<?php print($projectData['editLink']) ?>">Editar</a>
+                              <a href="<?php print($projectData['editLink']) ?>"><?php echo $this->translate("#Edit") ?></a>
                             </li>
 <?php } ?>
 <?php if (isset($projectData['linkReceivableCreate'])) { ?>
                             <li>
-                              <a href="<?php print($projectData['linkReceivableCreate']) ?>">Prever Recebimento</a>
+                              <a href="<?php print($projectData['linkReceivableCreate']) ?>"><?php echo $this->translate("#Predict Receiving") ?></a>
                             </li>
 <?php } ?>
 <?php if (isset($projectData['linkActionCreate'])) { ?>
                             <li>
-                              <a href="<?php print($projectData['linkActionCreate']) ?>">Criar Ação</a>
+                              <a href="<?php print($projectData['linkActionCreate']) ?>"><?php echo $this->translate("#Create action") ?></a>
                             </li>
 <?php } ?>
                             <li>
-                              <a href="<?php print($projectData['linkProjectDetail']) ?>">Detalhamento do Projeto (<?php print($projectData['actionsCount']) ?>)</a>
+                              <a href="<?php print($projectData['linkProjectDetail']) ?>"><?php echo $this->translate("#Project details") ?></a>
                             </li>
                           </ul>
                       </div><!-- #submenu1 -->
