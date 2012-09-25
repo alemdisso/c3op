@@ -14,7 +14,7 @@ class Projects_ReceivableController extends Zend_Controller_Action
             throw $e;
         }
     }
-    
+
     public function init()
     {
         $this->db = Zend_Registry::get('db');
@@ -31,7 +31,7 @@ class Projects_ReceivableController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');          
+                    ->addMessage('The record was successfully updated.');
                 $this->_redirect('/projects/receivable/success-create');
             } else throw new C3op_Projects_ReceivableException("An receivable must have a valid title.");
         } else {
@@ -50,7 +50,7 @@ class Projects_ReceivableController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');          
+                    ->addMessage('The record was successfully updated.');
                 $this->_redirect('/projects/project/success-create');
             } else throw new C3op_Projects_ProjectException("A project must have a valid title.");
         } else {
@@ -94,21 +94,13 @@ class Projects_ReceivableController extends Zend_Controller_Action
     public function successCreateAction()
     {
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
-            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();    
+            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
             $this->getResponse()->setHeader('Refresh', '3; URL=/projects');
         } else {
-            $this->_redirect('/projects');    
-        } 
+            $this->_redirect('/projects');
+        }
     }
 
-    public function errorEditAction()
-    {
-        $flashMessenger = $this->_helper->getHelper('FlashMessenger');
-        $flashMessenger->setNamespace('messages');
-        $this->view->messages = $flashMessenger->getMessages();
-        $flashMessenger->addMessage('Id Inválido');
-    }
-    
     private function PopulateProjectFields($projectId, C3op_Form_ReceivableCreate $form)
     {
         $validator = new C3op_Util_ValidId();
@@ -139,8 +131,8 @@ class Projects_ReceivableController extends Zend_Controller_Action
     private function formatDataToShow($rawData)
     {
         $dateArray = explode("-", $rawData);
-        $formatedDate = $dateArray[2] . '/' . $dateArray[1] . '/' . $dateArray[0]; 
+        $formatedDate = $dateArray[2] . '/' . $dateArray[1] . '/' . $dateArray[0];
         return $formatedDate;
     }
-    
+
 }

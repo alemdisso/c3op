@@ -53,7 +53,7 @@ class Projects_HumanResourceController extends Zend_Controller_Action
             while (list($key, $contactId) = each($allContacts)) {
                 $eachContact = $this->contactMapper->findById($contactId);
                 $contactField->addMultiOption($contactId, $eachContact->GetName());
-            }            
+            }
         }
     }
 
@@ -66,7 +66,7 @@ class Projects_HumanResourceController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');          
+                    ->addMessage('The record was successfully updated.');
                 $this->_redirect('/projects/human-resource/success-create/?id=' . $id);
             } else throw new C3op_Projects_ProjectException("Invalid data for new human resource.");
         } else {
@@ -98,8 +98,8 @@ class Projects_HumanResourceController extends Zend_Controller_Action
                     $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
                 }
                 $thisAction = $this->actionMapper->findById($thisHumanResource->getAction());
-                
-                $contactField = $form->getElement('contact');            
+
+                $contactField = $form->getElement('contact');
                 if (!isset($this->contactMapper)) {
                     $this->contactMapper = new C3op_Register_ContactMapper($this->db);
                 }
@@ -108,12 +108,12 @@ class Projects_HumanResourceController extends Zend_Controller_Action
                 while (list($key, $contactId) = each($allContacts)) {
                     $eachContact = $this->contactMapper->findById($contactId);
                     $contactField->addMultiOption($contactId, $eachContact->GetName());
-                }            
+                }
                 $contactField->setValue($thisHumanResource->getContact());
 
                 $this->view->actionTitle = $thisAction->GetTitle();
                 $this->view->linkActionDetail = "/projects/action/detail/?id=" . $thisHumanResource->getAction();
-                
+
             }
 
         }
@@ -128,7 +128,7 @@ class Projects_HumanResourceController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');          
+                    ->addMessage('The record was successfully updated.');
                 $this->_redirect('/projects/human-resource/success-create/?id=' . $id);
             } else throw new C3op_Projects_ProjectException("Invalid data.");
         } else {
@@ -141,7 +141,7 @@ class Projects_HumanResourceController extends Zend_Controller_Action
             );
             $input = new Zend_Filter_Input($filters, $validators, $data);
             if ($input->isValid()) {
-                
+
                 $id = $input->id;
                 $this->initHumanResourceMapper();
                 $thisHumanResource = $this->humanResourceMapper->findById($id);
@@ -149,10 +149,10 @@ class Projects_HumanResourceController extends Zend_Controller_Action
                 $idField->setValue($id);
                 $this->initActionMapper();
                 $thisAction = $this->actionMapper->findById($thisHumanResource->getAction());
-                
+
                 $this->SetDateValueToFormField($form, 'predictedBeginDate', $thisAction->GetPredictedBeginDate());
                 $this->SetDateValueToFormField($form, 'predictedFinishDate', $thisAction->GetPredictedFinishDate());
-                $contactField = $form->getElement('contact');            
+                $contactField = $form->getElement('contact');
                 if (!isset($this->contactMapper)) {
                     $this->contactMapper = new C3op_Register_ContactMapper($this->db);
                 }
@@ -160,7 +160,7 @@ class Projects_HumanResourceController extends Zend_Controller_Action
 
                 $this->view->actionTitle = $thisAction->GetTitle();
                 $this->view->linkActionDetail = "/projects/action/detail/?id=" . $thisHumanResource->getAction();
-                
+
             }
 
         }
@@ -188,22 +188,22 @@ class Projects_HumanResourceController extends Zend_Controller_Action
             } else {
                 $observation = "(#$outlaysCounter)";
             }
-            
+
             if ($thisOutlay->GetPredictedValue()) {
                 $value = $thisOutlay->GetPredictedValue();
             } else {
                 $value = "???";
             }
-            
-            
-            
+
+
+
             $outlaysList[$outlayId] = array(
                 'observation' => $observation,
                 'value' => $value,
                 'editLink' => '/projects/outlay/edit/?id=' . $outlayId   ,
             );
         }
-        
+
         $humanResourceInfo = array(
             'title' => 'provisório...',
             'linkDetail' => '/projects/project/detail/?id=' . 0 ,
@@ -213,8 +213,8 @@ class Projects_HumanResourceController extends Zend_Controller_Action
         $this->view->humanResourceInfo = $humanResourceInfo;
     }
 
-    
-    
+
+
     public function sucessAction()
     {
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
@@ -225,26 +225,18 @@ class Projects_HumanResourceController extends Zend_Controller_Action
             $this->_redirect('/');
         }
     }
-    
+
     public function successCreateAction()
     {
         $this->initHumanResourceMapper();
         $humanResource =  $this->initHumanResourceWithCheckedId($this->humanResourceMapper);
         $actionRelated = $humanResource->GetAction();
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
-            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();    
+            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
             $this->getResponse()->setHeader('Refresh', '3; URL=/projects/action/detail/?id=' . $actionRelated);
         } else {
-            $this->_redirect('/projects');    
-        } 
-    }
-
-    public function errorEditAction()
-    {
-        $flashMessenger = $this->_helper->getHelper('FlashMessenger');
-        $flashMessenger->setNamespace('messages');
-        $this->view->messages = $flashMessenger->getMessages();
-        $flashMessenger->addMessage('Id Inválido');
+            $this->_redirect('/projects');
+        }
     }
 
    public function dismissContactAction()
@@ -253,32 +245,32 @@ class Projects_HumanResourceController extends Zend_Controller_Action
         $this->_helper->viewRenderer->setNoRender(TRUE);
 
         $this->initHumanResourceMapper();
-        $this->initActionMapper();        
+        $this->initActionMapper();
         $humanResource =  $this->initHumanResourceWithCheckedId($this->humanResourceMapper);
         $action = $this->actionMapper->findById($humanResource->GetAction());
         $dismissal = new C3op_Projects_HumanResourceDismissal();
         $dismissal->ContactDismiss($action, $humanResource, $this->humanResourceMapper);
 
         echo 'Contato dispensado';
-    }  
-  
+    }
+
 //   public function contractContactAction()
 //    {
 //        $this->_helper->layout->disableLayout();
 //        $this->_helper->viewRenderer->setNoRender(TRUE);
 //
 //        $this->initHumanResourceMapper();
-//        $this->initActionMapper();        
+//        $this->initActionMapper();
 //        $humanResource =  $this->initHumanResourceWithCheckedId($this->humanResourceMapper);
 //        $action = $this->actionMapper->findById($humanResource->GetContact());
 //        $contracting = new C3op_Projects_HumanResourceContracting();
 //        $contracting->ContactContract($action, $humanResource, $this->humanResourceMapper);
 //
 //        echo 'Contratação confirmada';
-//    }  
-  
-    
-    
+//    }
+
+
+
     private function initHumanResourceWithCheckedId(C3op_Projects_HumanResourceMapper $mapper)
     {
         return $mapper->findById($this->checkIdFromGet());
@@ -316,7 +308,7 @@ class Projects_HumanResourceController extends Zend_Controller_Action
                 $thisAction = $this->actionMapper->findById($contactId);
                 $parentActionId = $thisAction->GetSubordinatedTo();
                 $allOtherActionsInProject = $this->actionMapper->getAllOtherActions($thisAction);
-                
+
             } else {
                 if (!isset($this->projectMapper)) {
                     $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
@@ -329,12 +321,12 @@ class Projects_HumanResourceController extends Zend_Controller_Action
                 $eachAction = $this->actionMapper->findById($contactId);
                 $subordinatedToField->addMultiOption($contactId, $eachAction->GetTitle());
             }
-            
+
             $subordinatedToField->setValue($parentActionId);
-        
+
         } else throw new C3op_Projects_ActionException("Action needs a positive integer project id to find other actions.");
    }
-     
+
     private function initActionMapper()
     {
          $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
@@ -344,7 +336,7 @@ class Projects_HumanResourceController extends Zend_Controller_Action
     {
          $this->humanResourceMapper = new C3op_Projects_HumanResourceMapper($this->db);
     }
-    
+
     private function initActionWithCheckedId(C3op_Projects_ActionMapper $mapper)
     {
         return $mapper->findById($this->checkIdFromGet());
@@ -360,5 +352,5 @@ class Projects_HumanResourceController extends Zend_Controller_Action
         }
     }
 
-    
+
 }

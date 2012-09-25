@@ -132,7 +132,7 @@ class Projects_ActionController extends Zend_Controller_Action
         //      name
         //      description
         //      valor
-        //      contractingStatus        
+        //      contractingStatus
 
         $humanResourcesList = $this->GetHumanResourcesList($actionToBeDetailed);
 
@@ -284,14 +284,6 @@ class Projects_ActionController extends Zend_Controller_Action
         } else {
             $this->_redirect('/projects');
         }
-    }
-
-    public function errorEditAction()
-    {
-        $flashMessenger = $this->_helper->getHelper('FlashMessenger');
-        $flashMessenger->setNamespace('messages');
-        $this->view->messages = $flashMessenger->getMessages();
-        $flashMessenger->addMessage('Id Inválido');
     }
 
     public function acknowledgeReceiptAction()
@@ -520,7 +512,7 @@ class Projects_ActionController extends Zend_Controller_Action
         //      name
         //      description
         //      valor
-        //      contractingStatus        
+        //      contractingStatus
 
 
 

@@ -102,13 +102,6 @@ class Register_LinkageController extends Zend_Controller_Action
         }
     }
 
-    public function errorEditAction()
-    {
-        $flashMessenger = $this->_helper->getHelper('FlashMessenger');
-        $flashMessenger->setNamespace('messages');
-        $this->view->messages = $flashMessenger->getMessages();
-    }
-
     public function detailAction()
     {
 

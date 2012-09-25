@@ -95,20 +95,11 @@ class Auth_UserController extends Zend_Controller_Action
         }
     }
 
-    public function errorEditAction()
-    {
-        $flashMessenger = $this->_helper->getHelper('FlashMessenger');
-        $flashMessenger->setNamespace('messages');
-        $this->view->messages = $flashMessenger->getMessages();
-        $flashMessenger->addMessage('Id Inválido');
-    }
-
-
     private function initUserMapper()
     {
          $this->userMapper = new C3op_Auth_UserMapper($this->db);
     }
-    
+
     private function InitUserWithCheckedId(C3op_Auth_UserMapper $mapper)
     {
         return $mapper->findById($this->checkIdFromGet());
