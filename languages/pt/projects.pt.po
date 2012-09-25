@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-25 11:33-0300\n"
-"PO-Revision-Date: 2012-09-25 11:34-0300\n"
+"POT-Creation-Date: 2012-09-25 13:08-0300\n"
+"PO-Revision-Date: 2012-09-25 13:10-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -35,6 +35,11 @@ msgid ""
 msgstr ""
 "It needs a positive integer project id to find other actions from same "
 "project."
+
+#: application\modules\projects/controllers/ProjectController.php:153
+#: application\modules\projects/controllers/ProjectController.php:160
+msgid "#Not defined"
+msgstr "Indefinido"
 
 #: library\C3op\projects/ActionEventTypes.php:45
 #: library\C3op\projects/ActionStatusTypes.php:36
@@ -175,10 +180,12 @@ msgstr "Editar ação"
 
 #: application\modules\projects/views/scripts/action/edit.phtml:3
 #: application\modules\projects/views/scripts/index/index.phtml:28
+#: application\modules\projects/views/scripts/project/detail.phtml:13
 msgid "#Project"
 msgstr "Projeto"
 
 #: application\modules\projects/views/scripts/action/success.phtml:2
+#: application\modules\projects/views/scripts/project/success.phtml:2
 msgid "#Sucess!!!"
 msgstr "Sucesso!"
 
@@ -214,29 +221,61 @@ msgstr "% receb"
 msgid "#Options..."
 msgstr "Opções..."
 
-#: application\modules\projects/views/scripts/index/index.phtml:59
+#: application\modules\projects/views/scripts/index/index.phtml:58
 msgid "#Edit"
 msgstr "Editar"
 
-#: application\modules\projects/views/scripts/index/index.phtml:64
+#: application\modules\projects/views/scripts/index/index.phtml:61
 msgid "#Predict Receiving"
 msgstr "Prever recebimento"
 
-#: application\modules\projects/views/scripts/index/index.phtml:69
+#: application\modules\projects/views/scripts/index/index.phtml:64
 msgid "#Create action"
 msgstr "Criar ação"
 
-#: application\modules\projects/views/scripts/index/index.phtml:73
+#: application\modules\projects/views/scripts/index/index.phtml:67
 msgid "#Project details"
 msgstr "Detalhes do projeto"
 
-#: application\modules\projects/views/scripts/index/index.phtml:97
+#: application\modules\projects/views/scripts/index/index.phtml:91
 msgid "#There is no list of projects."
 msgstr "Não existe uma lista de projetos."
 
-#: application\modules\projects/views/scripts/index/index.phtml:103
+#: application\modules\projects/views/scripts/index/index.phtml:97
 msgid "#Create New Project"
 msgstr "Criar novo projeto"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:19
+msgid "#Client:"
+msgstr "Cliente:"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:25
+msgid "#Overhead:"
+msgstr "Overhead"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:32
+msgid "#Area activity:"
+msgstr "Área de atividade:"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:38
+msgid "#Management fee:"
+msgstr "Taxa de administração"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:45
+msgid "#Our responsible:"
+msgstr "Responsável pelo IETS:"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:51
+msgid "#Contract value:"
+msgstr "Valor do contrato"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:58
+msgid "#Responsible at client:"
+msgstr "Responsável no cliente:"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:64
+msgid "#Contract date:"
+msgstr "Data do contrato"
 
 #~ msgid "#Em Planejamento"
 #~ msgstr "Teste"

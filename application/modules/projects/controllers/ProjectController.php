@@ -8,6 +8,7 @@ class Projects_ProjectController extends Zend_Controller_Action
     private $detailProductBrood;
     private $detailProductBreeds;
     private $institutionMapper;
+    private $contactMapper;
     private $outlayMapper;
 
     public function preDispatch()
@@ -47,8 +48,8 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $this->view->form = $form;
             }
         } else {
-            $this->PopulateClientField($form);
-            $this->PopulateOurResponsibleField($form);
+            $this->populateClientField($form);
+            $this->populateOurResponsibleField($form);
         }
     }
 
@@ -75,8 +76,8 @@ class Projects_ProjectController extends Zend_Controller_Action
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $id);
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'title', $thisProject->GetTitle());
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'client', $thisProject->GetClient());
-            $this->PopulateClientField($form, $thisProject->GetClient());
-            $this->PopulateOurResponsibleField($form, $thisProject->GetOurResponsible());
+            $this->populateClientField($form, $thisProject->GetClient());
+            $this->populateOurResponsibleField($form, $thisProject->GetOurResponsible());
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'responsibleAtClient', $thisProject->GetResponsibleAtClient());
             $this->SetDateValueToFormField($form, 'beginDate', $thisProject->GetBeginDate());
             $this->SetDateValueToFormField($form, 'finishDate', $thisProject->GetFinishDate());
@@ -91,7 +92,6 @@ class Projects_ProjectController extends Zend_Controller_Action
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'observation', $thisProject->GetObservation());
           }
     }
-
 
     public function successAction()
     {
@@ -113,12 +113,71 @@ class Projects_ProjectController extends Zend_Controller_Action
 
     public function detailAction()
     {
-        $actionMapper = new C3op_Projects_ActionMapper($this->db);
+
+        //  projectHeader
+        //    id
+        //    projectTitle
+        //    clientName
+        //    areaActivity
+        //    ourResponsible
+        //    responsibleAtClient
+        //    overhead
+        //    managementFee
+        //    contractValue
+        //    contractDate
+        //
 
         if (!isset($this->projectMapper)) {
             $this->initProjectMapper();
         }
         $projectToBeDetailed = $this->InitProjectWithCheckedId($this->projectMapper);
+        $projectTitle = $projectToBeDetailed->GetTitle();
+
+        if (!isset($this->institutionMapper)) {
+            $this->initInstitutionMapper();
+        }
+        $theClient = $this->institutionMapper->findById($projectToBeDetailed->getClient());
+        $clientName = $theClient->GetShortName();
+
+        $obj = new C3op_Projects_AreaActivityTypes();
+        $areaActivity = $obj->TitleForType($projectToBeDetailed->getAreaActivity());
+
+        if (!isset($this->contactMapper)) {
+            $this->initContactMapper();
+        }
+
+        if ($projectToBeDetailed->GetOurResponsible()) {
+            $theContact = $this->contactMapper->findById($projectToBeDetailed->GetOurResponsible());
+            $ourResponsible = $theContact->GetName();
+        } else {
+            $ourResponsible = $this->view->translate("#Not defined");
+        }
+
+        if ($projectToBeDetailed->GetResponsibleAtClient()) {
+            $theContact = $this->contactMapper->findById($projectToBeDetailed->GetResponsibleAtClient());
+            $responsibleAtClient = $theContact->GetName();
+        } else {
+            $responsibleAtClient = $this->view->translate("#Not defined");
+        }
+
+
+        $overhead = $projectToBeDetailed->GetOverhead();
+        $managementFee = $projectToBeDetailed->GetManagementFee();
+        $contractValue = C3op_Util_CurrencyDisplay::FormatCurrency($projectToBeDetailed->GetValue());
+        $contractDate = C3op_Util_DateDisplay::FormatDateToShow($projectToBeDetailed->GetBeginDate());
+
+        $projectHeader = array(
+                'id'           => $projectToBeDetailed->getId(),
+                'projectTitle'   => $projectTitle,
+                'clientName'   => $theClient->getName(),
+                'areaActivity' => $areaActivity,
+                'ourResponsible' => $ourResponsible,
+                'responsibleAtClient' => $responsibleAtClient,
+                'overhead' => $overhead,
+                'managementFee' => $managementFee,
+                'contractValue' => $contractValue,
+                'contractDate' => $contractDate,
+            );
 
         $linkReceivables = $this->manageReceivablesLink($projectToBeDetailed);
         $linkPayables = $this->managePayablesLink($projectToBeDetailed);
@@ -128,6 +187,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         $projectProducts = $this->projectMapper->getAllProductsOf($projectToBeDetailed);
         $actionsList = array();
         reset ($actionsList);
+        $actionMapper = new C3op_Projects_ActionMapper($this->db);
         foreach ($projectProducts as $actionId) {
             $this->detailProductBreeds = array();
             $this->detailProductBrood = 0;
@@ -201,7 +261,11 @@ class Projects_ProjectController extends Zend_Controller_Action
             'actionsList' => $actionsList,
         );
 
-        $this->view->projectInfo = $projectInfo;
+        $pageData = array(
+            'projectHeader' => $projectHeader,
+            'projectInfo'   => $projectInfo,
+        );
+        $this->view->pageData = $pageData;
     }
 
     public function treeAction()
@@ -415,6 +479,16 @@ class Projects_ProjectController extends Zend_Controller_Action
          $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
     }
 
+    private function initInstitutionMapper()
+    {
+         $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
+    }
+
+    private function initContactMapper()
+    {
+         $this->contactMapper = new C3op_Register_ContactMapper($this->db);
+    }
+
     private function InitProjectWithCheckedId(C3op_Projects_ProjectMapper $mapper)
     {
         return $mapper->findById($this->checkIdFromGet());
@@ -521,7 +595,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         return $formatedDate;
     }
 
-    private function PopulateClientField(Zend_Form $form, $currentClient=0)
+    private function populateClientField(Zend_Form $form, $currentClient=0)
     {
 
         if (!isset($this->institutionMapper)) {
@@ -536,7 +610,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         $clientField->setValue($currentClient);
     }
 
-    private function PopulateOurResponsibleField(Zend_Form $form, $currentResponsible = 0)
+    private function populateOurResponsibleField(Zend_Form $form, $currentResponsible = 0)
     {
             if (!isset($this->contactMapper)) {
                 $this->contactMapper = new C3op_Register_ContactMapper($this->db);
@@ -586,7 +660,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         return "$myParcel/$totalParcels";
     }
 
-   private function FillDataTree($tree)
+   private function fillDataTree($tree)
     {
         $this->initActionMapper();
         foreach ($tree as $id => $subTree) {
@@ -614,7 +688,7 @@ class Projects_ProjectController extends Zend_Controller_Action
             $this->treeData[$id] = $data;
 
 
-            $this->FillDataTree($subTree);
+            $this->fillDataTree($subTree);
         }
     }
 

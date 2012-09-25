@@ -1,72 +1,76 @@
-<?php 
+<?php
+
+$pageData = $this->pageData;
+
+$projectInfo = $pageData['projectInfo'];
+$projectHeader = $pageData['projectHeader'];
 /*
  * If exists projects list
  */
-if (is_array($this->projectInfo)) {
-    $projectData = $this->projectInfo;
+if (is_array($projectHeader)) {
 ?>
     <div id="MainHeader">
-      <h1>Projeto <?php print($projectData['title']) ?></h1>
+      <h1><?php echo $this->translate("#Project") ?> <?php print($projectHeader['projectTitle']) ?></h1>
     </div>
 
     <div class="Area">
 
       <div class="three columns alpha Right">
-        Cliente: 
+        <?php echo $this->translate("#Client:") ?>
       </div>
       <div class="six columns">
-        <?php print($projectData['client']) ?>
+        <?php print($projectHeader['clientName']) ?>
       </div>
       <div class="three columns Right">
-        Overhead:
+        <?php echo $this->translate("#Overhead:") ?>
       </div>
       <div class="two columns omega">
-        <?php print($projectData['overhead']) ?> %
+        <?php print($projectHeader['overhead']) ?> %
       </div>
 
       <div class="three columns alpha Right">
-        Área de atuação: 
+        <?php echo $this->translate("#Area activity:") ?>
       </div>
       <div class="six columns">
-        <?php print($projectData['area']) ?>
+        <?php print($this->translate($projectHeader['areaActivity'])) ?>
       </div>
       <div class="three columns Right">
-        Taxa de administração:
+        <?php echo $this->translate("#Management fee:") ?>
       </div>
       <div class="two columns omega">
-        <?php print($projectData['managementFee']) ?> % <!-- ### Talvez seja necessário esconder este campo (re: confusão da Beth sobre o seu uso) -->
+        <?php print($projectHeader['managementFee']) ?> % <!-- ### Talvez seja necessário esconder este campo (re: confusão da Beth sobre o seu uso) -->
       </div>
 
       <div class="three columns alpha Right">
-        Responsável pelo Iets: 
+        <?php echo $this->translate("#Our responsible:") ?>
       </div>
       <div class="six columns">
-        <?php print($projectData['ourResponsible']) ?>
+        <?php print($projectHeader['ourResponsible']) ?>
       </div>
       <div class="three columns Right">
-        Valor do contrato:
+        <?php echo $this->translate("#Contract value:") ?>
       </div>
       <div class="two columns omega">
-        <?php print($projectData['value']) ?>
+        <?php print($projectHeader['contractValue']) ?>
       </div>
-      
+
       <div class="three columns alpha Right">
-        Responsável pelo cliente: 
+        <?php echo $this->translate("#Responsible at client:") ?>
       </div>
       <div class="six columns">
-        <?php print($projectData['responsibleAtClient']) ?>
+        <?php print($projectHeader['responsibleAtClient']) ?>
       </div>
       <div class="three columns Right">
-        Data do contrato:
+        <?php echo $this->translate("#Contract date:") ?>
       </div>
       <div class="two columns omega">
-        <?php print($projectData['beginDate']) ?>
+        <?php print($projectHeader['contractDate']) ?>
       </div>
     </div><!-- .Area -->
 
 <?php
-  if ($projectData['linkReceivables'] != "") {
-?>    
+  if ($projectInfo['linkReceivables'] != "") {
+?>
 
     <div id="tabs">
       <ul>
@@ -90,26 +94,26 @@ if (is_array($this->projectInfo)) {
                 </tr>
               </thead>
               <tbody>
-    
+
                 <!-- ### loop de carga das ações que são produto -->
                 <tr>
                   <td>
-                    <a href="<?php print($projectData['linkReceivable']) ?>"><?php print($projectData['receivableTitle']) ?></a>
+                    <a href="<?php print($projectInfo['linkReceivable']) ?>"><?php print($projectInfo['receivableTitle']) ?></a>
                   </td>
                   <td>
-                    <?php print($projectData['receivablePredictedDate']) ?>
+                    <?php print($projectInfo['receivablePredictedDate']) ?>
                   </td>
                   <td>
-                    <?php print($projectData['receivableRealDate']) ?>
+                    <?php print($projectInfo['receivableRealDate']) ?>
                   </td>
                   <td class="Right">
-                    <?php print($projectData['receivablePredictedValue']) ?>
+                    <?php print($projectInfo['receivablePredictedValue']) ?>
                   </td>
                   <td class="Right">
-                    <?php print($projectData['receivableRealValue']) ?>
+                    <?php print($projectInfo['receivableRealValue']) ?>
                   </td>
                   <td>
-                    <a href="#" class="anchorclass" rel="submenu1">Opções</a> 
+                    <a href="#" class="anchorclass" rel="submenu1">Opções</a>
                     <div id="submenu1" class="anylinkcss">
                         <ul>
                           <li>
@@ -129,14 +133,14 @@ if (is_array($this->projectInfo)) {
                   </td>
                 </tr>
                 <!-- ### fim do loop de carga das ações que são produto -->
-    
+
               </tbody>
             </table><br />
             <p>
-              <!-- [# LINK PARA PÁGINA DE CRIAÇÃO DE RECEBIMENTO ] <?php print($projectData['linkReceivableCreate']) ?> -->
+              <!-- [# LINK PARA PÁGINA DE CRIAÇÃO DE RECEBIMENTO ] <?php print($projectInfo['linkReceivableCreate']) ?> -->
               <a href="#" class="button three columns alpha omega">Prever recebimento</a>
             </p>
-          </div><!-- Area -->  
+          </div><!-- Area -->
         </div><!-- tabs-1 -->
 
         <div id="tabs-2">
@@ -145,21 +149,21 @@ if (is_array($this->projectInfo)) {
 
 <!-- ### INSERÇÃO DO CÓDIGO DE PAYABLES.PHTML COM ALTERAÇÕES DE RPORTO -->
 
-<?php 
+<?php
 /*
  * If exists payables list
  */
     if (is_array($this->payablesList)) {
 ?>
 
-<?php 
+<?php
 /*
  * if there is payables in list
  */
       if (count($this->payablesList)) {
 ?>
-  
-<?php 
+
+<?php
 /*
  * iterate list and print title
  */
@@ -178,49 +182,49 @@ if (is_array($this->projectInfo)) {
                 </tr>
               </thead>
               <tbody>
-    
+
                 <!-- ### loop de carga das ações que geram pagamentos -->
                 <tr>
                   <td>
-                    <a href="<?php print($projectData['linkOutlay']) ?>"><?php print($projectData['outlayActionTitle']) ?></a>
+                    <a href="<?php print($projectInfo['linkOutlay']) ?>"><?php print($projectInfo['outlayActionTitle']) ?></a>
                   </td>
                   <td>
-                    <a href="<?php print($projectData['linkSupplier']) ?>"><?php print($projectData['outlayActionSupplier']) ?></a>
+                    <a href="<?php print($projectInfo['linkSupplier']) ?>"><?php print($projectInfo['outlayActionSupplier']) ?></a>
                   </td>
                   <td>
-                    <?php print($projectData['outlayPredictedDate']) ?>
+                    <?php print($projectInfo['outlayPredictedDate']) ?>
                   </td>
                   <td>
-                    <?php print($projectData['outlayRealDate']) ?>
+                    <?php print($projectInfo['outlayRealDate']) ?>
                   </td>
                   <td class="Right">
-                    <?php print($projectData['outlayPredictedValue']) ?>
+                    <?php print($projectInfo['outlayPredictedValue']) ?>
                   </td>
                   <td class="Right">
-                    <?php print($projectData['outlayRealValue']) ?>
+                    <?php print($projectInfo['outlayRealValue']) ?>
                   </td>
                   <td>
-                    <a href="#" class="anchorclass" rel="submenu1">Opções</a> 
+                    <a href="#" class="anchorclass" rel="submenu1">Opções</a>
                     <div id="submenu1" class="anylinkcss">
                         <ul>
                           <li>
                             <!-- [# LINK PARA A EDIÇÃO DO PAGAMENTO ] -->
-                            <a href="<?php print($projectData['outlayEditLink']) ?>">Editar</a>
+                            <a href="<?php print($projectInfo['outlayEditLink']) ?>">Editar</a>
                           </li>
                           <li>
                             <!-- [# LINK PARA FORM DE CONFIRMAÇÃO DE PAGAMENTO -> VAI ABRIR EM BOX DE DIÁLOGO MODAL ] -->
-                            <a href="<?php print($projectData['outlayConfirmationLink']) ?>">Informar pagamento</a>
+                            <a href="<?php print($projectInfo['outlayConfirmationLink']) ?>">Informar pagamento</a>
                           </li>
                           <li>
                             <!-- [# LINK PARA PÁGINA DE DETALHAMENTO DO PAGAMENTO ] -->
-                            <a href="<?php print($projectData['linkOutlay']) ?>">Detalhamento do produto</a>
+                            <a href="<?php print($projectInfo['linkOutlay']) ?>">Detalhamento do produto</a>
                           </li>
                         </ul>
                     </div><!-- #submenu1 -->
                   </td>
                 </tr>
                 <!-- ### fim do loop de carga das ações que são produto -->
-    
+
               </tbody>
             </table><br />
 
@@ -231,17 +235,17 @@ if (is_array($this->projectInfo)) {
 <?php
         }  // loop iterate list and print titlei
 ?>
-    
+
 <?php
       } else { // end else there is payables in list
 ?>
             <p><?php print("Não há ações realizadas.") ?></p>
-      
+
 <?php
       } // end else there is payables in list
 ?>
 <?php
-    } else { // else exists payables list 
+    } else { // else exists payables list
 ?>
             <p><?php print("Não existe lista de ações realizadas.") ?></p>
 
@@ -251,7 +255,7 @@ if (is_array($this->projectInfo)) {
 
 <!-- ### FIM DA INSERÇÃO DO CÓDIGO DE PAYABLES.PHTML -->
 
-          </div><!-- Area -->  
+          </div><!-- Area -->
         </div><!-- tabs-2 -->
 
 <!-- ### ACHO QUE O CONTEÚDO DESTA ABA É NOVO - NÃO ENCONTREI EM NENHUM PHTM -->
@@ -272,28 +276,28 @@ if (is_array($this->projectInfo)) {
               <!-- ### loop de carga dos recursos humanos alocados ao projeto -->
                 <tr>
                   <td>
-                    <a href="<?php print($projectData['linkHumanResource']) ?>"><?php print($projectData['humanResourceName']) ?></a>
+                    <a href="<?php print($projectInfo['linkHumanResource']) ?>"><?php print($projectInfo['humanResourceName']) ?></a>
                   </td>
                   <td>
-                    <?php print($projectData['humanResourceFunction']) ?>
+                    <?php print($projectInfo['humanResourceFunction']) ?>
                   </td>
                   <td>
-                    <a href="mailto:<?php print($projectData['humanResourceEmail']) ?>"><?php print($projectData['humanResourceEmail']) ?></a>
+                    <a href="mailto:<?php print($projectInfo['humanResourceEmail']) ?>"><?php print($projectInfo['humanResourceEmail']) ?></a>
                   </td>
                   <td>
-                    <?php print($projectData['humanResourcePhone']) ?>
+                    <?php print($projectInfo['humanResourcePhone']) ?>
                   </td>
                   <td>
-                    <a href="#" class="anchorclass" rel="submenu1">Opções</a> 
+                    <a href="#" class="anchorclass" rel="submenu1">Opções</a>
                     <div id="submenu1" class="anylinkcss">
                         <ul>
                           <li>
                             <!-- [# LINK PARA A EDIÇÃO DO CONTATO ] -->
-                            <a href="<?php print($projectData['humanResourceEditLink']) ?>">Editar</a>
+                            <a href="<?php print($projectInfo['humanResourceEditLink']) ?>">Editar</a>
                           </li>
                           <li>
                             <!-- [# LINK PARA PÁGINA DO CONTATO ] -->
-                            <a href="<?php print($projectData['linkHumanResource']) ?>">Ver contato</a>
+                            <a href="<?php print($projectInfo['linkHumanResource']) ?>">Ver contato</a>
                           </li>
                         </ul>
                     </div><!-- #submenu1 -->
@@ -302,7 +306,7 @@ if (is_array($this->projectInfo)) {
               <!-- ### loop de carga dos recursos humanos alocados ao projeto -->
               </tbody>
             </table><br />
-            
+
             <p>
               <!-- [# LINK PARA PÁGINA DE VINCULAÇÃO DE CONTATO À EQUIPE DO PROJETO ] -->
               <a href="#" class="button three columns alpha omega">Incluir membro</a>
@@ -314,52 +318,52 @@ if (is_array($this->projectInfo)) {
   }
 ?>
 <?php
-  if ($projectData['linkPayables'] != "") {
-?>    
+  if ($projectInfo['linkPayables'] != "") {
+?>
       <p>
-        <a class="info" href="<?php print($projectData['linkPayables']) ?>">Consultar ações realizadas</a><br />
+        <a class="info" href="<?php print($projectInfo['linkPayables']) ?>">Consultar ações realizadas</a><br />
       </p>
 <?php
   }
 ?>
 <?php
-  if ($projectData['linkUnacknowledged'] != "") {
-?>    
+  if ($projectInfo['linkUnacknowledged'] != "") {
+?>
       <p>
-        <a class="info" href="<?php print($projectData['linkUnacknowledged']) ?>">Ações com início a confirmar</a><br />
+        <a class="info" href="<?php print($projectInfo['linkUnacknowledged']) ?>">Ações com início a confirmar</a><br />
       </p>
 <?php
-  } 
+  }
 ?>
 <?php
-  if ($projectData['linkTree'] != "") {
-?>    
+  if ($projectInfo['linkTree'] != "") {
+?>
       <p>
-        <a class="info" href="<?php print($projectData['linkTree']) ?>">Árvore de ações</a><br />
+        <a class="info" href="<?php print($projectInfo['linkTree']) ?>">Árvore de ações</a><br />
       </p>
 <?php
   }
 ?>
 
   <h2>Produtos do Projeto</h2>
-<?php 
+<?php
 /*
  * iterate list and print title
  */
 
-    $actionsList = $projectData['actionsList'];
-    
+    $actionsList = $projectInfo['actionsList'];
+
     while (list(, $actionInfo) = each($actionsList)) {
 ?>
 <p class="project_product_line">
-<?php print($actionInfo['title']) ?>&nbsp;<?php print($actionInfo['specialAction']) ?> | 
-(<?php print($actionInfo['brood']) ?>) | 
+<?php print($actionInfo['title']) ?>&nbsp;<?php print($actionInfo['specialAction']) ?> |
+(<?php print($actionInfo['brood']) ?>) |
 <?php if (isset($actionInfo['editLink'])) { ?>
 <a href="<?php print($actionInfo['editLink']) ?>">Editar</a>
 <?php } ?>
 </p>
 
-    
+
 <?php
 }  // loop iterate list and print titlei
 ?>
@@ -367,11 +371,11 @@ if (is_array($this->projectInfo)) {
 
 
 <p />
-<br /><br /><a href="<?php print($this->projectInfo['linkActionCreate']) ?>">Criar Nova Ação</a>
+<br /><br /><a href="<?php print($projectInfo['linkActionCreate']) ?>">Criar Nova Ação</a>
 
-    
+
 <?php
-} else { // else exists projects list 
+} else { // else exists projects list
 ?>
     <?php print("Não há informações para este projeto.") ?>
 
