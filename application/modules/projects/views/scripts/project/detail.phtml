@@ -3,7 +3,33 @@
 $pageData = $this->pageData;
 
 $projectInfo = $pageData['projectInfo'];
+
+
+
+        //  projectHeader
+        //    id
+        //    projectTitle
+        //    clientName
+        //    areaActivity
+        //    ourResponsible
+        //    responsibleAtClient
+        //    overhead
+        //    managementFee
+        //    contractValue
+        //    contractDate
+        //
 $projectHeader = $pageData['projectHeader'];
+
+        // productsList
+        //   * id =>
+        //      productTitle
+        //      predictedDate
+        //      realDate
+        //      predictedValue
+        //      realValue
+
+$productsList = $pageData['productsList'];
+
 /*
  * If exists projects list
  */
@@ -68,77 +94,80 @@ if (is_array($projectHeader)) {
       </div>
     </div><!-- .Area -->
 
-<?php
-  if ($projectInfo['linkReceivables'] != "") {
-?>
-
     <div id="tabs">
       <ul>
-        <li><a href="#tabs-1">Recebimentos</a></li>
-        <li><a href="#tabs-2">Pagamentos</a></li>
-        <li><a href="#tabs-3">Equipe</a></li>
+        <li><a href="#tabs-1"><?php echo $this->translate("#Receiving") ?></a></li>
+        <li><a href="#tabs-2"><?php echo $this->translate("#Payments") ?></a></li>
+        <li><a href="#tabs-3"><?php echo $this->translate("#Staff") ?></a></li>
       </ul>
 
       <div id="tabs-1">
         <div class="Area">
-           <h2>Recebimentos</h2>
+           <h2><?php echo $this->translate("#Receiving") ?></h2>
            <table id="Produtos" class="display dataTable">
               <thead>
                 <tr>
-                  <th width="300">Produto</th>
-                  <th width="50">Data prevista</th>
-                  <th width="50">Data real</th>
-                  <th width="50">Valor previsto</th>
-                  <th width="50">Valor real</th>
+                  <th width="300"><?php echo $this->translate("#Product") ?></th>
+                  <th width="50"><?php echo $this->translate("#Predicted date") ?></th>
+                  <th width="50"><?php echo $this->translate("#Real date") ?></th>
+                  <th width="50"><?php echo $this->translate("#Predicted value") ?></th>
+                  <th width="50"><?php echo $this->translate("#Real value") ?></th>
                   <th width="1%">&nbsp;</th>
                 </tr>
               </thead>
               <tbody>
 
                 <!-- ### loop de carga das ações que são produto -->
+
+<?php
+
+foreach($productsList as $id => $productInfo) {
+
+?>
                 <tr>
                   <td>
-                    <a href="<?php print($projectInfo['linkReceivable']) ?>"><?php print($projectInfo['receivableTitle']) ?></a>
+                    <a href="/projects/action/detail/?id=<?php print($id) ?>"><?php print($productInfo['productTitle']) ?></a>
                   </td>
                   <td>
-                    <?php print($projectInfo['receivablePredictedDate']) ?>
+                    <?php print($productInfo['predictedDate']) ?>
                   </td>
                   <td>
-                    <?php print($projectInfo['receivableRealDate']) ?>
+                    <?php print($productInfo['realDate']) ?>
                   </td>
                   <td class="Right">
-                    <?php print($projectInfo['receivablePredictedValue']) ?>
+                    <?php print($productInfo['predictedValue']) ?>
                   </td>
                   <td class="Right">
-                    <?php print($projectInfo['receivableRealValue']) ?>
+                    <?php print($productInfo['realValue']) ?>
                   </td>
                   <td>
-                    <a href="#" class="anchorclass" rel="submenu1">Opções</a>
+                    <a href="#" class="anchorclass" rel="submenu1"><?php echo $this->translate("#Options") ?></a>
                     <div id="submenu1" class="anylinkcss">
                         <ul>
                           <li>
                             <!-- [# LINK PARA A EDIÇÃO DO PRODUTO ] -->
-                            <a href="#">Editar</a>
+                            <a href="/projects/action/edit/?id=<?php echo $id ?>"><?php echo $this->translate("#Edit") ?></a>
                           </li>
                           <li>
                             <!-- [# LINK PARA FORM DE CONFIRMAÇÃO DE RECEBIMENTO -> VAI ABRIR EM BOX DE DIÁLOGO MODAL ] -->
-                            <a href="<#">Informar recebimento</a>
+                            <a href="/projects/receivable/notify/?id=<?php echo '/#' ?>"><?php echo $this->translate("#Notify receiving") ?></a>
                           </li>
                           <li>
                             <!-- [# LINK PARA PÁGINA DE DETALHAMENTO DO PRODUTO ] -->
-                            <a href="">Detalhamento do produto</a>
+                            <a href="/projects/action/detail/?id=<?php echo $id ?>"><?php echo $this->translate("#Product details") ?></a>
                           </li>
                         </ul>
                     </div><!-- #submenu1 -->
                   </td>
                 </tr>
-                <!-- ### fim do loop de carga das ações que são produto -->
+<?php
+}
+?>
 
               </tbody>
             </table><br />
             <p>
-              <!-- [# LINK PARA PÁGINA DE CRIAÇÃO DE RECEBIMENTO ] <?php print($projectInfo['linkReceivableCreate']) ?> -->
-              <a href="#" class="button three columns alpha omega">Prever recebimento</a>
+              <a href="/projects/receivable/create/?project=<?php echo $projectHeader['id'] ?>" class="button three columns alpha omega"><?php echo $this->translate("#Predict receiving") ?></a>
             </p>
           </div><!-- Area -->
         </div><!-- tabs-1 -->
@@ -314,9 +343,7 @@ if (is_array($projectHeader)) {
           </div><!-- Area -->
         </div><!-- tabs-3 -->
       </div><!-- #tabs -->
-<?php
-  }
-?>
+
 <?php
   if ($projectInfo['linkPayables'] != "") {
 ?>

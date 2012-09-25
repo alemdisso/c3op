@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-25 13:08-0300\n"
-"PO-Revision-Date: 2012-09-25 13:10-0300\n"
+"POT-Creation-Date: 2012-09-25 15:08-0300\n"
+"PO-Revision-Date: 2012-09-25 15:08-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -36,8 +36,8 @@ msgstr ""
 "It needs a positive integer project id to find other actions from same "
 "project."
 
-#: application\modules\projects/controllers/ProjectController.php:153
-#: application\modules\projects/controllers/ProjectController.php:160
+#: application\modules\projects/controllers/ProjectController.php:155
+#: application\modules\projects/controllers/ProjectController.php:162
 msgid "#Not defined"
 msgstr "Indefinido"
 
@@ -180,7 +180,7 @@ msgstr "Editar ação"
 
 #: application\modules\projects/views/scripts/action/edit.phtml:3
 #: application\modules\projects/views/scripts/index/index.phtml:28
-#: application\modules\projects/views/scripts/project/detail.phtml:13
+#: application\modules\projects/views/scripts/project/detail.phtml:39
 msgid "#Project"
 msgstr "Projeto"
 
@@ -222,6 +222,7 @@ msgid "#Options..."
 msgstr "Opções..."
 
 #: application\modules\projects/views/scripts/index/index.phtml:58
+#: application\modules\projects/views/scripts/project/detail.phtml:149
 msgid "#Edit"
 msgstr "Editar"
 
@@ -245,37 +246,86 @@ msgstr "Não existe uma lista de projetos."
 msgid "#Create New Project"
 msgstr "Criar novo projeto"
 
-#: application\modules\projects/views/scripts/project/detail.phtml:19
+#: application\modules\projects/views/scripts/project/detail.phtml:45
 msgid "#Client:"
 msgstr "Cliente:"
 
-#: application\modules\projects/views/scripts/project/detail.phtml:25
+#: application\modules\projects/views/scripts/project/detail.phtml:51
 msgid "#Overhead:"
 msgstr "Overhead"
 
-#: application\modules\projects/views/scripts/project/detail.phtml:32
+#: application\modules\projects/views/scripts/project/detail.phtml:58
 msgid "#Area activity:"
 msgstr "Área de atividade:"
 
-#: application\modules\projects/views/scripts/project/detail.phtml:38
+#: application\modules\projects/views/scripts/project/detail.phtml:64
 msgid "#Management fee:"
 msgstr "Taxa de administração"
 
-#: application\modules\projects/views/scripts/project/detail.phtml:45
+#: application\modules\projects/views/scripts/project/detail.phtml:71
 msgid "#Our responsible:"
 msgstr "Responsável pelo IETS:"
 
-#: application\modules\projects/views/scripts/project/detail.phtml:51
+#: application\modules\projects/views/scripts/project/detail.phtml:77
 msgid "#Contract value:"
 msgstr "Valor do contrato"
 
-#: application\modules\projects/views/scripts/project/detail.phtml:58
+#: application\modules\projects/views/scripts/project/detail.phtml:84
 msgid "#Responsible at client:"
 msgstr "Responsável no cliente:"
 
-#: application\modules\projects/views/scripts/project/detail.phtml:64
+#: application\modules\projects/views/scripts/project/detail.phtml:90
 msgid "#Contract date:"
 msgstr "Data do contrato"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:99
+#: application\modules\projects/views/scripts/project/detail.phtml:106
+msgid "#Receiving"
+msgstr "Recebimentos"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:100
+msgid "#Payments"
+msgstr "Pagamentos"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:101
+msgid "#Staff"
+msgstr "Equipe"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:110
+msgid "#Product"
+msgstr "Produto"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:111
+msgid "#Predicted date"
+msgstr "Data prevista"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:112
+msgid "#Real date"
+msgstr "Data real"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:113
+msgid "#Predicted value"
+msgstr "Valor previsto"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:114
+msgid "#Real value"
+msgstr "Valor real"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:144
+msgid "#Options"
+msgstr "Opções"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:153
+msgid "#Notify receiving"
+msgstr "Informar recebimento"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:157
+msgid "#Product details"
+msgstr "Detalhes do produto"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:170
+msgid "#Predict receiving"
+msgstr "Prever recebimento"
 
 #~ msgid "#Em Planejamento"
 #~ msgstr "Teste"
