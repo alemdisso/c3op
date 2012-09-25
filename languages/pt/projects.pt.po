@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-24 14:14-0300\n"
-"PO-Revision-Date: 2012-09-24 14:16-0300\n"
+"POT-Creation-Date: 2012-09-24 18:18-0300\n"
+"PO-Revision-Date: 2012-09-24 18:20-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -24,11 +24,11 @@ msgstr "O registro foi criado com sucesso."
 msgid "#The record was successfully updated."
 msgstr "O registro foi atualizado com sucesso."
 
-#: application\modules\projects/controllers/ActionController.php:401
+#: application\modules\projects/controllers/ActionController.php:400
 msgid "#It needs a positive integer project id to populate project fields."
 msgstr "It needs a positive integer project id to populate project fields."
 
-#: application\modules\projects/controllers/ActionController.php:434
+#: application\modules\projects/controllers/ActionController.php:433
 msgid ""
 "#It needs a positive integer project id to find other actions from same "
 "project."
@@ -68,6 +68,90 @@ msgstr "Completa"
 msgid "#Aborted"
 msgstr "Abortada"
 
+#: library\C3op\projects/AreaActivityTypes.php:10
+msgid "#Social policies and improving public spending"
+msgstr "Políticas sociais e melhoria dos gastos públicos"
+
+#: library\C3op\projects/AreaActivityTypes.php:11
+msgid "#Inequality and poverty"
+msgstr "Desigualdade e pobreza"
+
+#: library\C3op\projects/AreaActivityTypes.php:12
+msgid "#Labor market, employment and income"
+msgstr "Mercado de trabalho, emprego e rendimento"
+
+#: library\C3op\projects/AreaActivityTypes.php:13
+msgid "#Local development and microenterprise"
+msgstr "Desenvolvimento local e microempreendimento"
+
+#: library\C3op\projects/AreaActivityTypes.php:14
+msgid "#Education, human resources and equity"
+msgstr "Educação, recursos humanos e eqüidade"
+
+#: library\C3op\projects/AreaActivityTypes.php:15
+msgid "#The metropolitan issue"
+msgstr "A questão metropolitana"
+
+#: library\C3op\projects/AreaActivityTypes.php:16
+msgid "#Corporate social responsibility"
+msgstr "Responsabilidade social corporativa"
+
+#: library\C3op\projects/ContractNatureTypes.php:9
+msgid "#Contract"
+msgstr "Contrato"
+
+#: library\C3op\projects/ContractNatureTypes.php:10
+msgid "#Agreement"
+msgstr "Convênio"
+
+#: library\C3op\projects/ContractNatureTypes.php:11
+msgid "#Partnership term"
+msgstr "Termo de parceria"
+
+#: library\C3op\projects/ContractNatureTypes.php:12
+msgid "#Donation"
+msgstr "Doação"
+
+#: library\C3op\projects/ContractNatureTypes.php:13
+msgid "#Sponsorship"
+msgstr "Patrocínio"
+
+#: library\C3op\projects/ContractNatureTypes.php:14
+msgid "#Cooperation agreement"
+msgstr "Acordo de cooperação"
+
+#: library\C3op\projects/ContractNatureTypes.php:15
+msgid "#contract.nature.Other"
+msgstr "Outras"
+
+#: library\C3op\projects/ProjectStatusTypes.php:11
+msgid "#Prospecting"
+msgstr "Prospecção"
+
+#: library\C3op\projects/ProjectStatusTypes.php:12
+msgid "#project.status.type.Planning"
+msgstr "Planejamento"
+
+#: library\C3op\projects/ProjectStatusTypes.php:13
+msgid "#Proposal"
+msgstr "Proposta"
+
+#: library\C3op\projects/ProjectStatusTypes.php:14
+msgid "#Execution"
+msgstr "Execução"
+
+#: library\C3op\projects/ProjectStatusTypes.php:15
+msgid "#Accountability"
+msgstr "Prestação de contas"
+
+#: library\C3op\projects/ProjectStatusTypes.php:16
+msgid "#Canceled"
+msgstr "Cancelado"
+
+#: library\C3op\projects/ProjectStatusTypes.php:17
+msgid "#Suspended"
+msgstr "Suspenso"
+
 #: application\modules\projects/views/scripts/action/create.phtml:2
 msgid "#New action"
 msgstr "Nova ação"
@@ -81,12 +165,49 @@ msgid "#Edit action"
 msgstr "Editar ação"
 
 #: application\modules\projects/views/scripts/action/edit.phtml:3
+#: application\modules\projects/views/scripts/index/index.phtml:28
 msgid "#Project"
 msgstr "Projeto"
 
 #: application\modules\projects/views/scripts/action/success.phtml:2
 msgid "#Sucess!!!"
 msgstr "Sucesso!"
+
+#: application\modules\projects/views/scripts/index/index.phtml:9
+msgid "#Projects"
+msgstr "Projetos"
+
+#: application\modules\projects/views/scripts/index/index.phtml:29
+msgid "#Client"
+msgstr "Cliente"
+
+#: application\modules\projects/views/scripts/index/index.phtml:30
+msgid "#Area"
+msgstr "Área"
+
+#: application\modules\projects/views/scripts/index/index.phtml:31
+msgid "#Status"
+msgstr "Status"
+
+#: application\modules\projects/views/scripts/index/index.phtml:32
+msgid "#% physical progress"
+msgstr "% físico"
+
+#: application\modules\projects/views/scripts/index/index.phtml:33
+msgid "#% payables"
+msgstr "% pagtos"
+
+#: application\modules\projects/views/scripts/index/index.phtml:34
+msgid "#% receivings"
+msgstr "% receb"
+
+#: application\modules\projects/views/scripts/index/index.phtml:97
+msgid "#There is no list of projects."
+msgstr "Não existe uma lista de projetos."
+
+#: application\modules\projects/views/scripts/index/index.phtml:103
+msgid "#Create New Project"
+msgstr "Criar novo projeto"
 
 #~ msgid "#Em Planejamento"
 #~ msgstr "Teste"
@@ -120,17 +241,8 @@ msgstr "Sucesso!"
 #~ msgid "#General"
 #~ msgstr "Geral"
 
-#~ msgid "#Client"
-#~ msgstr "Cliente"
-
-#~ msgid "#Partner"
-#~ msgstr "Parceiro"
-
 #~ msgid "#Supplier"
 #~ msgstr "Fornecedor"
-
-#~ msgid "#Contractor"
-#~ msgstr "Contratante"
 
 #~ msgid "#Email addresses"
 #~ msgstr "Emails"
@@ -165,9 +277,6 @@ msgstr "Sucesso!"
 #~ msgid "#Change phone number of %s"
 #~ msgstr "Alterar telefone de %s"
 
-#~ msgid "#Create contact"
-#~ msgstr "Criar contato"
-
 #~ msgid "#Contact:"
 #~ msgstr "Contato:"
 
@@ -179,9 +288,6 @@ msgstr "Sucesso!"
 
 #~ msgid "#Phone Numbers"
 #~ msgstr "Telefones"
-
-#~ msgid "#Area code"
-#~ msgstr "DDD"
 
 #~ msgid "#Local Number"
 #~ msgstr "Número"
@@ -225,14 +331,8 @@ msgstr "Sucesso!"
 #~ msgid "#Departament"
 #~ msgstr "Departamento"
 
-#~ msgid "#Position"
-#~ msgstr "Posição"
-
 #~ msgid "#Create new linkage"
 #~ msgstr "Criar novo vínculo"
-
-#~ msgid "#There is no data from this contact."
-#~ msgstr "Não há informações sobre esse contato."
 
 #~ msgid "#Create linkage"
 #~ msgstr "Criar novo vínculo"
@@ -281,9 +381,6 @@ msgstr "Sucesso!"
 
 #~ msgid "#City"
 #~ msgstr "Cidade"
-
-#~ msgid "#State"
-#~ msgstr "UF"
 
 #~ msgid "#institution.index.Relationship"
 #~ msgstr "Relação"

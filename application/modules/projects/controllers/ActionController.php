@@ -140,7 +140,6 @@ class Projects_ActionController extends Zend_Controller_Action
         $actionToBeDetailed =  $this->initActionWithCheckedId($this->actionMapper);
         $projectToBeDetailed = $this->projectMapper->findById($actionToBeDetailed->getProject());
 
-
         // humanResourceList
         //   * humanResourceInfo
         //      id
