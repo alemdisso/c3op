@@ -25,6 +25,7 @@ class Projects_IndexController extends Zend_Controller_Action
         // projectsList
         //   * id =>
         //      projectName
+        //      projectId
         //      clientName
         //      areaActivity
         //      status
@@ -58,13 +59,6 @@ class Projects_IndexController extends Zend_Controller_Action
                 'receivedPercentage' => '[#11%]',
 
 
-                'beginDate' => C3op_Util_DateDisplay::FormatDateToShow($thisProject->GetBeginDate()),
-                'value' => C3op_Util_CurrencyDisplay::FormatCurrency($thisProject->GetValue()),
-                'linkActionCreate' => '/projects/action/create/?project=' . $id,
-                'linkProjectDetail' => '/projects/project/detail/?id=' . $id,
-                'linkReceivableCreate' => '/projects/receivable/create/?project=' . $id,
-                'linkProjectReceivables' => '/projects/project/receivables/?id=' . $id,
-                'actionsCount' => $actionsCount,
             );
         }
 
