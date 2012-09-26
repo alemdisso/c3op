@@ -12,6 +12,7 @@ class Projects_ProjectController extends Zend_Controller_Action
     private $contactMapper;
     private $outlayMapper;
     private $humanResourceMapper;
+    private $actionTreeList;
 
     public function preDispatch()
     {
@@ -267,97 +268,74 @@ class Projects_ProjectController extends Zend_Controller_Action
                 );
         }
 
+        // staffList
+        //   * id =>
+        //      staffName
+        //      contactId
+        //      positionDescription
+        //      staffEmail
+        //      staffPhoneNumber
 
-
-
-        $linkReceivables = $this->manageReceivablesLink($projectToBeDetailed);
-        $linkPayables = $this->managePayablesLink($projectToBeDetailed);
-        $linkUnacknowledged = $this->manageUnacknowledgedLink($projectToBeDetailed);
-        $linkTree = $this->manageTreeLink($projectToBeDetailed);
-
-        $projectProducts = $this->projectMapper->getAllProductsOf($projectToBeDetailed);
-        $actionsList = array();
-        reset ($actionsList);
-        $actionMapper = new C3op_Projects_ActionMapper($this->db);
-        foreach ($projectProducts as $actionId) {
-            $this->detailProductBreeds = array();
-            $this->detailProductBrood = 0;
-            $this->detailProductDepth = 0;
-            $thisAction = $actionMapper->findById($actionId);
-            $immediateBreed = $actionMapper->getActionsSubordinatedTo($thisAction);
-            if (count($immediateBreed) > 0) {
-                $broodMessage = count($immediateBreed) . " ações diretamente subordinadas";
-                if (count($immediateBreed)== 1) {
-                    $broodMessage = count($immediateBreed) . " ação diretamente subordinada";
-                }
-            } else {
-                $broodMessage = "sem ações diretamente subordinadas";
-            }
-            $actionTitle =  sprintf("<a href=/projects/action/detail/?id=%d>%s</a>", $actionId, $thisAction->getTitle());
-            $specialActionLabel = $this->buildSpecialActionLabel($thisAction);
-            $actionsList[$actionId] = array(
-                'title' => $actionTitle,
-                'depth' => $this->detailProductDepth,
-                'brood' => $broodMessage,
-                'specialAction' => $specialActionLabel,
-                'editLink' => '/projects/action/edit/?id=' . $actionId   ,
-            );
+        $staffList = array();
+        $projectStaff = $this->projectMapper->getAllHumanResourcesContractedAt($projectToBeDetailed);
+        if (!isset($this->humanResourceMapper)) {
+            $this->initHumanResourceMapper();
         }
 
-        $projectInfo = array(
-            // ### campos dos dados gerais do projeto
-            'client' => '###CNSeg',
-            'overhead' => '###20',
-            'area' => '###Desenvolvimento local e microempreendimento',
-            'managementFee' => '###0',
-            'ourResponsible' => '###Manuel Thedim',
-            'responsibleAtClient' => '###Ricardo Tavares',
-            // ### campos da guia Recebimentos
-            'linkReceivable' => '#',   // ### link para os detalhes do recebimento
-            'receivableTitle' => '###Pesquisa Qualitativa',
-            'receivablePredictedDate' => '###11/12/2012',
-            'receivableRealDate' => '###11/12/2012',
-            'receivablePredictedValue' => '###35.400,00',
-            'receivableRealValue' => '###35.400,00',
-            'receivableEditLink' => '#',   // ### link para o form de edição do recebimento
-            'receivableConfirmationLink' => '#',   // ### link para a confirmação do recebimento
-            // ### campos da guia Pagamentos
-            'linkOutlay' => '#',   // ### link para os detalhes do desembolso
-            'outlayActionTitle' => '###Projeto executivo',   // ### título do desembolso
-            'linkSupplier' => '#',   // ### link para o fornecedor
-            'outlayActionSupplier' => '###Kelly Miranda',
-            'outlayPredictedDate' => '###11/12/2012',
-            'outlayRealDate' => '###11/12/2012',
-            'outlayPredictedValue' => '###5.400,00',
-            'outlayRealValue' => '###5.400,00',
-            'outlayEditLink' => '#',   // ### link para o form de edição do desembolso
-            'outlayConfirmationLink' => '#',   // ### link para a confirmação do desembolso
-            // ### campos da guia Equipe
-            'linkHumanResource' => '#',   // ### link para os detalhes do contato
-            'humanResourceName' => '###Kelly Miranda',   // ### nome do contato
-            'humanResourceFunction' => '###Controller',
-            'humanResourceEmail' => '###kelly@iets.org.br',
-            'humanResourcePhone' => '###(21) 9999-9999',
-            'humanResourceEditLink' => '#',   // ### link para o form de edição do contato
+        foreach ($projectStaff as $id) {
+            $theHumanResource = $this->humanResourceMapper->findById($id);
+            $actionId = $theHumanResource->getAction();
+            $theAction = $this->actionMapper->findById($actionId);
+            $actionTitle = $theAction->getTitle();
+            $staffName = $this->view->translate("#Not defined");
+            $staffId = 0;
+            $staffEmail = $this->view->translate("#Not defined");
+            $staffPhoneNumber = $this->view->translate("#Not defined");
+            if ($theHumanResource->getContact() > 0) {
+                $theContact = $this->contactMapper->findById($theHumanResource->getContact());
+                $staffId = $theContact->getId();
+                $staffName = $theContact->getName();
+                $staffEmail = "lorem@ipsum.com";
+                $staffPhoneNumber = "21.2345-6789";
+            }
+            $positionDescription = $theHumanResource->getDescription();
 
-            'title' => $projectToBeDetailed->getTitle(),
-            'editLink' => '/projects/project/edit/?id=' . $projectToBeDetailed->getId(),
-            'linkReceivables' => $linkReceivables,
-            'linkPayables' => $linkPayables,
-            'linkUnacknowledged' => $linkUnacknowledged,
-            'linkTree' => $linkTree,
-            'beginDate' => C3op_Util_DateDisplay::FormatDateToShow($projectToBeDetailed->getBeginDate()),
-            'value' => C3op_Util_CurrencyDisplay::FormatCurrency($projectToBeDetailed->getValue()),
-            'linkActionCreate' => '/projects/action/create/?project=' . $projectToBeDetailed->getId(),
-            'actionsList' => $actionsList,
-        );
+            $staffList[$id] = array(
+                    'contactId'           => $staffId,
+                    'positionDescription' => $positionDescription,
+                    'staffName'           => $staffName,
+                    'staffPhoneNumber'    => $staffPhoneNumber,
+                    'staffEmail'          => $staffEmail,
+                );
+
+
+        }
+
+
+
+
+
+
+
+        $objTree = new C3op_Projects_ProjectTree();
+        $tree = $objTree->retrieveTree($projectToBeDetailed, $this->projectMapper, $this->actionMapper);
+
+        $this->treeData = array();
+        $this->fillDataTree($tree);
+
+        $actionTreeList = $this->treeData;
+
+
+
+
 
         $pageData = array(
             'projectHeader' => $projectHeader,
-            'productsList' => $productsList,
-            'outlaysList' => $outlaysList,
+            'productsList'  => $productsList,
+            'outlaysList'   => $outlaysList,
+            'actionsTree'   => $actionTreeList,
+            'staffList'     => $staffList,
 
-            'projectInfo'   => $projectInfo,
         );
         $this->view->pageData = $pageData;
     }
@@ -651,44 +629,44 @@ class Projects_ProjectController extends Zend_Controller_Action
         return $specialAction;
     }
 
-    private function manageReceivablesLink(C3op_Projects_Project $project)
-    {
-        $receivablesIdList = $this->projectMapper->getAllReceivables($project);
-        if (count($receivablesIdList) > 0) {
-            $linkReceivables = '/projects/project/receivables/?id=' . $project->getId();
-        } else {
-            $linkReceivables = "";
-        }
-        return $linkReceivables;
-
-    }
-
-    private function managePayablesLink(C3op_Projects_Project $project)
-    {
-        $payablesLink = $this->projectMapper->getAllDoneActions($project);
-        if (count($payablesLink) > 0) {
-            $linkReceivables = '/projects/project/payables/?id=' . $project->getId();
-        } else {
-            $linkReceivables = "";
-        }
-        return $linkReceivables;
-
-    }
-
-    private function manageUnacknowledgedLink(C3op_Projects_Project $project)
-    {
-        $linkUnacknowledged = '/projects/project/unacknowledged/?id=' . $project->getId();
-        return $linkUnacknowledged;
-
-    }
-
-    private function manageTreeLink(C3op_Projects_Project $project)
-    {
-        $linkTree = '/projects/project/tree/?id=' . $project->getId();
-        return $linkTree;
-
-    }
-
+//    private function manageReceivablesLink(C3op_Projects_Project $project)
+//    {
+//        $receivablesIdList = $this->projectMapper->getAllReceivables($project);
+//        if (count($receivablesIdList) > 0) {
+//            $linkReceivables = '/projects/project/receivables/?id=' . $project->getId();
+//        } else {
+//            $linkReceivables = "";
+//        }
+//        return $linkReceivables;
+//
+//    }
+//
+//    private function managePayablesLink(C3op_Projects_Project $project)
+//    {
+//        $payablesLink = $this->projectMapper->getAllDoneActions($project);
+//        if (count($payablesLink) > 0) {
+//            $linkReceivables = '/projects/project/payables/?id=' . $project->getId();
+//        } else {
+//            $linkReceivables = "";
+//        }
+//        return $linkReceivables;
+//
+//    }
+//
+//    private function manageUnacknowledgedLink(C3op_Projects_Project $project)
+//    {
+//        $linkUnacknowledged = '/projects/project/unacknowledged/?id=' . $project->getId();
+//        return $linkUnacknowledged;
+//
+//    }
+//
+//    private function manageTreeLink(C3op_Projects_Project $project)
+//    {
+//        $linkTree = '/projects/project/tree/?id=' . $project->getId();
+//        return $linkTree;
+//
+//    }
+//
     private function setDateValueToFormField(C3op_Form_ProjectCreate $form, $fieldName, $value)
     {
         $field = $form->getElement($fieldName);
@@ -758,34 +736,40 @@ class Projects_ProjectController extends Zend_Controller_Action
 
    private function fillDataTree($tree)
     {
-        $this->initActionMapper();
+       // actionInfo
+       //   title
+       //   subordinatedTo
+       //   responsibleName
+       //   predictedBeginDate
+       //   realBeginDate
+       //   predictedFinishDate
+       //   realFinishDate
+       //
+
+       $this->initActionMapper();
         foreach ($tree as $id => $subTree) {
             $loopAction = $this->actionMapper->findById($id);
             $data = array();
-            $data["title"] = $loopAction->getTitle();
+            $data['title'] = $loopAction->getTitle();
+            $data['subordinatedTo'] = $loopAction->getSubordinatedTo();
 
-            $contract = new C3op_Projects_ActionContracting($loopAction, $this->actionMapper);
-            if ($contract->isContracted()) {
-                $data["contracted"] = "contratada";
+            if ($loopAction->getResponsible()) {
+                $theContact = $this->contactMapper->findById($loopAction->getResponsible());
+                $data['responsibleName'] = $theContact->getName();
             } else {
-                $data["contracted"] = "";
+                $data['responsibleName'] = $this->view->translate("#Not defined");
             }
 
-            $data["value"] = C3op_Util_CurrencyDisplay::FormatCurrency(
-                    $this->actionMapper->getContractedValueForActionTree($loopAction));
-
-            $done = new C3op_Projects_ActionDone($loopAction);
-            if ($done->isDone()) {
-                $data["done"] = "finalizada";
-            } else {
-                $data["done"] = "";
-            }
+            $data['predictedBeginDate'] = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getPredictedBeginDate());
+            $data['realBeginDate'] = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getRealBeginDate());
+            $data['predictedFinishDate'] = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getPredictedFinishDate());
+            $data['realFinishDate'] = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getRealFinishDate());
 
             $this->treeData[$id] = $data;
-
 
             $this->fillDataTree($subTree);
         }
     }
+
 
 }

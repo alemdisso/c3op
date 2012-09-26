@@ -294,6 +294,28 @@ class C3op_Projects_ProjectMapper
         return $result;
     }
 
+    public function getAllHumanResourcesContractedAt(C3op_Projects_Project $p) {
+        $result = array();
+
+        foreach ($this->db->query(sprintf('SELECT h.id
+            FROM projects_actions a
+            INNER JOIN projects_human_resources h ON a.id = h.action
+            WHERE h.contact >0
+            AND a.project = %d
+            AND (
+            a.status = %d
+            OR a.status = %d
+            )'
+            , $p->GetId()
+            , C3op_Projects_HumanResourceStatusConstants::STATUS_CONTRACTED
+            , C3op_Projects_HumanResourceStatusConstants::STATUS_ACQUITTED
+
+                )) as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
 
 
 }

@@ -2,9 +2,6 @@
 
 $pageData = $this->pageData;
 
-$projectInfo = $pageData['projectInfo'];
-
-
 
         //  projectHeader
         //    id
@@ -30,8 +27,9 @@ $projectHeader = $pageData['projectHeader'];
 
 $productsList = $pageData['productsList'];
 
-
+$actionsList = $pageData['actionsTree'];
 $outlaysList = $pageData['outlaysList'];
+$staffList = $pageData['staffList'];
 
 ?>
     <div id="MainHeader">
@@ -98,6 +96,7 @@ $outlaysList = $pageData['outlaysList'];
         <li><a href="#tabs-1"><?php echo $this->translate("#Receiving") ?></a></li>
         <li><a href="#tabs-2"><?php echo $this->translate("#Payments") ?></a></li>
         <li><a href="#tabs-3"><?php echo $this->translate("#Staff") ?></a></li>
+        <li><a href="#tabs-4"><?php echo $this->translate("#Actions") ?></a></li>
       </ul>
 
       <div id="tabs-1">
@@ -162,9 +161,12 @@ foreach($productsList as $id => $productInfo) {
 
               </tbody>
             </table><br />
-            <p>
               <a href="/projects/receivable/create/?project=<?php echo $projectHeader['id'] ?>" class="button three columns alpha omega"><?php echo $this->translate("#Predict receiving") ?></a>
-            </p>
+        <a href="/projects/project/payables/?id=<?php print($projectHeader['id']) ?>" class="button three columns alpha omega">Consultar ações realizadas</a>
+        <a href="/projects/project/unacknowledged/?id=<?php print($projectHeader['id']) ?>" class="button three columns alpha omega">Ações com início a confirmar</a>
+<a href="/projects/action/create/?project=<?php print($projectHeader['id']) ?>" class="button three columns alpha omega">Criar Nova Ação</a>
+
+
           </div><!-- Area -->
         </div><!-- tabs-1 -->
 
@@ -274,110 +276,115 @@ foreach($outlaysList as $id => $outlayInfo) {
             <table id="Equipe" class="display dataTable">
               <thead>
                 <tr>
-                  <th width="220">Nome</th>
-                  <th width="80">Função</th>
-                  <th width="100">E-mail</th>
-                  <th width="100">Telefone</th>
+                  <th width="220"><?php echo $this->translate("#Name") ?></th>
+                  <th width="80"><?php echo $this->translate("#Function") ?></th>
+                  <th width="100"><?php echo $this->translate("#Email") ?></th>
+                  <th width="100"><?php echo $this->translate("#Phone number") ?></th>
                   <th width="100">&nbsp;</th>
                 </tr>
               </thead>
               <tbody>
               <!-- ### loop de carga dos recursos humanos alocados ao projeto -->
+<?php
+
+foreach($staffList as $id => $staffInfo) {
+?>
                 <tr>
                   <td>
-                    <a href="<?php print($projectInfo['linkHumanResource']) ?>"><?php print($projectInfo['humanResourceName']) ?></a>
+                    <a href="/register/contact/detail/?id=<?php print($staffInfo['contactId']) ?>"><?php print($staffInfo['staffName']) ?></a>
                   </td>
                   <td>
-                    <?php print($projectInfo['humanResourceFunction']) ?>
+                    <a href="/projects/human-resource/edit/?id=<?php print($id) ?>"><?php print($staffInfo['positionDescription']) ?></a>
                   </td>
                   <td>
-                    <a href="mailto:<?php print($projectInfo['humanResourceEmail']) ?>"><?php print($projectInfo['humanResourceEmail']) ?></a>
+                    <a href="mailto:<?php print($staffInfo['staffEmail']) ?>"><?php print($staffInfo['staffEmail']) ?></a>
                   </td>
                   <td>
-                    <?php print($projectInfo['humanResourcePhone']) ?>
+                    <?php print($staffInfo['staffPhoneNumber']) ?>
                   </td>
                   <td>
-                    <a href="#" class="anchorclass" rel="submenu1">Opções</a>
+                    <a href="#" class="anchorclass" rel="submenu1"><?php echo $this->translate("#Options") ?></a>
                     <div id="submenu1" class="anylinkcss">
                         <ul>
                           <li>
                             <!-- [# LINK PARA A EDIÇÃO DO CONTATO ] -->
-                            <a href="<?php print($projectInfo['humanResourceEditLink']) ?>">Editar</a>
+                            <a href="/projects/human-resource/edit/?=<?php print($id) ?>"><?php echo $this->translate("#Edit") ?></a>
                           </li>
                           <li>
                             <!-- [# LINK PARA PÁGINA DO CONTATO ] -->
-                            <a href="<?php print($projectInfo['linkHumanResource']) ?>">Ver contato</a>
+                            <a href="/register/contact/detail/?id=<?php print($staffInfo['contactId']) ?>"><?php echo $this->translate("#Contact details") ?></a>
                           </li>
                         </ul>
                     </div><!-- #submenu1 -->
                   </td>
                 </tr>
+<?php
+}
+?>
               <!-- ### loop de carga dos recursos humanos alocados ao projeto -->
               </tbody>
             </table><br />
 
             <p>
               <!-- [# LINK PARA PÁGINA DE VINCULAÇÃO DE CONTATO À EQUIPE DO PROJETO ] -->
-              <a href="#" class="button three columns alpha omega">Incluir membro</a>
+              <a href="" class="button three columns alpha omega"><?php echo $this->translate("#Add staff member") ?></a>
             </p>
           </div><!-- Area -->
         </div><!-- tabs-3 -->
       </div><!-- #tabs -->
 
-<?php
-  if ($projectInfo['linkPayables'] != "") {
-?>
-      <p>
-        <a class="info" href="<?php print($projectInfo['linkPayables']) ?>">Consultar ações realizadas</a><br />
-      </p>
-<?php
-  }
-?>
-<?php
-  if ($projectInfo['linkUnacknowledged'] != "") {
-?>
-      <p>
-        <a class="info" href="<?php print($projectInfo['linkUnacknowledged']) ?>">Ações com início a confirmar</a><br />
-      </p>
-<?php
-  }
-?>
-<?php
-  if ($projectInfo['linkTree'] != "") {
-?>
-      <p>
-        <a class="info" href="<?php print($projectInfo['linkTree']) ?>">Árvore de ações</a><br />
-      </p>
-<?php
-  }
-?>
 
-  <h2>Produtos do Projeto</h2>
-<?php
-/*
- * iterate list and print title
- */
 
-    $actionsList = $projectInfo['actionsList'];
 
-    while (list(, $actionInfo) = each($actionsList)) {
-?>
-<p class="project_product_line">
-<?php print($actionInfo['title']) ?>&nbsp;<?php print($actionInfo['specialAction']) ?> |
-(<?php print($actionInfo['brood']) ?>) |
-<?php if (isset($actionInfo['editLink'])) { ?>
-<a href="<?php print($actionInfo['editLink']) ?>">Editar</a>
-<?php } ?>
-</p>
+
+        <div id="tabs-4">
+          <div class="Area">
+            <h2><?php echo $this->translate("#Actions") ?></h2>
+    <table id="tree" border="1">
+    	<thead>
+    		<tr>
+    			<th width="200" align="left"><?php echo $this->translate("#Action") ?></th>
+    			<th width="200" align="left"><?php echo $this->translate("#Responsible") ?></th>
+    			<th width="100" align="left"><?php echo $this->translate("#Pred. begin date") ?></th>
+    			<th width="100" align="left"><?php echo $this->translate("#Real begin date") ?></th>
+    			<th width="100" align="left"><?php echo $this->translate("#Pred. finish date") ?></th>
+    			<th width="100" align="left"><?php echo $this->translate("#Real finish date") ?></th>
+    		</tr>
+    	</thead>
+    	<tbody>
 
 
 <?php
-}  // loop iterate list and print titlei
+
+
+foreach ($actionsList as $id => $actionData) {
+    $nodeId = "node-" . $id;
+    $childOf = $actionData['subordinatedTo'];
+    if ($childOf > 0) {
+        $classId = "\"child-of-node-$childOf\"";
+        $classId = 'class = ' . $classId;
+    }
+
 ?>
 
 
+        <tr id="<?php print ($nodeId) ?>" <?php print (($childOf > 0 ? $classId : '')) ?>>
+          <td><a href='/projects/action/detail/?id=<?php print($id) ?>'><?php print ($actionData['title']) ?></a></td>
+          <td><?php print ($actionData['responsibleName']) ?></td>
+          <td><?php print ($actionData['predictedBeginDate']) ?></td>
+          <td>01/09/2012</td>
+          <td>30/09/2012</td>
+          <td>30/09/2012</td>
+        </tr>
+<?php
+}
 
-<p />
-<br /><br /><a href="<?php print($projectInfo['linkActionCreate']) ?>">Criar Nova Ação</a>
-
+?>
+        <!-- # Fim do loop -->
+      </tbody>
+    </table>
+<br />
+          </div><!-- Area -->
+        </div><!-- tabs-4 -->
+      </div><!-- #tabs -->
 
