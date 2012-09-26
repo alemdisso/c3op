@@ -27,7 +27,7 @@ class C3op_Register_RelationshipTypes {
                     break;
 
                 default:
-                    return "Tipo desconhecido";
+                    return _("#Unknown type");
                     break;
             }
     }

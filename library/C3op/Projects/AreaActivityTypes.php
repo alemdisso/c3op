@@ -2,17 +2,22 @@
 
 class C3op_Projects_AreaActivityTypes {
 
-    private static $titles = array(
-        C3op_Projects_AreaActivityConstants::AREA_SOCIAL_POLICIES => "Políticas sociais e melhoria dos gastos públicos",
-        C3op_Projects_AreaActivityConstants::AREA_INEQUALITY => "Desigualdade e pobreza",
-        C3op_Projects_AreaActivityConstants::AREA_LABOR_MARKET => "Mercado de trabalho, emprego e rendimento",
-        C3op_Projects_AreaActivityConstants::AREA_LOCAL_DEVELOPMENT => "Desenvolvimento local e microempreendimento",
-        C3op_Projects_AreaActivityConstants::AREA_EDUCATION => "Educação, recursos humanos e eqüidade",
-        C3op_Projects_AreaActivityConstants::AREA_METROPOLITAN_QUESTION => "A questão metropolitana",
-        C3op_Projects_AreaActivityConstants::AREA_CORPORATE_SOCIAL_RESPONSABILITY => "Responsabilidade social corporativa",
-    );
+    private $titles = array();
 
-    public static function TitleForType($type)
+
+    public function __construct() {
+        $this->titles = array(
+            C3op_Projects_AreaActivityConstants::AREA_SOCIAL_POLICIES => _("#Social policies and improving public spending"),
+            C3op_Projects_AreaActivityConstants::AREA_INEQUALITY => _("#Inequality and poverty"),
+            C3op_Projects_AreaActivityConstants::AREA_LABOR_MARKET => _("#Labor market, employment and income"),
+            C3op_Projects_AreaActivityConstants::AREA_LOCAL_DEVELOPMENT => _("#Local development and microenterprise"),
+            C3op_Projects_AreaActivityConstants::AREA_EDUCATION => _("#Education, human resources and equity"),
+            C3op_Projects_AreaActivityConstants::AREA_METROPOLITAN_QUESTION => _("#The metropolitan issue"),
+            C3op_Projects_AreaActivityConstants::AREA_CORPORATE_SOCIAL_RESPONSABILITY => _("#Corporate social responsibility"),
+        );
+    }
+
+    public function TitleForType($type)
     {
             switch ($type) {
                 case C3op_Projects_AreaActivityConstants::AREA_SOCIAL_POLICIES:
@@ -22,17 +27,17 @@ class C3op_Projects_AreaActivityTypes {
                 case C3op_Projects_AreaActivityConstants::AREA_EDUCATION:
                 case C3op_Projects_AreaActivityConstants::AREA_METROPOLITAN_QUESTION:
                 case C3op_Projects_AreaActivityConstants::AREA_CORPORATE_SOCIAL_RESPONSABILITY:
-                    return self::$titles[$type];
+                    return $this->titles[$type];
                     break;
 
                 default:
-                    return "Tipo desconhecido";
+                    return _("#Unknown type");
                     break;
             }
     }
 
-    public static function AllTitles()
+    public function AllTitles()
     {
-        return self::$titles;
+        return $this->titles;
     }
 }

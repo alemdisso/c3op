@@ -9,5 +9,5 @@ class C3op_Projects_ActionStatusConstants
     const STATUS_DONE = 400;
     const STATUS_DELIVERED = 500;
     const STATUS_COMPLETE = 600;
-    const STATUS_ABORT = 10000;
+    const STATUS_ABORTED = 10000;
 }

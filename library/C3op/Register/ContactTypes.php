@@ -24,7 +24,7 @@ class C3op_Register_ContactTypes {
                     break;
 
                 default:
-                    return "Tipo desconhecido";
+                    return _("#Unknown type");
                     break;
             }
     }

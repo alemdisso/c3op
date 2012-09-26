@@ -231,6 +231,20 @@ class C3op_Projects_ProjectMapper
         $attribute->setValue($p, $fieldValue);
     }
 
+    public function getAllOutlaysOf(C3op_Projects_Project $p) {
+        $result = array();
+
+        foreach ($this->db->query(sprintf('SELECT o.id, o.predicted_date
+                    FROM projects_outlays o
+                    INNER JOIN projects_actions a ON a.id = o.action
+                    INNER JOIN projects_human_resources h ON h.id = o.human_resource
+                    WHERE o.project = %d AND h.contact > 0', $p->GetId()
+                )) as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
     public function getAllOutlaysRelatedToDoneActions(C3op_Projects_Project $p) {
         $result = array();
 
@@ -276,6 +290,28 @@ class C3op_Projects_ProjectMapper
             if ($obj->isUnacknowledged()) {
                 $result[] = $row['id'];
             }
+        }
+        return $result;
+    }
+
+    public function getAllHumanResourcesContractedAt(C3op_Projects_Project $p) {
+        $result = array();
+
+        foreach ($this->db->query(sprintf('SELECT h.id
+            FROM projects_actions a
+            INNER JOIN projects_human_resources h ON a.id = h.action
+            WHERE h.contact >0
+            AND a.project = %d
+            AND (
+            a.status = %d
+            OR a.status = %d
+            )'
+            , $p->GetId()
+            , C3op_Projects_HumanResourceStatusConstants::STATUS_CONTRACTED
+            , C3op_Projects_HumanResourceStatusConstants::STATUS_ACQUITTED
+
+                )) as $row) {
+            $result[] = $row['id'];
         }
         return $result;
     }

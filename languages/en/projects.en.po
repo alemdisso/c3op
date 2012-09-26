@@ -1,0 +1,579 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: c3op\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-09-26 10:42-0300\n"
+"PO-Revision-Date: 2012-09-26 10:42-0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: English\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;translate\n"
+"X-Poedit-Basepath: C:\\xampp\\htdocs\\c3op\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: application\\modules\\projects\n"
+"X-Poedit-SearchPath-1: library\\C3op\\projects\n"
+
+#: application\modules\projects/controllers/ActionController.php:38
+msgid "#The record was successfully created."
+msgstr "The record was successfully created."
+
+#: application\modules\projects/controllers/ActionController.php:72
+msgid "#The record was successfully updated."
+msgstr "The record was successfully updated."
+
+#: application\modules\projects/controllers/ActionController.php:400
+msgid "#It needs a positive integer project id to populate project fields."
+msgstr "It needs a positive integer project id to populate project fields."
+
+#: application\modules\projects/controllers/ActionController.php:433
+msgid ""
+"#It needs a positive integer project id to find other actions from same "
+"project."
+msgstr ""
+"It needs a positive integer project id to find other actions from same "
+"project."
+
+#: application\modules\projects/controllers/ProjectController.php:156
+#: application\modules\projects/controllers/ProjectController.php:163
+#: application\modules\projects/controllers/ProjectController.php:242
+msgid "#Not defined"
+msgstr ""
+
+#: library\C3op\projects/ActionEventTypes.php:45
+#: library\C3op\projects/ActionStatusTypes.php:36
+#: library\C3op\projects/AreaActivityTypes.php:34
+#: library\C3op\projects/ContractNatureTypes.php:33
+#: library\C3op\projects/HumanResourceStatusTypes.php:27
+#: library\C3op\projects/ProjectStatusTypes.php:35
+msgid "#Unknown type"
+msgstr ""
+
+#: library\C3op\projects/ActionStatusTypes.php:10
+msgid "#Nil"
+msgstr ""
+
+#: library\C3op\projects/ActionStatusTypes.php:11
+msgid "#Planning"
+msgstr ""
+
+#: library\C3op\projects/ActionStatusTypes.php:12
+#, fuzzy
+msgid "#In Execution"
+msgstr "Instituição"
+
+#: library\C3op\projects/ActionStatusTypes.php:13
+msgid "#Received"
+msgstr ""
+
+#: library\C3op\projects/ActionStatusTypes.php:14
+msgid "#Done"
+msgstr ""
+
+#: library\C3op\projects/ActionStatusTypes.php:15
+msgid "#Delivered"
+msgstr ""
+
+#: library\C3op\projects/ActionStatusTypes.php:16
+msgid "#Complete"
+msgstr ""
+
+#: library\C3op\projects/ActionStatusTypes.php:17
+msgid "#Aborted"
+msgstr ""
+
+#: library\C3op\projects/AreaActivityTypes.php:10
+msgid "#Social policies and improving public spending"
+msgstr ""
+
+#: library\C3op\projects/AreaActivityTypes.php:11
+msgid "#Inequality and poverty"
+msgstr ""
+
+#: library\C3op\projects/AreaActivityTypes.php:12
+msgid "#Labor market, employment and income"
+msgstr ""
+
+#: library\C3op\projects/AreaActivityTypes.php:13
+msgid "#Local development and microenterprise"
+msgstr ""
+
+#: library\C3op\projects/AreaActivityTypes.php:14
+msgid "#Education, human resources and equity"
+msgstr ""
+
+#: library\C3op\projects/AreaActivityTypes.php:15
+msgid "#The metropolitan issue"
+msgstr ""
+
+#: library\C3op\projects/AreaActivityTypes.php:16
+msgid "#Corporate social responsibility"
+msgstr ""
+
+#: library\C3op\projects/ContractNatureTypes.php:9
+#, fuzzy
+msgid "#Contract"
+msgstr "Contratante"
+
+#: library\C3op\projects/ContractNatureTypes.php:10
+msgid "#Agreement"
+msgstr ""
+
+#: library\C3op\projects/ContractNatureTypes.php:11
+#, fuzzy
+msgid "#Partnership term"
+msgstr "Parceiro"
+
+#: library\C3op\projects/ContractNatureTypes.php:12
+#, fuzzy
+msgid "#Donation"
+msgstr "Posição"
+
+#: library\C3op\projects/ContractNatureTypes.php:13
+msgid "#Sponsorship"
+msgstr ""
+
+#: library\C3op\projects/ContractNatureTypes.php:14
+msgid "#Cooperation agreement"
+msgstr ""
+
+#: library\C3op\projects/ContractNatureTypes.php:15
+msgid "#contract.nature.Other"
+msgstr ""
+
+#: library\C3op\projects/ProjectStatusTypes.php:11
+#, fuzzy
+msgid "#Prospecting"
+msgstr "Project:"
+
+#: library\C3op\projects/ProjectStatusTypes.php:12
+msgid "#project.status.type.Planning"
+msgstr ""
+
+#: library\C3op\projects/ProjectStatusTypes.php:13
+msgid "#Proposal"
+msgstr ""
+
+#: library\C3op\projects/ProjectStatusTypes.php:14
+#, fuzzy
+msgid "#Execution"
+msgstr "New action"
+
+#: library\C3op\projects/ProjectStatusTypes.php:15
+msgid "#Accountability"
+msgstr ""
+
+#: library\C3op\projects/ProjectStatusTypes.php:16
+msgid "#Canceled"
+msgstr ""
+
+#: library\C3op\projects/ProjectStatusTypes.php:17
+msgid "#Suspended"
+msgstr ""
+
+#: application\modules\projects/views/scripts/action/create.phtml:2
+msgid "#New action"
+msgstr "New action"
+
+#: application\modules\projects/views/scripts/action/create.phtml:3
+msgid "#Project:"
+msgstr "Project:"
+
+#: application\modules\projects/views/scripts/action/edit.phtml:2
+#, fuzzy
+msgid "#Edit action"
+msgstr "Editar contato"
+
+#: application\modules\projects/views/scripts/action/edit.phtml:3
+#: application\modules\projects/views/scripts/index/index.phtml:28
+#: application\modules\projects/views/scripts/project/detail.phtml:38
+#, fuzzy
+msgid "#Project"
+msgstr "Project:"
+
+#: application\modules\projects/views/scripts/action/success.phtml:2
+#: application\modules\projects/views/scripts/project/success.phtml:2
+msgid "#Sucess!!!"
+msgstr "Success!"
+
+#: application\modules\projects/views/scripts/index/index.phtml:9
+#, fuzzy
+msgid "#Projects"
+msgstr "Project:"
+
+#: application\modules\projects/views/scripts/index/index.phtml:29
+msgid "#Client"
+msgstr "Cliente"
+
+#: application\modules\projects/views/scripts/index/index.phtml:30
+#, fuzzy
+msgid "#Area"
+msgstr "DDD"
+
+#: application\modules\projects/views/scripts/index/index.phtml:31
+#, fuzzy
+msgid "#Status"
+msgstr "UF"
+
+#: application\modules\projects/views/scripts/index/index.phtml:32
+msgid "#% physical progress"
+msgstr ""
+
+#: application\modules\projects/views/scripts/index/index.phtml:33
+msgid "#% payables"
+msgstr ""
+
+#: application\modules\projects/views/scripts/index/index.phtml:34
+msgid "#% receivings"
+msgstr ""
+
+#: application\modules\projects/views/scripts/index/index.phtml:54
+msgid "#Options..."
+msgstr "Opções..."
+
+#: application\modules\projects/views/scripts/index/index.phtml:58
+#: application\modules\projects/views/scripts/project/detail.phtml:145
+#: application\modules\projects/views/scripts/project/detail.phtml:229
+msgid "#Edit"
+msgstr "Editar"
+
+#: application\modules\projects/views/scripts/index/index.phtml:61
+msgid "#Predict Receiving"
+msgstr ""
+
+#: application\modules\projects/views/scripts/index/index.phtml:64
+#, fuzzy
+msgid "#Create action"
+msgstr "Criar contato"
+
+#: application\modules\projects/views/scripts/index/index.phtml:67
+#, fuzzy
+msgid "#Project details"
+msgstr "Project:"
+
+#: application\modules\projects/views/scripts/index/index.phtml:91
+#, fuzzy
+msgid "#There is no list of projects."
+msgstr "Não há informações sobre esse contato."
+
+#: application\modules\projects/views/scripts/index/index.phtml:97
+#, fuzzy
+msgid "#Create New Project"
+msgstr "Criar contato"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:44
+#, fuzzy
+msgid "#Client:"
+msgstr "Cliente"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:50
+msgid "#Overhead:"
+msgstr ""
+
+#: application\modules\projects/views/scripts/project/detail.phtml:57
+msgid "#Area activity:"
+msgstr ""
+
+#: application\modules\projects/views/scripts/project/detail.phtml:63
+msgid "#Management fee:"
+msgstr ""
+
+#: application\modules\projects/views/scripts/project/detail.phtml:70
+msgid "#Our responsible:"
+msgstr ""
+
+#: application\modules\projects/views/scripts/project/detail.phtml:76
+#, fuzzy
+msgid "#Contract value:"
+msgstr "Contato:"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:83
+msgid "#Responsible at client:"
+msgstr ""
+
+#: application\modules\projects/views/scripts/project/detail.phtml:89
+#, fuzzy
+msgid "#Contract date:"
+msgstr "Contato:"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:98
+#: application\modules\projects/views/scripts/project/detail.phtml:105
+msgid "#Receiving"
+msgstr ""
+
+#: application\modules\projects/views/scripts/project/detail.phtml:99
+#: application\modules\projects/views/scripts/project/detail.phtml:173
+msgid "#Payments"
+msgstr ""
+
+#: application\modules\projects/views/scripts/project/detail.phtml:100
+#, fuzzy
+msgid "#Staff"
+msgstr "UF"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:109
+#, fuzzy
+msgid "#Product"
+msgstr "Project:"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:110
+#: application\modules\projects/views/scripts/project/detail.phtml:190
+msgid "#Predicted date"
+msgstr ""
+
+#: application\modules\projects/views/scripts/project/detail.phtml:111
+#: application\modules\projects/views/scripts/project/detail.phtml:191
+msgid "#Real date"
+msgstr ""
+
+#: application\modules\projects/views/scripts/project/detail.phtml:112
+#: application\modules\projects/views/scripts/project/detail.phtml:192
+msgid "#Predicted value"
+msgstr ""
+
+#: application\modules\projects/views/scripts/project/detail.phtml:113
+#: application\modules\projects/views/scripts/project/detail.phtml:193
+msgid "#Real value"
+msgstr ""
+
+#: application\modules\projects/views/scripts/project/detail.phtml:140
+#: application\modules\projects/views/scripts/project/detail.phtml:224
+#, fuzzy
+msgid "#Options"
+msgstr "Opções..."
+
+#: application\modules\projects/views/scripts/project/detail.phtml:149
+msgid "#Notify receiving"
+msgstr ""
+
+#: application\modules\projects/views/scripts/project/detail.phtml:153
+msgid "#Product details"
+msgstr ""
+
+#: application\modules\projects/views/scripts/project/detail.phtml:166
+msgid "#Predict receiving"
+msgstr ""
+
+#: application\modules\projects/views/scripts/project/detail.phtml:188
+#, fuzzy
+msgid "#Action"
+msgstr "New action"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:189
+msgid "#Payee"
+msgstr ""
+
+#: application\modules\projects/views/scripts/project/detail.phtml:233
+msgid "#Confirm payment"
+msgstr ""
+
+#: application\modules\projects/views/scripts/project/detail.phtml:237
+msgid "#Outlay details"
+msgstr ""
+
+#: application\modules\projects/views/scripts/project/detail.phtml:253
+msgid "#Predict outlay"
+msgstr ""
+
+#: application\modules\projects/views/scripts/project/detail.phtml:259
+#, fuzzy
+msgid "#There is no outlays related to this project."
+msgstr "Não há informações sobre esse contato."
+
+#, fuzzy
+#~ msgid "#Invalid contact id"
+#~ msgstr "Editar contato"
+
+#, fuzzy
+#~ msgid "#Invalid phone number"
+#~ msgstr "Acrescentar telefone"
+
+#~ msgid "#Name"
+#~ msgstr "Nome"
+
+#~ msgid "#Government"
+#~ msgstr "Poder público"
+
+#~ msgid "#Private Entity"
+#~ msgstr "Entidade Privada"
+
+#~ msgid "#Research Institute"
+#~ msgstr "Instituto de pesquisa"
+
+#~ msgid "#Non Governmental Organization"
+#~ msgstr "Organização Não Governamental"
+
+#~ msgid "#Particular"
+#~ msgstr "Particular"
+
+#~ msgid "#General"
+#~ msgstr "Geral"
+
+#~ msgid "#Supplier"
+#~ msgstr "Fornecedor"
+
+#~ msgid "#Email addresses"
+#~ msgstr "Emails"
+
+#~ msgid "#Create %s's email address"
+#~ msgstr "Adicionar email para %s"
+
+#~ msgid "#Service messengers"
+#~ msgstr "Serviços de mensagens"
+
+#~ msgid "#Create %s's service messenger"
+#~ msgstr "Adicionar serviço de %s"
+
+#~ msgid "#Phone number"
+#~ msgstr "Telefone"
+
+#~ msgid "#Create %s's phone number"
+#~ msgstr "Adicionar telefone de %s"
+
+#~ msgid "#Email"
+#~ msgstr "Email"
+
+#~ msgid "#Change %s's email address"
+#~ msgstr "Alterar email de %s"
+
+#~ msgid "#Service messenger"
+#~ msgstr "Serviço de mensagens"
+
+#~ msgid "#Change %s's service messenger"
+#~ msgstr "Alterar endereço de %s"
+
+#~ msgid "#Change phone number of %s"
+#~ msgstr "Alterar telefone de %s"
+
+#~ msgid "#Name:"
+#~ msgstr "Nome:"
+
+#~ msgid "#Relationship"
+#~ msgstr "Relação com o IETS"
+
+#~ msgid "#Phone Numbers"
+#~ msgstr "Telefones"
+
+#~ msgid "#Local Number"
+#~ msgstr "Número"
+
+#~ msgid "#Label"
+#~ msgstr "Tipo"
+
+#~ msgid "#Add phone number"
+#~ msgstr "Acrescentar telefone"
+
+#~ msgid "#Emails"
+#~ msgstr "Emails"
+
+#~ msgid "#Address"
+#~ msgstr "Endereço"
+
+#~ msgid "#Type"
+#~ msgstr "Tipo"
+
+#~ msgid "#Add email"
+#~ msgstr "Acrescentar email"
+
+#~ msgid "#Messengers"
+#~ msgstr "Serviços de mensagens"
+
+#~ msgid "#Service"
+#~ msgstr "Serviço"
+
+#~ msgid "#Service.Address"
+#~ msgstr "Conta"
+
+#~ msgid "#Add messenger"
+#~ msgstr "Adicionar serviço"
+
+#~ msgid "#Departament"
+#~ msgstr "Departamento"
+
+#~ msgid "#Create new linkage"
+#~ msgstr "Criar novo vínculo"
+
+#~ msgid "#Create linkage"
+#~ msgstr "Criar novo vínculo"
+
+#~ msgid "#Generic error message"
+#~ msgstr "Ocorreu um erro."
+
+#~ msgid "#Contacts"
+#~ msgstr "Contatos"
+
+#~ msgid "#No registered contacts"
+#~ msgstr "Não há contatos cadastrados"
+
+#~ msgid "#Contacts list was not found"
+#~ msgstr "Não foi encontrada uma lista de contatos"
+
+#~ msgid "#Add new contact"
+#~ msgstr "Adicionar contato"
+
+#~ msgid "#Success creating!"
+#~ msgstr "Sucesso ao adicionar o registro"
+
+#~ msgid "#Success updating!"
+#~ msgstr "Sucesso ao atualizar registro"
+
+#~ msgid "#Register"
+#~ msgstr "Cadastro"
+
+#~ msgid "#Institutions"
+#~ msgstr "Instituições"
+
+#~ msgid "#Create institution"
+#~ msgstr "Adicionar instituição"
+
+#~ msgid "#Contacts in this institution"
+#~ msgstr "Contatos nessa instituição"
+
+#~ msgid "#Add new linkage"
+#~ msgstr "Adicionar vínculo"
+
+#~ msgid "#There is no data about this institution."
+#~ msgstr "Não há informações sobre essa instituição."
+
+#~ msgid "#Edit institution"
+#~ msgstr "Editar instituição"
+
+#~ msgid "#City"
+#~ msgstr "Cidade"
+
+#~ msgid "#institution.index.Relationship"
+#~ msgstr "Relação"
+
+#~ msgid "#No registered institutions."
+#~ msgstr "Não há instituições cadastradas."
+
+#~ msgid "#Institutions list was not found."
+#~ msgstr "Não existe lista de instituições cadastradas."
+
+#~ msgid "#Add new institution"
+#~ msgstr "Criar Nova Instituição"
+
+#~ msgid "Número Local"
+#~ msgstr "Número"
+
+#~ msgid "Rótulo"
+#~ msgstr "Tipo"
+
+#~ msgid "Conta"
+#~ msgstr "Conta"
+
+#~ msgid "name"
+#~ msgstr "Nome"
+
+#~ msgid "My test"
+#~ msgstr "Contato:"
+
+#, fuzzy
+#~ msgid "Relação"
+#~ msgstr "Relação com o IETS"
+
+#, fuzzy
+#~ msgid "Code area"
+#~ msgstr "DDD"

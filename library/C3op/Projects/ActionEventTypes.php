@@ -42,7 +42,7 @@ class C3op_Projects_ActionEventTypes {
                     break;
 
                 default:
-                    return "Tipo desconhecido";
+                    return _("#Unknown type");
                     break;
             }
     }

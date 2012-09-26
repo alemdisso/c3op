@@ -114,10 +114,4 @@ class C3op_Projects_HumanResource {
 
     } //SetStatus
 
-    public function Realize()
-    {
-        $this->SetDone(true);
-
-    }
-
 }
