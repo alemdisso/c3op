@@ -11,6 +11,7 @@ class Projects_ProjectController extends Zend_Controller_Action
     private $institutionMapper;
     private $contactMapper;
     private $outlayMapper;
+    private $humanResourceMapper;
 
     public function preDispatch()
     {
@@ -213,6 +214,61 @@ class Projects_ProjectController extends Zend_Controller_Action
                 );
         }
 
+        // outlaysList
+        //   * id =>
+        //      actionId
+        //      actionTitle
+        //      payeeId
+        //      payeeName
+        //      predictedDate
+        //      realDate
+        //      predictedValue
+        //      realValue
+
+        $outlaysList = array();
+        $projectOutlays = $this->projectMapper->getAllOutlaysOf($projectToBeDetailed);
+        if (!isset($this->outlayMapper)) {
+            $this->initOutlayMapper();
+        }
+        if (!isset($this->humanResourceMapper)) {
+            $this->initHumanResourceMapper();
+        }
+
+        foreach ($projectOutlays as $id) {
+            $theOutlay = $this->outlayMapper->findById($id);
+            $actionId = $theOutlay->getAction();
+            $theAction = $this->actionMapper->findById($actionId);
+            $actionTitle = $theAction->getTitle();
+            $payeeName = $this->view->translate("#Not defined");
+            $payeeId = 0;
+            if ($theOutlay->getHumanResource() > 0) {
+                $theHumanResource = $this->humanResourceMapper->findById($theOutlay->getHumanResource());
+                if ($theHumanResource->getContact() > 0) {
+                    $theContact = $this->contactMapper->findById($theHumanResource->getContact());
+                    $payeeId = $theContact->getId();
+                    $payeeName = $theContact->getName();
+                }
+            }
+
+            $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($theOutlay->getPredictedDate());
+            $realDate = C3op_Util_DateDisplay::FormatDateToShow('0000-00-00');
+            $predictedValue = C3op_Util_CurrencyDisplay::FormatCurrency($theOutlay->getPredictedValue());
+            $realValue = C3op_Util_CurrencyDisplay::FormatCurrency('0');
+
+            $outlaysList[$id] = array(
+                    'actionId' => $actionId,
+                    'actionTitle' => $actionTitle,
+                    'payeeId' => $payeeId,
+                    'payeeName' => $payeeName,
+                    'predictedDate' => $predictedDate,
+                    'realDate' => $realDate,
+                    'predictedValue' => $predictedValue,
+                    'realValue' => $realValue,
+                );
+        }
+
+
+
 
         $linkReceivables = $this->manageReceivablesLink($projectToBeDetailed);
         $linkPayables = $this->managePayablesLink($projectToBeDetailed);
@@ -299,6 +355,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         $pageData = array(
             'projectHeader' => $projectHeader,
             'productsList' => $productsList,
+            'outlaysList' => $outlaysList,
 
             'projectInfo'   => $projectInfo,
         );
@@ -521,6 +578,18 @@ class Projects_ProjectController extends Zend_Controller_Action
          $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
     }
 
+    private function initOutlayMapper()
+    {
+        if (!isset($this->outlayMapper)) {
+            $this->outlayMapper = new C3op_Projects_OutlayMapper($this->db);
+        }
+    }
+
+    private function initHumanResourceMapper()
+    {
+         $this->humanResourceMapper = new C3op_Projects_HumanResourceMapper($this->db);
+    }
+
     private function initInstitutionMapper()
     {
          $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
@@ -665,13 +734,6 @@ class Projects_ProjectController extends Zend_Controller_Action
             }
             $ourResponsibleField->setValue($currentResponsible);
    }
-
-    private function initOutlayMapper()
-    {
-        if (!isset($this->outlayMapper)) {
-            $this->outlayMapper = new C3op_Projects_OutlayMapper($this->db);
-        }
-    }
 
     private function outlayAsAParcel(C3op_Projects_Outlay $outlay)
     {
