@@ -5,14 +5,11 @@ class Projects_ProjectController extends Zend_Controller_Action
     private $projectMapper;
     private $actionMapper;
     private $db;
-    private $detailProductDepth;
-    private $detailProductBrood;
-    private $detailProductBreeds;
     private $institutionMapper;
     private $contactMapper;
     private $outlayMapper;
     private $humanResourceMapper;
-    private $actionTreeList;
+    private $treeData;
 
     public function preDispatch()
     {
@@ -44,7 +41,6 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage('#The record was successfully updated.');
                 $this->_redirect('/projects/project/success');
-
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -104,14 +100,6 @@ class Projects_ProjectController extends Zend_Controller_Action
         } else {
             $this->_redirect('/projects');
         }
-    }
-
-    public function errorEditAction()
-    {
-        $flashMessenger = $this->_helper->getHelper('FlashMessenger');
-        $flashMessenger->setNamespace('messages');
-        $this->view->messages = $flashMessenger->getMessages();
-        $flashMessenger->addMessage('Id Inválido');
     }
 
     public function detailAction()
@@ -340,23 +328,6 @@ class Projects_ProjectController extends Zend_Controller_Action
         $this->view->pageData = $pageData;
     }
 
-    public function treeAction()
-    {
-        $this->initProjectMapper();
-        $project =  $this->InitProjectWithCheckedId($this->projectMapper);
-        $this->initActionMapper();
-
-        $objTree = new C3op_Projects_ProjectTree();
-        $tree = $objTree->retrieveTree($project, $this->projectMapper, $this->actionMapper);
-
-        $this->treeData = array();
-        $this->fillDataTree($tree);
-
-
-        $this->view->projectTree = $tree;
-        $this->view->treeData = $this->treeData;
-
-    }
 
     public function outlaysAction()
     {
@@ -770,6 +741,4 @@ class Projects_ProjectController extends Zend_Controller_Action
             $this->fillDataTree($subTree);
         }
     }
-
-
 }

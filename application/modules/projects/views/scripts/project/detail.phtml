@@ -372,9 +372,9 @@ foreach ($actionsList as $id => $actionData) {
           <td><a href='/projects/action/detail/?id=<?php print($id) ?>'><?php print ($actionData['title']) ?></a></td>
           <td><?php print ($actionData['responsibleName']) ?></td>
           <td><?php print ($actionData['predictedBeginDate']) ?></td>
-          <td>01/09/2012</td>
-          <td>30/09/2012</td>
-          <td>30/09/2012</td>
+          <td><?php print ($actionData['realBeginDate']) ?></td>
+          <td><?php print ($actionData['predictedFinishDate']) ?></td>
+          <td><?php print ($actionData['realFinishDate']) ?></td>
         </tr>
 <?php
 }
