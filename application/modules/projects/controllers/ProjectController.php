@@ -8,6 +8,7 @@ class Projects_ProjectController extends Zend_Controller_Action
     private $institutionMapper;
     private $contactMapper;
     private $outlayMapper;
+    private $receivableMapper;
     private $humanResourceMapper;
     private $treeData;
 
@@ -108,6 +109,9 @@ class Projects_ProjectController extends Zend_Controller_Action
         if (!isset($this->projectMapper)) {
             $this->initProjectMapper();
         }
+        if (!isset($this->actionMapper)) {
+            $this->initActionMapper();
+        }
         $projectToBeDetailed = $this->InitProjectWithCheckedId($this->projectMapper);
 
         //  projectHeader
@@ -170,31 +174,42 @@ class Projects_ProjectController extends Zend_Controller_Action
                 'contractDate' => $contractDate,
             );
 
-        // productsList
+        // receivablesList
         //   * id =>
-        //      productTitle
+        //      receivableTitle
         //      predictedDate
         //      realDate
         //      predictedValue
         //      realValue
 
-        $productsList = array();
+        $receivablesList = array();
 
-        $projectProducts = $this->projectMapper->getAllProductsOf($projectToBeDetailed);
-        if (!isset($this->actionMapper)) {
-            $this->initActionMapper();
+        $projectReceivables = $this->projectMapper->getAllReceivables($projectToBeDetailed);
+        if (!isset($this->receivableMapper)) {
+            $this->initReceivableMapper();
         }
 
-        foreach ($projectProducts as $id) {
-            $theAction = $this->actionMapper->findById($id);
-            $productTitle = $theAction->getTitle();
+        foreach ($projectReceivables as $id) {
+            $theReceivable = $this->receivableMapper->findById($id);
+            $productTitle = $theReceivable->getTitle();
 
-            $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($theAction->getPredictedFinishDate());
-            $realDate = C3op_Util_DateDisplay::FormatDateToShow($theAction->getRealFinishDate());
-            $predictedValue = C3op_Util_CurrencyDisplay::FormatCurrency(123.450);
-            $realValue = C3op_Util_CurrencyDisplay::FormatCurrency(67.89);
+            $validator = new C3op_Util_ValidDate();
+            if ($validator->isValid($theReceivable->getPredictedDate())) {
+                $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($theReceivable->getPredictedDate());
+            } else {
+                $predictedDate = "(data desconhecida)";
+            }
 
-            $productsList[$id] = array(
+            if ($validator->isValid($theReceivable->getRealDate())) {
+                $realDate = C3op_Util_DateDisplay::FormatDateToShow($theReceivable->getRealDate());
+            } else {
+                $realDate = "(data desconhecida)";
+            }
+
+            $predictedValue = C3op_Util_CurrencyDisplay::FormatCurrency($theReceivable->getPredictedValue());
+            $realValue = C3op_Util_CurrencyDisplay::FormatCurrency($theReceivable->getRealValue());
+
+            $receivablesList[$id] = array(
                     'productTitle' => $productTitle,
                     'predictedDate' => $predictedDate,
                     'realDate' => $realDate,
@@ -299,12 +314,6 @@ class Projects_ProjectController extends Zend_Controller_Action
 
         }
 
-
-
-
-
-
-
         $objTree = new C3op_Projects_ProjectTree();
         $tree = $objTree->retrieveTree($projectToBeDetailed, $this->projectMapper, $this->actionMapper);
 
@@ -313,13 +322,9 @@ class Projects_ProjectController extends Zend_Controller_Action
 
         $actionTreeList = $this->treeData;
 
-
-
-
-
         $pageData = array(
             'projectHeader' => $projectHeader,
-            'productsList'  => $productsList,
+            'receivablesList'  => $receivablesList,
             'outlaysList'   => $outlaysList,
             'actionsTree'   => $actionTreeList,
             'staffList'     => $staffList,
@@ -329,62 +334,62 @@ class Projects_ProjectController extends Zend_Controller_Action
     }
 
 
-    public function outlaysAction()
-    {
-        $id = $this->checkIdFromGet();
-        $thisProject = $this->projectMapper->findById($id);
-
-        $this->initOutlayMapper();
-        $list = $this->projectMapper->getAllOutlaysRelatedToDoneActions($thisProject);
-
-        $outlaysList = array();
-        reset ($list);
-        foreach ($list as $id) {
-            $thisOutlay = $this->outlayMapper->findById($id);
-
-            $humanResourceId = $thisOutlay->getHumanResource();
-            if (!isset($this->humanResourceMapper)) {
-                $this->humanResourceMapper = new C3op_Projects_HumanResourceMapper($this->db);
-            }
-            $outlayHumanResource = $this->humanResourceMapper->findById($humanResourceId);
-            $listOutlaysForHumanResource = $this->humanResourceMapper->getAllOutlays($outlayHumanResource);
-            $totalParcels = count($listOutlaysForHumanResource);
-
-            $parcels = $this->outlayAsAParcel($thisOutlay);
-            $description = $outlayHumanResource->getDescription();
-            $contactId = $outlayHumanResource->getContact();
-            if ($contactId) {
-                if (!isset($this->contactMapper)) {
-                    $this->contactMapper = new C3op_Register_ContactMapper($this->db);
-                }
-                $outlayContact = $this->contactMapper->findById($contactId);
-                $name = $outlayContact->getName();
-            } else {
-                $name = "(indefinido)";
-            }
-            $this->initActionMapper();
-            $outlayAction = $this->actionMapper->findById($thisOutlay->getAction());
-            $actionTitle = $outlayAction->getTitle();
-
-            $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($thisOutlay->getPredictedDate());
-            $predictedValue = C3op_Util_CurrencyDisplay::FormatCurrency($thisOutlay->getPredictedValue());
-
-
-
-            $outlaysList[$id] = array(
-                'name'           => $name,
-                'description'    => $description,
-                'parcels'        => $parcels,
-                'actionTitle'    => $actionTitle,
-                'predictedDate'  => $predictedDate,
-                'predictedValue' => $predictedValue,
-            );
-        }
-
-        $this->view->outlaysList = $outlaysList;
-
-    }
-
+//    public function outlaysAction()
+//    {
+//        $id = $this->checkIdFromGet();
+//        $thisProject = $this->projectMapper->findById($id);
+//
+//        $this->initOutlayMapper();
+//        $list = $this->projectMapper->getAllOutlaysRelatedToDoneActions($thisProject);
+//
+//        $outlaysList = array();
+//        reset ($list);
+//        foreach ($list as $id) {
+//            $thisOutlay = $this->outlayMapper->findById($id);
+//
+//            $humanResourceId = $thisOutlay->getHumanResource();
+//            if (!isset($this->humanResourceMapper)) {
+//                $this->humanResourceMapper = new C3op_Projects_HumanResourceMapper($this->db);
+//            }
+//            $outlayHumanResource = $this->humanResourceMapper->findById($humanResourceId);
+//            $listOutlaysForHumanResource = $this->humanResourceMapper->getAllOutlays($outlayHumanResource);
+//            $totalParcels = count($listOutlaysForHumanResource);
+//
+//            $parcels = $this->outlayAsAParcel($thisOutlay);
+//            $description = $outlayHumanResource->getDescription();
+//            $contactId = $outlayHumanResource->getContact();
+//            if ($contactId) {
+//                if (!isset($this->contactMapper)) {
+//                    $this->contactMapper = new C3op_Register_ContactMapper($this->db);
+//                }
+//                $outlayContact = $this->contactMapper->findById($contactId);
+//                $name = $outlayContact->getName();
+//            } else {
+//                $name = "(indefinido)";
+//            }
+//            $this->initActionMapper();
+//            $outlayAction = $this->actionMapper->findById($thisOutlay->getAction());
+//            $actionTitle = $outlayAction->getTitle();
+//
+//            $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($thisOutlay->getPredictedDate());
+//            $predictedValue = C3op_Util_CurrencyDisplay::FormatCurrency($thisOutlay->getPredictedValue());
+//
+//
+//
+//            $outlaysList[$id] = array(
+//                'name'           => $name,
+//                'description'    => $description,
+//                'parcels'        => $parcels,
+//                'actionTitle'    => $actionTitle,
+//                'predictedDate'  => $predictedDate,
+//                'predictedValue' => $predictedValue,
+//            );
+//        }
+//
+//        $this->view->outlaysList = $outlaysList;
+//
+//    }
+//
 
     public function receivablesAction()
     {
@@ -531,6 +536,13 @@ class Projects_ProjectController extends Zend_Controller_Action
     {
         if (!isset($this->outlayMapper)) {
             $this->outlayMapper = new C3op_Projects_OutlayMapper($this->db);
+        }
+    }
+
+    private function initReceivableMapper()
+    {
+        if (!isset($this->receivableMapper)) {
+            $this->receivableMapper = new C3op_Projects_ReceivableMapper($this->db);
         }
     }
 

@@ -17,7 +17,7 @@ $pageData = $this->pageData;
         //
 $projectHeader = $pageData['projectHeader'];
 
-        // productsList
+        // receivablesList
         //   * id =>
         //      productTitle
         //      predictedDate
@@ -25,7 +25,7 @@ $projectHeader = $pageData['projectHeader'];
         //      predictedValue
         //      realValue
 
-$productsList = $pageData['productsList'];
+$receivablesList = $pageData['receivablesList'];
 
 $actionsList = $pageData['actionsTree'];
 $outlaysList = $pageData['outlaysList'];
@@ -117,7 +117,7 @@ $staffList = $pageData['staffList'];
 
                 <!-- ### loop de carga das ações que são produto -->
 <?php
-foreach($productsList as $id => $productInfo) {
+foreach($receivablesList as $id => $productInfo) {
 ?>
                 <tr>
                   <td>
