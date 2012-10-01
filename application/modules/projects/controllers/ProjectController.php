@@ -280,7 +280,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         //      staffPhoneNumber
 
         $staffList = array();
-        $projectStaff = $this->projectMapper->getAllHumanResourcesContractedAt($projectToBeDetailed);
+        $projectStaff = $this->projectMapper->getAllHumanResourcesContractedOrPredictedAt($projectToBeDetailed);
         if (!isset($this->humanResourceMapper)) {
             $this->initHumanResourceMapper();
         }
