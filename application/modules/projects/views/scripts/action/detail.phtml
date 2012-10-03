@@ -2,6 +2,7 @@
 $pageData = $this->pageData;
 $actionInfo = $pageData['actionInfo'];
 $actionHeader = $pageData['actionHeader'];
+$staffList = $pageData['humanResourcesList'];
 ?>
 <?php
 if (is_array($actionInfo)) {
@@ -52,9 +53,7 @@ if (is_array($actionInfo)) {
             </tr>
           </thead>
           <tbody>
-
 <?php
-
 $subordinatedTree = $actionHeader['subordinatedTree'];
 foreach ($subordinatedTree as $id => $actionData) {
     $nodeId = "node-" . $id;
@@ -63,7 +62,6 @@ foreach ($subordinatedTree as $id => $actionData) {
         $classId = "\"child-of-node-$childOf\"";
         $classId = 'class = ' . $classId;
     }
-
 ?>
             <!-- ### loop de carga das ações subordinadas a esta ação -->
             <tr>
@@ -148,7 +146,7 @@ foreach ($subordinatedTree as $id => $actionData) {
         </p>
       </div>
       <div class="three columns inset-by-four omega">
-        <div id='acceptReceipt-<?php print($actionInfo['id']);?>'>
+        <div id='acceptReceipt-<?php print($actionHeader['id']);?>'>
           <a class="button full column alpha omega parent_info" href="<?php print($actionInfo['acceptLink']); ?>">Aceitar a tarefa</a></div>
       </div>
 
@@ -176,38 +174,43 @@ foreach ($subordinatedTree as $id => $actionData) {
         </thead>
         <tbody>
 
-          <!-- ### loop de carga dos recursos humanos alocados a esta ação -->
+<?php
+foreach ($staffList as $id => $staffData) {
+?>          <!-- ### loop de carga dos recursos humanos alocados a esta ação -->
           <tr>
             <td>
-              <a href="/projects/human-resource/edit/?id=<?php print($actionInfo['humanResourceId']) ?>"><?php print($actionInfo['humanResourceContactName']) ?></a>
+              <a href="/projects/human-resource/edit/?id=<?php print($id) ?>"><?php print($staffData['name']) ?></a>
             </td>
             <td>
-              <?php print($actionInfo['humanResourceDescription']) ?>
+              <?php print($staffData['description']) ?>
             </td>
             <td>
-              <?php print($actionInfo['humanResourceValue']) ?>
+              <?php print($staffData['value']) ?>
             </td>
             <td>
-              <?php print($actionInfo['humanResourceContract']) ?>
+              <?php print($staffData['contractingStatus']) ?>
             </td>
             <td>
               <a href="#" class="button one column alpha omega anchorclass" rel="submenu2">Opções</a>
               <div id="submenu2" class="anylinkcss">
                   <ul>
                     <li>
-                      <a href="/projects/human-resource/edit/?id=<?php print($actionInfo['humanResourceId']) ?>">Editar</a>
+                      <a href="/projects/human-resource/edit/?id=<?php print($id) ?>">Editar</a>
                     </li>
                     <li>
-                      <div id='dismissContact-<?php print($actionInfo['humanResourceId']);?>'><a class="parent_info" href="<?php print($actionInfo['humanResourceDismissalLink']); ?>">dispensar recurso</a></div>
+                      <div id='dismissContact-<?php print($id);?>'><a class="parent_info" href="">dispensar recurso</a></div>
                     </li>
                     <li>
-                      <a class="parent_info" href="/projects/human-resource/contract/?id=<?php print($actionInfo['humanResourceId']);?>" >confirmar contratação de recurso</a>
+                      <a class="parent_info" href="/projects/human-resource/contract/?id=<?php print($id);?>" >confirmar contratação de recurso</a>
                     </li>
                   </ul>
               </div><!-- #submenu1 -->
             </td>
           </tr>
           <!-- ### fim do loop de carga dos recursos humanos alocados a esta ação -->
+<?php
+}
+?>
 
         </tbody>
       </table>

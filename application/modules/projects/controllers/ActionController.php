@@ -382,12 +382,12 @@ class Projects_ActionController extends Zend_Controller_Action
 
 
         $pageData = array(
-                      'actionHeader' => $actionHeader,
+            'actionHeader' => $actionHeader,
+            'humanResourcesList' => $humanResourcesList,
 
 
-                      'actionInfo' => $actionInfo,
-                      'humanResourcesList' => $humanResourcesList,
-                    );
+            'actionInfo' => $actionInfo,
+        );
 
         $this->view->pageData = $pageData;
 
@@ -652,8 +652,6 @@ class Projects_ActionController extends Zend_Controller_Action
         //      valor
         //      contractingStatus
 
-
-
         $humanResourcesList = array();
         $humanResourcesIdsList = $this->humanResourceMapper->getAllHumanResourcesOnAction($action);
 
@@ -684,7 +682,7 @@ class Projects_ActionController extends Zend_Controller_Action
 
             $humanResourcesList[$humanResourceId] = array(
                 'id' => $humanResourceId,
-                'contactName' => $contactName,
+                'name' => $contactName,
                 'description' => $descriptionMessage,
                 'value' => $currencyValue,
                 'contractingStatus' => $contractedLabel,
