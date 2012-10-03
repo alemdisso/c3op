@@ -1,15 +1,16 @@
-<?php 
+<?php
 $pageData = $this->pageData;
 $actionInfo = $pageData['actionInfo'];
+$actionHeader = $pageData['actionHeader'];
 ?>
 <?php
 if (is_array($actionInfo)) {
-  $actionData = $actionInfo;
+  $actionInfo = $actionInfo;
 ?>
     <div id="MainHeader">
-      <h1>Projeto <a href="<?php print($actionData['projectDetailLink']) ?>"><?php print($actionData['projectTitle']) ?></a></h1>
+      <h1>Projeto <a href="/projects/project/detail/?id=<?php print($actionHeader['projectId']) ?>"><?php print($actionHeader['projectTitle']) ?></a></h1>
       <p>
-        Detalhamento da ação <?php print($actionData['actionTitle']) ?>
+        Detalhamento da ação <?php print($actionHeader['title']) ?>
       </p>
     </div><!-- MainHeader -->
 
@@ -19,24 +20,24 @@ if (is_array($actionInfo)) {
         Responsável:
       </div>
       <div class="six columns">
-        <?php print($actionData['responsible']); ?>
+        <?php print($actionHeader['responsibleName']); ?>
       </div>
       <div class="two columns Right">
         Status:
       </div>
       <div class="three columns omega">
-        <?php print($actionData['status']); ?>
+        <?php print($this->translate($actionHeader['status'])); ?>
       </div>
 
       <div class="three columns alpha Right">
         Subordinada a:
       </div>
       <div class="eleven columns omega">
-        <a class="parent_info" href="<?php print($actionData['parentLink']) ?>"><?php print($actionData['parentTitle']); ?></a>
+        <a class="parent_info" href="/projects/action/detail/?id=<?php print($actionHeader['parentActionId']); ?>"><?php print($actionHeader['parentActionTitle']); ?></a>
       </div>
 
       <div class="three columns alpha Right">
-        Composta por: 
+        Composta por:
       </div>
       <div class="eleven columns omega">
 
@@ -51,31 +52,45 @@ if (is_array($actionInfo)) {
             </tr>
           </thead>
           <tbody>
-      
+
+<?php
+
+$subordinatedTree = $actionHeader['subordinatedTree'];
+foreach ($subordinatedTree as $id => $actionData) {
+    $nodeId = "node-" . $id;
+    $childOf = $actionData['subordinatedTo'];
+    if ($childOf > 0) {
+        $classId = "\"child-of-node-$childOf\"";
+        $classId = 'class = ' . $classId;
+    }
+
+?>
             <!-- ### loop de carga das ações subordinadas a esta ação -->
             <tr>
-              <td><?php print($actionInfo['title']) ?></td>
+              <td><?php print($actionData['title']) ?></td>
               <td><?php print($actionData['status']); ?></td>
-              <td><?php print($actionData['responsible']); ?></td>
+              <td><?php print($actionData['responsibleName']); ?></td>
               <td>
-                <a href="#" class="button one column alpha omega anchorclass" rel="submenu1">Opções</a> 
+                <a href="#" class="button one column alpha omega anchorclass" rel="submenu1">Opções</a>
                 <div id="submenu1" class="anylinkcss">
                     <ul>
                       <li>
-                        <a href="<?php print($actionInfo['editLink']) ?>">Editar</a>
+                        <a href="/projects/project/edit/?id=<?php print($actionHeader['id']);?>">Editar</a>
                       </li>
                       <li>
-                        <div id='rejectReceipt-<?php print($actionInfo['id']);?>'><a class="parent_info" href="<?php print($actionInfo['rejectLink']); ?>">Rejeitar</a></div><br />
+                        <div id='rejectReceipt-<?php print($actionHeader['id']);?>'><a class="parent_info" href="<?php print($actionInfo['rejectLink']); ?>">Rejeitar</a></div><br />
                       </li>
                       <li>
-                        <div id='acceptReceipt-<?php print($actionData['id']);?>'><a class="parent_info" href="<?php print($actionData['acceptLink']); ?>">Aceitar</a></div><br />
+                        <div id='acceptReceipt-<?php print($actionHeader['id']);?>'><a class="parent_info" href="<?php print($actionInfo['acceptLink']); ?>">Aceitar</a></div><br />
                       </li>
                     </ul>
                 </div><!-- #submenu1 -->
               </td>
             </tr>
             <!-- ### fim do loop de carga das ações subordinadas a esta ação -->
-      
+<?php
+}
+?>
           </tbody>
         </table><br />
       </div>
@@ -84,40 +99,40 @@ if (is_array($actionInfo)) {
         Descrição:
       </div>
       <div class="eleven columns omega">
-        <?php print($actionData['description']); ?>
+        <?php print($actionHeader['description']); ?>
       </div>
-      
+
       <div class="three columns alpha Right">
         Início previsto:
       </div>
       <div class="one column">
-        <?php print($actionData['predictedBeginDate']); ?>
+        <?php print($actionHeader['predictedBeginDate']); ?>
       </div>
       <div class="three columns Right">
         Término previsto:
       </div>
       <div class="one column">
-        <?php print($actionData['predictedFinishDate']); ?>
+        <?php print($actionHeader['predictedFinishDate']); ?>
       </div>
       <div class="three columns inset-by-three omega">
-        <?php print($actionData['milestone']); ?>
+        <?php print($this->translate($actionHeader['milestone'])); ?>
       </div>
 
       <div class="three columns alpha Right">
         Início real:
       </div>
       <div class="one column">
-        <?php print($actionData['msgStart']); ?>
+        <?php print($actionHeader['realBeginDate']); ?>
       </div>
       <div class="three columns Right">
         Término real:
       </div>
       <div class="one column">
-        <?php print($actionData['realFinishDate']); ?>
+        <?php print($actionHeader['realFinishDate']); ?>
       </div>
       <div class="three columns inset-by-three omega">
-        <div id='acknowledgeStart-<?php print($actionData['id']);?>'>
-          <a class="full column button full column alpha omega" href="<?php print($actionData['linkAcknowledgement']); ?>"><?php print($actionData['msgAcknowledgement']); ?></a>
+        <div id='acknowledgeStart-<?php print($actionHeader['id']);?>'>
+          <a class="full column button full column alpha omega" href="<?php print($actionInfo['linkAcknowledgement']); ?>"><?php print($actionInfo['msgAcknowledgement']); ?></a>
         </div>
       </div>
 
@@ -125,29 +140,29 @@ if (is_array($actionInfo)) {
         Recebida em:
       </div>
       <div class="one column">
-        <?php print($actionData['msgDone']); ?>
+        <?php print($actionHeader['receiptDate']); ?>
       </div>
       <div class="three columns">
         <p>
-          <a class="button full column alpha omega parent_info" href="<?php print($actionData['rejectLink']); ?>">Rejeitar a tarefa</a>
+          <a class="button full column alpha omega parent_info" href="<?php print($actionInfo['rejectLink']); ?>">Rejeitar a tarefa</a>
         </p>
       </div>
       <div class="three columns inset-by-four omega">
-        <div id='acceptReceipt-<?php print($actionData['id']);?>'>
-          <a class="button full column alpha omega parent_info" href="<?php print($actionData['acceptLink']); ?>">Aceitar a tarefa</a></div>
+        <div id='acceptReceipt-<?php print($actionInfo['id']);?>'>
+          <a class="button full column alpha omega parent_info" href="<?php print($actionInfo['acceptLink']); ?>">Aceitar a tarefa</a></div>
       </div>
-      
+
       <div class="three columns alpha Right">
         Realizada em:
       </div>
       <div class="one column inset-by-ten omega">
-        <?php print($actionData['finishDate']); ?>
+        <?php print($actionHeader['doneDate']); ?>
       </div>
 
     </div><!-- .Area -->
 
     <div class="Area">
-      
+
       <h2>Recursos humanos</h2>
       <table id="RecursosHumanos" class="display dataTable">
         <thead>
@@ -160,7 +175,7 @@ if (is_array($actionInfo)) {
           </tr>
         </thead>
         <tbody>
-          
+
           <!-- ### loop de carga dos recursos humanos alocados a esta ação -->
           <tr>
             <td>
@@ -176,7 +191,7 @@ if (is_array($actionInfo)) {
               <?php print($actionInfo['humanResourceContract']) ?>
             </td>
             <td>
-              <a href="#" class="button one column alpha omega anchorclass" rel="submenu2">Opções</a> 
+              <a href="#" class="button one column alpha omega anchorclass" rel="submenu2">Opções</a>
               <div id="submenu2" class="anylinkcss">
                   <ul>
                     <li>
@@ -196,18 +211,18 @@ if (is_array($actionInfo)) {
 
         </tbody>
       </table>
-      
+
       <p>
-        <a href="/projects/human-resource/create/?actionId=<?php print($actionData['id']); ?>" class="button three columns alpha omega">Prever recurso humano</a>
+        <a href="/projects/human-resource/create/?actionId=<?php print($actionInfo['id']); ?>" class="button three columns alpha omega">Prever recurso humano</a>
       </p>
 
     </div><!-- .Area -->
 
     <div class="Area">
-      
+
       <p>
-        <a href="<?php print($actionData['editLink']) ?>" class="button three columns alpha omega">Editar esta ação</a>
-        <a href="<?php print($actionData['linkActionCreate']) ?>" class="button three columns alpha omega">Criar nova ação</a>
+        <a href="<?php print($actionInfo['editLink']) ?>" class="button three columns alpha omega">Editar esta ação</a>
+        <a href="<?php print($actionInfo['linkActionCreate']) ?>" class="button three columns alpha omega">Criar nova ação</a>
       </p>
 
     </div><!-- .Area -->

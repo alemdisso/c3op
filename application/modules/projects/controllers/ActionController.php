@@ -135,10 +135,114 @@ class Projects_ActionController extends Zend_Controller_Action
         $actionsList = array();
         $this->initActionMapper();
         $this->initProjectMapper();
+        $this->initContactMapper();
         $this->initHumanResourceMapper();
 
         $actionToBeDetailed =  $this->initActionWithCheckedId($this->actionMapper);
         $projectToBeDetailed = $this->projectMapper->findById($actionToBeDetailed->getProject());
+
+        //  actionHeader
+        //    id
+        //    projectId
+        //    projectTitle
+        //    actionTitle
+        //    status
+        //    responsibleId
+        //    responsibleName
+        //    parentActionId
+        //    parentActionTitle
+        //    subordinatedTree
+        //      * id =>
+        //        actionTitle
+        //        responsibleName
+        //        status
+        //    description
+        //    predictedBeginDate
+        //    predictedFinishDate
+        //    milestone
+        //    realBeginDate
+        //    realFinishDate
+        //    receiptDate
+        //    realizationDate
+        //
+
+        $statusTypes = new C3op_Projects_ActionStatusTypes();
+        $status = $statusTypes->TitleForType($actionToBeDetailed->getStatus());
+        $responsibleId = $actionToBeDetailed->getResponsible();
+        if ($responsibleId > 0) {
+            $responsibleContact = $this->contactMapper->findById($responsibleId);
+            $responsibleName = $responsibleContact->getName();
+        } else {
+            $responsibleName = $this->view->translate("#Not defined");
+        }
+
+        if ($actionToBeDetailed->getSubordinatedTo() > 0) {
+            $parentAction = $this->actionMapper->findById($actionToBeDetailed->getSubordinatedTo());
+            $parentActionTitle = $parentAction->getTitle();
+            $parentActionId = $parentAction->getId();
+        } else {
+            $parentActionTitle = $this->view->translate("#None action");
+            $parentActionId = 0;
+        }
+
+        $objTree = new C3op_Projects_ActionTree();
+        $tree = $objTree->retrieveTree($actionToBeDetailed, $this->actionMapper);
+        $this->treeData = array();
+        $this->fillDataTree($tree);
+        $subordinatedTree = $this->treeData;
+
+        if ($actionToBeDetailed->getMilestone()) {
+            $milestone = _("#Is a milestone");
+        } else {
+            $milestone = _("#Is not a milestone");
+        }
+
+        $predictedBeginDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getPredictedBeginDate());
+        $realBeginDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getRealBeginDate());
+        $predictedFinishDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getPredictedFinishDate());
+        $realFinishDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getRealFinishDate());
+
+        $validator = new C3op_Util_ValidDate();
+        if ($validator->isValid($actionToBeDetailed->getReceiptDate($this->actionMapper))) {
+            $receiptDate = C3op_Util_DateDisplay::FormatDateToShow($theReceivable->getPredictedDate());
+        } else {
+            $receiptDate = $this->view->translate("#(not received yet)");
+        }
+
+        $validator = new C3op_Util_ValidDate();
+        if ($validator->isValid($actionToBeDetailed->getDoneDate($this->actionMapper))) {
+            $doneDate = C3op_Util_DateDisplay::FormatDateToShow($theReceivable->getPredictedDate());
+        } else {
+            $doneDate = $this->view->translate("#(not realized yet)");
+        }
+
+
+
+
+
+
+
+        $actionHeader = array(
+            'id'                  => $actionToBeDetailed->getId(),
+            'projectId'           => $projectToBeDetailed->getId(),
+            'projectTitle'        => $projectToBeDetailed->getTitle(),
+            'title'               => $actionToBeDetailed->getTitle(),
+            'status'              => $status,
+            'responsibleId'       => $responsibleId,
+            'responsibleName'     => $responsibleName,
+            'parentActionId'      => $parentActionId,
+            'parentActionTitle'   => $parentActionTitle,
+            'subordinatedTree'    => $subordinatedTree,
+            'description'         => $actionToBeDetailed->getDescription(),
+            'milestone'           => $milestone,
+            'predictedBeginDate'  => $predictedBeginDate,
+            'predictedFinishDate' => $predictedFinishDate,
+            'realBeginDate'       => $realBeginDate,
+            'realFinishDate'      => $realFinishDate,
+            'receiptDate'         => $receiptDate,
+            'doneDate'         => $doneDate,
+        );
+
 
         // humanResourceList
         //   * humanResourceInfo
@@ -278,6 +382,9 @@ class Projects_ActionController extends Zend_Controller_Action
 
 
         $pageData = array(
+                      'actionHeader' => $actionHeader,
+
+
                       'actionInfo' => $actionInfo,
                       'humanResourcesList' => $humanResourcesList,
                     );
@@ -480,7 +587,9 @@ class Projects_ActionController extends Zend_Controller_Action
 
     private function initProjectMapper()
     {
-         $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
+        if (!isset($this->projectMapper)) {
+             $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
+        }
     }
 
     private function initActionMapper()
@@ -627,34 +736,65 @@ class Projects_ActionController extends Zend_Controller_Action
 
     private function fillDataTree($tree)
     {
+        //    actionInfo
+        //      * id =>
+        //        subordinatedTo
+        //        title
+        //        responsibleName
+        //        status
+
         $this->initActionMapper();
+        $statusTypes = new C3op_Projects_ActionStatusTypes();
         foreach ($tree as $id => $subTree) {
             $loopAction = $this->actionMapper->findById($id);
             $data = array();
-            $data["title"] = $loopAction->GetTitle();
+            $data['title'] = $loopAction->getTitle();
+            $data['subordinatedTo'] = $loopAction->getSubordinatedTo();
 
-            $contract = new C3op_Projects_ActionContracting($loopAction, $this->actionMapper);
-            if ($contract->isContracted()) {
-                $data["contracted"] = "contratada";
+            if ($loopAction->getResponsible()) {
+                $theContact = $this->contactMapper->findById($loopAction->getResponsible());
+                $data['responsibleName'] = $theContact->getName();
             } else {
-                $data["contracted"] = "";
+                $data['responsibleName'] = $this->view->translate("#Not defined");
             }
 
-            $data["value"] = C3op_Util_CurrencyDisplay::FormatCurrency(
-                    $this->actionMapper->getContractedValueForActionTree($loopAction));
-
-            $done = new C3op_Projects_ActionDone($loopAction);
-            if ($done->isDone()) {
-                $data["done"] = "finalizada";
-            } else {
-                $data["done"] = "";
-            }
+            $data['status'] = $statusTypes->TitleForType($loopAction->getStatus());
 
             $this->treeData[$id] = $data;
-
 
             $this->fillDataTree($subTree);
         }
     }
+//    private function fillDataTree($tree)
+//    {
+//        $this->initActionMapper();
+//        foreach ($tree as $id => $subTree) {
+//            $loopAction = $this->actionMapper->findById($id);
+//            $data = array();
+//            $data["title"] = $loopAction->GetTitle();
+//
+//            $contract = new C3op_Projects_ActionContracting($loopAction, $this->actionMapper);
+//            if ($contract->isContracted()) {
+//                $data["contracted"] = "contratada";
+//            } else {
+//                $data["contracted"] = "";
+//            }
+//
+//            $data["value"] = C3op_Util_CurrencyDisplay::FormatCurrency(
+//                    $this->actionMapper->getContractedValueForActionTree($loopAction));
+//
+//            $done = new C3op_Projects_ActionDone($loopAction);
+//            if ($done->isDone()) {
+//                $data["done"] = "finalizada";
+//            } else {
+//                $data["done"] = "";
+//            }
+//
+//            $this->treeData[$id] = $data;
+//
+//
+//            $this->fillDataTree($subTree);
+//        }
+//    }
 
 }

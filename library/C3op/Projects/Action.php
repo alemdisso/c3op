@@ -18,6 +18,7 @@ class C3op_Projects_Action {
     protected $realBeginDate = "0000-00-00";
     protected $realFinishDate = "0000-00-00";
     protected $receiptDate = null;
+    protected $doneDate = null;
 
     function __construct($project, $id=0)
     {
@@ -292,7 +293,17 @@ class C3op_Projects_Action {
         }
 
         return $this->receiptDate;
-    } //GetRealFinishDate
+    } //GetReceiptDate
+
+    public function getDoneDate(C3op_Projects_ActionMapper $actionMapper)
+    {
+
+        if (is_null($this->doneDate)) {
+            $actionMapper->FetchLastDoneDate($this);
+        }
+
+        return $this->doneDate;
+    } //GetDoneDate
 
 
 }

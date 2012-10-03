@@ -224,6 +224,25 @@ class C3op_Projects_ActionMapper
         $this->setAttributeValue($action, $receiptDate, 'receiptDate');
     }
 
+   public function fetchLastDoneDate(C3op_Projects_Action $action)
+    {
+        $result = $this->db->fetchRow(
+            sprintf(
+                'SELECT timestamp FROM projects_actions_events WHERE action = %d AND type = %d ORDER BY timestamp DESC LIMIT 1;',
+                $action->GetId(),
+                C3op_Projects_ActionEventConstants::EVENT_CONFIRM_REALIZATION
+            )
+        );
+
+        if (empty($result)) {
+            $doneDate = null;
+        } else {
+            $doneDate = $result['timestamp'];
+        }
+
+        $this->setAttributeValue($action, $doneDate, 'doneDate');
+    }
+
    public function getLastAutoStartDate(C3op_Projects_Action $action)
     {
         $result = $this->db->fetchRow(

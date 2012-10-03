@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-26 17:38-0300\n"
-"PO-Revision-Date: 2012-09-26 17:39-0300\n"
+"POT-Creation-Date: 2012-10-03 19:28-0300\n"
+"PO-Revision-Date: 2012-10-03 19:29-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -24,27 +24,49 @@ msgstr "O registro foi criado com sucesso."
 msgid "#The record was successfully updated."
 msgstr "O registro foi atualizado com sucesso."
 
-#: application\modules\projects/controllers/ActionController.php:400
+#: application\modules\projects/controllers/ActionController.php:176
+#: application\modules\projects/controllers/ActionController.php:758
+#: application\modules\projects/controllers/ProjectController.php:149
+#: application\modules\projects/controllers/ProjectController.php:156
+#: application\modules\projects/controllers/ProjectController.php:246
+#: application\modules\projects/controllers/ProjectController.php:293
+#: application\modules\projects/controllers/ProjectController.php:295
+#: application\modules\projects/controllers/ProjectController.php:296
+#: application\modules\projects/controllers/ProjectController.php:743
+msgid "#Not defined"
+msgstr "Indefinido"
+
+#: application\modules\projects/controllers/ActionController.php:184
+msgid "#None action"
+msgstr "(nenhuma ação)"
+
+#: application\modules\projects/controllers/ActionController.php:195
+msgid "#Is a milestone"
+msgstr "É um marco"
+
+#: application\modules\projects/controllers/ActionController.php:197
+msgid "#Is not a milestone"
+msgstr "Não é um marco"
+
+#: application\modules\projects/controllers/ActionController.php:209
+msgid "#(not received yet)"
+msgstr "(N/A)"
+
+#: application\modules\projects/controllers/ActionController.php:216
+msgid "#(not realized yet)"
+msgstr "(N/A)"
+
+#: application\modules\projects/controllers/ActionController.php:516
 msgid "#It needs a positive integer project id to populate project fields."
 msgstr "It needs a positive integer project id to populate project fields."
 
-#: application\modules\projects/controllers/ActionController.php:433
+#: application\modules\projects/controllers/ActionController.php:549
 msgid ""
 "#It needs a positive integer project id to find other actions from same "
 "project."
 msgstr ""
 "It needs a positive integer project id to find other actions from same "
 "project."
-
-#: application\modules\projects/controllers/ProjectController.php:157
-#: application\modules\projects/controllers/ProjectController.php:164
-#: application\modules\projects/controllers/ProjectController.php:243
-#: application\modules\projects/controllers/ProjectController.php:290
-#: application\modules\projects/controllers/ProjectController.php:292
-#: application\modules\projects/controllers/ProjectController.php:293
-#: application\modules\projects/controllers/ProjectController.php:760
-msgid "#Not defined"
-msgstr "Indefinido"
 
 #: library\C3op\projects/ActionEventTypes.php:45
 #: library\C3op\projects/ActionStatusTypes.php:36
@@ -300,7 +322,7 @@ msgid "#Staff"
 msgstr "Equipe"
 
 #: application\modules\projects/views/scripts/project/detail.phtml:99
-#: application\modules\projects/views/scripts/project/detail.phtml:342
+#: application\modules\projects/views/scripts/project/detail.phtml:341
 msgid "#Actions"
 msgstr "Ações"
 
@@ -347,7 +369,7 @@ msgid "#Predict receiving"
 msgstr "Prever recebimento"
 
 #: application\modules\projects/views/scripts/project/detail.phtml:190
-#: application\modules\projects/views/scripts/project/detail.phtml:346
+#: application\modules\projects/views/scripts/project/detail.phtml:345
 msgid "#Action"
 msgstr "Ação"
 
@@ -395,23 +417,23 @@ msgstr "Detalhes do contato"
 msgid "#Add staff member"
 msgstr "Incluir membro"
 
-#: application\modules\projects/views/scripts/project/detail.phtml:347
+#: application\modules\projects/views/scripts/project/detail.phtml:346
 msgid "#Responsible"
 msgstr "Responsável"
 
-#: application\modules\projects/views/scripts/project/detail.phtml:348
+#: application\modules\projects/views/scripts/project/detail.phtml:347
 msgid "#Pred. begin date"
 msgstr "Início prev."
 
-#: application\modules\projects/views/scripts/project/detail.phtml:349
+#: application\modules\projects/views/scripts/project/detail.phtml:348
 msgid "#Real begin date"
 msgstr "Início real"
 
-#: application\modules\projects/views/scripts/project/detail.phtml:350
+#: application\modules\projects/views/scripts/project/detail.phtml:349
 msgid "#Pred. finish date"
 msgstr "Término prev."
 
-#: application\modules\projects/views/scripts/project/detail.phtml:351
+#: application\modules\projects/views/scripts/project/detail.phtml:350
 msgid "#Real finish date"
 msgstr "Término real"
 
