@@ -30,18 +30,34 @@ class Projects_HumanResourceController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');
+                    ->addMessage('#The record was successfully updated.');
                 $this->_redirect('/projects/human-resource/success-create/?id=' . $id);
-            } else throw new C3op_Projects_ActionException("An action must have a valid title.");
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
         } else {
             $data = $this->_request->getParams();
             $actionId = $data['actionId'];
             if (!isset($this->actionMapper)) {
                 $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
             }
-            $thisAction = $this->actionMapper->findById($actionId);
-            $this->view->actionTitle = $thisAction->GetTitle();
-            $this->view->linkActionDetail = "/projects/action/detail/?id=" . $thisAction->getId();
+            if (!isset($this->projectMapper)) {
+                $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
+            }
+            $parentAction = $this->actionMapper->findById($actionId);
+            $projectAction = $this->projectMapper->findById($parentAction->getProject());
+
+            $pageData = array(
+                'actionId' => $actionId,
+                'actionTitle' => $parentAction->GetTitle(),
+                'projectId' => $parentAction->GetProject(),
+                'projectTitle' => $projectAction->GetTitle(),
+            );
+
+            $this->view->pageData = $pageData;
+
             $actionField = $form->getElement('action');
             $actionField->setValue($actionId);
             $contactField = $form->getElement('contact');
@@ -68,7 +84,11 @@ class Projects_HumanResourceController extends Zend_Controller_Action
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage('The record was successfully updated.');
                 $this->_redirect('/projects/human-resource/success-create/?id=' . $id);
-            } else throw new C3op_Projects_ProjectException("Invalid data for new human resource.");
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
         } else {
             $data = $this->_request->getParams();
             $filters = array(

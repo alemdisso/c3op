@@ -14,10 +14,8 @@ class C3op_Form_HumanResourceCreate extends Zend_Form
             ->addFilter('StringTrim');
         $this->addElement($action);
 
-        // $this->addElementText('description', 'Atributo:', new C3op_Util_ValidString(), 50);
-
         $element = new Zend_Form_Element_Text('description');
-        $element->setLabel('Atributo:')
+        $element->setLabel('#Role:')
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
@@ -26,6 +24,8 @@ class C3op_Form_HumanResourceCreate extends Zend_Form
                 ))
                 ->setOptions(array('class' => 'Full alpha omega'))
             ->addValidator(new C3op_Util_ValidString)
+            ->setRequired(true)
+            ->addErrorMessage('#A valid role description is required')
             ->addFilter('StringTrim')
                 ;
         $this->addElement($element);
@@ -33,7 +33,7 @@ class C3op_Form_HumanResourceCreate extends Zend_Form
         // $this->addElementText('value', 'Valor:', new C3op_Util_ValidPositiveFloat(), 50);
 
         $element = new Zend_Form_Element_Text('value');
-        $element->setLabel('Valor:')
+        $element->setLabel('#Value:')
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
@@ -41,13 +41,14 @@ class C3op_Form_HumanResourceCreate extends Zend_Form
                     array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
                 ))
                 ->setOptions(array('class' => 'Full alpha omega'))
-            ->addValidator(new C3op_Util_ValidString)
+            ->addValidator(new C3op_Util_ValidPositiveFloat)
             ->addFilter('StringTrim')
+            ->addErrorMessage('#The value must be a positive number')
                 ;
         $this->addElement($element);
 
         $element = new Zend_Form_Element_Select('contact');
-        $element->setLabel('Quem: ')
+        $element->setLabel('#Who:')
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
@@ -56,12 +57,12 @@ class C3op_Form_HumanResourceCreate extends Zend_Form
                 ))
                 ->setOptions(array('class' => 'Full alpha omega'))
                 ->setRegisterInArrayValidator(false);
-        $element->addMultiOption(0, "indefinido");
+        $element->addMultiOption(0, _("#undefined"));
         $this->addElement($element);
 
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
-        $submit ->setLabel('Gravar')
+        $submit ->setLabel('#Submit')
                 ->setDecorators(array('ViewHelper','Errors',
                     array(array('data' => 'HtmlTag'),
                     array('tag' => 'div','class' => 'two columns inset-by-nine omega')),
