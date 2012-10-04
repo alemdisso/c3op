@@ -103,6 +103,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
                 ))
                 ->setOptions(array('class' => 'Full alpha omega'))
             ->addValidator(new C3op_Util_ValidString)
+            ->addErrorMessage(_("#Not a valid register number"))
             ->addFilter('StringTrim')
                 ;
         $this->addElement($element);
@@ -133,6 +134,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
                 ))
                 ->setOptions(array('class' => 'Full alpha omega'))
             ->addValidator(new C3op_Util_ValidString)
+            ->addErrorMessage(_("#Not a valid local register number"))
             ->addFilter('StringTrim')
                 ;
         $this->addElement($element);
@@ -148,13 +150,14 @@ class C3op_Form_InstitutionCreate extends Zend_Form
               ))
             ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(false)
+            ->addErrorMessage(_("#Not a valid street"))
             ->addValidator($validator)
             ->addFilter('StringTrim')
                 ;
         $this->addElement($element);
 
         $element = new Zend_Form_Element_Text('streetNumber');
-        $validator = new C3op_Register_InstitutionValidName;
+        $validator = new C3op_Util_ValidString;
         $element->setLabel(_('#Street number'))
               ->setDecorators(array(
                   'ViewHelper',
@@ -166,6 +169,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
             ->setRequired(false)
             ->addValidator($validator)
             ->addFilter('StringTrim')
+            ->addErrorMessage(_("#Not a valid street number"))
                 ;
         $this->addElement($element);
 
@@ -182,6 +186,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
             ->setRequired(false)
             ->addValidator($validator)
             ->addFilter('StringTrim')
+            ->addErrorMessage(_("#Not a valid register number"))
                 ;
         $this->addElement($element);
 
@@ -198,11 +203,12 @@ class C3op_Form_InstitutionCreate extends Zend_Form
             ->setRequired(false)
             ->addValidator($validator)
             ->addFilter('StringTrim')
+            ->addErrorMessage(_("#Not a valid district name"))
                 ;
         $this->addElement($element);
 
         $element = new Zend_Form_Element_Text('zipCode');
-        $validator = new C3op_Register_InstitutionValidName;
+        $validator = new C3op_Register_ValidZipCode();
         $element->setLabel('#ZIP Code:')
               ->setDecorators(array(
                   'ViewHelper',
@@ -214,6 +220,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
             ->setRequired(false)
             ->addValidator($validator)
             ->addFilter('StringTrim')
+            ->addErrorMessage(_("#Not a valid zip code"))
                 ;
         $this->addElement($element);
 
@@ -229,14 +236,14 @@ class C3op_Form_InstitutionCreate extends Zend_Form
             ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(false)
             ->addValidator($validator)
-//            ->addFilter('HtmlEntities')
             ->addFilter('StringTrim')
+            ->addErrorMessage(_("#Not a valid city"))
                 ;
         $this->addElement($element);
 
 
         $element = new Zend_Form_Element_Text('state');
-        $validator = new C3op_Register_InstitutionValidName;
+        $validator = new C3op_Register_ValidState();
         $element->setLabel(_('#State:'))
               ->setDecorators(array(
                   'ViewHelper',
@@ -248,6 +255,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
             ->setRequired(false)
             ->addValidator($validator)
             ->addFilter('StringTrim')
+            ->addErrorMessage(_("#Not a valid state"))
                 ;
         $this->addElement($element);
 
@@ -264,6 +272,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
             ->setRequired(false)
             ->addValidator($validator)
             ->addFilter('StringTrim')
+            ->addErrorMessage(_("#Not a valid website"))
                 ;
         $this->addElement($element);
 

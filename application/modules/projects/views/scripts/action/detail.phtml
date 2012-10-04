@@ -65,7 +65,7 @@ foreach ($subordinatedTree as $id => $actionData) {
 ?>
             <!-- ### loop de carga das ações subordinadas a esta ação -->
             <tr>
-              <td><?php print($actionData['title']) ?></td>
+              <td><a href="/projects/action/detail/?id=<?php print($id);?>"><?php print($actionData['title']) ?></a></td>
               <td><?php print($actionData['responsibleName']); ?></td>
               <td><?php print($actionData['status']); ?></td>
                   <td>
@@ -73,10 +73,10 @@ foreach ($subordinatedTree as $id => $actionData) {
                 <div id="submenu1" class="anylinkcss">
                     <ul>
                       <li>
-                        <a href="/projects/project/edit/?id=<?php print($actionHeader['id']);?>">Editar</a>
+                        <a href="/projects/action/edit/?id=<?php print($id);?>">Editar</a>
                       </li>
                       <li>
-                        <div id='rejectReceipt-<?php print($actionHeader['id']);?>'><a class="parent_info" href="<?php print($actionInfo['rejectLink']); ?>">Rejeitar</a></div><br />
+                        <div id='rejectReceipt-<?php print($id);?>'><a class="parent_info" href="<?php print($actionInfo['rejectLink']); ?>">Rejeitar</a></div><br />
                       </li>
                       <li>
                         <div id='acceptReceipt-<?php print($actionHeader['id']);?>'><a class="parent_info" href="<?php print($actionInfo['acceptLink']); ?>">Aceitar</a></div><br />
