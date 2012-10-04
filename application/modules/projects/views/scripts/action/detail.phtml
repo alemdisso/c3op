@@ -66,9 +66,9 @@ foreach ($subordinatedTree as $id => $actionData) {
             <!-- ### loop de carga das ações subordinadas a esta ação -->
             <tr>
               <td><?php print($actionData['title']) ?></td>
-              <td><?php print($actionData['status']); ?></td>
               <td><?php print($actionData['responsibleName']); ?></td>
-              <td>
+              <td><?php print($actionData['status']); ?></td>
+                  <td>
                 <a href="#" class="button one column alpha omega anchorclass" rel="submenu1">Opções</a>
                 <div id="submenu1" class="anylinkcss">
                     <ul>
