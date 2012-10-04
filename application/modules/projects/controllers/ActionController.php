@@ -204,14 +204,14 @@ class Projects_ActionController extends Zend_Controller_Action
 
         $validator = new C3op_Util_ValidDate();
         if ($validator->isValid($actionToBeDetailed->getReceiptDate($this->actionMapper))) {
-            $receiptDate = C3op_Util_DateDisplay::FormatDateToShow($theReceivable->getPredictedDate());
+            $receiptDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getReceiptDate($this->actionMapper));
         } else {
             $receiptDate = $this->view->translate("#(not received yet)");
         }
 
         $validator = new C3op_Util_ValidDate();
         if ($validator->isValid($actionToBeDetailed->getDoneDate($this->actionMapper))) {
-            $doneDate = C3op_Util_DateDisplay::FormatDateToShow($theReceivable->getPredictedDate());
+            $doneDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getReceiptDate($this->actionMapper));
         } else {
             $doneDate = $this->view->translate("#(not realized yet)");
         }

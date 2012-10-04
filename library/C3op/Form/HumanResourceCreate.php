@@ -1,23 +1,23 @@
 <?php
 class C3op_Form_HumanResourceCreate extends Zend_Form
 {
-    
+
     public function init()
     {
         $this->setName('newHumanResourceForm')
             ->setAction('/projects/human-resource/create')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
-        
+
         $action = new Zend_Form_Element_Hidden('action');
         $action->addValidator('Int')
-            ->addFilter('StringTrim');        
+            ->addFilter('StringTrim');
         $this->addElement($action);
-        
+
         // $this->addElementText('description', 'Atributo:', new C3op_Util_ValidString(), 50);
 
-        $elementText = new Zend_Form_Element_Text('description');
-        $elementText->setLabel('Atributo:')
+        $element = new Zend_Form_Element_Text('description');
+        $element->setLabel('Atributo:')
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
@@ -28,12 +28,12 @@ class C3op_Form_HumanResourceCreate extends Zend_Form
             ->addValidator(new C3op_Util_ValidString)
             ->addFilter('StringTrim')
                 ;
-        $this->addElement($elementText);
-        
+        $this->addElement($element);
+
         // $this->addElementText('value', 'Valor:', new C3op_Util_ValidPositiveFloat(), 50);
 
-        $elementText = new Zend_Form_Element_Text('value');
-        $elementText->setLabel('Valor:')
+        $element = new Zend_Form_Element_Text('value');
+        $element->setLabel('Valor:')
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
@@ -44,10 +44,10 @@ class C3op_Form_HumanResourceCreate extends Zend_Form
             ->addValidator(new C3op_Util_ValidString)
             ->addFilter('StringTrim')
                 ;
-        $this->addElement($elementText);
-        
-        $contact = new Zend_Form_Element_Select('contact');
-        $contact->setLabel('Quem: ')
+        $this->addElement($element);
+
+        $element = new Zend_Form_Element_Select('contact');
+        $element->setLabel('Quem: ')
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
@@ -56,9 +56,9 @@ class C3op_Form_HumanResourceCreate extends Zend_Form
                 ))
                 ->setOptions(array('class' => 'Full alpha omega'))
                 ->setRegisterInArrayValidator(false);
-        $contact->addMultiOption(0, "indefinido");
-        $this->addElement($contact);
-        
+        $element->addMultiOption(0, "indefinido");
+        $this->addElement($element);
+
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
         $submit ->setLabel('Gravar')
@@ -73,12 +73,12 @@ class C3op_Form_HumanResourceCreate extends Zend_Form
         $this   ->addElement($submit);
 
     }
-    
+
     public function process($data) {
-        if ($this->isValid($data) !== true) 
+        if ($this->isValid($data) !== true)
         {
             throw new C3op_Form_HumanResourceCreateException('Invalid data!');
-        } 
+        }
         else
         {
             $db = Zend_Registry::get('db');
@@ -92,18 +92,18 @@ class C3op_Form_HumanResourceCreate extends Zend_Form
             return $humanResource->GetId();
         }
     }
-    
+
     private function addElementText($fieldName, $label, $validator, $fieldSize)
     {
-        $elementText = new Zend_Form_Element_Text($fieldName);
-        $elementText->setLabel($label)
+        $element = new Zend_Form_Element_Text($fieldName);
+        $element->setLabel($label)
             ->setOptions(array('size' => "$fieldSize"))
             ->addValidator($validator)
             ->addFilter('StringTrim')
                 ;
-        $this->addElement($elementText);
-        
+        $this->addElement($element);
+
     }
-    
-    
+
+
 }
