@@ -30,14 +30,11 @@ $receivablesList = $pageData['receivablesList'];
 $actionsList = $pageData['actionsTree'];
 $outlaysList = $pageData['outlaysList'];
 $staffList = $pageData['staffList'];
-
 ?>
     <div id="MainHeader">
       <h1><?php echo $this->translate("#Project") ?> <?php print($projectHeader['projectTitle']) ?></h1>
     </div>
-
     <div class="Area">
-
       <div class="three columns alpha Right">
         <?php echo $this->translate("#Client:") ?>
       </div>
@@ -50,7 +47,6 @@ $staffList = $pageData['staffList'];
       <div class="two columns omega">
         <?php print($projectHeader['overhead']) ?> %
       </div>
-
       <div class="three columns alpha Right">
         <?php echo $this->translate("#Area activity:") ?>
       </div>
@@ -76,7 +72,6 @@ $staffList = $pageData['staffList'];
       <div class="two columns omega">
         <?php print($projectHeader['contractValue']) ?>
       </div>
-
       <div class="three columns alpha Right">
         <?php echo $this->translate("#Responsible at client:") ?>
       </div>
@@ -90,7 +85,6 @@ $staffList = $pageData['staffList'];
         <?php print($projectHeader['contractDate']) ?>
       </div>
     </div><!-- .Area -->
-
     <div id="tabs">
       <ul>
         <li><a href="#tabs-1"><?php echo $this->translate("#Receiving") ?></a></li>
@@ -114,7 +108,6 @@ $staffList = $pageData['staffList'];
                 </tr>
               </thead>
               <tbody>
-
                 <!-- ### loop de carga das ações que são produto -->
 <?php
 foreach($receivablesList as $id => $productInfo) {
@@ -154,15 +147,12 @@ foreach($receivablesList as $id => $productInfo) {
 <?php
 }
 ?>
-
               </tbody>
             </table><br />
               <a href="/projects/receivable/create/?project=<?php echo $projectHeader['id'] ?>" class="button three columns alpha omega"><?php echo $this->translate("#Predict receiving") ?></a>
         <a href="/projects/project/payables/?id=<?php print($projectHeader['id']) ?>" class="button three columns alpha omega">Consultar ações realizadas</a>
         <a href="/projects/project/unacknowledged/?id=<?php print($projectHeader['id']) ?>" class="button three columns alpha omega">Ações com início a confirmar</a>
-<a href="/projects/action/create/?project=<?php print($projectHeader['id']) ?>" class="button three columns alpha omega">Criar Nova Ação</a>
-
-
+        <a href="/projects/action/create/?project=<?php print($projectHeader['id']) ?>" class="button three columns alpha omega">Criar Nova Ação</a>
           </div><!-- Area -->
         </div><!-- tabs-1 -->
 
@@ -178,8 +168,6 @@ foreach($receivablesList as $id => $productInfo) {
  */
       if (count($outlaysList)) {
 ?>
-
-
            <table id="Pagamentos" class="display dataTable">
               <thead>
                 <tr>
@@ -193,9 +181,7 @@ foreach($receivablesList as $id => $productInfo) {
                 </tr>
               </thead>
               <tbody>
-
 <?php
-
 foreach($outlaysList as $id => $outlayInfo) {
 ?>
                 <!-- ### loop de carga das ações que geram pagamentos -->
@@ -259,7 +245,6 @@ foreach($outlaysList as $id => $outlayInfo) {
 <?php
       } // end else there is payables in list
 ?>
-
 <!-- ### FIM DA INSERÇÃO DO CÓDIGO DE PAYABLES.PHTML -->
 
           </div><!-- Area -->
@@ -268,7 +253,7 @@ foreach($outlaysList as $id => $outlayInfo) {
 <!-- ### ACHO QUE O CONTEÚDO DESTA ABA É NOVO - NÃO ENCONTREI EM NENHUM PHTM -->
         <div id="tabs-3">
           <div class="Area">
-            <h2>Equipe</h2>
+            <h2><?php print($this->translate('#Team')) ?></h2>
             <table id="Equipe" class="display dataTable">
               <thead>
                 <tr>
@@ -320,18 +305,12 @@ foreach($staffList as $id => $staffInfo) {
               <!-- ### loop de carga dos recursos humanos alocados ao projeto -->
               </tbody>
             </table><br />
-
             <p>
               <!-- [# LINK PARA PÁGINA DE VINCULAÇÃO DE CONTATO À EQUIPE DO PROJETO ] -->
               <a href="" class="button three columns alpha omega"><?php echo $this->translate("#Add staff member") ?></a>
             </p>
           </div><!-- Area -->
         </div><!-- tabs-3 -->
-
-
-
-
-
         <div id="tabs-4">
           <div class="Area">
             <h2><?php echo $this->translate("#Actions") ?></h2>
@@ -347,11 +326,7 @@ foreach($staffList as $id => $staffInfo) {
     		</tr>
     	</thead>
     	<tbody>
-
-
 <?php
-
-
 foreach ($actionsList as $id => $actionData) {
     $nodeId = "node-" . $id;
     $childOf = $actionData['subordinatedTo'];
@@ -361,8 +336,6 @@ foreach ($actionsList as $id => $actionData) {
     }
 
 ?>
-
-
         <tr id="<?php print ($nodeId) ?>" <?php print (($childOf > 0 ? $classId : '')) ?>>
           <td><a href='/projects/action/detail/?id=<?php print($id) ?>'><?php print ($actionData['title']) ?></a></td>
           <td><?php print ($actionData['responsibleName']) ?></td>
@@ -373,7 +346,6 @@ foreach ($actionsList as $id => $actionData) {
         </tr>
 <?php
 }
-
 ?>
         <!-- # Fim do loop -->
       </tbody>
@@ -382,4 +354,3 @@ foreach ($actionsList as $id => $actionData) {
           </div><!-- Area -->
         </div><!-- tabs-4 -->
       </div><!-- #tabs -->
-
