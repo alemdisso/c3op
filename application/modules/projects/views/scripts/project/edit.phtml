@@ -1,4 +1,9 @@
-    <div id="MainHeader">
-      <h1>[#Nome do projeto]</h1>
+<?php
+
+$pageData = $this->pageData;
+
+?>
+<div id="MainHeader">
+      <h1><?php print($pageData['projectTitle']) ?></h1>
     </div>
 <?php echo $this->form; ?>
