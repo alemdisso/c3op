@@ -114,7 +114,7 @@ foreach($receivablesList as $id => $productInfo) {
 ?>
                 <tr>
                   <td>
-                    <a href="/projects/receivable/detail/?id=<?php print($id) ?>"><?php print($productInfo['productTitle']) ?></a>
+                    <?php print($productInfo['productTitle']) ?>
                   </td>
                   <td>
                     <?php print($productInfo['predictedDate']) ?>
@@ -149,11 +149,17 @@ foreach($receivablesList as $id => $productInfo) {
 ?>
               </tbody>
             </table><br />
-              <a href="/projects/receivable/create/?project=<?php echo $projectHeader['id'] ?>" class="button three columns alpha omega"><?php echo $this->translate("#Predict receiving") ?></a>
-        <a href="/projects/project/payables/?id=<?php print($projectHeader['id']) ?>" class="button three columns alpha omega">Consultar ações realizadas</a>
-        <a href="/projects/project/unacknowledged/?id=<?php print($projectHeader['id']) ?>" class="button three columns alpha omega">Ações com início a confirmar</a>
-        <a href="/projects/action/create/?project=<?php print($projectHeader['id']) ?>" class="button three columns alpha omega">Criar Nova Ação</a>
+
           </div><!-- Area -->
+    <div class="Area">
+
+      <p>
+        <a href="/projects/receivable/create/?project=<?php echo $projectHeader['id'] ?>" class="button three columns alpha omega"><?php echo $this->translate("#Predict receiving") ?></a>
+        <a href="/projects/action/create/?project=<?php print($projectHeader['id']) ?>" class="button three columns alpha omega"><?php echo $this->translate("#Create new product") ?></a>
+      </p>
+
+    </div><!-- .Area -->
+
         </div><!-- tabs-1 -->
 
         <div id="tabs-2">
@@ -352,5 +358,12 @@ foreach ($actionsList as $id => $actionData) {
     </table>
 <br />
           </div><!-- Area -->
+    <div class="Area">
+      <p>
+        <a href="/projects/project/payables/?id=<?php print($projectHeader['id']) ?>" class="button three columns alpha omega">Consultar ações realizadas</a>
+        <a href="/projects/project/unacknowledged/?id=<?php print($projectHeader['id']) ?>" class="button three columns alpha omega">Ações com início a confirmar</a>
+      </p>
+    </div><!-- .Area -->
+
         </div><!-- tabs-4 -->
       </div><!-- #tabs -->

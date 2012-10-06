@@ -198,7 +198,7 @@ class Projects_ActionController extends Zend_Controller_Action
         }
 
         $predictedBeginDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getPredictedBeginDate());
-        $realBeginDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getRealBeginDate());
+
         $predictedFinishDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getPredictedFinishDate());
         $realFinishDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getRealFinishDate());
 
@@ -206,17 +206,25 @@ class Projects_ActionController extends Zend_Controller_Action
         if ($validator->isValid($actionToBeDetailed->getReceiptDate($this->actionMapper))) {
             $receiptDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getReceiptDate($this->actionMapper));
         } else {
-            $receiptDate = $this->view->translate("#(not received yet)");
+            $receiptDate = $this->view->translate("#(not received)");
         }
 
         $validator = new C3op_Util_ValidDate();
         if ($validator->isValid($actionToBeDetailed->getDoneDate($this->actionMapper))) {
             $doneDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getReceiptDate($this->actionMapper));
         } else {
-            $doneDate = $this->view->translate("#(not realized yet)");
+            $doneDate = $this->view->translate("#(not realized)");
         }
 
-
+        $unacknowledgedStart = false;
+        $realBeginDate = $this->view->translate("#(not started)");
+        if ($actionToBeDetailed->hasBegun()) {
+            $realBeginDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getRealBeginDate());
+            $obj = new C3op_Projects_ActionStartMode($actionToBeDetailed, $this->actionMapper);
+            if ($obj->isUnacknowledged()) {
+                $unacknowledgedStart = true;
+            }
+        }
 
 
 
@@ -241,6 +249,7 @@ class Projects_ActionController extends Zend_Controller_Action
             'realFinishDate'      => $realFinishDate,
             'receiptDate'         => $receiptDate,
             'doneDate'         => $doneDate,
+            'unacknowledgedStart'  => $unacknowledgedStart,
         );
 
 

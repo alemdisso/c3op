@@ -202,13 +202,13 @@ class Projects_ProjectController extends Zend_Controller_Action
             if ($validator->isValid($theReceivable->getPredictedDate())) {
                 $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($theReceivable->getPredictedDate());
             } else {
-                $predictedDate = $this->view->translate("#(unknown date)");
+                $predictedDate = $this->view->translate("#(undefined)");
             }
 
             if ($validator->isValid($theReceivable->getRealDate())) {
                 $realDate = C3op_Util_DateDisplay::FormatDateToShow($theReceivable->getRealDate());
             } else {
-                $realDate = $this->view->translate("#(unknown date)");
+                $realDate = $this->view->translate("#(not received)");
             }
 
             $predictedValue = C3op_Util_CurrencyDisplay::FormatCurrency($theReceivable->getPredictedValue());

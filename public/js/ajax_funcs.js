@@ -5,9 +5,10 @@ function passIdToAjax(actionrequest, id, handler)
 var complete = handler || this.onSubmit;
 
 var myAjax = new Ajax.Request(
-    actionrequest, 
+
+    actionrequest,
     {
-        method: 'get', 
+        method: 'get',
         parameters: {id: id},
         //onComplete: handler
         onComplete: function(req) { complete.call(this, req, id)}
@@ -15,6 +16,11 @@ var myAjax = new Ajax.Request(
 }
 
 //handle the Ajax response …
+function acknowledgeStartResponse(transport, id)
+{
+$('acknowledgeStart-'+id).innerHTML = transport.responseText;
+}
+
 function acknowledgeReceiptResponse(transport, id)
 {
 $('acknowledgeReceipt-'+id).innerHTML = transport.responseText;

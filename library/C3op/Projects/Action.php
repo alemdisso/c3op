@@ -305,5 +305,17 @@ class C3op_Projects_Action {
         return $this->doneDate;
     } //GetDoneDate
 
+    public function hasBegun()
+    {
+        if (($this->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION)
+             || ($this->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_RECEIVED)
+             || ($this->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_DONE)
+             || ($this->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_DELIVERED)
+             || ($this->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_COMPLETE)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }
