@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-20 12:16-0300\n"
-"PO-Revision-Date: 2012-09-20 12:18-0300\n"
+"POT-Creation-Date: 2012-10-07 21:56-0300\n"
+"PO-Revision-Date: 2012-10-07 21:56-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -37,9 +37,9 @@ msgstr ""
 #: application\modules\register/controllers/ContactController.php:461
 #: application\modules\register/controllers/InstitutionController.php:89
 #: application\modules\register/controllers/LinkageController.php:68
-#: application\modules\register/controllers/LinkageController.php:211
-#: application\modules\register/controllers/LinkageController.php:282
-#: application\modules\register/controllers/LinkageController.php:324
+#: application\modules\register/controllers/LinkageController.php:204
+#: application\modules\register/controllers/LinkageController.php:275
+#: application\modules\register/controllers/LinkageController.php:317
 msgid "#The record was successfully updated."
 msgstr ""
 
@@ -59,7 +59,7 @@ msgstr "Acrescentar telefone"
 #: application\modules\register/controllers/ContactController.php:481
 #: application\modules\register/controllers/ContactController.php:526
 #: application\modules\register/controllers/ContactController.php:544
-#: application\modules\register/controllers/LinkageController.php:530
+#: application\modules\register/controllers/LinkageController.php:523
 msgid "#Invalid Contact Id from Get"
 msgstr ""
 
@@ -67,31 +67,31 @@ msgstr ""
 msgid "#Invalid Email Id from Get"
 msgstr ""
 
-#: application\modules\register/controllers/InstitutionController.php:42
-#: application\modules\register/views/scripts/contact/index.phtml:25
-#: application\modules\register/views/scripts/institution/index.phtml:26
-msgid "#Name"
-msgstr "Nome"
-
-#: application\modules\register/controllers/InstitutionController.php:190
+#: application\modules\register/controllers/InstitutionController.php:179
 msgid "#Invalid Institution Id from Get"
 msgstr ""
 
-#: application\modules\register/controllers/LinkageController.php:230
-#: application\modules\register/controllers/LinkageController.php:339
-#: application\modules\register/controllers/LinkageController.php:485
-#: application\modules\register/controllers/LinkageController.php:503
+#: application\modules\register/controllers/LinkageController.php:223
+#: application\modules\register/controllers/LinkageController.php:332
+#: application\modules\register/controllers/LinkageController.php:478
+#: application\modules\register/controllers/LinkageController.php:496
 msgid "#Invalid Linkage Id from Get"
 msgstr ""
 
-#: application\modules\register/controllers/LinkageController.php:386
+#: application\modules\register/controllers/LinkageController.php:379
 msgid "#The record was successfully removed."
 msgstr ""
 
-#: application\modules\register/controllers/LinkageController.php:412
+#: application\modules\register/controllers/LinkageController.php:405
 #, php-format
 msgid "Confirma a remoção do vínculo entre %s e %s?"
 msgstr ""
+
+#: library\C3op\register/ContactTypes.php:27
+#: library\C3op\register/InstitutionTypes.php:30
+#: library\C3op\register/RelationshipTypes.php:30
+msgid "#Unknown type"
+msgstr "Tipo desconhecido"
 
 #: library\C3op\register/InstitutionTypes.php:9
 msgid "#Government"
@@ -307,15 +307,15 @@ msgstr "Editar contato"
 msgid "#Create linkage"
 msgstr "Criar novo vínculo"
 
-#: application\modules\register/views/scripts/contact/error-edit.phtml:3
-#: application\modules\register/views/scripts/institution/error-edit.phtml:3
-msgid "#Generic error message"
-msgstr "Ocorreu um erro."
-
 #: application\modules\register/views/scripts/contact/index.phtml:6
 #: application\modules\register/views/scripts/index/index.phtml:6
 msgid "#Contacts"
 msgstr "Contatos"
+
+#: application\modules\register/views/scripts/contact/index.phtml:25
+#: application\modules\register/views/scripts/institution/index.phtml:26
+msgid "#Name"
+msgstr "Nome"
 
 #: application\modules\register/views/scripts/contact/index.phtml:62
 msgid "#No registered contacts"
@@ -346,7 +346,7 @@ msgstr "Cadastro"
 msgid "#Institutions"
 msgstr "Instituições"
 
-#: application\modules\register/views/scripts/institution/create.phtml:2
+#: application\modules\register/views/scripts/institution/create.phtml:3
 msgid "#Create institution"
 msgstr "Adicionar instituição"
 
@@ -393,6 +393,9 @@ msgstr "Criar Nova Instituição"
 #: application\modules\register/views/scripts/institution/success.phtml:2
 msgid "#Success!"
 msgstr "Sucesso!"
+
+#~ msgid "#Generic error message"
+#~ msgstr "Ocorreu um erro."
 
 #~ msgid "Número Local"
 #~ msgstr "Número"

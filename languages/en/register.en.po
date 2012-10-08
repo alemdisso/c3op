@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-18 22:03-0300\n"
-"PO-Revision-Date: 2012-09-18 22:03-0300\n"
+"POT-Creation-Date: 2012-10-07 21:57-0300\n"
+"PO-Revision-Date: 2012-10-07 21:57-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: English\n"
@@ -15,6 +15,12 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: application\\modules\\register\\views\\scripts\n"
 "X-Poedit-SearchPath-1: library\\C3op\\register\n"
+
+#: library\C3op\register/ContactTypes.php:27
+#: library\C3op\register/InstitutionTypes.php:30
+#: library\C3op\register/RelationshipTypes.php:30
+msgid "#Unknown type"
+msgstr ""
 
 #: library\C3op\register/InstitutionTypes.php:9
 #, fuzzy
@@ -142,86 +148,86 @@ msgstr "Local Number"
 msgid "#Label"
 msgstr "Label"
 
-#: application\modules\register\views\scripts/contact/detail.phtml:75
-#: application\modules\register\views\scripts/contact/detail.phtml:135
-#: application\modules\register\views\scripts/contact/detail.phtml:194
-#: application\modules\register\views\scripts/contact/detail.phtml:258
+#: application\modules\register\views\scripts/contact/detail.phtml:76
+#: application\modules\register\views\scripts/contact/detail.phtml:136
+#: application\modules\register\views\scripts/contact/detail.phtml:195
+#: application\modules\register\views\scripts/contact/detail.phtml:259
 #: application\modules\register\views\scripts/contact/index.phtml:40
 #: application\modules\register\views\scripts/institution/index.phtml:60
 msgid "#Options..."
 msgstr "Options..."
 
-#: application\modules\register\views\scripts/contact/detail.phtml:79
+#: application\modules\register\views\scripts/contact/detail.phtml:80
 msgid "Editar"
 msgstr "Edit"
 
-#: application\modules\register\views\scripts/contact/detail.phtml:93
+#: application\modules\register\views\scripts/contact/detail.phtml:94
 msgid "#Add phone number"
 msgstr "Add phone number"
 
-#: application\modules\register\views\scripts/contact/detail.phtml:109
+#: application\modules\register\views\scripts/contact/detail.phtml:110
 msgid "#Emails"
 msgstr "Emails"
 
-#: application\modules\register\views\scripts/contact/detail.phtml:113
+#: application\modules\register\views\scripts/contact/detail.phtml:114
 msgid "#Address"
 msgstr "Address"
 
-#: application\modules\register\views\scripts/contact/detail.phtml:114
+#: application\modules\register\views\scripts/contact/detail.phtml:115
 #: application\modules\register\views\scripts/institution/index.phtml:27
 msgid "#Type"
 msgstr "Type"
 
-#: application\modules\register\views\scripts/contact/detail.phtml:139
-#: application\modules\register\views\scripts/contact/detail.phtml:198
-#: application\modules\register\views\scripts/contact/detail.phtml:262
+#: application\modules\register\views\scripts/contact/detail.phtml:140
+#: application\modules\register\views\scripts/contact/detail.phtml:199
+#: application\modules\register\views\scripts/contact/detail.phtml:263
 #: application\modules\register\views\scripts/contact/index.phtml:44
 #: application\modules\register\views\scripts/institution/detail.phtml:23
 #: application\modules\register\views\scripts/institution/index.phtml:64
 msgid "#Edit"
 msgstr "Edit"
 
-#: application\modules\register\views\scripts/contact/detail.phtml:153
+#: application\modules\register\views\scripts/contact/detail.phtml:154
 msgid "#Add email"
 msgstr "Add email"
 
-#: application\modules\register\views\scripts/contact/detail.phtml:168
+#: application\modules\register\views\scripts/contact/detail.phtml:169
 msgid "#Messengers"
 msgstr "Messengers"
 
-#: application\modules\register\views\scripts/contact/detail.phtml:172
+#: application\modules\register\views\scripts/contact/detail.phtml:173
 msgid "#Service"
 msgstr "Service"
 
-#: application\modules\register\views\scripts/contact/detail.phtml:173
+#: application\modules\register\views\scripts/contact/detail.phtml:174
 msgid "#Service.Address"
 msgstr "Account"
 
-#: application\modules\register\views\scripts/contact/detail.phtml:212
+#: application\modules\register\views\scripts/contact/detail.phtml:213
 msgid "#Add messenger"
 msgstr "Add Messenger"
 
-#: application\modules\register\views\scripts/contact/detail.phtml:227
+#: application\modules\register\views\scripts/contact/detail.phtml:228
 msgid "Vínculos"
 msgstr "Linkages"
 
-#: application\modules\register\views\scripts/contact/detail.phtml:231
+#: application\modules\register\views\scripts/contact/detail.phtml:232
 msgid "#Institution"
 msgstr "Institution"
 
-#: application\modules\register\views\scripts/contact/detail.phtml:232
+#: application\modules\register\views\scripts/contact/detail.phtml:233
 msgid "#Departament"
 msgstr "Department"
 
-#: application\modules\register\views\scripts/contact/detail.phtml:233
+#: application\modules\register\views\scripts/contact/detail.phtml:234
 msgid "#Position"
 msgstr "Position"
 
-#: application\modules\register\views\scripts/contact/detail.phtml:275
+#: application\modules\register\views\scripts/contact/detail.phtml:276
 msgid "#Create new linkage"
 msgstr "Create new linkage"
 
-#: application\modules\register\views\scripts/contact/detail.phtml:282
+#: application\modules\register\views\scripts/contact/detail.phtml:283
 msgid "#There is no data from this contact."
 msgstr "There is no data from this contact."
 
@@ -232,11 +238,6 @@ msgstr "Edit contact"
 #: application\modules\register\views\scripts/contact/edit.phtml:9
 msgid "#Create linkage"
 msgstr "Create linkage"
-
-#: application\modules\register\views\scripts/contact/error-edit.phtml:3
-#: application\modules\register\views\scripts/institution/error-edit.phtml:3
-msgid "#Generic error message"
-msgstr "An error occurred"
 
 #: application\modules\register\views\scripts/contact/index.phtml:6
 #: application\modules\register\views\scripts/index/index.phtml:6
@@ -277,7 +278,7 @@ msgstr "Register"
 msgid "#Institutions"
 msgstr "Institutions"
 
-#: application\modules\register\views\scripts/institution/create.phtml:2
+#: application\modules\register\views\scripts/institution/create.phtml:3
 #, fuzzy
 msgid "#Create institution"
 msgstr "No registered institutions."
@@ -327,6 +328,9 @@ msgstr "Add new institution"
 #, fuzzy
 msgid "#Success!"
 msgstr "Success creating!"
+
+#~ msgid "#Generic error message"
+#~ msgstr "An error occurred"
 
 #~ msgid "Email"
 #~ msgstr "Email"

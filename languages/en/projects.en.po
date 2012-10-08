@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-26 10:42-0300\n"
-"PO-Revision-Date: 2012-09-26 10:42-0300\n"
+"POT-Creation-Date: 2012-10-07 21:56-0300\n"
+"PO-Revision-Date: 2012-10-07 21:57-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: English\n"
@@ -24,11 +24,49 @@ msgstr "The record was successfully created."
 msgid "#The record was successfully updated."
 msgstr "The record was successfully updated."
 
-#: application\modules\projects/controllers/ActionController.php:400
+#: application\modules\projects/controllers/ActionController.php:176
+#: application\modules\projects/controllers/ActionController.php:765
+#: application\modules\projects/controllers/ProjectController.php:154
+#: application\modules\projects/controllers/ProjectController.php:161
+#: application\modules\projects/controllers/ProjectController.php:251
+#: application\modules\projects/controllers/ProjectController.php:298
+#: application\modules\projects/controllers/ProjectController.php:300
+#: application\modules\projects/controllers/ProjectController.php:301
+#: application\modules\projects/controllers/ProjectController.php:688
+msgid "#Not defined"
+msgstr ""
+
+#: application\modules\projects/controllers/ActionController.php:184
+#, fuzzy
+msgid "#None action"
+msgstr "New action"
+
+#: application\modules\projects/controllers/ActionController.php:195
+msgid "#Is a milestone"
+msgstr ""
+
+#: application\modules\projects/controllers/ActionController.php:197
+msgid "#Is not a milestone"
+msgstr ""
+
+#: application\modules\projects/controllers/ActionController.php:209
+#: application\modules\projects/controllers/ProjectController.php:211
+msgid "#(not received)"
+msgstr ""
+
+#: application\modules\projects/controllers/ActionController.php:216
+msgid "#(not realized)"
+msgstr ""
+
+#: application\modules\projects/controllers/ActionController.php:220
+msgid "#(not started)"
+msgstr ""
+
+#: application\modules\projects/controllers/ActionController.php:525
 msgid "#It needs a positive integer project id to populate project fields."
 msgstr "It needs a positive integer project id to populate project fields."
 
-#: application\modules\projects/controllers/ActionController.php:433
+#: application\modules\projects/controllers/ActionController.php:558
 msgid ""
 "#It needs a positive integer project id to find other actions from same "
 "project."
@@ -36,10 +74,12 @@ msgstr ""
 "It needs a positive integer project id to find other actions from same "
 "project."
 
-#: application\modules\projects/controllers/ProjectController.php:156
-#: application\modules\projects/controllers/ProjectController.php:163
-#: application\modules\projects/controllers/ProjectController.php:242
-msgid "#Not defined"
+#: application\modules\projects/controllers/ProjectController.php:205
+msgid "#(undefined)"
+msgstr ""
+
+#: application\modules\projects/controllers/ProjectController.php:363
+msgid "#(unknown date)"
 msgstr ""
 
 #: library\C3op\projects/ActionEventTypes.php:45
@@ -181,22 +221,43 @@ msgstr "New action"
 msgid "#Project:"
 msgstr "Project:"
 
+#: application\modules\projects/views/scripts/action/detail.phtml:14
+#: application\modules\projects/views/scripts/action/edit.phtml:3
+#: application\modules\projects/views/scripts/human-resource/create.phtml:5
+#: application\modules\projects/views/scripts/index/index.phtml:28
+#: application\modules\projects/views/scripts/project/detail.phtml:35
+#, fuzzy
+msgid "#Project"
+msgstr "Project:"
+
+#: application\modules\projects/views/scripts/action/detail.phtml:16
+#, fuzzy
+msgid "#Details of action "
+msgstr "Criar contato"
+
+#: application\modules\projects/views/scripts/action/detail.phtml:139
+msgid "#Acknowledge start"
+msgstr ""
+
+#: application\modules\projects/views/scripts/action/detail.phtml:241
+#, fuzzy
+msgid "#Create new action"
+msgstr "Criar contato"
+
 #: application\modules\projects/views/scripts/action/edit.phtml:2
 #, fuzzy
 msgid "#Edit action"
 msgstr "Editar contato"
 
-#: application\modules\projects/views/scripts/action/edit.phtml:3
-#: application\modules\projects/views/scripts/index/index.phtml:28
-#: application\modules\projects/views/scripts/project/detail.phtml:38
-#, fuzzy
-msgid "#Project"
-msgstr "Project:"
-
 #: application\modules\projects/views/scripts/action/success.phtml:2
 #: application\modules\projects/views/scripts/project/success.phtml:2
-msgid "#Sucess!!!"
+#, fuzzy
+msgid "#Success!!!"
 msgstr "Success!"
+
+#: application\modules\projects/views/scripts/human-resource/create.phtml:6
+msgid "#New team member for action"
+msgstr ""
 
 #: application\modules\projects/views/scripts/index/index.phtml:9
 #, fuzzy
@@ -234,8 +295,9 @@ msgid "#Options..."
 msgstr "Opções..."
 
 #: application\modules\projects/views/scripts/index/index.phtml:58
-#: application\modules\projects/views/scripts/project/detail.phtml:145
-#: application\modules\projects/views/scripts/project/detail.phtml:229
+#: application\modules\projects/views/scripts/project/detail.phtml:137
+#: application\modules\projects/views/scripts/project/detail.phtml:219
+#: application\modules\projects/views/scripts/project/detail.phtml:298
 msgid "#Edit"
 msgstr "Editar"
 
@@ -263,124 +325,188 @@ msgstr "Não há informações sobre esse contato."
 msgid "#Create New Project"
 msgstr "Criar contato"
 
-#: application\modules\projects/views/scripts/project/detail.phtml:44
+#: application\modules\projects/views/scripts/project/create.phtml:2
+#, fuzzy
+msgid "#Create project"
+msgstr "Criar contato"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:39
 #, fuzzy
 msgid "#Client:"
 msgstr "Cliente"
 
-#: application\modules\projects/views/scripts/project/detail.phtml:50
+#: application\modules\projects/views/scripts/project/detail.phtml:45
 msgid "#Overhead:"
 msgstr ""
 
-#: application\modules\projects/views/scripts/project/detail.phtml:57
+#: application\modules\projects/views/scripts/project/detail.phtml:51
 msgid "#Area activity:"
 msgstr ""
 
-#: application\modules\projects/views/scripts/project/detail.phtml:63
+#: application\modules\projects/views/scripts/project/detail.phtml:57
 msgid "#Management fee:"
 msgstr ""
 
-#: application\modules\projects/views/scripts/project/detail.phtml:70
+#: application\modules\projects/views/scripts/project/detail.phtml:64
 msgid "#Our responsible:"
 msgstr ""
 
-#: application\modules\projects/views/scripts/project/detail.phtml:76
+#: application\modules\projects/views/scripts/project/detail.phtml:70
 #, fuzzy
 msgid "#Contract value:"
 msgstr "Contato:"
 
-#: application\modules\projects/views/scripts/project/detail.phtml:83
+#: application\modules\projects/views/scripts/project/detail.phtml:76
 msgid "#Responsible at client:"
 msgstr ""
 
-#: application\modules\projects/views/scripts/project/detail.phtml:89
+#: application\modules\projects/views/scripts/project/detail.phtml:82
 #, fuzzy
 msgid "#Contract date:"
 msgstr "Contato:"
 
+#: application\modules\projects/views/scripts/project/detail.phtml:90
 #: application\modules\projects/views/scripts/project/detail.phtml:98
-#: application\modules\projects/views/scripts/project/detail.phtml:105
 msgid "#Receiving"
 msgstr ""
 
-#: application\modules\projects/views/scripts/project/detail.phtml:99
-#: application\modules\projects/views/scripts/project/detail.phtml:173
+#: application\modules\projects/views/scripts/project/detail.phtml:91
+#: application\modules\projects/views/scripts/project/detail.phtml:167
 msgid "#Payments"
 msgstr ""
 
-#: application\modules\projects/views/scripts/project/detail.phtml:100
+#: application\modules\projects/views/scripts/project/detail.phtml:92
 #, fuzzy
 msgid "#Staff"
 msgstr "UF"
 
-#: application\modules\projects/views/scripts/project/detail.phtml:109
+#: application\modules\projects/views/scripts/project/detail.phtml:93
+#: application\modules\projects/views/scripts/project/detail.phtml:322
+#, fuzzy
+msgid "#Actions"
+msgstr "New action"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:102
 #, fuzzy
 msgid "#Product"
 msgstr "Project:"
 
-#: application\modules\projects/views/scripts/project/detail.phtml:110
-#: application\modules\projects/views/scripts/project/detail.phtml:190
+#: application\modules\projects/views/scripts/project/detail.phtml:103
+#: application\modules\projects/views/scripts/project/detail.phtml:182
 msgid "#Predicted date"
 msgstr ""
 
-#: application\modules\projects/views/scripts/project/detail.phtml:111
-#: application\modules\projects/views/scripts/project/detail.phtml:191
+#: application\modules\projects/views/scripts/project/detail.phtml:104
+#: application\modules\projects/views/scripts/project/detail.phtml:183
 msgid "#Real date"
 msgstr ""
 
-#: application\modules\projects/views/scripts/project/detail.phtml:112
-#: application\modules\projects/views/scripts/project/detail.phtml:192
+#: application\modules\projects/views/scripts/project/detail.phtml:105
+#: application\modules\projects/views/scripts/project/detail.phtml:184
 msgid "#Predicted value"
 msgstr ""
 
-#: application\modules\projects/views/scripts/project/detail.phtml:113
-#: application\modules\projects/views/scripts/project/detail.phtml:193
+#: application\modules\projects/views/scripts/project/detail.phtml:106
+#: application\modules\projects/views/scripts/project/detail.phtml:185
 msgid "#Real value"
 msgstr ""
 
-#: application\modules\projects/views/scripts/project/detail.phtml:140
-#: application\modules\projects/views/scripts/project/detail.phtml:224
+#: application\modules\projects/views/scripts/project/detail.phtml:132
+#: application\modules\projects/views/scripts/project/detail.phtml:214
+#: application\modules\projects/views/scripts/project/detail.phtml:293
 #, fuzzy
 msgid "#Options"
 msgstr "Opções..."
 
-#: application\modules\projects/views/scripts/project/detail.phtml:149
+#: application\modules\projects/views/scripts/project/detail.phtml:141
 msgid "#Notify receiving"
 msgstr ""
 
-#: application\modules\projects/views/scripts/project/detail.phtml:153
-msgid "#Product details"
-msgstr ""
-
-#: application\modules\projects/views/scripts/project/detail.phtml:166
+#: application\modules\projects/views/scripts/project/detail.phtml:157
 msgid "#Predict receiving"
 msgstr ""
 
-#: application\modules\projects/views/scripts/project/detail.phtml:188
+#: application\modules\projects/views/scripts/project/detail.phtml:158
+#, fuzzy
+msgid "#Create new product"
+msgstr "Criar contato"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:180
+#: application\modules\projects/views/scripts/project/detail.phtml:326
 #, fuzzy
 msgid "#Action"
 msgstr "New action"
 
-#: application\modules\projects/views/scripts/project/detail.phtml:189
+#: application\modules\projects/views/scripts/project/detail.phtml:181
 msgid "#Payee"
 msgstr ""
 
-#: application\modules\projects/views/scripts/project/detail.phtml:233
+#: application\modules\projects/views/scripts/project/detail.phtml:223
 msgid "#Confirm payment"
 msgstr ""
 
-#: application\modules\projects/views/scripts/project/detail.phtml:237
+#: application\modules\projects/views/scripts/project/detail.phtml:227
 msgid "#Outlay details"
 msgstr ""
 
-#: application\modules\projects/views/scripts/project/detail.phtml:253
+#: application\modules\projects/views/scripts/project/detail.phtml:243
 msgid "#Predict outlay"
 msgstr ""
 
-#: application\modules\projects/views/scripts/project/detail.phtml:259
+#: application\modules\projects/views/scripts/project/detail.phtml:249
 #, fuzzy
 msgid "#There is no outlays related to this project."
 msgstr "Não há informações sobre esse contato."
+
+#: application\modules\projects/views/scripts/project/detail.phtml:262
+msgid "#Team"
+msgstr ""
+
+#: application\modules\projects/views/scripts/project/detail.phtml:266
+msgid "#Name"
+msgstr "Nome"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:267
+#, fuzzy
+msgid "#Function"
+msgstr "New action"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:268
+msgid "#Email"
+msgstr "Email"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:269
+msgid "#Phone number"
+msgstr "Telefone"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:302
+#, fuzzy
+msgid "#Contact details"
+msgstr "Project:"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:316
+msgid "#Add staff member"
+msgstr ""
+
+#: application\modules\projects/views/scripts/project/detail.phtml:327
+msgid "#Responsible"
+msgstr ""
+
+#: application\modules\projects/views/scripts/project/detail.phtml:328
+msgid "#Pred. begin date"
+msgstr ""
+
+#: application\modules\projects/views/scripts/project/detail.phtml:329
+msgid "#Real begin date"
+msgstr ""
+
+#: application\modules\projects/views/scripts/project/detail.phtml:330
+msgid "#Pred. finish date"
+msgstr ""
+
+#: application\modules\projects/views/scripts/project/detail.phtml:331
+msgid "#Real finish date"
+msgstr ""
 
 #, fuzzy
 #~ msgid "#Invalid contact id"
@@ -389,9 +515,6 @@ msgstr "Não há informações sobre esse contato."
 #, fuzzy
 #~ msgid "#Invalid phone number"
 #~ msgstr "Acrescentar telefone"
-
-#~ msgid "#Name"
-#~ msgstr "Nome"
 
 #~ msgid "#Government"
 #~ msgstr "Poder público"
@@ -426,14 +549,8 @@ msgstr "Não há informações sobre esse contato."
 #~ msgid "#Create %s's service messenger"
 #~ msgstr "Adicionar serviço de %s"
 
-#~ msgid "#Phone number"
-#~ msgstr "Telefone"
-
 #~ msgid "#Create %s's phone number"
 #~ msgstr "Adicionar telefone de %s"
-
-#~ msgid "#Email"
-#~ msgstr "Email"
 
 #~ msgid "#Change %s's email address"
 #~ msgstr "Alterar email de %s"
