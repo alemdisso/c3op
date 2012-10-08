@@ -46,6 +46,8 @@ class Includes_HeaderController extends Zend_Controller_Action
             ),
         );
 
+        $auth = Zend_Auth::getInstance();
+
         if ($auth->hasIdentity()) {
             $identity = $auth->getIdentity(); //Identity exists; get it
 
@@ -62,5 +64,40 @@ class Includes_HeaderController extends Zend_Controller_Action
         $pageData['navigationTabs'] = $navigationTabs;
         $this->view->pageData = $pageData;
     }
+
+    public function includeLoginAction()
+    {
+
+        /* Initialize model and retrieve data here */
+
+        $dadosPagina = Array();
+
+        /* Initialize view and populate here */
+
+        //saudacao_usuario
+        //  logado: verdadeiro/falso
+        //  nome_usuario: texto
+        //  link_edita: texto
+        $auth = Zend_Auth::getInstance();
+
+        if ($auth->hasIdentity()) {
+            $identity = $auth->getIdentity(); //Identity exists; get it
+
+            $pageData['loggedIn'] = true;
+            $pageData['userName'] = $identity->GetLogin();
+            $pageData['id'] = $identity->GetId();
+
+        } else {
+            $pageData['loggedIn'] = false;
+            $pageData['userName'] = "";
+            $pageData['id'] = null;
+        }
+
+        //$pageData['navigationTabs'] = $navigationTabs;
+        $this->view->pageData = $pageData;
+
+    }
+
+
 
 }
