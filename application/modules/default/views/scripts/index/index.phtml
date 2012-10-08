@@ -1,12 +1,12 @@
 <div id="MainHeader">
-  <h1>Panorama</h1>
+  <h1><?php print($this->translate("#Dashboard")) ?></h1>
 </div>
 <div class="Area">
-  <p>Tela principal do sistema de gerenciamento de contratos</p> 
+  <p><?php print($this->translate("#C3OP dashboard screen.")) ?></p>
   <ul>
-    <li><a href="/projects">Projetos</a></li>
-    <li><a href="/register/contact">Contatos</a></li>
-    <li><a href="/register/institution">Instituições</a></li>
+    <li><a href="/projects"><?php print($this->translate("#Projects")) ?></a></li>
+    <li><a href="/register/contact"><?php print($this->translate("#Contacts")) ?></a></li>
+    <li><a href="/register/institution"><?php print($this->translate("#Institutions")) ?></a></li>
   </ul>
 </div>
 
