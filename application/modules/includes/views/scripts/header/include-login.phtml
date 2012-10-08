@@ -1,7 +1,7 @@
   		<div id="Header" class="fifteen columns">
-  			
+
         <p>
-          Olá, você não está logado.
+          <?php print($this->translate("#Hello. Please login.")) ?>
         </p>
   		</div><!-- #Header -->
   		<div id="Logo" class="one column">
@@ -16,7 +16,7 @@
       <div id="Main" class="eight columns">
         <div class="spacer one column alpha"></div>
         <div id="MainHeader" class="six columns">
-            <h1>Login</h1>
+            <h1><?php print($this->translate("#Login")) ?></h1>
     		</div><!-- #MainHeader -->
     		<div class="spacer one column omega"></div>
     		<br class="clear">

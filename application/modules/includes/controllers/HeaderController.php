@@ -36,12 +36,12 @@ class Includes_HeaderController extends Zend_Controller_Action
         $navigationTabs = array(
             'projects' => array(
                 'url' => '/projects',
-                'label' => 'Projetos',
+                'label' => $this->view->translate('#Projects'),
                 'active' => ($moduleName == 'projects' ? true : false)
             ),
             'register' => array(
                 'url' => '/register',
-                'label' => 'Cadastro',
+                'label' => $this->view->translate('#Register'),
                 'active' => ($moduleName == 'register' ? true : false)
             ),
         );
@@ -56,23 +56,21 @@ class Includes_HeaderController extends Zend_Controller_Action
         if ($auth->hasIdentity()) {
             $identity = $auth->getIdentity(); //Identity exists; get it
 
-            $pageData['saudacao_usuario']['logado'] = true;
-            $pageData['saudacao_usuario']['nome_usuario'] = $identity->GetLogin();
-            $pageData['saudacao_usuario']['link_edita'] = "/autenticacao/conta/edita?titulo=" . $identity->GetId();
-//            $dadosPagina['links_menu']['link_aulas'] = "/planejamento/aula/lista?titulo=" . $identity->apelidoUsuario;
-            $pageData['links_menu']['link_aulas'] = "/projects";
+            $pageData['loggedIn'] = true;
+            $pageData['userName'] = $identity->GetLogin();
+            $pageData['id'] = $identity->GetId();
 
         } else {
-            $pageData['saudacao_usuario']['logado'] = false;
-            $pageData['saudacao_usuario']['nome_usuario'] = "";
-            $pageData['saudacao_usuario']['link_edita'] = "";
-            $pageData['links_menu']['link_aulas'] = "/projects";
+            $pageData['loggedIn'] = false;
+            $pageData['userName'] = "";
+            $pageData['id'] = null;
         }
 
-        $this->view->saudacaoUsuario = $pageData['saudacao_usuario'];
-        $this->view->linksMenu = $pageData['links_menu'];
+        $pageData['navigationTabs'] = $navigationTabs;
+
         $this->view->moduleName = $moduleName;
         $this->view->navigationTabs = $navigationTabs;
+        $this->view->pageData = $pageData;
 
 
     }

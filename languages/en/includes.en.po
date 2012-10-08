@@ -1,0 +1,553 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: c3op\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-10-08 18:01-0300\n"
+"PO-Revision-Date: 2012-10-08 18:02-0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: Português\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;translate\n"
+"X-Poedit-Basepath: C:\\xampp\\htdocs\\c3op\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: application\\modules\\includes\n"
+
+#: application\modules\includes/controllers/HeaderController.php:39
+msgid "#Projects"
+msgstr "Projects"
+
+#: application\modules\includes/controllers/HeaderController.php:44
+msgid "#Register"
+msgstr "Register"
+
+#: application\modules\includes/views/scripts/header/include-login.phtml:4
+msgid "#Hello. Please login."
+msgstr "Hello. Please login."
+
+#: application\modules\includes/views/scripts/header/include-login.phtml:19
+msgid "#Login"
+msgstr "Login"
+
+#: application\modules\includes/views/scripts/header/include.phtml:15
+msgid "#Hi"
+msgstr "Hi"
+
+#: application\modules\includes/views/scripts/header/include.phtml:16
+msgid "#Logout"
+msgstr "Logout"
+
+#: application\modules\includes/views/scripts/header/include.phtml:46
+msgid "#Please login."
+msgstr "Please login."
+
+#~ msgid "#The record was successfully created."
+#~ msgstr "O registro foi criado com sucesso."
+
+#~ msgid "#The record was successfully updated."
+#~ msgstr "O registro foi atualizado com sucesso."
+
+#~ msgid "#Not defined"
+#~ msgstr "Indefinido"
+
+#~ msgid "#None action"
+#~ msgstr "(nenhuma ação)"
+
+#~ msgid "#Is a milestone"
+#~ msgstr "É um marco"
+
+#~ msgid "#Is not a milestone"
+#~ msgstr "Não é um marco"
+
+#~ msgid "#(not received)"
+#~ msgstr "(não recebido)"
+
+#~ msgid "#(not realized)"
+#~ msgstr "(não realizada)"
+
+#~ msgid "#(not started)"
+#~ msgstr "(não iniciada)"
+
+#~ msgid "#It needs a positive integer project id to populate project fields."
+#~ msgstr "It needs a positive integer project id to populate project fields."
+
+#~ msgid ""
+#~ "#It needs a positive integer project id to find other actions from same "
+#~ "project."
+#~ msgstr ""
+#~ "It needs a positive integer project id to find other actions from same "
+#~ "project."
+
+#~ msgid "#(undefined)"
+#~ msgstr "(indefinido)"
+
+#~ msgid "#(unknown date)"
+#~ msgstr "(data desconhecida)"
+
+#~ msgid "#Unknown type"
+#~ msgstr "Tipo indefinido"
+
+#~ msgid "#Nil"
+#~ msgstr "Nula"
+
+#~ msgid "#Planning"
+#~ msgstr "Em Planejamento"
+
+#~ msgid "#In Execution"
+#~ msgstr "Em Execução"
+
+#~ msgid "#Received"
+#~ msgstr "Recebida"
+
+#~ msgid "#Done"
+#~ msgstr "Realizada"
+
+#~ msgid "#Delivered"
+#~ msgstr "Entregue"
+
+#~ msgid "#Complete"
+#~ msgstr "Completa"
+
+#~ msgid "#Aborted"
+#~ msgstr "Abortada"
+
+#~ msgid "#Social policies and improving public spending"
+#~ msgstr "Políticas sociais e melhoria dos gastos públicos"
+
+#~ msgid "#Inequality and poverty"
+#~ msgstr "Desigualdade e pobreza"
+
+#~ msgid "#Labor market, employment and income"
+#~ msgstr "Mercado de trabalho, emprego e rendimento"
+
+#~ msgid "#Local development and microenterprise"
+#~ msgstr "Desenvolvimento local e microempreendimento"
+
+#~ msgid "#Education, human resources and equity"
+#~ msgstr "Educação, recursos humanos e eqüidade"
+
+#~ msgid "#The metropolitan issue"
+#~ msgstr "A questão metropolitana"
+
+#~ msgid "#Corporate social responsibility"
+#~ msgstr "Responsabilidade social corporativa"
+
+#~ msgid "#Contract"
+#~ msgstr "Contrato"
+
+#~ msgid "#Agreement"
+#~ msgstr "Convênio"
+
+#~ msgid "#Partnership term"
+#~ msgstr "Termo de parceria"
+
+#~ msgid "#Donation"
+#~ msgstr "Doação"
+
+#~ msgid "#Sponsorship"
+#~ msgstr "Patrocínio"
+
+#~ msgid "#Cooperation agreement"
+#~ msgstr "Acordo de cooperação"
+
+#~ msgid "#contract.nature.Other"
+#~ msgstr "Outras"
+
+#~ msgid "#Prospecting"
+#~ msgstr "Prospecção"
+
+#~ msgid "#project.status.type.Planning"
+#~ msgstr "Planejamento"
+
+#~ msgid "#Proposal"
+#~ msgstr "Proposta"
+
+#~ msgid "#Execution"
+#~ msgstr "Execução"
+
+#~ msgid "#Accountability"
+#~ msgstr "Prestação de contas"
+
+#~ msgid "#Canceled"
+#~ msgstr "Cancelado"
+
+#~ msgid "#Suspended"
+#~ msgstr "Suspenso"
+
+#~ msgid "#New action"
+#~ msgstr "Nova ação"
+
+#~ msgid "#Project:"
+#~ msgstr "Projeto:"
+
+#~ msgid "#Project"
+#~ msgstr "Projeto"
+
+#~ msgid "#Details of action "
+#~ msgstr "Detalhar ação"
+
+#~ msgid "#Acknowledge start"
+#~ msgstr "Confirmar início"
+
+#~ msgid "#Create new action"
+#~ msgstr "Criar nova ação"
+
+#~ msgid "#Edit action"
+#~ msgstr "Editar ação"
+
+#~ msgid "#Success!!!"
+#~ msgstr "Sucesso!"
+
+#~ msgid "#New team member for action"
+#~ msgstr "Novo membro de equipe para a ação"
+
+#~ msgid "#Client"
+#~ msgstr "Cliente"
+
+#~ msgid "#Area"
+#~ msgstr "Área"
+
+#~ msgid "#Status"
+#~ msgstr "Status"
+
+#~ msgid "#% physical progress"
+#~ msgstr "% físico"
+
+#~ msgid "#% payables"
+#~ msgstr "% pagtos"
+
+#~ msgid "#% receivings"
+#~ msgstr "% receb"
+
+#~ msgid "#Options..."
+#~ msgstr "Opções..."
+
+#~ msgid "#Edit"
+#~ msgstr "Editar"
+
+#~ msgid "#Predict Receiving"
+#~ msgstr "Prever recebimento"
+
+#~ msgid "#Create action"
+#~ msgstr "Criar ação"
+
+#~ msgid "#Project details"
+#~ msgstr "Detalhes do projeto"
+
+#~ msgid "#There is no list of projects."
+#~ msgstr "Não existe uma lista de projetos."
+
+#~ msgid "#Create New Project"
+#~ msgstr "Criar novo projeto"
+
+#~ msgid "#Create project"
+#~ msgstr "Criar projeto"
+
+#~ msgid "#Client:"
+#~ msgstr "Cliente:"
+
+#~ msgid "#Overhead:"
+#~ msgstr "Overhead"
+
+#~ msgid "#Area activity:"
+#~ msgstr "Área de atividade:"
+
+#~ msgid "#Management fee:"
+#~ msgstr "Taxa de administração"
+
+#~ msgid "#Our responsible:"
+#~ msgstr "Responsável pelo IETS:"
+
+#~ msgid "#Contract value:"
+#~ msgstr "Valor do contrato"
+
+#~ msgid "#Responsible at client:"
+#~ msgstr "Responsável no cliente:"
+
+#~ msgid "#Contract date:"
+#~ msgstr "Data do contrato"
+
+#~ msgid "#Receiving"
+#~ msgstr "Recebimentos"
+
+#~ msgid "#Payments"
+#~ msgstr "Pagamentos"
+
+#~ msgid "#Staff"
+#~ msgstr "Equipe"
+
+#~ msgid "#Actions"
+#~ msgstr "Ações"
+
+#~ msgid "#Product"
+#~ msgstr "Produto"
+
+#~ msgid "#Predicted date"
+#~ msgstr "Data prevista"
+
+#~ msgid "#Real date"
+#~ msgstr "Data real"
+
+#~ msgid "#Predicted value"
+#~ msgstr "Valor previsto"
+
+#~ msgid "#Real value"
+#~ msgstr "Valor real"
+
+#~ msgid "#Options"
+#~ msgstr "Opções"
+
+#~ msgid "#Notify receiving"
+#~ msgstr "Informar recebimento"
+
+#~ msgid "#Predict receiving"
+#~ msgstr "Prever recebimento"
+
+#~ msgid "#Create new product"
+#~ msgstr "Adicionar produto"
+
+#~ msgid "#Action"
+#~ msgstr "Ação"
+
+#~ msgid "#Payee"
+#~ msgstr "Beneficiado"
+
+#~ msgid "#Confirm payment"
+#~ msgstr "Confirmar pagamento"
+
+#~ msgid "#Outlay details"
+#~ msgstr "Detalhes do pagamento"
+
+#~ msgid "#Predict outlay"
+#~ msgstr "Prever pagamento"
+
+#~ msgid "#There is no outlays related to this project."
+#~ msgstr "Não há pagamentos associados a esse projeto."
+
+#~ msgid "#Team"
+#~ msgstr "Equipe"
+
+#~ msgid "#Name"
+#~ msgstr "Nome"
+
+#~ msgid "#Function"
+#~ msgstr "Função"
+
+#~ msgid "#Email"
+#~ msgstr "Email"
+
+#~ msgid "#Phone number"
+#~ msgstr "Telefone"
+
+#~ msgid "#Contact details"
+#~ msgstr "Detalhes do contato"
+
+#~ msgid "#Add staff member"
+#~ msgstr "Incluir membro"
+
+#~ msgid "#Responsible"
+#~ msgstr "Responsável"
+
+#~ msgid "#Pred. begin date"
+#~ msgstr "Início prev."
+
+#~ msgid "#Real begin date"
+#~ msgstr "Início real"
+
+#~ msgid "#Pred. finish date"
+#~ msgstr "Término prev."
+
+#~ msgid "#Real finish date"
+#~ msgstr "Término real"
+
+#~ msgid "#Product details"
+#~ msgstr "Detalhes do produto"
+
+#~ msgid "#Em Planejamento"
+#~ msgstr "Teste"
+
+#, fuzzy
+#~ msgid "#Invalid contact id"
+#~ msgstr "Editar contato"
+
+#, fuzzy
+#~ msgid "#Invalid phone number"
+#~ msgstr "Acrescentar telefone"
+
+#~ msgid "#Government"
+#~ msgstr "Poder público"
+
+#~ msgid "#Private Entity"
+#~ msgstr "Entidade Privada"
+
+#~ msgid "#Research Institute"
+#~ msgstr "Instituto de pesquisa"
+
+#~ msgid "#Non Governmental Organization"
+#~ msgstr "Organização Não Governamental"
+
+#~ msgid "#Particular"
+#~ msgstr "Particular"
+
+#~ msgid "#General"
+#~ msgstr "Geral"
+
+#~ msgid "#Supplier"
+#~ msgstr "Fornecedor"
+
+#~ msgid "#Email addresses"
+#~ msgstr "Emails"
+
+#~ msgid "#Create %s's email address"
+#~ msgstr "Adicionar email para %s"
+
+#~ msgid "#Service messengers"
+#~ msgstr "Serviços de mensagens"
+
+#~ msgid "#Create %s's service messenger"
+#~ msgstr "Adicionar serviço de %s"
+
+#~ msgid "#Create %s's phone number"
+#~ msgstr "Adicionar telefone de %s"
+
+#~ msgid "#Change %s's email address"
+#~ msgstr "Alterar email de %s"
+
+#~ msgid "#Service messenger"
+#~ msgstr "Serviço de mensagens"
+
+#~ msgid "#Change %s's service messenger"
+#~ msgstr "Alterar endereço de %s"
+
+#~ msgid "#Change phone number of %s"
+#~ msgstr "Alterar telefone de %s"
+
+#~ msgid "#Contact:"
+#~ msgstr "Contato:"
+
+#~ msgid "#Name:"
+#~ msgstr "Nome:"
+
+#~ msgid "#Relationship"
+#~ msgstr "Relação com o IETS"
+
+#~ msgid "#Phone Numbers"
+#~ msgstr "Telefones"
+
+#~ msgid "#Local Number"
+#~ msgstr "Número"
+
+#~ msgid "#Label"
+#~ msgstr "Tipo"
+
+#~ msgid "#Add phone number"
+#~ msgstr "Acrescentar telefone"
+
+#~ msgid "#Emails"
+#~ msgstr "Emails"
+
+#~ msgid "#Address"
+#~ msgstr "Endereço"
+
+#~ msgid "#Type"
+#~ msgstr "Tipo"
+
+#~ msgid "#Add email"
+#~ msgstr "Acrescentar email"
+
+#~ msgid "#Messengers"
+#~ msgstr "Serviços de mensagens"
+
+#~ msgid "#Service"
+#~ msgstr "Serviço"
+
+#~ msgid "#Service.Address"
+#~ msgstr "Conta"
+
+#~ msgid "#Add messenger"
+#~ msgstr "Adicionar serviço"
+
+#~ msgid "#Departament"
+#~ msgstr "Departamento"
+
+#~ msgid "#Create new linkage"
+#~ msgstr "Criar novo vínculo"
+
+#~ msgid "#Create linkage"
+#~ msgstr "Criar novo vínculo"
+
+#~ msgid "#Generic error message"
+#~ msgstr "Ocorreu um erro."
+
+#~ msgid "#Contacts"
+#~ msgstr "Contatos"
+
+#~ msgid "#No registered contacts"
+#~ msgstr "Não há contatos cadastrados"
+
+#~ msgid "#Contacts list was not found"
+#~ msgstr "Não foi encontrada uma lista de contatos"
+
+#~ msgid "#Add new contact"
+#~ msgstr "Adicionar contato"
+
+#~ msgid "#Success creating!"
+#~ msgstr "Sucesso ao adicionar o registro"
+
+#~ msgid "#Success updating!"
+#~ msgstr "Sucesso ao atualizar registro"
+
+#~ msgid "#Institutions"
+#~ msgstr "Instituições"
+
+#~ msgid "#Contacts in this institution"
+#~ msgstr "Contatos nessa instituição"
+
+#~ msgid "#Add new linkage"
+#~ msgstr "Adicionar vínculo"
+
+#~ msgid "#There is no data about this institution."
+#~ msgstr "Não há informações sobre essa instituição."
+
+#~ msgid "#Edit institution"
+#~ msgstr "Editar instituição"
+
+#~ msgid "#City"
+#~ msgstr "Cidade"
+
+#~ msgid "#institution.index.Relationship"
+#~ msgstr "Relação"
+
+#~ msgid "#No registered institutions."
+#~ msgstr "Não há instituições cadastradas."
+
+#~ msgid "#Institutions list was not found."
+#~ msgstr "Não existe lista de instituições cadastradas."
+
+#~ msgid "#Add new institution"
+#~ msgstr "Criar Nova Instituição"
+
+#~ msgid "Número Local"
+#~ msgstr "Número"
+
+#~ msgid "Rótulo"
+#~ msgstr "Tipo"
+
+#~ msgid "Conta"
+#~ msgstr "Conta"
+
+#~ msgid "name"
+#~ msgstr "Nome"
+
+#~ msgid "My test"
+#~ msgstr "Contato:"
+
+#, fuzzy
+#~ msgid "Relação"
+#~ msgstr "Relação com o IETS"
+
+#, fuzzy
+#~ msgid "Code area"
+#~ msgstr "DDD"

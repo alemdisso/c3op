@@ -1,12 +1,19 @@
-  	<div id="Header" class="fifteen columns">
-      
 <?php
-if ($this->saudacaoUsuario['logado']) {
+$pageData = $this->pageData;
+
+
+
+
 ?>
-      <!-- logado -->
+<div id="Header" class="fifteen columns">
+
+<?php
+if ($pageData['loggedIn']) {
+?>
+      <!-- loggedIn -->
       <p>
-        Ol&aacute; <a href="<?php echo $this->saudacaoUsuario['link_edita']?>"><?php echo $this->saudacaoUsuario['nome_usuario']?></a> |
-        <a href="/auth/logout">Log out</a>
+        <?php print($this->translate("#Hi")) ?>&nbsp;<a href="/auth/user/edit/?id=<?php echo $pageData['id']?>"><?php echo $pageData['userName']?></a> |
+        <a href="/auth/logout"><?php print($this->translate("#Logout")) ?></a>
       </p>
   	</div><!-- #Header -->
   	<div id="Logo" class="one column">
@@ -16,7 +23,7 @@ if ($this->saudacaoUsuario['logado']) {
   	<div id="Menu" class="sixteen columns">
       <ul>
 <?php
-          foreach ($this->navigationTabs as $tab => $tabData) {
+          foreach ($pageData['navigationTabs'] as $tab => $tabData) {
 
               if ($tabData['active']) {
                   $activeClass = ' class="active"';
@@ -30,13 +37,13 @@ if ($this->saudacaoUsuario['logado']) {
 ?>
       </ul>
   	</div><!-- #Menu -->
-    <!-- /logado -->
+    <!-- /loggedIn -->
 <?php
 } else {
 ?>
-      <!-- nao logado -->
+      <!-- nao loggedIn -->
       <p>
-        Voc&ecirc; ainda n&atilde;o se identificou.
+        <?php print($this->translate("#Please login.")) ?>
       </p>
   	</div><!-- #Header -->
   	<div id="Logo" class="one column">
@@ -45,7 +52,7 @@ if ($this->saudacaoUsuario['logado']) {
 
   	<div id="Menu" class="sixteen columns">
   	</div><!-- #Menu -->
-      <!-- /nao logado -->
+      <!-- /nao loggedIn -->
 <?php
 }
 ?>

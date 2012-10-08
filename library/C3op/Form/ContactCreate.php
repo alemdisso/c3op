@@ -12,7 +12,7 @@ class C3op_Form_ContactCreate extends Zend_Form
 
         $name = new Zend_Form_Element_Text('name');
         $nameValidator = new C3op_Register_ContactValidName();
-        $name->setLabel('Nome:')
+        $name->setLabel('#Name:')
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
