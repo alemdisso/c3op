@@ -318,4 +318,13 @@ class C3op_Projects_Action {
         }
     }
 
+    public function waitingToReceipt()
+    {
+        if ($this->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

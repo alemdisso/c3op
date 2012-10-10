@@ -48,22 +48,36 @@ class C3op_Projects_ActionMapper
             throw new C3op_Projects_ActionMapperException('Object has no ID, cannot update.');
         }
 
-        $sql = sprintf(
-                'UPDATE projects_actions SET title = \'%s\', project = %d, done = %d, status = %d, description = \'%s\', subordinated_to = %d, responsible = %d, milestone = %d, requirement_for_receiving = %d WHERE id = %d;',
-                $a->GetTitle(),
-                $a->GetProject(),
-                $a->GetDone(),
-                $a->GetStatus(),
-                $a->GetDescription(),
-                $a->GetSubordinatedTo(),
-                $a->GetResponsible(),
-                $a->GetMilestone(),
-                $a->GetRequirementForReceiving(),
-                $this->identityMap[$a]
-            );
+        $query = $this->db->prepare("UPDATE projects_actions SET title = :title, project = :project, done = :done, status = :status, description = :description, subordinated_to = :subordinated_to, responsible = :responsible, milestone = :milestone, requirement_for_receiving = :requirement_for_receiving WHERE id = :id;");
 
+        $query->bindValue(':title', $a->GetTitle(), PDO::PARAM_STR);
+        $query->bindValue(':project', $a->GetProject(), PDO::PARAM_STR);
+        $query->bindValue(':done', $a->GetDone(), PDO::PARAM_BOOL);
+        $query->bindValue(':status', $a->GetStatus(), PDO::PARAM_INT);
+        $query->bindValue(':description', $a->GetDescription(), PDO::PARAM_INT);
+        $query->bindValue(':subordinated_to', $a->GetSubordinatedTo(), PDO::PARAM_STR);
+        $query->bindValue(':responsible', $a->GetResponsible(), PDO::PARAM_STR);
+        $query->bindValue(':milestone', $a->GetMilestone(), PDO::PARAM_STR);
+        $query->bindValue(':requirement_for_receiving', $a->GetRequirementForReceiving(), PDO::PARAM_STR);
+        $query->bindValue(':id', $this->identityMap[$a], PDO::PARAM_INT);
+
+//        $sql = sprintf(
+//                'UPDATE projects_actions SET title = \'%s\', project = %d, done = %d, status = %d, description = \'%s\', subordinated_to = %d, responsible = %d, milestone = %d, requirement_for_receiving = %d WHERE id = %d;',
+//                $a->GetTitle(),
+//                $a->GetProject(),
+//                $a->GetDone(),
+//                $a->GetStatus(),
+//                $a->GetDescription(),
+//                $a->GetSubordinatedTo(),
+//                $a->GetResponsible(),
+//                $a->GetMilestone(),
+//                $a->GetRequirementForReceiving(),
+//                $this->identityMap[$a]
+//            );
+//
         try {
-            $this->db->exec($sql);
+//            $this->db->exec($sql);
+            $query->execute();
         } catch (Exception $e) {
             throw new C3op_Projects_ActionException("$sql failed");
         }

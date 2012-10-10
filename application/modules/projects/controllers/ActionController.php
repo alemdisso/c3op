@@ -231,6 +231,11 @@ class Projects_ActionController extends Zend_Controller_Action
             $receiptToAcceptOrReject = true;
         }
 
+        $waitingToReceipt = false;
+        if ($actionToBeDetailed->waitingToReceipt()) {
+            $waitingToReceipt = true;
+        }
+
 
 
 
@@ -258,6 +263,7 @@ class Projects_ActionController extends Zend_Controller_Action
             'doneDate'                => $doneDate,
             'unacknowledgedStart'     => $unacknowledgedStart,
             'receiptToAcceptOrReject' => $receiptToAcceptOrReject,
+            'waitingToReceipt'        => $waitingToReceipt,
         );
 
 

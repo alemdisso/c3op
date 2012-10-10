@@ -24,6 +24,18 @@ function acknowledgeStart(id)
        })
 }
 
+function acknowledgeReceipt(id)
+{
+    $.ajax({
+      type: 'get',
+      data: 'id=' + id,
+      url:'/projects/action/acknowledge-receipt',
+      success: function(successReturn){
+        $('#acknowledgeReceipt-'+id).html(successReturn);
+      }
+       })
+}
+
 function acceptReceipt(id)
 {
     $.ajax({
@@ -187,6 +199,19 @@ if ($actionHeader['unacknowledgedStart']) {
       </div>
 
 <?php
+if ($actionHeader['waitingToReceipt']) {
+?>
+      <div id="acknowledgeReceipt-<?php print($actionHeader['id']);?>">
+      <div class="three columns inset-by-four omega">
+        <p>
+          <a class="button full column alpha omega parent_info" href="javascript:acknowledgeReceipt('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Confirm task realization")); ?></a>
+        </p>
+      </div>
+      </div>
+
+
+<?php
+}
 if ($actionHeader['receiptToAcceptOrReject']) {
 ?>
       <div class="three columns alpha Right">
