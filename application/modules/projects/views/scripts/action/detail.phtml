@@ -34,27 +34,27 @@ function acknowledgeStart(id)
     <div class="Area">
 
       <div class="three columns alpha Right">
-        Responsável:
+        <?php print($this->translate("#Responsible:")); ?>
       </div>
       <div class="six columns">
         <?php print($actionHeader['responsibleName']); ?>
       </div>
       <div class="two columns Right">
-        Status:
+        <?php print($this->translate("#Status")); ?>
       </div>
       <div class="three columns omega">
         <?php print($this->translate($actionHeader['status'])); ?>
       </div>
 
       <div class="three columns alpha Right">
-        Subordinada a:
+        <?php print($this->translate("#Subordinated to:")); ?>
       </div>
       <div class="eleven columns omega">
         <a class="parent_info" href="/projects/action/detail/?id=<?php print($actionHeader['parentActionId']); ?>"><?php print($actionHeader['parentActionTitle']); ?></a>
       </div>
 
       <div class="three columns alpha Right">
-        Composta por:
+        <?php print($this->translate("#Consisting of:")); ?>
       </div>
       <div class="eleven columns omega">
 
@@ -62,9 +62,9 @@ function acknowledgeStart(id)
         <table id="SubAcoes" class="display dataTable">
           <thead>
             <tr>
-              <th width="five columns alpha omega">Ação</th>
-              <th width="three columns alpha omega">Responsável</th>
-              <th width="two columns alpha omega">Status</th>
+              <th width="five columns alpha omega"><?php print($this->translate("#Action")); ?></th>
+              <th width="three columns alpha omega"><?php print($this->translate("#Responsible")); ?></th>
+              <th width="two columns alpha omega"><?php print($this->translate("#Status")); ?></th>
               <th width="1%">&nbsp;</th>
             </tr>
           </thead>
@@ -85,17 +85,17 @@ foreach ($subordinatedTree as $id => $actionData) {
               <td><?php print($actionData['responsibleName']); ?></td>
               <td><?php print($actionData['status']); ?></td>
                   <td>
-                <a href="#" class="button one column alpha omega anchorclass" rel="submenu1">Opções</a>
+                <a href="#" class="button one column alpha omega anchorclass" rel="submenu1"><?php print($this->translate("#Options")); ?></a>
                 <div id="submenu1" class="anylinkcss">
                     <ul>
                       <li>
-                        <a href="/projects/action/edit/?id=<?php print($id);?>">Editar</a>
+                        <a href="/projects/action/edit/?id=<?php print($id);?>"><?php print($this->translate("#Edit")); ?></a>
                       </li>
                       <li>
-                        <div id='rejectReceipt-<?php print($id);?>'><a class="parent_info" href="<?php print($actionInfo['rejectLink']); ?>">Rejeitar</a></div><br />
+                        <div id='rejectReceipt-<?php print($id);?>'><a class="parent_info" href="<?php print($actionInfo['rejectLink']); ?>"><?php print($this->translate("#Reject")); ?></a></div><br />
                       </li>
                       <li>
-                        <div id='acceptReceipt-<?php print($actionHeader['id']);?>'><a class="parent_info" href="<?php print($actionInfo['acceptLink']); ?>">Aceitar</a></div><br />
+                        <div id='acceptReceipt-<?php print($actionHeader['id']);?>'><a class="parent_info" href="<?php print($actionInfo['acceptLink']); ?>"><?php print($this->translate("#Accept")); ?></a></div><br />
                       </li>
                     </ul>
                 </div><!-- #submenu1 -->
@@ -110,20 +110,20 @@ foreach ($subordinatedTree as $id => $actionData) {
       </div>
 
       <div class="three columns alpha Right">
-        Descrição:
+        <?php print($this->translate("#Description:")); ?>
       </div>
       <div class="eleven columns omega">
         <?php print($actionHeader['description']); ?>
       </div>
 
       <div class="three columns alpha Right">
-        Início previsto:
+        <?php print($this->translate("#Predicted begin:")); ?>
       </div>
       <div class="one column">
         <?php print($actionHeader['predictedBeginDate']); ?>
       </div>
       <div class="three columns Right">
-        Término previsto:
+        <?php print($this->translate("#Predicted finish:")); ?>
       </div>
       <div class="one column">
         <?php print($actionHeader['predictedFinishDate']); ?>
@@ -133,13 +133,13 @@ foreach ($subordinatedTree as $id => $actionData) {
       </div>
 
       <div class="three columns alpha Right">
-        Início real:
+        <?php print($this->translate("#Real begin:")); ?>
       </div>
       <div class="one column">
         <?php print($actionHeader['realBeginDate']); ?>
       </div>
       <div class="three columns Right">
-        Término real:
+        <?php print($this->translate("#Real finish:")); ?>
       </div>
       <div class="one column">
         <?php print($actionHeader['realFinishDate']); ?>
@@ -163,23 +163,23 @@ if ($actionHeader['unacknowledgedStart']) {
       </div>
 
       <div class="three columns alpha Right">
-        Recebida em:
+        <?php print($this->translate("#Receipt date:")); ?>
       </div>
       <div class="one column">
         <?php print($actionHeader['receiptDate']); ?>
       </div>
       <div class="three columns">
         <p>
-          <a class="button full column alpha omega parent_info" href="<?php print($actionInfo['rejectLink']); ?>">Rejeitar a tarefa</a>
+          <a class="button full column alpha omega parent_info" href="<?php print($actionInfo['rejectLink']); ?>"><?php print($this->translate("#Reject receipt")); ?></a>
         </p>
       </div>
       <div class="three columns inset-by-four omega">
         <div id='acceptReceipt-<?php print($actionHeader['id']);?>'>
-          <a class="button full column alpha omega parent_info" href="<?php print($actionInfo['acceptLink']); ?>">Aceitar a tarefa</a></div>
+          <a class="button full column alpha omega parent_info" href="<?php print($actionInfo['acceptLink']); ?>"><?php print($this->translate("#Accept receipt")); ?></a></div>
       </div>
 
       <div class="three columns alpha Right">
-        Realizada em:
+        <?php print($this->translate("#Done date:")); ?>
       </div>
       <div class="one column inset-by-ten omega">
         <?php print($actionHeader['doneDate']); ?>
@@ -189,14 +189,14 @@ if ($actionHeader['unacknowledgedStart']) {
 
     <div class="Area">
 
-      <h2>Recursos humanos</h2>
+      <h2><?php print($this->translate("#Team")); ?></h2>
       <table id="RecursosHumanos" class="display dataTable">
         <thead>
           <tr>
-            <th width="220">Nome</th>
-            <th width="80">Papel</th>
-            <th width="100">Valor</th>
-            <th width="100">Situação</th>
+            <th width="220"><?php print($this->translate("#Name")); ?></th>
+            <th width="80"><?php print($this->translate("#Role")); ?></th>
+            <th width="100"><?php print($this->translate("#Value")); ?></th>
+            <th width="100"><?php print($this->translate("#Status")); ?></th>
             <th width="100">&nbsp;</th>
           </tr>
         </thead>
@@ -219,17 +219,17 @@ foreach ($staffList as $id => $staffData) {
               <?php print($staffData['contractingStatus']) ?>
             </td>
             <td>
-              <a href="#" class="button one column alpha omega anchorclass" rel="submenu2">Opções</a>
+              <a href="#" class="button one column alpha omega anchorclass" rel="submenu2"><?php print($this->translate("#Options")); ?></a>
               <div id="submenu2" class="anylinkcss">
                   <ul>
                     <li>
-                      <a href="/projects/human-resource/edit/?id=<?php print($id) ?>">Editar</a>
+                      <a href="/projects/human-resource/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
                     </li>
                     <li>
-                      <div id='dismissContact-<?php print($id);?>'><a class="parent_info" href="">dispensar recurso</a></div>
+                      <div id='dismissContact-<?php print($id);?>'><a class="parent_info" href=""><?php print($this->translate("#Dismiss team member")); ?></a></div>
                     </li>
                     <li>
-                      <a class="parent_info" href="/projects/human-resource/contract/?id=<?php print($id);?>" >confirmar contratação de recurso</a>
+                      <a class="parent_info" href="/projects/human-resource/contract/?id=<?php print($id);?>" ><?php print($this->translate("#Confirm team member contracting")); ?></a>
                     </li>
                   </ul>
               </div><!-- #submenu1 -->
@@ -244,7 +244,7 @@ foreach ($staffList as $id => $staffData) {
       </table>
 
       <p>
-        <a href="/projects/human-resource/create/?actionId=<?php print($actionInfo['id']); ?>" class="button three columns alpha omega">Prever recurso humano</a>
+        <a href="/projects/human-resource/create/?actionId=<?php print($actionInfo['id']); ?>" class="button three columns alpha omega"><?php print($this->translate("#Anticipate team member")); ?></a>
       </p>
 
     </div><!-- .Area -->
@@ -252,7 +252,7 @@ foreach ($staffList as $id => $staffData) {
     <div class="Area">
 
       <p>
-        <a href="<?php print($actionInfo['editLink']) ?>" class="button three columns alpha omega">Editar esta ação</a>
+        <a href="<?php print($actionInfo['editLink']) ?>" class="button three columns alpha omega"><?php print($this->translate("#Edit this action")); ?></a>
         <a href="/projects/action/create/?subordinatedTo=<?php print($actionHeader['id']) ?>" class="button three columns alpha omega"><?php print($this->translate("#Create new action")) ?></a>
       </p>
 
