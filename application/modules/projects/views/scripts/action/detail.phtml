@@ -23,6 +23,31 @@ function acknowledgeStart(id)
       }
        })
 }
+
+function acceptReceipt(id)
+{
+    $.ajax({
+      type: 'get',
+      data: 'id=' + id,
+      url:'/projects/action/accept-receipt',
+      success: function(successReturn){
+        $('#receiptAcknowledgement-'+id).html(successReturn);
+       }
+       })
+}
+
+function rejectReceipt(id)
+{
+    $.ajax({
+      type: 'get',
+      data: 'id=' + id,
+      url:'/projects/action/reject-receipt',
+      success: function(successReturn){
+        $('#receiptAcknowledgement-'+id).html(successReturn);
+      }
+       })
+}
+
 </script>
     <div id="MainHeader">
       <h1><?php print($this->translate("#Project")); ?> <a href="/projects/project/detail/?id=<?php print($actionHeader['projectId']) ?>"><?php print($actionHeader['projectTitle']) ?></a></h1>
@@ -148,7 +173,6 @@ foreach ($subordinatedTree as $id => $actionData) {
 
 <?php
 if ($actionHeader['unacknowledgedStart']) {
-
 ?>
         <div id='acknowledgeStart-<?php print($actionHeader['id']); ?>'>
           <a class="full column button full column alpha omega" href="javascript:acknowledgeStart('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Acknowledge start")); ?></a>
@@ -162,22 +186,35 @@ if ($actionHeader['unacknowledgedStart']) {
 ?>
       </div>
 
+<?php
+if ($actionHeader['receiptToAcceptOrReject']) {
+?>
       <div class="three columns alpha Right">
         <?php print($this->translate("#Receipt date:")); ?>
       </div>
       <div class="one column">
         <?php print($actionHeader['receiptDate']); ?>
       </div>
-      <div class="three columns">
+      <div id="receiptAcknowledgement-<?php print($actionHeader['id']);?>">
+      <div class="three columns inset-by-four omega">
         <p>
-          <a class="button full column alpha omega parent_info" href="<?php print($actionInfo['rejectLink']); ?>"><?php print($this->translate("#Reject receipt")); ?></a>
+          <a class="button full column alpha omega parent_info" href="javascript:rejectReceipt('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Reject receipt")); ?></a>
         </p>
       </div>
       <div class="three columns inset-by-four omega">
-        <div id='acceptReceipt-<?php print($actionHeader['id']);?>'>
-          <a class="button full column alpha omega parent_info" href="<?php print($actionInfo['acceptLink']); ?>"><?php print($this->translate("#Accept receipt")); ?></a></div>
+        <p>
+          <a class="button full column alpha omega parent_info" href="javascript:acceptReceipt('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Accept receipt")); ?></a>
+        </p>
+      </div>
       </div>
 
+<?php
+} else {
+?>
+          &nbsp;
+<?php
+}
+?>
       <div class="three columns alpha Right">
         <?php print($this->translate("#Done date:")); ?>
       </div>

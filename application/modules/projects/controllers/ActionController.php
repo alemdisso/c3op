@@ -226,30 +226,38 @@ class Projects_ActionController extends Zend_Controller_Action
             }
         }
 
+        $receiptToAcceptOrReject = false;
+        if ($actionToBeDetailed->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_RECEIVED) {
+            $receiptToAcceptOrReject = true;
+        }
+
+
+
 
 
 
 
         $actionHeader = array(
-            'id'                  => $actionToBeDetailed->getId(),
-            'projectId'           => $projectToBeDetailed->getId(),
-            'projectTitle'        => $projectToBeDetailed->getTitle(),
-            'title'               => $actionToBeDetailed->getTitle(),
-            'status'              => $status,
-            'responsibleId'       => $responsibleId,
-            'responsibleName'     => $responsibleName,
-            'parentActionId'      => $parentActionId,
-            'parentActionTitle'   => $parentActionTitle,
-            'subordinatedTree'    => $subordinatedTree,
-            'description'         => $actionToBeDetailed->getDescription(),
-            'milestone'           => $milestone,
-            'predictedBeginDate'  => $predictedBeginDate,
-            'predictedFinishDate' => $predictedFinishDate,
-            'realBeginDate'       => $realBeginDate,
-            'realFinishDate'      => $realFinishDate,
-            'receiptDate'         => $receiptDate,
-            'doneDate'         => $doneDate,
-            'unacknowledgedStart'  => $unacknowledgedStart,
+            'id'                      => $actionToBeDetailed->getId(),
+            'projectId'               => $projectToBeDetailed->getId(),
+            'projectTitle'            => $projectToBeDetailed->getTitle(),
+            'title'                   => $actionToBeDetailed->getTitle(),
+            'status'                  => $status,
+            'responsibleId'           => $responsibleId,
+            'responsibleName'         => $responsibleName,
+            'parentActionId'          => $parentActionId,
+            'parentActionTitle'       => $parentActionTitle,
+            'subordinatedTree'        => $subordinatedTree,
+            'description'             => $actionToBeDetailed->getDescription(),
+            'milestone'               => $milestone,
+            'predictedBeginDate'      => $predictedBeginDate,
+            'predictedFinishDate'     => $predictedFinishDate,
+            'realBeginDate'           => $realBeginDate,
+            'realFinishDate'          => $realFinishDate,
+            'receiptDate'             => $receiptDate,
+            'doneDate'                => $doneDate,
+            'unacknowledgedStart'     => $unacknowledgedStart,
+            'receiptToAcceptOrReject' => $receiptToAcceptOrReject,
         );
 
 
