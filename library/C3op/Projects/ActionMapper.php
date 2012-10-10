@@ -24,11 +24,11 @@ class C3op_Projects_ActionMapper
     public function insert(C3op_Projects_Action $new)
     {
         $data = array(
-            'title' => mysql_real_escape_string($new->getTitle()),
+            'title' => $new->getTitle(),
             'project' => $new->GetProject(),
             'done' => $new->GetDone(),
             'status' => $new->GetStatus(),
-            'description' => mysql_real_escape_string($new->GetDescription()),
+            'description' => $new->GetDescription(),
             'subordinated_to' => $new->GetSubordinatedTo(),
             'responsible' => $new->GetResponsible(),
             'milestone' => $new->GetMilestone(),
@@ -50,11 +50,11 @@ class C3op_Projects_ActionMapper
 
         $sql = sprintf(
                 'UPDATE projects_actions SET title = \'%s\', project = %d, done = %d, status = %d, description = \'%s\', subordinated_to = %d, responsible = %d, milestone = %d, requirement_for_receiving = %d WHERE id = %d;',
-                mysql_real_escape_string($a->GetTitle()),
+                $a->GetTitle(),
                 $a->GetProject(),
                 $a->GetDone(),
                 $a->GetStatus(),
-                mysql_real_escape_string($a->GetDescription()),
+                $a->GetDescription(),
                 $a->GetSubordinatedTo(),
                 $a->GetResponsible(),
                 $a->GetMilestone(),

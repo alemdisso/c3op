@@ -10,6 +10,20 @@ $staffList = $pageData['humanResourcesList'];
 if (is_array($actionInfo)) {
   $actionInfo = $actionInfo;
 ?>
+<script type="text/javascript">
+
+function acknowledgeStart(id)
+{
+    $.ajax({
+      type: 'get',
+      data: 'id=' + id,
+      url:'/projects/action/acknowledge-start',
+      success: function(successReturn){
+        $('#acknowledgeStart-'+id).html(successReturn);
+      }
+       })
+}
+</script>
     <div id="MainHeader">
       <h1><?php print($this->translate("#Project")); ?> <a href="/projects/project/detail/?id=<?php print($actionHeader['projectId']) ?>"><?php print($actionHeader['projectTitle']) ?></a></h1>
       <p>
@@ -131,12 +145,13 @@ foreach ($subordinatedTree as $id => $actionData) {
         <?php print($actionHeader['realFinishDate']); ?>
       </div>
       <div class="three columns inset-by-three omega">
+
 <?php
 if ($actionHeader['unacknowledgedStart']) {
 
 ?>
-        <div id='acknowledgeStart-<?php print($actionHeader['id']);?>'>
-          <a class="full column button full column alpha omega" href="javascript:passIdToAjax('/projects/action/acknowledge-start', '<?php print($actionHeader['id']); ?>', acknowledgeStartResponse);"><?php print($this->translate("#Acknowledge start")); ?></a>
+        <div id='acknowledgeStart-<?php print($actionHeader['id']); ?>'>
+          <a class="full column button full column alpha omega" href="javascript:acknowledgeStart('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Acknowledge start")); ?></a>
         </div>
 <?php
 } else {
