@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-10 15:02-0300\n"
-"PO-Revision-Date: 2012-10-10 15:05-0300\n"
+"POT-Creation-Date: 2012-10-10 19:11-0300\n"
+"PO-Revision-Date: 2012-10-10 19:12-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -25,7 +25,7 @@ msgid "#The record was successfully updated."
 msgstr "O registro foi atualizado com sucesso."
 
 #: application\modules\projects/controllers/ActionController.php:176
-#: application\modules\projects/controllers/ActionController.php:765
+#: application\modules\projects/controllers/ActionController.php:779
 #: application\modules\projects/controllers/ProjectController.php:154
 #: application\modules\projects/controllers/ProjectController.php:161
 #: application\modules\projects/controllers/ProjectController.php:251
@@ -61,11 +61,11 @@ msgstr "(não realizada)"
 msgid "#(not started)"
 msgstr "(não iniciada)"
 
-#: application\modules\projects/controllers/ActionController.php:525
+#: application\modules\projects/controllers/ActionController.php:539
 msgid "#It needs a positive integer project id to populate project fields."
 msgstr "It needs a positive integer project id to populate project fields."
 
-#: application\modules\projects/controllers/ActionController.php:558
+#: application\modules\projects/controllers/ActionController.php:572
 msgid ""
 "#It needs a positive integer project id to find other actions from same "
 "project."
@@ -214,7 +214,7 @@ msgstr "Nova ação"
 msgid "#Project:"
 msgstr "Projeto:"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:28
+#: application\modules\projects/views/scripts/action/detail.phtml:65
 #: application\modules\projects/views/scripts/action/edit.phtml:3
 #: application\modules\projects/views/scripts/human-resource/create.phtml:5
 #: application\modules\projects/views/scripts/index/index.phtml:28
@@ -222,50 +222,50 @@ msgstr "Projeto:"
 msgid "#Project"
 msgstr "Projeto"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:30
+#: application\modules\projects/views/scripts/action/detail.phtml:67
 msgid "#Details of action "
 msgstr "Detalhar ação"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:37
+#: application\modules\projects/views/scripts/action/detail.phtml:74
 msgid "#Responsible:"
 msgstr "Responsável:"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:43
-#: application\modules\projects/views/scripts/action/detail.phtml:67
-#: application\modules\projects/views/scripts/action/detail.phtml:199
+#: application\modules\projects/views/scripts/action/detail.phtml:80
+#: application\modules\projects/views/scripts/action/detail.phtml:104
+#: application\modules\projects/views/scripts/action/detail.phtml:261
 #: application\modules\projects/views/scripts/index/index.phtml:31
 msgid "#Status"
 msgstr "Status"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:50
+#: application\modules\projects/views/scripts/action/detail.phtml:87
 msgid "#Subordinated to:"
 msgstr "Subordinada a:"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:57
+#: application\modules\projects/views/scripts/action/detail.phtml:94
 msgid "#Consisting of:"
 msgstr "Composta por:"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:65
+#: application\modules\projects/views/scripts/action/detail.phtml:102
 #: application\modules\projects/views/scripts/project/detail.phtml:180
 #: application\modules\projects/views/scripts/project/detail.phtml:326
 msgid "#Action"
 msgstr "Ação"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:66
+#: application\modules\projects/views/scripts/action/detail.phtml:103
 #: application\modules\projects/views/scripts/project/detail.phtml:327
 msgid "#Responsible"
 msgstr "Responsável"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:88
-#: application\modules\projects/views/scripts/action/detail.phtml:222
+#: application\modules\projects/views/scripts/action/detail.phtml:125
+#: application\modules\projects/views/scripts/action/detail.phtml:284
 #: application\modules\projects/views/scripts/project/detail.phtml:132
 #: application\modules\projects/views/scripts/project/detail.phtml:214
 #: application\modules\projects/views/scripts/project/detail.phtml:293
 msgid "#Options"
 msgstr "Opções"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:92
-#: application\modules\projects/views/scripts/action/detail.phtml:226
+#: application\modules\projects/views/scripts/action/detail.phtml:129
+#: application\modules\projects/views/scripts/action/detail.phtml:288
 #: application\modules\projects/views/scripts/index/index.phtml:58
 #: application\modules\projects/views/scripts/project/detail.phtml:137
 #: application\modules\projects/views/scripts/project/detail.phtml:219
@@ -273,89 +273,93 @@ msgstr "Opções"
 msgid "#Edit"
 msgstr "Editar"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:95
+#: application\modules\projects/views/scripts/action/detail.phtml:132
 msgid "#Reject"
 msgstr "Rejeitar"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:98
+#: application\modules\projects/views/scripts/action/detail.phtml:135
 msgid "#Accept"
 msgstr "Aceitar"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:113
+#: application\modules\projects/views/scripts/action/detail.phtml:150
 msgid "#Description:"
 msgstr "Descrição"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:120
+#: application\modules\projects/views/scripts/action/detail.phtml:157
 msgid "#Predicted begin:"
 msgstr "Data prevista:"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:126
+#: application\modules\projects/views/scripts/action/detail.phtml:163
 msgid "#Predicted finish:"
 msgstr "Término previsto:"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:136
+#: application\modules\projects/views/scripts/action/detail.phtml:173
 msgid "#Real begin:"
 msgstr "Início real:"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:142
+#: application\modules\projects/views/scripts/action/detail.phtml:179
 msgid "#Real finish:"
 msgstr "Término real:"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:154
+#: application\modules\projects/views/scripts/action/detail.phtml:190
 msgid "#Acknowledge start"
 msgstr "Confirmar início"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:166
+#: application\modules\projects/views/scripts/action/detail.phtml:207
+msgid "#Confirm task realization"
+msgstr "Confirma que a tarefa foi entregue ao IETS"
+
+#: application\modules\projects/views/scripts/action/detail.phtml:218
 msgid "#Receipt date:"
 msgstr "Recebida em:"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:173
+#: application\modules\projects/views/scripts/action/detail.phtml:226
 msgid "#Reject receipt"
 msgstr "Rejeitar tarefa"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:178
+#: application\modules\projects/views/scripts/action/detail.phtml:231
 msgid "#Accept receipt"
 msgstr "Aceitar tarefa"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:182
+#: application\modules\projects/views/scripts/action/detail.phtml:244
 msgid "#Done date:"
 msgstr "Realizada em:"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:192
+#: application\modules\projects/views/scripts/action/detail.phtml:254
 #: application\modules\projects/views/scripts/project/detail.phtml:262
 msgid "#Team"
 msgstr "Equipe"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:196
+#: application\modules\projects/views/scripts/action/detail.phtml:258
 #: application\modules\projects/views/scripts/project/detail.phtml:266
 msgid "#Name"
 msgstr "Nome"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:197
+#: application\modules\projects/views/scripts/action/detail.phtml:259
 msgid "#Role"
 msgstr "Papel"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:198
+#: application\modules\projects/views/scripts/action/detail.phtml:260
 msgid "#Value"
 msgstr "Valor"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:229
+#: application\modules\projects/views/scripts/action/detail.phtml:291
 msgid "#Dismiss team member"
 msgstr "Dispensar membro da equipe"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:232
+#: application\modules\projects/views/scripts/action/detail.phtml:294
 msgid "#Confirm team member contracting"
 msgstr "Confirmar contratação"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:247
+#: application\modules\projects/views/scripts/action/detail.phtml:309
 msgid "#Anticipate team member"
 msgstr "Prever membro da equipe"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:255
+#: application\modules\projects/views/scripts/action/detail.phtml:317
 msgid "#Edit this action"
 msgstr "Editar esta ação"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:256
+#: application\modules\projects/views/scripts/action/detail.phtml:318
 msgid "#Create new action"
 msgstr "Criar nova ação"
 
@@ -589,9 +593,6 @@ msgstr "Término real"
 
 #~ msgid "#Research Institute"
 #~ msgstr "Instituto de pesquisa"
-
-#~ msgid "#Non Governmental Organization"
-#~ msgstr "Organização Não Governamental"
 
 #~ msgid "#Particular"
 #~ msgstr "Particular"

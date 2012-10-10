@@ -23,18 +23,33 @@ class C3op_Projects_ActionMapper
 
     public function insert(C3op_Projects_Action $new)
     {
-        $data = array(
-            'title' => $new->getTitle(),
-            'project' => $new->GetProject(),
-            'done' => $new->GetDone(),
-            'status' => $new->GetStatus(),
-            'description' => $new->GetDescription(),
-            'subordinated_to' => $new->GetSubordinatedTo(),
-            'responsible' => $new->GetResponsible(),
-            'milestone' => $new->GetMilestone(),
-            'requirement_for_receiving' => $new->GetRequirementForReceiving()
-            );
-        $this->db->insert('projects_actions', $data);
+
+        $query = $this->db->prepare("INSERT INTO projects_actions (title, project, done, status, description, subordinated_to, responsible, milestone, requirement_for_receiving) VALUES (:title, :project, :done, :status, :description, :subordinated_to, :responsible, :milestone, :requirement_for_receiving)");
+
+        $query->bindValue(':title', $new->GetTitle(), PDO::PARAM_STR);
+        $query->bindValue(':project', $new->GetProject(), PDO::PARAM_STR);
+        $query->bindValue(':done', $new->GetDone(), PDO::PARAM_BOOL);
+        $query->bindValue(':status', $new->GetStatus(), PDO::PARAM_INT);
+        $query->bindValue(':description', $new->GetDescription(), PDO::PARAM_INT);
+        $query->bindValue(':subordinated_to', $new->GetSubordinatedTo(), PDO::PARAM_STR);
+        $query->bindValue(':responsible', $new->GetResponsible(), PDO::PARAM_STR);
+        $query->bindValue(':milestone', $new->GetMilestone(), PDO::PARAM_STR);
+        $query->bindValue(':requirement_for_receiving', $new->GetRequirementForReceiving(), PDO::PARAM_STR);
+
+        $query->execute();
+
+//        $data = array(
+//            'title' => $new->getTitle(),
+//            'project' => $new->GetProject(),
+//            'done' => $new->GetDone(),
+//            'status' => $new->GetStatus(),
+//            'description' => $new->GetDescription(),
+//            'subordinated_to' => $new->GetSubordinatedTo(),
+//            'responsible' => $new->GetResponsible(),
+//            'milestone' => $new->GetMilestone(),
+//            'requirement_for_receiving' => $new->GetRequirementForReceiving()
+//            );
+//        $this->db->insert('projects_actions', $data);
         $new->SetId((int)$this->db->lastInsertId());
         $this->identityMap[$new] = $new->GetId();
 
@@ -61,22 +76,7 @@ class C3op_Projects_ActionMapper
         $query->bindValue(':requirement_for_receiving', $a->GetRequirementForReceiving(), PDO::PARAM_STR);
         $query->bindValue(':id', $this->identityMap[$a], PDO::PARAM_INT);
 
-//        $sql = sprintf(
-//                'UPDATE projects_actions SET title = \'%s\', project = %d, done = %d, status = %d, description = \'%s\', subordinated_to = %d, responsible = %d, milestone = %d, requirement_for_receiving = %d WHERE id = %d;',
-//                $a->GetTitle(),
-//                $a->GetProject(),
-//                $a->GetDone(),
-//                $a->GetStatus(),
-//                $a->GetDescription(),
-//                $a->GetSubordinatedTo(),
-//                $a->GetResponsible(),
-//                $a->GetMilestone(),
-//                $a->GetRequirementForReceiving(),
-//                $this->identityMap[$a]
-//            );
-//
         try {
-//            $this->db->exec($sql);
             $query->execute();
         } catch (Exception $e) {
             throw new C3op_Projects_ActionException("$sql failed");
