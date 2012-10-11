@@ -637,7 +637,7 @@
           </td>
           <td class="coverPerLo">0.00%</td>
           <td class="coverNumLo">0 / 1</td>
-          <td class="crap">12</td>
+          <td class="crap">20</td>
           <td class="coverBar" align="center" width="100">
             <table border="0" cellspacing="0" cellpadding="1">
               <tr>
@@ -775,7 +775,7 @@
           </td>
           <td class="coverPerLo">0.00%</td>
           <td class="coverNumLo">0 / 1</td>
-          <td class="crap">12</td>
+          <td class="crap">20</td>
           <td class="coverBar" align="center" width="100">
             <table border="0" cellspacing="0" cellpadding="1">
               <tr>
@@ -1135,7 +1135,7 @@
 <span class="lineNum" id="container195"><a name="195"></a><a href="#195" id="line195">     195</a> </span>                :                                                                                                                               
 <span class="lineNum" id="container196"><a name="196"></a><a href="#196" id="line196">     196</a> </span>                :     public function SetZipCode($zipCode) {                                                                                    
 <span class="lineNum" id="container197"><a name="197"></a><a href="#197" id="line197">     197</a> </span><span class="lineNoCov">              0 :         $validator = new C3op_Register_ValidZipCode();                                                                        </span>
-<span class="lineNum" id="container198"><a name="198"></a><a href="#198" id="line198">     198</a> </span><span class="lineNoCov">              0 :         if ($validator-&gt;isValid($zipCode)) {                                                                                  </span>
+<span class="lineNum" id="container198"><a name="198"></a><a href="#198" id="line198">     198</a> </span><span class="lineNoCov">              0 :         if (($validator-&gt;isValid($zipCode)) || ($zipCode == &quot;&quot;)) {                                                            </span>
 <span class="lineNum" id="container199"><a name="199"></a><a href="#199" id="line199">     199</a> </span><span class="lineNoCov">              0 :             if ($this-&gt;zipCode != $zipCode) {                                                                                 </span>
 <span class="lineNum" id="container200"><a name="200"></a><a href="#200" id="line200">     200</a> </span><span class="lineNoCov">              0 :                 $this-&gt;zipCode = $zipCode;                                                                                    </span>
 <span class="lineNum" id="container201"><a name="201"></a><a href="#201" id="line201">     201</a> </span><span class="lineNoCov">              0 :             }                                                                                                                 </span>
@@ -1183,7 +1183,7 @@
 <span class="lineNum" id="container243"><a name="243"></a><a href="#243" id="line243">     243</a> </span>                :                                                                                                                               
 <span class="lineNum" id="container244"><a name="244"></a><a href="#244" id="line244">     244</a> </span>                :     public function SetState($state) {                                                                                        
 <span class="lineNum" id="container245"><a name="245"></a><a href="#245" id="line245">     245</a> </span><span class="lineNoCov">              0 :         $validator = new C3op_Register_ValidState();                                                                          </span>
-<span class="lineNum" id="container246"><a name="246"></a><a href="#246" id="line246">     246</a> </span><span class="lineNoCov">              0 :         if ($validator-&gt;isValid($state)) {                                                                                    </span>
+<span class="lineNum" id="container246"><a name="246"></a><a href="#246" id="line246">     246</a> </span><span class="lineNoCov">              0 :         if (($validator-&gt;isValid($state)) || ($state == &quot;&quot;)) {                                                                </span>
 <span class="lineNum" id="container247"><a name="247"></a><a href="#247" id="line247">     247</a> </span><span class="lineNoCov">              0 :             if ($this-&gt;state != $state) {                                                                                     </span>
 <span class="lineNum" id="container248"><a name="248"></a><a href="#248" id="line248">     248</a> </span><span class="lineNoCov">              0 :                 $this-&gt;state = $state;                                                                                        </span>
 <span class="lineNum" id="container249"><a name="249"></a><a href="#249" id="line249">     249</a> </span><span class="lineNoCov">              0 :             }                                                                                                                 </span>
@@ -1275,7 +1275,7 @@
 
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
-      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.2</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.8</a> and PHPUnit 3.5.15 at Tue Sep 18 10:51:07 BRT 2012.</td></tr>
+      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.2</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.8</a> and PHPUnit 3.5.15 at Thu Oct 11 15:47:57 BRT 2012.</td></tr>
     </table>
 
     <br />

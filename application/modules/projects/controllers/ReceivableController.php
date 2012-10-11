@@ -32,7 +32,7 @@ class Projects_ReceivableController extends Zend_Controller_Action
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage('The record was successfully updated.');
-                $this->_redirect('/projects/receivable/success-create');
+                $this->_redirect('/projects/receivable/success');
             } else throw new C3op_Projects_ReceivableException("An receivable must have a valid title.");
         } else {
             $data = $this->_request->getParams();
