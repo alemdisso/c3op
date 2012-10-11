@@ -18,6 +18,7 @@ class C3op_Form_ProjectCreate extends Zend_Form
                   array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
               ))
             ->setOptions(array('class' => 'eleven columns alpha omega'))
+            ->addErrorMessage(_("#Title is required"))
             ->setRequired(true)
             ->addValidator($titleValidator)
             ->addFilter('StringTrim')
@@ -36,7 +37,7 @@ class C3op_Form_ProjectCreate extends Zend_Form
                 ->setOptions(array('class' => 'nine columns alpha omega'))
                 ->setDescription('<a href="/register/institution/create" class="two columns button alpha omega">' . _("#New client") . '</a>')
                 ->setRegisterInArrayValidator(false);
-        $element->addMultiOption(0, "escolha um cliente");
+        $element->addMultiOption(0, _("#choose a client"));
         $this->addElement($element);
 
 
