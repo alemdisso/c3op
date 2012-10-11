@@ -24,6 +24,7 @@ class C3op_Form_ActionCreate extends Zend_Form
                 ))
                 ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(true)
+            ->addErrorMessage(_("#Name is required"))
             ->addValidator($titleValidator)
             ->addFilter('StringTrim')
                 ;

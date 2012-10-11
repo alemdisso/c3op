@@ -30,8 +30,8 @@ class Projects_HumanResourceController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('#The record was successfully updated.');
-                $this->_redirect('/projects/human-resource/success-create/?id=' . $id);
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                $this->_redirect('/projects/human-resource/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -82,8 +82,8 @@ class Projects_HumanResourceController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');
-                $this->_redirect('/projects/human-resource/success-create/?id=' . $id);
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                $this->_redirect('/projects/human-resource/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -148,8 +148,8 @@ class Projects_HumanResourceController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');
-                $this->_redirect('/projects/human-resource/success-create/?id=' . $id);
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                $this->_redirect('/projects/human-resource/success/?id=' . $id);
             } else throw new C3op_Projects_ProjectException("Invalid data.");
         } else {
             $data = $this->_request->getParams();
@@ -246,7 +246,7 @@ class Projects_HumanResourceController extends Zend_Controller_Action
         }
     }
 
-    public function successCreateAction()
+    public function successAction()
     {
         $this->initHumanResourceMapper();
         $humanResource =  $this->initHumanResourceWithCheckedId($this->humanResourceMapper);

@@ -31,9 +31,13 @@ class Projects_ReceivableController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
                 $this->_redirect('/projects/receivable/success');
-            } else throw new C3op_Projects_ReceivableException("An receivable must have a valid title.");
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
         } else {
             $data = $this->_request->getParams();
             $projectId = $data['project'];
@@ -50,9 +54,13 @@ class Projects_ReceivableController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');
-                $this->_redirect('/projects/project/success-create');
-            } else throw new C3op_Projects_ProjectException("A project must have a valid title.");
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                $this->_redirect('/projects/project/success');
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
         } else {
             $data = $this->_request->getParams();
             $filters = array(

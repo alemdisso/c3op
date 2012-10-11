@@ -17,7 +17,7 @@ class Projects_OutlayController  extends Zend_Controller_Action
             throw $e;
         }
     }
-    
+
     public function init()
     {
         $this->db = Zend_Registry::get('db');
@@ -34,8 +34,8 @@ class Projects_OutlayController  extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');          
-                $this->_redirect('/projects/outlay/success-create/?id=' . $postData['action']);
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                $this->_redirect('/projects/outlay/success/?id=' . $postData['action']);
             } else throw new C3op_Projects_OutlayException("Invalid data for an outlay");
         } else {
             $data = $this->_request->getParams();
@@ -55,7 +55,7 @@ class Projects_OutlayController  extends Zend_Controller_Action
         }
         $this->view->viewInfo = $this->viewInfo;
     }
-    
+
     public function editAction()
     {
         $form = new C3op_Form_OutlayEdit;
@@ -65,8 +65,8 @@ class Projects_OutlayController  extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('The record was successfully updated.');          
-                $this->_redirect('/projects/outlay/success-create/?id=' . $postData['action']);
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                $this->_redirect('/projects/outlay/success/?id=' . $postData['action']);
             } else throw new C3op_Projects_ProjectException("Invalid data for an outlay.");
         } else {
             $data = $this->_request->getParams();
@@ -95,73 +95,73 @@ class Projects_OutlayController  extends Zend_Controller_Action
 
         }
     }
-    
+
     private function populateFieldsAssociatedToHumanResource(C3op_Projects_HumanResource $humanResource, C3op_Form_OutlayCreate $form)
     {
-        
+
         $humanResourceField = $form->getElement('humanResource');
         $humanResourceField->setValue($humanResource->Getid());
-        
+
         if ($humanResource->GetContact() > 0) {
             if (!isset($this->contactMapper)) {
                 $this->contactMapper = new C3op_Register_ContactMapper($this->db);
             }
             $humanResourceContact = $this->contactMapper->findById($humanResource->GetContact());
-            
+
             $this->viewInfo['contactName'] = $humanResourceContact->GetName();
             $this->viewInfo['linkContactDetail'] = "/register/contact/detail/?id=" . $humanResourceContact->GetId();
         }
-        
+
         if (!isset($this->actionMapper)) {
             $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
         }
         $actionField = $form->getElement('action');
         $actionField->setValue($humanResource->GetAction());
-        
+
         $humanResourceAction = $this->actionMapper->findById($humanResource->GetAction());
         $this->viewInfo['actionTitle'] = $humanResourceAction->GetTitle();
         $this->viewInfo['linkActionDetail'] = "/projects/action/detail/?id=" . $humanResourceAction->GetId();
-        
+
         $projectField = $form->getElement('project');
         $projectField->setValue($humanResourceAction->GetProject());
-        
+
         if (!isset($this->projectMapper)) {
             $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
         }
         $thisProject = $this->projectMapper->findById($humanResourceAction->GetProject());
         $this->viewInfo['projectTitle'] = $thisProject->GetTitle();
         $this->viewInfo['linkProjectDetail'] = "/projects/project/detail/?id=" . $thisProject->GetId();
-        
+
    }
-     
-    public function successCreateAction()
+
+    public function successAction()
     {
 
         $this->initActionMapper();
         $actionRelated =  $this->initActionWithCheckedId($this->actionMapper);
-        
+
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
-            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();    
+            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
             $this->getResponse()->setHeader('Refresh', '3; URL=/projects/action/detail/?id=' . $actionRelated->GetId());
         } else {
-            $this->_redirect('/projects');    
-        } 
+            $this->_redirect('/projects');
+        }
     }
 
     private function initActionMapper()
     {
         if (!isset($this->actionMapper)) {
             $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
-        }        
+        }
     }
-    
+
     private function initOutlayMapper()
     {
         if (!isset($this->outlayMapper)) {
             $this->outlayMapper = new C3op_Projects_OutlayMapper($this->db);
-        }        
+        }
     }
-    
+
     private function initActionWithCheckedId(C3op_Projects_ActionMapper $mapper)
     {
         return $mapper->findById($this->checkIdFromGet());
@@ -195,6 +195,6 @@ class Projects_OutlayController  extends Zend_Controller_Action
         }
     }
 
-        
+
 }
 

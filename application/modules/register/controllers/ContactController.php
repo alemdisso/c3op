@@ -53,7 +53,7 @@ class Register_ContactController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully created.'));
-                $this->_redirect('/register/contact/success-create/?id=' . $id);
+                $this->_redirect('/register/contact/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -72,7 +72,7 @@ class Register_ContactController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/register/contact/success-update/?id=' . $id);
+                $this->_redirect('/register/contact/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -97,20 +97,7 @@ class Register_ContactController extends Zend_Controller_Action
         }
     }
 
-    public function successCreateAction()
-    {
-        $this->initContactMapper();
-        $contact =  $this->initContactWithCheckedId($this->contactMapper);
-
-        if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
-            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
-            $this->getResponse()->setHeader('Refresh', '3; URL=/register/contact/detail/?id=' . $contact->getId());
-        } else {
-            $this->_redirect('/register/contact');
-        }
-    }
-
-    public function successUpdateAction()
+    public function successAction()
     {
         $this->initContactMapper();
         $contact =  $this->initContactWithCheckedId($this->contactMapper);
@@ -228,8 +215,8 @@ class Register_ContactController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage(_('#The record was successfully updated.'));
-                $this->_redirect('/register/contact/success-create/?id=' . $id);
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                $this->_redirect('/register/contact/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -266,8 +253,8 @@ class Register_ContactController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage(_('#The record was successfully updated.'));
-                $this->_redirect('/register/contact/success-create/?id=' . $id);
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                $this->_redirect('/register/contact/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -327,8 +314,8 @@ class Register_ContactController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage(_('#The record was successfully updated.'));
-                $this->_redirect('/register/contact/success-create/?id=' . $id);
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                $this->_redirect('/register/contact/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -363,8 +350,8 @@ class Register_ContactController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage(_('#The record was successfully updated.'));
-                $this->_redirect('/register/contact/success-create/?id=' . $id);
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                $this->_redirect('/register/contact/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -423,8 +410,8 @@ class Register_ContactController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage(_('#The record was successfully updated.'));
-                $this->_redirect('/register/contact/success-create/?id=' . $id);
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                $this->_redirect('/register/contact/success/?id=' . $id);
             } else {
                 $form->populate($postData);
                 $this->view->form = $form;
@@ -458,8 +445,8 @@ class Register_ContactController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage(_('#The record was successfully updated.'));
-                $this->_redirect('/register/contact/success-create/?id=' . $id);
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                $this->_redirect('/register/contact/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);

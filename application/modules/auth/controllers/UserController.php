@@ -33,10 +33,13 @@ class Auth_UserController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage(_('#The record was successfully updated.'));
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
                 $this->_redirect('/auth/user/success-create');
-
-            } else throw new C3op_Auth_UserException(_("#A user must have a valid title."));
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
         } else {
 
         }
@@ -52,7 +55,7 @@ class Auth_UserController extends Zend_Controller_Action
                 if ($form->isValid($postData)) {
                     $form->process($postData);
                     $this->_helper->getHelper('FlashMessenger')
-                        ->addMessage(_('#The record was successfully updated.'));
+                        ->addMessage($this->view->translate('#The record was successfully updated.'));
                     $this->_redirect('/auth/user/success-create');
                 }
             } catch (Exception $e) {

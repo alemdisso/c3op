@@ -46,4 +46,11 @@ class LongStringTest extends ControllerTestCase
        $this->assertTrue($validator->isValid($string));
     }
 
+    public function testThatCanUseSomeOtherCharsAtString() {
+       $validator = new C3op_Util_ValidLongString();
+       $string = "ABCDE 50% ª º & sons. ";
+       $this->assertTrue($validator->isValid($string));
+    }
+
+
 }
