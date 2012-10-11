@@ -195,7 +195,7 @@ class C3op_Register_Institution
 
     public function SetZipCode($zipCode) {
         $validator = new C3op_Register_ValidZipCode();
-        if ($validator->isValid($zipCode)) {
+        if (($validator->isValid($zipCode)) || ($zipCode == "")) {
             if ($this->zipCode != $zipCode) {
                 $this->zipCode = $zipCode;
             }
@@ -243,7 +243,7 @@ class C3op_Register_Institution
 
     public function SetState($state) {
         $validator = new C3op_Register_ValidState();
-        if ($validator->isValid($state)) {
+        if (($validator->isValid($state)) || ($state == "")) {
             if ($this->state != $state) {
                 $this->state = $state;
             }
