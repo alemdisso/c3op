@@ -39,7 +39,12 @@ class Projects_IndexController extends Zend_Controller_Action
         $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
         foreach ($list as $id) {
             $thisProject = $this->projectMapper->findById($id);
-            $thisClient = $this->institutionMapper->findById($thisProject->getClient());
+
+            $clientName = $this->view->translate('#(not defined)');
+            if ($thisProject->getClient() > 0) {
+                $thisClient = $this->institutionMapper->findById($thisProject->getClient());
+                $clientName = $thisClient->GetShortName();
+            }
 
             $obj = new C3op_Projects_AreaActivityTypes();
             $areaActivity = $obj->TitleForType($thisProject->getAreaActivity());
@@ -51,7 +56,7 @@ class Projects_IndexController extends Zend_Controller_Action
 
             $projectsList[$id] = array(
                 'projectName' => $thisProject->GetTitle(),
-                'clientName' => $thisClient->GetShortName(),
+                'clientName' => $clientName,
                 'areaActivity' => $areaActivity,
                 'status' => $status,
                 'physicalProgress' => '[#12%]',

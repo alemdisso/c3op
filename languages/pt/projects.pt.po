@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-10 19:11-0300\n"
-"PO-Revision-Date: 2012-10-10 19:12-0300\n"
+"POT-Creation-Date: 2012-10-12 12:20-0300\n"
+"PO-Revision-Date: 2012-10-12 12:20-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -21,6 +21,13 @@ msgid "#The record was successfully created."
 msgstr "O registro foi criado com sucesso."
 
 #: application\modules\projects/controllers/ActionController.php:72
+#: application\modules\projects/controllers/HumanResourceController.php:33
+#: application\modules\projects/controllers/HumanResourceController.php:85
+#: application\modules\projects/controllers/HumanResourceController.php:151
+#: application\modules\projects/controllers/OutlayController.php:37
+#: application\modules\projects/controllers/OutlayController.php:68
+#: application\modules\projects/controllers/ReceivableController.php:34
+#: application\modules\projects/controllers/ReceivableController.php:57
 msgid "#The record was successfully updated."
 msgstr "O registro foi atualizado com sucesso."
 
@@ -72,6 +79,10 @@ msgid ""
 msgstr ""
 "It needs a positive integer project id to find other actions from same "
 "project."
+
+#: application\modules\projects/controllers/IndexController.php:43
+msgid "#(not defined)"
+msgstr "(não definido)"
 
 #: application\modules\projects/controllers/ProjectController.php:205
 msgid "#(undefined)"
@@ -368,13 +379,19 @@ msgid "#Edit action"
 msgstr "Editar ação"
 
 #: application\modules\projects/views/scripts/action/success.phtml:2
+#: application\modules\projects/views/scripts/outlay/success.phtml:2
 #: application\modules\projects/views/scripts/project/success.phtml:2
+#: application\modules\projects/views/scripts/receivable/success.phtml:2
 msgid "#Success!!!"
 msgstr "Sucesso!"
 
 #: application\modules\projects/views/scripts/human-resource/create.phtml:6
 msgid "#New team member for action"
 msgstr "Novo membro de equipe para a ação"
+
+#: application\modules\projects/views/scripts/human-resource/success.phtml:2
+msgid "#Success!"
+msgstr "Sucesso!"
 
 #: application\modules\projects/views/scripts/index/index.phtml:9
 msgid "#Projects"
