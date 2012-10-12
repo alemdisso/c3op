@@ -20,9 +20,11 @@ class C3op_Form_ProjectCreate extends Zend_Form
             ->setOptions(array('class' => 'eleven columns alpha omega'))
             ->addErrorMessage(_("#Title is required"))
             ->setRequired(true)
-            ->addValidator($titleValidator)
             ->addFilter('StringTrim')
+            ->addValidator($titleValidator, true)
                 ;
+
+
         $this->addElement($element);
 
         $element = new Zend_Form_Element_Select('client');
