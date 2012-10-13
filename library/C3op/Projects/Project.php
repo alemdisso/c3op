@@ -161,12 +161,28 @@ class C3op_Projects_Project
 
     public function SetStatus($status)
     {
-        $validator = new C3op_Util_ValidPositiveFloat();
+        switch ($status) {
+            case C3op_Projects_ProjectStatusConstants::STATUS_PROSPECTING:
+            case C3op_Projects_ProjectStatusConstants::STATUS_PLANNING:
+            case C3op_Projects_ProjectStatusConstants::STATUS_PROPOSAL:
+            case C3op_Projects_ProjectStatusConstants::STATUS_EXECUTION:
+            case C3op_Projects_ProjectStatusConstants::STATUS_ACCOUNTABILITY:
+            case C3op_Projects_ProjectStatusConstants::STATUS_CANCELED:
+            case C3op_Projects_ProjectStatusConstants::STATUS_SUSPENDED:
+            case C3op_Projects_ProjectStatusConstants::STATUS_FINISHED:
+                $this->status = (int)$status;
+                break;
 
-        if ($validator->isValid($status)) {
-            $this->status = (float) $status;
-        } else {
-            throw new C3op_Projects_ProjectException("Status must be a positive number.");
+            case null:
+            case "":
+            case 0:
+            case false:
+                $this->status = null;
+                break;
+
+            default:
+                throw new C3op_Projects_ProjectException("Invalid project status.");
+                break;
         }
     }
 
@@ -197,7 +213,7 @@ class C3op_Projects_Project
             case "":
             case 0:
             case false:
-                $this->type = null;
+                $this->contractNature = null;
                 break;
 
             default:
