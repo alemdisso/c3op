@@ -282,6 +282,8 @@ class C3op_Register_Institution
             case C3op_Register_InstitutionConstants::INSTITUTION_RESEARCH:
             case C3op_Register_InstitutionConstants::INSTITUTION_NGO:
             case C3op_Register_InstitutionConstants::INSTITUTION_PERSONAL:
+            case C3op_Register_InstitutionConstants::INSTITUTION_PRIVATE_FOUNDATION:
+            case C3op_Register_InstitutionConstants::INSTITUTION_PUBLIC_FOUNDATION:
                 $this->type = (int) $type;
                 break;
 
