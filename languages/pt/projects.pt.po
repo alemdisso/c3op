@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-12 12:20-0300\n"
-"PO-Revision-Date: 2012-10-12 12:20-0300\n"
+"POT-Creation-Date: 2012-10-12 22:10-0300\n"
+"PO-Revision-Date: 2012-10-12 22:10-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -23,7 +23,7 @@ msgstr "O registro foi criado com sucesso."
 #: application\modules\projects/controllers/ActionController.php:72
 #: application\modules\projects/controllers/HumanResourceController.php:33
 #: application\modules\projects/controllers/HumanResourceController.php:85
-#: application\modules\projects/controllers/HumanResourceController.php:151
+#: application\modules\projects/controllers/HumanResourceController.php:163
 #: application\modules\projects/controllers/OutlayController.php:37
 #: application\modules\projects/controllers/OutlayController.php:68
 #: application\modules\projects/controllers/ReceivableController.php:34
@@ -31,48 +31,48 @@ msgstr "O registro foi criado com sucesso."
 msgid "#The record was successfully updated."
 msgstr "O registro foi atualizado com sucesso."
 
-#: application\modules\projects/controllers/ActionController.php:176
-#: application\modules\projects/controllers/ActionController.php:779
-#: application\modules\projects/controllers/ProjectController.php:154
-#: application\modules\projects/controllers/ProjectController.php:161
-#: application\modules\projects/controllers/ProjectController.php:251
-#: application\modules\projects/controllers/ProjectController.php:298
-#: application\modules\projects/controllers/ProjectController.php:300
-#: application\modules\projects/controllers/ProjectController.php:301
-#: application\modules\projects/controllers/ProjectController.php:688
+#: application\modules\projects/controllers/ActionController.php:165
+#: application\modules\projects/controllers/ActionController.php:768
+#: application\modules\projects/controllers/ProjectController.php:158
+#: application\modules\projects/controllers/ProjectController.php:165
+#: application\modules\projects/controllers/ProjectController.php:255
+#: application\modules\projects/controllers/ProjectController.php:302
+#: application\modules\projects/controllers/ProjectController.php:304
+#: application\modules\projects/controllers/ProjectController.php:305
+#: application\modules\projects/controllers/ProjectController.php:692
 msgid "#Not defined"
 msgstr "Indefinido"
 
-#: application\modules\projects/controllers/ActionController.php:184
+#: application\modules\projects/controllers/ActionController.php:173
 msgid "#None action"
 msgstr "(nenhuma ação)"
 
-#: application\modules\projects/controllers/ActionController.php:195
+#: application\modules\projects/controllers/ActionController.php:184
 msgid "#Is a milestone"
 msgstr "É um marco"
 
-#: application\modules\projects/controllers/ActionController.php:197
+#: application\modules\projects/controllers/ActionController.php:186
 msgid "#Is not a milestone"
 msgstr "Não é um marco"
 
-#: application\modules\projects/controllers/ActionController.php:209
-#: application\modules\projects/controllers/ProjectController.php:211
+#: application\modules\projects/controllers/ActionController.php:198
+#: application\modules\projects/controllers/ProjectController.php:215
 msgid "#(not received)"
 msgstr "(não recebido)"
 
-#: application\modules\projects/controllers/ActionController.php:216
+#: application\modules\projects/controllers/ActionController.php:205
 msgid "#(not realized)"
 msgstr "(não realizada)"
 
-#: application\modules\projects/controllers/ActionController.php:220
+#: application\modules\projects/controllers/ActionController.php:209
 msgid "#(not started)"
 msgstr "(não iniciada)"
 
-#: application\modules\projects/controllers/ActionController.php:539
+#: application\modules\projects/controllers/ActionController.php:528
 msgid "#It needs a positive integer project id to populate project fields."
 msgstr "It needs a positive integer project id to populate project fields."
 
-#: application\modules\projects/controllers/ActionController.php:572
+#: application\modules\projects/controllers/ActionController.php:561
 msgid ""
 "#It needs a positive integer project id to find other actions from same "
 "project."
@@ -81,14 +81,15 @@ msgstr ""
 "project."
 
 #: application\modules\projects/controllers/IndexController.php:43
+#: application\modules\projects/controllers/ProjectController.php:141
 msgid "#(not defined)"
 msgstr "(não definido)"
 
-#: application\modules\projects/controllers/ProjectController.php:205
+#: application\modules\projects/controllers/ProjectController.php:209
 msgid "#(undefined)"
 msgstr "(indefinido)"
 
-#: application\modules\projects/controllers/ProjectController.php:363
+#: application\modules\projects/controllers/ProjectController.php:367
 msgid "#(unknown date)"
 msgstr "(data desconhecida)"
 
@@ -97,7 +98,7 @@ msgstr "(data desconhecida)"
 #: library\C3op\projects/AreaActivityTypes.php:34
 #: library\C3op\projects/ContractNatureTypes.php:33
 #: library\C3op\projects/HumanResourceStatusTypes.php:27
-#: library\C3op\projects/ProjectStatusTypes.php:35
+#: library\C3op\projects/ProjectStatusTypes.php:37
 msgid "#Unknown type"
 msgstr "Tipo indefinido"
 
@@ -216,6 +217,10 @@ msgstr "Cancelado"
 #: library\C3op\projects/ProjectStatusTypes.php:17
 msgid "#Suspended"
 msgstr "Suspenso"
+
+#: library\C3op\projects/ProjectStatusTypes.php:18
+msgid "#Finished"
+msgstr "Finalizado"
 
 #: application\modules\projects/views/scripts/action/create.phtml:2
 msgid "#New action"
@@ -385,9 +390,26 @@ msgstr "Editar ação"
 msgid "#Success!!!"
 msgstr "Sucesso!"
 
+#: application\modules\projects/views/scripts/human-resource/contract.phtml:1
+msgid "#Confirm contracting"
+msgstr "Confirmar contratação"
+
+#: application\modules\projects/views/scripts/human-resource/contract.phtml:2
+msgid ""
+"#Enter below the contracted dates for the beginning and end of the action"
+msgstr "Informe abaixo as datas contratadas para o início e término da ação"
+
 #: application\modules\projects/views/scripts/human-resource/create.phtml:6
 msgid "#New team member for action"
 msgstr "Novo membro de equipe para a ação"
+
+#: application\modules\projects/views/scripts/human-resource/edit.phtml:4
+msgid "#Edit team member"
+msgstr "Atualizar membro da equipe"
+
+#: application\modules\projects/views/scripts/human-resource/edit.phtml:5
+msgid "#Action:"
+msgstr "Ação:"
 
 #: application\modules\projects/views/scripts/human-resource/success.phtml:2
 msgid "#Success!"

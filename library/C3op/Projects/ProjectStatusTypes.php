@@ -15,7 +15,7 @@ class C3op_Projects_ProjectStatusTypes {
             C3op_Projects_ProjectStatusConstants::STATUS_ACCOUNTABILITY => _("#Accountability"),
             C3op_Projects_ProjectStatusConstants::STATUS_CANCELED       => _("#Canceled"),
             C3op_Projects_ProjectStatusConstants::STATUS_SUSPENDED      => _("#Suspended"),
-            C3op_Projects_ProjectStatusConstants::STATUS_FINISHED       => _("#Finalizado"),
+            C3op_Projects_ProjectStatusConstants::STATUS_FINISHED       => _("#Finished"),
         );
     }
 

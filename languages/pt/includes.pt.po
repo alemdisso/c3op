@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-08 17:59-0300\n"
-"PO-Revision-Date: 2012-10-08 18:00-0300\n"
+"POT-Creation-Date: 2012-10-12 22:09-0300\n"
+"PO-Revision-Date: 2012-10-12 22:09-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -31,15 +31,15 @@ msgstr "Por favor se identifique."
 msgid "#Login"
 msgstr "Entrar"
 
-#: application\modules\includes/views/scripts/header/include.phtml:15
+#: application\modules\includes/views/scripts/header/include.phtml:10
 msgid "#Hi"
 msgstr "Olá"
 
-#: application\modules\includes/views/scripts/header/include.phtml:16
+#: application\modules\includes/views/scripts/header/include.phtml:11
 msgid "#Logout"
 msgstr "Sair"
 
-#: application\modules\includes/views/scripts/header/include.phtml:46
+#: application\modules\includes/views/scripts/header/include.phtml:40
 msgid "#Please login."
 msgstr "Se identifique para entrar no sistema."
 

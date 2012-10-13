@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-10 21:11-0300\n"
-"PO-Revision-Date: 2012-10-11 09:22-0300\n"
+"POT-Creation-Date: 2012-10-12 22:09-0300\n"
+"PO-Revision-Date: 2012-10-12 22:09-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -32,15 +32,11 @@ msgid "#Access denied"
 msgstr "Acesso negado"
 
 #: application\modules\auth/controllers/UserController.php:36
-#: application\modules\auth/controllers/UserController.php:55
+#: application\modules\auth/controllers/UserController.php:58
 msgid "#The record was successfully updated."
 msgstr "O registro foi atualizado com sucesso"
 
-#: application\modules\auth/controllers/UserController.php:39
-msgid "#A user must have a valid title."
-msgstr "Um usuário deve ter um nome válido"
-
-#: application\modules\auth/controllers/UserController.php:122
+#: application\modules\auth/controllers/UserController.php:114
 msgid "#Invalid User Id from Get"
 msgstr "Invalid User Id from Get"
 
@@ -93,6 +89,9 @@ msgstr "Editar conta de usuário"
 #: application\modules\auth/views/scripts/user/success.phtml:2
 msgid "#Success!!!"
 msgstr "Sucesso!"
+
+#~ msgid "#A user must have a valid title."
+#~ msgstr "Um usuário deve ter um nome válido"
 
 #~ msgid "#Government"
 #~ msgstr "Poder público"
