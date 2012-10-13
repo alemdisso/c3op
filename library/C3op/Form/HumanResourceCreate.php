@@ -25,7 +25,7 @@ class C3op_Form_HumanResourceCreate extends Zend_Form
                 ->setOptions(array('class' => 'Full alpha omega'))
             ->addValidator(new C3op_Util_ValidString)
             ->setRequired(true)
-            ->addErrorMessage('#A valid role description is required')
+            ->addErrorMessage(_('#A valid role description is required'))
             ->addFilter('StringTrim')
                 ;
         $this->addElement($element);
@@ -43,7 +43,7 @@ class C3op_Form_HumanResourceCreate extends Zend_Form
                 ->setOptions(array('class' => 'Full alpha omega'))
             ->addValidator(new C3op_Util_ValidPositiveFloat)
             ->addFilter('StringTrim')
-            ->addErrorMessage('#The value must be a positive number')
+            ->addErrorMessage(_('#The value must be a positive number'))
                 ;
         $this->addElement($element);
 

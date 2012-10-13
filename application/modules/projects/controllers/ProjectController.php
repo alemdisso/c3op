@@ -137,8 +137,12 @@ class Projects_ProjectController extends Zend_Controller_Action
         if (!isset($this->institutionMapper)) {
             $this->initInstitutionMapper();
         }
-        $theClient = $this->institutionMapper->findById($projectToBeDetailed->getClient());
-        $clientName = $theClient->getShortName();
+
+        $clientName = $this->view->translate('#(not defined)');
+        if ($projectToBeDetailed->getClient() > 0) {
+            $thisClient = $this->institutionMapper->findById($projectToBeDetailed->getClient());
+            $clientName = $thisClient->GetShortName();
+        }
 
         $obj = new C3op_Projects_AreaActivityTypes();
         $areaActivity = $obj->TitleForType($projectToBeDetailed->getAreaActivity());
@@ -167,16 +171,16 @@ class Projects_ProjectController extends Zend_Controller_Action
         $contractDate = C3op_Util_DateDisplay::FormatDateToShow($projectToBeDetailed->getBeginDate());
 
         $projectHeader = array(
-                'id'           => $projectToBeDetailed->getId(),
-                'projectTitle'   => $projectTitle,
-                'clientName'   => $theClient->getName(),
-                'areaActivity' => $areaActivity,
-                'ourResponsible' => $ourResponsible,
+                'id'                  => $projectToBeDetailed->getId(),
+                'projectTitle'        => $projectTitle,
+                'clientName'          => $clientName,
+                'areaActivity'        => $areaActivity,
+                'ourResponsible'      => $ourResponsible,
                 'responsibleAtClient' => $responsibleAtClient,
-                'overhead' => $overhead,
-                'managementFee' => $managementFee,
-                'contractValue' => $contractValue,
-                'contractDate' => $contractDate,
+                'overhead'            => $overhead,
+                'managementFee'       => $managementFee,
+                'contractValue'       => $contractValue,
+                'contractDate'        => $contractDate,
             );
 
         // receivablesList

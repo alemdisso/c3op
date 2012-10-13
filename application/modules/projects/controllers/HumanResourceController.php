@@ -117,7 +117,7 @@ class Projects_HumanResourceController extends Zend_Controller_Action
                 if (!isset($this->actionMapper)) {
                     $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
                 }
-                $thisAction = $this->actionMapper->findById($thisHumanResource->getAction());
+                $parentAction = $this->actionMapper->findById($thisHumanResource->getAction());
 
                 $contactField = $form->getElement('contact');
                 if (!isset($this->contactMapper)) {
@@ -131,8 +131,20 @@ class Projects_HumanResourceController extends Zend_Controller_Action
                 }
                 $contactField->setValue($thisHumanResource->getContact());
 
-                $this->view->actionTitle = $thisAction->GetTitle();
-                $this->view->linkActionDetail = "/projects/action/detail/?id=" . $thisHumanResource->getAction();
+                if (!isset($this->projectMapper)) {
+                    $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
+                }
+                $projectAction = $this->projectMapper->findById($parentAction->getProject());
+
+                $pageData = array(
+                    'actionId' => $thisHumanResource->GetAction(),
+                    'actionTitle' => $parentAction->GetTitle(),
+                    'projectId' => $parentAction->GetProject(),
+                    'projectTitle' => $projectAction->GetTitle(),
+                );
+
+
+                $this->view->pageData = $pageData;
 
             }
 
@@ -150,7 +162,11 @@ class Projects_HumanResourceController extends Zend_Controller_Action
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
                 $this->_redirect('/projects/human-resource/success/?id=' . $id);
-            } else throw new C3op_Projects_ProjectException("Invalid data.");
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
         } else {
             $data = $this->_request->getParams();
             $filters = array(
@@ -233,19 +249,6 @@ class Projects_HumanResourceController extends Zend_Controller_Action
         $this->view->humanResourceInfo = $humanResourceInfo;
     }
 
-
-
-    public function sucessAction()
-    {
-        if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
-            $this->view->messages = $this->_helper
-                ->getHelper('FlashMessenger')
-                ->getMessages();
-        } else {
-            $this->_redirect('/');
-        }
-    }
-
     public function successAction()
     {
         $this->initHumanResourceMapper();
@@ -273,23 +276,6 @@ class Projects_HumanResourceController extends Zend_Controller_Action
 
         echo 'Contato dispensado';
     }
-
-//   public function contractContactAction()
-//    {
-//        $this->_helper->layout->disableLayout();
-//        $this->_helper->viewRenderer->setNoRender(TRUE);
-//
-//        $this->initHumanResourceMapper();
-//        $this->initActionMapper();
-//        $humanResource =  $this->initHumanResourceWithCheckedId($this->humanResourceMapper);
-//        $action = $this->actionMapper->findById($humanResource->GetContact());
-//        $contracting = new C3op_Projects_HumanResourceContracting();
-//        $contracting->ContactContract($action, $humanResource, $this->humanResourceMapper);
-//
-//        echo 'Contratação confirmada';
-//    }
-
-
 
     private function initHumanResourceWithCheckedId(C3op_Projects_HumanResourceMapper $mapper)
     {

@@ -88,18 +88,7 @@ class Projects_ReceivableController extends Zend_Controller_Action
         }
     }
 
-    public function sucessAction()
-    {
-        if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
-            $this->view->messages = $this->_helper
-                ->getHelper('FlashMessenger')
-                ->getMessages();
-        } else {
-            $this->_redirect('/');
-        }
-    }
-
-    public function successCreateAction()
+    public function successAction()
     {
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
             $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();

@@ -1,3 +1,7 @@
-<h2>Editar Recurso Humano</h2>
-<h4>Ação: <a href="<?php echo $this->linkActionDetail; ?>"><?php echo $this->actionTitle; ?></a></h4>
+<?php
+$pageData = $this->pageData;
+?>
+<div id="MainHeader"><h1><?php print($this->translate('#Edit team member')); ?></h1>
+<h2><?php print($this->translate('#Action:')); ?> <a href="/projects/action/detail/?id=<?php echo $pageData['actionId']; ?>"><?php echo $pageData['actionTitle']; ?></a></h2>
+</div>
 <?php echo $this->form; ?>

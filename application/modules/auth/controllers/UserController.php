@@ -34,7 +34,7 @@ class Auth_UserController extends Zend_Controller_Action
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/auth/user/success-create');
+                $this->_redirect('/auth/user/success');
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -56,7 +56,7 @@ class Auth_UserController extends Zend_Controller_Action
                     $form->process($postData);
                     $this->_helper->getHelper('FlashMessenger')
                         ->addMessage($this->view->translate('#The record was successfully updated.'));
-                    $this->_redirect('/auth/user/success-create');
+                    $this->_redirect('/auth/user/success');
                 }
             } catch (Exception $e) {
                 $this->_helper->getHelper('FlashMessenger')
@@ -77,18 +77,7 @@ class Auth_UserController extends Zend_Controller_Action
           }
     }
 
-    public function sucessAction()
-    {
-        if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
-            $this->view->messages = $this->_helper
-                ->getHelper('FlashMessenger')
-                ->getMessages();
-        } else {
-            $this->_redirect('/');
-        }
-    }
-
-    public function successCreateAction()
+    public function successAction()
     {
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
             $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
