@@ -225,12 +225,6 @@ class Projects_ActionController extends Zend_Controller_Action
             $waitingToReceipt = true;
         }
 
-
-
-
-
-
-
         $actionHeader = array(
             'id'                      => $actionToBeDetailed->getId(),
             'projectId'               => $projectToBeDetailed->getId(),
@@ -266,39 +260,6 @@ class Projects_ActionController extends Zend_Controller_Action
 
         $humanResourcesList = $this->GetHumanResourcesList($actionToBeDetailed);
 
-//        $id = $actionToBeDetailed->GetId();
-//        $msgStart = "";
-//        $msgAcknowledgement = "";
-//        $linkAcknowledgement = "";
-//        if ($actionToBeDetailed->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION) {
-////            $msgStart = "Iniciada em " . $actionToBeDetailed->GetRealBeginDate();
-//            $msgStart = $actionToBeDetailed->GetRealBeginDate();
-//
-//            $obj = new C3op_Projects_ActionStartMode($actionToBeDetailed, $this->actionMapper);
-//            if ($obj->isUnacknowledged()) {
-//                $msgAcknowledgement = "Confirmar";
-//                $linkAcknowledgement =  "javascript:passIdToAjax('/projects/action/acknowledge-start', '$id', acknowledgeStartResponse);";
-//            }
-//        }
-//
-//        $msgDone = "";
-//        $linkDone = "";
-//        if ($actionToBeDetailed->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_DONE) {
-//            $msgDone = "Ação realizada";
-//            $linkDone = "";
-//            $acceptLink = "";
-//        } elseif ($actionToBeDetailed->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_RECEIVED) {
-//            $msgDone = "Ação recebida em " . $actionToBeDetailed->GetReceiptDate($this->actionMapper);
-//            $linkDone = "";
-//            $acceptLink = $this->manageAcceptanceLink($actionToBeDetailed);
-//        } else {
-//            $msgDone = "Confirma que ação foi entregue ao IETS";
-//            $linkDone = "javascript:passIdToAjax('/projects/action/acknowledge-receipt', '$id', acknowledgeReceiptResponse);";
-//        }
-//
-//        $rejectLink = $this->manageRejectReceiptLink($actionToBeDetailed);
-//        $acceptLink = $this->manageAcceptanceLink($actionToBeDetailed);
-
         $pageData = array(
             'actionHeader' => $actionHeader,
             'humanResourcesList' => $humanResourcesList,
@@ -307,24 +268,6 @@ class Projects_ActionController extends Zend_Controller_Action
         $this->view->pageData = $pageData;
 
     }
-
-    public function treeAction()
-    {
-        $this->initActionMapper();
-        $action =  $this->initActionWithCheckedId($this->actionMapper);
-
-        $objTree = new C3op_Projects_ActionTree();
-        $tree = $objTree->retrieveTree($action, $this->actionMapper);
-
-        $this->treeData = array();
-        $this->fillDataTree($tree);
-
-
-        $this->view->actionTree = $tree;
-        $this->view->treeData = $this->treeData;
-
-    }
-
 
     public function successAction()
     {
@@ -348,7 +291,7 @@ class Projects_ActionController extends Zend_Controller_Action
         $acknowledgment = new C3op_Projects_ReceiptAcknowledgment();
         $acknowledgment->AcknowledgeReceipt($actionToBeChanged, $this->actionMapper);
 
-        echo 'Ação Recebida';
+        echo $this->view->translate('#Action received');
     }
 
    public function acceptReceiptAction()
@@ -374,7 +317,7 @@ class Projects_ActionController extends Zend_Controller_Action
         $rejection = new C3op_Projects_ReceiptRejection();
         $rejection->RejectReceipt($actionToBeChanged, $this->actionMapper);
 
-        echo 'Entrega rejeitada';
+        echo $this->view->translate('#Receipt rejected');
     }
 
     public function acknowledgeStartAction()
@@ -387,7 +330,7 @@ class Projects_ActionController extends Zend_Controller_Action
 
         $acknowledgment = new C3op_Projects_ActionAcknowledgeStart($actionToBeChanged);
 
-        echo 'Confirmado';
+        echo $this->view->translate('#Confirmed');
     }
 
     private function initActionWithCheckedId(C3op_Projects_ActionMapper $mapper)
