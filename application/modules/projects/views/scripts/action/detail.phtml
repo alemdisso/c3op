@@ -1,14 +1,9 @@
 <?php
 $pageData = $this->pageData;
-$actionInfo = $pageData['actionInfo'];
 $actionHeader = $pageData['actionHeader'];
 $staffList = $pageData['humanResourcesList'];
 
 
-?>
-<?php
-if (is_array($actionInfo)) {
-  $actionInfo = $actionInfo;
 ?>
 <script type="text/javascript">
 
@@ -129,10 +124,10 @@ foreach ($subordinatedTree as $id => $actionData) {
                         <a href="/projects/action/edit/?id=<?php print($id);?>"><?php print($this->translate("#Edit")); ?></a>
                       </li>
                       <li>
-                        <div id='rejectReceipt-<?php print($id);?>'><a class="parent_info" href="<?php print($actionInfo['rejectLink']); ?>"><?php print($this->translate("#Reject")); ?></a></div><br />
+                        <div id='rejectReceipt-<?php print($id);?>'><a class="parent_info" href="#"><?php print($this->translate("#Reject")); ?></a></div><br />
                       </li>
                       <li>
-                        <div id='acceptReceipt-<?php print($actionHeader['id']);?>'><a class="parent_info" href="<?php print($actionInfo['acceptLink']); ?>"><?php print($this->translate("#Accept")); ?></a></div><br />
+                        <div id='acceptReceipt-<?php print($actionHeader['id']);?>'><a class="parent_info" href="#"><?php print($this->translate("#Accept")); ?></a></div><br />
                       </li>
                     </ul>
                 </div><!-- #submenu1 -->
@@ -306,7 +301,7 @@ foreach ($staffList as $id => $staffData) {
       </table>
 
       <p>
-        <a href="/projects/human-resource/create/?actionId=<?php print($actionInfo['id']); ?>" class="button three columns alpha omega"><?php print($this->translate("#Anticipate team member")); ?></a>
+        <a href="/projects/human-resource/create/?actionId=<?php print($actionHeader['id']); ?>" class="button three columns alpha omega"><?php print($this->translate("#Anticipate team member")); ?></a>
       </p>
 
     </div><!-- .Area -->
@@ -314,14 +309,10 @@ foreach ($staffList as $id => $staffData) {
     <div class="Area">
 
       <p>
-        <a href="<?php print($actionInfo['editLink']) ?>" class="button three columns alpha omega"><?php print($this->translate("#Edit this action")); ?></a>
+        <a href="/projects/action/edit/?id=<?php print($actionHeader['id']) ?>" class="button three columns alpha omega"><?php print($this->translate("#Edit this action")); ?></a>
         <a href="/projects/action/create/?subordinatedTo=<?php print($actionHeader['id']) ?>" class="button three columns alpha omega"><?php print($this->translate("#Create new action")) ?></a>
       </p>
 
     </div><!-- .Area -->
 
     <!-- ### Será preciso montar a tabela de recursos materias, idêntica à de recursos humanos, assim que forem tratados pelo sistema -->
-
-<?php
-}
-?>

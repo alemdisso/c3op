@@ -266,144 +266,46 @@ class Projects_ActionController extends Zend_Controller_Action
 
         $humanResourcesList = $this->GetHumanResourcesList($actionToBeDetailed);
 
-        $immediateBreed = $this->actionMapper->getActionsSubordinatedTo($actionToBeDetailed);
-        foreach ($immediateBreed as $actionId) {
-            $loopAction = $this->actionMapper->findById($actionId);
-            $nextBreed = $this->actionMapper->getActionsSubordinatedTo($loopAction);
-            if (count($nextBreed) > 0) {
-                $broodMessage = count($nextBreed) . " ações diretamente subordinadas";
-                if (count($nextBreed)== 1) {
-                    $broodMessage = count($nextBreed) . " ação diretamente subordinada";
-                }
-            } else {
-                $broodMessage = "sem ações diretamente subordinadas";
-
-            }
-
-            $rejectLink = $this->manageRejectReceiptLink($loopAction);
-
-            $actionTitle =  sprintf("<a href='/projects/action/detail/?id=%d'>%s</a>", $actionId, $loopAction->GetTitle());
-            $actionsList[$actionId] = array(
-                'id'         => $actionId,
-                'title'      => $actionTitle,
-                'brood'      => $broodMessage,
-                'editLink'   => '/projects/action/edit/?id=' . $actionId,
-                'done'       => $loopAction->GetDone(),
-                'finishDate' => C3op_Util_DateDisplay::FormatDateToShow($loopAction->GetRealFinishDate()),
-                'status'     => $loopAction->GetStatus(),
-                'rejectLink' => $rejectLink,
-                );
-
-        }
-
-        $id = $actionToBeDetailed->GetId();
-        $msgStart = "";
-        $msgAcknowledgement = "";
-        $linkAcknowledgement = "";
-        if ($actionToBeDetailed->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION) {
-//            $msgStart = "Iniciada em " . $actionToBeDetailed->GetRealBeginDate();
-            $msgStart = $actionToBeDetailed->GetRealBeginDate();
-
-            $obj = new C3op_Projects_ActionStartMode($actionToBeDetailed, $this->actionMapper);
-            if ($obj->isUnacknowledged()) {
-                $msgAcknowledgement = "Confirmar";
-                $linkAcknowledgement =  "javascript:passIdToAjax('/projects/action/acknowledge-start', '$id', acknowledgeStartResponse);";
-            }
-        }
-
-        $msgDone = "";
-        $linkDone = "";
-        if ($actionToBeDetailed->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_DONE) {
-            $msgDone = "Ação realizada";
-            $linkDone = "";
-            $acceptLink = "";
-        } elseif ($actionToBeDetailed->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_RECEIVED) {
-            $msgDone = "Ação recebida em " . $actionToBeDetailed->GetReceiptDate($this->actionMapper);
-            $linkDone = "";
-            $acceptLink = $this->manageAcceptanceLink($actionToBeDetailed);
-        } else {
-            $msgDone = "Confirma que ação foi entregue ao IETS";
-            $linkDone = "javascript:passIdToAjax('/projects/action/acknowledge-receipt', '$id', acknowledgeReceiptResponse);";
-        }
-
-        $rejectLink = $this->manageRejectReceiptLink($actionToBeDetailed);
-        $acceptLink = $this->manageAcceptanceLink($actionToBeDetailed);
-
-
-
-        //  actionInfo
-        //    id
-        //    projectName
-        //    name
-        //    status
-        //    relationship
-//        $actionInfo = array(
-//                'id'           => $actionToBeDetailed->getId(),
-//                'projectTitle'  => "Estou Seguro",
-//                'title'         => $actionToBeDetailed->GetTitle(),
-//                'relationship' => C3op_Register_ContactTypes::TitleForType($contactBeingDetailed->GetType())
-//            );
-
-        $actionInfo = array(
-            'status'  => "###Em execução",
-            'description'  => "###Aqui entra o conteúdo do campo description, da tabela projects_actions. Lorem ipsum dolor sit amet, consectetuer adisiping elit.",
-            'predictedBeginDate'  => "01/01/1980",
-            'predictedFinishDate'  => "12/12/1980",
-            'milestone'  => "Não é marco", // ### boleano [É marco | Não é marco ]
-            'realFinishDate'  => "11/11/1980",
-            'responsible'  => "###Kelly Miranda",
-            'msgNoStart'  => "###Não iniciada",
-            'humanResourceId'  => "#",
-            'humanResourceContactName'  => "###Kelly Miranda",
-            'humanResourceDescription'  => "###Redator",
-            'humanResourceValue'  => "###1.500,00",
-            'humanResourceContract'  => "###Contratado",
-            'humanResourceDismissalLink'  => "#",
-
-            'id'           => $actionToBeDetailed->getId(),
-            'title'         => $actionToBeDetailed->GetTitle(),
-            'projectTitle'       => $projectToBeDetailed->GetTitle(),
-            'projectDetailLink'  => '/projects/project/detail/?id=' . $projectToBeDetailed->GetId(),
-            'editLinkProject'    => '/projects/project/edit/?id=' . $projectToBeDetailed->GetId(),
-            'actionTitle'        => $actionToBeDetailed->GetTitle(),
-            'actionsList'        => $actionsList,
-            'humanResourcesList' => $humanResourcesList,
-            'id'                 => $actionToBeDetailed->GetId(),
-            'linkActionCreate'   => '/projects/action/create/?subordinatedTo=' . $actionToBeDetailed->GetId(),
-            'editLink'           => '/projects/action/edit/?id=' . $actionToBeDetailed->GetId(),
-            'linkDone'           => $linkDone,
-            'rejectLink'         => $rejectLink,
-            'acceptLink'         => $acceptLink,
-            'finishDate' => C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->GetRealFinishDate()),
-            'msgDone'            => $msgDone,
-            'msgDone'            => '09/09/1980',
-            'msgStart'            => $msgStart,
-            'msgStart'            => '02/02/1980',
-            'linkAcknowledgement'           => $linkAcknowledgement,
-            'msgAcknowledgement'            => $msgAcknowledgement,
-            'msgAcknowledgement'            => "Iniciar ação",
-        );
-        if ($actionToBeDetailed->GetSubordinatedTo() > 0) {
-            $actionInfo['parentLink'] = '/projects/action/detail/?id=' . $actionToBeDetailed->GetSubordinatedTo();
-            if (!isset($this->actionMapper)) {
-                $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
-            }
-            $parent = $this->actionMapper->FindById($actionToBeDetailed->GetSubordinatedTo());
-            $actionInfo['parentTitle'] = $parent->GetTitle();
-        }
-
+//        $id = $actionToBeDetailed->GetId();
+//        $msgStart = "";
+//        $msgAcknowledgement = "";
+//        $linkAcknowledgement = "";
+//        if ($actionToBeDetailed->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION) {
+////            $msgStart = "Iniciada em " . $actionToBeDetailed->GetRealBeginDate();
+//            $msgStart = $actionToBeDetailed->GetRealBeginDate();
+//
+//            $obj = new C3op_Projects_ActionStartMode($actionToBeDetailed, $this->actionMapper);
+//            if ($obj->isUnacknowledged()) {
+//                $msgAcknowledgement = "Confirmar";
+//                $linkAcknowledgement =  "javascript:passIdToAjax('/projects/action/acknowledge-start', '$id', acknowledgeStartResponse);";
+//            }
+//        }
+//
+//        $msgDone = "";
+//        $linkDone = "";
+//        if ($actionToBeDetailed->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_DONE) {
+//            $msgDone = "Ação realizada";
+//            $linkDone = "";
+//            $acceptLink = "";
+//        } elseif ($actionToBeDetailed->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_RECEIVED) {
+//            $msgDone = "Ação recebida em " . $actionToBeDetailed->GetReceiptDate($this->actionMapper);
+//            $linkDone = "";
+//            $acceptLink = $this->manageAcceptanceLink($actionToBeDetailed);
+//        } else {
+//            $msgDone = "Confirma que ação foi entregue ao IETS";
+//            $linkDone = "javascript:passIdToAjax('/projects/action/acknowledge-receipt', '$id', acknowledgeReceiptResponse);";
+//        }
+//
+//        $rejectLink = $this->manageRejectReceiptLink($actionToBeDetailed);
+//        $acceptLink = $this->manageAcceptanceLink($actionToBeDetailed);
 
         $pageData = array(
             'actionHeader' => $actionHeader,
             'humanResourcesList' => $humanResourcesList,
-
-
-            'actionInfo' => $actionInfo,
         );
 
         $this->view->pageData = $pageData;
 
-        $this->view->actionInfo = $actionInfo;
     }
 
     public function treeAction()
