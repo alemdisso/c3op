@@ -143,11 +143,8 @@ class Projects_HumanResourceController extends Zend_Controller_Action
                     'projectTitle' => $projectAction->GetTitle(),
                 );
 
-
                 $this->view->pageData = $pageData;
-
             }
-
         }
     }
 

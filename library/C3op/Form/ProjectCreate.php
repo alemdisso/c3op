@@ -27,7 +27,7 @@ class C3op_Form_ProjectCreate extends Zend_Form
 
         $this->addElement($element);
 
-        $element = new Zend_Form_Element_Select('client');
+        $element = new Zend_Form_Element_Select('client', array('onChange' => 'javascript:populateResponsibleAtClient()'));
         $element->setLabel('#Client: ')
                 ->setDecorators(array(
                     'ViewHelper',
@@ -38,7 +38,8 @@ class C3op_Form_ProjectCreate extends Zend_Form
                 ))
                 ->setOptions(array('class' => 'nine columns alpha omega'))
                 ->setDescription('<a href="/register/institution/create" class="two columns button alpha omega">' . _("#New client") . '</a>')
-                ->setRegisterInArrayValidator(false);
+                ->setRegisterInArrayValidator(false)
+                ;
         $element->addMultiOption(0, _("#choose a client"));
         $this->addElement($element);
 
@@ -54,7 +55,8 @@ class C3op_Form_ProjectCreate extends Zend_Form
                 ))
                 ->setOptions(array('class' => 'nine columns alpha omega'))
                 ->setDescription('<a href="/register/contact/create" class="two columns button alpha omega">Novo responsável</a>')
-                ->setRegisterInArrayValidator(false);
+                ->setRegisterInArrayValidator(false)
+                ;
         $element->addMultiOption(0, _("#(choose a person)"));
         $this->addElement($element);
 

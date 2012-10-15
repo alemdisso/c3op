@@ -620,36 +620,5 @@ class Projects_ActionController extends Zend_Controller_Action
             $this->fillDataTree($subTree);
         }
     }
-//    private function fillDataTree($tree)
-//    {
-//        $this->initActionMapper();
-//        foreach ($tree as $id => $subTree) {
-//            $loopAction = $this->actionMapper->findById($id);
-//            $data = array();
-//            $data["title"] = $loopAction->GetTitle();
-//
-//            $contract = new C3op_Projects_ActionContracting($loopAction, $this->actionMapper);
-//            if ($contract->isContracted()) {
-//                $data["contracted"] = "contratada";
-//            } else {
-//                $data["contracted"] = "";
-//            }
-//
-//            $data["value"] = C3op_Util_CurrencyDisplay::FormatCurrency(
-//                    $this->actionMapper->getContractedValueForActionTree($loopAction));
-//
-//            $done = new C3op_Projects_ActionDone($loopAction);
-//            if ($done->isDone()) {
-//                $data["done"] = "finalizada";
-//            } else {
-//                $data["done"] = "";
-//            }
-//
-//            $this->treeData[$id] = $data;
-//
-//
-//            $this->fillDataTree($subTree);
-//        }
-//    }
 
 }

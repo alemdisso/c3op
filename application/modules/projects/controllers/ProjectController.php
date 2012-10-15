@@ -50,6 +50,17 @@ class Projects_ProjectController extends Zend_Controller_Action
         } else {
             $this->populateClientField($form);
             $this->populateOurResponsibleField($form);
+
+
+            $this->populateResponsibleAtClientField($form);
+
+            $element = $form->getElement('client');
+            $element->setDescription('<a href="/register/institution/create" class="two columns button alpha omega">' . $this->view->translate("#New client") . '</a>');
+            $element = $form->getElement('ourResponsible');
+            $element->setDescription('<a href="/register/contact/create" class="two columns button alpha omega">' . $this->view->translate("#New responsible") . '</a>');
+            $element = $form->getElement('responsibleAtClient');
+            $element->setDescription('<a href="/register/contact/create" class="two columns button alpha omega">' . $this->view->translate("#New responsible") . '</a>');
+
         }
     }
 
@@ -80,8 +91,9 @@ class Projects_ProjectController extends Zend_Controller_Action
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'title', $thisProject->getTitle());
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'client', $thisProject->getClient());
             $this->populateClientField($form, $thisProject->getClient());
+            $this->populateResponsibleAtClientField($form, $thisProject->getClient(), $thisProject->getResponsibleAtClient());
             $this->populateOurResponsibleField($form, $thisProject->getOurResponsible());
-            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'responsibleAtClient', $thisProject->getResponsibleAtClient());
+            //C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'responsibleAtClient', $thisProject->getResponsibleAtClient());
             $this->SetDateValueToFormField($form, 'beginDate', $thisProject->getBeginDate());
             $this->SetDateValueToFormField($form, 'finishDate', $thisProject->getFinishDate());
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'value', $thisProject->getValue());
@@ -561,44 +573,6 @@ class Projects_ProjectController extends Zend_Controller_Action
         return $specialAction;
     }
 
-//    private function manageReceivablesLink(C3op_Projects_Project $project)
-//    {
-//        $receivablesIdList = $this->projectMapper->getAllReceivables($project);
-//        if (count($receivablesIdList) > 0) {
-//            $linkReceivables = '/projects/project/receivables/?id=' . $project->getId();
-//        } else {
-//            $linkReceivables = "";
-//        }
-//        return $linkReceivables;
-//
-//    }
-//
-//    private function managePayablesLink(C3op_Projects_Project $project)
-//    {
-//        $payablesLink = $this->projectMapper->getAllDoneActions($project);
-//        if (count($payablesLink) > 0) {
-//            $linkReceivables = '/projects/project/payables/?id=' . $project->getId();
-//        } else {
-//            $linkReceivables = "";
-//        }
-//        return $linkReceivables;
-//
-//    }
-//
-//    private function manageUnacknowledgedLink(C3op_Projects_Project $project)
-//    {
-//        $linkUnacknowledged = '/projects/project/unacknowledged/?id=' . $project->getId();
-//        return $linkUnacknowledged;
-//
-//    }
-//
-//    private function manageTreeLink(C3op_Projects_Project $project)
-//    {
-//        $linkTree = '/projects/project/tree/?id=' . $project->getId();
-//        return $linkTree;
-//
-//    }
-//
     private function setDateValueToFormField(C3op_Form_ProjectCreate $form, $fieldName, $value)
     {
         $field = $form->getElement($fieldName);
@@ -629,6 +603,7 @@ class Projects_ProjectController extends Zend_Controller_Action
             $clientField->addMultiOption($institutionId, $eachPossibleClient->getName());
         }
         $clientField->setValue($currentClient);
+
     }
 
     private function populateOurResponsibleField(Zend_Form $form, $currentResponsible = 0)
@@ -643,6 +618,30 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $ourResponsibleField->addMultiOption($contactId, $eachPossibleResponsible->getName());
             }
             $ourResponsibleField->setValue($currentResponsible);
+   }
+
+    private function populateResponsibleAtClientField(Zend_Form $form, $institutionId=0, $currentResponsible = 0)
+    {
+
+            $element = $form->getElement('responsibleAtClient');
+            if ($institutionId > 0) {
+                if (!isset($this->institutionMapper)) {
+                    $this->initInstitutionMapper();
+                }
+                if (!isset($this->contactMapper)) {
+                    $this->initContactMapper();
+                }
+
+                $allThatCanBeResponsibleAtClient = $this->institutionMapper->getAllContactsThatAreLinkedToAnInstitution($institutionId);
+                while (list($key, $contactId) = each($allThatCanBeResponsibleAtClient)) {
+                    $eachPossibleResponsible = $this->contactMapper->findById($contactId);
+                    $element->addMultiOption($contactId, $eachPossibleResponsible->getName());
+                }
+                $element->setValue($currentResponsible);
+            } else {
+                $element->setValue(0);
+
+            }
    }
 
     private function outlayAsAParcel(C3op_Projects_Outlay $outlay)
@@ -701,5 +700,30 @@ class Projects_ProjectController extends Zend_Controller_Action
 
             $this->fillDataTree($subTree);
         }
+    }
+
+    public  function populateResponsibleAtClientAction()
+    {
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(TRUE);
+
+        $id = $this->checkIdFromGet();
+        if (!isset($this->institutionMapper)) {
+            $this->initInstitutionMapper();
+        }
+        if (!isset($this->contactMapper)) {
+            $this->initContactMapper();
+        }
+
+        $contactsList = $this->institutionMapper->getAllContactsThatAreLinkedToAnInstitution($id);
+        $data = array();
+        foreach ($contactsList as $k => $id) {
+            $loopContact = $this->contactMapper->findById($id);
+            $data[] = array('id' => $id, 'title' => $loopContact->getName());
+        }
+
+        echo json_encode($data);
+
+
     }
 }
