@@ -35,7 +35,7 @@ class C3op_Form_LinkageCreate extends Zend_Form
                 ->setOptions(array('class' => 'Full alpha omega'))
                 ->setDescription('<a href="/register/institution/create" class="two columns button alpha omega">Nova Instituição</a>')
                 ->setRegisterInArrayValidator(false);
-            $institution->addMultiOption(0, "#(linkage.institution.choose one...)");
+            $institution->addMultiOption(0, _("#(linkage.institution.choose one...)"));
             $this->addElement($institution);
         }
 
@@ -49,7 +49,6 @@ class C3op_Form_LinkageCreate extends Zend_Form
                   array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
               ))
             ->setOptions(array('class' => 'Full alpha omega'))
-            ->setRequired(true)
             ->addValidator($validator)
             ->addFilter('StringTrim')
                 ;
@@ -65,7 +64,6 @@ class C3op_Form_LinkageCreate extends Zend_Form
                   array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
               ))
             ->setOptions(array('class' => 'Full alpha omega'))
-            ->setRequired(true)
             ->addValidator($validator)
             ->addFilter('StringTrim')
                 ;
