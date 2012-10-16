@@ -22,6 +22,7 @@ class C3op_Projects_ProjectMapper
     public function insert(C3op_Projects_Project $new) {
         $data = array(
             'title' => $new->getTitle(),
+            'short_title' => $new->getShortTitle(),
             'client' => $new->getClient(),
             'our_responsible' => $new->GetOurResponsible(),
             'responsible_at_client' => $new->GetResponsibleAtClient(),
@@ -51,6 +52,7 @@ class C3op_Projects_ProjectMapper
         $this->db->exec(
             sprintf(
                 'UPDATE projects_projects SET title = \'%s\'
+                    , short_title = \'%s\'
                     , client = %d
                     , our_responsible = %d
                     , responsible_at_client = %d
@@ -67,6 +69,7 @@ class C3op_Projects_ProjectMapper
                     , observation = \'%s\'
                     WHERE id = %d;',
                 $p->GetTitle(),
+                $p->GetShortTitle(),
                 $p->GetClient(),
                 $p->GetOurResponsible(),
                 $p->GetResponsibleAtClient(),
@@ -98,6 +101,7 @@ class C3op_Projects_ProjectMapper
         $result = $this->db->fetchRow(
             sprintf(
                 'SELECT title
+                    , short_title
                     , client
                     , our_responsible
                     , responsible_at_client
@@ -122,6 +126,7 @@ class C3op_Projects_ProjectMapper
 
         $this->setAttributeValue($p, $id, 'id');
         $this->setAttributeValue($p, $result['title'], 'title');
+        $this->setAttributeValue($p, $result['short_title'], 'shortTitle');
         $this->setAttributeValue($p, $result['client'], 'client');
         $this->setAttributeValue($p, $result['our_responsible'], 'ourResponsible');
         $this->setAttributeValue($p, $result['responsible_at_client'], 'responsibleAtClient');

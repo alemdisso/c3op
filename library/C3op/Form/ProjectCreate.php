@@ -23,7 +23,24 @@ class C3op_Form_ProjectCreate extends Zend_Form
             ->addFilter('StringTrim')
             ->addValidator($titleValidator, true)
                 ;
+        $this->addElement($element);
 
+
+        $element = new Zend_Form_Element_Text('shortTitle');
+        $titleValidator = new C3op_Projects_ProjectValidTitle();
+        $element->setLabel('#Short title:')
+              ->setDecorators(array(
+                  'ViewHelper',
+                  'Errors',
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+              ))
+            ->setOptions(array('class' => 'eleven columns alpha omega'))
+            ->addErrorMessage(_("#Short title is required"))
+            ->setRequired(true)
+            ->addFilter('StringTrim')
+            ->addValidator($titleValidator, true)
+                ;
 
         $this->addElement($element);
 
@@ -278,6 +295,7 @@ class C3op_Form_ProjectCreate extends Zend_Form
 
             $project = new C3op_Projects_Project();
             $project->SetTitle($this->title->GetValue());
+            $project->SetShortTitle($this->shortTitle->GetValue());
             $project->SetClient($this->client->GetValue());
             $project->SetOurResponsible($this->ourResponsible->GetValue());
             $project->SetResponsibleAtClient($this->responsibleAtClient->GetValue());

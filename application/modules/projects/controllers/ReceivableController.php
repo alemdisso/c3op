@@ -108,7 +108,7 @@ class Projects_ReceivableController extends Zend_Controller_Action
                 $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
             }
             $thisProject = $this->projectMapper->findById($projectId);
-            $this->view->projectTitle = $thisProject->GetTitle();
+            $this->view->projectTitle = $thisProject->GetShortTitle();
             $this->view->projectId = $projectId;
             return $projectId;
         } else throw new C3op_Projects_ReceivableException("Receivable needs a positive integer project id.");

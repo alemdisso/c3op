@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-15 19:49-0300\n"
-"PO-Revision-Date: 2012-10-15 19:50-0300\n"
+"POT-Creation-Date: 2012-10-15 21:48-0300\n"
+"PO-Revision-Date: 2012-10-15 21:49-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -52,8 +52,8 @@ msgid "#Responsible: "
 msgstr "Responsável: "
 
 #: library\C3op\Form/ActionCreate.php:82
-#: library\C3op\Form/ProjectCreate.php:60
-#: library\C3op\Form/ProjectCreate.php:75
+#: library\C3op\Form/ProjectCreate.php:77
+#: library\C3op\Form/ProjectCreate.php:92
 msgid "#(choose a person)"
 msgstr "(escolha uma pessoa)"
 
@@ -62,12 +62,12 @@ msgid "#Description:"
 msgstr "Descrição: "
 
 #: library\C3op\Form/ActionCreate.php:101
-#: library\C3op\Form/ProjectCreate.php:80
+#: library\C3op\Form/ProjectCreate.php:97
 msgid "#Begin date:"
 msgstr "Data de início: "
 
 #: library\C3op\Form/ActionCreate.php:115
-#: library\C3op\Form/ProjectCreate.php:94
+#: library\C3op\Form/ProjectCreate.php:111
 msgid "#Finish date:"
 msgstr "Data de término: "
 
@@ -75,9 +75,9 @@ msgstr "Data de término: "
 #: library\C3op\Form/ContactCreate.php:77 library\C3op\Form/EmailCreate.php:57
 #: library\C3op\Form/HumanResourceCreate.php:65
 #: library\C3op\Form/InstitutionCreate.php:281
-#: library\C3op\Form/LinkageCreate.php:74 library\C3op\Form/LinkageEdit.php:76
+#: library\C3op\Form/LinkageCreate.php:73 library\C3op\Form/LinkageEdit.php:76
 #: library\C3op\Form/MessengerCreate.php:58
-#: library\C3op\Form/ProjectCreate.php:256
+#: library\C3op\Form/ProjectCreate.php:273
 #: library\C3op\Form/ReceivableCreate.php:65
 #: library\C3op\Form/UserCreate.php:101
 msgid "#Submit"
@@ -113,7 +113,7 @@ msgstr "(clique para escolher)"
 #: library\C3op\Form/EmailEdit.php:27
 #: library\C3op\Form/InstitutionCreate.php:301
 #: library\C3op\Form/InstitutionEdit.php:25
-#: library\C3op\Form/LinkageCreate.php:90
+#: library\C3op\Form/LinkageCreate.php:89
 #: library\C3op\Form/LinkageEmailCreate.php:24
 #: library\C3op\Form/LinkageEmailEdit.php:34
 #: library\C3op\Form/LinkagePhoneNumberCreate.php:22
@@ -216,7 +216,7 @@ msgid "#A valid role description is required"
 msgstr "Por favor informe o papel desse membro do time"
 
 #: library\C3op\Form/HumanResourceCreate.php:36
-#: library\C3op\Form/ProjectCreate.php:109
+#: library\C3op\Form/ProjectCreate.php:126
 msgid "#Value:"
 msgstr "Valor:"
 
@@ -246,7 +246,7 @@ msgstr "Tipo:"
 
 #: library\C3op\Form/InstitutionCreate.php:50
 #: library\C3op\Form/InstitutionCreate.php:68
-#: library\C3op\Form/ProjectCreate.php:156
+#: library\C3op\Form/ProjectCreate.php:173
 msgid "#(choose a type)"
 msgstr "(escolha um tipo)"
 
@@ -359,7 +359,7 @@ msgstr "(escolha uma...)"
 msgid "#Position:"
 msgstr "Cargo / Função:"
 
-#: library\C3op\Form/LinkageCreate.php:60 library\C3op\Form/LinkageEdit.php:60
+#: library\C3op\Form/LinkageCreate.php:59 library\C3op\Form/LinkageEdit.php:60
 msgid "#Departament:"
 msgstr "Departmento:"
 
@@ -409,62 +409,70 @@ msgid "#Title is required"
 msgstr "Nome é um campo obrigatório."
 
 #: library\C3op\Form/ProjectCreate.php:31
+msgid "#Short title:"
+msgstr "Nome curto:"
+
+#: library\C3op\Form/ProjectCreate.php:39
+msgid "#Short title is required"
+msgstr "Nome curto é um campo obrigatório."
+
+#: library\C3op\Form/ProjectCreate.php:48
 msgid "#Client: "
 msgstr "Cliente:"
 
-#: library\C3op\Form/ProjectCreate.php:40
+#: library\C3op\Form/ProjectCreate.php:57
 msgid "#New client"
 msgstr "Novo cliente"
 
-#: library\C3op\Form/ProjectCreate.php:43
+#: library\C3op\Form/ProjectCreate.php:60
 msgid "#choose a client"
 msgstr "(escolha um cliente)"
 
-#: library\C3op\Form/ProjectCreate.php:48
+#: library\C3op\Form/ProjectCreate.php:65
 msgid "#Our responsible"
 msgstr "Responsável pelo IETS: "
 
-#: library\C3op\Form/ProjectCreate.php:64
+#: library\C3op\Form/ProjectCreate.php:81
 msgid "#Responsible at client"
 msgstr "Responsável pelo cliente "
 
-#: library\C3op\Form/ProjectCreate.php:125
+#: library\C3op\Form/ProjectCreate.php:142
 msgid "#Project status:"
 msgstr "Status do projeto:"
 
-#: library\C3op\Form/ProjectCreate.php:137
+#: library\C3op\Form/ProjectCreate.php:154
 msgid "#(choose a status)"
 msgstr "(escolha um status)"
 
-#: library\C3op\Form/ProjectCreate.php:144
+#: library\C3op\Form/ProjectCreate.php:161
 msgid "#Contract nature:"
 msgstr "Natureza do contrato:"
 
-#: library\C3op\Form/ProjectCreate.php:163
+#: library\C3op\Form/ProjectCreate.php:180
 msgid "#Area activity:"
 msgstr "Área de atividade:"
 
-#: library\C3op\Form/ProjectCreate.php:174
+#: library\C3op\Form/ProjectCreate.php:191
 msgid "#(choose an area)"
 msgstr "(escolha uma área)"
 
-#: library\C3op\Form/ProjectCreate.php:181
+#: library\C3op\Form/ProjectCreate.php:198
 msgid "#Overhead:"
 msgstr "Overhead:"
 
-#: library\C3op\Form/ProjectCreate.php:196
+#: library\C3op\Form/ProjectCreate.php:213
 msgid "#Management fee:"
 msgstr "Taxa de administração:"
 
-#: library\C3op\Form/ProjectCreate.php:213
+#: library\C3op\Form/ProjectCreate.php:230
 msgid "#Object:"
 msgstr "Objeto:"
 
-#: library\C3op\Form/ProjectCreate.php:227
+#: library\C3op\Form/ProjectCreate.php:244
 msgid "#Summary:"
 msgstr "Sumário:"
 
-#: library\C3op\Form/ProjectCreate.php:241
+#: library\C3op\Form/ProjectCreate.php:258
 msgid "#Observation:"
 msgstr "Observação:"
 

@@ -53,7 +53,7 @@ class Projects_HumanResourceController extends Zend_Controller_Action
                 'actionId' => $actionId,
                 'actionTitle' => $parentAction->GetTitle(),
                 'projectId' => $parentAction->GetProject(),
-                'projectTitle' => $projectAction->GetTitle(),
+                'projectTitle' => $projectAction->GetShortTitle(),
             );
 
             $this->view->pageData = $pageData;
@@ -140,7 +140,7 @@ class Projects_HumanResourceController extends Zend_Controller_Action
                     'actionId' => $thisHumanResource->GetAction(),
                     'actionTitle' => $parentAction->GetTitle(),
                     'projectId' => $parentAction->GetProject(),
-                    'projectTitle' => $projectAction->GetTitle(),
+                    'projectTitle' => $projectAction->GetShortTitle(),
                 );
 
                 $this->view->pageData = $pageData;

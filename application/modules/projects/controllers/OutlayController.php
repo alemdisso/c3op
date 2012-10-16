@@ -129,7 +129,7 @@ class Projects_OutlayController  extends Zend_Controller_Action
             $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
         }
         $thisProject = $this->projectMapper->findById($humanResourceAction->GetProject());
-        $this->viewInfo['projectTitle'] = $thisProject->GetTitle();
+        $this->viewInfo['projectTitle'] = $thisProject->GetShortTitle();
         $this->viewInfo['linkProjectDetail'] = "/projects/project/detail/?id=" . $thisProject->GetId();
 
    }

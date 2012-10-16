@@ -55,7 +55,7 @@ class Projects_IndexController extends Zend_Controller_Action
             $actionsCount = count($this->projectMapper->GetAllActions($thisProject));
 
             $projectsList[$id] = array(
-                'projectName' => $thisProject->GetTitle(),
+                'projectName' => $thisProject->GetShortTitle(),
                 'clientName' => $clientName,
                 'areaActivity' => $areaActivity,
                 'status' => $status,

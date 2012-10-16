@@ -366,7 +366,7 @@ class Projects_ActionController extends Zend_Controller_Action
                 $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
             }
             $theProject = $this->projectMapper->findById($projectId);
-            $this->view->projectTitle = $theProject->GetTitle();
+            $this->view->projectTitle = $theProject->GetShortTitle();
             $this->view->linkProjectDetail = "/projects/project/detail/?id=" . $theProject->GetId();
 
             return $projectId;

@@ -89,6 +89,7 @@ class Projects_ProjectController extends Zend_Controller_Action
             $title = $thisProject->GetTitle();
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $id);
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'title', $thisProject->getTitle());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'shortTitle', $thisProject->getShortTitle());
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'client', $thisProject->getClient());
             $this->populateClientField($form, $thisProject->getClient());
             $this->populateResponsibleAtClientField($form, $thisProject->getClient(), $thisProject->getResponsibleAtClient());
@@ -417,7 +418,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         }
 
         $projectInfo = array(
-            'title' => $thisProject->getTitle(),
+            'title' => $thisProject->getShortTitle(),
             'linkDetail' => '/projects/project/detail/?id=' . $id   ,
             'projectValue' => $projectValue,
             'editLink' => '/projects/project/edit/?id=' . $id   ,

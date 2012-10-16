@@ -5,6 +5,7 @@ class C3op_Projects_Project
 
     protected $id;
     protected $title;
+    protected $shortTitle;
     protected $client;
     protected $ourResponsible;
     protected $responsibleAtClient;
@@ -24,6 +25,7 @@ class C3op_Projects_Project
     function __construct($id=0) {
         $this->id = (int)$id;
         $this->title = "";
+        $this->shortTitle = "";
         $this->beginDate = "";
         $this->finishDate = "";
         $this->value = 0;
@@ -59,6 +61,23 @@ class C3op_Projects_Project
             throw new C3op_Projects_ProjectException("This ($title) is not a valid title.");
         }
     } //SetTitle
+
+    public function GetShortTitle()
+    {
+        return $this->shortTitle;
+    } //GetShortTitle
+
+    public function SetShortTitle($shortTitle)
+    {
+        $validator = new C3op_Projects_ProjectValidShortTitle();
+        if ($validator->isValid($shortTitle)) {
+            if ($this->shortTitle != $shortTitle) {
+                $this->shortTitle = $shortTitle;
+            }
+        } else {
+            throw new C3op_Projects_ProjectException("This ($shortTitle) is not a valid shortTitle.");
+        }
+    } //SetShortTitle
 
     public function GetClient()
     {
