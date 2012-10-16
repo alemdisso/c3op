@@ -59,10 +59,13 @@ class Projects_ActionController extends Zend_Controller_Action
             } else {
                 $projectId = $data['project'];
             }
+
             $this->populateProjectFields($projectId, $form);
             $this->populateResponsibleField($form);
             $this->populateRequirementForReceivingField($projectId, $form, $requirementForReceiving);
             $this->populateSubordinatedActionsField($projectId, $form, 0, $subordinatedTo);
+            $pageData = array('id' => $projectId);
+            $this->view->pageData = $pageData;
         }
     }
 
@@ -120,6 +123,8 @@ class Projects_ActionController extends Zend_Controller_Action
                 $this->populateSubordinatedActionsField($projectId, $form, $id);
             }
 
+            $pageData = array('id' => $id);
+            $this->view->pageData = $pageData;
         }
     }
 
