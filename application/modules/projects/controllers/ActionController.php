@@ -44,18 +44,24 @@ class Projects_ActionController extends Zend_Controller_Action
             }
         } else {
             $data = $this->_request->getParams();
+            $requirementForReceiving = 0;
+            $subordinatedTo = 0;
             if (isset($data['subordinatedTo'])) {
                 $subordinatedTo = $data['subordinatedTo'];
                 $this->initActionMapper();
                 $parentAction = $this->actionMapper->findById($subordinatedTo);
                 $projectId = $parentAction->GetProject();
+            } elseif (isset($data['requirementForReceiving'])) {
+                $requirementForReceiving = $data['requirementForReceiving'];
+                $this->initReceivableMapper();
+                $parentReceivable = $this->receivableMapper->findById($requirementForReceiving);
+                $projectId = $parentReceivable->GetProject();
             } else {
-                $subordinatedTo = 0;
                 $projectId = $data['project'];
             }
             $this->populateProjectFields($projectId, $form);
             $this->populateResponsibleField($form);
-            $this->populateRequirementForReceivingField($projectId, $form);
+            $this->populateRequirementForReceivingField($projectId, $form, $requirementForReceiving);
             $this->populateSubordinatedActionsField($projectId, $form, 0, $subordinatedTo);
         }
     }
@@ -379,9 +385,7 @@ class Projects_ActionController extends Zend_Controller_Action
         $validator = new C3op_Util_ValidId();
         if ($validator->isValid($projectId)) {
             $subordinatedToField = $form->getElement('subordinatedTo');
-            if (!isset($this->actionMapper)) {
-                $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
-            }
+            $this->initActionMapper();
 
             if ($actionId > 0) {
                 $actionToBePopulated = $this->actionMapper->findById($actionId);
@@ -408,15 +412,13 @@ class Projects_ActionController extends Zend_Controller_Action
 
     private function populateRequirementForReceivingField($projectId, C3op_Form_ActionCreate $form, $setedReceivableId = 0)
     {
+
         $validator = new C3op_Util_ValidId();
         if ($validator->isValid($projectId)) {
             $requirementForReceivingField = $form->getElement('requirementForReceiving');
-            if (!isset($this->projectMapper)) {
-                $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
-            }
-            if (!isset($this->receivableMapper)) {
-                $this->receivableMapper = new C3op_Projects_ReceivableMapper($this->db);
-            }
+
+            $this->initProjectMapper();
+            $this->initReceivableMapper();
             $theProject = $this->projectMapper->findById($projectId);
             $allReceivables = $this->projectMapper->getAllReceivables($theProject);
 
@@ -467,6 +469,13 @@ class Projects_ActionController extends Zend_Controller_Action
     {
         if (!isset($this->humanResourceMapper)) {
             $this->humanResourceMapper = new C3op_Projects_HumanResourceMapper($this->db);
+        }
+    }
+
+    private function initReceivableMapper()
+    {
+        if (!isset($this->receivableMapper)) {
+            $this->receivableMapper = new C3op_Projects_ReceivableMapper($this->db);
         }
     }
 

@@ -137,6 +137,10 @@ foreach($receivablesList as $id => $productInfo) {
                             <a href="/projects/receivable/edit/?id=<?php echo $id ?>"><?php echo $this->translate("#Edit") ?></a>
                           </li>
                           <li>
+                            <!-- [# LINK PARA A EDIÇÃO DO PRODUTO ] -->
+                            <a href="/projects/action/create/?requirementForReceiving=<?php echo $id ?>"><?php echo $this->translate("#Add product") ?></a>
+                          </li>
+                          <li>
                             <!-- [# LINK PARA FORM DE CONFIRMAÇÃO DE RECEBIMENTO -> VAI ABRIR EM BOX DE DIÁLOGO MODAL ] -->
                             <a href="/projects/receivable/notify/?id=<?php echo '/#' ?>"><?php echo $this->translate("#Notify receiving") ?></a>
                           </li>
