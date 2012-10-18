@@ -9,7 +9,7 @@ class Projects_ProjectController extends Zend_Controller_Action
     private $contactMapper;
     private $outlayMapper;
     private $receivableMapper;
-    private $humanResourceMapper;
+    private $teamMemberMapper;
     private $treeData;
 
     public function preDispatch()
@@ -256,8 +256,8 @@ class Projects_ProjectController extends Zend_Controller_Action
         if (!isset($this->outlayMapper)) {
             $this->initOutlayMapper();
         }
-        if (!isset($this->humanResourceMapper)) {
-            $this->initHumanResourceMapper();
+        if (!isset($this->teamMemberMapper)) {
+            $this->initTeamMemberMapper();
         }
 
         foreach ($projectOutlays as $id) {
@@ -267,10 +267,10 @@ class Projects_ProjectController extends Zend_Controller_Action
             $actionTitle = $theAction->getTitle();
             $payeeName = $this->view->translate("#Not defined");
             $payeeId = 0;
-            if ($theOutlay->getHumanResource() > 0) {
-                $theHumanResource = $this->humanResourceMapper->findById($theOutlay->getHumanResource());
-                if ($theHumanResource->getContact() > 0) {
-                    $theContact = $this->contactMapper->findById($theHumanResource->getContact());
+            if ($theOutlay->getTeamMember() > 0) {
+                $theTeamMember = $this->teamMemberMapper->findById($theOutlay->getTeamMember());
+                if ($theTeamMember->getContact() > 0) {
+                    $theContact = $this->contactMapper->findById($theTeamMember->getContact());
                     $payeeId = $theContact->getId();
                     $payeeName = $theContact->getName();
                 }
@@ -302,28 +302,28 @@ class Projects_ProjectController extends Zend_Controller_Action
         //      staffPhoneNumber
 
         $staffList = array();
-        $projectStaff = $this->projectMapper->getAllHumanResourcesContractedOrPredictedAt($projectToBeDetailed);
-        if (!isset($this->humanResourceMapper)) {
-            $this->initHumanResourceMapper();
+        $projectStaff = $this->projectMapper->getAllTeamMembersContractedOrPredictedAt($projectToBeDetailed);
+        if (!isset($this->teamMemberMapper)) {
+            $this->initTeamMemberMapper();
         }
 
         foreach ($projectStaff as $id) {
-            $theHumanResource = $this->humanResourceMapper->findById($id);
-            $actionId = $theHumanResource->getAction();
+            $theTeamMember = $this->teamMemberMapper->findById($id);
+            $actionId = $theTeamMember->getAction();
             $theAction = $this->actionMapper->findById($actionId);
             $actionTitle = $theAction->getTitle();
             $staffName = $this->view->translate("#Not defined");
             $staffId = 0;
             $staffEmail = $this->view->translate("#Not defined");
             $staffPhoneNumber = $this->view->translate("#Not defined");
-            if ($theHumanResource->getContact() > 0) {
-                $theContact = $this->contactMapper->findById($theHumanResource->getContact());
+            if ($theTeamMember->getContact() > 0) {
+                $theContact = $this->contactMapper->findById($theTeamMember->getContact());
                 $staffId = $theContact->getId();
                 $staffName = $theContact->getName();
                 $staffEmail = "lorem@ipsum.com";
                 $staffPhoneNumber = "21.2345-6789";
             }
-            $positionDescription = $theHumanResource->getDescription();
+            $positionDescription = $theTeamMember->getDescription();
 
             $staffList[$id] = array(
                     'contactId'           => $staffId,
@@ -508,9 +508,9 @@ class Projects_ProjectController extends Zend_Controller_Action
         }
     }
 
-    private function initHumanResourceMapper()
+    private function initTeamMemberMapper()
     {
-         $this->humanResourceMapper = new C3op_Projects_HumanResourceMapper($this->db);
+         $this->teamMemberMapper = new C3op_Projects_TeamMemberMapper($this->db);
     }
 
     private function initInstitutionMapper()
@@ -647,16 +647,16 @@ class Projects_ProjectController extends Zend_Controller_Action
 
     private function outlayAsAParcel(C3op_Projects_Outlay $outlay)
     {
-        $humanResourceId = $outlay->getHumanResource();
-        if (!isset($this->humanResourceMapper)) {
-            $this->humanResourceMapper = new C3op_Projects_HumanResourceMapper($this->db);
+        $teamMemberId = $outlay->getTeamMember();
+        if (!isset($this->teamMemberMapper)) {
+            $this->teamMemberMapper = new C3op_Projects_TeamMemberMapper($this->db);
         }
-        $outlayHumanResource = $this->humanResourceMapper->findById($humanResourceId);
-        $listOutlaysForHumanResource = $this->humanResourceMapper->getAllOutlays($outlayHumanResource);
-        $totalParcels = count($listOutlaysForHumanResource);
+        $outlayTeamMember = $this->teamMemberMapper->findById($teamMemberId);
+        $listOutlaysForTeamMember = $this->teamMemberMapper->getAllOutlays($outlayTeamMember);
+        $totalParcels = count($listOutlaysForTeamMember);
 
         $parcelsCount = 0;
-        foreach($listOutlaysForHumanResource as $parcelId) {
+        foreach($listOutlaysForTeamMember as $parcelId) {
             $thisParcel = $this->outlayMapper->FindById($parcelId);
             $parcelsCount++;
             if ($thisParcel->getId() == $outlay->getId()) {

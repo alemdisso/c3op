@@ -2,10 +2,10 @@
 /*
  * If exists projects list
  */
-if (is_array($this->humanResourceInfo)) {
-    $humanResourceData = $this->humanResourceInfo;
+if (is_array($this->teamMemberInfo)) {
+    $teamMemberData = $this->teamMemberInfo;
 ?>
-<p class="project_title">Projeto: <a href="<?php print($humanResourceData['linkDetail']) ?>"><?php print($humanResourceData['title']) ?></a></p>
+<p class="project_title">Projeto: <a href="<?php print($teamMemberData['linkDetail']) ?>"><?php print($teamMemberData['title']) ?></a></p>
 <p />
 <hr>
 <h2>Desembolsos</h2>
@@ -14,7 +14,7 @@ if (is_array($this->humanResourceInfo)) {
  * iterate list and print title
  */
 
-    $outlaysList = $humanResourceData['outlaysList'];
+    $outlaysList = $teamMemberData['outlaysList'];
     
     while (list(, $outlayInfo) = each($outlaysList)) {
 ?>

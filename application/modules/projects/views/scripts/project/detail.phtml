@@ -285,7 +285,7 @@ foreach($staffList as $id => $staffInfo) {
                     <a href="/register/contact/detail/?id=<?php print($staffInfo['contactId']) ?>"><?php print($staffInfo['staffName']) ?></a>
                   </td>
                   <td>
-                    <a href="/projects/human-resource/edit/?id=<?php print($id) ?>"><?php print($staffInfo['positionDescription']) ?></a>
+                    <a href="/projects/team-member/edit/?id=<?php print($id) ?>"><?php print($staffInfo['positionDescription']) ?></a>
                   </td>
                   <td>
                     <a href="mailto:<?php print($staffInfo['staffEmail']) ?>"><?php print($staffInfo['staffEmail']) ?></a>
@@ -299,7 +299,7 @@ foreach($staffList as $id => $staffInfo) {
                         <ul>
                           <li>
                             <!-- [# LINK PARA A EDIÇÃO DO CONTATO ] -->
-                            <a href="/projects/human-resource/edit/?id=<?php print($id) ?>"><?php echo $this->translate("#Edit") ?></a>
+                            <a href="/projects/team-member/edit/?id=<?php print($id) ?>"><?php echo $this->translate("#Edit") ?></a>
                           </li>
                           <li>
                             <!-- [# LINK PARA PÁGINA DO CONTATO ] -->

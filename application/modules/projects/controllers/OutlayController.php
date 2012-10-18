@@ -3,7 +3,7 @@
 class Projects_OutlayController  extends Zend_Controller_Action
 {
     private $actionMapper;
-    private $humanResourceMapper;
+    private $teamMemberMapper;
     private $projectMapper;
     private $outlayMapper;
     private $viewInfo;
@@ -39,16 +39,16 @@ class Projects_OutlayController  extends Zend_Controller_Action
             } else throw new C3op_Projects_OutlayException("Invalid data for an outlay");
         } else {
             $data = $this->_request->getParams();
-            if (isset($data['humanResource'])) {
-                $humanResourceId = $data['humanResource'];
-                if (!isset($this->humanResourceMapper)) {
-                    $this->humanResourceMapper = new C3op_Projects_HumanResourceMapper($this->db);
+            if (isset($data['teamMember'])) {
+                $teamMemberId = $data['teamMember'];
+                if (!isset($this->teamMemberMapper)) {
+                    $this->teamMemberMapper = new C3op_Projects_TeamMemberMapper($this->db);
                 }
-                $outlayHumanResource = $this->humanResourceMapper->findById($humanResourceId);
-                $this->populateFieldsAssociatedToHumanResource($outlayHumanResource, $form);
+                $outlayTeamMember = $this->teamMemberMapper->findById($teamMemberId);
+                $this->populateFieldsAssociatedToTeamMember($outlayTeamMember, $form);
             } else {
-                throw new C3op_Projects_HumanResourceException("Um desembolso precisa estar associado a um recurso.");
-                $humanResourceId = 0;
+                throw new C3op_Projects_TeamMemberException("Um desembolso precisa estar associado a um recurso.");
+                $teamMemberId = 0;
                 $projectId = $data['project'];
             }
 
@@ -86,7 +86,7 @@ class Projects_OutlayController  extends Zend_Controller_Action
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $id);
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'project', $thisOutlay->GetProject());
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'action', $thisOutlay->GetAction());
-                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'humanResource', $thisOutlay->GetHumanResource());
+                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'teamMember', $thisOutlay->GetTeamMember());
                 $this->SetDateValueToFormField($form, 'predictedDate', $thisOutlay->GetPredictedDate());
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'predictedValue', $thisOutlay->GetPredictedValue());
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'observation', $thisOutlay->GetObservation());
@@ -96,39 +96,39 @@ class Projects_OutlayController  extends Zend_Controller_Action
         }
     }
 
-    private function populateFieldsAssociatedToHumanResource(C3op_Projects_HumanResource $humanResource, C3op_Form_OutlayCreate $form)
+    private function populateFieldsAssociatedToTeamMember(C3op_Projects_TeamMember $teamMember, C3op_Form_OutlayCreate $form)
     {
 
-        $humanResourceField = $form->getElement('humanResource');
-        $humanResourceField->setValue($humanResource->Getid());
+        $teamMemberField = $form->getElement('teamMember');
+        $teamMemberField->setValue($teamMember->Getid());
 
-        if ($humanResource->GetContact() > 0) {
+        if ($teamMember->GetContact() > 0) {
             if (!isset($this->contactMapper)) {
                 $this->contactMapper = new C3op_Register_ContactMapper($this->db);
             }
-            $humanResourceContact = $this->contactMapper->findById($humanResource->GetContact());
+            $teamMemberContact = $this->contactMapper->findById($teamMember->GetContact());
 
-            $this->viewInfo['contactName'] = $humanResourceContact->GetName();
-            $this->viewInfo['linkContactDetail'] = "/register/contact/detail/?id=" . $humanResourceContact->GetId();
+            $this->viewInfo['contactName'] = $teamMemberContact->GetName();
+            $this->viewInfo['linkContactDetail'] = "/register/contact/detail/?id=" . $teamMemberContact->GetId();
         }
 
         if (!isset($this->actionMapper)) {
             $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
         }
         $actionField = $form->getElement('action');
-        $actionField->setValue($humanResource->GetAction());
+        $actionField->setValue($teamMember->GetAction());
 
-        $humanResourceAction = $this->actionMapper->findById($humanResource->GetAction());
-        $this->viewInfo['actionTitle'] = $humanResourceAction->GetTitle();
-        $this->viewInfo['linkActionDetail'] = "/projects/action/detail/?id=" . $humanResourceAction->GetId();
+        $teamMemberAction = $this->actionMapper->findById($teamMember->GetAction());
+        $this->viewInfo['actionTitle'] = $teamMemberAction->GetTitle();
+        $this->viewInfo['linkActionDetail'] = "/projects/action/detail/?id=" . $teamMemberAction->GetId();
 
         $projectField = $form->getElement('project');
-        $projectField->setValue($humanResourceAction->GetProject());
+        $projectField->setValue($teamMemberAction->GetProject());
 
         if (!isset($this->projectMapper)) {
             $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
         }
-        $thisProject = $this->projectMapper->findById($humanResourceAction->GetProject());
+        $thisProject = $this->projectMapper->findById($teamMemberAction->GetProject());
         $this->viewInfo['projectTitle'] = $thisProject->GetShortTitle();
         $this->viewInfo['linkProjectDetail'] = "/projects/project/detail/?id=" . $thisProject->GetId();
 

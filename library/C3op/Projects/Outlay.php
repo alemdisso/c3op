@@ -56,12 +56,12 @@ class C3op_Projects_Outlay
         $this->action = $action;
     }
 
-    public function GetHumanResource()
+    public function GetTeamMember()
     {
         return $this->humanResource;
     }
 
-    public function SetHumanResource($humanResource)
+    public function SetTeamMember($humanResource)
     {
         $this->humanResource = $humanResource;
     }

@@ -14,7 +14,7 @@ class C3op_Projects_ActionContracting {
 
     public function isContracted()
     {
-        $result = $this->actionMapper->getContractedHumanResources($this->action);
+        $result = $this->actionMapper->getContractedTeamMembers($this->action);
         if (count($result)) {
             return true;
         } else {

@@ -25,7 +25,7 @@ class C3op_Projects_OutlayMapper
         $data = array(
             'project' => $new->GetProject(),
             'action' => $new->GetAction(),
-            'human_resource' => $new->GetHumanResource(),
+            'human_resource' => $new->GetTeamMember(),
             'predicted_value' => $new->GetPredictedValue(),
             'predicted_date' => $new->GetPredictedDate(),
             'recurrent' => $new->GetRecurrent(),
@@ -48,7 +48,7 @@ class C3op_Projects_OutlayMapper
                 'UPDATE projects_outlays SET project = %d, action = %d, human_resource = %d, predicted_value = %.2f, predicted_date = \'%s\', recurrent = %d, observation = \'%s\' WHERE id = %d;',
                 $o->GetProject(),
                 $o->GetAction(),
-                $o->GetHumanResource(),
+                $o->GetTeamMember(),
                 $o->GetPredictedValue(),
                 $o->GetPredictedDate(),
                 $o->GetRecurrent(),
@@ -114,7 +114,7 @@ class C3op_Projects_OutlayMapper
         $attribute->setValue($a, $fieldValue);
     }
 
-     public function getAllOutlaysForHumanResource(C3op_Projects_HumanResource $h) {
+     public function getAllOutlaysForTeamMember(C3op_Projects_TeamMember $h) {
         $result = array();
             foreach ($this->db->query(
                     sprintf('SELECT id FROM projects_outlays WHERE human_resource = %d;', $h->GetId())) as $row) {

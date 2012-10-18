@@ -299,7 +299,7 @@ class C3op_Projects_ProjectMapper
         return $result;
     }
 
-    public function getAllHumanResourcesContractedAt(C3op_Projects_Project $p) {
+    public function getAllTeamMembersContractedAt(C3op_Projects_Project $p) {
         $result = array();
 
         foreach ($this->db->query(sprintf('SELECT h.id
@@ -312,8 +312,8 @@ class C3op_Projects_ProjectMapper
             OR a.status = %d
             )'
             , $p->GetId()
-            , C3op_Projects_HumanResourceStatusConstants::STATUS_CONTRACTED
-            , C3op_Projects_HumanResourceStatusConstants::STATUS_ACQUITTED
+            , C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED
+            , C3op_Projects_TeamMemberStatusConstants::STATUS_ACQUITTED
 
                 )) as $row) {
             $result[] = $row['id'];
@@ -321,7 +321,7 @@ class C3op_Projects_ProjectMapper
         return $result;
     }
 
-    public function getAllHumanResourcesContractedOrPredictedAt(C3op_Projects_Project $p) {
+    public function getAllTeamMembersContractedOrPredictedAt(C3op_Projects_Project $p) {
         $result = array();
 
 
@@ -336,9 +336,9 @@ class C3op_Projects_ProjectMapper
             OR a.status = %d
             )'
             , $p->GetId()
-            , C3op_Projects_HumanResourceStatusConstants::STATUS_CONTRACTED
-            , C3op_Projects_HumanResourceStatusConstants::STATUS_ACQUITTED
-            , C3op_Projects_HumanResourceStatusConstants::STATUS_FORESEEN
+            , C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED
+            , C3op_Projects_TeamMemberStatusConstants::STATUS_ACQUITTED
+            , C3op_Projects_TeamMemberStatusConstants::STATUS_FORESEEN
 
                 )) as $row) {
             $result[] = $row['id'];

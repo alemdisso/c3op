@@ -33,7 +33,7 @@ public function __construct() {
     $this->add(new Zend_Acl_Resource('c3op:register.linkage'));
     $this->add(new Zend_Acl_Resource('c3op:projects'));
     $this->add(new Zend_Acl_Resource('c3op:projects.action'));
-    $this->add(new Zend_Acl_Resource('c3op:projects.human-resource'));
+    $this->add(new Zend_Acl_Resource('c3op:projects.team-member'));
     $this->add(new Zend_Acl_Resource('c3op:projects.outlay'));
     $this->add(new Zend_Acl_Resource('c3op:projects.project'));
     $this->add(new Zend_Acl_Resource('c3op:projects.receivable'));
@@ -52,13 +52,13 @@ public function __construct() {
     $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR,   'c3op:projects.action', 'reject-receipt');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.action', 'success');
 
-    $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR,   'c3op:projects.human-resource');
-    $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR,   'c3op:projects.human-resource', 'create');
-    $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR,   'c3op:projects.human-resource', 'contract');
-    $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR,   'c3op:projects.human-resource', 'dismiss-contact');
-    $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:projects.human-resource', 'contract');
-    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.human-resource', 'outlays');
-    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.human-resource', 'success');
+    $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR,   'c3op:projects.team-member');
+    $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR,   'c3op:projects.team-member', 'create');
+    $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR,   'c3op:projects.team-member', 'contract');
+    $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR,   'c3op:projects.team-member', 'dismiss-contact');
+    $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:projects.team-member', 'contract');
+    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.team-member', 'outlays');
+    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.team-member', 'success');
 
     $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:projects.outlay', 'create');
     $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:projects.outlay', 'success');

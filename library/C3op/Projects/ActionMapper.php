@@ -124,7 +124,7 @@ class C3op_Projects_ActionMapper
         $query = $this->db->prepare('DELETE FROM projects_actions_dates WHERE id = :id;');
         $query->bindValue(':id', $this->identityMap[$a], PDO::PARAM_STR);
         $query->execute();
-        
+
         unset($this->identityMap[$a]);
     }
 
@@ -282,7 +282,7 @@ class C3op_Projects_ActionMapper
                 sprintf(
                     'SELECT SUM(value) as value FROM projects_human_resources WHERE action = %d AND status = %d;',
                     $a->GetId(),
-                    C3op_Projects_HumanResourceStatusConstants::STATUS_CONTRACTED
+                    C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED
                     )
                 )
                 as $row) {
@@ -327,7 +327,7 @@ class C3op_Projects_ActionMapper
 
     }
 
-    public function getContractedHumanResources(C3op_Projects_Action $a)
+    public function getContractedTeamMembers(C3op_Projects_Action $a)
     {
 
         $result = array();
@@ -335,7 +335,7 @@ class C3op_Projects_ActionMapper
                 sprintf(
                     'SELECT id FROM projects_human_resources WHERE action = %d AND status = %d;',
                     $a->GetId(),
-                    C3op_Projects_HumanResourceStatusConstants::STATUS_CONTRACTED
+                    C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED
                     ))
                 as $row) {
             $result[] = $row['id'];

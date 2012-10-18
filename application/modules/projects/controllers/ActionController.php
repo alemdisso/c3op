@@ -3,7 +3,7 @@
 class Projects_ActionController extends Zend_Controller_Action
 {
     private $actionMapper;
-    private $humanResourceMapper;
+    private $teamMemberMapper;
     private $projectMapper;
     private $receivableMapper;
     private $contactMapper;
@@ -136,7 +136,7 @@ class Projects_ActionController extends Zend_Controller_Action
         $this->initActionMapper();
         $this->initProjectMapper();
         $this->initContactMapper();
-        $this->initHumanResourceMapper();
+        $this->initTeamMemberMapper();
 
         $actionToBeDetailed =  $this->initActionWithCheckedId($this->actionMapper);
         $projectToBeDetailed = $this->projectMapper->findById($actionToBeDetailed->getProject());
@@ -261,19 +261,19 @@ class Projects_ActionController extends Zend_Controller_Action
         );
 
 
-        // humanResourceList
-        //   * humanResourceInfo
+        // teamMemberList
+        //   * teamMemberInfo
         //      id
         //      name
         //      description
         //      valor
         //      contractingStatus
 
-        $humanResourcesList = $this->GetHumanResourcesList($actionToBeDetailed);
+        $teamMembersList = $this->GetTeamMembersList($actionToBeDetailed);
 
         $pageData = array(
             'actionHeader' => $actionHeader,
-            'humanResourcesList' => $humanResourcesList,
+            'teamMembersList' => $teamMembersList,
         );
 
         $this->view->pageData = $pageData;
@@ -470,10 +470,10 @@ class Projects_ActionController extends Zend_Controller_Action
         }
     }
 
-    private function initHumanResourceMapper()
+    private function initTeamMemberMapper()
     {
-        if (!isset($this->humanResourceMapper)) {
-            $this->humanResourceMapper = new C3op_Projects_HumanResourceMapper($this->db);
+        if (!isset($this->teamMemberMapper)) {
+            $this->teamMemberMapper = new C3op_Projects_TeamMemberMapper($this->db);
         }
     }
 
@@ -484,13 +484,13 @@ class Projects_ActionController extends Zend_Controller_Action
         }
     }
 
-    private function calculateTotalValueExistentOutlays(C3op_Projects_HumanResource $h)
+    private function calculateTotalValueExistentOutlays(C3op_Projects_TeamMember $h)
     {
         if (!isset($this->outlayMapper)) {
             $this->outlayMapper = new C3op_Projects_OutlayMapper($this->db);
         }
 
-        $outlays = $this->outlayMapper->getAllOutlaysForHumanResource($h);
+        $outlays = $this->outlayMapper->getAllOutlaysForTeamMember($h);
 
         $totalValue = 0;
         foreach ($outlays as $outlayId) {
@@ -512,28 +512,28 @@ class Projects_ActionController extends Zend_Controller_Action
         }
     }
 
-     private function getHumanResourcesList(C3op_Projects_Action $action)
+     private function getTeamMembersList(C3op_Projects_Action $action)
     {
 
-        // humanResourceList
-        //   * humanResourceInfo
+        // teamMemberList
+        //   * teamMemberInfo
         //      id
         //      name
         //      description
         //      valor
         //      contractingStatus
 
-        $humanResourcesList = array();
-        $humanResourcesIdsList = $this->humanResourceMapper->getAllHumanResourcesOnAction($action);
+        $teamMembersList = array();
+        $teamMembersIdsList = $this->teamMemberMapper->getAllTeamMembersOnAction($action);
 
-        foreach ($humanResourcesIdsList as $humanResourceId) {
-            $thisHumanResource = $this->humanResourceMapper->findById($humanResourceId);
-            $currencyValue = C3op_Util_CurrencyDisplay::FormatCurrency($thisHumanResource->GetValue());
-            $totalValueExistentOutlays = $this->calculateTotalValueExistentOutlays($thisHumanResource);
+        foreach ($teamMembersIdsList as $teamMemberId) {
+            $thisTeamMember = $this->teamMemberMapper->findById($teamMemberId);
+            $currencyValue = C3op_Util_CurrencyDisplay::FormatCurrency($thisTeamMember->GetValue());
+            $totalValueExistentOutlays = $this->calculateTotalValueExistentOutlays($thisTeamMember);
 
-            $descriptionMessage = $thisHumanResource->GetDescription();
+            $descriptionMessage = $thisTeamMember->GetDescription();
 
-            $contactId = $thisHumanResource->GetContact();
+            $contactId = $thisTeamMember->GetContact();
             $actionId = $action->GetId();
             $contactName = "(indefinido)";
             if ($contactId > 0) {
@@ -542,22 +542,22 @@ class Projects_ActionController extends Zend_Controller_Action
                 $contactName = $contractedContact->GetName();
             }
 
-            $dismissalLink = $this->manageDismissalLink($thisHumanResource);
+            $dismissalLink = $this->manageDismissalLink($thisTeamMember);
 
-            $contractingLink = $this->manageContractingLink($thisHumanResource);
+            $contractingLink = $this->manageContractingLink($thisTeamMember);
 
             $contractedLabel = "";
-            if ($thisHumanResource->GetStatus() == C3op_Projects_HumanResourceStatusConstants::STATUS_CONTRACTED) {
+            if ($thisTeamMember->GetStatus() == C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED) {
                 $contractedLabel = "Recurso contratado";
             }
 
-            $humanResourcesList[$humanResourceId] = array(
-                'id' => $humanResourceId,
+            $teamMembersList[$teamMemberId] = array(
+                'id' => $teamMemberId,
                 'name' => $contactName,
                 'description' => $descriptionMessage,
                 'value' => $currencyValue,
                 'contractingStatus' => $contractedLabel,
-                'linkOutlays' => '/projects/human-resource/outlays/?id=' . $humanResourceId,
+                'linkOutlays' => '/projects/team-member/outlays/?id=' . $teamMemberId,
                 'totalOutlays' => $totalValueExistentOutlays,
                 'dismissalLink' => $dismissalLink,
                 'contractingLink' => $contractingLink,
@@ -565,7 +565,7 @@ class Projects_ActionController extends Zend_Controller_Action
             );
         }
 
-        return $humanResourcesList;
+        return $teamMembersList;
 
     }
 
@@ -585,20 +585,20 @@ class Projects_ActionController extends Zend_Controller_Action
         return $acceptLink;
     }
 
-    private function manageDismissalLink(C3op_Projects_HumanResource $humanResource) {
+    private function manageDismissalLink(C3op_Projects_TeamMember $teamMember) {
         $dismissalLink = "";
-        if (($humanResource->GetContact() > 0)
-                && ($humanResource->GetStatus() == C3op_Projects_HumanResourceStatusConstants::STATUS_FORESEEN)) {
-            $dismissalLink = sprintf("javascript:passIdToAjax('/projects/human-resource/dismiss-contact', %d, dismissContactResponse)", $humanResource->GetId());
+        if (($teamMember->GetContact() > 0)
+                && ($teamMember->GetStatus() == C3op_Projects_TeamMemberStatusConstants::STATUS_FORESEEN)) {
+            $dismissalLink = sprintf("javascript:passIdToAjax('/projects/team-member/dismiss-contact', %d, dismissContactResponse)", $teamMember->GetId());
         }
         return $dismissalLink;
     }
 
-    private function manageContractingLink(C3op_Projects_HumanResource $humanResource) {
+    private function manageContractingLink(C3op_Projects_TeamMember $teamMember) {
         $contractingLink = "";
-        if (($humanResource->GetContact() > 0)
-           && ($humanResource->GetStatus() == C3op_Projects_HumanResourceStatusConstants::STATUS_FORESEEN)) {
-            $contractingLink = sprintf("javascript:passIdToAjax('/projects/human-resource/contract-contact', %d, contractContactResponse)", $humanResource->GetId());
+        if (($teamMember->GetContact() > 0)
+           && ($teamMember->GetStatus() == C3op_Projects_TeamMemberStatusConstants::STATUS_FORESEEN)) {
+            $contractingLink = sprintf("javascript:passIdToAjax('/projects/team-member/contract-contact', %d, contractContactResponse)", $teamMember->GetId());
         }
         return $contractingLink;
     }

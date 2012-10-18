@@ -1,8 +1,8 @@
 <?php
 
-class Projects_HumanResourceController extends Zend_Controller_Action
+class Projects_TeamMemberController extends Zend_Controller_Action
 {
-    private $humanResourceMapper;
+    private $teamMemberMapper;
     private $actionMapper;
     private $db;
 
@@ -22,7 +22,7 @@ class Projects_HumanResourceController extends Zend_Controller_Action
     public function createAction()
     {
         // cria form
-        $form = new C3op_Form_HumanResourceCreate();
+        $form = new C3op_Form_TeamMemberCreate();
         $this->view->form = $form;
 
         if ($this->getRequest()->isPost()) {
@@ -31,7 +31,7 @@ class Projects_HumanResourceController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/human-resource/success/?id=' . $id);
+                $this->_redirect('/projects/team-member/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -75,7 +75,7 @@ class Projects_HumanResourceController extends Zend_Controller_Action
 
     public function editAction()
     {
-        $form = new C3op_Form_HumanResourceEdit;
+        $form = new C3op_Form_TeamMemberEdit;
         $this->view->form = $form;
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
@@ -83,7 +83,7 @@ class Projects_HumanResourceController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/human-resource/success/?id=' . $id);
+                $this->_redirect('/projects/team-member/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -100,24 +100,24 @@ class Projects_HumanResourceController extends Zend_Controller_Action
             $input = new Zend_Filter_Input($filters, $validators, $data);
             if ($input->isValid()) {
                 $id = $input->id;
-                if (!isset($this->humanResourceMapper)) {
-                    $this->humanResourceMapper = new C3op_Projects_HumanResourceMapper($this->db);
+                if (!isset($this->teamMemberMapper)) {
+                    $this->teamMemberMapper = new C3op_Projects_TeamMemberMapper($this->db);
                 }
-                $thisHumanResource = $this->humanResourceMapper->findById($id);
+                $thisTeamMember = $this->teamMemberMapper->findById($id);
                 $descriptionField = $form->getElement('description');
-                $descriptionField->setValue($thisHumanResource->getDescription());
+                $descriptionField->setValue($thisTeamMember->getDescription());
                 $contactField = $form->getElement('contact');
-                $contactField->setValue($thisHumanResource->getContact());
+                $contactField->setValue($thisTeamMember->getContact());
                 $idField = $form->getElement('id');
                 $idField->setValue($id);
                 $valueField = $form->getElement('value');
-                $valueField->setValue($thisHumanResource->getValue());
+                $valueField->setValue($thisTeamMember->getValue());
                 $actionField = $form->getElement('action');
-                $actionField->setValue($thisHumanResource->getAction());
+                $actionField->setValue($thisTeamMember->getAction());
                 if (!isset($this->actionMapper)) {
                     $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
                 }
-                $parentAction = $this->actionMapper->findById($thisHumanResource->getAction());
+                $parentAction = $this->actionMapper->findById($thisTeamMember->getAction());
 
                 $contactField = $form->getElement('contact');
                 if (!isset($this->contactMapper)) {
@@ -129,7 +129,7 @@ class Projects_HumanResourceController extends Zend_Controller_Action
                     $eachContact = $this->contactMapper->findById($contactId);
                     $contactField->addMultiOption($contactId, $eachContact->GetName());
                 }
-                $contactField->setValue($thisHumanResource->getContact());
+                $contactField->setValue($thisTeamMember->getContact());
 
                 if (!isset($this->projectMapper)) {
                     $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
@@ -137,7 +137,7 @@ class Projects_HumanResourceController extends Zend_Controller_Action
                 $projectAction = $this->projectMapper->findById($parentAction->getProject());
 
                 $pageData = array(
-                    'actionId' => $thisHumanResource->GetAction(),
+                    'actionId' => $thisTeamMember->GetAction(),
                     'actionTitle' => $parentAction->GetTitle(),
                     'projectId' => $parentAction->GetProject(),
                     'projectTitle' => $projectAction->GetShortTitle(),
@@ -150,7 +150,7 @@ class Projects_HumanResourceController extends Zend_Controller_Action
 
     public function contractAction()
     {
-        $form = new C3op_Form_HumanResourceContract;
+        $form = new C3op_Form_TeamMemberContract;
         $this->view->form = $form;
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
@@ -158,7 +158,7 @@ class Projects_HumanResourceController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/human-resource/success/?id=' . $id);
+                $this->_redirect('/projects/team-member/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -176,12 +176,12 @@ class Projects_HumanResourceController extends Zend_Controller_Action
             if ($input->isValid()) {
 
                 $id = $input->id;
-                $this->initHumanResourceMapper();
-                $thisHumanResource = $this->humanResourceMapper->findById($id);
+                $this->initTeamMemberMapper();
+                $thisTeamMember = $this->teamMemberMapper->findById($id);
                 $idField = $form->getElement('id');
                 $idField->setValue($id);
                 $this->initActionMapper();
-                $thisAction = $this->actionMapper->findById($thisHumanResource->getAction());
+                $thisAction = $this->actionMapper->findById($thisTeamMember->getAction());
 
                 $this->SetDateValueToFormField($form, 'predictedBeginDate', $thisAction->GetPredictedBeginDate());
                 $this->SetDateValueToFormField($form, 'predictedFinishDate', $thisAction->GetPredictedFinishDate());
@@ -192,7 +192,7 @@ class Projects_HumanResourceController extends Zend_Controller_Action
                 $allContacts = $this->contactMapper->getAllIds();
 
                 $this->view->actionTitle = $thisAction->GetTitle();
-                $this->view->linkActionDetail = "/projects/action/detail/?id=" . $thisHumanResource->getAction();
+                $this->view->linkActionDetail = "/projects/action/detail/?id=" . $thisTeamMember->getAction();
 
             }
 
@@ -202,13 +202,13 @@ class Projects_HumanResourceController extends Zend_Controller_Action
     public function outlaysAction()
     {
         $outlayMapper = new C3op_Projects_OutlayMapper($this->db);
-        if (!isset($this->humanResourceMapper)) {
-            $this->humanResourceMapper = new C3op_Projects_HumanResourceMapper($this->db);
+        if (!isset($this->teamMemberMapper)) {
+            $this->teamMemberMapper = new C3op_Projects_TeamMemberMapper($this->db);
         }
 
         $id = $this->checkIdFromGet();
-        $thisHumanResource = $this->humanResourceMapper->findById($id);
-        $outlaysIdList = $this->humanResourceMapper->getAllOutlays($thisHumanResource);
+        $thisTeamMember = $this->teamMemberMapper->findById($id);
+        $outlaysIdList = $this->teamMemberMapper->getAllOutlays($thisTeamMember);
         $outlaysList = array();
         reset ($outlaysList);
         $outlaysTotalValue = 0;
@@ -237,20 +237,20 @@ class Projects_HumanResourceController extends Zend_Controller_Action
             );
         }
 
-        $humanResourceInfo = array(
+        $teamMemberInfo = array(
             'title' => 'provisório...',
             'linkDetail' => '/projects/project/detail/?id=' . 0 ,
             'outlaysList' => $outlaysList,
         );
 
-        $this->view->humanResourceInfo = $humanResourceInfo;
+        $this->view->teamMemberInfo = $teamMemberInfo;
     }
 
     public function successAction()
     {
-        $this->initHumanResourceMapper();
-        $humanResource =  $this->initHumanResourceWithCheckedId($this->humanResourceMapper);
-        $actionRelated = $humanResource->GetAction();
+        $this->initTeamMemberMapper();
+        $teamMember =  $this->initTeamMemberWithCheckedId($this->teamMemberMapper);
+        $actionRelated = $teamMember->GetAction();
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
             $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
             $this->getResponse()->setHeader('Refresh', '3; URL=/projects/action/detail/?id=' . $actionRelated);
@@ -264,17 +264,17 @@ class Projects_HumanResourceController extends Zend_Controller_Action
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(TRUE);
 
-        $this->initHumanResourceMapper();
+        $this->initTeamMemberMapper();
         $this->initActionMapper();
-        $humanResource =  $this->initHumanResourceWithCheckedId($this->humanResourceMapper);
-        $action = $this->actionMapper->findById($humanResource->GetAction());
-        $dismissal = new C3op_Projects_HumanResourceDismissal();
-        $dismissal->ContactDismiss($action, $humanResource, $this->humanResourceMapper);
+        $teamMember =  $this->initTeamMemberWithCheckedId($this->teamMemberMapper);
+        $action = $this->actionMapper->findById($teamMember->GetAction());
+        $dismissal = new C3op_Projects_TeamMemberDismissal();
+        $dismissal->ContactDismiss($action, $teamMember, $this->teamMemberMapper);
 
         echo 'Contato dispensado';
     }
 
-    private function initHumanResourceWithCheckedId(C3op_Projects_HumanResourceMapper $mapper)
+    private function initTeamMemberWithCheckedId(C3op_Projects_TeamMemberMapper $mapper)
     {
         return $mapper->findById($this->checkIdFromGet());
     }
@@ -297,11 +297,11 @@ class Projects_HumanResourceController extends Zend_Controller_Action
 
     }
 
-    private function populateContactsField($humanResourceId, C3op_Form_HumanResourceCreate $form, $contactId = 0)
+    private function populateContactsField($teamMemberId, C3op_Form_TeamMemberCreate $form, $contactId = 0)
     {
         $validator = new C3op_Util_ValidId();
         $parentActionId = 0;
-        if ($validator->isValid($humanResourceId)) {
+        if ($validator->isValid($teamMemberId)) {
             $subordinatedToField = $form->getElement('subordinatedTo');
             if (!isset($this->actionMapper)) {
                 $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
@@ -316,7 +316,7 @@ class Projects_HumanResourceController extends Zend_Controller_Action
                 if (!isset($this->projectMapper)) {
                     $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
                 }
-                $thisProject = $this->projectMapper->findById($humanResourceId);
+                $thisProject = $this->projectMapper->findById($teamMemberId);
                 $allOtherActionsInProject = $this->projectMapper->getAllActions($thisProject);
             }
 
@@ -335,9 +335,9 @@ class Projects_HumanResourceController extends Zend_Controller_Action
          $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
     }
 
-   private function initHumanResourceMapper()
+   private function initTeamMemberMapper()
     {
-         $this->humanResourceMapper = new C3op_Projects_HumanResourceMapper($this->db);
+         $this->teamMemberMapper = new C3op_Projects_TeamMemberMapper($this->db);
     }
 
     private function initActionWithCheckedId(C3op_Projects_ActionMapper $mapper)

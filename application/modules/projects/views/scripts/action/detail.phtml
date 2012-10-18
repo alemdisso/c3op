@@ -1,7 +1,7 @@
 <?php
 $pageData = $this->pageData;
 $actionHeader = $pageData['actionHeader'];
-$staffList = $pageData['humanResourcesList'];
+$staffList = $pageData['teamMembersList'];
 
 
 ?>
@@ -264,7 +264,7 @@ foreach ($staffList as $id => $staffData) {
 ?>          <!-- ### loop de carga dos recursos humanos alocados a esta ação -->
           <tr>
             <td>
-              <a href="/projects/human-resource/edit/?id=<?php print($id) ?>"><?php print($staffData['name']) ?></a>
+              <a href="/projects/team-member/edit/?id=<?php print($id) ?>"><?php print($staffData['name']) ?></a>
             </td>
             <td>
               <?php print($staffData['description']) ?>
@@ -280,13 +280,13 @@ foreach ($staffList as $id => $staffData) {
               <div id="submenu2" class="anylinkcss">
                   <ul>
                     <li>
-                      <a href="/projects/human-resource/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
+                      <a href="/projects/team-member/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
                     </li>
                     <li>
                       <div id='dismissContact-<?php print($id);?>'><a class="parent_info" href=""><?php print($this->translate("#Dismiss team member")); ?></a></div>
                     </li>
                     <li>
-                      <a class="parent_info" href="/projects/human-resource/contract/?id=<?php print($id);?>" ><?php print($this->translate("#Confirm team member contracting")); ?></a>
+                      <a class="parent_info" href="/projects/team-member/contract/?id=<?php print($id);?>" ><?php print($this->translate("#Confirm team member contracting")); ?></a>
                     </li>
                   </ul>
               </div><!-- #submenu1 -->
@@ -301,7 +301,7 @@ foreach ($staffList as $id => $staffData) {
       </table>
 
       <p>
-        <a href="/projects/human-resource/create/?actionId=<?php print($actionHeader['id']); ?>" class="button three columns alpha omega"><?php print($this->translate("#Anticipate team member")); ?></a>
+        <a href="/projects/team-member/create/?actionId=<?php print($actionHeader['id']); ?>" class="button three columns alpha omega"><?php print($this->translate("#Anticipate team member")); ?></a>
       </p>
 
     </div><!-- .Area -->
