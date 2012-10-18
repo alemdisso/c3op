@@ -12,7 +12,7 @@ class C3op_Projects_HumanResourceMapper {
 
     public function getAllIds() {
         $result = array();
-            foreach ($this->db->query('SELECT id FROM projects_human_resources;') as $row) {
+            foreach ($this->db->query('SELECT id FROM projects_team_members;') as $row) {
             $result[] = $row['id'];
         }
         return $result;
@@ -21,7 +21,7 @@ class C3op_Projects_HumanResourceMapper {
     public function insert(C3op_Projects_HumanResource $new) {
 
 
-        $query = $this->db->prepare("INSERT INTO projects_human_resources (action, contact, description, value, status) VALUES (:action, :contact, :description, :value, :status)");
+        $query = $this->db->prepare("INSERT INTO projects_team_members (action, contact, description, value, status) VALUES (:action, :contact, :description, :value, :status)");
 
         $query->bindValue(':action', $new->GetAction(), PDO::PARAM_INT);
         $query->bindValue(':contact', $new->GetContact(), PDO::PARAM_INT);
@@ -41,7 +41,7 @@ class C3op_Projects_HumanResourceMapper {
             throw new C3op_Projects_HumanResourceMapperException('Object has no ID, cannot update.');
         }
 
-        $query = $this->db->prepare("UPDATE projects_human_resources SET action = :action, description = :description, contact = :contact, value = :value, status = :status WHERE id = :id;");
+        $query = $this->db->prepare("UPDATE projects_team_members SET action = :action, description = :description, contact = :contact, value = :value, status = :status WHERE id = :id;");
 
         $query->bindValue(':action', $a->GetAction(), PDO::PARAM_STR);
         $query->bindValue(':description', $a->GetDescription(), PDO::PARAM_STR);
@@ -70,7 +70,7 @@ class C3op_Projects_HumanResourceMapper {
         $result = $this->db->fetchRow(
             sprintf(
                 'SELECT action, description, contact, value, status
-                     FROM projects_human_resources WHERE id = %d;',
+                     FROM projects_team_members WHERE id = %d;',
                 $id
             )
         );
@@ -98,13 +98,13 @@ class C3op_Projects_HumanResourceMapper {
         }
         $this->db->exec(
             sprintf(
-                'DELETE FROM projects_human_resources WHERE id = %d;',
+                'DELETE FROM projects_team_members WHERE id = %d;',
                 $this->identityMap[$i]
             )
         );
         $this->db->exec(
             sprintf(
-                'DELETE FROM projects_human_resources_dates WHERE human_resource = %d;',
+                'DELETE FROM projects_team_members_dates WHERE human_resource = %d;',
                 $this->identityMap[$a]
             )
         );
@@ -114,7 +114,7 @@ class C3op_Projects_HumanResourceMapper {
      public function getAllHumanResourcesOnAction(C3op_Projects_Action $a) {
         $result = array();
             foreach ($this->db->query(
-                    sprintf('SELECT id FROM projects_human_resources WHERE action = %d;', $a->GetId())) as $row) {
+                    sprintf('SELECT id FROM projects_team_members WHERE action = %d;', $a->GetId())) as $row) {
             $result[] = $row['id'];
         }
         return $result;

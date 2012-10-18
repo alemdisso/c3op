@@ -242,7 +242,7 @@ class C3op_Projects_ProjectMapper
         foreach ($this->db->query(sprintf('SELECT o.id, o.predicted_date
                     FROM projects_outlays o
                     INNER JOIN projects_actions a ON a.id = o.action
-                    INNER JOIN projects_human_resources h ON h.id = o.human_resource
+                    INNER JOIN projects_team_members h ON h.id = o.human_resource
                     WHERE o.project = %d AND h.contact > 0', $p->GetId()
                 )) as $row) {
             $result[] = $row['id'];
@@ -256,7 +256,7 @@ class C3op_Projects_ProjectMapper
         foreach ($this->db->query(sprintf('SELECT o.id, o.predicted_date
                     FROM projects_outlays o
                     INNER JOIN projects_actions a ON a.id = o.action
-                    INNER JOIN projects_human_resources h ON h.id = o.human_resource
+                    INNER JOIN projects_team_members h ON h.id = o.human_resource
                     WHERE a.done = 1 AND o.project = %d AND h.contact > 0 ORDER BY o.predicted_date', $p->GetId()
                 )) as $row) {
             $result[] = $row['id'];
@@ -304,7 +304,7 @@ class C3op_Projects_ProjectMapper
 
         foreach ($this->db->query(sprintf('SELECT h.id
             FROM projects_actions a
-            INNER JOIN projects_human_resources h ON a.id = h.action
+            INNER JOIN projects_team_members h ON a.id = h.action
             WHERE h.contact >0
             AND a.project = %d
             AND (
@@ -327,7 +327,7 @@ class C3op_Projects_ProjectMapper
 
         foreach ($this->db->query(sprintf('SELECT h.id
             FROM projects_actions a
-            INNER JOIN projects_human_resources h ON a.id = h.action
+            INNER JOIN projects_team_members h ON a.id = h.action
             WHERE h.contact >0
             AND a.project = %d
             AND (

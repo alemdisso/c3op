@@ -280,7 +280,7 @@ class C3op_Projects_ActionMapper
     {
         foreach ($this->db->query(
                 sprintf(
-                    'SELECT SUM(value) as value FROM projects_human_resources WHERE action = %d AND status = %d;',
+                    'SELECT SUM(value) as value FROM projects_team_members WHERE action = %d AND status = %d;',
                     $a->GetId(),
                     C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED
                     )
@@ -333,7 +333,7 @@ class C3op_Projects_ActionMapper
         $result = array();
         foreach ($this->db->query(
                 sprintf(
-                    'SELECT id FROM projects_human_resources WHERE action = %d AND status = %d;',
+                    'SELECT id FROM projects_team_members WHERE action = %d AND status = %d;',
                     $a->GetId(),
                     C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED
                     ))
