@@ -43,11 +43,11 @@ class C3op_Projects_TeamMemberMapper {
 
         $query = $this->db->prepare("UPDATE projects_team_members SET action = :action, description = :description, contact = :contact, value = :value, status = :status WHERE id = :id;");
 
-        $query->bindValue(':action', $a->GetAction(), PDO::PARAM_STR);
-        $query->bindValue(':description', $a->GetDescription(), PDO::PARAM_STR);
-        $query->bindValue(':contact', $a->GetContact(), PDO::PARAM_STR);
-        $query->bindValue(':value', $a->GetValue(), PDO::PARAM_STR);
-        $query->bindValue(':status', $a->GetStatus(), PDO::PARAM_STR);
+        $query->bindValue(':action', $obj->GetAction(), PDO::PARAM_STR);
+        $query->bindValue(':description', $obj->GetDescription(), PDO::PARAM_STR);
+        $query->bindValue(':contact', $obj->GetContact(), PDO::PARAM_STR);
+        $query->bindValue(':value', $obj->GetValue(), PDO::PARAM_STR);
+        $query->bindValue(':status', $obj->GetStatus(), PDO::PARAM_STR);
         $query->bindValue(':id', $this->identityMap[$obj], PDO::PARAM_STR);
 
         try {

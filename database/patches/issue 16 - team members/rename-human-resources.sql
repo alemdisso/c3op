@@ -1,0 +1,1 @@
+RENAME TABLE  `projects_human_resources` TO  `projects_team_members` ;

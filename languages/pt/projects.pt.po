@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-14 11:15-0300\n"
-"PO-Revision-Date: 2012-10-14 11:15-0300\n"
+"PO-Revision-Date: 2012-10-18 11:54-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -382,7 +382,7 @@ msgstr "Valor"
 
 #: application\modules\projects/views/scripts/action/detail.phtml:286
 msgid "#Dismiss team member"
-msgstr "Dispensar membro da equipe"
+msgstr "Cancelar previsão de recurso"
 
 #: application\modules\projects/views/scripts/action/detail.phtml:289
 msgid "#Confirm team member contracting"
