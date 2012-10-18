@@ -19,39 +19,39 @@ class C3op_Projects_HumanResourceMapper {
     }
 
     public function insert(C3op_Projects_HumanResource $new) {
-        $data = array(
-            'action' => $new->GetAction(),
-            'contact' => $new->GetContact(),
-            'description' => $new->GetDescription(),
-            'value' => $new->GetValue(),
-            'status' => $new->GetStatus(),
-            );
-        $this->db->insert('projects_human_resources', $data);
+
+
+        $query = $this->db->prepare("INSERT INTO projects_human_resources (action, contact, description, value, status) VALUES (:action, :contact, :description, :value, :status)");
+
+        $query->bindValue(':action', $new->GetAction(), PDO::PARAM_INT);
+        $query->bindValue(':contact', $new->GetContact(), PDO::PARAM_INT);
+        $query->bindValue(':description', $new->GetDescription(), PDO::PARAM_STR);
+        $query->bindValue(':value', $new->GetValue(), PDO::PARAM_STR);
+        $query->bindValue(':status', $new->GetStatus(), PDO::PARAM_INT);
+
+        $query->execute();
+
         $new->SetId((int)$this->db->lastInsertId());
         $this->identityMap[$new] = $new->GetId();
 
     }
 
-    public function update(C3op_Projects_HumanResource $i) {
-        if (!isset($this->identityMap[$i])) {
+    public function update(C3op_Projects_HumanResource $obj) {
+        if (!isset($this->identityMap[$obj])) {
             throw new C3op_Projects_HumanResourceMapperException('Object has no ID, cannot update.');
         }
-        $sql = sprintf(
-                    'UPDATE projects_human_resources SET action = %d,
-                        description =  \'%s\',
-                        contact = %d,
-                        value =  %f,
-                        status = %d
-                         WHERE id = %d;',
-                    $i->GetAction(),
-                    $i->GetDescription(),
-                    $i->GetContact(),
-                    $i->GetValue(),
-                    $i->GetStatus(),
-                    $this->identityMap[$i]
-                );
+
+        $query = $this->db->prepare("UPDATE projects_human_resources SET action = :action, description = :description, contact = :contact, value = :value, status = :status WHERE id = :id;");
+
+        $query->bindValue(':action', $a->GetAction(), PDO::PARAM_STR);
+        $query->bindValue(':description', $a->GetDescription(), PDO::PARAM_STR);
+        $query->bindValue(':contact', $a->GetContact(), PDO::PARAM_STR);
+        $query->bindValue(':value', $a->GetValue(), PDO::PARAM_STR);
+        $query->bindValue(':status', $a->GetStatus(), PDO::PARAM_STR);
+        $query->bindValue(':id', $this->identityMap[$obj], PDO::PARAM_STR);
+
         try {
-            $this->db->exec($sql);
+            $query->execute();
         } catch (Exception $e) {
             throw new C3op_Projects_HumanResourceException("$sql failed");
         }

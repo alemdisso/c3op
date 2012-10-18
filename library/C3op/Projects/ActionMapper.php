@@ -38,18 +38,6 @@ class C3op_Projects_ActionMapper
 
         $query->execute();
 
-//        $data = array(
-//            'title' => $new->getTitle(),
-//            'project' => $new->GetProject(),
-//            'done' => $new->GetDone(),
-//            'status' => $new->GetStatus(),
-//            'description' => $new->GetDescription(),
-//            'subordinated_to' => $new->GetSubordinatedTo(),
-//            'responsible' => $new->GetResponsible(),
-//            'milestone' => $new->GetMilestone(),
-//            'requirement_for_receiving' => $new->GetRequirementForReceiving()
-//            );
-//        $this->db->insert('projects_actions', $data);
         $new->SetId((int)$this->db->lastInsertId());
         $this->identityMap[$new] = $new->GetId();
 
@@ -57,24 +45,24 @@ class C3op_Projects_ActionMapper
 
     }
 
-    public function update(C3op_Projects_Action $a)
+    public function update(C3op_Projects_Action $obj)
     {
-        if (!isset($this->identityMap[$a])) {
+        if (!isset($this->identityMap[$obj])) {
             throw new C3op_Projects_ActionMapperException('Object has no ID, cannot update.');
         }
 
         $query = $this->db->prepare("UPDATE projects_actions SET title = :title, project = :project, done = :done, status = :status, description = :description, subordinated_to = :subordinated_to, responsible = :responsible, milestone = :milestone, requirement_for_receiving = :requirement_for_receiving WHERE id = :id;");
 
-        $query->bindValue(':title', $a->GetTitle(), PDO::PARAM_STR);
-        $query->bindValue(':project', $a->GetProject(), PDO::PARAM_STR);
-        $query->bindValue(':done', $a->GetDone(), PDO::PARAM_BOOL);
-        $query->bindValue(':status', $a->GetStatus(), PDO::PARAM_INT);
-        $query->bindValue(':description', $a->GetDescription(), PDO::PARAM_INT);
-        $query->bindValue(':subordinated_to', $a->GetSubordinatedTo(), PDO::PARAM_STR);
-        $query->bindValue(':responsible', $a->GetResponsible(), PDO::PARAM_STR);
-        $query->bindValue(':milestone', $a->GetMilestone(), PDO::PARAM_STR);
-        $query->bindValue(':requirement_for_receiving', $a->GetRequirementForReceiving(), PDO::PARAM_STR);
-        $query->bindValue(':id', $this->identityMap[$a], PDO::PARAM_INT);
+        $query->bindValue(':title', $obj->GetTitle(), PDO::PARAM_STR);
+        $query->bindValue(':project', $obj->GetProject(), PDO::PARAM_STR);
+        $query->bindValue(':done', $obj->GetDone(), PDO::PARAM_STR);
+        $query->bindValue(':status', $obj->GetStatus(), PDO::PARAM_STR);
+        $query->bindValue(':description', $obj->GetDescription(), PDO::PARAM_STR);
+        $query->bindValue(':subordinated_to', $obj->GetSubordinatedTo(), PDO::PARAM_STR);
+        $query->bindValue(':responsible', $obj->GetResponsible(), PDO::PARAM_STR);
+        $query->bindValue(':milestone', $obj->GetMilestone(), PDO::PARAM_STR);
+        $query->bindValue(':requirement_for_receiving', $obj->GetRequirementForReceiving(), PDO::PARAM_STR);
+        $query->bindValue(':id', $this->identityMap[$obj], PDO::PARAM_STR);
 
         try {
             $query->execute();
@@ -82,7 +70,7 @@ class C3op_Projects_ActionMapper
             throw new C3op_Projects_ActionException("$sql failed");
         }
 
-        $this->UpdateDates($a);
+        $this->UpdateDates($obj);
     }
 
     public function findById($id)
@@ -94,13 +82,11 @@ class C3op_Projects_ActionMapper
             }
             $this->identityMap->next();
         }
+        $query = $this->db->prepare('SELECT title, project, done, status, description, subordinated_to, responsible, milestone, requirement_for_receiving FROM projects_actions WHERE id = :id;');
+        $query->bindValue(':id', $id, PDO::PARAM_STR);
+        $query->execute();
+        $result = $query->fetch();
 
-        $result = $this->db->fetchRow(
-            sprintf(
-                'SELECT title, project, done, status, description, subordinated_to, responsible, milestone, requirement_for_receiving FROM projects_actions WHERE id = %d;',
-                $id
-            )
-        );
         if (empty($result)) {
             throw new C3op_Projects_ActionMapperException(sprintf('There is no action with id #%d.', $id));
         }
@@ -132,18 +118,13 @@ class C3op_Projects_ActionMapper
         if (!isset($this->identityMap[$a])) {
             throw new C3op_Projects_ActionMapperException('Object has no ID, cannot delete.');
         }
-        $this->db->exec(
-            sprintf(
-                'DELETE FROM projects_actions WHERE id = %d;',
-                $this->identityMap[$a]
-            )
-        );
-        $this->db->exec(
-            sprintf(
-                'DELETE FROM projects_actions_dates WHERE action = %d;',
-                $this->identityMap[$a]
-            )
-        );
+        $query = $this->db->prepare('DELETE FROM projects_actions WHERE id = :id;');
+        $query->bindValue(':id', $this->identityMap[$a], PDO::PARAM_STR);
+        $query->execute();
+        $query = $this->db->prepare('DELETE FROM projects_actions_dates WHERE id = :id;');
+        $query->bindValue(':id', $this->identityMap[$a], PDO::PARAM_STR);
+        $query->execute();
+        
         unset($this->identityMap[$a]);
     }
 
