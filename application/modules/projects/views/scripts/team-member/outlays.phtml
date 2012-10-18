@@ -1,0 +1,53 @@
+<?php 
+/*
+ * If exists projects list
+ */
+if (is_array($this->humanResourceInfo)) {
+    $humanResourceData = $this->humanResourceInfo;
+?>
+<p class="project_title">Projeto: <a href="<?php print($humanResourceData['linkDetail']) ?>"><?php print($humanResourceData['title']) ?></a></p>
+<p />
+<hr>
+<h2>Desembolsos</h2>
+<?php 
+/*
+ * iterate list and print title
+ */
+
+    $outlaysList = $humanResourceData['outlaysList'];
+    
+    while (list(, $outlayInfo) = each($outlaysList)) {
+?>
+
+<p class="outlay_line"><?php print($outlayInfo['observation']) ?> | <?php print($outlayInfo['value']) ?>
+
+<?php if (isset($outlayInfo['editLink'])) { ?>
+<a href="<?php print($outlayInfo['editLink']) ?>">Editar</a>
+<?php } ?>
+
+
+
+
+
+</p>
+
+
+
+
+
+    
+<?php
+}  // loop iterate list and print title
+?>
+
+
+
+    
+<?php
+} else { // else exists projects list 
+?>
+    <?php print("Não há informações para este projeto.") ?>
+
+    <?php
+} // end exists projects list
+?>
