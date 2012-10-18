@@ -1,8 +1,0 @@
-<?php
-$pageData = $this->pageData;
-?>
-<div id="MainHeader">
-  <h1><?php print($this->translate('#Project')) ?> <?php print($pageData['projectTitle']) ?></h1>
-  <p><?php print($this->translate('#New team member for action')) ?> <a href='/projects/action/detail/?id=<?php print($pageData['actionId']) ?>'><?php echo $pageData['actionTitle']; ?></a></p>
-</div>
-<?php echo $this->form; ?>
