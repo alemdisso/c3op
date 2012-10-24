@@ -226,13 +226,6 @@ class Projects_ActionController extends Zend_Controller_Action
             $receiptDate = $this->view->translate("#(not received)");
         }
 
-        $validator = new C3op_Util_ValidDate();
-        if ($validator->isValid($actionToBeDetailed->getDoneDate($this->actionMapper))) {
-            $doneDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getReceiptDate($this->actionMapper));
-        } else {
-            $doneDate = $this->view->translate("#(not realized)");
-        }
-
         $unacknowledgedStart = false;
         $realBeginDate = $this->view->translate("#(not started)");
         if ($actionToBeDetailed->hasBegun()) {
@@ -271,7 +264,6 @@ class Projects_ActionController extends Zend_Controller_Action
             'realBeginDate'           => $realBeginDate,
             'realFinishDate'          => $realFinishDate,
             'receiptDate'             => $receiptDate,
-            'doneDate'                => $doneDate,
             'unacknowledgedStart'     => $unacknowledgedStart,
             'receiptToAcceptOrReject' => $receiptToAcceptOrReject,
             'waitingToReceipt'        => $waitingToReceipt,
