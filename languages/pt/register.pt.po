@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-07 21:56-0300\n"
-"PO-Revision-Date: 2012-10-07 21:56-0300\n"
+"POT-Creation-Date: 2012-10-24 17:01-0300\n"
+"PO-Revision-Date: 2012-10-24 17:03-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -29,41 +29,42 @@ msgid "#The record was successfully created."
 msgstr ""
 
 #: application\modules\register/controllers/ContactController.php:74
-#: application\modules\register/controllers/ContactController.php:231
-#: application\modules\register/controllers/ContactController.php:269
-#: application\modules\register/controllers/ContactController.php:330
-#: application\modules\register/controllers/ContactController.php:366
-#: application\modules\register/controllers/ContactController.php:426
-#: application\modules\register/controllers/ContactController.php:461
+#: application\modules\register/controllers/ContactController.php:218
+#: application\modules\register/controllers/ContactController.php:256
+#: application\modules\register/controllers/ContactController.php:317
+#: application\modules\register/controllers/ContactController.php:353
+#: application\modules\register/controllers/ContactController.php:413
+#: application\modules\register/controllers/ContactController.php:448
 #: application\modules\register/controllers/InstitutionController.php:89
 #: application\modules\register/controllers/LinkageController.php:68
+#: application\modules\register/controllers/LinkageController.php:158
 #: application\modules\register/controllers/LinkageController.php:204
 #: application\modules\register/controllers/LinkageController.php:275
 #: application\modules\register/controllers/LinkageController.php:317
 msgid "#The record was successfully updated."
 msgstr ""
 
-#: application\modules\register/controllers/ContactController.php:222
-#: application\modules\register/controllers/ContactController.php:321
-#: application\modules\register/controllers/ContactController.php:417
+#: application\modules\register/controllers/ContactController.php:209
+#: application\modules\register/controllers/ContactController.php:308
+#: application\modules\register/controllers/ContactController.php:404
 #, fuzzy
 msgid "#Invalid contact id"
 msgstr "Editar contato"
 
-#: application\modules\register/controllers/ContactController.php:261
+#: application\modules\register/controllers/ContactController.php:248
 #, fuzzy
 msgid "#Invalid phone number"
 msgstr "Acrescentar telefone"
 
-#: application\modules\register/controllers/ContactController.php:288
-#: application\modules\register/controllers/ContactController.php:481
-#: application\modules\register/controllers/ContactController.php:526
-#: application\modules\register/controllers/ContactController.php:544
+#: application\modules\register/controllers/ContactController.php:275
+#: application\modules\register/controllers/ContactController.php:468
+#: application\modules\register/controllers/ContactController.php:513
+#: application\modules\register/controllers/ContactController.php:531
 #: application\modules\register/controllers/LinkageController.php:523
 msgid "#Invalid Contact Id from Get"
 msgstr ""
 
-#: application\modules\register/controllers/ContactController.php:386
+#: application\modules\register/controllers/ContactController.php:373
 msgid "#Invalid Email Id from Get"
 msgstr ""
 
@@ -88,7 +89,7 @@ msgid "Confirma a remoção do vínculo entre %s e %s?"
 msgstr ""
 
 #: library\C3op\register/ContactTypes.php:27
-#: library\C3op\register/InstitutionTypes.php:30
+#: library\C3op\register/InstitutionTypes.php:32
 #: library\C3op\register/RelationshipTypes.php:30
 msgid "#Unknown type"
 msgstr "Tipo desconhecido"
@@ -112,6 +113,14 @@ msgstr "Organização Não Governamental"
 #: library\C3op\register/InstitutionTypes.php:13
 msgid "#Particular"
 msgstr "Particular"
+
+#: library\C3op\register/InstitutionTypes.php:14
+msgid "#Private Foundation"
+msgstr "Fundação Privada"
+
+#: library\C3op\register/InstitutionTypes.php:15
+msgid "#Public Foundation"
+msgstr "Fundação Pública"
 
 #: library\C3op\register/RelationshipTypes.php:9
 msgid "#General"
@@ -329,13 +338,12 @@ msgstr "Não foi encontrada uma lista de contatos"
 msgid "#Add new contact"
 msgstr "Adicionar contato"
 
-#: application\modules\register/views/scripts/contact/success-create.phtml:2
-msgid "#Success creating!"
-msgstr "Sucesso ao adicionar o registro"
-
-#: application\modules\register/views/scripts/contact/success-update.phtml:2
-msgid "#Success updating!"
-msgstr "Sucesso ao atualizar registro"
+#: application\modules\register/views/scripts/contact/success.phtml:2
+#: application\modules\register/views/scripts/index/success.phtml:2
+#: application\modules\register/views/scripts/institution/success.phtml:2
+#: application\modules\register/views/scripts/linkage/success.phtml:2
+msgid "#Success!"
+msgstr "Sucesso!"
 
 #: application\modules\register/views/scripts/index/index.phtml:2
 msgid "#Register"
@@ -390,9 +398,11 @@ msgstr "Não existe lista de instituições cadastradas."
 msgid "#Add new institution"
 msgstr "Criar Nova Instituição"
 
-#: application\modules\register/views/scripts/institution/success.phtml:2
-msgid "#Success!"
-msgstr "Sucesso!"
+#~ msgid "#Success creating!"
+#~ msgstr "Sucesso ao adicionar o registro"
+
+#~ msgid "#Success updating!"
+#~ msgstr "Sucesso ao atualizar registro"
 
 #~ msgid "#Generic error message"
 #~ msgstr "Ocorreu um erro."
