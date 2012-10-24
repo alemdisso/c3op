@@ -293,7 +293,7 @@ class Projects_ProjectController extends Zend_Controller_Action
                 );
         }
 
-        // staffList
+        // teamMembersList
         //   * id =>
         //      staffName
         //      contactId
@@ -301,13 +301,13 @@ class Projects_ProjectController extends Zend_Controller_Action
         //      staffEmail
         //      staffPhoneNumber
 
-        $staffList = array();
-        $projectStaff = $this->projectMapper->getAllTeamMembersContractedOrPredictedAt($projectToBeDetailed);
+        $teamMembersList = array();
+        $projectTeam = $this->projectMapper->getAllTeamMembersContractedOrPredictedAt($projectToBeDetailed);
         if (!isset($this->teamMemberMapper)) {
             $this->initTeamMemberMapper();
         }
 
-        foreach ($projectStaff as $id) {
+        foreach ($projectTeam as $id) {
             $theTeamMember = $this->teamMemberMapper->findById($id);
             $actionId = $theTeamMember->getAction();
             $theAction = $this->actionMapper->findById($actionId);
@@ -325,7 +325,7 @@ class Projects_ProjectController extends Zend_Controller_Action
             }
             $positionDescription = $theTeamMember->getDescription();
 
-            $staffList[$id] = array(
+            $teamMembersList[$id] = array(
                     'contactId'           => $staffId,
                     'positionDescription' => $positionDescription,
                     'staffName'           => $staffName,
@@ -347,7 +347,7 @@ class Projects_ProjectController extends Zend_Controller_Action
             'receivablesList'  => $receivablesList,
             'outlaysList'   => $outlaysList,
             'actionsTree'   => $actionTreeList,
-            'staffList'     => $staffList,
+            'teamMembersList'     => $teamMembersList,
 
         );
         $this->view->pageData = $pageData;

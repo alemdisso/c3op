@@ -328,8 +328,7 @@ class C3op_Projects_ProjectMapper
         foreach ($this->db->query(sprintf('SELECT h.id
             FROM projects_actions a
             INNER JOIN projects_team_members h ON a.id = h.action
-            WHERE h.contact >0
-            AND a.project = %d
+            WHERE a.project = %d
             AND (
             a.status = %d
             OR a.status = %d
