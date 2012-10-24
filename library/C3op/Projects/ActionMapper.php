@@ -213,7 +213,12 @@ class C3op_Projects_ActionMapper
         if (empty($result)) {
             $receiptDate = "0000-00-00";
         } else {
-            $receiptDate = $result['timestamp'];
+            //return only date, not full timestamp
+            $dateAndTimeStamp = explode(" ", $result['timestamp']);
+
+
+
+            $receiptDate = $dateAndTimeStamp[0];
         }
 
         $this->setAttributeValue($action, $receiptDate, 'receiptDate');

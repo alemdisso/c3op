@@ -292,6 +292,7 @@ class C3op_Projects_Action {
             $actionMapper->FetchLastReceiptDate($this);
         }
 
+
         return $this->receiptDate;
     } //GetReceiptDate
 
