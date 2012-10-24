@@ -102,20 +102,14 @@ function rejectReceipt(id)
           </thead>
           <tbody>
 <?php
-$subordinatedTree = $actionHeader['subordinatedTree'];
-foreach ($subordinatedTree as $id => $actionData) {
-    $nodeId = "node-" . $id;
-    $childOf = $actionData['subordinatedTo'];
-    if ($childOf > 0) {
-        $classId = "\"child-of-node-$childOf\"";
-        $classId = 'class = ' . $classId;
-    }
+$subordinatedActions = $actionHeader['subordinatedActions'];
+foreach ($subordinatedActions as $id => $actionData) {
 ?>
             <!-- ### loop de carga das ações subordinadas a esta ação -->
             <tr>
               <td><a href="/projects/action/detail/?id=<?php print($id);?>"><?php print($actionData['title']) ?></a></td>
               <td><?php print($actionData['responsibleName']); ?></td>
-              <td><?php print($actionData['status']); ?></td>
+              <td><?php print($this->translate($actionData['status'])); ?></td>
                   <td>
                 <a href="#" class="button one column alpha omega anchorclass" rel="submenu1"><?php print($this->translate("#Options")); ?></a>
                 <div id="submenu1" class="anylinkcss">

@@ -185,6 +185,32 @@ class Projects_ActionController extends Zend_Controller_Action
             $parentActionId = 0;
         }
 
+        $subordinatedActionsList = $this->actionMapper->getActionsSubordinatedTo($actionToBeDetailed);
+
+        $subordinatedActionsData = array();
+
+        foreach($subordinatedActionsList as $loopActionId) {
+
+            $loopAction = $this->actionMapper->findById($loopActionId);
+            $data = array();
+            $data['title'] = $loopAction->getTitle();
+
+            if ($loopAction->getResponsible()) {
+                $theContact = $this->contactMapper->findById($loopAction->getResponsible());
+                $data['responsibleName'] = $theContact->getName();
+            } else {
+                $data['responsibleName'] = $this->view->translate("#Not defined");
+            }
+
+            $data['status'] = $statusTypes->TitleForType($loopAction->getStatus());
+
+            $subordinatedActionsData[$loopActionId] = $data;
+
+
+        }
+
+
+
         $objTree = new C3op_Projects_ActionTree();
         $tree = $objTree->retrieveTree($actionToBeDetailed, $this->actionMapper);
         $this->treeData = array();
@@ -246,7 +272,7 @@ class Projects_ActionController extends Zend_Controller_Action
             'responsibleName'         => $responsibleName,
             'parentActionId'          => $parentActionId,
             'parentActionTitle'       => $parentActionTitle,
-            'subordinatedTree'        => $subordinatedTree,
+            'subordinatedActions'     => $subordinatedActionsData,
             'description'             => $actionToBeDetailed->getDescription(),
             'milestone'               => $milestone,
             'predictedBeginDate'      => $predictedBeginDate,
