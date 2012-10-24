@@ -29,7 +29,7 @@ $receivablesList = $pageData['receivablesList'];
 
 $actionsList = $pageData['actionsTree'];
 $outlaysList = $pageData['outlaysList'];
-$staffList = $pageData['staffList'];
+$teamData = $pageData['staffList'];
 ?>
     <div id="MainHeader">
       <h1><?php echo $this->translate("#Project") ?> <?php print($projectHeader['projectTitle']) ?></h1>
@@ -278,7 +278,7 @@ foreach($outlaysList as $id => $outlayInfo) {
               <!-- ### loop de carga dos recursos humanos alocados ao projeto -->
 <?php
 
-foreach($staffList as $id => $staffInfo) {
+foreach($teamData as $id => $staffInfo) {
 ?>
                 <tr>
                   <td>

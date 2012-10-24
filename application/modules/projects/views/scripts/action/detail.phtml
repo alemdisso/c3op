@@ -1,7 +1,7 @@
 <?php
 $pageData = $this->pageData;
 $actionHeader = $pageData['actionHeader'];
-$staffList = $pageData['teamMembersList'];
+$teamData = $pageData['teamMembersList'];
 
 
 ?>
@@ -116,12 +116,6 @@ foreach ($subordinatedActions as $id => $actionData) {
                     <ul>
                       <li>
                         <a href="/projects/action/edit/?id=<?php print($id);?>"><?php print($this->translate("#Edit")); ?></a>
-                      </li>
-                      <li>
-                        <div id='rejectReceipt-<?php print($id);?>'><a class="parent_info" href="#"><?php print($this->translate("#Reject")); ?></a></div><br />
-                      </li>
-                      <li>
-                        <div id='acceptReceipt-<?php print($actionHeader['id']);?>'><a class="parent_info" href="#"><?php print($this->translate("#Accept")); ?></a></div><br />
                       </li>
                     </ul>
                 </div><!-- #submenu1 -->
@@ -254,20 +248,20 @@ if ($actionHeader['receiptToAcceptOrReject']) {
         <tbody>
 
 <?php
-foreach ($staffList as $id => $staffData) {
+foreach ($teamData as $id => $teamMemberData) {
 ?>          <!-- ### loop de carga dos recursos humanos alocados a esta ação -->
           <tr>
             <td>
-              <a href="/projects/team-member/edit/?id=<?php print($id) ?>"><?php print($staffData['name']) ?></a>
+              <a href="/projects/team-member/edit/?id=<?php print($id) ?>"><?php print($teamMemberData['name']) ?></a>
             </td>
             <td>
-              <?php print($staffData['description']) ?>
+              <?php print($teamMemberData['description']) ?>
             </td>
             <td>
-              <?php print($staffData['value']) ?>
+              <?php print($teamMemberData['value']) ?>
             </td>
             <td>
-              <?php print($staffData['contractingStatus']) ?>
+              <?php print($teamMemberData['contractingStatusLabel']) ?>
             </td>
             <td>
               <a href="#" class="button one column alpha omega anchorclass" rel="submenu2"><?php print($this->translate("#Options")); ?></a>
@@ -276,12 +270,26 @@ foreach ($staffList as $id => $staffData) {
                     <li>
                       <a href="/projects/team-member/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
                     </li>
-                    <li>
+<?php
+if ($teamMemberData['stillNotContractedFlag']) {
+?>                    <li>
                       <div id='dismissContact-<?php print($id);?>'><a class="parent_info" href=""><?php print($this->translate("#Dismiss team member")); ?></a></div>
                     </li>
+<?php
+
+}
+?>
+<?php
+if ($teamMemberData['canContractFlag']) {
+?>
                     <li>
                       <a class="parent_info" href="/projects/team-member/contract/?id=<?php print($id);?>" ><?php print($this->translate("#Confirm team member contracting")); ?></a>
                     </li>
+
+<?php
+
+}
+?>
                   </ul>
               </div><!-- #submenu1 -->
             </td>

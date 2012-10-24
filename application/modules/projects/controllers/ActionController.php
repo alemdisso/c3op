@@ -208,15 +208,6 @@ class Projects_ActionController extends Zend_Controller_Action
 
 
         }
-
-
-
-        $objTree = new C3op_Projects_ActionTree();
-        $tree = $objTree->retrieveTree($actionToBeDetailed, $this->actionMapper);
-        $this->treeData = array();
-        $this->fillDataTree($tree);
-        $subordinatedTree = $this->treeData;
-
         if ($actionToBeDetailed->getMilestone()) {
             $milestone = _("#Is a milestone");
         } else {
@@ -568,97 +559,33 @@ class Projects_ActionController extends Zend_Controller_Action
                 $contactName = $contractedContact->GetName();
             }
 
-            $dismissalLink = $this->manageDismissalLink($thisTeamMember);
 
-            $contractingLink = $this->manageContractingLink($thisTeamMember);
+            $status = $thisTeamMember->getStatus();
+            $statusTypes = new C3op_Projects_TeamMemberStatusTypes();
+            $statusLabel = $statusTypes->TitleForType($status);
 
-            $contractedLabel = "";
-            if ($thisTeamMember->GetStatus() == C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED) {
-                $contractedLabel = "Recurso contratado";
+            if ($status == C3op_Projects_TeamMemberStatusConstants::STATUS_FORESEEN) {
+                $canContract = true;
+                $stillNotContracted = true;
+            } else {
+                $canContract = false;
+                $stillNotContracted = false;
             }
 
             $teamMembersList[$teamMemberId] = array(
-                'id' => $teamMemberId,
-                'name' => $contactName,
-                'description' => $descriptionMessage,
-                'value' => $currencyValue,
-                'contractingStatus' => $contractedLabel,
-                'linkOutlays' => '/projects/team-member/outlays/?id=' . $teamMemberId,
-                'totalOutlays' => $totalValueExistentOutlays,
-                'dismissalLink' => $dismissalLink,
-                'contractingLink' => $contractingLink,
-                'contractedLabel' => $contractedLabel,
+                'id'                     => $teamMemberId,
+                'name'                   => $contactName,
+                'description'            => $descriptionMessage,
+                'value'                  => $currencyValue,
+                'contractingStatusLabel' => $statusLabel,
+                'stillNotContractedFlag' => $stillNotContracted,
+                'canContractFlag'        => $canContract,
+
             );
         }
 
         return $teamMembersList;
 
-    }
-
-    private function manageRejectReceiptLink(C3op_Projects_Action $action) {
-        $rejectLink = "";
-        if ($action->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_RECEIVED) {
-            $rejectLink = sprintf("javascript:passIdToAjax('/projects/action/reject-receipt', %d, rejectReceiptResponse)", $action->GetId());
-        }
-        return $rejectLink;
-    }
-
-    private function manageAcceptanceLink(C3op_Projects_Action $action) {
-        $acceptLink = "";
-        if ($action->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_RECEIVED) {
-            $acceptLink = sprintf("javascript:passIdToAjax('/projects/action/accept-receipt', %d, acceptReceiptResponse)", $action->GetId());
-        }
-        return $acceptLink;
-    }
-
-    private function manageDismissalLink(C3op_Projects_TeamMember $teamMember) {
-        $dismissalLink = "";
-        if (($teamMember->GetContact() > 0)
-                && ($teamMember->GetStatus() == C3op_Projects_TeamMemberStatusConstants::STATUS_FORESEEN)) {
-            $dismissalLink = sprintf("javascript:passIdToAjax('/projects/team-member/dismiss-contact', %d, dismissContactResponse)", $teamMember->GetId());
-        }
-        return $dismissalLink;
-    }
-
-    private function manageContractingLink(C3op_Projects_TeamMember $teamMember) {
-        $contractingLink = "";
-        if (($teamMember->GetContact() > 0)
-           && ($teamMember->GetStatus() == C3op_Projects_TeamMemberStatusConstants::STATUS_FORESEEN)) {
-            $contractingLink = sprintf("javascript:passIdToAjax('/projects/team-member/contract-contact', %d, contractContactResponse)", $teamMember->GetId());
-        }
-        return $contractingLink;
-    }
-
-    private function fillDataTree($tree)
-    {
-        //    actionInfo
-        //      * id =>
-        //        subordinatedTo
-        //        title
-        //        responsibleName
-        //        status
-
-        $this->initActionMapper();
-        $statusTypes = new C3op_Projects_ActionStatusTypes();
-        foreach ($tree as $id => $subTree) {
-            $loopAction = $this->actionMapper->findById($id);
-            $data = array();
-            $data['title'] = $loopAction->getTitle();
-            $data['subordinatedTo'] = $loopAction->getSubordinatedTo();
-
-            if ($loopAction->getResponsible()) {
-                $theContact = $this->contactMapper->findById($loopAction->getResponsible());
-                $data['responsibleName'] = $theContact->getName();
-            } else {
-                $data['responsibleName'] = $this->view->translate("#Not defined");
-            }
-
-            $data['status'] = $statusTypes->TitleForType($loopAction->getStatus());
-
-            $this->treeData[$id] = $data;
-
-            $this->fillDataTree($subTree);
-        }
     }
 
 }

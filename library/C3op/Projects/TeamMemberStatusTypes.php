@@ -2,16 +2,21 @@
 
 class C3op_Projects_TeamMemberStatusTypes {
 
-    private static $status = array(
+    private $status = array();
+
+
+    public function __construct() {
+        $this->status = array(
         C3op_Projects_TeamMemberStatusConstants::STATUS_NIL => "Nulo",
         C3op_Projects_TeamMemberStatusConstants::STATUS_UNDEFINED => "Indefinido",
         C3op_Projects_TeamMemberStatusConstants::STATUS_FORESEEN => "Previsto",
         C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED => "Contratado",
         C3op_Projects_TeamMemberStatusConstants::STATUS_ACQUITTED => "Quitado",
         C3op_Projects_TeamMemberStatusConstants::STATUS_CANCEL => "Cancelado",
-    );
+        );
+    }
 
-    public static function TitleForType($type)
+    public function TitleForType($type)
     {
             switch ($type) {
                 case C3op_Projects_TeamMemberStatusConstants::STATUS_NIL:
@@ -20,7 +25,7 @@ class C3op_Projects_TeamMemberStatusTypes {
                 case C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED:
                 case C3op_Projects_TeamMemberStatusConstants::STATUS_ACQUITTED:
                 case C3op_Projects_TeamMemberStatusConstants::STATUS_CANCEL:
-                    return self::$status[$type];
+                    return $this->status[$type];
                     break;
 
                 default:
@@ -29,8 +34,8 @@ class C3op_Projects_TeamMemberStatusTypes {
             }
     }
 
-    public static function AllStatus()
+    public function AllStatus()
     {
-        return self::$status;
+        return $this->status;
     }
 }
