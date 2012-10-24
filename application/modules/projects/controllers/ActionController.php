@@ -294,7 +294,7 @@ class Projects_ActionController extends Zend_Controller_Action
         $actionId = $this->checkIdFromGet();
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
             $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
-            $this->getResponse()->setHeader('Refresh', '3; URL=/projects/action/detail/?id=' . $actionId);
+            $this->getResponse()->setHeader('Refresh', '1; URL=/projects/action/detail/?id=' . $actionId);
         } else {
             $this->_redirect('/projects');
         }

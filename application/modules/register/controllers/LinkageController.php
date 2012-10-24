@@ -96,7 +96,7 @@ class Register_LinkageController extends Zend_Controller_Action
 
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
             $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
-            $this->getResponse()->setHeader('Refresh', '3; URL=/register/contact/detail/?id=' . $contact->getId());
+            $this->getResponse()->setHeader('Refresh', '1; URL=/register/contact/detail/?id=' . $contact->getId());
         } else {
             $this->_redirect('/register/contact/detail/?id=' . $contact->getId());
         }

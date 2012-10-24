@@ -121,7 +121,7 @@ class Register_InstitutionController extends Zend_Controller_Action
     {
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
             $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
-            $this->getResponse()->setHeader('Refresh', '3; URL=/register/institution');
+            $this->getResponse()->setHeader('Refresh', '1; URL=/register/institution');
         } else {
             $this->_redirect('/register');
         }

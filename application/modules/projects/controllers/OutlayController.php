@@ -142,7 +142,7 @@ class Projects_OutlayController  extends Zend_Controller_Action
 
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
             $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
-            $this->getResponse()->setHeader('Refresh', '3; URL=/projects/action/detail/?id=' . $actionRelated->GetId());
+            $this->getResponse()->setHeader('Refresh', '1; URL=/projects/action/detail/?id=' . $actionRelated->GetId());
         } else {
             $this->_redirect('/projects');
         }

@@ -92,7 +92,7 @@ class Projects_ReceivableController extends Zend_Controller_Action
     {
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
             $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
-            $this->getResponse()->setHeader('Refresh', '3; URL=/projects');
+            $this->getResponse()->setHeader('Refresh', '1; URL=/projects');
         } else {
             $this->_redirect('/projects');
         }
