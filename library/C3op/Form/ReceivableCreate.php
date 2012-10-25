@@ -94,20 +94,11 @@ class C3op_Form_ReceivableCreate extends Zend_Form
                 $predictedDateConvertedToMySQL = $dateForMysql;
             }
 
-            $realDate = $this->realDate->GetValue();
-            $dateValidator = new C3op_Util_ValidDate();
-            if ($dateValidator->isValid($realDate))
-            {
-                $converter = new C3op_Util_DateConverter();
-                $dateForMysql = $converter->convertDateToMySQLFormat($realDate);
-                $realDateConvertedToMySQL = $dateForMysql;
-            }
 
             $receivable = new C3op_Projects_Receivable($this->project->GetValue(),$predictedDateConvertedToMySQL, $this->predictedValue->GetValue());
             $receivable->SetTitle($this->title->GetValue());
             $receivable->SetProject((float)$this->project->GetValue());
             $receivable->SetRealDate($realDateConvertedToMySQL);
-            $receivable->SetRealValue((float)$this->realValue->GetValue());
 
             $receivableMapper->insert($receivable);
         }

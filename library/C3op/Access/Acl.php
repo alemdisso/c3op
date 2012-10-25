@@ -69,10 +69,11 @@ public function __construct() {
     $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:projects.project', 'payables');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.project', 'receivables');
     $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:projects.project', 'unacknowledged');
-    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT, 'c3op:projects.project', 'populate-responsible-at-client');
+    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.project', 'populate-responsible-at-client');
 
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.receivable', 'create');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.receivable', 'edit');
+    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.receivable', 'success');
 
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:register.contact', 'create');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:register.contact', 'edit');
