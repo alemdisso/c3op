@@ -84,51 +84,7 @@ function rejectReceipt(id)
       <div class="eleven columns omega">
         <a class="parent_info" href="/projects/action/detail/?id=<?php print($actionHeader['parentActionId']); ?>"><?php print($actionHeader['parentActionTitle']); ?></a>
       </div>
-
-      <div class="three columns alpha Right">
-        <?php print($this->translate("#Consisting of:")); ?>
-      </div>
-      <div class="eleven columns omega">
-
-
-        <table id="SubAcoes" class="display dataTable">
-          <thead>
-            <tr>
-              <th width="five columns alpha omega"><?php print($this->translate("#Action")); ?></th>
-              <th width="three columns alpha omega"><?php print($this->translate("#Responsible")); ?></th>
-              <th width="two columns alpha omega"><?php print($this->translate("#Status")); ?></th>
-              <th width="1%">&nbsp;</th>
-            </tr>
-          </thead>
-          <tbody>
-<?php
-$subordinatedActions = $actionHeader['subordinatedActions'];
-foreach ($subordinatedActions as $id => $actionData) {
-?>
-            <!-- ### loop de carga das ações subordinadas a esta ação -->
-            <tr>
-              <td><a href="/projects/action/detail/?id=<?php print($id);?>"><?php print($actionData['title']) ?></a></td>
-              <td><?php print($actionData['responsibleName']); ?></td>
-              <td><?php print($this->translate($actionData['status'])); ?></td>
-                  <td>
-                <a href="#" class="button one column alpha omega anchorclass" rel="submenu1"><?php print($this->translate("#Options")); ?></a>
-                <div id="submenu1" class="anylinkcss">
-                    <ul>
-                      <li>
-                        <a href="/projects/action/edit/?id=<?php print($id);?>"><?php print($this->translate("#Edit")); ?></a>
-                      </li>
-                    </ul>
-                </div><!-- #submenu1 -->
-              </td>
-            </tr>
-            <!-- ### fim do loop de carga das ações subordinadas a esta ação -->
-<?php
-}
-?>
-          </tbody>
-        </table><br />
-      </div>
-
+      
       <div class="three columns alpha Right">
         <?php print($this->translate("#Description:")); ?>
       </div>
@@ -223,6 +179,50 @@ if ($actionHeader['receiptToAcceptOrReject']) {
 <?php
 }
 ?>
+
+      <div class="three columns alpha Right">
+        <?php print($this->translate("#Consisting of:")); ?>
+      </div>
+      <div class="eleven columns omega">
+
+
+        <table id="SubAcoes" class="display dataTable">
+          <thead>
+            <tr>
+              <th width="five columns alpha omega"><?php print($this->translate("#Action")); ?></th>
+              <th width="three columns alpha omega"><?php print($this->translate("#Responsible")); ?></th>
+              <th width="two columns alpha omega"><?php print($this->translate("#Status")); ?></th>
+              <th width="1%">&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+<?php
+$subordinatedActions = $actionHeader['subordinatedActions'];
+foreach ($subordinatedActions as $id => $actionData) {
+?>
+            <!-- ### loop de carga das ações subordinadas a esta ação -->
+            <tr>
+              <td><a href="/projects/action/detail/?id=<?php print($id);?>"><?php print($actionData['title']) ?></a></td>
+              <td><?php print($actionData['responsibleName']); ?></td>
+              <td><?php print($this->translate($actionData['status'])); ?></td>
+                  <td>
+                <a href="#" class="button one column alpha omega anchorclass" rel="submenu1"><?php print($this->translate("#Options")); ?></a>
+                <div id="submenu1" class="anylinkcss">
+                    <ul>
+                      <li>
+                        <a href="/projects/action/edit/?id=<?php print($id);?>"><?php print($this->translate("#Edit")); ?></a>
+                      </li>
+                    </ul>
+                </div><!-- #submenu1 -->
+              </td>
+            </tr>
+            <!-- ### fim do loop de carga das ações subordinadas a esta ação -->
+<?php
+}
+?>
+          </tbody>
+        </table><br />
+      </div>
 
     </div><!-- .Area -->
 
