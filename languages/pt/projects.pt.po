@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-29 17:19-0300\n"
-"PO-Revision-Date: 2012-10-29 17:20-0300\n"
+"POT-Creation-Date: 2012-10-29 17:49-0300\n"
+"PO-Revision-Date: 2012-10-29 17:49-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -101,6 +101,11 @@ msgstr "Novo Responsável"
 #: application\modules\projects/controllers/ProjectController.php:222
 msgid "#(undefined)"
 msgstr "(indefinido)"
+
+#: application\modules\projects/controllers/ProjectController.php:323
+#: application\modules\projects/controllers/ProjectController.php:324
+msgid "#Not implemented"
+msgstr "(Não implementado)"
 
 #: application\modules\projects/controllers/ProjectController.php:380
 msgid "#(unknown date)"

@@ -320,8 +320,8 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $theContact = $this->contactMapper->findById($theTeamMember->getContact());
                 $staffId = $theContact->getId();
                 $staffName = $theContact->getName();
-                $staffEmail = "lorem@ipsum.com";
-                $staffPhoneNumber = "21.2345-6789";
+                $staffEmail = $this->view->translate("#Not implemented");
+                $staffPhoneNumber = $this->view->translate("#Not implemented");
             }
             $positionDescription = $theTeamMember->getDescription();
 
