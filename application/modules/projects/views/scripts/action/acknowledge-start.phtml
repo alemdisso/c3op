@@ -1,0 +1,11 @@
+<?php
+$pageData = $this->pageData;
+
+?>
+<p><?php print($this->translate("#Start confirmed.")); ?></p>
+
+<div class="three columns inset-by-four omega">
+<p>
+    <a class="button full column alpha omega parent_info" href="javascript:acknowledgeReceipt('<?php print($pageData['id']); ?>');"><?php print($this->translate("#Confirm task realization")); ?></a>
+</p>
+</div>

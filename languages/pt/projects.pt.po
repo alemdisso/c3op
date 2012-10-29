@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-24 17:00-0300\n"
-"PO-Revision-Date: 2012-10-24 17:01-0300\n"
+"POT-Creation-Date: 2012-10-29 17:19-0300\n"
+"PO-Revision-Date: 2012-10-29 17:20-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -60,7 +60,7 @@ msgstr "Não é um marco"
 msgid "#(not received)"
 msgstr "(não recebido)"
 
-#: application\modules\projects/controllers/ActionController.php:230
+#: application\modules\projects/controllers/ActionController.php:231
 msgid "#(not started)"
 msgstr "(não iniciada)"
 
@@ -72,15 +72,11 @@ msgstr "Entrega recebida"
 msgid "#Receipt rejected"
 msgstr "Entrega rejeitada"
 
-#: application\modules\projects/controllers/ActionController.php:353
-msgid "#Confirmed"
-msgstr "Confirmada"
-
-#: application\modules\projects/controllers/ActionController.php:393
+#: application\modules\projects/controllers/ActionController.php:396
 msgid "#It needs a positive integer project id to populate project fields."
 msgstr "It needs a positive integer project id to populate project fields."
 
-#: application\modules\projects/controllers/ActionController.php:424
+#: application\modules\projects/controllers/ActionController.php:427
 msgid ""
 "#It needs a positive integer project id to find other actions from same "
 "project."
@@ -114,7 +110,7 @@ msgstr "(data desconhecida)"
 #: library\C3op\projects/ActionStatusTypes.php:36
 #: library\C3op\projects/AreaActivityTypes.php:34
 #: library\C3op\projects/ContractNatureTypes.php:33
-#: library\C3op\projects/ProjectStatusTypes.php:37
+#: library\C3op\projects/ProjectStatusTypes.php:38
 #: library\C3op\projects/TeamMemberStatusTypes.php:32
 msgid "#Unknown type"
 msgstr "Tipo indefinido"
@@ -208,36 +204,49 @@ msgid "#contract.nature.Other"
 msgstr "Outras"
 
 #: library\C3op\projects/ProjectStatusTypes.php:11
+msgid "#Inexistente"
+msgstr "Nulo"
+
+#: library\C3op\projects/ProjectStatusTypes.php:12
 msgid "#Prospecting"
 msgstr "Prospecção"
 
-#: library\C3op\projects/ProjectStatusTypes.php:12
+#: library\C3op\projects/ProjectStatusTypes.php:13
 msgid "#project.status.type.Planning"
 msgstr "Planejamento"
 
-#: library\C3op\projects/ProjectStatusTypes.php:13
+#: library\C3op\projects/ProjectStatusTypes.php:14
 msgid "#Proposal"
 msgstr "Proposta"
 
-#: library\C3op\projects/ProjectStatusTypes.php:14
+#: library\C3op\projects/ProjectStatusTypes.php:15
 msgid "#Execution"
 msgstr "Execução"
 
-#: library\C3op\projects/ProjectStatusTypes.php:15
+#: library\C3op\projects/ProjectStatusTypes.php:16
 msgid "#Accountability"
 msgstr "Prestação de contas"
 
-#: library\C3op\projects/ProjectStatusTypes.php:16
+#: library\C3op\projects/ProjectStatusTypes.php:17
 msgid "#Canceled"
 msgstr "Cancelado"
 
-#: library\C3op\projects/ProjectStatusTypes.php:17
+#: library\C3op\projects/ProjectStatusTypes.php:18
 msgid "#Suspended"
 msgstr "Suspenso"
 
-#: library\C3op\projects/ProjectStatusTypes.php:18
+#: library\C3op\projects/ProjectStatusTypes.php:19
 msgid "#Finished"
 msgstr "Finalizado"
+
+#: application\modules\projects/views/scripts/action/acknowledge-start.phtml:5
+msgid "#Start confirmed."
+msgstr "Início confirmado."
+
+#: application\modules\projects/views/scripts/action/acknowledge-start.phtml:9
+#: application\modules\projects/views/scripts/action/detail.phtml:146
+msgid "#Confirm task realization"
+msgstr "Confirma entrega"
 
 #: application\modules\projects/views/scripts/action/create.phtml:2
 msgid "#New action"
@@ -264,7 +273,7 @@ msgid "#Responsible:"
 msgstr "Responsável:"
 
 #: application\modules\projects/views/scripts/action/detail.phtml:75
-#: application\modules\projects/views/scripts/action/detail.phtml:99
+#: application\modules\projects/views/scripts/action/detail.phtml:194
 #: application\modules\projects/views/scripts/action/detail.phtml:238
 #: application\modules\projects/views/scripts/index/index.phtml:31
 msgid "#Status"
@@ -275,21 +284,57 @@ msgid "#Subordinated to:"
 msgstr "Subordinada a:"
 
 #: application\modules\projects/views/scripts/action/detail.phtml:89
+msgid "#Description:"
+msgstr "Descrição"
+
+#: application\modules\projects/views/scripts/action/detail.phtml:96
+msgid "#Predicted begin:"
+msgstr "Data prevista:"
+
+#: application\modules\projects/views/scripts/action/detail.phtml:102
+msgid "#Predicted finish:"
+msgstr "Término previsto:"
+
+#: application\modules\projects/views/scripts/action/detail.phtml:112
+msgid "#Real begin:"
+msgstr "Início real:"
+
+#: application\modules\projects/views/scripts/action/detail.phtml:118
+msgid "#Real finish:"
+msgstr "Término real:"
+
+#: application\modules\projects/views/scripts/action/detail.phtml:129
+msgid "#Acknowledge start"
+msgstr "Confirmar início"
+
+#: application\modules\projects/views/scripts/action/detail.phtml:157
+msgid "#Receipt date:"
+msgstr "Recebida em:"
+
+#: application\modules\projects/views/scripts/action/detail.phtml:165
+msgid "#Reject receipt"
+msgstr "Rejeitar tarefa"
+
+#: application\modules\projects/views/scripts/action/detail.phtml:170
+msgid "#Accept receipt"
+msgstr "Aceitar tarefa"
+
+#: application\modules\projects/views/scripts/action/detail.phtml:184
 msgid "#Consisting of:"
 msgstr "Composta por:"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:97
+#: application\modules\projects/views/scripts/action/detail.phtml:192
 #: application\modules\projects/views/scripts/project/detail.phtml:184
-#: application\modules\projects/views/scripts/project/detail.phtml:330
+#: application\modules\projects/views/scripts/project/detail.phtml:326
 msgid "#Action"
 msgstr "Ação"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:98
-#: application\modules\projects/views/scripts/project/detail.phtml:331
+#: application\modules\projects/views/scripts/action/detail.phtml:193
+#: application\modules\projects/views/scripts/project/detail.phtml:327
 msgid "#Responsible"
 msgstr "Responsável"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:114
+#: application\modules\projects/views/scripts/action/detail.phtml:209
 #: application\modules\projects/views/scripts/action/detail.phtml:261
 #: application\modules\projects/views/scripts/project/detail.phtml:132
 #: application\modules\projects/views/scripts/project/detail.phtml:218
@@ -297,7 +342,7 @@ msgstr "Responsável"
 msgid "#Options"
 msgstr "Opções"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:118
+#: application\modules\projects/views/scripts/action/detail.phtml:213
 #: application\modules\projects/views/scripts/action/detail.phtml:265
 #: application\modules\projects/views/scripts/index/index.phtml:58
 #: application\modules\projects/views/scripts/project/detail.phtml:137
@@ -305,46 +350,6 @@ msgstr "Opções"
 #: application\modules\projects/views/scripts/project/detail.phtml:302
 msgid "#Edit"
 msgstr "Editar"
-
-#: application\modules\projects/views/scripts/action/detail.phtml:133
-msgid "#Description:"
-msgstr "Descrição"
-
-#: application\modules\projects/views/scripts/action/detail.phtml:140
-msgid "#Predicted begin:"
-msgstr "Data prevista:"
-
-#: application\modules\projects/views/scripts/action/detail.phtml:146
-msgid "#Predicted finish:"
-msgstr "Término previsto:"
-
-#: application\modules\projects/views/scripts/action/detail.phtml:156
-msgid "#Real begin:"
-msgstr "Início real:"
-
-#: application\modules\projects/views/scripts/action/detail.phtml:162
-msgid "#Real finish:"
-msgstr "Término real:"
-
-#: application\modules\projects/views/scripts/action/detail.phtml:173
-msgid "#Acknowledge start"
-msgstr "Confirmar início"
-
-#: application\modules\projects/views/scripts/action/detail.phtml:190
-msgid "#Confirm task realization"
-msgstr "Confirma que a tarefa foi entregue ao IETS"
-
-#: application\modules\projects/views/scripts/action/detail.phtml:201
-msgid "#Receipt date:"
-msgstr "Recebida em:"
-
-#: application\modules\projects/views/scripts/action/detail.phtml:209
-msgid "#Reject receipt"
-msgstr "Rejeitar tarefa"
-
-#: application\modules\projects/views/scripts/action/detail.phtml:214
-msgid "#Accept receipt"
-msgstr "Aceitar tarefa"
 
 #: application\modules\projects/views/scripts/action/detail.phtml:231
 #: application\modules\projects/views/scripts/project/detail.phtml:266
@@ -494,7 +499,7 @@ msgid "#Staff"
 msgstr "Equipe"
 
 #: application\modules\projects/views/scripts/project/detail.phtml:93
-#: application\modules\projects/views/scripts/project/detail.phtml:326
+#: application\modules\projects/views/scripts/project/detail.phtml:322
 msgid "#Actions"
 msgstr "Ações"
 
@@ -574,23 +579,19 @@ msgstr "Telefone"
 msgid "#Contact details"
 msgstr "Detalhes do contato"
 
-#: application\modules\projects/views/scripts/project/detail.phtml:320
-msgid "#Add staff member"
-msgstr "Incluir membro na equipe"
-
-#: application\modules\projects/views/scripts/project/detail.phtml:332
+#: application\modules\projects/views/scripts/project/detail.phtml:328
 msgid "#Pred. begin date"
 msgstr "Início prev."
 
-#: application\modules\projects/views/scripts/project/detail.phtml:333
+#: application\modules\projects/views/scripts/project/detail.phtml:329
 msgid "#Real begin date"
 msgstr "Início real"
 
-#: application\modules\projects/views/scripts/project/detail.phtml:334
+#: application\modules\projects/views/scripts/project/detail.phtml:330
 msgid "#Pred. finish date"
 msgstr "Término prev."
 
-#: application\modules\projects/views/scripts/project/detail.phtml:335
+#: application\modules\projects/views/scripts/project/detail.phtml:331
 msgid "#Real finish date"
 msgstr "Término real"
 
@@ -618,6 +619,9 @@ msgstr "Ação:"
 #: application\modules\projects/views/scripts/team-member/success.phtml:2
 msgid "#Success!"
 msgstr "Sucesso!"
+
+#~ msgid "#Add staff member"
+#~ msgstr "Incluir membro na equipe"
 
 #~ msgid "#(not realized)"
 #~ msgstr "(não realizada)"
