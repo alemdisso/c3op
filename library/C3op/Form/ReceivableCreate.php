@@ -34,6 +34,7 @@ class C3op_Form_ReceivableCreate extends Zend_Form
 
         $elementText = new Zend_Form_Element_Text('predictedDate');
         $elementText->setLabel('#Predicted Date')
+            ->setAttrib('alt','date')
             ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
@@ -48,6 +49,7 @@ class C3op_Form_ReceivableCreate extends Zend_Form
 
         $elementText = new Zend_Form_Element_Text('predictedValue');
         $elementText->setLabel('#Predicted Value')
+            ->setAttrib('alt','decimal')
             ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
