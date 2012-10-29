@@ -28,7 +28,27 @@ class C3op_Form_OutlayCreate extends Zend_Form
         $this->addElement($project);
 
         $this->addElementText('predictedValue', 'Valor:', new C3op_Util_ValidPositiveFloat(), 50);
-        $this->addElementText('predictedDate', 'Data:', new C3op_Util_ValidDate(), 50);
+
+        // $this->addElementText('predictedDate', 'Data:', new C3op_Util_ValidDate(), 50);
+
+        $elementText = new Zend_Form_Element_Text('predictedDate');
+        $elementText->setLabel('#Predicted Date')
+            ->setAttrib('alt','date')
+            ->setDecorators(array(
+                'ViewHelper',
+                'Errors',
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+            ))
+            ->setOptions(array('class' => 'Full alpha omega datepicker'))
+            ->addValidator(new C3op_Util_ValidString)
+            ->addFilter('StringTrim')
+                ;
+        $this->addElement($elementText);
+
+
+
+
         $observation = new Zend_Form_Element_Textarea('observation');
         $observation->setLabel('Observações:')
             ->setAttrib('cols','8')

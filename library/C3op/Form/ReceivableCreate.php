@@ -41,7 +41,7 @@ class C3op_Form_ReceivableCreate extends Zend_Form
                 array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns')),
                 array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
             ))
-            ->setOptions(array('class' => 'Full alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega datepicker'))
             ->addValidator(new C3op_Util_ValidString)
             ->addFilter('StringTrim')
                 ;

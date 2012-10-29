@@ -6,6 +6,7 @@ class C3op_Form_TeamMemberContract extends Zend_Form
     {
         $this->setName('newTeamMemberForm')
             ->setAction('/projects/team-member/contract')
+            ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
         
         $teamMember = new Zend_Form_Element_Hidden('id');
@@ -16,7 +17,13 @@ class C3op_Form_TeamMemberContract extends Zend_Form
         $predictedBeginDate = new Zend_Form_Element_Text('predictedBeginDate');
         $dateValidator = new C3op_Util_ValidDate();
         $predictedBeginDate->setLabel('Data de início:')
-            ->setOptions(array('size' => '35'))
+            ->setDecorators(array(
+                'ViewHelper',
+                'Errors',
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+            ))
+            ->setOptions(array('class' => 'Full alpha omega datepicker'))
             ->setRequired(true)
             ->addValidator($dateValidator)
             ->addFilter('StringTrim');
@@ -24,7 +31,13 @@ class C3op_Form_TeamMemberContract extends Zend_Form
         
         $predictedFinishDate = new Zend_Form_Element_Text('predictedFinishDate');
         $predictedFinishDate->setLabel('Data de término:')
-            ->setOptions(array('size' => '35'))
+            ->setDecorators(array(
+                'ViewHelper',
+                'Errors',
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns inset-by-two omega')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+            ))
+            ->setOptions(array('class' => 'Full alpha omega datepicker'))
             ->setRequired(true)
             ->addValidator('date')
             ->addFilter('HtmlEntities')
@@ -33,6 +46,13 @@ class C3op_Form_TeamMemberContract extends Zend_Form
         
         $observation = new Zend_Form_Element_Textarea('observation');
         $observation->setLabel('Observações:')
+            ->setDecorators(array(
+                'ViewHelper',
+                'Errors',
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+            ))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->setAttrib('cols','8')
             ->setAttrib('rows','5')
             ->setRequired(false)
@@ -42,12 +62,18 @@ class C3op_Form_TeamMemberContract extends Zend_Form
         
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
-        $submit->setLabel('Salvar')
-            ->setOptions(array('class' => 'submit'));
-        $this->addElement($submit);
-                
+        $submit ->setLabel('#Submit')
+                ->setDecorators(array('ViewHelper','Errors',
+                    array(array('data' => 'HtmlTag'),
+                    array('tag' => 'div','class' => 'two columns inset-by-nine omega')),
+                    array('Label',
+                      array('tag' => 'div','tagClass' => 'three columns alpha Invisible')
+                    ),
+                  ))
+                ->setOptions(array('class' => 'submit Full alpha omega'));
+        $this   ->addElement($submit);
     }
-    
+
     public function process($data) {
         if ($this->isValid($data) !== true) 
         {

@@ -80,8 +80,8 @@ class Projects_ReceivableController extends Zend_Controller_Action
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $id);
                 $this->SetDateValueToFormField($form, 'predictedDate', $thisReceivable->GetPredictedDate());
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'predictedValue', $thisReceivable->GetPredictedValue());
-                $this->SetDateValueToFormField($form, 'realDate', $thisReceivable->GetRealDate());
-                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'realValue', $thisReceivable->GetRealValue());
+//                $this->SetDateValueToFormField($form, 'realDate', $thisReceivable->GetRealDate());
+//                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'realValue', $thisReceivable->GetRealValue());
                 $projectId = $this->populateProjectFields($thisReceivable->GetProject(), $form);
             }
 
