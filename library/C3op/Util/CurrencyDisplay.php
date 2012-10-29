@@ -3,14 +3,17 @@ class C3op_Util_CurrencyDisplay {
 
 
 
-    public static function FormatCurrency($rawValue)
+    public function FormatCurrency($rawValue)
     {
-
-        $currency = new Zend_Currency(
-            array(
-                'value' => $rawValue,
-            )
-        );
+        if ($rawValue !== null) {
+            $currency = new Zend_Currency(
+                array(
+                    'value' => $rawValue,
+                )
+            );
+        } else {
+            $currency = "";
+        }
 
 
         return $currency;

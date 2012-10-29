@@ -227,23 +227,23 @@ class Projects_ActionController extends Zend_Controller_Action
         }
 
         $unacknowledgedStart = false;
+        $waitingToReceipt = false;
         $realBeginDate = $this->view->translate("#(not started)");
         if ($actionToBeDetailed->hasBegun()) {
             $realBeginDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getRealBeginDate());
             $obj = new C3op_Projects_ActionStartMode($actionToBeDetailed, $this->actionMapper);
             if ($obj->isUnacknowledged()) {
                 $unacknowledgedStart = true;
+            } else {
+                if ($actionToBeDetailed->waitingToReceipt()) {
+                    $waitingToReceipt = true;
+                }
             }
         }
 
         $receiptToAcceptOrReject = false;
         if ($actionToBeDetailed->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_RECEIVED) {
             $receiptToAcceptOrReject = true;
-        }
-
-        $waitingToReceipt = false;
-        if ($actionToBeDetailed->waitingToReceipt()) {
-            $waitingToReceipt = true;
         }
 
         $actionHeader = array(
@@ -343,14 +343,17 @@ class Projects_ActionController extends Zend_Controller_Action
     public function acknowledgeStartAction()
     {
         $this->_helper->layout->disableLayout();
-        $this->_helper->viewRenderer->setNoRender(TRUE);
+        //$this->_helper->viewRenderer->setNoRender(TRUE);
 
+        $id = $this->checkIdFromGet();
         $this->initActionMapper();
         $actionToBeChanged =  $this->initActionWithCheckedId($this->actionMapper);
 
         $acknowledgment = new C3op_Projects_ActionAcknowledgeStart($actionToBeChanged);
 
-        echo $this->view->translate('#Confirmed');
+        $this->view->pageData = array('id' => $id);
+
+
     }
 
     private function initActionWithCheckedId(C3op_Projects_ActionMapper $mapper)
@@ -537,7 +540,8 @@ class Projects_ActionController extends Zend_Controller_Action
 
         foreach ($teamMembersIdsList as $teamMemberId) {
             $thisTeamMember = $this->teamMemberMapper->findById($teamMemberId);
-            $currencyValue = C3op_Util_CurrencyDisplay::FormatCurrency($thisTeamMember->GetValue());
+            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+            $currencyValue = $currencyDisplay->FormatCurrency($thisTeamMember->GetValue());
             $totalValueExistentOutlays = $this->calculateTotalValueExistentOutlays($thisTeamMember);
 
             $descriptionMessage = $thisTeamMember->GetDescription();

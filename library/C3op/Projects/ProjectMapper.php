@@ -324,7 +324,6 @@ class C3op_Projects_ProjectMapper
     public function getAllTeamMembersContractedOrPredictedAt(C3op_Projects_Project $p) {
         $result = array();
 
-
         foreach ($this->db->query(sprintf('SELECT h.id
             FROM projects_actions a
             INNER JOIN projects_team_members h ON a.id = h.action
@@ -333,8 +332,10 @@ class C3op_Projects_ProjectMapper
             a.status = %d
             OR a.status = %d
             OR a.status = %d
+            OR a.status = %d
             )'
             , $p->GetId()
+            , C3op_Projects_TeamMemberStatusConstants::STATUS_UNDEFINED
             , C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED
             , C3op_Projects_TeamMemberStatusConstants::STATUS_ACQUITTED
             , C3op_Projects_TeamMemberStatusConstants::STATUS_FORESEEN

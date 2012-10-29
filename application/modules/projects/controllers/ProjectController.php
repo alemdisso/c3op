@@ -180,7 +180,8 @@ class Projects_ProjectController extends Zend_Controller_Action
 
         $overhead = $projectToBeDetailed->getOverhead();
         $managementFee = $projectToBeDetailed->getManagementFee();
-        $contractValue = C3op_Util_CurrencyDisplay::FormatCurrency($projectToBeDetailed->getValue());
+        $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+        $contractValue = $currencyDisplay->FormatCurrency($projectToBeDetailed->getValue());
         $contractDate = C3op_Util_DateDisplay::FormatDateToShow($projectToBeDetailed->getBeginDate());
 
         $projectHeader = array(
@@ -228,8 +229,10 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $realDate = $this->view->translate("#(not received)");
             }
 
-            $predictedValue = C3op_Util_CurrencyDisplay::FormatCurrency($theReceivable->getPredictedValue());
-            $realValue = C3op_Util_CurrencyDisplay::FormatCurrency($theReceivable->getRealValue());
+            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+
+            $predictedValue = $currencyDisplay->FormatCurrency($theReceivable->getPredictedValue());
+            $realValue = $currencyDisplay->FormatCurrency($theReceivable->getRealValue());
 
             $receivablesList[$id] = array(
                     'productTitle' => $productTitle,
@@ -278,8 +281,9 @@ class Projects_ProjectController extends Zend_Controller_Action
 
             $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($theOutlay->getPredictedDate());
             $realDate = C3op_Util_DateDisplay::FormatDateToShow('0000-00-00');
-            $predictedValue = C3op_Util_CurrencyDisplay::FormatCurrency($theOutlay->getPredictedValue());
-            $realValue = C3op_Util_CurrencyDisplay::FormatCurrency('0');
+            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+            $predictedValue = $currencyDisplay->FormatCurrency($theOutlay->getPredictedValue());
+            $realValue = $currencyDisplay->FormatCurrency('0');
 
             $outlaysList[$id] = array(
                     'actionId' => $actionId,
@@ -320,8 +324,8 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $theContact = $this->contactMapper->findById($theTeamMember->getContact());
                 $staffId = $theContact->getId();
                 $staffName = $theContact->getName();
-                $staffEmail = "lorem@ipsum.com";
-                $staffPhoneNumber = "21.2345-6789";
+                $staffEmail = $this->view->translate("#Not implemented");
+                $staffPhoneNumber = $this->view->translate("#Not implemented");
             }
             $positionDescription = $theTeamMember->getDescription();
 
@@ -382,7 +386,8 @@ class Projects_ProjectController extends Zend_Controller_Action
 
             if ($thisReceivable->getPredictedValue() > 0) {
                 $receivablesTotalValue += $thisReceivable->getPredictedValue();
-                $predictedValue = C3op_Util_CurrencyDisplay::FormatCurrency($thisReceivable->getPredictedValue());
+                $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+                $predictedValue = $currencyDisplay->FormatCurrency($thisReceivable->getPredictedValue());
             } else {
                 $predictedValue = "";
             }
@@ -409,11 +414,12 @@ class Projects_ProjectController extends Zend_Controller_Action
             );
         }
 
+        $currencyDisplay = new  C3op_Util_CurrencyDisplay();
         if ($receivablesTotalValue == $thisProject->getValue()) {
-            $projectValue = C3op_Util_CurrencyDisplay::FormatCurrency($receivablesTotalValue) . " (OK)";
+            $projectValue = $currencyDisplay->FormatCurrency($receivablesTotalValue) . " (OK)";
         } else {
-            $projectValue = "Valor do Projeto: " . C3op_Util_CurrencyDisplay::FormatCurrency($thisProject->getValue());
-            $projectValue .= " Total dos recebimentos:" .  C3op_Util_CurrencyDisplay::FormatCurrency($receivablesTotalValue) . " (?)";
+            $projectValue = "Valor do Projeto: " . $currencyDisplay->FormatCurrency($thisProject->getValue());
+            $projectValue .= " Total dos recebimentos:" .  $currencyDisplay->FormatCurrency($receivablesTotalValue) . " (?)";
 
         }
 
@@ -441,7 +447,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         foreach ($list as $actionId) {
             $thisAction = $this->actionMapper->findById($actionId);
             $actionTitle = $thisAction->getTitle();
-            $actionValue = C3op_Util_CurrencyDisplay::FormatCurrency(
+            $actionValue = $currencyDisplay->FormatCurrency(
                                $this->actionMapper->getContractedValueJustForThisAction($thisAction)
                            );
 
