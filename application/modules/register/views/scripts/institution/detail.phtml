@@ -7,7 +7,7 @@ if (is_array($pageData['institutionInfo'])) {
 <h1>
 <p class="project_title"><?php print($institutionInfo['name']) ?></p>
 </h1>
-<h2><? print($this->translate("#Contacts in this institution")) ?></h2>
+<h2><?php print($this->translate("#Contacts in this institution")) ?></h2>
 <?php
 /*
  * iterate list and print title
@@ -20,13 +20,13 @@ if (is_array($pageData['institutionInfo'])) {
 <p class="project_product_line">
 <?php print($linkageInfo['contactName']) ?>&nbsp;(<?php print($linkageInfo['position']) ?>) |
 <?php print($linkageInfo['department']) ?> |
-<a href="/register/contact/edit/?id=<?php print($linkageInfo['contactId']) ?>"><? print($this->translate("#Edit")) ?></a>
+<a href="/register/contact/edit/?id=<?php print($linkageInfo['contactId']) ?>"><?php print($this->translate("#Edit")) ?></a>
 </p>
 <?php
 }  // loop iterate list
 ?>
 <p />
-<br /><br /><a href="/register/linkage/create/?institution=<?php print($institutionInfo['id']) ?>"><? print($this->translate("#Add new linkage")) ?></a>
+<br /><br /><a href="/register/linkage/create/?institution=<?php print($institutionInfo['id']) ?>"><?php print($this->translate("#Add new linkage")) ?></a>
 <?php
 } else { // else exists institutions list
 ?>

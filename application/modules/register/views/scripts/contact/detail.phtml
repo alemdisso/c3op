@@ -59,12 +59,12 @@ if (is_array($pageData['contactInfo'])) {
                   <td>
 <?php if (isset($phoneInfo['areaCode']) && ($phoneInfo['areaCode'] != "")) { ?>
 (<?php print($phoneInfo['areaCode']) ?>)
-<?php } else { ?>&nbsp;<? } ?>
+<?php } else { ?>&nbsp;<?php } ?>
                   </td>
                   <td>
 <?php if (isset($phoneInfo['localNumber']) && ($phoneInfo['localNumber'] != "")) { ?>
 <?php print($phoneInfo['localNumber']) ?>
-<?php } else { ?>&nbsp;<? } ?>
+<?php } else { ?>&nbsp;<?php } ?>
 
                   </td>
                   <td>
@@ -125,12 +125,12 @@ if (is_array($pageData['contactInfo'])) {
                   <td>
 <?php if (isset($emailInfo['address']) && ($emailInfo['address'] != "")) { ?>
 <?php print($emailInfo['address']) ?>
-<?php } else { ?>&nbsp;<? } ?>
+<?php } else { ?>&nbsp;<?php } ?>
                   </td>
                   <td>
 <?php if (isset($emailInfo['label'])) { ?>
 <?php print($emailInfo['label']) ?>
-<?php } else { ?>&nbsp;<? } ?>
+<?php } else { ?>&nbsp;<?php } ?>
                   </td>
                   <td>
                     <a class="anchorclass button" rel="submenu1"><?php echo $this->translate("#Options...") ?></a>
@@ -184,12 +184,12 @@ if (is_array($pageData['contactInfo'])) {
                   <td>
 <?php if (isset($messengerInfo['service'])) { ?>
 <?php print($messengerInfo['service']) ?>
-<?php } else { ?>&nbsp;<? } ?>
+<?php } else { ?>&nbsp;<?php } ?>
                   </td>
                   <td>
 <?php if (isset($messengerInfo['address']) && ($messengerInfo['address'] != "")) { ?>
 <?php print($messengerInfo['address']) ?>
-<?php } else { ?>&nbsp;<? } ?>
+<?php } else { ?>&nbsp;<?php } ?>
                   </td>
                   <td>
                     <a class="anchorclass button" rel="submenu1"><?php echo $this->translate("#Options...") ?></a>
@@ -243,7 +243,7 @@ if (is_array($pageData['contactInfo'])) {
                   <td>
 <?php if (isset($linkageInfo['institutionName'])) { ?>
 <a href="/register/institution/edit/?id=<?php print($linkageId) ?>"><?php print($linkageInfo['institutionName']) ?></a>
-<?php } else { ?>&nbsp;<? } ?>
+<?php } else { ?>&nbsp;<?php } ?>
                   </td>
                   <td>
 <?php if (isset($linkageInfo['department']) && ($linkageInfo['department'] != "")) { ?>
