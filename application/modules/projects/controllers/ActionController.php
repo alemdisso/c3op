@@ -540,7 +540,8 @@ class Projects_ActionController extends Zend_Controller_Action
 
         foreach ($teamMembersIdsList as $teamMemberId) {
             $thisTeamMember = $this->teamMemberMapper->findById($teamMemberId);
-            $currencyValue = C3op_Util_CurrencyDisplay::FormatCurrency($thisTeamMember->GetValue());
+            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+            $currencyValue = $currencyDisplay->FormatCurrency($thisTeamMember->GetValue());
             $totalValueExistentOutlays = $this->calculateTotalValueExistentOutlays($thisTeamMember);
 
             $descriptionMessage = $thisTeamMember->GetDescription();
