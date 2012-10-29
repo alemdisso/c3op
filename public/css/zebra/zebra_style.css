@@ -6,7 +6,11 @@ body { }
 
 h3 { font-size: 31px }
 h3, p, pre { margin: 10px 0 }
-.syntaxhighlighter { padding: 5px 0 }
+
+/* = CUSTOM STYLES FOR THE DIALOG BOX
+----------------------------------------------------------------------------------------------------------------------*/
+.myclass .ZebraDialog_Title { background: #330066 }
+.myclass .ZebraDialog_Body { background-image: url('coffee_48.png') }
 
 /* = MISCELLANEOUS
 ----------------------------------------------------------------------------------------------------------------------*/

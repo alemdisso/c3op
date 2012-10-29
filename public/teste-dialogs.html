@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Zebra_Dialog examples</title>
+    
+    <link rel="stylesheet" href="/css/zebra/zebra_dialog.css" type="text/css">
+    <link rel="stylesheet" href="/css/zebra/zebra_style.css" type="text/css">
+    
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/zebra_dialog.js"></script>
+    <script type="text/javascript" src="/js/zebra_functions.js"></script>
+  </head>
+  <body>
+    <div class="main-wrapper">
+      <h3>Zebra_Dialog Demos</h3>
+      <strong>1.</strong> Default dialog box, no custom settings. 
+      Click <a href="javascript:void(0)" class="simple">here</a> to open.
+      <p>&nbsp;</p>
+      <strong>2.</strong> The five dialog box types, with titles: 
+      <a href="javascript:void(0)" class="error">error</a>, 
+      <a href="javascript:void(0)" class="warning">warning</a>, 
+      <a href="javascript:void(0)" class="question">question</a>, 
+      <a href="javascript:void(0)" class="information">information</a> and 
+      <a href="javascript:void(0)" class="confirmation">confirmation</a>.
+      <p>&nbsp;</p>
+      <strong>3.</strong> Custom buttons and the callback function. Click <a href="javascript:void(0)" class="callback-after">here</a> to open.<br>
+      <em>Note that the onClose event is executed *after* the dialog box is closed! see the next example for executing functions *before* the closing of the dialog box</em><br>
+      <strong>3.1</strong> Custom buttons with attached callback functions. Click <a href="javascript:void(0)" class="callback-before">here</a> to open.<br>
+      <em>Note that the callback functions attached to custom buttons are executed *before* the dialog box is closed and as soon as a button is clicked! see the previous example for executing functions *after* the closing of the dialog box</em>
+      <p>&nbsp;</p>
+      <strong>4.</strong> Position the dialog box in the top-right corner. Click <a href="javascript:void(0)" class="top-right">here</a> to open.
+      <p>&nbsp;</p>
+      <strong>5.</strong> Use as a notification widget - no buttons and close automatically after 2 seconds.<br>
+      <em>Note how the plugin needs to be instantiated with the "new" keyword or only the last opened box will close!</em><br>
+      Click <a href="javascript:void(0)" class="notification">here</a> to open.
+      <p>&nbsp;</p>
+      <strong>6.</strong> Customizing the appearance - make the title bar have a dark-blue background and show a custom icon!
+      <br><br>
+      Click <a href="javascript:void(0)" class="custom">here</a> to open.<br>
+      <p>&nbsp;</p>
+    </div>
+  </body>
+</html>
