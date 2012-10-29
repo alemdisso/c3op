@@ -2,6 +2,7 @@
 
 class C3op_Projects_ProjectStatusConstants
 {
+    const STATUS_NIL            =  0;
     const STATUS_PROSPECTING    = 10;
     const STATUS_PLANNING       = 20;
     const STATUS_PROPOSAL       = 30;

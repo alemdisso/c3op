@@ -8,6 +8,7 @@ class C3op_Projects_ProjectStatusTypes {
     public function __construct() {
         $this->titles = array(
 
+            C3op_Projects_ProjectStatusConstants::STATUS_NIL            => _("#Inexistente"),
             C3op_Projects_ProjectStatusConstants::STATUS_PROSPECTING    => _("#Prospecting"),
             C3op_Projects_ProjectStatusConstants::STATUS_PLANNING       => _("#project.status.type.Planning"),
             C3op_Projects_ProjectStatusConstants::STATUS_PROPOSAL       => _("#Proposal"),

@@ -29,6 +29,7 @@ class C3op_Projects_Project
         $this->beginDate = "";
         $this->finishDate = "";
         $this->value = 0;
+        $this->status = 0;
     }
 
     public function GetId()
@@ -69,7 +70,7 @@ class C3op_Projects_Project
 
     public function SetShortTitle($shortTitle)
     {
-        $validator = new C3op_Projects_ProjectValidShortTitle();
+        $validator = new C3op_Projects_ProjectValidTitle();
         if ($validator->isValid($shortTitle)) {
             if ($this->shortTitle != $shortTitle) {
                 $this->shortTitle = $shortTitle;
