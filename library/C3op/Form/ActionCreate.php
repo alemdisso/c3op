@@ -105,7 +105,7 @@ class C3op_Form_ActionCreate extends Zend_Form
                 array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns')),
                 array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
             ))
-            ->setOptions(array('class' => 'Full alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega datepicker'))
             ->setRequired(false)
             ->addValidator($dateValidator)
             ->addFilter('StringTrim');
@@ -119,7 +119,7 @@ class C3op_Form_ActionCreate extends Zend_Form
                 array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns inset-by-three omega')),
                 array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
             ))
-            ->setOptions(array('class' => 'Full alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega datepicker'))
             ->setRequired(false)
             ->addValidator('date')
             ->addFilter('HtmlEntities')

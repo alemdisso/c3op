@@ -34,13 +34,14 @@ class C3op_Form_ReceivableCreate extends Zend_Form
 
         $elementText = new Zend_Form_Element_Text('predictedDate');
         $elementText->setLabel('#Predicted Date')
+            ->setAttrib('alt','date')
             ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
                 array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns')),
                 array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
             ))
-            ->setOptions(array('class' => 'Full alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega datepicker'))
             ->addValidator(new C3op_Util_ValidString)
             ->addFilter('StringTrim')
                 ;
@@ -48,6 +49,7 @@ class C3op_Form_ReceivableCreate extends Zend_Form
 
         $elementText = new Zend_Form_Element_Text('predictedValue');
         $elementText->setLabel('#Predicted Value')
+            ->setAttrib('alt','decimal')
             ->setDecorators(array(
                 'ViewHelper',
                 'Errors',

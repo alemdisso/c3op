@@ -101,7 +101,7 @@ class C3op_Form_ProjectCreate extends Zend_Form
                   array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns')),
                   array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
               ))
-            ->setOptions(array('class' => 'two columns alpha omega'))
+            ->setOptions(array('class' => 'two columns alpha omega datepicker'))
             ->setRequired(false)
             ->addValidator($dateValidator)
             ->addFilter('StringTrim');
@@ -115,7 +115,7 @@ class C3op_Form_ProjectCreate extends Zend_Form
                   array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns inset-by-five omega')),
                   array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
               ))
-            ->setOptions(array('class' => 'two columns alpha omega'))
+            ->setOptions(array('class' => 'two columns alpha omega datepicker'))
             ->setRequired(false)
             ->addValidator('date')
             ->addFilter('HtmlEntities')

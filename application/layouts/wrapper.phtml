@@ -20,6 +20,8 @@
     <link rel="stylesheet" type="text/css" href="/css/base.css">
     <link rel="stylesheet" type="text/css" href="/css/skeleton.css">
     <link rel="stylesheet" type="text/css" href="/css/formalize.css">
+    <link rel="stylesheet" type="text/css" href="/css/zebra/zebra_datepicker.css">
+    <link rel="stylesheet" type="text/css" href="/css/zebra/zebra_style.css">
 
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -38,6 +40,9 @@
 <!--    <script type="text/javascript" src="/js/prototype.js"></script>-->
     <script type="text/javascript" src="/js/jquery.js"></script>
     <script type="text/javascript" src="/js/jquery.formalize.js"></script>
+    <script type="text/javascript" src="/js/jquery.meio.mask.js" charset="utf-8" ></script>
+    <script type="text/javascript" src="/js/zebra_datepicker.js"></script>
+    <script type="text/javascript" src="/js/zebra-configs.js"></script>
 
     <link rel="stylesheet" type="text/css" href="/css/anylinkcssmenu.css" />
     <script type="text/javascript" src="/js/anylinkcssmenu.js"></script>
@@ -80,6 +85,27 @@
         persistStoreName  : "treeTable"     /* Store name used when persist is true. */
         treeColumn        : 0               /* The number of the column in the table that should be displayed as a tree. */
     });
+    </script>
+
+    <!-- Initializing jquery.meio.mask -->
+    <script type="text/javascript" charset="utf-8">
+      $(document).ready(function() {
+        $.mask.masks = $.extend($.mask.masks, {
+        });
+        $("[alt=phone]").live('keypress', function (event) {
+          var target, phone, element;
+          target = (event.currentTarget) ? event.currentTarget : event.srcElement;
+          phone = target.value.replace(/\D/g, '');
+          element = $(target);
+          element.unsetMask();
+          if (phone.length > 5 && phone.substr(0,3) > "115"   && phone.substr(0,3) <= "119") { //ele só vai colocar no formato de SP quando for ddd 11 e iniciar com 9.
+            element.setMask("(99) 999-999-999");
+          } else {
+            element.setMask("(99) 9999-9999");
+          }
+        })
+        $('input:text').setMask();
+      });
     </script>
   </head>
   <body>
