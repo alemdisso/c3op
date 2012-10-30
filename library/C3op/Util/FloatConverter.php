@@ -53,6 +53,22 @@ class C3op_Util_FloatConverter
             return $value;
         }
     }
+
+    public function getDecimalDotValue($value, C3op_Util_ValidFloat $validator)
+    {
+        if ($validator->isValid($value)) {
+            if ($this->identifyDecimalComma($value)) {
+                return $this->convertDecimalCommaToDecimalDot($value);
+            } else {
+                return value;
+            }
+        } else {
+            throw new C3op_Projects_ReceivableException("Invalid value");
+        }
+    }
+
+
+
 }
 
 ?>
