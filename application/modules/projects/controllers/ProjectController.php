@@ -447,6 +447,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         foreach ($list as $actionId) {
             $thisAction = $this->actionMapper->findById($actionId);
             $actionTitle = $thisAction->getTitle();
+            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
             $actionValue = $currencyDisplay->FormatCurrency(
                                $this->actionMapper->getContractedValueJustForThisAction($thisAction)
                            );
