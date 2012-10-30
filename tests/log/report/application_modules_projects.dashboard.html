@@ -43,7 +43,7 @@
             <h2>Class Complexity</h2>
             <canvas id="classComplexity" width="475" height="200"></canvas>
             <script>
-            var cc = new RGraph.Scatter('classComplexity', [[0,88,"blue","Projects_ActionController"],[0,47,"blue","Projects_HumanResourceController"],[0,3,"blue","Projects_IndexController"],[0,29,"blue","Projects_OutlayController"],[0,73,"blue","Projects_ProjectController"],[0,22,"blue","Projects_ReceivableController"]]);
+            var cc = new RGraph.Scatter('classComplexity', [[0,64,"blue","Projects_ActionController"],[0,4,"blue","Projects_IndexController"],[0,29,"blue","Projects_OutlayController"],[0,83,"blue","Projects_ProjectController"],[0,20,"blue","Projects_ReceivableController"],[0,46,"blue","Projects_TeamMemberController"]]);
             cc.Set('chart.xmax', 100);
             cc.Set('chart.background.barcolor1', 'white');
             cc.Set('chart.background.barcolor2', 'white');
@@ -59,12 +59,12 @@
           <td valign="top">
             <h2>Top Project Risks</h2>
             <ul>
-              <li><a href="application_modules_projects_controllers_ActionController.php.html#3">Projects_ActionController</a> (7832)</li>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#3">Projects_ProjectController</a> (5402)</li>
-              <li><a href="application_modules_projects_controllers_HumanResourceController.php.html#3">Projects_HumanResourceController</a> (2256)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#3">Projects_ProjectController</a> (6972)</li>
+              <li><a href="application_modules_projects_controllers_ActionController.php.html#3">Projects_ActionController</a> (4160)</li>
+              <li><a href="application_modules_projects_controllers_TeamMemberController.php.html#3">Projects_TeamMemberController</a> (2162)</li>
               <li><a href="application_modules_projects_controllers_OutlayController.php.html#3">Projects_OutlayController</a> (870)</li>
-              <li><a href="application_modules_projects_controllers_ReceivableController.php.html#3">Projects_ReceivableController</a> (506)</li>
-              <li><a href="application_modules_projects_controllers_IndexController.php.html#3">Projects_IndexController</a> (12)</li>
+              <li><a href="application_modules_projects_controllers_ReceivableController.php.html#3">Projects_ReceivableController</a> (420)</li>
+              <li><a href="application_modules_projects_controllers_IndexController.php.html#3">Projects_IndexController</a> (20)</li>
 
             </ul>
           </td>
@@ -72,16 +72,16 @@
           <td valign="top">
             <h2>Least Tested Methods</h2>
             <ul>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#101">Projects_ProjectController::successAction</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#56">Projects_ProjectController::editAction</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#32">Projects_ProjectController::createAction</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#26">Projects_ProjectController::init</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#111">Projects_ProjectController::detailAction</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#339">Projects_ProjectController::receivablesAction</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#475">Projects_ProjectController::initActionMapper</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#470">Projects_ProjectController::initProjectMapper</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#442">Projects_ProjectController::unacknowledgedAction</a> (0%)</li>
-              <li><a href="application_modules_projects_controllers_ProjectController.php.html#414">Projects_ProjectController::payablesAction</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#617">Projects_ProjectController::populateOurResponsibleField</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#601">Projects_ProjectController::populateClientField</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#594">Projects_ProjectController::formatDataToShow</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#584">Projects_ProjectController::setDateValueToFormField</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#631">Projects_ProjectController::populateResponsibleAtClientField</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#655">Projects_ProjectController::outlayAsAParcel</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ReceivableController.php.html#9">Projects_ReceivableController::preDispatch</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#713">Projects_ProjectController::populateResponsibleAtClientAction</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#676">Projects_ProjectController::fillDataTree</a> (0%)</li>
+              <li><a href="application_modules_projects_controllers_ProjectController.php.html#556">Projects_ProjectController::buildSpecialActionLabel</a> (0%)</li>
 
             </ul>
           </td>
@@ -93,7 +93,7 @@
 
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
-      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.2</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.8</a> and PHPUnit 3.5.15 at Thu Oct 11 16:12:01 BRT 2012.</td></tr>
+      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.2</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.8</a> and PHPUnit 3.5.15 at Tue Oct 30 15:56:26 BRST 2012.</td></tr>
     </table>
 
     <br/>

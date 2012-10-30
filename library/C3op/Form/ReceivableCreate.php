@@ -96,8 +96,10 @@ class C3op_Form_ReceivableCreate extends Zend_Form
                 $predictedDateConvertedToMySQL = $dateForMysql;
             }
 
+            $predictedValueWithDecimalPoint = $this->prepareCurrencyValueToSet($this->predictedValue->GetValue(), new C3op_Util_ValidFloat(), new C3op_Util_FloatConverter());
 
-            $receivable = new C3op_Projects_Receivable($this->project->GetValue(),$predictedDateConvertedToMySQL, $this->predictedValue->GetValue());
+
+            $receivable = new C3op_Projects_Receivable($this->project->GetValue(),$predictedDateConvertedToMySQL, $predictedValueWithDecimalPoint);
             $receivable->SetTitle($this->title->GetValue());
             $receivable->SetProject((float)$this->project->GetValue());
             $receivable->SetRealDate($realDateConvertedToMySQL);
@@ -116,5 +118,20 @@ class C3op_Form_ReceivableCreate extends Zend_Form
                 ;
         $this->addElement($elementText);
     }
+
+    private function prepareCurrencyValueToSet($value, C3op_Util_ValidFloat $validator, C3op_Util_FloatConverter $converter)
+    {
+        if ($validator->isValid($value)) {
+            if ($converter->identifyDecimalComma($value)) {
+                return $converter->convertDecimalCommaToDecimalDot($value);
+            } else {
+                return value;
+            }
+        } else {
+            throw new C3op_Projects_ReceivableException("Invalid value");
+        }
+    }
+
+
 
  }

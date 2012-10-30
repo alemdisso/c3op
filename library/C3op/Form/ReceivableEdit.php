@@ -34,9 +34,9 @@ class C3op_Form_ReceivableEdit extends C3op_Form_ReceivableCreate
             $receivable->SetTitle($data['title']);
             $receivable->SetProject($data['project']);
             $receivable->SetPredictedDate($this->prepareDateValueToSet($data['predictedDate'], new C3op_Util_ValidDate(), new C3op_Util_DateConverter()));
-            $receivable->SetPredictedValue($data['predictedValue']);
+            $receivable->SetPredictedValue($this->prepareCurrencyValueToSet($data['predictedValue'], new C3op_Util_ValidFloat(), new C3op_Util_FloatConverter()));
             $receivable->SetRealDate($this->prepareDateValueToSet($data['realDate'], new C3op_Util_ValidDate(), new C3op_Util_DateConverter()));
-            $receivable->SetRealValue($data['realValue']);
+            $receivable->SetRealValue($this->prepareCurrencyValueToSet($data['realValue'], new C3op_Util_ValidFloat(), new C3op_Util_FloatConverter()));
             $receivableMapper->update($receivable);
         }
     }
@@ -47,6 +47,19 @@ class C3op_Form_ReceivableEdit extends C3op_Form_ReceivableCreate
             return $converter->convertDateToMySQLFormat($value);
         } else {
             return "";
+        }
+    }
+
+    private function prepareCurrencyValueToSet($value, C3op_Util_ValidFloat $validator, C3op_Util_FloatConverter $converter)
+    {
+        if ($validator->isValid($value)) {
+            if ($converter->identifyDecimalComma($value)) {
+                return $converter->convertDecimalCommaToDecimalDot($value);
+            } else {
+                return value;
+            }
+        } else {
+            throw new C3op_Projects_ReceivableException("Invalid value");
         }
     }
 
