@@ -246,6 +246,7 @@ dl.zend_form {
 }
 
 a.button {
+  color: #333;
   margin: 0 10px; 
   text-decoration: none;
 }
