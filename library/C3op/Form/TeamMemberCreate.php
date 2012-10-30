@@ -34,6 +34,7 @@ class C3op_Form_TeamMemberCreate extends Zend_Form
 
         $element = new Zend_Form_Element_Text('value');
         $element->setLabel('#Value:')
+        //        ->setAttrib('alt','decimal')
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',

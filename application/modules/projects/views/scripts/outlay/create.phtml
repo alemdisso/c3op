@@ -1,23 +1,39 @@
-<?php 
-if (is_array($this->viewInfo)) {
+<?php
+  if (is_array($this->viewInfo)) {
     $viewInfo = $this->viewInfo;
 ?>
-
-<h2>Novo Recebimento</h2>
-<h4>Projeto: <a href="<?php echo $viewInfo['linkProjectDetail']; ?>"><?php echo $viewInfo['projectTitle']; ?></a></h4>
-<h4>Ação: <a href="<?php echo $viewInfo['linkActionDetail']; ?>"><?php echo $viewInfo['actionTitle']; ?></a></h4>
-
+        <div id="MainHeader">
+          <h1><a href="<?php echo $viewInfo['linkProjectDetail']; ?>"><?php echo $viewInfo['projectTitle']; ?></a></h1>
+        </div>
+        
+        <div class="Area">
+          <h2>Novo pagamento</h2>
+          <div class="three columns Right alpha">
+            Ação:
+          </div>
+          <div class="six columns">
+            <a href="<?php echo $viewInfo['linkActionDetail']; ?>"><?php echo $viewInfo['actionTitle']; ?></a>
+          </div>
 <?php 
-if (isset($viewInfo['contactName'])) {
+    if (isset($viewInfo['contactName'])) {
 ?>
-<h4>Recurso: <a href="<?php echo $viewInfo['linkContactDetail']; ?>"><?php echo $viewInfo['contactName']; ?></a></h4>
-
+          <div class="one column Right">
+            Recurso:
+          </div>
+          <div class="four columns omega">
+            <a href="<?php echo $viewInfo['linkContactDetail']; ?>"><?php echo $viewInfo['contactName']; ?></a>
+          </div>
 <?php
-}
+    } else {
 ?>
-
-
+          <div class="five columns omega">
+            &nbsp;
+          </div>
 <?php
-}
+    }
+?>
+        </div><!-- .Area -->
+<?php
+  }
 ?>
 <?php echo $this->form; ?>

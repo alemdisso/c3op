@@ -197,14 +197,15 @@ hr {
 /* - #Links ----------------------------------------------------------------- */
 
 a, a:visited { 
-  color: #333; 
-  text-decoration: underline; 
+  color: #933; 
+  text-decoration: none; 
   outline: 0; 
 }
 
 a:hover, 
 a:focus { 
   color: #000; 
+  text-decoration: underline; 
 }
 
 p a, 
