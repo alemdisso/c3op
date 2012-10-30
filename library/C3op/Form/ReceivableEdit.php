@@ -9,27 +9,28 @@ class C3op_Form_ReceivableEdit extends C3op_Form_ReceivableCreate
         $this->setName('editReceivableForm')
             ->setAction('/projects/receivable/edit')
             ->setMethod('post');
-        
+
         $id = new Zend_Form_Element_Hidden('id');
         $id->addValidator('Int')
             //->addFilter('HtmlEntities')
-            ->addFilter('StringTrim');        
+            ->addFilter('StringTrim');
         $this->addElement($id);
-        
-                        
+
+
 
     }
-    
+
     public function process($data) {
-        
+
         $db = Zend_Registry::get('db');
-        $receivableMapper = new C3op_Projects_ReceivableMapper($db);        
-        
+        $receivableMapper = new C3op_Projects_ReceivableMapper($db);
+
         if ($this->isValid($data) !== true) {
             throw new C3op_Form_ReceivableEditException('Invalid data!');
         } else {
+            print_r($data); die();
             $id = $data['id'];
-            $receivable = $receivableMapper->findById($id);      
+            $receivable = $receivableMapper->findById($id);
             $receivable->SetTitle($data['title']);
             $receivable->SetProject($data['project']);
             $receivable->SetPredictedDate($this->prepareDateValueToSet($data['predictedDate'], new C3op_Util_ValidDate(), new C3op_Util_DateConverter()));
@@ -48,5 +49,5 @@ class C3op_Form_ReceivableEdit extends C3op_Form_ReceivableCreate
             return "";
         }
     }
-    
+
 }
