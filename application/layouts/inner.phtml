@@ -1,24 +1,22 @@
-
 <?php
-
-$controller = Zend_Controller_Front::getInstance();
-$request = $controller->getRequest();
-$controller->setParam('outerModule', $request->getModuleName());
-$params = $controller->getParams();
+  $controller = Zend_Controller_Front::getInstance();
+  $request = $controller->getRequest();
+  $controller->setParam('outerModule', $request->getModuleName());
+  $params = $controller->getParams();
 ?>
 <!-- header -->
 <?php echo $this->action('include', 'header', 'includes') ?>
 <!-- /header -->
 
-		<div id="Main" class="sixteen columns">
+    <div id="Main" class="sixteen columns">
 
-  		<div class="spacer one column alpha"></div>
+      <div class="spacer one column alpha"></div>
       <div id="Stage" class="fourteen columns">
 <?php echo $this->layout()->content; ?>
 <!-- apendix -->
-      <div id="apendix">&nbsp;</div>
+        <div id="apendix">&nbsp;</div>
 <!-- /apendix -->
-    		</div><!-- #Stage -->
-  		<div class="spacer one column omega"></div>
+      </div><!-- #Stage -->
+      <div class="spacer one column omega"></div>
 
-		</div><!-- #Main -->
+    </div><!-- #Main -->

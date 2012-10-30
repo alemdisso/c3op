@@ -1,51 +1,50 @@
 <?php
-$pageData = $this->pageData;
+  $pageData = $this->pageData;
 ?>
-<div id="Header" class="fifteen columns">
+      <div id="Header" class="fifteen columns">
 <?php
-if ($pageData['loggedIn']) {
+  if ($pageData['loggedIn']) {
 ?>
-      <!-- loggedIn -->
-      <p>
-        <?php print($this->translate("#Hi")) ?>&nbsp;<a href="/auth/user/edit/?id=<?php echo $pageData['id']?>"><?php echo $pageData['userName']?></a> |
-        <a href="/auth/logout"><?php print($this->translate("#Logout")) ?></a>
-      </p>
-  	</div><!-- #Header -->
-  	<div id="Logo" class="one column">
-  		<img src="/images/logosmlIets.png" alt="Iets" title="Iets" height="61" width="53">
-   	</div><!-- #Logo -->
-  	<div id="Menu" class="sixteen columns">
-      <ul>
+        <!-- loggedIn -->
+        <p>
+          <?php print($this->translate("#Hi")) ?>&nbsp;<a href="/auth/user/edit/?id=<?php echo $pageData['id']?>"><?php echo $pageData['userName']?></a> |
+          <a href="/auth/logout"><?php print($this->translate("#Logout")) ?></a>
+        </p>
+      </div><!-- #Header -->
+      <div id="Logo" class="one column">
+        <img src="/images/logosmlIets.png" alt="Iets" title="Iets" height="61" width="53">
+      </div><!-- #Logo -->
+      <div id="Menu" class="sixteen columns">
+        <ul>
 <?php
-          foreach ($pageData['navigationTabs'] as $tab => $tabData) {
-
-              if ($tabData['active']) {
-                  $activeClass = ' class="active"';
-              } else {
-                  $activeClass = '';
-              }
+    foreach ($pageData['navigationTabs'] as $tab => $tabData) {
+      if ($tabData['active']) {
+        $activeClass = ' class="active"';
+      } else {
+        $activeClass = '';
+      }
 ?>
-        <li <?php print($activeClass) ?>><a href="<?php print($tabData['url']) ?>"><?php print($tabData['label']) ?></a></li>
+          <li <?php print($activeClass) ?>><a href="<?php print($tabData['url']) ?>"><?php print($tabData['label']) ?></a></li>
 <?php
-          }
+    }
 ?>
-      </ul>
-  	</div><!-- #Menu -->
-    <!-- /loggedIn -->
+        </ul>
+      </div><!-- #Menu -->
+      <!-- /loggedIn -->
 <?php
-} else {
+  } else {
 ?>
       <!-- nao loggedIn -->
       <p>
         <?php print($this->translate("#Please login.")) ?>
       </p>
-  	</div><!-- #Header -->
-  	<div id="Logo" class="one column">
-  		<img src="/images/logosmlIets.png" alt="Iets" title="Iets" height="61" width="53">
-   	</div><!-- #Logo -->
-  	<div id="Menu" class="sixteen columns">
-  	</div><!-- #Menu -->
-      <!-- /nao loggedIn -->
+    </div><!-- #Header -->
+    <div id="Logo" class="one column">
+      <img src="/images/logosmlIets.png" alt="Iets" title="Iets" height="61" width="53">
+    </div><!-- #Logo -->
+    <div id="Menu" class="sixteen columns">
+    </div><!-- #Menu -->
+    <!-- /nao loggedIn -->
 <?php
-}
+  }
 ?>

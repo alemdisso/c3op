@@ -7,6 +7,7 @@
   <head>
     <title><?php echo $this->layout()->title?></title>
     <!-- [# Não está pegando o título ] -->
+
 <?php include ("meta.phtml") ?>
 
     <meta charset="utf-8">
@@ -20,10 +21,9 @@
     <link rel="stylesheet" type="text/css" href="/css/base.css">
     <link rel="stylesheet" type="text/css" href="/css/skeleton.css">
     <link rel="stylesheet" type="text/css" href="/css/formalize.css">
+    <link rel="stylesheet" type="text/css" href="/css/zebra/zebra_style.css">
     <link rel="stylesheet" type="text/css" href="/css/zebra/zebra_datepicker.css">
-    <link rel="stylesheet" type="text/css" href="/css/zebra/zebra_style.css">
     <link rel="stylesheet" type="text/css" href="/css/zebra/zebra_dialog.css">
-    <link rel="stylesheet" type="text/css" href="/css/zebra/zebra_style.css">
 
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -39,11 +39,11 @@
     <!-- Javascripts
     ================================================== -->
 
-<!--    <script type="text/javascript" src="/js/prototype.js"></script>-->
     <script type="text/javascript" src="/js/jquery.js"></script>
     <script type="text/javascript" src="/js/jquery.formalize.js"></script>
     <script type="text/javascript" src="/js/jquery.meio.mask.js" charset="utf-8" ></script>
     <script type="text/javascript" src="/js/zebra_datepicker.js"></script>
+    <script type="text/javascript" src="/js/zebra_dialog.js"></script>
     <script type="text/javascript" src="/js/zebra-configs.js"></script>
 
     <link rel="stylesheet" type="text/css" href="/css/anylinkcssmenu.css" />
@@ -57,16 +57,16 @@
 		<script type="text/javascript" src="/js/dataTables_init.js"></script>
 
 
-	<link href="/css/jquery-wijmo.css" rel="stylesheet" type="text/css" />
-	<link href="/css/jquery.wijmo.wijtabs.css" rel="stylesheet" type="text/css" />
+  	<link href="/css/jquery-wijmo.css" rel="stylesheet" type="text/css" />
+  	<link href="/css/jquery.wijmo.wijtabs.css" rel="stylesheet" type="text/css" />
 
-	<script src="/js/jquery-ui-1.8.23.custom.min.js" type="text/javascript"></script>
-	<script src="/js/jquery.wijmo.wijtabs.js" type="text/javascript"></script>
-	<script type="text/javascript">
-		$(document).ready(function () {
-			$("#tabs").wijtabs();
-		});
-	</script>
+  	<script src="/js/jquery-ui-1.8.23.custom.min.js" type="text/javascript"></script>
+  	<script src="/js/jquery.wijmo.wijtabs.js" type="text/javascript"></script>
+  	<script type="text/javascript">
+  		$(document).ready(function () {
+  			$("#tabs").wijtabs();
+  		});
+  	</script>
 
     <link rel="stylesheet" type="text/css" href="/css/layout.css">
 
@@ -74,19 +74,18 @@
     <script type='text/javascript' src='js/persist.js'></script>
     <script type="text/javascript" src="/js/jquery.treeTable.js"></script>
     <script type="text/javascript">
-
-    $(document).ready(function()  {
-      $("#tree").treeTable();
-        childPrefix       :   "child-of-"   /* Customize the prefix used for node classes. */
-        clickableNodeNames: false           /* Set to true to expand branches not only when expander icon is clicked but also when node name is clicked. */
-        expandable        : true            /* Should the tree be expandable? An expandable tree contains buttons to make each branch with children collapsable/expandable. */
-        indent            : 19              /* The number of pixels that each branch should be indented with. */
-        initialState      : "collapsed"     /* Possible values: "expanded" or "collapsed". */
-        onNodeShow        : null            /* Callback function fired when a node is made visible. */
-        persist           : false           /* Persist tree state on client side (requires persist.js). */
-        persistStoreName  : "treeTable"     /* Store name used when persist is true. */
-        treeColumn        : 0               /* The number of the column in the table that should be displayed as a tree. */
-    });
+      $(document).ready(function()  {
+        $("#tree").treeTable();
+          childPrefix       :   "child-of-"   /* Customize the prefix used for node classes. */
+          clickableNodeNames: false           /* Set to true to expand branches not only when expander icon is clicked but also when node name is clicked. */
+          expandable        : true            /* Should the tree be expandable? An expandable tree contains buttons to make each branch with children collapsable/expandable. */
+          indent            : 19              /* The number of pixels that each branch should be indented with. */
+          initialState      : "collapsed"     /* Possible values: "expanded" or "collapsed". */
+          onNodeShow        : null            /* Callback function fired when a node is made visible. */
+          persist           : false           /* Persist tree state on client side (requires persist.js). */
+          persistStoreName  : "treeTable"     /* Store name used when persist is true. */
+          treeColumn        : 0               /* The number of the column in the table that should be displayed as a tree. */
+      });
     </script>
 
     <!-- Initializing jquery.meio.mask -->
@@ -114,6 +113,7 @@
     <div class="container" id="Envelope">
 <?php
   if ($this->layout()->nestedLayout) {
+      echo "KKKK";
       $this->layout()->setLayout($this->layout()->nestedLayout);
   } else {
       $this->layout()->setLayout('inner');
