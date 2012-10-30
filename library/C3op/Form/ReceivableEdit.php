@@ -28,7 +28,7 @@ class C3op_Form_ReceivableEdit extends C3op_Form_ReceivableCreate
         if ($this->isValid($data) !== true) {
             throw new C3op_Form_ReceivableEditException('Invalid data!');
         } else {
-            print_r($data); die();
+
             $id = $data['id'];
             $receivable = $receivableMapper->findById($id);
             $receivable->SetTitle($data['title']);
