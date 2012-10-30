@@ -119,6 +119,7 @@ class Projects_ActionController extends Zend_Controller_Action
                 $element = $form->getElement('status');
                 $element->setValue($inputAction->getStatus());
 
+                $this->populateResponsibleField($form);
                 $this->populateRequirementForReceivingField($projectId, $form, $inputAction->getRequirementForReceiving());
                 $this->populateSubordinatedActionsField($projectId, $form, $id);
             }
