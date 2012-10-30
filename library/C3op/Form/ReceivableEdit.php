@@ -51,17 +51,4 @@ class C3op_Form_ReceivableEdit extends C3op_Form_ReceivableCreate
         }
     }
 
-    private function prepareCurrencyValueToSet($value, C3op_Util_ValidFloat $validator, C3op_Util_FloatConverter $converter)
-    {
-        if ($validator->isValid($value)) {
-            if ($converter->identifyDecimalComma($value)) {
-                return $converter->convertDecimalCommaToDecimalDot($value);
-            } else {
-                return value;
-            }
-        } else {
-            throw new C3op_Projects_ReceivableException("Invalid value");
-        }
-    }
-
 }
