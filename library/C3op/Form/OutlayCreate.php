@@ -8,28 +8,29 @@ class C3op_Form_OutlayCreate extends Zend_Form
              ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
              ->setMethod('post');
 
-        $teamMember = new Zend_Form_Element_Hidden('teamMember');
-        $teamMember->addValidator('Int')
-            //->addFilter('HtmlEntities')
+        $element = new Zend_Form_Element_Hidden('teamMember');
+        $element->addValidator('Int')
             ->addFilter('StringTrim');
-        $this->addElement($teamMember);
+        $this->addElement($element);
+        $element->setDecorators(array('ViewHelper'));
 
-        $action = new Zend_Form_Element_Hidden('action');
-        $action->addValidator('Int')
-            //->addFilter('HtmlEntities')
+        $element = new Zend_Form_Element_Hidden('action');
+        $element->addValidator('Int')
             ->addFilter('StringTrim');
-        $this->addElement($action);
+        $this->addElement($element);
+        $element->setDecorators(array('ViewHelper'));
 
-        $project = new Zend_Form_Element_Hidden('project');
-        $project->addValidator('Int')
+        $element = new Zend_Form_Element_Hidden('project');
+        $element->addValidator('Int')
             //->addFilter('HtmlEntities')
             ->addFilter('StringTrim');
-        $this->addElement($project);
+        $this->addElement($element);
+        $element->setDecorators(array('ViewHelper'));
 
         // $this->addElementText('predictedValue', 'Valor:', new C3op_Util_ValidPositiveFloat(), 50);
 
-        $elementText = new Zend_Form_Element_Text('predictedValue');
-        $elementText->setLabel('#Value:')
+        $element = new Zend_Form_Element_Text('predictedValue');
+        $element->setLabel('#Value:')
             ->setAttrib('alt','decimal')
             ->setDecorators(array(
                 'ViewHelper',
@@ -41,12 +42,12 @@ class C3op_Form_OutlayCreate extends Zend_Form
             ->addValidator(new C3op_Util_ValidString)
             ->addFilter('StringTrim')
                 ;
-        $this->addElement($elementText);
+        $this->addElement($element);
 
         // $this->addElementText('predictedDate', 'Data:', new C3op_Util_ValidDate(), 50);
 
-        $elementText = new Zend_Form_Element_Text('predictedDate');
-        $elementText->setLabel('#Predicted Date')
+        $element = new Zend_Form_Element_Text('predictedDate');
+        $element->setLabel('#Predicted Date')
             ->setAttrib('alt','date')
             ->setDecorators(array(
                 'ViewHelper',
@@ -58,13 +59,13 @@ class C3op_Form_OutlayCreate extends Zend_Form
             ->addValidator(new C3op_Util_ValidString)
             ->addFilter('StringTrim')
                 ;
-        $this->addElement($elementText);
+        $this->addElement($element);
 
 
 
 
-        $observation = new Zend_Form_Element_Textarea('observation');
-        $observation->setLabel('Observações:')
+        $element = new Zend_Form_Element_Textarea('observation');
+        $element->setLabel('Observações:')
             ->setAttrib('cols','8')
             ->setAttrib('rows','5')
             ->setDecorators(array(
@@ -77,7 +78,7 @@ class C3op_Form_OutlayCreate extends Zend_Form
             ->setRequired(false)
             ->addFilter('HtmlEntities')
             ->addFilter('StringTrim');
-        $this->addElement($observation);
+        $this->addElement($element);
 
 
         // create submit button
@@ -109,6 +110,8 @@ class C3op_Form_OutlayCreate extends Zend_Form
             $outlay = new C3op_Projects_Outlay($this->teamMember->GetValue());
             $outlay->SetAction($this->action->GetValue());
             $outlay->SetProject($this->project->GetValue());
+
+
             $outlay->SetPredictedValue($this->predictedValue->GetValue());
             $predictedDate = $this->predictedDate->GetValue();
             $dateValidator = new C3op_Util_ValidDate();
@@ -123,18 +126,5 @@ class C3op_Form_OutlayCreate extends Zend_Form
             $outlayMapper->insert($outlay);
         }
     }
-
-    private function addElementText($fieldName, $label, $validator, $fieldSize)
-    {
-        $elementText = new Zend_Form_Element_Text($fieldName);
-        $elementText->setLabel($label)
-            ->setOptions(array('size' => "$fieldSize"))
-            ->addValidator($validator)
-            ->addFilter('StringTrim')
-                ;
-        $this->addElement($elementText);
-
-    }
-
 
 }

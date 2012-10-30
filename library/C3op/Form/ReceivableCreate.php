@@ -10,14 +10,14 @@ class C3op_Form_ReceivableCreate extends Zend_Form
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
-        $project = new Zend_Form_Element_Hidden('project');
-        $project->addValidator('Int')
+        $element = new Zend_Form_Element_Hidden('project');
+        $element->addValidator('Int')
             ->addFilter('StringTrim');
-        $this->addElement($project);
-        $project->setDecorators(array('ViewHelper'));
+        $this->addElement($element);
+        $element->setDecorators(array('ViewHelper'));
 
-        $elementText = new Zend_Form_Element_Text('title');
-        $elementText->setLabel('#Receivable')
+        $element = new Zend_Form_Element_Text('title');
+        $element->setLabel('#Receivable')
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
@@ -28,12 +28,10 @@ class C3op_Form_ReceivableCreate extends Zend_Form
             ->addValidator(new C3op_Util_ValidString)
             ->addFilter('StringTrim')
                 ;
-        $this->addElement($elementText);
+        $this->addElement($element);
 
-        // $this->addElementText('predictedDate', 'Data Prevista', new C3op_Util_ValidDate, 50);
-
-        $elementText = new Zend_Form_Element_Text('predictedDate');
-        $elementText->setLabel('#Predicted Date')
+        $element = new Zend_Form_Element_Text('predictedDate');
+        $element->setLabel('#Predicted Date')
             ->setAttrib('alt','date')
             ->setDecorators(array(
                 'ViewHelper',
@@ -45,10 +43,10 @@ class C3op_Form_ReceivableCreate extends Zend_Form
             ->addValidator(new C3op_Util_ValidString)
             ->addFilter('StringTrim')
                 ;
-        $this->addElement($elementText);
+        $this->addElement($element);
 
-        $elementText = new Zend_Form_Element_Text('predictedValue');
-        $elementText->setLabel('#Predicted Value')
+        $element = new Zend_Form_Element_Text('predictedValue');
+        $element->setLabel('#Predicted Value')
             ->setAttrib('alt','decimal')
             ->setDecorators(array(
                 'ViewHelper',
@@ -60,7 +58,7 @@ class C3op_Form_ReceivableCreate extends Zend_Form
             ->addValidator(new C3op_Util_ValidString)
             ->addFilter('StringTrim')
                 ;
-        $this->addElement($elementText);
+        $this->addElement($element);
 
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
@@ -106,17 +104,6 @@ class C3op_Form_ReceivableCreate extends Zend_Form
 
             $receivableMapper->insert($receivable);
         }
-    }
-
-    private function addElementText($fieldName, $label, $validator, $fieldSize)
-    {
-        $elementText = new Zend_Form_Element_Text($fieldName);
-        $elementText->setLabel($label)
-            ->setOptions(array('size' => "$fieldSize"))
-            ->addValidator($validator)
-            ->addFilter('StringTrim')
-                ;
-        $this->addElement($elementText);
     }
 
  }

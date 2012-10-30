@@ -36,8 +36,6 @@ class C3op_Form_ReceivableEdit extends C3op_Form_ReceivableCreate
             $receivable->SetPredictedDate($this->prepareDateValueToSet($data['predictedDate'], new C3op_Util_ValidDate(), new C3op_Util_DateConverter()));
             $converter = new C3op_Util_FloatConverter();
             $receivable->SetPredictedValue($converter->getDecimalDotValue($data['predictedValue'], new C3op_Util_ValidFloat()));
-            //$receivable->SetRealDate($this->prepareDateValueToSet($data['realDate'], new C3op_Util_ValidDate(), new C3op_Util_DateConverter()));
-            //$receivable->SetRealValue($this->prepareCurrencyValueToSet($data['realValue'], new C3op_Util_ValidFloat(), new C3op_Util_FloatConverter()));
             $receivableMapper->update($receivable);
         }
     }
