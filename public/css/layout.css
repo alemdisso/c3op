@@ -148,12 +148,20 @@
 }
 
 #MainHeader h1 a {
+  color: #555;
   text-decoration: none;
 }
 
-#MainHeader h2 {
-  float: right;
-  font-size: 100%;
+#MainHeader h1 a:hover {
+  background-color: #f6f6f6;
+  border: 1px #f0f0f0 solid;
+  margin: -1px -5px; 
+  padding: 1px 4px; 
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
 }
 
 .MoreInfo {
@@ -168,11 +176,16 @@
   font-weight: bold;
 }
 
-.Area {
+.Area,
+.TituloForm {
   border-bottom: 1px #c0c0bf solid;
   display: table;
   padding: 20px 0 10px 0;
   width: 100%; 
+}
+
+.TituloForm {
+  border-bottom: none;
 }
 
 .Area h2 {

@@ -52,11 +52,11 @@ function rejectReceipt(id){
 </script>
         <div id="MainHeader">
           <h1><?php print($this->translate("#Project")); ?> <a href="/projects/project/detail/?id=<?php print($actionHeader['projectId']) ?>"><?php print($actionHeader['projectTitle']) ?></a></h1>
-          <p>
-            <?php print($this->translate("#Details of action ")); ?> <?php print($actionHeader['title']) ?>
-          </p>
         </div><!-- MainHeader -->
-
+        <div class="TituloForm">
+          <h2><?php print($this->translate("#Details of action ")); ?> <?php print($actionHeader['title']) ?></h2>
+        </div>
+        
         <div class="Area">
 
           <div class="three columns alpha Right">

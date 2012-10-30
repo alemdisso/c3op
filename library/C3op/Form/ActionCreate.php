@@ -10,7 +10,7 @@ class C3op_Form_ActionCreate extends Zend_Form
 
         $element = new Zend_Form_Element_Hidden('project');
         $element->addValidator('Int')
-            ->addFilter('StringTrim');
+                ->addFilter('StringTrim');
         $this->addElement($element);
 
         $element = new Zend_Form_Element_Text('title');
@@ -23,11 +23,10 @@ class C3op_Form_ActionCreate extends Zend_Form
                     array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
                 ))
                 ->setOptions(array('class' => 'Full alpha omega'))
-            ->setRequired(true)
-            ->addErrorMessage(_("#Name is required"))
-            ->addValidator($titleValidator)
-            ->addFilter('StringTrim')
-                ;
+                ->setRequired(true)
+                ->addErrorMessage(_("#Name is required"))
+                ->addValidator($titleValidator)
+                ->addFilter('StringTrim');
         $this->addElement($element);
 
         $element = new Zend_Form_Element_Checkbox('milestone');
