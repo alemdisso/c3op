@@ -30,7 +30,6 @@ class C3op_Form_TeamMemberCreate extends Zend_Form
                 ;
         $this->addElement($element);
 
-        // $this->addElementText('value', 'Valor:', new C3op_Util_ValidPositiveFloat(), 50);
 
         $element = new Zend_Form_Element_Text('value');
         $element->setLabel('#Value:')
@@ -88,7 +87,13 @@ class C3op_Form_TeamMemberCreate extends Zend_Form
             $teamMember = new C3op_Projects_TeamMember();
             $teamMember->SetDescription($this->description->GetValue());
             $teamMember->SetContact($this->contact->GetValue());
-            $teamMember->SetValue($this->value->GetValue());
+
+            $converter = new C3op_Util_FloatConverter();
+            $validator = new C3op_Util_ValidFloat();
+            if ($validator->isValid($this->value->GetValue())) {
+                $teamMember->SetValue($converter->getDecimalDotValue($this->value->GetValue(), $validator));
+            }
+
             $teamMember->SetAction($this->action->GetValue());
             $teamMemberMapper->insert($teamMember);
             return $teamMember->GetId();

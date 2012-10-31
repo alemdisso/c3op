@@ -298,8 +298,6 @@
           $project->SetFinishDate($dateForMysql);
         }
 
-        $converter = new C3op_Util_FloatConverter();
-
         $value = $this->status->GetValue();
         if ($value) {
             $project->SetStatus($this->status->GetValue());
@@ -309,6 +307,7 @@
         $project->SetContractNature($this->contractNature->GetValue());
         $project->SetAreaActivity($this->areaActivity->GetValue());
 
+        $converter = new C3op_Util_FloatConverter();
         $validator = new C3op_Util_ValidFloat();
         if ($validator->isValid($this->value->GetValue())) {
             $project->SetValue($converter->getDecimalDotValue($this->value->GetValue(), $validator));
