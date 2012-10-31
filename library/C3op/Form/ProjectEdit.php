@@ -40,12 +40,28 @@ class C3op_Form_ProjectEdit extends C3op_Form_ProjectCreate
             $finishDate = $this->finishDate->GetValue();
             $project->SetFinishDate($this->prepareDateValueToSet($finishDate, new C3op_Util_ValidDate(), new C3op_Util_DateConverter()));
 
-            $project->SetValue($this->value->GetValue());
-            $project->SetStatus($this->status->GetValue());
+            $value = $this->status->GetValue();
+            if ($value) {
+                $project->SetStatus($this->status->GetValue());
+            } else {
+                $project->SetStatus(C3op_Projects_ProjectStatusConstants::STATUS_NIL);
+            }
             $project->SetContractNature($this->contractNature->GetValue());
             $project->SetAreaActivity($this->areaActivity->GetValue());
-            $project->SetOverhead($this->overhead->GetValue());
-            $project->SetManagementFee($this->managementFee->GetValue());
+
+            $validator = new C3op_Util_ValidFloat();
+            if ($validator->isValid($this->value->GetValue())) {
+                $project->SetValue($converter->getDecimalDotValue($this->value->GetValue(), $validator));
+            }
+            $value = $this->overhead->GetValue();
+            if ($value > 0) {
+                $project->SetOverhead($converter->getDecimalDotValue($value, $validator));
+            }
+            $value = $this->managementFee->GetValue();
+            if ($value > 0) {
+                $project->SetManagementFee($converter->getDecimalDotValue($value, $validator));
+            }
+
             $project->SetObject($this->object->GetValue());
             $project->SetSummary($this->summary->GetValue());
             $project->SetObservation($this->observation->GetValue());

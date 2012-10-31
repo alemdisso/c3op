@@ -32,7 +32,8 @@ class C3op_Form_OutlayEdit extends C3op_Form_OutlayCreate
             $outlay->SetAction($data['action']);
             $outlay->SetProject($data['project']);
             $outlay->SetTeamMember($data['teamMember']);
-            $outlay->SetPredictedValue($data['predictedValue']);
+            $converter = new C3op_Util_FloatConverter();
+            $outlay->SetPredictedValue($converter->getDecimalDotValue($data['predictedValue'], new C3op_Util_ValidFloat()));
             $outlay->SetPredictedDate($this->prepareDateValueToSet($data['predictedDate'], new C3op_Util_ValidDate(), new C3op_Util_DateConverter()));
             $outlay->SetObservation($data['observation']);
 

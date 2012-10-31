@@ -20,7 +20,7 @@
               ->addFilter('StringTrim')
               ->addValidator($titleValidator, true);
       $this->addElement($element);
-      
+
       $element = new Zend_Form_Element_Text('shortTitle');
       $titleValidator = new C3op_Projects_ProjectValidTitle();
       $element->setLabel('#Short title:')
@@ -36,7 +36,7 @@
               ->addFilter('StringTrim')
               ->addValidator($titleValidator, true);
       $this->addElement($element);
-      
+
       $element = new Zend_Form_Element_Select('client', array('onChange' => 'javascript:populateResponsibleAtClient()'));
       $element->setLabel('#Client: ')
               ->setDecorators(array(
@@ -51,7 +51,7 @@
               ->setRegisterInArrayValidator(false);
       $element->addMultiOption(0, _("#choose a client"));
       $this->addElement($element);
-      
+
       $element = new Zend_Form_Element_Select('ourResponsible');
       $element->setLabel('#Our responsible')
               ->setDecorators(array(
@@ -66,7 +66,7 @@
               ->setRegisterInArrayValidator(false);
       $element->addMultiOption(0, _("#(choose a person)"));
       $this->addElement($element);
-      
+
       $element = new Zend_Form_Element_Select('responsibleAtClient');
       $element->setLabel('#Responsible at client')
               ->setDecorators(array(
@@ -122,9 +122,7 @@
               ))
               ->setOptions(array('class' => 'two columns alpha omega'))
               ->setRequired(false)
-              ->addValidator('Regex', false, array(
-                'pattern' => '/^[0-9]*\.?[0-9]*$/'
-              ))
+              ->addValidator(new C3op_Util_ValidFloat)
               ->addFilter('StringTrim');
       $this->addElement($element);
 
@@ -268,9 +266,9 @@
       $this->addElement($submit);
 
     }
-    
+
     public function process($data) {
-    
+
       if ($this->isValid($data) !== true) {
         throw new C3op_Form_ProjectCreateException('Invalid data!');
       } else {
@@ -299,12 +297,30 @@
           $dateForMysql = $converter->convertDateToMySQLFormat($finishDate);
           $project->SetFinishDate($dateForMysql);
         }
-        $project->SetValue($this->value->GetValue());
-        $project->SetStatus($this->status->GetValue());
+
+        $converter = new C3op_Util_FloatConverter();
+
+        $value = $this->status->GetValue();
+        if ($value) {
+            $project->SetStatus($this->status->GetValue());
+        } else {
+            $project->SetStatus(C3op_Projects_ProjectStatusConstants::STATUS_NIL);
+        }
         $project->SetContractNature($this->contractNature->GetValue());
         $project->SetAreaActivity($this->areaActivity->GetValue());
-        $project->SetOverhead($this->overhead->GetValue());
-        $project->SetManagementFee($this->managementFee->GetValue());
+
+        $validator = new C3op_Util_ValidFloat();
+        if ($validator->isValid($this->value->GetValue())) {
+            $project->SetValue($converter->getDecimalDotValue($this->value->GetValue(), $validator));
+        }
+        $value = $this->overhead->GetValue();
+        if ($value > 0) {
+            $project->SetOverhead($converter->getDecimalDotValue($value, $validator));
+        }
+        $value = $this->managementFee->GetValue();
+        if ($value > 0) {
+            $project->SetManagementFee($converter->getDecimalDotValue($value, $validator));
+        }
         $project->SetObject($this->object->GetValue());
         $project->SetSummary($this->summary->GetValue());
         $project->SetObservation($this->observation->GetValue());

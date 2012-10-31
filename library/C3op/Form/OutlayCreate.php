@@ -22,12 +22,9 @@ class C3op_Form_OutlayCreate extends Zend_Form
 
         $element = new Zend_Form_Element_Hidden('project');
         $element->addValidator('Int')
-            //->addFilter('HtmlEntities')
             ->addFilter('StringTrim');
         $this->addElement($element);
         $element->setDecorators(array('ViewHelper'));
-
-        // $this->addElementText('predictedValue', 'Valor:', new C3op_Util_ValidPositiveFloat(), 50);
 
         $element = new Zend_Form_Element_Text('predictedValue');
         $element->setLabel('#Value:')
@@ -43,8 +40,6 @@ class C3op_Form_OutlayCreate extends Zend_Form
             ->addFilter('StringTrim')
                 ;
         $this->addElement($element);
-
-        // $this->addElementText('predictedDate', 'Data:', new C3op_Util_ValidDate(), 50);
 
         $element = new Zend_Form_Element_Text('predictedDate');
         $element->setLabel('#Predicted Date')
@@ -111,8 +106,8 @@ class C3op_Form_OutlayCreate extends Zend_Form
             $outlay->SetAction($this->action->GetValue());
             $outlay->SetProject($this->project->GetValue());
 
-
-            $outlay->SetPredictedValue($this->predictedValue->GetValue());
+            $converter = new C3op_Util_FloatConverter();
+            $outlay->SetPredictedValue($converter->getDecimalDotValue($this->predictedValue->GetValue(), new C3op_Util_ValidFloat()));
             $predictedDate = $this->predictedDate->GetValue();
             $dateValidator = new C3op_Util_ValidDate();
             if ($dateValidator->isValid($predictedDate)){
