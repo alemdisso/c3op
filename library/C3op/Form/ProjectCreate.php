@@ -191,9 +191,8 @@
               ))
               ->setOptions(array('class' => 'two columns alpha omega'))
               ->setRequired(false)
-              ->addValidator('Regex', false, array(
-                'pattern' => '/^[0-9]*\.?[0-9]*$/'
-              ));
+              ->addValidator(new C3op_Util_ValidFloat)
+        ;
       $this->addElement($element);
 
       $element = new Zend_Form_Element_Text('managementFee');
@@ -207,9 +206,7 @@
               ))
               ->setOptions(array('class' => 'two columns alpha omega'))
               ->setRequired(false)
-              ->addValidator('Regex', false, array(
-                'pattern' => '/^[0-9]*\.?[0-9]*$/'
-              ))
+              ->addValidator(new C3op_Util_ValidFloat)
               ->addFilter('HtmlEntities')
               ->addFilter('StringTrim');
       $this->addElement($element);
