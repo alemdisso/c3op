@@ -6,7 +6,7 @@ class Projects_OutlayController  extends Zend_Controller_Action
     private $teamMemberMapper;
     private $projectMapper;
     private $outlayMapper;
-    private $viewInfo;
+    private $pageData;
     private $db;
 
     public function preDispatch()
@@ -36,7 +36,11 @@ class Projects_OutlayController  extends Zend_Controller_Action
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
                 $this->_redirect('/projects/outlay/success/?id=' . $postData['action']);
-            } else throw new C3op_Projects_OutlayException("Invalid data for an outlay");
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
         } else {
             $data = $this->_request->getParams();
             if (isset($data['teamMember'])) {
@@ -53,7 +57,7 @@ class Projects_OutlayController  extends Zend_Controller_Action
             }
 
         }
-        $this->view->viewInfo = $this->viewInfo;
+        $this->view->pageData = $this->pageData;
     }
 
     public function editAction()
@@ -67,7 +71,11 @@ class Projects_OutlayController  extends Zend_Controller_Action
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
                 $this->_redirect('/projects/outlay/success/?id=' . $postData['action']);
-            } else throw new C3op_Projects_ProjectException("Invalid data for an outlay.");
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
         } else {
             $data = $this->_request->getParams();
             $filters = array(
@@ -83,6 +91,12 @@ class Projects_OutlayController  extends Zend_Controller_Action
                     $this->outlayMapper = new C3op_Projects_OutlayMapper($this->db);
                 }
                 $thisOutlay = $this->outlayMapper->findById($id);
+                if (!isset($this->teamMemberMapper)) {
+                    $this->teamMemberMapper = new C3op_Projects_TeamMemberMapper($this->db);
+                }
+
+                $outlayTeamMember = $this->teamMemberMapper->findById($thisOutlay->GetTeamMember());
+                $this->populateFieldsAssociatedToTeamMember($outlayTeamMember, $form);
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $id);
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'project', $thisOutlay->GetProject());
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'action', $thisOutlay->GetAction());
@@ -94,6 +108,7 @@ class Projects_OutlayController  extends Zend_Controller_Action
             }
 
         }
+        $this->view->pageData = $this->pageData;
     }
 
     private function populateFieldsAssociatedToTeamMember(C3op_Projects_TeamMember $teamMember, C3op_Form_OutlayCreate $form)
@@ -108,8 +123,8 @@ class Projects_OutlayController  extends Zend_Controller_Action
             }
             $teamMemberContact = $this->contactMapper->findById($teamMember->GetContact());
 
-            $this->viewInfo['contactName'] = $teamMemberContact->GetName();
-            $this->viewInfo['linkContactDetail'] = "/register/contact/detail/?id=" . $teamMemberContact->GetId();
+            $this->pageData['contactName'] = $teamMemberContact->GetName();
+            $this->pageData['teamMemberId'] = $teamMember->Getid();
         }
 
         if (!isset($this->actionMapper)) {
@@ -119,8 +134,8 @@ class Projects_OutlayController  extends Zend_Controller_Action
         $actionField->setValue($teamMember->GetAction());
 
         $teamMemberAction = $this->actionMapper->findById($teamMember->GetAction());
-        $this->viewInfo['actionTitle'] = $teamMemberAction->GetTitle();
-        $this->viewInfo['linkActionDetail'] = "/projects/action/detail/?id=" . $teamMemberAction->GetId();
+        $this->pageData['actionTitle'] = $teamMemberAction->GetTitle();
+        $this->pageData['actionId'] = $teamMemberAction->GetId();
 
         $projectField = $form->getElement('project');
         $projectField->setValue($teamMemberAction->GetProject());
@@ -129,8 +144,8 @@ class Projects_OutlayController  extends Zend_Controller_Action
             $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
         }
         $thisProject = $this->projectMapper->findById($teamMemberAction->GetProject());
-        $this->viewInfo['projectTitle'] = $thisProject->GetShortTitle();
-        $this->viewInfo['linkProjectDetail'] = "/projects/project/detail/?id=" . $thisProject->GetId();
+        $this->pageData['projectTitle'] = $thisProject->GetShortTitle();
+        $this->pageData['projectId'] = $thisProject->GetId();
 
    }
 

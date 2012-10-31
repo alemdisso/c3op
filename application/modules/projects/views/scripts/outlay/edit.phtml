@@ -1,23 +1,22 @@
-        <div id="MainHeader">
-          <!-- <h1>Projeto <a href="<?php echo $viewInfo['linkProjectDetail']; ?>"><?php echo $viewInfo['projectTitle']; ?></a></h1> -->
-          <h1>Projeto <a href="#">Nome do Projeto</a></h1>
+<?php
+    $pageData = $this->pageData;
+?>        <div id="MainHeader">
+          <h1><?php print($this->translate("#Project")) ?> <a href="/projects/project/detail/?id=<?php echo $pageData['projectId']; ?>"><?php echo $pageData['projectTitle']; ?></a></h1>
         </div>
       <div class="TituloForm">
-        <h2>Editar Desembolso</h2>
+        <h2><?php print($this->translate("#Edit outlay")) ?></h2>
 
         <div class="three columns Right alpha">
-          Ação:
+          <?php print($this->translate("#Action:")) ?>
         </div>
         <div class="six columns">
-          <!-- <a href="<?php echo $viewInfo['linkActionDetail']; ?>"><?php echo $viewInfo['actionTitle']; ?></a> -->
-          <a href="#">Nome da ação</a>
+          <a href="/projects/project/detail/?id=<?php echo $pageData['actionId']; ?>"><?php echo $pageData['actionTitle']; ?></a>
         </div>
         <div class="one column Right">
-          Recurso:
+          <?php print($this->translate("#Team member:")) ?>
         </div>
         <div class="four columns omega">
-          <!-- <a href="<?php echo $viewInfo['linkContactDetail']; ?>"><?php echo $viewInfo['contactName']; ?></a> -->
-          <a href="#">Nome do contato</a>
+          <a href="/projects/team-member/detail/?id=<?php echo $pageData['teamMemberId']; ?>"><?php echo $pageData['contactName']; ?></a>
         </div>
       </div>
 <?php echo $this->form; ?>
