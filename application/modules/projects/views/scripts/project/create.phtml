@@ -1,13 +1,15 @@
           <script type="text/javascript">
             function populateResponsibleAtClient() {
               var id = $('#client').val();
-              
+
               $.getJSON('/projects/project/populate-responsible-at-client/?id=' + id, function(data) {
                 var html = '';
                 var len = data.length;
+                html += '<option value="0">(escolha uma pessoa)</option>';
                 for (var i = 0; i< len; i++) {
                   html += '<option value="' + data[i].id + '">' + data[i].title + '</option>';
                 }
+                $('#responsibleAtClient').empty();
                 $('#responsibleAtClient').append(html);
               });
             }
