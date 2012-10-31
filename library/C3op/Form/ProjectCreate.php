@@ -114,6 +114,7 @@
 
       $element = new Zend_Form_Element_Text('value');
       $element->setLabel('#Value:')
+              ->setAttrib('alt','decimal')
               ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
@@ -183,6 +184,7 @@
 
       $element = new Zend_Form_Element_Text('overhead');
       $element->setLabel('#Overhead:')
+                 ->setAttrib('alt','decimal')
               ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
@@ -198,6 +200,7 @@
 
       $element = new Zend_Form_Element_Text('managementFee');
       $element->setLabel('#Management fee:')
+                 ->setAttrib('alt','decimal')
               ->setDecorators(array(
                 'ViewHelper',
                 'Errors',

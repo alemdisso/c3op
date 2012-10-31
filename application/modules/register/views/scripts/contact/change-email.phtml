@@ -1,5 +1,7 @@
-<div id="MainHeader">
-<h1><?php echo $this->translate("#Email") ?></h1>
-<?php echo sprintf($this->translate("#Change %s's email address", $this->pageData['contactName'])); ?>
-</div>
+        <div id="MainHeader">
+          <h1><?php echo sprintf($this->pageData['contactName']); ?></h1>
+        </div>
+        <div class="TituloForm">
+          <h2><?php echo sprintf($this->translate("#Change %s's email address"), $this->pageData['contactName']); ?></h2>
+        </div>
 <?php echo $this->form; ?>

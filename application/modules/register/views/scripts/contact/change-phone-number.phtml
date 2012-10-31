@@ -1,3 +1,7 @@
-<h2><?php echo $this->translate("#Phone number") ?></h2>
-<?php echo sprintf($this->translate("#Change phone number of %s", $this->pageData['contactName'])); ?>
+        <div id="MainHeader">
+          <h1><?php echo sprintf($this->pageData['contactName']); ?></h1>
+        </div>
+        <div class="TituloForm">
+          <h2><?php echo sprintf($this->translate("#Change phone number of %s"), $this->pageData['contactName']); ?></h2>
+        </div>
 <?php echo $this->form; ?>

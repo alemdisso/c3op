@@ -1,37 +1,60 @@
 <?php
-$pageData = $this->pageData;
-
-if (is_array($pageData['institutionInfo'])) {
+  $pageData = $this->pageData;
+  if (is_array($pageData['institutionInfo'])) {
     $institutionInfo = $pageData['institutionInfo'];
 ?>
-<h1>
-<p class="project_title"><?php print($institutionInfo['name']) ?></p>
-</h1>
-<h2><?php print($this->translate("#Contacts in this institution")) ?></h2>
+        <div id="MainHeader">
+          <h1><?php print($institutionInfo['name']) ?></h1>
+        </div>
+        <div class="Area">
+          <h2><?php print($this->translate("#Contacts in this institution")) ?></h2>
+          <table class="display dataTable">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Cargo</th>
+                <th>Departamento</th>
+                <th>&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+              
 <?php
 /*
  * iterate list and print title
  */
 
     $linkagesList = $institutionInfo['linkagesList'];
-
     foreach ($linkagesList as $id => $linkageInfo) {
 ?>
-<p class="project_product_line">
-<?php print($linkageInfo['contactName']) ?>&nbsp;(<?php print($linkageInfo['position']) ?>) |
-<?php print($linkageInfo['department']) ?> |
-<a href="/register/contact/edit/?id=<?php print($linkageInfo['contactId']) ?>"><?php print($this->translate("#Edit")) ?></a>
-</p>
+              <tr>
+                <td><?php print($linkageInfo['contactName']) ?></td>
+                <td><?php print($linkageInfo['position']) ?></td>
+                <td><?php print($linkageInfo['department']) ?></td>
+                <td>
+                  <a href="#" class="anchorclass" rel="submenu1"><?php echo $this->translate("#Options") ?></a>
+                  <div id="submenu1" class="anylinkcss">
+                    <ul>
+                      <li>
+                        <a href="/register/contact/edit/?id=<?php print($linkageInfo['contactId']) ?>"><?php print($this->translate("#Edit")) ?></a>
+                      </li>
+                    </ul>
+                  </div><!-- #submenu1 -->
+                </td>
+              </tr>
 <?php
-}  // loop iterate list
+    }  // loop iterate list
 ?>
-<p />
-<br /><br /><a href="/register/linkage/create/?institution=<?php print($institutionInfo['id']) ?>"><?php print($this->translate("#Add new linkage")) ?></a>
+            </tbody>
+          </table>
+        </div><!-- .Area -->
+        <p>
+          <a href="/register/linkage/create/?institution=<?php print($institutionInfo['id']) ?>" class="button three columns alpha omega"><?php print($this->translate("#Add new linkage")) ?></a>
+        </p>
 <?php
-} else { // else exists institutions list
+  } else { // else exists institutions list
 ?>
-    <?php print($this->translate("#There is no data about this institution.")) ?>
-
-    <?php
-} // end exists institutions list
+        <?php print($this->translate("#There is no data about this institution.")) ?>
+<?php
+  } // end exists institutions list
 ?>

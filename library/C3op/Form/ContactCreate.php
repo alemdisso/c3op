@@ -28,28 +28,30 @@ class C3op_Form_ContactCreate extends Zend_Form
         $areaCode = new Zend_Form_Element_Text('areaCode');
         $phoneValidator = new C3op_Register_ValidPhoneAreaCode();
         $areaCode->setLabel(_('#Area code:'))
-              ->setDecorators(array(
-                  'ViewHelper',
-                  'Errors',
-                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
-                  array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
-              ))
-            ->setOptions(array('class' => 'eleven columns alpha omega'))
-            ->setRequired(false)
-            ->addValidator($phoneValidator)
-            ->addFilter('StringTrim');
+                 ->setAttrib('alt','ddd')
+                 ->setDecorators(array(
+                   'ViewHelper',
+                   'Errors',
+                   array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'one column')),
+                   array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                 ))
+                 ->setOptions(array('class' => 'Full alpha omega'))
+                 ->setRequired(false)
+                 ->addValidator($phoneValidator)
+                 ->addFilter('StringTrim');
         $this->addElement($areaCode);
 
         $localNumber = new Zend_Form_Element_Text('localNumber');
         $phoneValidator = new C3op_Register_ValidPhoneLocalNumber();
         $localNumber->setLabel(_('#Local number:'))
+                 ->setAttrib('alt','tel')
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
-                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
-                  array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'one column Right')),
               ))
-            ->setOptions(array('class' => 'eleven columns alpha omega'))
+            ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(false)
             ->addValidator($phoneValidator)
             ->addFilter('StringTrim');
@@ -60,8 +62,8 @@ class C3op_Form_ContactCreate extends Zend_Form
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
-                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
-                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'five columns omega')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
                 ))
                 ->setOptions(array('class' => 'Full alpha omega'))
                 ->setRequired(true);

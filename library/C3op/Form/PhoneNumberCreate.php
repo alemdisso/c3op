@@ -39,6 +39,7 @@ class C3op_Form_PhoneNumberCreate extends Zend_Form
         $areaCode = new Zend_Form_Element_Text('areaCode');
         $phoneValidator = new C3op_Register_ValidPhoneAreaCode();
         $areaCode->setLabel(_('#Area code:'))
+                 ->setAttrib('alt','ddd')
             ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -55,6 +56,7 @@ class C3op_Form_PhoneNumberCreate extends Zend_Form
         $localNumber = new Zend_Form_Element_Text('localNumber');
         $phoneValidator = new C3op_Register_ValidPhoneLocalNumber();
         $localNumber->setLabel('Número:')
+                 ->setAttrib('alt','tel')
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
