@@ -94,7 +94,6 @@ class Projects_ProjectController extends Zend_Controller_Action
             $this->populateClientField($form, $thisProject->getClient());
             $this->populateResponsibleAtClientField($form, $thisProject->getClient(), $thisProject->getResponsibleAtClient());
             $this->populateOurResponsibleField($form, $thisProject->getOurResponsible());
-            //C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'responsibleAtClient', $thisProject->getResponsibleAtClient());
             $this->SetDateValueToFormField($form, 'beginDate', $thisProject->getBeginDate());
             $this->SetDateValueToFormField($form, 'finishDate', $thisProject->getFinishDate());
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'value', $thisProject->getValue());
@@ -108,7 +107,8 @@ class Projects_ProjectController extends Zend_Controller_Action
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'observation', $thisProject->getObservation());
 
         }
-        $pageData = array('projectTitle' => $title);
+        $pageData = array('projectTitle' => $title); 
+        $this->view->pageData = $pageData;
     }
 
     public function successAction()
