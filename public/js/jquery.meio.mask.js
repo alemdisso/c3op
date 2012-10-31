@@ -139,6 +139,8 @@
             // and then if the 'attr' options value is 'alt', your input should look like:
             // <input type="text" name="some_name" id="some_name" alt="msk" />
             masks: {
+                'ddd'               : {mask: '99' },
+                'tel'               : {mask: '9999-99999', type: 'reverse' },
                 'phone'             : {mask: '(99) 9999-9999' },
                 'phone-us'          : {mask: '(999) 999-9999' },
                 'cpf'               : {mask: '999.999.999-99' }, // cadastro nacional de pessoa fisica (kind of a brazillian ssn)

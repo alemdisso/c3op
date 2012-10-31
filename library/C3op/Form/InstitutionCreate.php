@@ -210,6 +210,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
         $element = new Zend_Form_Element_Text('zipCode');
         $validator = new C3op_Register_ValidZipCode();
         $element->setLabel('#ZIP Code:')
+                 ->setAttrib('alt','cep')
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',

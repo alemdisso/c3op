@@ -1,5 +1,7 @@
-<div id="MainHeader">
-<h1><?php echo $this->translate("#Service messengers") ?></h1>
-<?php echo sprintf($this->translate("#Create %s's service messenger"), $this->pageData['contactName']); ?>
-</div>
+        <div id="MainHeader">
+          <h1><?php echo sprintf($this->pageData['contactName']); ?></h1>
+        </div>
+        <div class="TituloForm">
+          <h2><?php echo sprintf($this->translate("#Create %s's service messenger"), $this->pageData['contactName']); ?></h2>
+        </div>
 <?php echo $this->form; ?>

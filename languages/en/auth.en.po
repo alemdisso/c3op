@@ -131,7 +131,7 @@ msgstr "Success!!!"
 #~ msgstr "Serviços de mensagens"
 
 #~ msgid "#Create %s's service messenger"
-#~ msgstr "Adicionar serviço de %s"
+#~ msgstr "Adicionar serviço de mensagens de %s"
 
 #~ msgid "#Phone number"
 #~ msgstr "Telefone"

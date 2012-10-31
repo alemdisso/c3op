@@ -191,6 +191,23 @@
 .Area h2 {
 }
 
+.TituloForm h2 a {
+  color: #555;
+  text-decoration: none;
+}
+
+.TituloForm h2 a:hover {
+  background-color: #f6f6f6;
+  border: 1px #f0f0f0 solid;
+  margin: 0px -4px; 
+  padding: 0px 3px; 
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+}
+
 .Label {
   text-align: right;
   line-height: 110%;

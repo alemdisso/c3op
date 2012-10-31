@@ -1,56 +1,41 @@
-    <div id="MainHeader">
-      <h1>Confirmar início de ação</h1>
-    </div><!-- MainHeader -->
-    <div class="Area">
-
+        <div id="MainHeader">
+          <h1>Confirmar início de ação</h1>
+        </div><!-- MainHeader -->
+        <div class="Area">
 <?php 
-/*
- * If exists acknowledgeded list
- */
-if (is_array($this->unacknowledgededList)) {
+  /*
+   * If exists acknowledgeded list
+   */
+  if (is_array($this->unacknowledgededList)) {
 ?>
-
 <?php 
-/*
- * if there is acknowledgeded in list
- */
+    /*
+     * if there is acknowledgeded in list
+     */
     if (count($this->unacknowledgededList)) {
 ?>
 <?php 
-/*
- * iterate list and print title
- */
-        while (list(, $unacknowledgementData) = each($this->unacknowledgededList)) {
+      /*
+       * iterate list and print title
+       */
+      while (list(, $unacknowledgementData) = each($this->unacknowledgededList)) {
 ?>
-
-<a href="/projects/action/detail/?id=<?php print($unacknowledgementData['actionId']) ?>"><?php print($unacknowledgementData['actionTitle']) ?></a>: <?php print($unacknowledgementData['actionStart']) ?>
-
-
-<br/>
-    
+          <a href="/projects/action/detail/?id=<?php print($unacknowledgementData['actionId']) ?>"><?php print($unacknowledgementData['actionTitle']) ?></a>: <?php print($unacknowledgementData['actionStart']) ?><br />
 <?php
-}  // loop iterate list and print titlei
+      }  // loop iterate list and print titlei
 ?>
-
-
-
-
-    
 <?php
     } else { // end else there is acknowledgeded in list
 ?>
-    <?php print("Não há ações a confirmar.") ?>
-    
+          <?php print("Não há ações a confirmar.") ?>
 <?php
     } // end else there is acknowledgeded in list
 ?>
 <?php
-} else { // else exists acknowledgeded list 
+  } else { // else exists acknowledgeded list 
 ?>
-    <?php print("Não existe lista de ações a confirmar.") ?>
-
-    <?php
-} // end exists acknowledgeded list
+          <?php print("Não existe lista de ações a confirmar.") ?>
+<?php
+  } // end exists acknowledgeded list
 ?>
-<p />
-</div><!-- Area -->
+        </div><!-- Area -->

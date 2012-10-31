@@ -1,21 +1,21 @@
 <?php
-$pageData = $this->pageData;
-$contactsList = $pageData['contactsList'];
+  $pageData = $this->pageData;
+  $contactsList = $pageData['contactsList'];
 ?>
-<div id="MainHeader">
-  <h1><?php echo $this->translate("#Contacts") ?></h1>
-</div>
+        <div id="MainHeader">
+          <h1><?php echo $this->translate("#Contacts") ?></h1>
+        </div>
 <?php
-/*
- * If exists contacts list
- */
-if (is_array($contactsList)) {
+  /*
+   * If exists contacts list
+   */
+  if (is_array($contactsList)) {
 ?>
 
 <?php
-/*
- * if there is contacts in list
- */
+    /*
+     * if there is contacts in list
+     */
     if (count($contactsList)) {
 ?>
             <div class="Area">
@@ -23,19 +23,25 @@ if (is_array($contactsList)) {
             		<thead>
             			<tr>
             				<th width="330"><?php echo $this->translate("#Name") ?></th>
+            				<th>Instituição</th>
+            				<th>Relação com o Iets</th>
             				<th width="070">&nbsp;</th>
             			</tr>
             		</thead>
             		<tbody>
 <?php
-/*
- * iterate list and print title
- */
-        foreach  ($contactsList as $contactId => $contactData) {
+      /*
+       * iterate list and print title
+       */
+      foreach  ($contactsList as $contactId => $contactData) {
 ?>
             			<tr>
             				<td><a href="/register/contact/detail/?id=<?php print($contactId) ?>"><?php print($contactData['name']) ?></a></td>
-<?php if (isset($contactData['editLink'])) { ?>
+            				<td>Instituição</td>
+            				<td>Relação com o Iets</td>
+<?php 
+//        if (isset($contactData['editLink'])) { 
+?>
                     <td>
                       <a class="anchorclass button" rel="submenu1"><?php echo $this->translate("#Options...") ?></a>
                       <div id="submenu1" class="anylinkcss">
@@ -46,10 +52,12 @@ if (is_array($contactsList)) {
                         </ul>
                       </div><!-- #submenu1 -->
                     </td>
+<?php 
+//        } 
+?>
             			</tr>
-<?php } ?>
 <?php
-}  // loop iterate list and print titlei
+      }  // loop iterate list and print titlei
 ?>
             		</tbody>
             	</table>
@@ -67,11 +75,11 @@ if (is_array($contactsList)) {
     } // end else there is contacts in list
 ?>
 <?php
-} else { // else exists contacts list
+  } else { // else exists contacts list
 ?>
     <?php echo $this->translate("#Contacts list was not found") ?>
-    <?php
-} // end exists contacts list
+<?php
+  } // end exists contacts list
 ?>
             <p>
               <a href="/register/contact/create" class="button three columns alpha omega"><?php echo $this->translate("#Add new contact") ?></a>

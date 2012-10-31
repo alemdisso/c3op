@@ -1,3 +1,7 @@
-<h2>Email</h2>
-Acrescentar email para <?php echo $this->linkageInfo['contactName']; ?> em  <?php echo $this->linkageInfo['institutionName']; ?>
+        <div id="MainHeader">
+          <h1><?php echo sprintf($this->pageData['contactName']); ?></h1>
+        </div>
+        <div class="TituloForm">
+          <h2>Acrescentar email para <?php echo $this->linkageInfo['contactName']; ?> em  <?php echo $this->linkageInfo['institutionName']; ?></h2>
+        </div>
 <?php echo $this->form; ?>

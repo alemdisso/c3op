@@ -1,96 +1,95 @@
 <?php
-$pageData = $this->pageData;
-$institutionsList = $pageData['institutionsList'];
+  $pageData = $this->pageData;
+  $institutionsList = $pageData['institutionsList'];
 ?>
-<div id="MainHeader">
-  <h1><?php echo $this->translate("#Institutions") ?></h1>
-</div>
+        <div id="MainHeader">
+          <h1><?php echo $this->translate("#Institutions") ?></h1>
+        </div>
 <?php
-/*
- * If exists institutions list
- */
-if (is_array($institutionsList)) {
+  /*
+   * If exists institutions list
+   */
+  if (is_array($institutionsList)) {
 ?>
-
 <?php
-/*
- * if there is institutions in list
- */
+    /*
+     * if there is institutions in list
+     */
     if (count($institutionsList)) {
 ?>
-            <div class="Area">
+        <div class="Area">
 
-              <table class="display dataTable">
-            		<thead>
-            			<tr>
-            				<th width="330"><?php echo $this->translate("#Name") ?></th>
-            				<th width="190"><?php echo $this->translate("#Type") ?></th>
-            				<th width="190"><?php echo $this->translate("#City") ?></th>
-            				<th width="020"><?php echo $this->translate("#State") ?></th>
-            				<th width="070"><?php echo $this->translate("#institution.index.Relationship") ?></th>
-            				<th width="070">&nbsp;</th>
-            			</tr>
-            		</thead>
-            		<tbody>
+          <table class="display dataTable">
+        		<thead>
+        			<tr>
+        				<th width="330"><?php echo $this->translate("#Name") ?></th>
+        				<th width="190"><?php echo $this->translate("#Type") ?></th>
+        				<th width="190"><?php echo $this->translate("#City") ?></th>
+        				<th width="020"><?php echo $this->translate("#State") ?></th>
+        				<th width="070"><?php echo $this->translate("#institution.index.Relationship") ?></th>
+        				<th width="070">&nbsp;</th>
+        			</tr>
+        		</thead>
+        		<tbody>
 <?php
-/*
- * iterate list and print title
- */
-        foreach($institutionsList as $id => $institutionData) {
+      /*
+       * iterate list and print title
+       */
+      foreach($institutionsList as $id => $institutionData) {
 ?>
-                    <td>
-                      <?php print($institutionData['name']) ?>
-                    </td>
-                    <td>
-                      <?php print($this->translate($institutionData['type'])) ?>
-                    </td>
-                    <td>
-                      <?php print($institutionData['city']) ?>
-                    </td>
-                    <td>
-                      <?php print($institutionData['state']) ?>
-                    </td>
-                    <td>
-                      <?php print($this->translate($institutionData['relationshipType'])) ?>
-                    </td>
+              <td>
+                <?php print($institutionData['name']) ?>
+              </td>
+              <td>
+                <?php print($this->translate($institutionData['type'])) ?>
+              </td>
+              <td>
+                <?php print($institutionData['city']) ?>
+              </td>
+              <td>
+                <?php print($institutionData['state']) ?>
+              </td>
+              <td>
+                <?php print($this->translate($institutionData['relationshipType'])) ?>
+              </td>
 
 
 
-                    <td>
-                      <a class="anchorclass button" rel="submenu1"><?php echo $this->translate("#Options...") ?></a>
-                      <div id="submenu1" class="anylinkcss">
-                        <ul>
-                          <li>
-                            <a href="/register/institution/edit/?id=<?php print($id) ?>"><?php echo $this->translate("#Edit") ?></a>
-                          </li>
-                        </ul>
-                      </div><!-- #submenu1 -->
-                    </td>
-            			</tr>
+              <td>
+                <a class="anchorclass button" rel="submenu1"><?php echo $this->translate("#Options...") ?></a>
+                <div id="submenu1" class="anylinkcss">
+                  <ul>
+                    <li>
+                      <a href="/register/institution/edit/?id=<?php print($id) ?>"><?php echo $this->translate("#Edit") ?></a>
+                    </li>
+                  </ul>
+                </div><!-- #submenu1 -->
+              </td>
+      			</tr>
 <?php
-}  // loop iterate list and print titlei
+      }  // loop iterate list and print titlei
 ?>
-            		</tbody>
-            	</table><br />
+      		</tbody>
+      	</table>
 <?php
     } else { // end else there is institutions in list
 ?>
-          <div class="Area"><p>
-<?php echo $this->translate("#No registered institutions.") ?>
-              </p>
-</div><!-- Area -->
+        <div class="Area">
+          <p><?php echo $this->translate("#No registered institutions.") ?></p>
+        </div><!-- Area -->
 <?php
     } // end else there is institutions in list
 ?>
 <?php
-} else { // else exists institutions list
+  } else { // else exists institutions list
 ?>
-<div class="Area"><?php echo $this->translate("#Institutions list was not found.") ?></div><!-- Area -->
+        <div class="Area">
+          <p><?php echo $this->translate("#Institutions list was not found.") ?></p>
+        </div><!-- .Area -->
 
-    <?php
-} // end exists institutions list
+<?php
+  } // end exists institutions list
 ?>
-<div class="Area">            <p>
-              <a href="/register/institution/create" class="button three columns alpha omega"><?php echo $this->translate("#Add new institution") ?></a>
-            </p></div>
-          <!-- Area -->
+        <div class="Area">
+          <p><a href="/register/institution/create" class="button three columns alpha omega"><?php echo $this->translate("#Add new institution") ?></a></p>
+        </div><!-- .Area -->

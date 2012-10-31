@@ -417,7 +417,7 @@ msgstr "Institutions"
 #~ msgstr "Serviços de mensagens"
 
 #~ msgid "#Create %s's service messenger"
-#~ msgstr "Adicionar serviço de %s"
+#~ msgstr "Adicionar serviço de mensagens de %s"
 
 #~ msgid "#Create %s's phone number"
 #~ msgstr "Adicionar telefone de %s"

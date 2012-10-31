@@ -19,7 +19,7 @@ class C3op_Form_TeamMemberCreate extends Zend_Form
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
-                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'seven columns')),
                     array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
                 ))
                 ->setOptions(array('class' => 'Full alpha omega'))
@@ -34,12 +34,12 @@ class C3op_Form_TeamMemberCreate extends Zend_Form
 
         $element = new Zend_Form_Element_Text('value');
         $element->setLabel('#Value:')
-        //        ->setAttrib('alt','decimal')
+                ->setAttrib('alt','decimal')
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
-                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
-                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns omega')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'one column Right')),
                 ))
                 ->setOptions(array('class' => 'Full alpha omega'))
             ->addValidator(new C3op_Util_ValidPositiveFloat)
