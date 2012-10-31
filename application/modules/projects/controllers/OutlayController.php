@@ -117,6 +117,8 @@ class Projects_OutlayController  extends Zend_Controller_Action
         $teamMemberField = $form->getElement('teamMember');
         $teamMemberField->setValue($teamMember->Getid());
 
+        $this->pageData['contactName'] = $this->view->translate("#(not defined)");
+        $this->pageData['teamMemberId'] = null;
         if ($teamMember->GetContact() > 0) {
             if (!isset($this->contactMapper)) {
                 $this->contactMapper = new C3op_Register_ContactMapper($this->db);
@@ -170,12 +172,6 @@ class Projects_OutlayController  extends Zend_Controller_Action
         }
     }
 
-    private function initOutlayMapper()
-    {
-        if (!isset($this->outlayMapper)) {
-            $this->outlayMapper = new C3op_Projects_OutlayMapper($this->db);
-        }
-    }
 
     private function initActionWithCheckedId(C3op_Projects_ActionMapper $mapper)
     {
@@ -198,16 +194,6 @@ class Projects_OutlayController  extends Zend_Controller_Action
         }
         throw new C3op_Projects_OutlayException("Invalid Action Id from Get");
 
-    }
-
-    private function setDateValueToFormField(Zend_Form $form, $fieldName, $value)
-    {
-        $field = $form->getElement($fieldName);
-        if ($value != '0000-00-00')  {
-            $field->setValue(C3op_Util_DateDisplay::FormatDateToShow($value));
-        } else {
-            $field->setValue("");
-        }
     }
 
 

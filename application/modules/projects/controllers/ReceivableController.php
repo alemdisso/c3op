@@ -32,7 +32,7 @@ class Projects_ReceivableController extends Zend_Controller_Action
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/receivable/success');
+                $this->_redirect('/projects/receivable/success/?id=' . $postData['project']);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -90,9 +90,12 @@ class Projects_ReceivableController extends Zend_Controller_Action
 
     public function successAction()
     {
+        $this->initProjectMapper();
+        $projectRelated =  $this->initProjectWithCheckedId($this->projectMapper);
+
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
             $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
-            $this->getResponse()->setHeader('Refresh', '1; URL=/projects');
+            $this->getResponse()->setHeader('Refresh', '1; URL=/projects/project/detail/?id=' . $projectRelated->getId());
         } else {
             $this->_redirect('/projects');
         }
@@ -104,9 +107,7 @@ class Projects_ReceivableController extends Zend_Controller_Action
         if ($validator->isValid($projectId)) {
             $projectField = $form->getElement('project');
             $projectField->setValue($projectId);
-            if (!isset($this->projectMapper)) {
-                $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
-            }
+            $this->initProjectMapper();
             $thisProject = $this->projectMapper->findById($projectId);
             $this->view->projectTitle = $thisProject->GetShortTitle();
             $this->view->projectId = $projectId;
@@ -115,21 +116,34 @@ class Projects_ReceivableController extends Zend_Controller_Action
 
     }
 
-    private function setDateValueToFormField(C3op_Form_ReceivableCreate $form, $fieldName, $value)
+    private function initProjectMapper()
     {
-        $field = $form->getElement($fieldName);
-        if (($value != '0000-00-00') && ($value != "")) {
-            $field->setValue($this->formatDataToShow($value));
-        } else {
-            $field->setValue("");
+        if (!isset($this->projectMapper)) {
+            $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
         }
     }
 
-    private function formatDataToShow($rawData)
+    private function initProjectWithCheckedId(C3op_Projects_ProjectMapper $mapper)
     {
-        $dateArray = explode("-", $rawData);
-        $formatedDate = $dateArray[2] . '/' . $dateArray[1] . '/' . $dateArray[0];
-        return $formatedDate;
+        return $mapper->findById($this->checkIdFromGet());
+    }
+
+    private function checkIdFromGet()
+    {
+        $data = $this->_request->getParams();
+        $filters = array(
+            'id' => new Zend_Filter_Alnum(),
+        );
+        $validators = array(
+            'id' => array('Digits', new Zend_Validate_GreaterThan(0)),
+        );
+        $input = new Zend_Filter_Input($filters, $validators, $data);
+        if ($input->isValid()) {
+            $id = $input->id;
+            return $id;
+        }
+        throw new C3op_Projects_OutlayException("Invalid Action Id from Get");
+
     }
 
 }
