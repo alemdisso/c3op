@@ -58,7 +58,7 @@ class C3op_Form_OutlayCreate extends Zend_Form
 
 
         $element = new Zend_Form_Element_Textarea('observation');
-        $element->setLabel('Observações:')
+        $element->setLabel('#Observation:')
             ->setAttrib('cols','8')
             ->setAttrib('rows','5')
             ->setDecorators(array(
@@ -105,7 +105,7 @@ class C3op_Form_OutlayCreate extends Zend_Form
             $outlay->SetProject($this->project->GetValue());
 
             $converter = new C3op_Util_FloatConverter();
-            
+
             $outlay->SetPredictedValue($converter->getDecimalDotValue($this->predictedValue->GetValue(), new C3op_Util_ValidFloat()));
             $predictedDate = $this->predictedDate->GetValue();
             $dateValidator = new C3op_Util_ValidDate();
