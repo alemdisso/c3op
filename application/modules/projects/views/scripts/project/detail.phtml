@@ -159,7 +159,6 @@ foreach($receivablesList as $id => $productInfo) {
 
       <p>
         <a href="/projects/receivable/create/?project=<?php echo $projectHeader['id'] ?>" class="button three columns alpha omega"><?php echo $this->translate("#Predict receiving") ?></a>
-        <a href="/projects/action/create/?project=<?php print($projectHeader['id']) ?>" class="button three columns alpha omega"><?php echo $this->translate("#Create new product") ?></a>
       </p>
 
     </div><!-- .Area -->
@@ -361,9 +360,20 @@ foreach ($actionsList as $id => $actionData) {
     <div class="Area">
       <p>
         <a href="/projects/project/payables/?id=<?php print($projectHeader['id']) ?>" class="button three columns alpha omega">Consultar ações realizadas</a>
+        <a href="/projects/action/create/?project=<?php print($projectHeader['id']) ?>" class="button three columns "><?php echo $this->translate("#Create new product") ?></a>
         <a href="/projects/project/unacknowledged/?id=<?php print($projectHeader['id']) ?>" class="button three columns alpha omega">Ações com início a confirmar</a>
       </p>
     </div><!-- .Area -->
 
         </div><!-- tabs-4 -->
       </div><!-- #tabs -->
+
+
+
+    <div class="Area">
+
+      <p>
+        <a href="/projects/receivable/create/?project=<?php echo $projectHeader['id'] ?>" class="button three columns alpha omega"><?php echo $this->translate("#Predict receiving") ?></a>
+      </p>
+
+    </div>
