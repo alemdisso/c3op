@@ -61,7 +61,9 @@ public function __construct() {
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.team-member', 'success');
 
     $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:projects.outlay', 'create');
+    $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:projects.outlay', 'edit');
     $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:projects.outlay', 'success');
+    $this->deny(C3op_Access_RolesConstants::ROLE_CONTROLLER, 'c3op:projects.outlay');
 
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.project', 'create');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.project', 'detail');
