@@ -182,6 +182,7 @@ class C3op_Projects_Project
     public function SetStatus($status)
     {
         switch ($status) {
+            case C3op_Projects_ProjectStatusConstants::STATUS_NIL:
             case C3op_Projects_ProjectStatusConstants::STATUS_PROSPECTING:
             case C3op_Projects_ProjectStatusConstants::STATUS_PLANNING:
             case C3op_Projects_ProjectStatusConstants::STATUS_PROPOSAL:

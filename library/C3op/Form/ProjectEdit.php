@@ -49,6 +49,7 @@ class C3op_Form_ProjectEdit extends C3op_Form_ProjectCreate
             $project->SetContractNature($this->contractNature->GetValue());
             $project->SetAreaActivity($this->areaActivity->GetValue());
 
+            $converter = new C3op_Util_FloatConverter();
             $validator = new C3op_Util_ValidFloat();
             if ($validator->isValid($this->value->GetValue())) {
                 $project->SetValue($converter->getDecimalDotValue($this->value->GetValue(), $validator));
