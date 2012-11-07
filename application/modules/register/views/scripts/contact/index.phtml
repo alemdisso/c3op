@@ -37,10 +37,10 @@
 ?>
             			<tr>
             				<td><a href="/register/contact/detail/?id=<?php print($contactId) ?>"><?php print($contactData['name']) ?></a></td>
-            				<td>Instituição</td>
-            				<td>Relação com o Iets</td>
-<?php 
-//        if (isset($contactData['editLink'])) { 
+            				<td><?php print $contactData['institutionName'] ?></td>
+            				<td><?php print $contactData['type'] ?></td>
+<?php
+//        if (isset($contactData['editLink'])) {
 ?>
                     <td>
                       <a class="anchorclass button" rel="submenu1"><?php echo $this->translate("#Options...") ?></a>
@@ -52,8 +52,8 @@
                         </ul>
                       </div><!-- #submenu1 -->
                     </td>
-<?php 
-//        } 
+<?php
+//        }
 ?>
             			</tr>
 <?php

@@ -26,12 +26,28 @@ class Register_ContactController extends Zend_Controller_Action
     {
         $list = $this->contactMapper->getAllIds();
         $contactsList = array();
+
+        $institutionMapper = new C3op_Register_InstitutionMapper($this->db);
         reset ($list);
         foreach ($list as $id) {
-            $thisContact = $this->contactMapper->findById($id);
+            $loopContact = $this->contactMapper->findById($id);
+            $result = $this->contactMapper->anInstitutionLinkedTo($loopContact);
+            if (count($result)) {
+                $anInstitutionId = $result[0];
+            } else {
+                $anInstitutionId = 0;
+            }
+            if ($anInstitutionId > 0) {
+                $theInstitution = $institutionMapper->findById($anInstitutionId);
+                $institutionName = $theInstitution->GetShortName();
+            } else {
+                $institutionName = $this->view->translate("#(undefined)");
+            }
+
             $contactsList[$id] = array(
-                'name'  => $thisContact->GetName(),
-                'type'  => C3op_Register_ContactTypes::TitleForType($thisContact->GetType()),
+                'name'  => $loopContact->GetName(),
+                'type'  => C3op_Register_ContactTypes::TitleForType($loopContact->GetType()),
+                'institutionName'  => $institutionName,
             );
         }
 

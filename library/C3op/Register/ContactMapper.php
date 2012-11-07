@@ -179,6 +179,21 @@ class C3op_Register_ContactMapper
         return $result;
     }
 
+    public function anInstitutionLinkedTo(C3op_Register_Contact $c)
+    {
+        $result = array();
+        foreach ($this->db->query('SELECT l.institution
+                    FROM register_linkages l
+                    WHERE l.contact = ' . $c->getId() . ' LIMIT 1'
+                    ) as $row) {
+            $result[] = $row['institution'];
+        }
+
+        return $result;
+
+    }
+
+
     private function insertPhoneNumbers(C3op_Register_Contact $new)
     {
         foreach($new->GetPhoneNumbers() as $phoneNumber) {
