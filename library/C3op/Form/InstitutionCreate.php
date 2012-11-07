@@ -75,7 +75,16 @@ class C3op_Form_InstitutionCreate extends Zend_Form
             ->setOptions(array('class' => 'Full alpha omega'));
 
         while (list($key, $title) = each($titleTypes)) {
-            $element->addMultiOption($key, $title);
+
+            if ($key != C3op_Register_InstitutionConstants::RELATIONSHIP_CONTRACTING) {
+                $element->addMultiOption($key, $title);
+            } else {
+                $user = Zend_Registry::get('user');
+                $role = $user->GetRole();
+                if ($role == C3op_Access_RolesConstants::ROLE_SYSADMIN) {
+                    $element->addMultiOption($key, $title);
+                }
+            }
         }
 
         $this->addElement($element);
