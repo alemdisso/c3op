@@ -28,9 +28,9 @@ class C3op_Projects_ActionMapper
 
         $query->bindValue(':title', $new->GetTitle(), PDO::PARAM_STR);
         $query->bindValue(':project', $new->GetProject(), PDO::PARAM_STR);
-        $query->bindValue(':done', $new->GetDone(), PDO::PARAM_BOOL);
-        $query->bindValue(':status', $new->GetStatus(), PDO::PARAM_INT);
-        $query->bindValue(':description', $new->GetDescription(), PDO::PARAM_INT);
+        $query->bindValue(':done', $new->GetDone(), PDO::PARAM_STR);
+        $query->bindValue(':status', $new->GetStatus(), PDO::PARAM_STR);
+        $query->bindValue(':description', $new->GetDescription(), PDO::PARAM_STR);
         $query->bindValue(':subordinated_to', $new->GetSubordinatedTo(), PDO::PARAM_STR);
         $query->bindValue(':responsible', $new->GetResponsible(), PDO::PARAM_STR);
         $query->bindValue(':milestone', $new->GetMilestone(), PDO::PARAM_STR);
@@ -130,15 +130,14 @@ class C3op_Projects_ActionMapper
 
     public function getAllOtherActions(C3op_Projects_Action $a)
     {
+        $query = $this->db->prepare('SELECT id FROM projects_actions WHERE project = :project AND id != :id;');
+        $query->bindValue(':project', $a->GetProject(), PDO::PARAM_STR);
+        $query->bindValue(':id', $a->GetId(), PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
         $result = array();
-        foreach ($this->db->query(
-                sprintf(
-                    'SELECT id FROM projects_actions WHERE project = %d AND id != %d;',
-                    $a->GetProject(),
-                    $a->GetId()
-                    )
-                )
-                as $row) {
+        foreach ($resultPDO as $key => $row) {
             $result[] = $row['id'];
         }
         return $result;
@@ -146,17 +145,18 @@ class C3op_Projects_ActionMapper
 
     public function getActionsSubordinatedTo(C3op_Projects_Action $a)
     {
+        $query = $this->db->prepare('SELECT id FROM projects_actions WHERE subordinated_to = :subordinatedTo;');
+        $query->bindValue(':subordinatedTo', $a->GetId(), PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
         $result = array();
-        foreach ($this->db->query(
-                sprintf(
-                    'SELECT id FROM projects_actions WHERE subordinated_to = %d;',
-                    $a->GetId()
-                    )
-                )
-                as $row) {
+        foreach ($resultPDO as $key => $row) {
             $result[] = $row['id'];
         }
+
         return $result;
+
     }
 
     private function setAttributeValue(C3op_Projects_Action $a, $fieldValue, $attributeName)

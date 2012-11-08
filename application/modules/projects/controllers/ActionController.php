@@ -187,7 +187,6 @@ class Projects_ActionController extends Zend_Controller_Action
         }
 
         $subordinatedActionsList = $this->actionMapper->getActionsSubordinatedTo($actionToBeDetailed);
-
         $subordinatedActionsData = array();
 
         foreach($subordinatedActionsList as $loopActionId) {
