@@ -168,16 +168,6 @@ class C3op_Projects_ActionMapper
 
     private function insertDates(C3op_Projects_Action $new)
     {
-//        $data = array(
-//            'action' => $new->getId(),
-//            'predicted_begin_date' => $new->GetPredictedBeginDate(),
-//            'predicted_finish_date' => $new->GetPredictedFinishDate(),
-//            'real_begin_date' => $new->GetRealBeginDate(),
-//            'real_finish_date' => $new->GetRealFinishDate(),
-//            );
-//        $this->db->insert('projects_actions_dates', $data);
-//
-
         $query = $this->db->prepare("INSERT INTO projects_actions_dates (action, predicted_begin_date, predicted_finish_date, real_begin_date, real_finish_date) VALUES (:action, :predicted_begin_date, :predicted_finish_date, :real_begin_date, :real_finish_date)");
 
         $query->bindValue(':action', $new->getId(), PDO::PARAM_STR);
@@ -188,28 +178,21 @@ class C3op_Projects_ActionMapper
 
         $query->execute();
 
-
-
-
-
-
     }
 
     private function fetchDates(C3op_Projects_Action $action)
     {
-        $result = $this->db->fetchRow(
-            sprintf(
-                'SELECT predicted_begin_date, predicted_finish_date, real_begin_date, real_finish_date FROM projects_actions_dates WHERE action = %d;',
-                $action->GetId()
-            )
-        );
+
+        $query = $this->db->prepare('SELECT predicted_begin_date, predicted_finish_date, real_begin_date, real_finish_date FROM projects_actions_dates WHERE action = :id;');
+        $query->bindValue(':id', $action->GetId(), PDO::PARAM_STR);
+        $query->execute();
+        $result = $query->fetch();
 
         if (empty($result)) {
             $this->insertDates($action);
             $this->fetchDates($action);
             return;
         }
-
         $this->setAttributeValue($action, $result['predicted_begin_date'], 'predictedBeginDate');
         $this->setAttributeValue($action, $result['predicted_finish_date'], 'predictedFinishDate');
         $this->setAttributeValue($action, $result['real_begin_date'], 'realBeginDate');
