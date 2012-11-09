@@ -33,7 +33,10 @@ CREATE TABLE IF NOT EXISTS `auth_users` (
   `last_login` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `apelidoUsuario` (`password`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+INSERT INTO `auth_users` (`id`, `login`, `name`, `password`, `email`, `role`, `status`, `first_login`, `last_login`) VALUES
+(1, 'admin', '', '1cebede82348cd151992cc41693f795d', 'admin@localhost', 900, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -54,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `projects_actions` (
   `milestone` tinyint(1) DEFAULT NULL,
   `requirement_for_receiving` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=103 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -72,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `projects_actions_dates` (
   `real_finish_date` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `action_index` (`action`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=103 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -89,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `projects_actions_events` (
   `observation` varchar(250) DEFAULT NULL,
   `responsible` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=156 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -109,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `projects_outlays` (
   `observation` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `projeto` (`project`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 
@@ -137,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `projects_projects` (
   `summary` text,
   `observation` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 
@@ -155,7 +158,7 @@ CREATE TABLE IF NOT EXISTS `projects_receivables` (
   `predicted_value` float(10,2) DEFAULT NULL,
   `real_value` float(10,2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 
@@ -172,7 +175,7 @@ CREATE TABLE IF NOT EXISTS `projects_team_members` (
   `value` float unsigned NOT NULL,
   `status` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=68 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 
@@ -186,7 +189,7 @@ CREATE TABLE IF NOT EXISTS `register_contacts` (
   `name` varchar(150) DEFAULT NULL,
   `type` smallint(5) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=26 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 
@@ -202,7 +205,7 @@ CREATE TABLE IF NOT EXISTS `register_contacts_emails` (
   `label` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `contact` (`contact`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 
@@ -218,7 +221,7 @@ CREATE TABLE IF NOT EXISTS `register_contacts_messengers` (
   `service` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `contact` (`contact`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 
@@ -235,7 +238,7 @@ CREATE TABLE IF NOT EXISTS `register_contacts_phone_numbers` (
   `label` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `contact` (`contact`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=47 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 
@@ -263,7 +266,7 @@ CREATE TABLE IF NOT EXISTS `register_institutions` (
   `type` smallint(5) unsigned DEFAULT NULL,
   `relationship_type` smallint(5) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 
@@ -280,7 +283,7 @@ CREATE TABLE IF NOT EXISTS `register_linkages` (
   `position` varchar(120) CHARACTER SET latin1 COLLATE latin1_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `contato` (`contact`,`institution`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 
@@ -296,7 +299,7 @@ CREATE TABLE IF NOT EXISTS `register_linkages_emails` (
   `label` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `linkage` (`linkage`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 
@@ -313,4 +316,4 @@ CREATE TABLE IF NOT EXISTS `register_linkages_phone_numbers` (
   `label` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `linkage` (`linkage`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
