@@ -272,14 +272,14 @@ class C3op_Projects_ActionMapper
 
     public function getContractedValueJustForThisAction(C3op_Projects_Action $a)
     {
-        foreach ($this->db->query(
-                sprintf(
-                    'SELECT SUM(value) as value FROM projects_team_members WHERE action = %d AND status = %d;',
-                    $a->GetId(),
-                    C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED
-                    )
-                )
-                as $row) {
+        $query = $this->db->prepare('SELECT SUM(value) as value FROM projects_team_members WHERE action = :action AND status = :status;');
+        $query->bindValue(':action', $a->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':status', C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
+        foreach ($resultPDO as $key => $row) {
             if (!is_null($row['value']))
                 return $row['value'];
             else

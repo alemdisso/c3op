@@ -107,7 +107,7 @@ class Projects_ProjectController extends Zend_Controller_Action
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'observation', $thisProject->getObservation());
 
         }
-        $pageData = array('projectTitle' => $title); 
+        $pageData = array('projectTitle' => $title);
         $this->view->pageData = $pageData;
     }
 
@@ -432,35 +432,6 @@ class Projects_ProjectController extends Zend_Controller_Action
         );
 
         $this->view->projectInfo = $projectInfo;
-    }
-
-    public function payablesAction()
-    {
-        $id = $this->checkIdFromGet();
-        $thisProject = $this->projectMapper->findById($id);
-
-        $this->initActionMapper();
-        $list = $this->projectMapper->getAllDoneActions($thisProject);
-
-        $payablesList = array();
-        reset ($list);
-        foreach ($list as $actionId) {
-            $thisAction = $this->actionMapper->findById($actionId);
-            $actionTitle = $thisAction->getTitle();
-            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
-            $actionValue = $currencyDisplay->FormatCurrency(
-                               $this->actionMapper->getContractedValueJustForThisAction($thisAction)
-                           );
-
-            $payablesList[$actionId] = array(
-                'actionId'       => $actionId,
-                'actionTitle'    => $actionTitle,
-                'actionValue'    => $actionValue,
-            );
-        }
-
-        $this->view->payablesList = $payablesList;
-
     }
 
     public function unacknowledgedAction()
