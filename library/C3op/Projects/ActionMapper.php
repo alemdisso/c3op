@@ -70,7 +70,7 @@ class C3op_Projects_ActionMapper
             throw new C3op_Projects_ActionException("$sql failed");
         }
 
-        $this->UpdateDates($obj);
+        $this->updateDates($obj);
     }
 
     public function findById($id)
@@ -90,7 +90,7 @@ class C3op_Projects_ActionMapper
         if (empty($result)) {
             throw new C3op_Projects_ActionMapperException(sprintf('There is no action with id #%d.', $id));
         }
-        $title = $result['title'];
+
         $project = $result['project'];
 
         $obj = new C3op_Projects_Action($project);
@@ -137,7 +137,7 @@ class C3op_Projects_ActionMapper
         $resultPDO = $query->fetchAll();
 
         $result = array();
-        foreach ($resultPDO as $key => $row) {
+        foreach ($resultPDO as $row) {
             $result[] = $row['id'];
         }
         return $result;
@@ -151,7 +151,7 @@ class C3op_Projects_ActionMapper
         $resultPDO = $query->fetchAll();
 
         $result = array();
-        foreach ($resultPDO as $key => $row) {
+        foreach ($resultPDO as $row) {
             $result[] = $row['id'];
         }
 
@@ -278,8 +278,7 @@ class C3op_Projects_ActionMapper
         $query->execute();
         $resultPDO = $query->fetchAll();
 
-        $result = array();
-        foreach ($resultPDO as $key => $row) {
+        foreach ($resultPDO as $row) {
             if (!is_null($row['value'])) {
                 print($row['value'] . "<br>");
                 return $row['value'];
@@ -297,9 +296,8 @@ class C3op_Projects_ActionMapper
         $query->execute();
         $resultPDO = $query->fetchAll();
 
-        $result = array();
         $value = $this->getContractedValueJustForThisAction($a);
-        foreach ($resultPDO as $key => $row) {
+        foreach ($resultPDO as $row) {
             $childAction = $this->findById($row['id']);
             $value += $this->getContractedValueJustForThisAction($childAction);
 
@@ -310,35 +308,36 @@ class C3op_Projects_ActionMapper
 
     private function updateDates(C3op_Projects_Action $action)
     {
-        $this->db->exec(
-        sprintf(
-            'UPDATE projects_actions_dates SET predicted_begin_date = \'%s\', predicted_finish_date = \'%s\', real_begin_date = \'%s\', real_finish_date = \'%s\' WHERE action = %d;',
-                $action->GetPredictedBeginDate(),
-                $action->GetPredictedFinishDate(),
-                $action->GetRealBeginDate(),
-                $action->GetRealFinishDate(),
-                $this->identityMap[$action]
-            )
-        );
+        $query = $this->db->prepare('UPDATE projects_actions_dates SET predicted_begin_date = :predictedBeginDate, predicted_finish_date = :predictedFinishDate, real_begin_date = :realBeginDate, real_finish_date = :realFinishDate WHERE action = :action;');
+
+        $query->bindValue(':predictedBeginDate', $action->GetPredictedBeginDate(), PDO::PARAM_STR);
+        $query->bindValue(':predictedFinishDate', $action->GetPredictedFinishDate(), PDO::PARAM_STR);
+        $query->bindValue(':realBeginDate', $action->GetRealBeginDate(), PDO::PARAM_STR);
+        $query->bindValue(':realFinishDate', $action->GetRealFinishDate(), PDO::PARAM_STR);
+        $query->bindValue(':action', $this->identityMap[$action], PDO::PARAM_STR);
+
+        try {
+            $query->execute();
+        } catch (Exception $e) {
+            throw new C3op_Projects_ActionException("$sql failed");
+        }
 
     }
 
     public function getContractedTeamMembers(C3op_Projects_Action $a)
     {
 
+        $query = $this->db->prepare('SELECT id FROM projects_team_members WHERE action = :action AND status = :status;');
+        $query->bindValue(':action', $a->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':status', C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
         $result = array();
-        foreach ($this->db->query(
-                sprintf(
-                    'SELECT id FROM projects_team_members WHERE action = %d AND status = %d;',
-                    $a->GetId(),
-                    C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED
-                    ))
-                as $row) {
+        foreach ($resultPDO as $row) {
             $result[] = $row['id'];
         }
         return $result;
-
-
 
     }
 
