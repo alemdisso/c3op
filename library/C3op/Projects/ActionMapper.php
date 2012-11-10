@@ -226,13 +226,6 @@ class C3op_Projects_ActionMapper
         $query->bindValue(':type', C3op_Projects_ActionEventConstants::EVENT_CONFIRM_REALIZATION, PDO::PARAM_STR);
         $query->execute();
         $result = $query->fetch();
-//        $result = $this->db->fetchRow(
-//            sprintf(
-//                'SELECT timestamp FROM projects_actions_events WHERE action = %d AND type = %d ORDER BY timestamp DESC LIMIT 1;',
-//                $action->GetId(),
-//                C3op_Projects_ActionEventConstants::EVENT_CONFIRM_REALIZATION
-//            )
-//        );
 
         if (empty($result)) {
             $doneDate = null;
@@ -245,16 +238,14 @@ class C3op_Projects_ActionMapper
 
    public function getLastAutoStartDate(C3op_Projects_Action $action)
     {
-        $result = $this->db->fetchRow(
-            sprintf(
-                'SELECT timestamp FROM projects_actions_events WHERE action = %d AND type = %d ORDER BY timestamp DESC LIMIT 1;',
-                $action->GetId(),
-                C3op_Projects_ActionEventConstants::EVENT_BEGIN_AUTOMATICALLY
-            )
-        );
+        $query = $this->db->prepare('SELECT timestamp FROM projects_actions_events WHERE action = :action AND type = :type ORDER BY timestamp DESC LIMIT 1;');
+        $query->bindValue(':action', $action->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':type', C3op_Projects_ActionEventConstants::EVENT_BEGIN_AUTOMATICALLY, PDO::PARAM_STR);
+        $query->execute();
+        $result = $query->fetch();
 
         if (empty($result)) {
-            $autoStartDate = "0000-00-00";
+            $autoStartDate = null;
         } else {
             $autoStartDate = $result['timestamp'];
         }
@@ -264,16 +255,14 @@ class C3op_Projects_ActionMapper
 
    public function getLastAcknowledgeStartDate(C3op_Projects_Action $action)
     {
-        $result = $this->db->fetchRow(
-            sprintf(
-                'SELECT timestamp FROM projects_actions_events WHERE action = %d AND type = %d ORDER BY timestamp DESC LIMIT 1;',
-                $action->GetId(),
-                C3op_Projects_ActionEventConstants::EVENT_BEGIN_ACKNOWLEDGMENT
-            )
-        );
+        $query = $this->db->prepare('SELECT timestamp FROM projects_actions_events WHERE action = :action AND type = :type ORDER BY timestamp DESC LIMIT 1;');
+        $query->bindValue(':action', $action->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':type', C3op_Projects_ActionEventConstants::EVENT_BEGIN_ACKNOWLEDGMENT, PDO::PARAM_STR);
+        $query->execute();
+        $result = $query->fetch();
 
         if (empty($result)) {
-            $acknowledgeDate = "0000-00-00";
+            $acknowledgeDate = null;
         } else {
             $acknowledgeDate = $result['timestamp'];
         }

@@ -13,12 +13,16 @@ class C3op_Projects_ActionStartMode {
 
     public function isUnacknowledged()
     {
-        $lastAcknowledgment = $this->actionMapper->GetLastAcknowledgeStartDate($this->action);
         $lastAutoStart = $this->actionMapper->GetLastAutoStartDate($this->action);
-        if ($lastAcknowledgment < $lastAutoStart) {
-            return true;
-        } else {
-            return false;
+        if (!is_null($lastAutoStart)) {
+            $lastAcknowledgment = $this->actionMapper->GetLastAcknowledgeStartDate($this->action);
+            if (!is_null($lastAcknowledgment)) {
+                if ($lastAcknowledgment < $lastAutoStart) {
+                    return true;
+                }
+            }
         }
+
+        return false;
     }
 }
