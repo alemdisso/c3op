@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `projects_outlays` (
   `project` int(10) unsigned DEFAULT NULL,
   `action` int(10) unsigned DEFAULT NULL,
   `human_resource` int(10) unsigned DEFAULT NULL,
-  `predicted_value` float DEFAULT NULL,
+  `predicted_value` decimal(10,2) DEFAULT NULL,
   `predicted_date` date DEFAULT NULL,
   `recurrent` smallint(6) DEFAULT NULL,
   `observation` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci DEFAULT NULL,
@@ -130,12 +130,12 @@ CREATE TABLE IF NOT EXISTS `projects_projects` (
   `responsible_at_client` int(10) unsigned DEFAULT NULL,
   `begin_date` date DEFAULT NULL,
   `finish_date` date DEFAULT NULL,
-  `value` float(10,2) DEFAULT NULL,
+  `value` decimal(10,2) DEFAULT NULL,
   `status` tinyint(3) unsigned NOT NULL,
   `contract_nature` tinyint(10) unsigned DEFAULT NULL,
   `area_activity` int(10) unsigned DEFAULT NULL,
-  `overhead` float(10,2) DEFAULT NULL,
-  `management_fee` float(10,2) DEFAULT NULL,
+  `overhead` decimal(10,2) DEFAULT NULL,
+  `management_fee` decimal(10,2) DEFAULT NULL,
   `object` text,
   `summary` text,
   `observation` text,
@@ -155,8 +155,8 @@ CREATE TABLE IF NOT EXISTS `projects_receivables` (
   `title` varchar(200) CHARACTER SET latin1 COLLATE latin1_general_ci DEFAULT NULL,
   `predicted_date` date DEFAULT NULL,
   `real_date` date DEFAULT NULL,
-  `predicted_value` float(10,2) DEFAULT NULL,
-  `real_value` float(10,2) DEFAULT NULL,
+  `predicted_value` decimal(10,2) DEFAULT NULL,
+  `real_value` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
@@ -172,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `projects_team_members` (
   `action` int(10) unsigned NOT NULL,
   `description` varchar(120) CHARACTER SET latin1 COLLATE latin1_general_ci DEFAULT NULL,
   `contact` int(10) unsigned NOT NULL,
-  `value` float unsigned NOT NULL,
+  `value` decimal(10,2) unsigned NOT NULL,
   `status` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;

@@ -56,7 +56,7 @@ function rejectReceipt(id){
         <div class="TituloForm">
           <h2><?php print($this->translate("#Details of action ")); ?> <?php print($actionHeader['title']) ?></h2>
         </div>
-        
+
         <div class="Area">
 
           <div class="three columns alpha Right">
@@ -78,7 +78,7 @@ function rejectReceipt(id){
           <div class="eleven columns omega">
             <a class="parent_info" href="/projects/action/detail/?id=<?php print($actionHeader['parentActionId']); ?>"><?php print($actionHeader['parentActionTitle']); ?></a>
           </div>
-      
+
           <div class="three columns alpha Right">
             <?php print($this->translate("#Description:")); ?>
           </div>
@@ -102,7 +102,7 @@ function rejectReceipt(id){
             <?php print($this->translate($actionHeader['milestone'])); ?>
           </div>
 
-          <div class="three columns alpha Right">
+            <div class="three columns alpha Right">
             <?php print($this->translate("#Real begin:")); ?>
           </div>
           <div class="two columns">
@@ -124,7 +124,7 @@ function rejectReceipt(id){
             </div>
             &nbsp;
 <?php
-  } 
+  }
   if ($actionHeader['receiptToAcceptOrReject']) {
 
 ?>
@@ -174,10 +174,24 @@ function rejectReceipt(id){
 <?php
   }
 ?>
+
+          <div class="three columns alpha Right">
+            <?php print($this->translate("#Total contracted value:")); ?>
+          </div>
+          <div class="two columns">
+            <?php print($actionHeader['totalContractedValue']); ?>
+          </div>
+          <div class="two columns Right">
+            <?php print($this->translate("...")); ?>
+          </div>
+          <div class="two columns">
+            <?php print("..."); ?>
+          </div>
+
           <div class="three columns offset-by-three inset-by-eight alpha omega">
             <a href="/projects/action/edit/?id=<?php print($actionHeader['id']) ?>" class="button three columns alpha omega"><?php print($this->translate("#Edit this action")); ?></a>
           </div>
-    
+
         </div><!-- .Area -->
 
         <div id="tabs">
@@ -185,7 +199,7 @@ function rejectReceipt(id){
             <li><a href="#tabs-1"><?php echo $this->translate("#Subactions") ?></a></li>
             <li><a href="#tabs-2"><?php echo $this->translate("#Team") ?></a></li>
           </ul>
-    
+
           <div id="tabs-1">
             <table id="SubAcoes" class="display dataTable">
               <thead>
@@ -227,7 +241,7 @@ function rejectReceipt(id){
               <a href="/projects/action/create/?subordinatedTo=<?php print($actionHeader['id']) ?>" class="button three columns alpha omega"><?php print($this->translate("#Create new action")) ?></a>
             </p>
           </div><!-- #tabs-1 -->
-      
+
           <div id="tabs-2">
 
           <table id="RecursosHumanos" class="display dataTable">
@@ -267,7 +281,7 @@ function rejectReceipt(id){
                         </li>
 <?php
     if ($teamMemberData['stillNotContractedFlag']) {
-?>                    
+?>
                         <li>
                           <div id='dismissContact-<?php print($id);?>'><a class="parent_info" href=""><?php print($this->translate("#Dismiss team member")); ?></a></div>
                         </li>
@@ -295,12 +309,12 @@ function rejectReceipt(id){
 
             </tbody>
           </table>
-    
+
           <p>
             <a href="/projects/team-member/create/?actionId=<?php print($actionHeader['id']); ?>" class="button three columns alpha omega"><?php print($this->translate("#Anticipate team member")); ?></a>
           </p>
 
           </div><!-- #tabs-2 -->
-  
+
         </div><!-- #tabs -->
         <!-- ### Será preciso montar a tabela de recursos materias, idêntica à de recursos humanos, assim que forem tratados pelo sistema -->

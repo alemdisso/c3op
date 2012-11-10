@@ -246,6 +246,10 @@ class Projects_ActionController extends Zend_Controller_Action
             $receiptToAcceptOrReject = true;
         }
 
+        $actionValue = new C3op_Projects_ActionValue($actionToBeDetailed,$this->actionMapper);
+        $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+        $totalContractedValue = $currencyDisplay->FormatCurrency($actionValue->totalValue());
+
         $actionHeader = array(
             'id'                      => $actionToBeDetailed->getId(),
             'projectId'               => $projectToBeDetailed->getId(),
@@ -267,6 +271,7 @@ class Projects_ActionController extends Zend_Controller_Action
             'unacknowledgedStart'     => $unacknowledgedStart,
             'receiptToAcceptOrReject' => $receiptToAcceptOrReject,
             'waitingToReceipt'        => $waitingToReceipt,
+            'totalContractedValue'    => $totalContractedValue,
         );
 
 

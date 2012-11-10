@@ -280,27 +280,29 @@ class C3op_Projects_ActionMapper
 
         $result = array();
         foreach ($resultPDO as $key => $row) {
-            if (!is_null($row['value']))
+            if (!is_null($row['value'])) {
+                print($row['value'] . "<br>");
                 return $row['value'];
-            else
+            } else {
                 return 0;
-
+            }
         }
         return 0;
     }
 
     public function getContractedValueForActionTree(C3op_Projects_Action $a)
     {
+        $query = $this->db->prepare('SELECT id FROM projects_actions WHERE subordinated_to = :subordinatedTo;');
+        $query->bindValue(':subordinatedTo', $a->GetId(), PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
         $value = $this->getContractedValueJustForThisAction($a);
-        foreach ($this->db->query(
-                sprintf(
-                    'SELECT id FROM projects_actions WHERE subordinated_to = %d;',
-                    $a->GetId()
-                    )
-                )
-                as $row) {
+        foreach ($resultPDO as $key => $row) {
             $childAction = $this->findById($row['id']);
             $value += $this->getContractedValueJustForThisAction($childAction);
+
 
         }
         return $value;
