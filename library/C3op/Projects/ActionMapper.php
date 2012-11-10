@@ -202,13 +202,18 @@ class C3op_Projects_ActionMapper
 
    public function fetchLastReceiptDate(C3op_Projects_Action $action)
     {
-        $result = $this->db->fetchRow(
-            sprintf(
-                'SELECT timestamp FROM projects_actions_events WHERE action = %d AND type = %d ORDER BY timestamp DESC LIMIT 1;',
-                $action->GetId(),
-                C3op_Projects_ActionEventConstants::EVENT_ACKNOWLEDGE_RECEIPT
-            )
-        );
+        $query = $this->db->prepare('SELECT timestamp FROM projects_actions_events WHERE action = :action AND type = :type ORDER BY timestamp DESC LIMIT 1;');
+        $query->bindValue(':action', $action->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':type', C3op_Projects_ActionEventConstants::EVENT_ACKNOWLEDGE_RECEIPT, PDO::PARAM_STR);
+        $query->execute();
+        $result = $query->fetch();
+//        $result = $this->db->fetchRow(
+//            sprintf(
+//                'SELECT timestamp FROM projects_actions_events WHERE action = %d AND type = %d ORDER BY timestamp DESC LIMIT 1;',
+//                $action->GetId(),
+//                C3op_Projects_ActionEventConstants::EVENT_ACKNOWLEDGE_RECEIPT
+//            )
+//        );
 
         if (empty($result)) {
             $receiptDate = "0000-00-00";
