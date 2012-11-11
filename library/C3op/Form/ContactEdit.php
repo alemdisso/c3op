@@ -10,10 +10,22 @@ class C3op_Form_ContactEdit extends C3op_Form_ContactCreate
             ->setAction('/register/contact/edit')
             ->setMethod('post');
 
-        $id = new Zend_Form_Element_Hidden('id');
-        $id->addValidator('Int')
+        $element = new Zend_Form_Element_Hidden('id');
+        $element->addValidator('Int')
             ->addFilter('StringTrim');
-        $this->addElement($id);
+        $this->addElement($element);
+        $element->setDecorators(array('ViewHelper'));
+
+        $element = $this->type;
+        $element->setLabel(_('#Relationship with us: '))
+                ->setDecorators(array(
+                    'ViewHelper',
+                    'Errors',
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'five columns omega')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                ))
+                ->setOptions(array('class' => 'Full alpha omega'))
+                ->setRequired(true);
 
         $this->removeElement('areaCode');
         $this->removeElement('localNumber');

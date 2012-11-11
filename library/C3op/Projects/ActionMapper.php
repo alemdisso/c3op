@@ -72,7 +72,7 @@ class C3op_Projects_ActionMapper
         try {
             $query->execute();
         } catch (Exception $e) {
-            throw new C3op_Projects_ActionException("$sql failed");
+            throw new C3op_Projects_ActionException("sql failed");
         }
 
         $this->updateDates($obj);

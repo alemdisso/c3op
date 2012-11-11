@@ -10,9 +10,9 @@ class C3op_Form_ContactCreate extends Zend_Form
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
-        $name = new Zend_Form_Element_Text('name');
+        $element = new Zend_Form_Element_Text('name');
         $nameValidator = new C3op_Register_ContactValidName();
-        $name->setLabel('#Name:')
+        $element->setLabel('#Name:')
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -21,13 +21,14 @@ class C3op_Form_ContactCreate extends Zend_Form
               ))
             ->setOptions(array('class' => 'Full alpha omega'))
             ->setRequired(true)
+            ->addErrorMessage(_("#Invalid name"))
             ->addValidator($nameValidator)
             ->addFilter('StringTrim');
-        $this->addElement($name);
+        $this->addElement($element);
 
-        $areaCode = new Zend_Form_Element_Text('areaCode');
+        $element = new Zend_Form_Element_Text('areaCode');
         $phoneValidator = new C3op_Register_ValidPhoneAreaCode();
-        $areaCode->setLabel(_('#Area code:'))
+        $element->setLabel(_('#Area code:'))
                  ->setAttrib('alt','ddd')
                  ->setDecorators(array(
                    'ViewHelper',
@@ -39,11 +40,11 @@ class C3op_Form_ContactCreate extends Zend_Form
                  ->setRequired(false)
                  ->addValidator($phoneValidator)
                  ->addFilter('StringTrim');
-        $this->addElement($areaCode);
+        $this->addElement($element);
 
-        $localNumber = new Zend_Form_Element_Text('localNumber');
+        $element = new Zend_Form_Element_Text('localNumber');
         $phoneValidator = new C3op_Register_ValidPhoneLocalNumber();
-        $localNumber->setLabel(_('#Local number:'))
+        $element->setLabel(_('#Local number:'))
                  ->setAttrib('alt','tel')
               ->setDecorators(array(
                   'ViewHelper',
@@ -55,10 +56,10 @@ class C3op_Form_ContactCreate extends Zend_Form
             ->setRequired(false)
             ->addValidator($phoneValidator)
             ->addFilter('StringTrim');
-        $this->addElement($localNumber);
+        $this->addElement($element);
 
-        $type = new Zend_Form_Element_Select('type');
-        $type->setLabel(_('#Relationship with us:'))
+        $element = new Zend_Form_Element_Select('type');
+        $element->setLabel(_('#Relationship with us:'))
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
@@ -68,11 +69,11 @@ class C3op_Form_ContactCreate extends Zend_Form
                 ->setOptions(array('class' => 'Full alpha omega'))
                 ->setRequired(true);
         $titleTypes = C3op_Register_ContactTypes::AllTitles();
-        $type->addMultiOption(null, _("#(click to choice)"));
+        $element->addMultiOption(null, _("#(click to choice)"));
         while (list($key, $title) = each($titleTypes)) {
-            $type->addMultiOption($key, $title);
+            $element->addMultiOption($key, $title);
         }
-        $this->addElement($type);
+        $this->addElement($element);
 
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');

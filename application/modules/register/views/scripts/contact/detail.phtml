@@ -30,9 +30,11 @@ if (is_array($pageData['contactInfo'])) {
       <?php print($contactInfo['relationship']) ?>
     </p>
   </div>
+    <div class="three columns offset-by-three inset-by-eight alpha omega">
+    <a href="/register/contact/edit/?id=<?php print($contactInfo['id']) ?>" class="button three columns alpha omega"><?php print($this->translate("#Edit contact details")); ?></a>
+    </div>
 </div><!-- .Area -->
-
-          <div class="Area">
+<div class="Area">
 <?php
 
     $phonesList = $pageData['phonesList'];

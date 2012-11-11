@@ -1,8 +1,12 @@
 <?php
 class C3op_Register_ContactValidName extends Zend_Validate_Abstract {
     function isValid($value) {
-        $nameValidator = new Zend_Validate_Regex("/^[0-9a-zA-ZÀ-ú]+[0-9A-Za-zÀ-ú\'\[\]\(\)\-\.\,\:\;\!\? ]{1,120}$/");
-        return $nameValidator->isValid($value);
+        if ($value == "") {
+            return false;
+        }
+
+        $titleValidator = new C3op_Util_ValidString;
+        return $titleValidator->isValid($value);
     }
 }
 

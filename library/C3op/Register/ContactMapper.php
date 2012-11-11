@@ -12,25 +12,31 @@ class C3op_Register_ContactMapper
     }
 
     public function getAllIds() {
+        $query = $this->db->prepare('SELECT id FROM register_contacts WHERE 1=1;');
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
         $result = array();
-        foreach ($this->db->query('SELECT id FROM register_contacts;') as $row) {
+        foreach ($resultPDO as $row) {
             $result[] = $row['id'];
         }
         return $result;
+
     }
 
-    public function insert(C3op_Register_Contact $new) {
-        $data = array(
-            'name' => $new->GetName(),
-            'type' => $new->GetType()
-            );
-        $this->db->insert('register_contacts', $data);
-        $new->SetId((int)$this->db->lastInsertId());
-        $this->identityMap[$new] = $new->GetId();
+    public function insert(C3op_Register_Contact $obj) {
 
-        $this->insertPhoneNumbers($new);
-        $this->insertEmails($new);
-        $this->insertMessengers($new);
+        $query = $this->db->prepare("INSERT INTO register_contacts (name, type) VALUES (:name, :type)");
+        $query->bindValue(':name', $obj->GetName(), PDO::PARAM_STR);
+        $query->bindValue(':type', $obj->GetType(), PDO::PARAM_STR);
+        $query->execute();
+
+        $obj->SetId((int)$this->db->lastInsertId());
+        $this->identityMap[$obj] = $obj->GetId();
+
+        $this->insertPhoneNumbers($obj);
+        $this->insertEmails($obj);
+        $this->insertMessengers($obj);
 
     }
 
@@ -38,14 +44,18 @@ class C3op_Register_ContactMapper
         if (!isset($this->identityMap[$obj])) {
             throw new C3op_Register_ContactMapperException('Object has no ID, cannot update.');
         }
-        $this->db->exec(
-            sprintf(
-                'UPDATE register_contacts SET name = \'%s\', type = %d WHERE id = %d;',
-                $obj->GetName(),
-                $obj->GetType(),
-                $this->identityMap[$obj]
-            )
-        );
+
+        $query = $this->db->prepare("UPDATE register_contacts SET name = :name, type = :type WHERE id = :id;");
+
+        $query->bindValue(':name', $obj->GetName(), PDO::PARAM_STR);
+        $query->bindValue(':type', $obj->GetType(), PDO::PARAM_STR);
+        $query->bindValue(':id', $this->identityMap[$obj], PDO::PARAM_STR);
+
+        try {
+            $query->execute();
+        } catch (Exception $e) {
+            throw new C3op_Projects_ActionException("sql failed");
+        }
 
         $this->UpdatePhoneNumbers($obj);
         $this->UpdateEmails($obj);
