@@ -14,34 +14,40 @@ class C3op_Projects_ActionMapper
 
     public function getAllIds()
     {
+
+        $query = $this->db->prepare('SELECT id FROM projects_actions WHERE 1=1;');
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
         $result = array();
-        foreach ($this->db->query('SELECT id FROM projects_actions;') as $row) {
+        foreach ($resultPDO as $row) {
             $result[] = $row['id'];
         }
         return $result;
+
     }
 
-    public function insert(C3op_Projects_Action $new)
+    public function insert(C3op_Projects_Action $obj)
     {
 
         $query = $this->db->prepare("INSERT INTO projects_actions (title, project, done, status, description, subordinated_to, responsible, milestone, requirement_for_receiving) VALUES (:title, :project, :done, :status, :description, :subordinated_to, :responsible, :milestone, :requirement_for_receiving)");
 
-        $query->bindValue(':title', $new->GetTitle(), PDO::PARAM_STR);
-        $query->bindValue(':project', $new->GetProject(), PDO::PARAM_STR);
-        $query->bindValue(':done', $new->GetDone(), PDO::PARAM_STR);
-        $query->bindValue(':status', $new->GetStatus(), PDO::PARAM_STR);
-        $query->bindValue(':description', $new->GetDescription(), PDO::PARAM_STR);
-        $query->bindValue(':subordinated_to', $new->GetSubordinatedTo(), PDO::PARAM_STR);
-        $query->bindValue(':responsible', $new->GetResponsible(), PDO::PARAM_STR);
-        $query->bindValue(':milestone', $new->GetMilestone(), PDO::PARAM_STR);
-        $query->bindValue(':requirement_for_receiving', $new->GetRequirementForReceiving(), PDO::PARAM_STR);
+        $query->bindValue(':title', $obj->GetTitle(), PDO::PARAM_STR);
+        $query->bindValue(':project', $obj->GetProject(), PDO::PARAM_STR);
+        $query->bindValue(':done', $obj->GetDone(), PDO::PARAM_STR);
+        $query->bindValue(':status', $obj->GetStatus(), PDO::PARAM_STR);
+        $query->bindValue(':description', $obj->GetDescription(), PDO::PARAM_STR);
+        $query->bindValue(':subordinated_to', $obj->GetSubordinatedTo(), PDO::PARAM_STR);
+        $query->bindValue(':responsible', $obj->GetResponsible(), PDO::PARAM_STR);
+        $query->bindValue(':milestone', $obj->GetMilestone(), PDO::PARAM_STR);
+        $query->bindValue(':requirement_for_receiving', $obj->GetRequirementForReceiving(), PDO::PARAM_STR);
 
         $query->execute();
 
-        $new->SetId((int)$this->db->lastInsertId());
-        $this->identityMap[$new] = $new->GetId();
+        $obj->SetId((int)$this->db->lastInsertId());
+        $this->identityMap[$obj] = $obj->GetId();
 
-        $this->insertDates($new);
+        $this->insertDates($obj);
 
     }
 
@@ -113,19 +119,19 @@ class C3op_Projects_ActionMapper
 
     }
 
-    public function delete(C3op_Projects_Action $a)
+    public function delete(C3op_Projects_Action $obj)
     {
-        if (!isset($this->identityMap[$a])) {
+        if (!isset($this->identityMap[$obj])) {
             throw new C3op_Projects_ActionMapperException('Object has no ID, cannot delete.');
         }
         $query = $this->db->prepare('DELETE FROM projects_actions WHERE id = :id;');
-        $query->bindValue(':id', $this->identityMap[$a], PDO::PARAM_STR);
+        $query->bindValue(':id', $this->identityMap[$obj], PDO::PARAM_STR);
         $query->execute();
         $query = $this->db->prepare('DELETE FROM projects_actions_dates WHERE id = :id;');
-        $query->bindValue(':id', $this->identityMap[$a], PDO::PARAM_STR);
+        $query->bindValue(':id', $this->identityMap[$obj], PDO::PARAM_STR);
         $query->execute();
 
-        unset($this->identityMap[$a]);
+        unset($this->identityMap[$obj]);
     }
 
     public function getAllOtherActions(C3op_Projects_Action $a)
@@ -280,7 +286,6 @@ class C3op_Projects_ActionMapper
 
         foreach ($resultPDO as $row) {
             if (!is_null($row['value'])) {
-                print($row['value'] . "<br>");
                 return $row['value'];
             } else {
                 return 0;

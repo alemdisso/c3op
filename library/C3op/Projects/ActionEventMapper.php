@@ -16,30 +16,35 @@ class C3op_Projects_ActionEventMapper
 
     public function getAllIds()
     {
+
+        $query = $this->db->prepare('SELECT id FROM projects_actions_events WHERE action = :action;');
+        $query->bindValue(':action', $this->action->GetId(), PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
         $result = array();
-        foreach ($this->db->query(
-                    sprintf('SELECT id FROM projects_actions_events WHERE action = %d;',
-                            $this->action->GetId())
-                 ) as $row) {
+        foreach ($resultPDO as $row) {
             $result[] = $row['id'];
         }
         return $result;
+
     }
 
-    public function insert(C3op_Projects_ActionEvent $new)
+    public function insert(C3op_Projects_ActionEvent $obj)
     {
 
-        $data = array(
-            'action' => $this->action->GetId(),
-            'type' => $new->GetType(),
-            'timestamp' => date('Y-m-d H:i:s'),
-            'observation' => $new->GetObservation(),
-            'responsible' => $new->GetResponsible(),
-            );
-        $this->db->insert('projects_actions_events', $data);
+        $query = $this->db->prepare("INSERT INTO projects_actions_events (action, type, timestamp, observation, responsible) VALUES (:action, :type, :timestamp, :observation, :responsible)");
 
-        $new->SetId((int)$this->db->lastInsertId());
-        $this->identityMap[$new] = $new->GetId();
+        $query->bindValue(':action',      $this->action->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':type',        $obj->GetType(), PDO::PARAM_STR);
+        $query->bindValue(':timestamp',   date('Y-m-d H:i:s'), PDO::PARAM_STR);
+        $query->bindValue(':observation', $obj->GetObservation(), PDO::PARAM_STR);
+        $query->bindValue(':responsible', $obj->GetResponsible(), PDO::PARAM_STR);
+
+        $query->execute();
+
+        $obj->SetId((int)$this->db->lastInsertId());
+        $this->identityMap[$obj] = $obj->GetId();
     }
 
     public function update(C3op_Projects_ActionEvent $obj)
@@ -48,17 +53,14 @@ class C3op_Projects_ActionEventMapper
             throw new C3op_Projects_ActionEventMapperException('Object has no ID, cannot update.');
         }
 
-        $this->db->exec(
-            sprintf(
-                'UPDATE projects_actions_events SET action = %d, type = %d, done = \'%s\', observation = \'%s\', responsible = %d WHERE id = %d;',
-                $obj->GetAction(),
-                $obj->GetType(),
-                $obj->GetTimestamp(),
-                $obj->GetObservation(),
-                $obj->GetResponsible(),
-                $this->identityMap[$obj]
-            )
-        );
+        $query = $this->db->prepare("UPDATE projects_actions_events SET action = :action, type = :type, timestamp = :timestamp, observation = :observation, responsible = :responsible WHERE id = :id;");
+
+        $query->bindValue(':action', $obj->GetAction(), PDO::PARAM_STR);
+        $query->bindValue(':type', $obj->GetType(), PDO::PARAM_STR);
+        $query->bindValue(':timestamp', $obj->GetTimestamp(), PDO::PARAM_STR);
+        $query->bindValue(':observation', $obj->GetObservation(), PDO::PARAM_STR);
+        $query->bindValue(':responsible', $obj->GetResponsible(), PDO::PARAM_STR);
+        $query->bindValue(':id', $this->identityMap[$obj], PDO::PARAM_STR);
 
     }
 
@@ -72,17 +74,15 @@ class C3op_Projects_ActionEventMapper
             $this->identityMap->next();
         }
 
-        $result = $this->db->fetchRow(
-            sprintf(
-                'SELECT action, type, timestamp, observation, responsible FROM projects_actions WHERE id = %d;',
-                $id
-            )
-        );
+        $query = $this->db->prepare('SELECT action, type, timestamp, observation, responsible FROM projects_actions WHERE id = :id;');
+        $query->bindValue(':id', $id, PDO::PARAM_STR);
+        $query->execute();
+        $result = $query->fetch();
+
         if (empty($result)) {
             throw new C3op_Projects_ActionEventMapperException(sprintf('There is no action\'s event with id #%d.', $id));
         }
         $action = $result['action'];
-        $type = $result['type'];
 
         $obj = new C3op_Projects_ActionEvent($action);
         $this->setAttributeValue($obj, $id, 'id');
@@ -104,12 +104,11 @@ class C3op_Projects_ActionEventMapper
         if (!isset($this->identityMap[$obj])) {
             throw new C3op_Projects_ActionEventMapperException('Object has no ID, cannot delete.');
         }
-        $this->db->exec(
-            sprintf(
-                'DELETE FROM projects_actions_events WHERE id = %d;',
-                $this->identityMap[$obj]
-            )
-        );
+
+        $query = $this->db->prepare('DELETE FROM projects_actions_events WHERE id = :id;');
+        $query->bindValue(':id', $this->identityMap[$obj], PDO::PARAM_STR);
+        $query->execute();
+
         unset($this->identityMap[$obj]);
     }
 
