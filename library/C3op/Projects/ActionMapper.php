@@ -14,7 +14,6 @@ class C3op_Projects_ActionMapper
 
     public function getAllIds()
     {
-
         $query = $this->db->prepare('SELECT id FROM projects_actions WHERE 1=1;');
         $query->execute();
         $resultPDO = $query->fetchAll();
