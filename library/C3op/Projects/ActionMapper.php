@@ -133,11 +133,11 @@ class C3op_Projects_ActionMapper
         unset($this->identityMap[$obj]);
     }
 
-    public function getAllOtherActions(C3op_Projects_Action $a)
+    public function getAllOtherActions(C3op_Projects_Action $obj)
     {
         $query = $this->db->prepare('SELECT id FROM projects_actions WHERE project = :project AND id != :id;');
-        $query->bindValue(':project', $a->GetProject(), PDO::PARAM_STR);
-        $query->bindValue(':id', $a->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':project', $obj->GetProject(), PDO::PARAM_STR);
+        $query->bindValue(':id', $obj->GetId(), PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();
 
@@ -148,10 +148,10 @@ class C3op_Projects_ActionMapper
         return $result;
     }
 
-    public function getActionsSubordinatedTo(C3op_Projects_Action $a)
+    public function getActionsSubordinatedTo(C3op_Projects_Action $obj)
     {
         $query = $this->db->prepare('SELECT id FROM projects_actions WHERE subordinated_to = :subordinatedTo;');
-        $query->bindValue(':subordinatedTo', $a->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':subordinatedTo', $obj->GetId(), PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();
 
@@ -164,51 +164,51 @@ class C3op_Projects_ActionMapper
 
     }
 
-    private function setAttributeValue(C3op_Projects_Action $a, $fieldValue, $attributeName)
+    private function setAttributeValue(C3op_Projects_Action $obj, $fieldValue, $attributeName)
     {
-        $attribute = new ReflectionProperty($a, $attributeName);
+        $attribute = new ReflectionProperty($obj, $attributeName);
         $attribute->setAccessible(TRUE);
-        $attribute->setValue($a, $fieldValue);
+        $attribute->setValue($obj, $fieldValue);
     }
 
-    private function insertDates(C3op_Projects_Action $new)
+    private function insertDates(C3op_Projects_Action $obj)
     {
         $query = $this->db->prepare("INSERT INTO projects_actions_dates (action, predicted_begin_date, predicted_finish_date, real_begin_date, real_finish_date) VALUES (:action, :predicted_begin_date, :predicted_finish_date, :real_begin_date, :real_finish_date)");
 
-        $query->bindValue(':action', $new->getId(), PDO::PARAM_STR);
-        $query->bindValue(':predicted_begin_date', $new->GetPredictedBeginDate(), PDO::PARAM_STR);
-        $query->bindValue(':predicted_finish_date', $new->GetPredictedFinishDate(), PDO::PARAM_STR);
-        $query->bindValue(':real_begin_date', $new->GetRealBeginDate(), PDO::PARAM_STR);
-        $query->bindValue(':real_finish_date', $new->GetRealFinishDate(), PDO::PARAM_STR);
+        $query->bindValue(':action', $obj->getId(), PDO::PARAM_STR);
+        $query->bindValue(':predicted_begin_date', $obj->GetPredictedBeginDate(), PDO::PARAM_STR);
+        $query->bindValue(':predicted_finish_date', $obj->GetPredictedFinishDate(), PDO::PARAM_STR);
+        $query->bindValue(':real_begin_date', $obj->GetRealBeginDate(), PDO::PARAM_STR);
+        $query->bindValue(':real_finish_date', $obj->GetRealFinishDate(), PDO::PARAM_STR);
 
         $query->execute();
 
     }
 
-    private function fetchDates(C3op_Projects_Action $action)
+    private function fetchDates(C3op_Projects_Action $obj)
     {
 
         $query = $this->db->prepare('SELECT predicted_begin_date, predicted_finish_date, real_begin_date, real_finish_date FROM projects_actions_dates WHERE action = :id;');
-        $query->bindValue(':id', $action->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':id', $obj->GetId(), PDO::PARAM_STR);
         $query->execute();
         $result = $query->fetch();
 
         if (empty($result)) {
-            $this->insertDates($action);
-            $this->fetchDates($action);
+            $this->insertDates($obj);
+            $this->fetchDates($obj);
             return;
         }
-        $this->setAttributeValue($action, $result['predicted_begin_date'], 'predictedBeginDate');
-        $this->setAttributeValue($action, $result['predicted_finish_date'], 'predictedFinishDate');
-        $this->setAttributeValue($action, $result['real_begin_date'], 'realBeginDate');
-        $this->setAttributeValue($action, $result['real_finish_date'], 'realFinishDate');
+        $this->setAttributeValue($obj, $result['predicted_begin_date'], 'predictedBeginDate');
+        $this->setAttributeValue($obj, $result['predicted_finish_date'], 'predictedFinishDate');
+        $this->setAttributeValue($obj, $result['real_begin_date'], 'realBeginDate');
+        $this->setAttributeValue($obj, $result['real_finish_date'], 'realFinishDate');
 
     }
 
-   public function fetchLastReceiptDate(C3op_Projects_Action $action)
+   public function fetchLastReceiptDate(C3op_Projects_Action $obj)
     {
         $query = $this->db->prepare('SELECT timestamp FROM projects_actions_events WHERE action = :action AND type = :type ORDER BY timestamp DESC LIMIT 1;');
-        $query->bindValue(':action', $action->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
         $query->bindValue(':type', C3op_Projects_ActionEventConstants::EVENT_ACKNOWLEDGE_RECEIPT, PDO::PARAM_STR);
         $query->execute();
         $result = $query->fetch();
@@ -221,13 +221,13 @@ class C3op_Projects_ActionMapper
             $receiptDate = $dateAndTimeStamp[0];
         }
 
-        $this->setAttributeValue($action, $receiptDate, 'receiptDate');
+        $this->setAttributeValue($obj, $receiptDate, 'receiptDate');
     }
 
-   public function fetchLastDoneDate(C3op_Projects_Action $action)
+   public function fetchLastDoneDate(C3op_Projects_Action $obj)
     {
         $query = $this->db->prepare('SELECT timestamp FROM projects_actions_events WHERE action = :action AND type = :type ORDER BY timestamp DESC LIMIT 1;');
-        $query->bindValue(':action', $action->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
         $query->bindValue(':type', C3op_Projects_ActionEventConstants::EVENT_CONFIRM_REALIZATION, PDO::PARAM_STR);
         $query->execute();
         $result = $query->fetch();
@@ -238,13 +238,13 @@ class C3op_Projects_ActionMapper
             $doneDate = $result['timestamp'];
         }
 
-        $this->setAttributeValue($action, $doneDate, 'doneDate');
+        $this->setAttributeValue($obj, $doneDate, 'doneDate');
     }
 
-   public function getLastAutoStartDate(C3op_Projects_Action $action)
+   public function getLastAutoStartDate(C3op_Projects_Action $obj)
     {
         $query = $this->db->prepare('SELECT timestamp FROM projects_actions_events WHERE action = :action AND type = :type ORDER BY timestamp DESC LIMIT 1;');
-        $query->bindValue(':action', $action->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
         $query->bindValue(':type', C3op_Projects_ActionEventConstants::EVENT_BEGIN_AUTOMATICALLY, PDO::PARAM_STR);
         $query->execute();
         $result = $query->fetch();
@@ -258,10 +258,10 @@ class C3op_Projects_ActionMapper
         return $autoStartDate;
     }
 
-   public function getLastAcknowledgeStartDate(C3op_Projects_Action $action)
+   public function getLastAcknowledgeStartDate(C3op_Projects_Action $obj)
     {
         $query = $this->db->prepare('SELECT timestamp FROM projects_actions_events WHERE action = :action AND type = :type ORDER BY timestamp DESC LIMIT 1;');
-        $query->bindValue(':action', $action->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
         $query->bindValue(':type', C3op_Projects_ActionEventConstants::EVENT_BEGIN_ACKNOWLEDGMENT, PDO::PARAM_STR);
         $query->execute();
         $result = $query->fetch();
@@ -275,10 +275,10 @@ class C3op_Projects_ActionMapper
 
     }
 
-    public function getContractedValueJustForThisAction(C3op_Projects_Action $a)
+    public function getContractedValueJustForThisAction(C3op_Projects_Action $obj)
     {
         $query = $this->db->prepare('SELECT SUM(value) as value FROM projects_team_members WHERE action = :action AND status = :status;');
-        $query->bindValue(':action', $a->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
         $query->bindValue(':status', C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();
@@ -293,14 +293,14 @@ class C3op_Projects_ActionMapper
         return 0;
     }
 
-    public function getContractedValueForActionTree(C3op_Projects_Action $a)
+    public function getContractedValueForActionTree(C3op_Projects_Action $obj)
     {
-        $query = $this->db->prepare('SELECT id FROM projects_actions WHERE subordinated_to = :subordinatedTo;');
-        $query->bindValue(':subordinatedTo', $a->GetId(), PDO::PARAM_STR);
+        $query = $this->db->prepare('SELECT id FROM projects_actions WHERE subordinated_to = :subordinated_to;');
+        $query->bindValue(':subordinated_to', $obj->GetId(), PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();
 
-        $value = $this->getContractedValueJustForThisAction($a);
+        $value = $this->getContractedValueJustForThisAction($obj);
         foreach ($resultPDO as $row) {
             $childAction = $this->findById($row['id']);
             $value += $this->getContractedValueJustForThisAction($childAction);
@@ -310,15 +310,20 @@ class C3op_Projects_ActionMapper
         return $value;
     }
 
-    private function updateDates(C3op_Projects_Action $action)
+    private function updateDates(C3op_Projects_Action $obj)
     {
-        $query = $this->db->prepare('UPDATE projects_actions_dates SET predicted_begin_date = :predictedBeginDate, predicted_finish_date = :predictedFinishDate, real_begin_date = :realBeginDate, real_finish_date = :realFinishDate WHERE action = :action;');
+        $query = $this->db->prepare('UPDATE projects_actions_dates
+            SET predicted_begin_date = :predicted_begin_date
+            , predicted_finish_date = :predicted_finish_date
+            , real_begin_date = :real_begin_date
+            , real_finish_date = :real_finish_date
+            WHERE action = :action;');
 
-        $query->bindValue(':predictedBeginDate', $action->GetPredictedBeginDate(), PDO::PARAM_STR);
-        $query->bindValue(':predictedFinishDate', $action->GetPredictedFinishDate(), PDO::PARAM_STR);
-        $query->bindValue(':realBeginDate', $action->GetRealBeginDate(), PDO::PARAM_STR);
-        $query->bindValue(':realFinishDate', $action->GetRealFinishDate(), PDO::PARAM_STR);
-        $query->bindValue(':action', $this->identityMap[$action], PDO::PARAM_STR);
+        $query->bindValue(':predicted_begin_date', $obj->GetPredictedBeginDate(), PDO::PARAM_STR);
+        $query->bindValue(':predicted_finish_date', $obj->GetPredictedFinishDate(), PDO::PARAM_STR);
+        $query->bindValue(':real_begin_date', $obj->GetRealBeginDate(), PDO::PARAM_STR);
+        $query->bindValue(':real_finish_date', $obj->GetRealFinishDate(), PDO::PARAM_STR);
+        $query->bindValue(':action', $this->identityMap[$obj], PDO::PARAM_STR);
 
         try {
             $query->execute();
@@ -328,11 +333,11 @@ class C3op_Projects_ActionMapper
 
     }
 
-    public function getContractedTeamMembers(C3op_Projects_Action $a)
+    public function getContractedTeamMembers(C3op_Projects_Action $obj)
     {
 
         $query = $this->db->prepare('SELECT id FROM projects_team_members WHERE action = :action AND status = :status;');
-        $query->bindValue(':action', $a->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
         $query->bindValue(':status', C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();

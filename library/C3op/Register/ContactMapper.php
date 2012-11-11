@@ -54,12 +54,12 @@ class C3op_Register_ContactMapper
         try {
             $query->execute();
         } catch (Exception $e) {
-            throw new C3op_Projects_ActionException("sql failed");
+            throw new C3op_Register_ContactException("sql failed");
         }
 
-        $this->UpdatePhoneNumbers($obj);
-        $this->UpdateEmails($obj);
-        $this->UpdateMessengers($obj);
+        $this->updatePhoneNumbers($obj);
+        $this->updateEmails($obj);
+        $this->updateMessengers($obj);
 
     }
 
@@ -141,17 +141,16 @@ class C3op_Register_ContactMapper
         return $this->findById($result['contact']);
     }
 
-    public function delete(C3op_Register_Contact $c) {
-        if (!isset($this->identityMap[$c])) {
+    public function delete(C3op_Register_Contact $obj) {
+        if (!isset($this->identityMap[$obj])) {
             throw new C3op_Register_ContactMapperException('Object has no ID, cannot delete.');
         }
-        $this->db->exec(
-            sprintf(
-                'DELETE FROM register_contacts WHERE id = %d;',
-                $this->identityMap[$c]
-            )
-        );
-        unset($this->identityMap[$c]);
+
+        $query = $this->db->prepare('DELETE FROM register_contacts WHERE id = :id;');
+        $query->bindValue(':id', $this->identityMap[$obj], PDO::PARAM_STR);
+        $query->execute();
+
+        unset($this->identityMap[$obj]);
     }
 
     private function setAttributeValue(C3op_Register_Contact $c, $fieldValue, $attributeName)
@@ -161,41 +160,51 @@ class C3op_Register_ContactMapper
         $attribute->setValue($c, $fieldValue);
     }
 
-    public function getAllLinkages(C3op_Register_Contact $c)
+    public function getAllLinkages(C3op_Register_Contact $obj)
     {
+        $query = $this->db->prepare('SELECT id FROM register_linkages WHERE contact = :id;');
+        $query->bindValue(':id', $obj->GetId(), PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
         $result = array();
-        foreach ($this->db->query(
-                sprintf(
-                    'SELECT id FROM register_linkages WHERE contact = %d;',
-                    $c->GetId()
-                    )
-                )
-                as $row) {
+        foreach ($resultPDO as $row) {
             $result[] = $row['id'];
         }
         return $result;
     }
 
     public function getAllContactThatAreLinkedToAContractant() {
-        $result = array();
-        foreach ($this->db->query('SELECT c.id
+
+        $query = $this->db->prepare('SELECT c.id
                     FROM register_contacts c
                     INNER JOIN register_linkages l ON c.id = l.contact
                     INNER JOIN register_institutions i ON l.institution = i.id
-                    WHERE i.relationship_type =' . C3op_Register_InstitutionRelationshipConstants::RELATIONSHIP_CONTRACTING
-                    ) as $row) {
+                    WHERE i.relationship_type = :relationship_type;');
+        $query->bindValue(':relationship_type', C3op_Register_InstitutionRelationshipConstants::RELATIONSHIP_CONTRACTING, PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
+        foreach ($resultPDO as $row) {
             $result[] = $row['id'];
         }
         return $result;
+
     }
 
-    public function anInstitutionLinkedTo(C3op_Register_Contact $c)
+    public function anInstitutionLinkedTo(C3op_Register_Contact $obj)
     {
-        $result = array();
-        foreach ($this->db->query('SELECT l.institution
+        $query = $this->db->prepare('SELECT l.institution
                     FROM register_linkages l
-                    WHERE l.contact = ' . $c->getId() . ' LIMIT 1'
-                    ) as $row) {
+                    WHERE l.contact = :id LIMIT 1;');
+        $query->bindValue(':id', $obj->GetId(), PDO::PARAM_STR);
+
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
+        foreach ($resultPDO as $row) {
             $result[] = $row['institution'];
         }
 
@@ -204,28 +213,37 @@ class C3op_Register_ContactMapper
     }
 
 
-    private function insertPhoneNumbers(C3op_Register_Contact $new)
+    private function insertPhoneNumbers(C3op_Register_Contact $obj)
     {
-        foreach($new->GetPhoneNumbers() as $phoneNumber) {
-            $data = array(
-                'contact' => $new->GetId(),
-                'area_code' => $phoneNumber->GetAreaCode(),
-                'local_number' => $phoneNumber->GetLocalNumber(),
-                'label' => $phoneNumber->GetLabel(),
-                );
-            $this->db->insert('register_contacts_phone_numbers', $data);
+
+        foreach($obj->GetPhoneNumbers() as $phoneNumber) {
+
+            $query = $this->db->prepare("
+                INSERT INTO register_contacts_phone_numbers
+                (contact, area_code, local_number, label)
+                VALUES (:contact, :area_code, :local_number, :label)");
+
+            $query->bindValue(':contact', $obj->getId(), PDO::PARAM_STR);
+            $query->bindValue(':area_code', $phoneNumber->GetAreaCode(), PDO::PARAM_STR);
+            $query->bindValue(':local_number', $phoneNumber->GetLocalNumber(), PDO::PARAM_STR);
+            $query->bindValue(':label', $phoneNumber->GetLabel(), PDO::PARAM_STR);
+
+            $query->execute();
+
         }
     }
 
-    private function findPhoneNumbers(C3op_Register_Contact $contact)
+    private function findPhoneNumbers(C3op_Register_Contact $obj)
     {
         $phoneNumbersArray = array();
-        if ($contact->GetId() > 0) {
-            foreach ($this->db->query(sprintf(
-                    'SELECT id, area_code, local_number, label FROM register_contacts_phone_numbers WHERE contact = %d;',
-                    $contact->GetId()
-                )
-                    ) as $row) {
+        if ($obj->GetId() > 0) {
+            $query = $this->db->prepare('SELECT id, area_code, local_number, label FROM register_contacts_phone_numbers WHERE contact = :contact;');
+            $query->bindValue(':contact', $obj->GetId(), PDO::PARAM_STR);
+            $query->execute();
+            $resultPDO = $query->fetchAll();
+
+            $result = array();
+            foreach ($resultPDO as $row) {
                 $phoneNumber = new C3op_Register_ContactPhoneNumber($row['id'], $row['area_code'], $row['local_number'], $row['label']);
                 $phoneNumbersArray[$row['id']] = $phoneNumber;
                }
@@ -235,131 +253,148 @@ class C3op_Register_ContactMapper
         }
     }
 
-    private function updatePhoneNumbers(C3op_Register_Contact $contact)
+    private function updatePhoneNumbers(C3op_Register_Contact $obj)
     {
-        $currentPhoneNumbers = $contact->GetPhoneNumbers();
-        $oldPhoneNumbers = $this->findPhoneNumbers($contact);
+        $currentPhoneNumbers = $obj->GetPhoneNumbers();
+        $oldPhoneNumbers = $this->findPhoneNumbers($obj);
         foreach($oldPhoneNumbers as $key =>$phoneNumber){
             if (isset($currentPhoneNumbers[$key])) {
                 $newPhoneNumber = $currentPhoneNumbers[$key];
                 if ($newPhoneNumber != $phoneNumber) {
-                    $this->db->exec(
-                    sprintf(
-                        'UPDATE register_contacts_phone_numbers SET area_code = \'%s\', local_number = \'%s\', label = \'%s\' WHERE id = %d;',
-                            $newPhoneNumber->GetAreaCode(),
-                            $newPhoneNumber->GetLocalNumber(),
-                            $newPhoneNumber->GetLabel(),
-                            $key
-                        )
-                    );
+
+                    $query = $this->db->prepare('UPDATE register_contacts_phone_numbers SET area_code = :area_code, local_number = :local_number, label = :label WHERE id = :id;');
+
+                    $query->bindValue(':area_code', $newPhoneNumber->GetAreaCode(), PDO::PARAM_STR);
+                    $query->bindValue(':local_number', $newPhoneNumber->GetLocalNumber(), PDO::PARAM_STR);
+                    $query->bindValue(':label', $newPhoneNumber->GetLabel(), PDO::PARAM_STR);
+                    $query->bindValue(':id', $key, PDO::PARAM_STR);
+
+                    try {
+                        $query->execute();
+                    } catch (Exception $e) {
+                        throw new C3op_Register_ContactException("$sql failed");
+                    }
                 }
                 unset($currentPhoneNumbers[$key]);
             } else {
-                $this->db->exec(
-                sprintf(
-                    'DELETE FROM register_contacts_phone_numbers WHERE id = %d;',
-                        $key
-                    )
-                );
+                $query = $this->db->prepare('DELETE FROM register_contacts_phone_numbers WHERE id = :id;');
+                $query->bindValue(':id', $key, PDO::PARAM_STR);
+                $query->execute();
             }
         }
+
         reset ($currentPhoneNumbers);
         foreach($currentPhoneNumbers as $key =>$phoneNumber){
-            $data = array(
-                'contact' => $contact->GetId(),
-                'area_code' => $phoneNumber->GetAreaCode(),
-                'local_number' => $phoneNumber->GetLocalNumber(),
-                'label' => $phoneNumber->GetLabel(),
-                );
-            $this->db->insert('register_contacts_phone_numbers', $data);
+
+            $query = $this->db->prepare("INSERT INTO register_contacts_phone_numbers
+                (contact, area_code, local_number, label)
+                VALUES (:contact, :area_code, :local_number, :label)");
+
+            $query->bindValue(':contact', $obj->getId(), PDO::PARAM_STR);
+            $query->bindValue(':area_code', $phoneNumber->GetAreaCode(), PDO::PARAM_STR);
+            $query->bindValue(':local_number', $phoneNumber->GetLocalNumber(), PDO::PARAM_STR);
+            $query->bindValue(':label', $phoneNumber->GetLabel(), PDO::PARAM_STR);
+
+            $query->execute();
         }
     }
 
-   private function insertEmails(C3op_Register_Contact $new)
+   private function insertEmails(C3op_Register_Contact $obj)
     {
-        foreach($new->GetEmails() as $email) {
-            $data = array(
-                'contact' => $new->GetId(),
-                'email' => $email->GetAddress(),
-                'label' => $email->GetLabel(),
-                );
-            $this->db->insert('register_contacts_emails', $data);
+        foreach($obj->GetEmails() as $email) {
+
+            $query = $this->db->prepare("
+                INSERT INTO register_contacts_emails
+                (contact, email, label)
+                VALUES (:contact, :email, :label)");
+
+            $query->bindValue(':contact', $obj->getId(), PDO::PARAM_STR);
+            $query->bindValue(':email', $email->GetAddress(), PDO::PARAM_STR);
+            $query->bindValue(':label', $email->GetLabel(), PDO::PARAM_STR);
+
+            $query->execute();
         }
     }
 
-    private function findEmails(C3op_Register_Contact $contact)
+    private function findEmails(C3op_Register_Contact $obj)
     {
         $emailsArray = array();
-        if ($contact->GetId() > 0) {
-            foreach ($this->db->query(sprintf(
-                    'SELECT id, email, label FROM register_contacts_emails WHERE contact = %d;',
-                    $contact->GetId()
-                )
-                    ) as $row) {
+        if ($obj->GetId() > 0) {
+            $query = $this->db->prepare('SELECT id, email, label FROM register_contacts_emails WHERE contact = :contact;');
+            $query->bindValue(':contact', $obj->GetId(), PDO::PARAM_STR);
+            $query->execute();
+            $resultPDO = $query->fetchAll();
+
+            $result = array();
+            foreach ($resultPDO as $row) {
                 $email = new C3op_Register_ContactEmail($row['id'], $row['email'], $row['label']);
                 $emailsArray[$row['id']] = $email;
-               }
+            }
             return $emailsArray;
         } else {
             throw new C3op_Register_ContactMapperException('Can\'t fetch emails for a contact that wasn\'t saved');
         }
     }
 
-    private function updateEmails(C3op_Register_Contact $contact)
+    private function updateEmails(C3op_Register_Contact $obj)
     {
-        $currentEmails = $contact->GetEmails();
-        $oldEmails = $this->findEmails($contact);
+        $currentEmails = $obj->GetEmails();
+        $oldEmails = $this->findEmails($obj);
         foreach($oldEmails as $key =>$email){
             if (isset($currentEmails[$key])) {
                 $newEmail = $currentEmails[$key];
                 if ($newEmail != $email) {
-                    $this->db->exec(
-                    sprintf(
-                        'UPDATE register_contacts_emails SET email = \'%s\', label = \'%s\' WHERE id = %d;',
-                            $newEmail->GetAddress(),
-                            $newEmail->GetLabel(),
-                            $key
-                        )
-                    );
+
+                    $query = $this->db->prepare('UPDATE register_contacts_emails SET email = :email, label = :label WHERE id = :id;');
+
+                    $query->bindValue(':email', $newEmail->GetAddress(), PDO::PARAM_STR);
+                    $query->bindValue(':label', $newEmail->GetLabel(), PDO::PARAM_STR);
+                    $query->bindValue(':id', $key, PDO::PARAM_STR);
+
+                    try {
+                        $query->execute();
+                    } catch (Exception $e) {
+                        throw new C3op_Register_ContactException("$sql failed");
+                    }
                 }
                 unset($currentEmails[$key]);
             } else {
-                $this->db->exec(
-                sprintf(
-                    'DELETE FROM register_contacts_emails WHERE id = %d;',
-                        $key
-                    )
-                );
+                $query = $this->db->prepare('DELETE FROM register_contacts_emails WHERE id = :id;');
+                $query->bindValue(':id', $key, PDO::PARAM_STR);
+                $query->execute();
             }
         }
 
         reset ($currentEmails);
         foreach($currentEmails as $key =>$email){
-            $data = array(
-                'contact' => $contact->GetId(),
-                'email' => $email->GetAddress(),
-                'label' => $email->GetLabel(),
-                );
-            $this->db->insert('register_contacts_emails', $data);
+            $query = $this->db->prepare("INSERT INTO register_contacts_emails
+                (contact, email, label)
+                VALUES (:contact, :email, :label)");
+
+            $query->bindValue(':contact', $obj->getId(), PDO::PARAM_STR);
+            $query->bindValue(':email', $email->GetAddress(), PDO::PARAM_STR);
+            $query->bindValue(':label', $email->GetLabel(), PDO::PARAM_STR);
+
+            $query->execute();
         }
 
     }
 
-    private function insertMessengers(C3op_Register_Contact $new)
+    private function insertMessengers(C3op_Register_Contact $obj)
     {
         $mapper = new C3op_Register_ContactMessengerMapper($this->db, $this->identityMap);
-        $mapper->insertMessengers($new);
+        $mapper->insertMessengers($obj);
     }
 
-    private function findMessengers(C3op_Register_Contact $contact)
+    private function findMessengers(C3op_Register_Contact $obj)
     {
         $mapper = new C3op_Register_ContactMessengerMapper($this->db, $this->identityMap);
-        return $mapper->findMessengers($contact);
+        return $mapper->findMessengers($obj);
     }
 
-    private function updateMessengers(C3op_Register_Contact $contact)
+    private function updateMessengers(C3op_Register_Contact $obj)
     {
         $mapper = new C3op_Register_ContactMessengerMapper($this->db, $this->identityMap);
-        $mapper->updateMessengers($contact);
+        $mapper->updateMessengers($obj);
     }
 }

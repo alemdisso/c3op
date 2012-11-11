@@ -402,8 +402,8 @@ class Register_ContactController extends Zend_Controller_Action
 
             $this->view->form = $form;
             $pageData = array(
-                'id' => $contactHasMessenger->GetId(),
-                'contactName' => $contactHasMessenger->GetName(),
+                'id'          => $contactHasEmail->GetId(),
+                'contactName' => $contactHasEmail->GetName(),
             );
 
             $this->view->pageData = $pageData;
