@@ -182,7 +182,7 @@ class Projects_ActionController extends Zend_Controller_Action
             $parentActionTitle = $parentAction->getTitle();
             $parentActionId = $parentAction->getId();
         } else {
-            $parentActionTitle = $this->view->translate("#None action");
+            $parentActionTitle = "";
             $parentActionId = 0;
         }
 

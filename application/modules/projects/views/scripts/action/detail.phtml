@@ -76,7 +76,25 @@ function rejectReceipt(id){
             <?php print($this->translate("#Subordinated to:")); ?>
           </div>
           <div class="eleven columns omega">
+<?php
+$parentId = $actionHeader['parentActionId'];
+if ($parentId > 0) {
+?>
+
+
+
             <a class="parent_info" href="/projects/action/detail/?id=<?php print($actionHeader['parentActionId']); ?>"><?php print($actionHeader['parentActionTitle']); ?></a>
+<?php
+
+} else {
+
+?>
+<?php print($this->translate("#None action")); ?>
+<?php
+
+}
+
+?>
           </div>
 
           <div class="three columns alpha Right">
