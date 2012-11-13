@@ -225,8 +225,10 @@ class Projects_ProjectController extends Zend_Controller_Action
 
             if ($validator->isValid($theReceivable->getRealDate())) {
                 $realDate = C3op_Util_DateDisplay::FormatDateToShow($theReceivable->getRealDate());
+                $canNotifyReceiving = false;
             } else {
                 $realDate = $this->view->translate("#(not received)");
+                $canNotifyReceiving = true;
             }
 
             $currencyDisplay = new  C3op_Util_CurrencyDisplay();
@@ -235,11 +237,12 @@ class Projects_ProjectController extends Zend_Controller_Action
             $realValue = $currencyDisplay->FormatCurrency($theReceivable->getRealValue());
 
             $receivablesList[$id] = array(
-                    'productTitle' => $productTitle,
-                    'predictedDate' => $predictedDate,
-                    'realDate' => $realDate,
-                    'predictedValue' => $predictedValue,
-                    'realValue' => $realValue,
+                    'productTitle'       => $productTitle,
+                    'predictedDate'      => $predictedDate,
+                    'realDate'           => $realDate,
+                    'predictedValue'     => $predictedValue,
+                    'realValue'          => $realValue,
+                    'canNotifyReceiving' => $canNotifyReceiving,
                 );
         }
 

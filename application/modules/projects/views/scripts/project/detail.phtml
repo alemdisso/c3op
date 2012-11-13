@@ -140,10 +140,21 @@ foreach($receivablesList as $id => $productInfo) {
                             <!-- [# LINK PARA A EDIÇÃO DO PRODUTO ] -->
                             <a href="/projects/action/create/?requirementForReceiving=<?php echo $id ?>"><?php echo $this->translate("#Add product") ?></a>
                           </li>
+<?php
+
+if ($productInfo['canNotifyReceiving']) {
+?>
+
+
                           <li>
                             <!-- [# LINK PARA FORM DE CONFIRMAÇÃO DE RECEBIMENTO -> VAI ABRIR EM BOX DE DIÁLOGO MODAL ] -->
-                            <a href="/projects/receivable/notify/?id=<?php echo '/#' ?>"><?php echo $this->translate("#Notify receiving") ?></a>
+                            <a href="/projects/receivable/notify/?id=<?php echo $id ?>"><?php echo $this->translate("#Notify receiving") ?></a>
                           </li>
+
+<?php
+}
+
+?>
                             </ul>
                     </div><!-- #submenu1 -->
                   </td>

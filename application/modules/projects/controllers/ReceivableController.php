@@ -101,7 +101,48 @@ class Projects_ReceivableController extends Zend_Controller_Action
         }
     }
 
-    private function PopulateProjectFields($projectId, C3op_Form_ReceivableCreate $form)
+    public function notifyAction()
+    {
+        // cria form
+        $form = new C3op_Form_ReceivableNotify;
+        $this->view->form = $form;
+
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            if ($form->isValid($postData)) {
+                $form->process($postData);
+                $this->_helper->getHelper('FlashMessenger')
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                $this->_redirect('/projects/receivable/success/?id=' . $postData['project']);
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
+        } else {
+            $data = $this->_request->getParams();
+            $filters = array(
+                'id' => new Zend_Filter_Alnum(),
+            );
+            $validators = array(
+                'id' => new C3op_Util_ValidId(),
+            );
+            $input = new Zend_Filter_Input($filters, $validators, $data);
+
+            if ($input->isValid()) {
+                $this->initReceivableMapper();
+                $receivableToBeNotified =  $this->initReceivableWithCheckedId($this->receivableMapper);
+                $this->view->title = $receivableToBeNotified->GetTitle();
+                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $receivableToBeNotified->getId());
+//                $this->SetDateValueToFormField($form, 'realDate', $thisReceivable->GetRealDate());
+//                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'realValue', $thisReceivable->GetRealValue());
+                $projectId = $this->populateProjectFields($receivableToBeNotified->GetProject(), $form);
+            }
+
+        }
+    }
+
+    private function PopulateProjectFields($projectId, Zend_Form $form)
     {
         $validator = new C3op_Util_ValidId();
         if ($validator->isValid($projectId)) {
@@ -121,6 +162,18 @@ class Projects_ReceivableController extends Zend_Controller_Action
         if (!isset($this->projectMapper)) {
             $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
         }
+    }
+
+    private function initReceivableMapper()
+    {
+        if (!isset($this->receivableMapper)) {
+            $this->receivableMapper = new C3op_Projects_ReceivableMapper($this->db);
+        }
+    }
+
+    private function initReceivableWithCheckedId(C3op_Projects_ReceivableMapper $mapper)
+    {
+        return $mapper->findById($this->checkIdFromGet());
     }
 
     private function initProjectWithCheckedId(C3op_Projects_ProjectMapper $mapper)
