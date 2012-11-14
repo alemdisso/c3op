@@ -16,7 +16,9 @@ class C3op_Projects_ActionStartMode {
         $lastAutoStart = $this->actionMapper->GetLastAutoStartDate($this->action);
         if (!is_null($lastAutoStart)) {
             $lastAcknowledgment = $this->actionMapper->GetLastAcknowledgeStartDate($this->action);
-            if (!is_null($lastAcknowledgment)) {
+            if (is_null($lastAcknowledgment)) {
+                return true;
+            } else {
                 if ($lastAcknowledgment < $lastAutoStart) {
                     return true;
                 }

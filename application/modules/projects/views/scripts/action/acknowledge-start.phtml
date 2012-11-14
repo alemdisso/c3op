@@ -3,8 +3,8 @@
 ?>
 <?php print($this->translate("#Start confirmed.")); ?>
 
-<div class="three columns alpha omega">
-<p>
+<div id="acknowledgeReceipt-<?php print($pageData['id']);?>">
+    <div class="three columns alpha omega">
     <a class="button full column alpha omega parent_info" href="javascript:acknowledgeReceipt('<?php print($pageData['id']); ?>');"><?php print($this->translate("#Confirm task realization")); ?></a>
-</p>
+    </div>
 </div>

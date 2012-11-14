@@ -240,7 +240,6 @@ class Projects_ActionController extends Zend_Controller_Action
                 }
             }
         }
-
         $receiptToAcceptOrReject = false;
         if ($actionToBeDetailed->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_RECEIVED) {
             $receiptToAcceptOrReject = true;
@@ -308,7 +307,7 @@ class Projects_ActionController extends Zend_Controller_Action
     public function acknowledgeReceiptAction()
     {
         $this->_helper->layout->disableLayout();
-        $this->_helper->viewRenderer->setNoRender(TRUE);
+        //$this->_helper->viewRenderer->setNoRender(TRUE);
 
         $this->initActionMapper();
         $actionToBeChanged =  $this->initActionWithCheckedId($this->actionMapper);
@@ -316,20 +315,20 @@ class Projects_ActionController extends Zend_Controller_Action
         $acknowledgment = new C3op_Projects_ReceiptAcknowledgment();
         $acknowledgment->AcknowledgeReceipt($actionToBeChanged, $this->actionMapper);
 
-        echo $this->view->translate('#Action received');
+
     }
 
    public function acceptReceiptAction()
     {
         $this->_helper->layout->disableLayout();
-        $this->_helper->viewRenderer->setNoRender(TRUE);
+        //$this->_helper->viewRenderer->setNoRender(TRUE);
 
         $this->initActionMapper();
         $actionToBeChanged =  $this->initActionWithCheckedId($this->actionMapper);
         $acceptance = new C3op_Projects_ReceiptAcceptance();
         $acceptance->AcceptReceipt($actionToBeChanged, $this->actionMapper);
 
-        echo 'Realização da tarefa confirmada';
+        //echo 'Realização da tarefa confirmada';
     }
 
    public function rejectReceiptAction()
