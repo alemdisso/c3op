@@ -309,8 +309,6 @@ class Projects_ProjectController extends Zend_Controller_Action
         //      staffEmail
         //      staffPhoneNumber
 
-$this->turnContactToLinkageAction($projectToBeDetailed);
-
         $teamMembersList = array();
         $projectTeam = $this->projectMapper->getAllTeamMembersContractedOrPredictedAt($projectToBeDetailed);
         if (!isset($this->teamMemberMapper)) {
@@ -720,43 +718,6 @@ $this->turnContactToLinkageAction($projectToBeDetailed);
 
 
     }
-
-    private function turnContactToLinkageAction(C3op_Projects_Project $projectToConverted)
-    {
-
-        $id = $this->checkIdFromGet();
-        $thisProject = $this->projectMapper->findById($id);
-        if (!isset($this->linkageMapper)) {
-            $this->initLinkageMapper();
-        }
-
-        $teamMembersList = array();
-        $projectTeam = $this->projectMapper->getAllTeamMembersContractedOrPredictedAt($projectToConverted);
-        if (!isset($this->teamMemberMapper)) {
-            $this->initTeamMemberMapper();
-        }
-
-        if (!isset($this->contactMapper)) {
-            $this->initContactMapper();
-        }
-
-        foreach ($projectTeam as $id) {
-            $theTeamMember = $this->teamMemberMapper->findById($id);
-            if ($theTeamMember->getContact() > 0) {
-                $theContact = $this->contactMapper->findById($theTeamMember->getContact());
-
-                $result = $this->contactMapper->aLinkageFrom($theContact);
-
-                if (count($result)) {
-                    $theTeamMember->SetRawLinkage($result[0]);
-                    $theTeamMember->SetContact(0);
-                    $this->teamMemberMapper->update($theTeamMember);
-                }
-            }
-        }
-    }
-
-
 
 
 }
