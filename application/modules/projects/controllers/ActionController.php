@@ -252,7 +252,7 @@ class Projects_ActionController extends Zend_Controller_Action
         $actionHeader = array(
             'id'                      => $actionToBeDetailed->getId(),
             'projectId'               => $projectToBeDetailed->getId(),
-            'projectTitle'            => $projectToBeDetailed->getTitle(),
+            'projectTitle'            => $projectToBeDetailed->getShortTitle(),
             'title'                   => $actionToBeDetailed->getTitle(),
             'status'                  => $status,
             'responsibleId'           => $responsibleId,

@@ -78,15 +78,15 @@ class Projects_ProjectController extends Zend_Controller_Action
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
-                $field = $form->getElement('title');
-                $title = $field->getValue();
+                $field = $form->getElement('shortTitle');
+                $shortTitle = $field->getValue();
                 $this->view->form = $form;
             }
         } else {
             // GET
             $thisProject = $this->InitProjectWithCheckedId($this->projectMapper);
             $id = $this->checkIdFromGet();
-            $title = $thisProject->GetTitle();
+            $shortTitle = $thisProject->getShortTitle();
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $id);
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'title', $thisProject->getTitle());
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'shortTitle', $thisProject->getShortTitle());
@@ -107,7 +107,7 @@ class Projects_ProjectController extends Zend_Controller_Action
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'observation', $thisProject->getObservation());
 
         }
-        $pageData = array('projectTitle' => $title);
+        $pageData = array('projectTitle' => $shortTitle);
         $this->view->pageData = $pageData;
     }
 
@@ -145,7 +145,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         //    contractDate
         //
 
-        $projectTitle = $projectToBeDetailed->getTitle();
+        $projectTitle = $projectToBeDetailed->getShortTitle();
 
         if (!isset($this->institutionMapper)) {
             $this->initInstitutionMapper();
