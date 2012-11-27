@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-13 11:19-0300\n"
-"PO-Revision-Date: 2012-11-13 11:19-0300\n"
+"POT-Creation-Date: 2012-11-27 18:05-0300\n"
+"PO-Revision-Date: 2012-11-27 18:06-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -23,6 +23,7 @@ msgstr "O registro foi criado com sucesso."
 #: application\modules\projects/controllers/ActionController.php:81
 #: application\modules\projects/controllers/OutlayController.php:37
 #: application\modules\projects/controllers/OutlayController.php:72
+#: application\modules\projects/controllers/ProjectController.php:77
 #: application\modules\projects/controllers/ReceivableController.php:34
 #: application\modules\projects/controllers/ReceivableController.php:57
 #: application\modules\projects/controllers/ReceivableController.php:115
@@ -34,13 +35,13 @@ msgstr "O registro foi atualizado com sucesso."
 
 #: application\modules\projects/controllers/ActionController.php:177
 #: application\modules\projects/controllers/ActionController.php:202
-#: application\modules\projects/controllers/ProjectController.php:171
-#: application\modules\projects/controllers/ProjectController.php:178
-#: application\modules\projects/controllers/ProjectController.php:274
-#: application\modules\projects/controllers/ProjectController.php:322
-#: application\modules\projects/controllers/ProjectController.php:324
-#: application\modules\projects/controllers/ProjectController.php:325
-#: application\modules\projects/controllers/ProjectController.php:673
+#: application\modules\projects/controllers/ProjectController.php:172
+#: application\modules\projects/controllers/ProjectController.php:179
+#: application\modules\projects/controllers/ProjectController.php:275
+#: application\modules\projects/controllers/ProjectController.php:328
+#: application\modules\projects/controllers/ProjectController.php:330
+#: application\modules\projects/controllers/ProjectController.php:331
+#: application\modules\projects/controllers/ProjectController.php:685
 msgid "#Not defined"
 msgstr "Indefinido"
 
@@ -53,7 +54,7 @@ msgid "#Is not a milestone"
 msgstr "Não é um marco"
 
 #: application\modules\projects/controllers/ActionController.php:226
-#: application\modules\projects/controllers/ProjectController.php:230
+#: application\modules\projects/controllers/ProjectController.php:231
 msgid "#(not received)"
 msgstr "(não recebido)"
 
@@ -61,19 +62,15 @@ msgstr "(não recebido)"
 msgid "#(not started)"
 msgstr "(não iniciada)"
 
-#: application\modules\projects/controllers/ActionController.php:319
-msgid "#Action received"
-msgstr "Entrega recebida"
-
-#: application\modules\projects/controllers/ActionController.php:345
+#: application\modules\projects/controllers/ActionController.php:344
 msgid "#Receipt rejected"
 msgstr "Entrega rejeitada"
 
-#: application\modules\projects/controllers/ActionController.php:401
+#: application\modules\projects/controllers/ActionController.php:400
 msgid "#It needs a positive integer project id to populate project fields."
 msgstr "It needs a positive integer project id to populate project fields."
 
-#: application\modules\projects/controllers/ActionController.php:432
+#: application\modules\projects/controllers/ActionController.php:431
 msgid ""
 "#It needs a positive integer project id to find other actions from same "
 "project."
@@ -83,29 +80,29 @@ msgstr ""
 
 #: application\modules\projects/controllers/IndexController.php:43
 #: application\modules\projects/controllers/OutlayController.php:120
-#: application\modules\projects/controllers/ProjectController.php:154
+#: application\modules\projects/controllers/ProjectController.php:155
 msgid "#(not defined)"
 msgstr "(não definido)"
 
-#: application\modules\projects/controllers/ProjectController.php:58
+#: application\modules\projects/controllers/ProjectController.php:59
 msgid "#New client"
 msgstr "Novo cliente"
 
-#: application\modules\projects/controllers/ProjectController.php:60
-#: application\modules\projects/controllers/ProjectController.php:62
+#: application\modules\projects/controllers/ProjectController.php:61
+#: application\modules\projects/controllers/ProjectController.php:63
 msgid "#New responsible"
 msgstr "Novo Responsável"
 
-#: application\modules\projects/controllers/ProjectController.php:223
+#: application\modules\projects/controllers/ProjectController.php:224
 msgid "#(undefined)"
 msgstr "(indefinido)"
 
-#: application\modules\projects/controllers/ProjectController.php:330
-#: application\modules\projects/controllers/ProjectController.php:331
+#: application\modules\projects/controllers/ProjectController.php:337
+#: application\modules\projects/controllers/ProjectController.php:338
 msgid "#Not implemented"
 msgstr "(Não implementado)"
 
-#: application\modules\projects/controllers/ProjectController.php:387
+#: application\modules\projects/controllers/ProjectController.php:394
 msgid "#(unknown date)"
 msgstr "(data desconhecida)"
 
@@ -242,6 +239,10 @@ msgstr "Suspenso"
 msgid "#Finished"
 msgstr "Finalizado"
 
+#: application\modules\projects/views/scripts/action/acknowledge-receipt.phtml:2
+msgid "#Action received."
+msgstr "Ação entregue"
+
 #: application\modules\projects/views/scripts/action/acknowledge-start.phtml:4
 msgid "#Start confirmed."
 msgstr "Início confirmado."
@@ -371,6 +372,7 @@ msgid "#Edit"
 msgstr "Editar"
 
 #: application\modules\projects/views/scripts/action/detail.phtml:254
+#: application\modules\projects/views/scripts/project/detail.phtml:374
 msgid "#Create new action"
 msgstr "Criar nova ação"
 
@@ -542,14 +544,14 @@ msgid "#Predicted date"
 msgstr "Data prevista"
 
 #: application\modules\projects/views/scripts/project/detail.phtml:104
-#: application\modules\projects/views/scripts/project/detail.phtml:197
-msgid "#Real date"
-msgstr "Data real"
-
-#: application\modules\projects/views/scripts/project/detail.phtml:105
 #: application\modules\projects/views/scripts/project/detail.phtml:198
 msgid "#Predicted value"
 msgstr "Valor previsto"
+
+#: application\modules\projects/views/scripts/project/detail.phtml:105
+#: application\modules\projects/views/scripts/project/detail.phtml:197
+msgid "#Real date"
+msgstr "Data real"
 
 #: application\modules\projects/views/scripts/project/detail.phtml:106
 #: application\modules\projects/views/scripts/project/detail.phtml:199
@@ -621,10 +623,6 @@ msgstr "Término prev."
 msgid "#Real finish date"
 msgstr "Término real"
 
-#: application\modules\projects/views/scripts/project/detail.phtml:374
-msgid "#Create new product"
-msgstr "Adicionar produto"
-
 #: application\modules\projects/views/scripts/team-member/contract.phtml:2
 msgid "#Confirm contracting"
 msgstr "Confirmar contratação"
@@ -645,6 +643,9 @@ msgstr "Atualizar membro da equipe"
 #: application\modules\projects/views/scripts/team-member/success.phtml:2
 msgid "#Success!"
 msgstr "Sucesso!"
+
+#~ msgid "#Create new product"
+#~ msgstr "Adicionar produto"
 
 #~ msgid "#Project:"
 #~ msgstr "Projeto:"

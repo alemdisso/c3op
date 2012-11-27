@@ -329,10 +329,10 @@ class C3op_Projects_ProjectMapper
             INNER JOIN projects_team_members t ON a.id = t.action
             WHERE a.project = %d
             AND (
-            a.status = %d
-            OR a.status = %d
-            OR a.status = %d
-            OR a.status = %d
+            t.status = %d
+            OR t.status = %d
+            OR t.status = %d
+            OR t.status = %d
             )'
             , $p->GetId()
             , C3op_Projects_TeamMemberStatusConstants::STATUS_UNDEFINED
