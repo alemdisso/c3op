@@ -73,7 +73,7 @@ class Projects_ProjectController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage('#The record was successfully updated.');
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
                 $this->_redirect('/projects/project/success');
             } else {
                 //form error: populate and go back
