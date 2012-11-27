@@ -174,6 +174,24 @@ class C3op_Register_ContactMapper
         return $result;
     }
 
+    public function getAllContactsThatAreLinkedToAnyInstitution() {
+
+        $query = $this->db->prepare('SELECT l.id as linkage, c.id as contact, c.name, i.id as institution, i.short_name
+                    FROM register_contacts c
+                    INNER JOIN register_linkages l ON c.id = l.contact
+                    INNER JOIN register_institutions i ON l.institution = i.id
+                    WHERE 1=1 ORDER BY name, contact, institution, short_name;');
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
+        foreach ($resultPDO as $row) {
+            $result[] = $row;
+        }
+        return $result;
+
+    }
+
     public function getAllContactThatAreLinkedToAContractant() {
 
         $query = $this->db->prepare('SELECT c.id
@@ -206,6 +224,25 @@ class C3op_Register_ContactMapper
         $result = array();
         foreach ($resultPDO as $row) {
             $result[] = $row['institution'];
+        }
+
+        return $result;
+
+    }
+
+    public function aLinkageFrom(C3op_Register_Contact $obj)
+    {
+        $query = $this->db->prepare('SELECT l.id
+                    FROM register_linkages l
+                    WHERE l.contact = :id LIMIT 1;');
+        $query->bindValue(':id', $obj->GetId(), PDO::PARAM_STR);
+
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
+        foreach ($resultPDO as $row) {
+            $result[] = $row['id'];
         }
 
         return $result;

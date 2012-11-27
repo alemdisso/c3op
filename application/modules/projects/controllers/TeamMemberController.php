@@ -60,15 +60,15 @@ class Projects_TeamMemberController extends Zend_Controller_Action
 
             $actionField = $form->getElement('action');
             $actionField->setValue($actionId);
-            $contactField = $form->getElement('contact');
+            $linkageField = $form->getElement('linkage');
             if (!isset($this->contactMapper)) {
                 $this->contactMapper = new C3op_Register_ContactMapper($this->db);
             }
-            $allContacts = $this->contactMapper->getAllIds();
+            $allLinkedContacts = $this->contactMapper->getAllContactsThatAreLinkedToAnyInstitution();
 
-            while (list($key, $contactId) = each($allContacts)) {
-                $eachContact = $this->contactMapper->findById($contactId);
-                $contactField->addMultiOption($contactId, $eachContact->GetName());
+            while (list($key, $linkageData) = each($allLinkedContacts)) {
+                $linkageLabel = $linkageData['name'] . " ({$linkageData['short_name']})";
+                $linkageField->addMultiOption($linkageData['linkage'], $linkageLabel);
             }
         }
     }
@@ -106,8 +106,8 @@ class Projects_TeamMemberController extends Zend_Controller_Action
                 $thisTeamMember = $this->teamMemberMapper->findById($id);
                 $descriptionField = $form->getElement('description');
                 $descriptionField->setValue($thisTeamMember->getDescription());
-                $contactField = $form->getElement('contact');
-                $contactField->setValue($thisTeamMember->getContact());
+                $linkageField = $form->getElement('linkage');
+                $linkageField->setValue($thisTeamMember->getLinkage());
                 $idField = $form->getElement('id');
                 $idField->setValue($id);
                 $valueField = $form->getElement('value');
@@ -119,17 +119,17 @@ class Projects_TeamMemberController extends Zend_Controller_Action
                 }
                 $parentAction = $this->actionMapper->findById($thisTeamMember->getAction());
 
-                $contactField = $form->getElement('contact');
+                $linkageField = $form->getElement('linkage');
                 if (!isset($this->contactMapper)) {
                     $this->contactMapper = new C3op_Register_ContactMapper($this->db);
                 }
-                $allContacts = $this->contactMapper->getAllIds();
+                $allLinkedContacts = $this->contactMapper->getAllContactsThatAreLinkedToAnyInstitution();
 
-                while (list($key, $contactId) = each($allContacts)) {
-                    $eachContact = $this->contactMapper->findById($contactId);
-                    $contactField->addMultiOption($contactId, $eachContact->GetName());
+                while (list($key, $linkageData) = each($allLinkedContacts)) {
+                    $linkageLabel = $linkageData['name'] . " ({$linkageData['short_name']})";
+                    $linkageField->addMultiOption($linkageData['linkage'], $linkageLabel);
                 }
-                $contactField->setValue($thisTeamMember->getContact());
+                $linkageField->setValue($thisTeamMember->getLinkage());
 
                 if (!isset($this->projectMapper)) {
                     $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);

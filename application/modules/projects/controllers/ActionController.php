@@ -282,7 +282,7 @@ class Projects_ActionController extends Zend_Controller_Action
         //      valor
         //      contractingStatus
 
-        $teamMembersList = $this->GetTeamMembersList($actionToBeDetailed);
+        $teamMembersList = $this->getTeamMembersList($actionToBeDetailed);
 
         $pageData = array(
             'actionHeader' => $actionHeader,
@@ -486,6 +486,13 @@ class Projects_ActionController extends Zend_Controller_Action
         }
     }
 
+    private function initLinkageMapper()
+    {
+        if (!isset($this->linkageMapper)) {
+            $this->linkageMapper = new C3op_Register_LinkageMapper($this->db);
+        }
+    }
+
     private function initTeamMemberMapper()
     {
         if (!isset($this->teamMemberMapper)) {
@@ -539,6 +546,10 @@ class Projects_ActionController extends Zend_Controller_Action
         //      valor
         //      contractingStatus
 
+        if (!isset($this->linkageMapper)) {
+            $this->initLinkageMapper();
+        }
+
         $teamMembersList = array();
         $teamMembersIdsList = $this->teamMemberMapper->getAllTeamMembersOnAction($action);
 
@@ -550,11 +561,14 @@ class Projects_ActionController extends Zend_Controller_Action
 
             $descriptionMessage = $thisTeamMember->GetDescription();
 
-            $contactId = $thisTeamMember->GetContact();
+            $linkageId = $thisTeamMember->GetLinkage();
             $actionId = $action->GetId();
             $contactName = "(indefinido)";
-            if ($contactId > 0) {
+            if ($linkageId > 0) {
                 $this->initContactMapper();
+                $this->initLinkageMapper();
+                $linkageContact = $this->linkageMapper->findById($linkageId);
+                $contactId = $linkageContact->GetContact();
                 $contractedContact = $this->contactMapper->findById($contactId);
                 $contactName = $contractedContact->GetName();
             }

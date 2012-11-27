@@ -47,7 +47,7 @@ class C3op_Form_TeamMemberCreate extends Zend_Form
                 ;
         $this->addElement($element);
 
-        $element = new Zend_Form_Element_Select('contact');
+        $element = new Zend_Form_Element_Select('linkage');
         $element->setLabel('#Who:')
                 ->setDecorators(array(
                     'ViewHelper',
@@ -86,7 +86,7 @@ class C3op_Form_TeamMemberCreate extends Zend_Form
             $teamMemberMapper = new C3op_Projects_TeamMemberMapper($db);
             $teamMember = new C3op_Projects_TeamMember();
             $teamMember->SetDescription($this->description->GetValue());
-            $teamMember->SetContact($this->contact->GetValue());
+            $teamMember->SetLinkage($this->linkage->GetValue());
 
             $converter = new C3op_Util_FloatConverter();
             $validator = new C3op_Util_ValidFloat();

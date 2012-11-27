@@ -7,8 +7,8 @@ class C3op_Projects_TeamMemberDismissal {
                                    C3op_Projects_TeamMemberMapper $teamMemberMapper)
     {
 
-        if ($teamMember->GetContact() > 0) {
-            $teamMember->SetContact(0);
+        if ($teamMember->GetLinkage() > 0) {
+            $teamMember->SetLinkage(0);
             $teamMemberMapper->update($teamMember);
 
             $this->LogDismiss($action);
@@ -16,10 +16,11 @@ class C3op_Projects_TeamMemberDismissal {
 
     }
 
-    private function LogDismiss(C3op_Projects_Action $action)
+    private function LogDismiss(C3op_Projects_Action $action, C3op_Projects_TeamMember $teamMember)
     {
         $logger = new C3op_Projects_EventLogger();
-        $logger->LogActionEvent($action, C3op_Projects_ActionEventConstants::EVENT_DISMISS_RESOURCE);
+        $msg = $teamMember->getLinkage();
+        $logger->LogActionEvent($action, C3op_Projects_ActionEventConstants::EVENT_DISMISS_RESOURCE, $msg);
     }
 
 

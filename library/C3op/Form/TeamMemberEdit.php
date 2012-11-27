@@ -31,7 +31,7 @@ class C3op_Form_TeamMemberEdit extends C3op_Form_TeamMemberCreate
             $id = $data['id'];
             $teamMember = $teamMemberMapper->findById($id);
             $teamMember->SetDescription($this->description->GetValue());
-            $teamMember->SetContact($this->contact->GetValue());
+            $teamMember->SetLinkage($this->linkage->GetValue());
             
             $converter = new C3op_Util_FloatConverter();
             $validator = new C3op_Util_ValidFloat();

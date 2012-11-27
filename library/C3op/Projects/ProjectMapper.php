@@ -324,9 +324,9 @@ class C3op_Projects_ProjectMapper
     public function getAllTeamMembersContractedOrPredictedAt(C3op_Projects_Project $p) {
         $result = array();
 
-        foreach ($this->db->query(sprintf('SELECT h.id
+        foreach ($this->db->query(sprintf('SELECT t.id
             FROM projects_actions a
-            INNER JOIN projects_team_members h ON a.id = h.action
+            INNER JOIN projects_team_members t ON a.id = t.action
             WHERE a.project = %d
             AND (
             a.status = %d

@@ -7,6 +7,7 @@ class Projects_ProjectController extends Zend_Controller_Action
     private $db;
     private $institutionMapper;
     private $contactMapper;
+    private $linkageMapper;
     private $outlayMapper;
     private $receivableMapper;
     private $teamMemberMapper;
@@ -308,10 +309,15 @@ class Projects_ProjectController extends Zend_Controller_Action
         //      staffEmail
         //      staffPhoneNumber
 
+$this->turnContactToLinkageAction($projectToBeDetailed);
+
         $teamMembersList = array();
         $projectTeam = $this->projectMapper->getAllTeamMembersContractedOrPredictedAt($projectToBeDetailed);
         if (!isset($this->teamMemberMapper)) {
             $this->initTeamMemberMapper();
+        }
+        if (!isset($this->linkageMapper)) {
+            $this->initLinkageMapper();
         }
 
         foreach ($projectTeam as $id) {
@@ -323,8 +329,9 @@ class Projects_ProjectController extends Zend_Controller_Action
             $staffId = 0;
             $staffEmail = $this->view->translate("#Not defined");
             $staffPhoneNumber = $this->view->translate("#Not defined");
-            if ($theTeamMember->getContact() > 0) {
-                $theContact = $this->contactMapper->findById($theTeamMember->getContact());
+            if ($theTeamMember->getLinkage() > 0) {
+                $theLinkage = $this->linkageMapper->findById($theTeamMember->getLinkage());
+                $theContact = $this->contactMapper->findById($theLinkage->getContact());
                 $staffId = $theContact->getId();
                 $staffName = $theContact->getName();
                 $staffEmail = $this->view->translate("#Not implemented");
@@ -502,6 +509,11 @@ class Projects_ProjectController extends Zend_Controller_Action
     private function initContactMapper()
     {
          $this->contactMapper = new C3op_Register_ContactMapper($this->db);
+    }
+
+    private function initLinkageMapper()
+    {
+         $this->linkageMapper = new C3op_Register_LinkageMapper($this->db);
     }
 
     private function InitProjectWithCheckedId(C3op_Projects_ProjectMapper $mapper)
@@ -708,4 +720,43 @@ class Projects_ProjectController extends Zend_Controller_Action
 
 
     }
+
+    private function turnContactToLinkageAction(C3op_Projects_Project $projectToConverted)
+    {
+
+        $id = $this->checkIdFromGet();
+        $thisProject = $this->projectMapper->findById($id);
+        if (!isset($this->linkageMapper)) {
+            $this->initLinkageMapper();
+        }
+
+        $teamMembersList = array();
+        $projectTeam = $this->projectMapper->getAllTeamMembersContractedOrPredictedAt($projectToConverted);
+        if (!isset($this->teamMemberMapper)) {
+            $this->initTeamMemberMapper();
+        }
+
+        if (!isset($this->contactMapper)) {
+            $this->initContactMapper();
+        }
+
+        foreach ($projectTeam as $id) {
+            $theTeamMember = $this->teamMemberMapper->findById($id);
+            if ($theTeamMember->getContact() > 0) {
+                $theContact = $this->contactMapper->findById($theTeamMember->getContact());
+
+                $result = $this->contactMapper->aLinkageFrom($theContact);
+
+                if (count($result)) {
+                    $theTeamMember->SetRawLinkage($result[0]);
+                    $theTeamMember->SetContact(0);
+                    $this->teamMemberMapper->update($theTeamMember);
+                }
+            }
+        }
+    }
+
+
+
+
 }
