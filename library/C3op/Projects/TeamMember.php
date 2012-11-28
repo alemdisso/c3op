@@ -5,7 +5,6 @@ class C3op_Projects_TeamMember {
     protected $id;
     protected $action;
     protected $description;
-    protected $contact;
     protected $linkage;
     protected $value;
     protected $status;
@@ -14,7 +13,6 @@ class C3op_Projects_TeamMember {
         $this->id = (int)$id;
         $this->action = "";
         $this->description = "";
-        $this->contact = 0;
         $this->linkage = 0;
         $this->value = "";
         $this->status = "";
@@ -62,30 +60,6 @@ class C3op_Projects_TeamMember {
             throw new C3op_Projects_TeamMemberException("This ($description) is not a valid description.");
         }
     } //setDescription
-
-    public function getContact() {
-        return $this->contact;
-    } //getContact
-
-    public function setContact($contact) {
-        $validator = new C3op_Util_ValidPositiveInteger();
-        if ($validator->isValid($contact)) {
-            if ($this->contact != $contact) {
-                $this->contact = $contact;
-                if ($contact > 0) {
-                    $this->SetStatus(C3op_Projects_TeamMemberStatusConstants::STATUS_FORESEEN);
-                } else {
-                    if ($this->GetStatus() != C3op_Projects_TeamMemberStatusConstants::STATUS_CANCEL) {
-                        $this->SetStatus(C3op_Projects_TeamMemberStatusConstants::STATUS_UNDEFINED);
-
-                    }
-                }
-            }
-        } else {
-            throw new C3op_Projects_TeamMemberException("This ($contact) is not a valid contact.");
-        }
-
-    } //setContact
 
     public function getLinkage() {
         return $this->linkage;

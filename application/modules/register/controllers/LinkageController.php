@@ -350,9 +350,9 @@ class Register_LinkageController extends Zend_Controller_Action
                 $institutionMapper = new C3op_Register_InstitutionMapper($this->db);
                 $institutionLinkedToContact = $institutionMapper->findById($linkageHasEmail->GetInstitution());
             }
-            if ($linkageHasEmail->GetContact() > 0) {
+            if ($linkageHasEmail->getContact_deprecated() > 0) {
                 $contactMapper = new C3op_Register_ContactMapper($this->db);
-                $contactLinkedToInstitution = $contactMapper->findById($linkageHasEmail->GetContact());
+                $contactLinkedToInstitution = $contactMapper->findById($linkageHasEmail->getContact_deprecated());
             }
 
             $this->view->form = $form;

@@ -266,6 +266,12 @@ class Projects_ProjectController extends Zend_Controller_Action
         if (!isset($this->teamMemberMapper)) {
             $this->initTeamMemberMapper();
         }
+        if (!isset($this->linkageMapper)) {
+            $this->initLinkageMapper();
+        }
+        if (!isset($this->contactMapper)) {
+            $this->initContactMapper();
+        }
 
         foreach ($projectOutlays as $id) {
             $theOutlay = $this->outlayMapper->findById($id);
@@ -276,8 +282,11 @@ class Projects_ProjectController extends Zend_Controller_Action
             $payeeId = 0;
             if ($theOutlay->getTeamMember() > 0) {
                 $theTeamMember = $this->teamMemberMapper->findById($theOutlay->getTeamMember());
-                if ($theTeamMember->getContact() > 0) {
-                    $theContact = $this->contactMapper->findById($theTeamMember->getContact());
+                if ($theTeamMember->getLinkage() > 0) {
+
+                    $theLinkage = $this->linkageMapper->findById($theTeamMember->getLinkage());
+                    $theContact = $this->contactMapper->findById($theLinkage->getContact());
+
                     $payeeId = $theContact->getId();
                     $payeeName = $theContact->getName();
                 }

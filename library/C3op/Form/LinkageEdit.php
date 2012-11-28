@@ -116,7 +116,7 @@ class C3op_Form_LinkageEdit extends C3op_Form_LinkageCreate
             $id = $data['id'];
             $linkage = $linkageMapper->findById($id);
             $linkage->SetDepartment($data['department']);
-            $linkage->SetContact($data['contact']);
+            $linkage->setContact($data['contact']);
             $linkage->SetInstitution($data['institution']);
             $linkage->SetPosition($data['position']);
 

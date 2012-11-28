@@ -6,6 +6,8 @@ class Projects_OutlayController  extends Zend_Controller_Action
     private $teamMemberMapper;
     private $projectMapper;
     private $outlayMapper;
+    private $contactMapper;
+    private $linkageMapper;
     private $pageData;
     private $db;
 
@@ -119,11 +121,19 @@ class Projects_OutlayController  extends Zend_Controller_Action
 
         $this->pageData['contactName'] = $this->view->translate("#(not defined)");
         $this->pageData['teamMemberId'] = null;
-        if ($teamMember->GetContact() > 0) {
-            if (!isset($this->contactMapper)) {
-                $this->contactMapper = new C3op_Register_ContactMapper($this->db);
+
+
+
+        if ($teamMember->getLinkage() > 0) {
+            if (!isset($this->linkageMapper)) {
+                $this->initLinkageMapper();
             }
-            $teamMemberContact = $this->contactMapper->findById($teamMember->GetContact());
+            if (!isset($this->contactMapper)) {
+                $this->initContactMapper();
+            }
+
+            $teamMemberLinkage = $this->linkageMapper->findById($teamMember->getLinkage());
+            $teamMemberContact = $this->contactMapper->findById($teamMemberLinkage->getContact());
 
             $this->pageData['contactName'] = $teamMemberContact->GetName();
             $this->pageData['teamMemberId'] = $teamMember->Getid();
@@ -195,6 +205,19 @@ class Projects_OutlayController  extends Zend_Controller_Action
         throw new C3op_Projects_OutlayException("Invalid Action Id from Get");
 
     }
+
+
+    private function initContactMapper()
+    {
+         $this->contactMapper = new C3op_Register_ContactMapper($this->db);
+    }
+
+    private function initLinkageMapper()
+    {
+         $this->linkageMapper = new C3op_Register_LinkageMapper($this->db);
+    }
+
+
 
 
 }

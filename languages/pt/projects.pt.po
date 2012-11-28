@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-27 18:05-0300\n"
-"PO-Revision-Date: 2012-11-27 18:06-0300\n"
+"POT-Creation-Date: 2012-11-27 20:32-0300\n"
+"PO-Revision-Date: 2012-11-27 20:32-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -27,9 +27,9 @@ msgstr "O registro foi criado com sucesso."
 #: application\modules\projects/controllers/ReceivableController.php:34
 #: application\modules\projects/controllers/ReceivableController.php:57
 #: application\modules\projects/controllers/ReceivableController.php:115
-#: application\modules\projects/controllers/TeamMemberController.php:33
-#: application\modules\projects/controllers/TeamMemberController.php:85
-#: application\modules\projects/controllers/TeamMemberController.php:160
+#: application\modules\projects/controllers/TeamMemberController.php:35
+#: application\modules\projects/controllers/TeamMemberController.php:87
+#: application\modules\projects/controllers/TeamMemberController.php:163
 msgid "#The record was successfully updated."
 msgstr "O registro foi atualizado com sucesso."
 
@@ -38,10 +38,10 @@ msgstr "O registro foi atualizado com sucesso."
 #: application\modules\projects/controllers/ProjectController.php:172
 #: application\modules\projects/controllers/ProjectController.php:179
 #: application\modules\projects/controllers/ProjectController.php:275
+#: application\modules\projects/controllers/ProjectController.php:326
 #: application\modules\projects/controllers/ProjectController.php:328
-#: application\modules\projects/controllers/ProjectController.php:330
-#: application\modules\projects/controllers/ProjectController.php:331
-#: application\modules\projects/controllers/ProjectController.php:685
+#: application\modules\projects/controllers/ProjectController.php:329
+#: application\modules\projects/controllers/ProjectController.php:683
 msgid "#Not defined"
 msgstr "Indefinido"
 
@@ -97,12 +97,12 @@ msgstr "Novo Responsável"
 msgid "#(undefined)"
 msgstr "(indefinido)"
 
-#: application\modules\projects/controllers/ProjectController.php:337
-#: application\modules\projects/controllers/ProjectController.php:338
+#: application\modules\projects/controllers/ProjectController.php:335
+#: application\modules\projects/controllers/ProjectController.php:336
 msgid "#Not implemented"
 msgstr "(Não implementado)"
 
-#: application\modules\projects/controllers/ProjectController.php:394
+#: application\modules\projects/controllers/ProjectController.php:392
 msgid "#(unknown date)"
 msgstr "(data desconhecida)"
 
@@ -623,11 +623,15 @@ msgstr "Término prev."
 msgid "#Real finish date"
 msgstr "Término real"
 
-#: application\modules\projects/views/scripts/team-member/contract.phtml:2
+#: application\modules\projects/views/scripts/team-member/contract.phtml:5
 msgid "#Confirm contracting"
-msgstr "Confirmar contratação"
+msgstr "Confirmar contratação de"
 
-#: application\modules\projects/views/scripts/team-member/contract.phtml:3
+#: application\modules\projects/views/scripts/team-member/contract.phtml:7
+msgid "#In action "
+msgstr "na ação"
+
+#: application\modules\projects/views/scripts/team-member/contract.phtml:8
 msgid ""
 "#Enter below the contracted dates for the beginning and end of the action"
 msgstr "Informe abaixo as datas contratadas para o início e término da ação"

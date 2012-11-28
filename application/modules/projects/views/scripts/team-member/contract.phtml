@@ -1,5 +1,11 @@
+<?php
+$headerData = $this->headerData;
+?>
 <div id="MainHeader">
-<h1><?php print($this->translate('#Confirm contracting')); ?></h1>
-<p><?php print($this->translate('#Enter below the contracted dates for the beginning and end of the action')); ?></p>
+<h1><?php print($this->translate('#Confirm contracting')); ?> <?php print($headerData["teamMemberName"]) ?></h1>
+<div class="TituloForm">
+    <h2><?php print($this->translate("#In action ")); ?> <?php print($headerData["actionTitle"]) ?></h2>
+</div><p><?php print($this->translate('#Enter below the contracted dates for the beginning and end of the action')); ?></p>
 </div>
+
 <?php echo $this->form; ?>

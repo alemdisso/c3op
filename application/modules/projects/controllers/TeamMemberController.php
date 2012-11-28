@@ -4,6 +4,8 @@ class Projects_TeamMemberController extends Zend_Controller_Action
 {
     private $teamMemberMapper;
     private $actionMapper;
+    private $contactMapper;
+    private $linkageMapper;
     private $db;
 
     public function preDispatch()
@@ -151,6 +153,7 @@ class Projects_TeamMemberController extends Zend_Controller_Action
     public function contractAction()
     {
         $form = new C3op_Form_TeamMemberContract;
+        $headerData = array();
         $this->view->form = $form;
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
@@ -178,25 +181,33 @@ class Projects_TeamMemberController extends Zend_Controller_Action
                 $id = $input->id;
                 $this->initTeamMemberMapper();
                 $thisTeamMember = $this->teamMemberMapper->findById($id);
+
                 $idField = $form->getElement('id');
                 $idField->setValue($id);
                 $this->initActionMapper();
                 $thisAction = $this->actionMapper->findById($thisTeamMember->getAction());
 
-                $this->SetDateValueToFormField($form, 'predictedBeginDate', $thisAction->GetPredictedBeginDate());
-                $this->SetDateValueToFormField($form, 'predictedFinishDate', $thisAction->GetPredictedFinishDate());
+                $this->setDateValueToFormField($form, 'predictedBeginDate', $thisAction->GetPredictedBeginDate());
+                $this->setDateValueToFormField($form, 'predictedFinishDate', $thisAction->GetPredictedFinishDate());
                 $contactField = $form->getElement('contact');
-                if (!isset($this->contactMapper)) {
-                    $this->contactMapper = new C3op_Register_ContactMapper($this->db);
-                }
-                $allContacts = $this->contactMapper->getAllIds();
+                $this->initContactMapper();
+                $this->initLinkageMapper();
 
-                $this->view->actionTitle = $thisAction->GetTitle();
-                $this->view->linkActionDetail = "/projects/action/detail/?id=" . $thisTeamMember->getAction();
+                $allContacts = $this->contactMapper->getAllIds();
+                $linkage = $this->linkageMapper->findById($thisTeamMember->getLinkage());
+                $contact = $this->contactMapper->findById($linkage->getContact());
+                $contactName = $contact->GetName();
+
+                $actionTitle = $thisAction->GetTitle();
+               $headerData = array(
+                   'teamMemberName' => $contactName,
+                   'actionTitle'    => $actionTitle,
+               ) ;
 
             }
 
         }
+        $this->view->headerData = $headerData;
     }
 
     public function outlaysAction()
@@ -338,6 +349,16 @@ class Projects_TeamMemberController extends Zend_Controller_Action
    private function initTeamMemberMapper()
     {
          $this->teamMemberMapper = new C3op_Projects_TeamMemberMapper($this->db);
+    }
+
+    private function initContactMapper()
+    {
+         $this->contactMapper = new C3op_Register_ContactMapper($this->db);
+    }
+
+    private function initLinkageMapper()
+    {
+         $this->linkageMapper = new C3op_Register_LinkageMapper($this->db);
     }
 
     private function initActionWithCheckedId(C3op_Projects_ActionMapper $mapper)
