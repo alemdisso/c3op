@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-11-13 11:18-0300\n"
-"PO-Revision-Date: 2012-11-13 11:19-0300\n"
+"PO-Revision-Date: 2012-11-29 13:23-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -326,7 +326,7 @@ msgstr "Cargo / Função:"
 
 #: library\C3op\Form/LinkageCreate.php:59 library\C3op\Form/LinkageEdit.php:60
 msgid "#Departament:"
-msgstr "Departmento:"
+msgstr "Departamento:"
 
 #: library\C3op\Form/LinkageEdit.php:27
 msgid "#Institution:"
