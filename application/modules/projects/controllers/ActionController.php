@@ -116,8 +116,14 @@ class Projects_ActionController extends Zend_Controller_Action
                 $this->setDateValueToFormField($form, 'predictedBeginDate', $inputAction->getPredictedBeginDate());
                 $this->setDateValueToFormField($form, 'predictedFinishDate', $inputAction->getPredictedFinishDate());
 
-                $element = $form->getElement('status');
-                $element->setValue($inputAction->getStatus());
+                $user = Zend_Registry::get('user');
+                $role = $user->GetRole();
+                if ($role == C3op_Access_RolesConstants::ROLE_SYSADMIN) {
+                    $element = $form->getElement('status');
+                    $element->setValue($inputAction->getStatus());
+                } else {
+                    $form->removeElement('status');
+                }
 
                 $this->populateResponsibleField($form, $inputAction->getResponsible());
                 $this->populateRequirementForReceivingField($projectId, $form, $inputAction->getRequirementForReceiving());

@@ -17,22 +17,25 @@ class C3op_Form_ActionEdit extends C3op_Form_ActionCreate
 
         $this->removeElement('submit');
 
-        $element = new Zend_Form_Element_Select('status');
-        $element->setLabel('#Status:')
-                ->setDecorators(array(
-                    'ViewHelper',
-                    'Errors',
-                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns inset-by-eight omega')),
-                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
-                ))
-                ->setOptions(array('class' => 'Full alpha omega'));
-        $obj = new C3op_Projects_ActionStatusTypes();
-        $statusTypes = $obj->AllStatus();
-        while (list($key, $title) = each($statusTypes)) {
-            $element->addMultiOption($key, _($title));
+        $user = Zend_Registry::get('user');
+        $role = $user->GetRole();
+        if ($role == C3op_Access_RolesConstants::ROLE_SYSADMIN) {
+            $element = new Zend_Form_Element_Select('status');
+            $element->setLabel('#Status:')
+                    ->setDecorators(array(
+                        'ViewHelper',
+                        'Errors',
+                        array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns inset-by-eight omega')),
+                        array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                    ))
+                    ->setOptions(array('class' => 'Full alpha omega'));
+            $obj = new C3op_Projects_ActionStatusTypes();
+            $statusTypes = $obj->AllStatus();
+            while (list($key, $title) = each($statusTypes)) {
+                $element->addMultiOption($key, _($title));
+            }
+            $this->addElement($element);
         }
-        $this->addElement($element);
-
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
         $submit->setLabel('#Submit')
@@ -60,7 +63,9 @@ class C3op_Form_ActionEdit extends C3op_Form_ActionCreate
             $action = $actionMapper->findById($id);
             $action->SetTitle($data['title']);
             $action->SetProject($data['project']);
-            $action->SetStatus($data['status']);
+            if (isset($data['status'])) {
+                $action->SetStatus($data['status']);
+            }
             $action->SetDescription($data['description']);
             $action->SetSubordinatedTo($data['subordinatedTo']);
             $action->SetResponsible($data['responsible']);
