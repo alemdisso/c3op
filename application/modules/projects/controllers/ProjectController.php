@@ -729,4 +729,36 @@ class Projects_ProjectController extends Zend_Controller_Action
     }
 
 
+ public function payablesAction()
+    {
+        $id = $this->checkIdFromGet();
+        $thisProject = $this->projectMapper->findById($id);
+
+        $this->initActionMapper();
+        $list = $this->projectMapper->getAllDoneActions($thisProject);
+
+        $payablesList = array();
+        reset ($list);
+        foreach ($list as $actionId) {
+            $thisAction = $this->actionMapper->findById($actionId);
+            $actionTitle = $thisAction->GetTitle();
+
+            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+            $contractValue = $currencyDisplay->FormatCurrency(
+                               $this->actionMapper->getContractedValueJustForThisAction($thisAction)
+                           );
+
+            $payablesList[$actionId] = array(
+                'actionId'       => $actionId,
+                'actionTitle'    => $actionTitle,
+                'actionValue'    => $contractValue,
+            );
+        }
+
+        $this->view->payablesList = $payablesList;
+
+    }
+
+
+
 }
