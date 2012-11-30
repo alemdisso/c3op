@@ -363,12 +363,22 @@ class Projects_ProjectController extends Zend_Controller_Action
 
         $actionTreeList = $this->treeData;
 
+        // detailsData
+        //   object
+        $detailsData = array(
+          'object'      => $projectToBeDetailed->GetObject(),
+          'summary'     => $projectToBeDetailed->GetSummary(),
+          'observation' => $projectToBeDetailed->GetObservation(),
+        );
+
+
         $pageData = array(
-            'projectHeader' => $projectHeader,
-            'receivablesList'  => $receivablesList,
-            'outlaysList'   => $outlaysList,
-            'actionsTree'   => $actionTreeList,
-            'teamMembersList'     => $teamMembersList,
+            'projectHeader'   => $projectHeader,
+            'receivablesList' => $receivablesList,
+            'outlaysList'     => $outlaysList,
+            'actionsTree'     => $actionTreeList,
+            'teamMembersList' => $teamMembersList,
+            'detailsData'     => $detailsData,
 
         );
         $this->view->pageData = $pageData;

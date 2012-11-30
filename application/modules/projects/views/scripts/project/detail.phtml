@@ -30,6 +30,7 @@ $receivablesList = $pageData['receivablesList'];
 $actionsList = $pageData['actionsTree'];
 $outlaysList = $pageData['outlaysList'];
 $teamData = $pageData['teamMembersList'];
+$detailsData = $pageData['detailsData'];
 ?>
     <div id="MainHeader">
       <h1><?php echo $this->translate("#Project") ?> <?php print($projectHeader['projectTitle']) ?></h1>
@@ -92,6 +93,7 @@ $teamData = $pageData['teamMembersList'];
         <li><a href="#tabs-2"><?php echo $this->translate("#Payments") ?></a></li>
         <li><a href="#tabs-3"><?php echo $this->translate("#Staff") ?></a></li>
         <li><a href="#tabs-4"><?php echo $this->translate("#Actions") ?></a></li>
+        <li><a href="#tabs-5"><?php echo $this->translate("#Details") ?></a></li>
       </ul>
 
       <div id="tabs-1">
@@ -378,5 +380,55 @@ foreach ($actionsList as $id => $actionData) {
     </div><!-- .Area -->
 
         </div><!-- tabs-4 -->
+        <div id="tabs-5">
+          <div class="Area">
+            <h2><?php echo $this->translate("#Details") ?></h2>
+          </div><!-- Area -->
+    <div class="Area">
+
+<?php
+if ($detailsData['object'] != "") {
+?>
+      <p>
+<?php echo $this->translate("#Object") ?>
+      </p>
+      <p>
+<?php print ($detailsData['object']) ?>
+      </p>
+
+<?php
+}
+?>
+
+<?php
+if ($detailsData['summary'] != "") {
+?>
+      <p>
+<?php echo $this->translate("#Summary") ?>
+      </p>
+      <p>
+<?php print ($detailsData['summary']) ?>
+      </p>
+
+<?php
+}
+?>
+
+<?php
+if ($detailsData['observation'] != "") {
+?>
+      <p>
+<?php echo $this->translate("#Observation") ?>
+      </p>
+      <p>
+<?php print ($detailsData['observation']) ?>
+      </p>
+<?php
+}
+?>
+
+    </div><!-- .Area -->
+
+        </div><!-- tabs-5 -->
       </div><!-- #tabs --><!-- testing second commit -->
 
