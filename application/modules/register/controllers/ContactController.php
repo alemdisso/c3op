@@ -184,6 +184,7 @@ class Register_ContactController extends Zend_Controller_Action
 
         //  linkagesList
         //    * linkageId =>
+        //      institutionId
         //      institutionName
         //      department
         //      position
@@ -198,6 +199,7 @@ class Register_ContactController extends Zend_Controller_Action
             }
 
             $linkagesList[$linkageId] = array(
+                'institutionId' => $institutionLinkedToContact->GetId(),
                 'institutionName' => $institutionLinkedToContact->GetName(),
                 'department'      => $contactLinkage->GetDepartment(),
                 'position'        => $contactLinkage->GetPosition(),
