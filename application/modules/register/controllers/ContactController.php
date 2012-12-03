@@ -44,10 +44,20 @@ class Register_ContactController extends Zend_Controller_Action
                 $institutionName = $this->view->translate("#(undefined)");
             }
 
+            $testContact = new C3op_Register_ContactCanBeRemoved($loopContact, $this->contactMapper);
+
+            if ($testContact->CanBeRemoved()) {
+                $canRemove = true;
+            } else {
+                $canRemove = false;
+            }
+
+
             $contactsList[$id] = array(
-                'name'  => $loopContact->GetName(),
-                'type'  => C3op_Register_ContactTypes::TitleForType($loopContact->GetType()),
-                'institutionName'  => $institutionName,
+                'name'            => $loopContact->GetName(),
+                'type'            => C3op_Register_ContactTypes::TitleForType($loopContact->GetType()),
+                'institutionName' => $institutionName,
+                'canRemove'       => $canRemove,
             );
         }
 
@@ -123,6 +133,36 @@ class Register_ContactController extends Zend_Controller_Action
             $this->getResponse()->setHeader('Refresh', '1; URL=/register/contact/detail/?id=' . $contact->getId());
         } else {
             $this->_redirect('/register/contact');
+        }
+    }
+
+    public function removeAction()
+    {
+        $form = new C3op_Form_ContactRemove();
+        $this->view->form = $form;
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            if ($form->isValid($postData)) {
+                $id = $form->process($postData);
+                $this->_helper->getHelper('FlashMessenger')
+                    ->addMessage($this->view->translate('#The record was successfully remove.'));
+                $this->_redirect('/register/');
+            } else {
+                //form error: populate and go back
+                $this->view->form = $form;
+            }
+        } else {
+            // GET
+            $id = $this->checkIdFromGet();
+            $contactData = array();
+            $thisContact = $this->contactMapper->findById($id);
+            $idField = $form->getElement('id');
+            $idField->setValue($id);
+            $contactData = array(
+                'id'   => $id,
+                'name' => $thisContact->getName(),
+            );
+            $this->view->contactData = $contactData;
         }
     }
 

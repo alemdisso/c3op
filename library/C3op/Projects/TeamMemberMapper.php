@@ -102,12 +102,6 @@ class C3op_Projects_TeamMemberMapper {
                 $this->identityMap[$i]
             )
         );
-        $this->db->exec(
-            sprintf(
-                'DELETE FROM projects_team_members_dates WHERE human_resource = %d;',
-                $this->identityMap[$a]
-            )
-        );
         unset($this->identityMap[$i]);
     }
 

@@ -39,9 +39,6 @@
             				<td><a href="/register/contact/detail/?id=<?php print($contactId) ?>"><?php print($contactData['name']) ?></a></td>
             				<td><?php print $contactData['institutionName'] ?></td>
             				<td><?php print $contactData['type'] ?></td>
-<?php
-//        if (isset($contactData['editLink'])) {
-?>
                     <td>
                       <a class="anchorclass button" rel="submenu1"><?php echo $this->translate("#Options...") ?></a>
                       <div id="submenu1" class="anylinkcss">
@@ -50,11 +47,21 @@
                             <a href="/register/contact/edit/?id=<?php print($contactId) ?>"><?php echo $this->translate("#Edit") ?></a>
                           </li>
                         </ul>
+<?php
+        if ($contactData['canRemove']) {
+?>
+                        <ul>
+                          <li>
+                            <a href="/register/contact/remove/?id=<?php print($contactId) ?>"><?php echo $this->translate("#Remover") ?></a>
+                          </li>
+                        </ul>
+<?php
+        }
+?>
+
+
                       </div><!-- #submenu1 -->
                     </td>
-<?php
-//        }
-?>
             			</tr>
 <?php
       }  // loop iterate list and print titlei

@@ -417,6 +417,27 @@ class C3op_Register_ContactMapper
 
     }
 
+     public function getAllActionsWithAContactAsTeamMember(C3op_Register_Contact $obj) {
+
+
+        $query = $this->db->prepare(
+                'SELECT a.id
+                    FROM projects_actions a
+                    INNER JOIN projects_team_members t ON a.id = t.action
+                    INNER JOIN register_linkages l ON l.id = t.linkage
+                    WHERE l.contact = :id;'
+                );
+        $query->bindValue(':id', $obj->GetId(), PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
+        foreach ($resultPDO as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
     private function insertMessengers(C3op_Register_Contact $obj)
     {
         $mapper = new C3op_Register_ContactMessengerMapper($this->db, $this->identityMap);
