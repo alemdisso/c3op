@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-13 11:18-0300\n"
-"PO-Revision-Date: 2012-11-29 13:23-0300\n"
+"POT-Creation-Date: 2012-12-03 11:50-0300\n"
+"PO-Revision-Date: 2012-12-03 11:50-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -71,7 +71,7 @@ msgstr "Data de início: "
 msgid "#Finish date:"
 msgstr "Data de término: "
 
-#: library\C3op\Form/ActionCreate.php:130 library\C3op\Form/ActionEdit.php:38
+#: library\C3op\Form/ActionCreate.php:130 library\C3op\Form/ActionEdit.php:41
 #: library\C3op\Form/ContactCreate.php:80 library\C3op\Form/EmailCreate.php:57
 #: library\C3op\Form/InstitutionCreate.php:291
 #: library\C3op\Form/LinkageCreate.php:73 library\C3op\Form/LinkageEdit.php:76
@@ -86,7 +86,7 @@ msgstr "Data de término: "
 msgid "#Submit"
 msgstr "Gravar"
 
-#: library\C3op\Form/ActionEdit.php:21
+#: library\C3op\Form/ActionEdit.php:24
 msgid "#Status:"
 msgstr "Status:"
 
@@ -117,7 +117,7 @@ msgstr "(clique para escolher)"
 #: library\C3op\Form/ContactMessengerEdit.php:31
 #: library\C3op\Form/ContactPhoneNumberCreate.php:22
 #: library\C3op\Form/ContactPhoneNumberEdit.php:31
-#: library\C3op\Form/EmailEdit.php:27
+#: library\C3op\Form/ContactRemove.php:42 library\C3op\Form/EmailEdit.php:27
 #: library\C3op\Form/InstitutionCreate.php:311
 #: library\C3op\Form/InstitutionEdit.php:25
 #: library\C3op\Form/LinkageCreate.php:89
@@ -183,6 +183,10 @@ msgstr "Not defined which phone number to edit."
 #: library\C3op\Form/PhoneNumberEdit.php:47
 msgid "#Can't find this phone id at this contact phone list"
 msgstr "Can't find this phone id at this contact phone list"
+
+#: library\C3op\Form/ContactRemove.php:22
+msgid "#Confirm removal"
+msgstr "Confirmo: remova!"
 
 #: library\C3op\Form/Decorators.php:9
 msgid "First Name:"
