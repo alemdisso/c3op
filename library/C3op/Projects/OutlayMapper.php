@@ -25,7 +25,7 @@ class C3op_Projects_OutlayMapper
         $data = array(
             'project' => $new->GetProject(),
             'action' => $new->GetAction(),
-            'human_resource' => $new->GetTeamMember(),
+            'team_member' => $new->GetTeamMember(),
             'predicted_value' => $new->GetPredictedValue(),
             'predicted_date' => $new->GetPredictedDate(),
             'recurrent' => $new->GetRecurrent(),
@@ -45,7 +45,7 @@ class C3op_Projects_OutlayMapper
 
         $this->db->exec(
             sprintf(
-                'UPDATE projects_outlays SET project = %d, action = %d, human_resource = %d, predicted_value = %.2f, predicted_date = \'%s\', recurrent = %d, observation = \'%s\' WHERE id = %d;',
+                'UPDATE projects_outlays SET project = %d, action = %d, team_member = %d, predicted_value = %.2f, predicted_date = \'%s\', recurrent = %d, observation = \'%s\' WHERE id = %d;',
                 $o->GetProject(),
                 $o->GetAction(),
                 $o->GetTeamMember(),
@@ -71,14 +71,14 @@ class C3op_Projects_OutlayMapper
 
         $result = $this->db->fetchRow(
             sprintf(
-                'SELECT  project, action, human_resource, predicted_value, predicted_date, recurrent, observation FROM projects_outlays WHERE id = %d;',
+                'SELECT  project, action, team_member, predicted_value, predicted_date, recurrent, observation FROM projects_outlays WHERE id = %d;',
                 $id
             )
         );
         if (empty($result)) {
             throw new C3op_Projects_OutlayMapperException(sprintf('There is no outlay with id #%d.', $id));
         }
-        $r = new C3op_Projects_Outlay($result['human_resource'], $id);
+        $r = new C3op_Projects_Outlay($result['team_member'], $id);
         $this->setAttributeValue($r, $id, 'id');
         $this->setAttributeValue($r, $result['project'], 'project');
         $this->setAttributeValue($r, $result['action'], 'action');
@@ -117,7 +117,7 @@ class C3op_Projects_OutlayMapper
      public function getAllOutlaysForTeamMember(C3op_Projects_TeamMember $h) {
         $result = array();
             foreach ($this->db->query(
-                    sprintf('SELECT id FROM projects_outlays WHERE human_resource = %d;', $h->GetId())) as $row) {
+                    sprintf('SELECT id FROM projects_outlays WHERE team_member = %d;', $h->GetId())) as $row) {
             $result[] = $row['id'];
         }
         return $result;

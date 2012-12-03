@@ -127,13 +127,13 @@ class C3op_Projects_TeamMemberMapper {
         $attribute->setValue($i, $fieldValue);
     }
 
-    public function getAllOutlays(C3op_Projects_TeamMember $h)
+    public function getAllOutlays(C3op_Projects_TeamMember $obj)
     {
         $result = array();
         foreach ($this->db->query(
                 sprintf(
-                    'SELECT id FROM projects_outlays WHERE human_resource = %d;',
-                    $h->GetId()
+                    'SELECT id FROM projects_outlays WHERE team_member = %d;',
+                    $obj->GetId()
                     )
                 )
                 as $row) {
