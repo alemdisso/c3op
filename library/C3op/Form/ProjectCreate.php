@@ -127,22 +127,79 @@
               ->addFilter('StringTrim');
       $this->addElement($element);
 
-      $element = new Zend_Form_Element_Select('status');
-      $element->setLabel('#Project status:')
-              ->setDecorators(array(
+    $user = Zend_Registry::get('user');
+    $role = $user->GetRole();
+    if ($role == C3op_Access_RolesConstants::ROLE_SYSADMIN) {
+        $element = new Zend_Form_Element_Select('status');
+        $element->setLabel('#Project status:')
+                ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
                 array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns inset-by-four omega')),
                 array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
-              ))
-              ->setOptions(array('class' => 'three columns alpha omega'));
+                ))
+                ->setOptions(array('class' => 'three columns alpha omega'));
 
-      $obj = new C3op_Projects_ProjectStatusTypes();
-      $titleTypes = $obj->AllTitles();
-      $element->addMultiOption(null, _("#(choose a status)"));
-      while (list($key, $type) = each($titleTypes)) {
+        $obj = new C3op_Projects_ProjectStatusTypes();
+        $titleTypes = $obj->AllTitles();
+        $element->addMultiOption(null, _("#(choose a status)"));
+        while (list($key, $type) = each($titleTypes)) {
         $element->addMultiOption($key, $type);
-      }
+        }
+        $this->addElement($element);
+    } else {
+        $element = new Zend_Form_Element_Hidden('status');
+        $element->addValidator('Int')
+            ->addFilter('StringTrim');
+        $this->addElement($element);
+        $element->setDecorators(array('ViewHelper'));
+
+        $element = new Zend_Form_Element_Select('nilStatus');
+        $element->setLabel('#Project status:')
+                ->setDecorators(array(
+                'ViewHelper',
+                'Errors',
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns inset-by-four omega')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
+                ))
+                ->setOptions(array('class' => 'three columns alpha omega'));
+
+        $element->addMultiOption(null, _("#(disabled)"));
+        $element->setAttrib('disabled', 'disabled');
+        $this->addElement($element);
+
+
+    }
+
+      $element = new Zend_Form_Element_Text('overhead');
+      $element->setLabel('#Overhead:')
+                 ->setAttrib('alt','decimal')
+              ->setDecorators(array(
+                'ViewHelper',
+                'Errors',
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+              ))
+              ->setOptions(array('class' => 'two columns alpha omega'))
+              ->setRequired(false)
+              ->addValidator(new C3op_Util_ValidFloat)
+        ;
+      $this->addElement($element);
+
+      $element = new Zend_Form_Element_Text('managementFee');
+      $element->setLabel('#Management fee:')
+                 ->setAttrib('alt','decimal')
+              ->setDecorators(array(
+                'ViewHelper',
+                'Errors',
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns inset-by-three omega')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+              ))
+              ->setOptions(array('class' => 'two columns alpha omega'))
+              ->setRequired(false)
+              ->addValidator(new C3op_Util_ValidFloat)
+              ->addFilter('HtmlEntities')
+              ->addFilter('StringTrim');
       $this->addElement($element);
 
       $element = new Zend_Form_Element_Select('contractNature');
@@ -178,37 +235,6 @@
       while (list($key, $type) = each($titleTypes)) {
         $element->addMultiOption($key, $type);
       }
-      $this->addElement($element);
-
-      $element = new Zend_Form_Element_Text('overhead');
-      $element->setLabel('#Overhead:')
-                 ->setAttrib('alt','decimal')
-              ->setDecorators(array(
-                'ViewHelper',
-                'Errors',
-                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns')),
-                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
-              ))
-              ->setOptions(array('class' => 'two columns alpha omega'))
-              ->setRequired(false)
-              ->addValidator(new C3op_Util_ValidFloat)
-        ;
-      $this->addElement($element);
-
-      $element = new Zend_Form_Element_Text('managementFee');
-      $element->setLabel('#Management fee:')
-                 ->setAttrib('alt','decimal')
-              ->setDecorators(array(
-                'ViewHelper',
-                'Errors',
-                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns inset-by-three omega')),
-                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
-              ))
-              ->setOptions(array('class' => 'two columns alpha omega'))
-              ->setRequired(false)
-              ->addValidator(new C3op_Util_ValidFloat)
-              ->addFilter('HtmlEntities')
-              ->addFilter('StringTrim');
       $this->addElement($element);
 
       $element = new Zend_Form_Element_Textarea('object');

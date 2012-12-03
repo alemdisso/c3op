@@ -1,2 +1,16 @@
+<?php
+  $actionHeader = $this->actionHeader;
+?>
 
 <?php print($this->translate("#Action received.")); ?>
+
+<div class="six columns inset-by-four">
+<div id="receiptAcknowledgement-<?php print($actionHeader['id']);?>">
+    <div class="three columns alpha">
+    <a class="button full column alpha omega parent_info" href="javascript:rejectReceipt('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Reject receipt")); ?></a>
+    </div>
+    <div class="three columns omega">
+    <a class="button full column alpha omega parent_info" href="javascript:acceptReceipt('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Accept receipt")); ?></a>
+    </div>
+</div>
+</div>

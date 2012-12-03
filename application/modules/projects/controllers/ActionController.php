@@ -321,6 +321,12 @@ class Projects_ActionController extends Zend_Controller_Action
         $acknowledgment = new C3op_Projects_ReceiptAcknowledgment();
         $acknowledgment->AcknowledgeReceipt($actionToBeChanged, $this->actionMapper);
 
+        $actionHeader = array(
+            'id' => $actionToBeChanged->getId(),
+        );
+
+        $this->view->actionHeader = $actionHeader;
+
 
     }
 
@@ -334,7 +340,6 @@ class Projects_ActionController extends Zend_Controller_Action
         $acceptance = new C3op_Projects_ReceiptAcceptance();
         $acceptance->AcceptReceipt($actionToBeChanged, $this->actionMapper);
 
-        //echo 'Realização da tarefa confirmada';
     }
 
    public function rejectReceiptAction()
@@ -347,7 +352,6 @@ class Projects_ActionController extends Zend_Controller_Action
         $rejection = new C3op_Projects_ReceiptRejection();
         $rejection->RejectReceipt($actionToBeChanged, $this->actionMapper);
 
-        echo $this->view->translate('#Receipt rejected');
     }
 
     public function acknowledgeStartAction()
