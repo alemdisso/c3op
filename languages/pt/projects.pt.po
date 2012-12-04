@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-03 11:50-0300\n"
-"PO-Revision-Date: 2012-12-03 11:51-0300\n"
+"POT-Creation-Date: 2012-12-03 15:54-0300\n"
+"PO-Revision-Date: 2012-12-03 15:54-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -62,15 +62,11 @@ msgstr "(não recebido)"
 msgid "#(not started)"
 msgstr "(não iniciada)"
 
-#: application\modules\projects/controllers/ActionController.php:350
-msgid "#Receipt rejected"
-msgstr "Entrega rejeitada"
-
-#: application\modules\projects/controllers/ActionController.php:406
+#: application\modules\projects/controllers/ActionController.php:410
 msgid "#It needs a positive integer project id to populate project fields."
 msgstr "It needs a positive integer project id to populate project fields."
 
-#: application\modules\projects/controllers/ActionController.php:437
+#: application\modules\projects/controllers/ActionController.php:441
 msgid ""
 "#It needs a positive integer project id to find other actions from same "
 "project."
@@ -239,9 +235,23 @@ msgstr "Suspenso"
 msgid "#Finished"
 msgstr "Finalizado"
 
-#: application\modules\projects/views/scripts/action/acknowledge-receipt.phtml:2
+#: application\modules\projects/views/scripts/action/accept-receipt.phtml:2
+msgid "#Receipt accepted"
+msgstr "Entrega aceita"
+
+#: application\modules\projects/views/scripts/action/acknowledge-receipt.phtml:5
 msgid "#Action received."
 msgstr "Ação entregue"
+
+#: application\modules\projects/views/scripts/action/acknowledge-receipt.phtml:10
+#: application\modules\projects/views/scripts/action/detail.phtml:181
+msgid "#Reject receipt"
+msgstr "Rejeitar tarefa"
+
+#: application\modules\projects/views/scripts/action/acknowledge-receipt.phtml:13
+#: application\modules\projects/views/scripts/action/detail.phtml:184
+msgid "#Accept receipt"
+msgstr "Aceitar tarefa"
 
 #: application\modules\projects/views/scripts/action/acknowledge-start.phtml:4
 msgid "#Start confirmed."
@@ -317,14 +327,6 @@ msgstr "Confirmar início"
 #: application\modules\projects/views/scripts/action/detail.phtml:173
 msgid "#Receipt date:"
 msgstr "Recebida em:"
-
-#: application\modules\projects/views/scripts/action/detail.phtml:181
-msgid "#Reject receipt"
-msgstr "Rejeitar tarefa"
-
-#: application\modules\projects/views/scripts/action/detail.phtml:184
-msgid "#Accept receipt"
-msgstr "Aceitar tarefa"
 
 #: application\modules\projects/views/scripts/action/detail.phtml:197
 msgid "#Total contracted value:"
@@ -404,6 +406,10 @@ msgstr "Prever membro da equipe"
 #: application\modules\projects/views/scripts/action/edit.phtml:5
 msgid "#Edit action"
 msgstr "Editar ação"
+
+#: application\modules\projects/views/scripts/action/reject-receipt.phtml:2
+msgid "#Receipt rejected"
+msgstr "Entrega rejeitada"
 
 #: application\modules\projects/views/scripts/action/success.phtml:2
 #: application\modules\projects/views/scripts/outlay/success.phtml:2
