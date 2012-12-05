@@ -137,11 +137,12 @@ if ($parentId > 0) {
 <?php
   if ($actionHeader['unacknowledgedStart']) {
 ?>
-            <div id='acknowledgeStart-<?php print($actionHeader['id']); ?>'>
+<!--            <div id='acknowledgeStart-<?php print($actionHeader['id']); ?>'>
               <a class="full column button full column alpha omega" href="javascript:acknowledgeStart('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Acknowledge start")); ?></a>
             </div>
+-->
             &nbsp;
-<?php
+    <?php
   }
   if ($actionHeader['receiptToAcceptOrReject']) {
 
@@ -153,11 +154,14 @@ if ($parentId > 0) {
 <?php
   if ($actionHeader['waitingToReceipt']) {
 ?>
-            <div id="acknowledgeReceipt-<?php print($actionHeader['id']);?>">
+<!--            <div id="acknowledgeReceipt-<?php print($actionHeader['id']);?>">
               <div class="three columns alpha omega">
                 <a class="button full column alpha omega parent_info" href="javascript:acknowledgeReceipt('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Confirm task realization")); ?></a>
               </div>
             </div>
+-->
+&nbsp;
+
 <?php
   } else {
 ?>
@@ -169,6 +173,7 @@ if ($parentId > 0) {
 <?php
   if ($actionHeader['receiptToAcceptOrReject']) {
 ?>
+            <!--
           <div class="three columns alpha Right">
             <?php print($this->translate("#Receipt date:")); ?>
           </div>
@@ -185,6 +190,8 @@ if ($parentId > 0) {
               </div>
             </div>
           </div>
+            -->
+            &nbsp;
 <?php
   } else {
 ?>
