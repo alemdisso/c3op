@@ -1,6 +1,8 @@
 $(document).ready(function() {
 	$('.dataTable').dataTable( {
-	  "sPaginationType": "full_numbers",
+         "iDisplayLength": -1,
+         "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]],
+	 "sPaginationType": "full_numbers",
     "oLanguage": {
       "sEmptyTable":      "Sem dados disponíveis na tabela",
       "sInfo":            "Exibindo de _START_ a _END_ do total de _TOTAL_ registros",
