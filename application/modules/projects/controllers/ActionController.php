@@ -266,7 +266,7 @@ class Projects_ActionController extends Zend_Controller_Action
             'parentActionId'          => $parentActionId,
             'parentActionTitle'       => $parentActionTitle,
             'subordinatedActions'     => $subordinatedActionsData,
-            'description'             => $actionToBeDetailed->getDescription(),
+            'description'             => nl2br($actionToBeDetailed->getDescription()),
             'milestone'               => $milestone,
             'predictedBeginDate'      => $predictedBeginDate,
             'predictedFinishDate'     => $predictedFinishDate,
