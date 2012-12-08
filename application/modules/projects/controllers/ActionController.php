@@ -590,10 +590,10 @@ class Projects_ActionController extends Zend_Controller_Action
 
             if ($status == C3op_Projects_TeamMemberStatusConstants::STATUS_FORESEEN) {
                 $canContract = true;
-                $stillNotContracted = true;
+//                $stillNotContracted = true;
             } else {
                 $canContract = false;
-                $stillNotContracted = false;
+//                $stillNotContracted = false;
             }
 
             $teamMembersList[$teamMemberId] = array(
@@ -602,7 +602,7 @@ class Projects_ActionController extends Zend_Controller_Action
                 'description'            => $descriptionMessage,
                 'value'                  => $currencyValue,
                 'contractingStatusLabel' => $statusLabel,
-                'stillNotContractedFlag' => $stillNotContracted,
+//                'stillNotContractedFlag' => $stillNotContracted,
                 'canContractFlag'        => $canContract,
 
             );

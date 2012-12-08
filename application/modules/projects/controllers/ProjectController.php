@@ -313,6 +313,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         // teamMembersList
         //   * id =>
         //      staffName
+        //      actionId
         //      contactId
         //      positionDescription
         //      staffEmail
@@ -348,6 +349,7 @@ class Projects_ProjectController extends Zend_Controller_Action
 
             $teamMembersList[$id] = array(
                     'contactId'           => $staffId,
+                    'actionId'            => $theTeamMember->getAction(),
                     'positionDescription' => $positionDescription,
                     'staffName'           => $staffName,
                     'staffPhoneNumber'    => $staffPhoneNumber,

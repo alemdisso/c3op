@@ -213,7 +213,19 @@ foreach($outlaysList as $id => $outlayInfo) {
                     <a href="/projects/action/detail/?id=<?php print($outlayInfo['actionId']) ?>"><?php print($outlayInfo['actionTitle']) ?></a>
                   </td>
                   <td>
-                    <a href="<?php print(($outlayInfo['payeeId'] > 0 ? '/register/contact/detail/?id=' . $outlayInfo['payeeId'] : "#")) ?>"><?php print($outlayInfo['payeeName']) ?></a>
+<?php
+if($outlayInfo['payeeId'] > 0) {
+?>
+                    <a href="/register/contact/detail/?id=<?php  print $outlayInfo['payeeId'] ?>"><?php print($outlayInfo['payeeName']) ?></a>
+<?php
+
+} else {
+?>
+<?php print($outlayInfo['payeeName']) ?>
+<?php
+
+}
+?>
                   </td>
                   <td>
                     <?php print($outlayInfo['predictedDate']) ?>
@@ -295,10 +307,22 @@ foreach($teamData as $id => $staffInfo) {
 ?>
                 <tr>
                   <td>
-                    <a href="/register/contact/detail/?id=<?php print($staffInfo['contactId']) ?>"><?php print($staffInfo['staffName']) ?></a>
+<?php
+if($staffInfo['contactId'] > 0) {
+?>
+                    <a href="/register/contact/detail/?id=<?php  print $staffInfo['contactId'] ?>"><?php print($staffInfo['staffName']) ?></a>
+<?php
+
+} else {
+?>
+<?php print($staffInfo['staffName']) ?>
+<?php
+
+}
+?>
                   </td>
                   <td>
-                    <a href="/projects/team-member/edit/?id=<?php print($id) ?>"><?php print($staffInfo['positionDescription']) ?></a>
+                    <a href="/projects/action/detail/?id=<?php print($staffInfo['actionId']) ?>"><?php print($staffInfo['positionDescription']) ?></a>
                   </td>
                   <td>
                     <a href="mailto:<?php print($staffInfo['staffEmail']) ?>"><?php print($staffInfo['staffEmail']) ?></a>
@@ -313,10 +337,6 @@ foreach($teamData as $id => $staffInfo) {
                           <li>
                             <!-- [# LINK PARA A EDIÇÃO DO CONTATO ] -->
                             <a href="/projects/team-member/edit/?id=<?php print($id) ?>"><?php echo $this->translate("#Edit") ?></a>
-                          </li>
-                          <li>
-                            <!-- [# LINK PARA PÁGINA DO CONTATO ] -->
-                            <a href="/register/contact/detail/?id=<?php print($staffInfo['contactId']) ?>"><?php echo $this->translate("#Contact details") ?></a>
                           </li>
                         </ul>
                     </div><!-- #submenu1 -->

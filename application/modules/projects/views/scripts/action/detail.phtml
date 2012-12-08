@@ -284,7 +284,7 @@ if ($parentId > 0) {
                   <a href="/projects/team-member/edit/?id=<?php print($id) ?>"><?php print($teamMemberData['name']) ?></a>
                 </td>
                 <td>
-                  <?php print($teamMemberData['description']) ?>
+                  <a href="/projects/team-member/edit/?id=<?php print($id) ?>"><?php print($teamMemberData['description']) ?></a>
                 </td>
                 <td>
                   <?php print($teamMemberData['value']) ?>
@@ -299,15 +299,7 @@ if ($parentId > 0) {
                         <li>
                           <a href="/projects/team-member/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
                         </li>
-<?php
-    if ($teamMemberData['stillNotContractedFlag']) {
-?>
-                        <li>
-                          <div id='dismissContact-<?php print($id);?>'><a class="parent_info" href=""><?php print($this->translate("#Dismiss team member")); ?></a></div>
-                        </li>
-<?php
-    }
-?>
+
 <?php
     if ($teamMemberData['canContractFlag']) {
 ?>
