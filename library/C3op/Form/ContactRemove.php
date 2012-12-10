@@ -45,7 +45,8 @@ class C3op_Form_ContactRemove extends Zend_Form
         {
             $id = $data['id'];
             $contact = $contactMapper->findById($id);
-            $contactMapper->delete($contact);
+            $contactRemoval = new C3op_Register_ContactRemoval($contact, $contactMapper);
+            $contactRemoval->remove();
             return $id;
         }
     }

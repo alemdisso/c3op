@@ -44,9 +44,9 @@ class Register_ContactController extends Zend_Controller_Action
                 $institutionName = $this->view->translate("#(undefined)");
             }
 
-            $testContact = new C3op_Register_ContactCanBeRemoved($loopContact, $this->contactMapper);
+            $contactRemoval = new C3op_Register_ContactRemoval($loopContact, $this->contactMapper);
 
-            if ($testContact->CanBeRemoved()) {
+            if ($contactRemoval->canBeRemoved()) {
                 $canRemove = true;
             } else {
                 $canRemove = false;

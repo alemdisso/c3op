@@ -12,51 +12,56 @@ class C3op_Register_LinkageMapper
     }
 
     public function getAllIds() {
+
+        $query = $this->db->prepare('SELECT id FROM register_linkages WHERE 1=1;');
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
         $result = array();
-            foreach ($this->db->query('SELECT id FROM register_linkages;') as $row) {
+        foreach ($resultPDO as $row) {
             $result[] = $row['id'];
         }
         return $result;
     }
 
-    public function insert(C3op_Register_Linkage $new) {
-        $data = array(
-            'contact' => $new->GetContact(),
-            'institution' => $new->GetInstitution(),
-            'department' => $new->GetDepartment(),
-            'position' => $new->GetPosition(),
-            );
-        $this->db->insert('register_linkages', $data);
-        $new->SetId((int)$this->db->lastInsertId());
-        $this->identityMap[$new] = $new->GetId();
+    public function insert(C3op_Register_Linkage $obj) {
 
-        $this->insertPhoneNumbers($new);
+        $query = $this->db->prepare("INSERT INTO register_linkages (contact, institution, department, position) VALUES (:contact, :institution, :department, :position)");
+        $query->bindValue(':contact', $obj->GetContact(), PDO::PARAM_STR);
+        $query->bindValue(':institution', $obj->GetInstitution(), PDO::PARAM_STR);
+        $query->bindValue(':department', $obj->GetDepartment(), PDO::PARAM_STR);
+        $query->bindValue(':position', $obj->GetPosition(), PDO::PARAM_STR);
+        $query->execute();
+
+        $obj->SetId((int)$this->db->lastInsertId());
+        $this->identityMap[$obj] = $obj->GetId();
+
+        $this->insertPhoneNumbers($obj);
+        $this->insertEmails($obj);
     }
 
     public function update(C3op_Register_Linkage $obj) {
         if (!isset($this->identityMap[$obj])) {
             throw new C3op_Register_LinkageMapperException('Object has no ID, cannot update.');
         }
-        $sql =
-                sprintf(
-                    'UPDATE register_linkages SET contact = %d,
-                        institution =  %d,
-                        department =  \'%s\',
-                        position =  \'%s\'
-                         WHERE id = %d;',
-                    $obj->GetContact(),
-                    $obj->GetInstitution(),
-                    $obj->GetDepartment(),
-                    $obj->GetPosition(),
-                    $this->identityMap[$obj]
-                );
+
+        $query = $this->db->prepare("UPDATE register_linkages
+            SET contact = :contact, institution = :institution , department = :department, position = :position WHERE id = :id;");
+
+        $query->bindValue(':contact', $obj->GetContact(), PDO::PARAM_STR);
+        $query->bindValue(':institution', $obj->GetInstitution(), PDO::PARAM_STR);
+        $query->bindValue(':department', $obj->GetDepartment(), PDO::PARAM_STR);
+        $query->bindValue(':position', $obj->GetPosition(), PDO::PARAM_STR);
+        $query->bindValue(':id', $this->identityMap[$obj], PDO::PARAM_STR);
+
         try {
-            $this->db->exec($sql);
+            $query->execute();
         } catch (Exception $e) {
-            throw new C3op_Register_LinkageException("$sql failed");
+            throw new C3op_Register_ContactException("sql failed");
         }
 
         $this->updatePhoneNumbers($obj);
+        $this->updateEmails($obj);
     }
 
     public function findById($id) {
@@ -91,6 +96,9 @@ class C3op_Register_LinkageMapper
         $phoneNumbers = $this->findPhoneNumbers($obj);
         $this->setAttributeValue($obj, $phoneNumbers, 'phoneNumbers');
 
+        $emails = $this->findEmails($obj);
+        $this->setAttributeValue($obj, $emails, 'emails');
+
 
         return $obj;
 
@@ -109,17 +117,24 @@ class C3op_Register_LinkageMapper
         return $this->findById($result['linkage']);
     }
 
-    public function delete(C3op_Register_Linkage $i) {
-        if (!isset($this->identityMap[$i])) {
+    public function delete(C3op_Register_Linkage $obj) {
+        if (!isset($this->identityMap[$obj])) {
             throw new C3op_Register_LinkageMapperException('Object has no ID, cannot delete.');
         }
-        $this->db->exec(
-            sprintf(
-                'DELETE FROM register_linkages WHERE id = %d;',
-                $this->identityMap[$i]
-            )
-        );
-        unset($this->identityMap[$i]);
+
+        $query = $this->db->prepare('DELETE FROM register_linkages WHERE id = :id;');
+        $query->bindValue(':id', $this->identityMap[$obj], PDO::PARAM_STR);
+        $query->execute();
+
+        $query = $this->db->prepare('DELETE FROM register_linkages_emails WHERE linkage = :linkage;');
+        $query->bindValue(':linkage', $this->identityMap[$obj], PDO::PARAM_STR);
+        $query->execute();
+
+        $query = $this->db->prepare('DELETE FROM register_linkages_phone_numbers WHERE linkage = :linkage;');
+        $query->bindValue(':linkage', $this->identityMap[$obj], PDO::PARAM_STR);
+        $query->execute();
+
+        unset($this->identityMap[$obj]);
     }
 
     private function setAttributeValue(C3op_Register_Linkage $i, $fieldValue, $attributeName)
@@ -232,7 +247,7 @@ class C3op_Register_LinkageMapper
         }
     }
 
-    private function UpdateEmails(C3op_Register_Linkage $linkage)
+    private function updateEmails(C3op_Register_Linkage $linkage)
     {
         $currentEmails = $linkage->GetEmails();
         $oldEmails = $this->findEmails($linkage);

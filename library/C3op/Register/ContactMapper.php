@@ -150,6 +150,18 @@ class C3op_Register_ContactMapper
         $query->bindValue(':id', $this->identityMap[$obj], PDO::PARAM_STR);
         $query->execute();
 
+        $query = $this->db->prepare('DELETE FROM register_contacts_emails WHERE contact = :contact;');
+        $query->bindValue(':contact', $this->identityMap[$obj], PDO::PARAM_STR);
+        $query->execute();
+
+        $query = $this->db->prepare('DELETE FROM register_contacts_messengers WHERE contact = :contact;');
+        $query->bindValue(':contact', $this->identityMap[$obj], PDO::PARAM_STR);
+        $query->execute();
+
+        $query = $this->db->prepare('DELETE FROM register_contacts_phone_numbers WHERE contact = :contact;');
+        $query->bindValue(':contact', $this->identityMap[$obj], PDO::PARAM_STR);
+        $query->execute();
+
         unset($this->identityMap[$obj]);
     }
 
@@ -399,6 +411,7 @@ class C3op_Register_ContactMapper
                 $query = $this->db->prepare('DELETE FROM register_contacts_emails WHERE id = :id;');
                 $query->bindValue(':id', $key, PDO::PARAM_STR);
                 $query->execute();
+
             }
         }
 
@@ -455,4 +468,8 @@ class C3op_Register_ContactMapper
         $mapper = new C3op_Register_ContactMessengerMapper($this->db, $this->identityMap);
         $mapper->updateMessengers($obj);
     }
+
+
+
+
 }
