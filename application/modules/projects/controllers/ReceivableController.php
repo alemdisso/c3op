@@ -45,6 +45,112 @@ class Projects_ReceivableController extends Zend_Controller_Action
         }
     }
 
+    public function detailAction()
+    {
+        $pageData = array();
+
+        $actionsList = array();
+        $this->initActionMapper();
+        $this->initReceivableMapper();
+        $this->initProjectMapper();
+        $this->initContactMapper();
+        $this->initTeamMemberMapper();
+
+        $receivableToBeDetailed =  $this->initReceivableWithCheckedId($this->receivableMapper);
+        $projectToBeDetailed = $this->projectMapper->findById($receivableToBeDetailed->getProject());
+
+        //  actionHeader
+        //    id
+        //    title
+        //    projectId
+        //    projectTitle
+        //    description
+        //    predictedDate
+        //    predictedValue
+        //    realDate
+        //    realValue
+        //    productsRequired
+        //      * id =>
+        //        actionTitle
+        //        responsibleName
+        //        status
+        //
+
+        $requiredProducts = $this->receivableMapper->getAllProducts($receivableToBeDetailed);
+        $requiredProductsData = array();
+        $statusTypes = new C3op_Projects_ActionStatusTypes();
+
+        foreach($requiredProducts as $loopActionId) {
+
+            $loopAction = $this->actionMapper->findById($loopActionId);
+            $data = array();
+            $data['title'] = $loopAction->getTitle();
+
+            if ($loopAction->getResponsible()) {
+                $theContact = $this->contactMapper->findById($loopAction->getResponsible());
+                $data['responsibleName'] = $theContact->getName();
+            } else {
+                $data['responsibleName'] = $this->view->translate("#Not defined");
+            }
+
+            $data['status'] = $statusTypes->TitleForType($loopAction->getStatus());
+
+            $requiredProductsData[$loopActionId] = $data;
+
+
+        }
+
+        $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($receivableToBeDetailed->getPredictedDate());
+
+        $validator = new C3op_Util_ValidDate();
+        if ($validator->isValid($receivableToBeDetailed->getRealDate())) {
+            $realDate = C3op_Util_DateDisplay::FormatDateToShow($receivableToBeDetailed->getRealDate());
+        } else {
+            $realDate = $this->view->translate("#(not received)");
+        }
+
+
+        $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+        $predictedValue = $currencyDisplay->FormatCurrency($receivableToBeDetailed->getPredictedValue());
+        if ($receivableToBeDetailed->getRealValue() > 0) {
+            $realValue = $currencyDisplay->FormatCurrency($receivableToBeDetailed->getRealValue());
+        } else {
+            $realValue = $this->view->translate("#(not received)");
+        }
+
+        if ($receivableToBeDetailed->getDescription() != "") {
+            $description = nl2br($receivableToBeDetailed->getDescription());
+        } else {
+            $description = $this->view->translate("#(not registered)");
+        }
+
+
+        $receivableData = array(
+            'id'               => $receivableToBeDetailed->getId(),
+            'projectId'        => $projectToBeDetailed->getId(),
+            'projectTitle'     => $projectToBeDetailed->getShortTitle(),
+            'title'            => $receivableToBeDetailed->getTitle(),
+            'description'      => $description,
+            'predictedDate'    => $predictedDate,
+            'predictedValue'   => $predictedValue,
+            'realValue'        => $realValue,
+            'realDate'         => $realDate,
+            'requiredProducts' => $requiredProductsData,
+        );
+
+
+
+        $pageData = array(
+            'receivableData' => $receivableData,
+        );
+
+        $this->view->pageData = $pageData;
+
+    }
+
+
+
+
     public function editAction()
     {
         $form = new C3op_Form_ReceivableEdit;
@@ -163,6 +269,29 @@ class Projects_ReceivableController extends Zend_Controller_Action
             $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
         }
     }
+
+    private function initActionMapper()
+    {
+        if (!isset($this->actionMapper)) {
+            $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
+        }
+    }
+
+    private function initTeamMemberMapper()
+    {
+        if (!isset($this->teamMemberMapper)) {
+            $this->teamMemberMapper = new C3op_Projects_TeamMemberMapper($this->db);
+        }
+    }
+
+    private function initContactMapper()
+    {
+        if (!isset($this->contactMapper)) {
+            $this->contactMapper = new C3op_Register_ContactMapper($this->db);
+        }
+    }
+
+
 
     private function initReceivableMapper()
     {
