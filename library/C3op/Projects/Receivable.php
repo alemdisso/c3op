@@ -3,7 +3,9 @@
 class C3op_Projects_Receivable {
 
     protected $id;
+    protected $project;
     protected $title;
+    protected $description;
     protected $predictedDate;
     protected $predictedValue;
     protected $realDate;
@@ -61,6 +63,24 @@ class C3op_Projects_Receivable {
         }
 
     } //SetTitle
+
+    public function GetDescription()
+    {
+        return $this->description;
+    } //GetDescription
+
+    public function SetDescription($description)
+    {
+        $validator = new C3op_Util_ValidLongString();
+        if ($validator->isValid($description)) {
+            if ($this->description != $description) {
+                $this->description = $description;
+            }
+        } else {
+            throw new C3op_Projects_ReceivableException("This ($description) is not a valid description.");
+        }
+
+    } //SetDescription
 
     public function GetPredictedDate()
     {

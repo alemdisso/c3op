@@ -30,6 +30,20 @@ class C3op_Form_ReceivableCreate extends Zend_Form
                 ;
         $this->addElement($element);
 
+        $element = new Zend_Form_Element_Textarea('description');
+        $element->setLabel('#Description:')
+                ->setDecorators(array(
+                    'ViewHelper',
+                    'Errors',
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                ))
+                ->setAttrib('rows','8')
+                ->setOptions(array('class' => 'eleven columns alpha omega'))
+                ->setRequired(false)
+                ->addFilter('StringTrim');
+        $this->addElement($element);
+
         $element = new Zend_Form_Element_Text('predictedDate');
         $element->setLabel('#Predicted Date')
             ->setAttrib('alt','date')
@@ -98,8 +112,9 @@ class C3op_Form_ReceivableCreate extends Zend_Form
 
 
             $receivable = new C3op_Projects_Receivable($this->project->GetValue(),$predictedDateConvertedToMySQL, $predictedValueWithDecimalPoint);
-            $receivable->SetTitle($this->title->GetValue());
             $receivable->SetProject((float)$this->project->GetValue());
+            $receivable->SetTitle($this->title->GetValue());
+            $receivable->SetDescription($this->description->GetValue());
             $receivable->SetRealDate($realDateConvertedToMySQL);
 
             $receivableMapper->insert($receivable);
