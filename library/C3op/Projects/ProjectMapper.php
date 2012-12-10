@@ -177,10 +177,11 @@ class C3op_Projects_ProjectMapper
 
     public function getAllProducts(C3op_Projects_Project $p)
     {
+
         $result = array();
         foreach ($this->db->query(
                 sprintf(
-                    'SELECT id FROM projects_actions WHERE project = %d AND subordinated_to IS NULL AND requirement_for_receiving = 1;',
+                    'SELECT id FROM projects_actions WHERE project = %d AND subordinated_to = 0 AND requirement_for_receiving > 0;',
                     $p->GetId()
                     )
                 )

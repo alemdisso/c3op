@@ -247,6 +247,74 @@ class Projects_ProjectController extends Zend_Controller_Action
                 );
         }
 
+        // productsList
+        //   * id =>
+        //      productTitle
+        //      predictedDate
+        //      realDate
+        //      status
+        //      physicalProgress
+        //      requirementForReceiving
+
+        $productsList = array();
+
+        $projectProducts = $this->projectMapper->getAllProducts($projectToBeDetailed);
+        if (!isset($this->actionMapper)) {
+            $this->initActionMapper();
+        }
+        if (!isset($this->receivableMapper)) {
+            $this->initReceivableMapper();
+        }
+
+
+        foreach ($projectProducts as $id) {
+            $theProduct = $this->actionMapper->findById($id);
+            $productTitle = $theProduct->getTitle();
+
+            $validator = new C3op_Util_ValidDate();
+            if ($validator->isValid($theProduct->getPredictedFinishDate())) {
+                $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($theProduct->getPredictedFinishDate());
+            } else {
+                $predictedDate = $this->view->translate("#(undefined)");
+            }
+
+            if ($validator->isValid($theProduct->getRealFinishDate())) {
+                $realDate = C3op_Util_DateDisplay::FormatDateToShow($theProduct->getRealFinishDate());
+            } else {
+                $realDate = $this->view->translate("#(not finished)");
+            }
+
+            if ($theProduct->getRequirementForReceiving() > 0) {
+                $theReceivable = $this->receivableMapper->findById($theProduct->getRequirementForReceiving());
+                $requirementForReceiving = $theReceivable->getTitle();
+                $receivableId = $theProduct->getRequirementForReceiving();
+            } else {
+                $requirementForReceiving = $this->view->translate("#(not a requirement)");
+                $receivableId = null;
+            }
+
+            $statusTypes = new C3op_Projects_ActionStatusTypes();
+            $status = $statusTypes->TitleForType($theProduct->getStatus());
+
+
+
+        //      productTitle
+        //      predictedDate
+        //      realDate
+        //      status
+        //      physicalProgress
+        //      requirementForReceiving
+            $productsList[$id] = array(
+                    'productTitle'            => $productTitle,
+                    'predictedDate'           => $predictedDate,
+                    'realDate'                => $realDate,
+                    'status'                  => $this->view->translate($status),
+                    'physicalProgress'        => "[ND]",
+                    'receivableId'            => $receivableId,
+                    'requirementForReceiving' => $requirementForReceiving,
+                );
+        }
+
         // outlaysList
         //   * id =>
         //      actionId
@@ -377,6 +445,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         $pageData = array(
             'projectHeader'   => $projectHeader,
             'receivablesList' => $receivablesList,
+            'productsList'    => $productsList,
             'outlaysList'     => $outlaysList,
             'actionsTree'     => $actionTreeList,
             'teamMembersList' => $teamMembersList,

@@ -26,7 +26,7 @@ $projectHeader = $pageData['projectHeader'];
         //      realValue
 
 $receivablesList = $pageData['receivablesList'];
-
+$productsList = $pageData['productsList'];
 $actionsList = $pageData['actionsTree'];
 $outlaysList = $pageData['outlaysList'];
 $teamData = $pageData['teamMembersList'];
@@ -89,17 +89,18 @@ $detailsData = $pageData['detailsData'];
     </div><!-- .Area -->
     <div id="tabs">
       <ul>
-        <li><a href="#tabs-1"><?php echo $this->translate("#Receiving") ?></a></li>
-        <li><a href="#tabs-2"><?php echo $this->translate("#Payments") ?></a></li>
-        <li><a href="#tabs-3"><?php echo $this->translate("#Staff") ?></a></li>
-        <li><a href="#tabs-4"><?php echo $this->translate("#Actions") ?></a></li>
-        <li><a href="#tabs-5"><?php echo $this->translate("#Details") ?></a></li>
+        <li><a href="#tabs-receivings"><?php echo $this->translate("#Receiving") ?></a></li>
+        <li><a href="#tabs-products"><?php echo $this->translate("#Products") ?></a></li>
+        <li><a href="#tabs-payments"><?php echo $this->translate("#Payments") ?></a></li>
+        <li><a href="#tabs-staff"><?php echo $this->translate("#Staff") ?></a></li>
+        <li><a href="#tabs-action"><?php echo $this->translate("#Actions") ?></a></li>
+        <li><a href="#tabs-details"><?php echo $this->translate("#Details") ?></a></li>
       </ul>
 
-      <div id="tabs-1">
+      <div id="tabs-receivings">
         <div class="Area">
            <h2><?php echo $this->translate("#Receiving") ?></h2>
-           <table id="Produtos" class="display dataTable">
+           <table id="Receivings" class="display dataTable">
               <thead>
                 <tr>
                   <th width="300"><?php echo $this->translate("#Product") ?></th>
@@ -177,9 +178,74 @@ if ($productInfo['canNotifyReceiving']) {
 
     </div><!-- .Area -->
 
-        </div><!-- tabs-1 -->
+        </div><!-- tabs-receivings -->
 
-        <div id="tabs-2">
+      <div id="tabs-products">
+        <div class="Area">
+           <h2><?php echo $this->translate("#Product") ?></h2>
+           <table id="Products" class="display dataTable">
+              <thead>
+                <tr>
+                  <th width="225"><?php echo $this->translate("#Product") ?></th>
+                  <th width="50"><?php echo $this->translate("#Predicted date") ?></th>
+                  <th width="50"><?php echo $this->translate("#Real date") ?></th>
+                  <th width="70"><?php echo $this->translate("#Status") ?></th>
+                  <th width="30"><?php echo $this->translate("#% physical progress")  ?></th>
+                  <th width="75"><?php echo $this->translate("#Requirement For Receiving") ?></th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- ### loop de carga das ações que são produto -->
+<?php
+foreach($productsList as $id => $productInfo) {
+?>
+                <tr>
+                  <td>
+                    <a href="/projects/action/detail/?id=<?php print($id) ?>"><?php print($productInfo['productTitle']) ?></a>
+                  </td>
+                  <td class="Right">
+                    <?php print($productInfo['predictedDate']) ?>
+                  </td>
+                  <td class="Right">
+                    <?php  print($productInfo['realDate']) ?>
+                  </td>
+                  <td>
+                    <?php print($productInfo['status']) ?>
+                  </td>
+                  <td>
+                    <?php print($productInfo['physicalProgress']) ?>
+                  </td>
+                  <td>
+<?php
+    if ((isset($productInfo['receivableId'])) && ($productInfo['receivableId'] > 0)) {
+?>
+                    <a href="/projects/receivable/detail/?id=<?php  print($productInfo['receivableId'])  ?>"><?php  print($productInfo['requirementForReceiving'])  ?></a>
+<?php
+    } else {
+              print($productInfo['requirementForReceiving']);
+    }
+?>
+
+                  </td>
+                </tr>
+<?php
+}
+?>
+              </tbody>
+            </table><br />
+
+          </div><!-- Area -->
+    <div class="Area">
+
+      <p>
+        <a href="/projects/receivable/create/?project=<?php echo $projectHeader['id'] ?>" class="button three columns alpha omega"><?php echo $this->translate("#Predict receiving") ?></a>
+      </p>
+
+    </div><!-- .Area -->
+
+        </div><!-- tabs-products -->
+
+        <div id="tabs-payments">
           <div class="Area">
             <h2><?php echo $this->translate("#Payments") ?></h2>
 
@@ -283,10 +349,10 @@ if($outlayInfo['payeeId'] > 0) {
 <!-- ### FIM DA INSERÇÃO DO CÓDIGO DE PAYABLES.PHTML -->
 
           </div><!-- Area -->
-        </div><!-- tabs-2 -->
+        </div><!-- tabs-payments -->
 
 <!-- ### ACHO QUE O CONTEÚDO DESTA ABA É NOVO - NÃO ENCONTREI EM NENHUM PHTM -->
-        <div id="tabs-3">
+        <div id="tabs-staff">
           <div class="Area">
             <h2><?php print($this->translate('#Team')) ?></h2>
             <table id="Equipe" class="display dataTable">
@@ -349,8 +415,8 @@ if($staffInfo['contactId'] > 0) {
               </tbody>
             </table><br />
           </div><!-- Area -->
-        </div><!-- tabs-3 -->
-        <div id="tabs-4">
+        </div><!-- tabs-staff -->
+        <div id="tabs-action">
           <div class="Area">
             <h2><?php echo $this->translate("#Actions") ?></h2>
     <table id="tree" border="1">
@@ -399,8 +465,8 @@ foreach ($actionsList as $id => $actionData) {
       </p>
     </div><!-- .Area -->
 
-        </div><!-- tabs-4 -->
-        <div id="tabs-5">
+        </div><!-- tabs-action -->
+        <div id="tabs-details">
           <div class="Area">
             <h2><?php echo $this->translate("#Details") ?></h2>
           </div><!-- Area -->
@@ -449,6 +515,6 @@ if ($detailsData['observation'] != "") {
 
     </div><!-- .Area -->
 
-        </div><!-- tabs-5 -->
+        </div><!-- tabs-details -->
       </div><!-- #tabs --><!-- testing second commit -->
 
