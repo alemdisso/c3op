@@ -1,0 +1,10 @@
+<?php
+  $actionData = $this->actionData;
+?>
+        <div id="MainHeader">
+          <h1><?php echo $this->translate("#Remove action") ?></h1>
+        </div>
+          <p>
+              <?php echo sprintf($this->translate("#Do you confirm removal of action %s? This CAN'T be undone."), "<strong>{$actionData['title']}</strong>") ?>
+          </p>
+        <?php echo $this->form; ?>

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-03 15:53-0300\n"
-"PO-Revision-Date: 2012-12-03 15:53-0300\n"
+"POT-Creation-Date: 2012-12-11 15:26-0300\n"
+"PO-Revision-Date: 2012-12-11 15:26-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -58,6 +58,7 @@ msgid "#(choose a person)"
 msgstr "(escolha uma pessoa)"
 
 #: library\C3op\Form/ActionCreate.php:85
+#: library\C3op\Form/ReceivableCreate.php:34
 msgid "#Description:"
 msgstr "Descrição: "
 
@@ -78,7 +79,7 @@ msgstr "Data de término: "
 #: library\C3op\Form/MessengerCreate.php:58
 #: library\C3op\Form/OutlayCreate.php:79
 #: library\C3op\Form/ProjectCreate.php:284
-#: library\C3op\Form/ReceivableCreate.php:65
+#: library\C3op\Form/ReceivableCreate.php:79
 #: library\C3op\Form/ReceivableNotify.php:72
 #: library\C3op\Form/TeamMemberContract.php:65
 #: library\C3op\Form/TeamMemberCreate.php:65
@@ -90,27 +91,16 @@ msgstr "Gravar"
 msgid "#Status:"
 msgstr "Status:"
 
-#: library\C3op\Form/ContactCreate.php:24
-msgid "#Invalid name"
-msgstr "Nome inválido"
+#: library\C3op\Form/ActionRemove.php:20
+#: library\C3op\Form/ContactRemove.php:22
+msgid "#Confirm removal"
+msgstr "Confirmo: remova!"
 
-#: library\C3op\Form/ContactCreate.php:31
-#: library\C3op\Form/PhoneNumberCreate.php:41
-msgid "#Area code:"
-msgstr "DDD:"
+#: library\C3op\Form/ActionRemove.php:20
+msgid "#Don't remove"
+msgstr "Não remover"
 
-#: library\C3op\Form/ContactCreate.php:47
-msgid "#Local number:"
-msgstr "Número:"
-
-#: library\C3op\Form/ContactCreate.php:62
-msgid "#Relationship with us:"
-msgstr "Relação com o IETS:"
-
-#: library\C3op\Form/ContactCreate.php:72
-msgid "#(click to choice)"
-msgstr "(clique para escolher)"
-
+#: library\C3op\Form/ActionRemove.php:31
 #: library\C3op\Form/ContactCreate.php:96 library\C3op\Form/ContactEdit.php:40
 #: library\C3op\Form/ContactEmailEdit.php:34
 #: library\C3op\Form/ContactMessengerCreate.php:22
@@ -132,6 +122,27 @@ msgstr "(clique para escolher)"
 #: library\C3op\Form/UserLogin.php:68
 msgid "#Invalid data!"
 msgstr "Dados inválidos!"
+
+#: library\C3op\Form/ContactCreate.php:24
+msgid "#Invalid name"
+msgstr "Nome inválido"
+
+#: library\C3op\Form/ContactCreate.php:31
+#: library\C3op\Form/PhoneNumberCreate.php:41
+msgid "#Area code:"
+msgstr "DDD:"
+
+#: library\C3op\Form/ContactCreate.php:47
+msgid "#Local number:"
+msgstr "Número:"
+
+#: library\C3op\Form/ContactCreate.php:62
+msgid "#Relationship with us:"
+msgstr "Relação com o IETS:"
+
+#: library\C3op\Form/ContactCreate.php:72
+msgid "#(click to choice)"
+msgstr "(clique para escolher)"
 
 #: library\C3op\Form/ContactEdit.php:20
 #: library\C3op\Form/InstitutionCreate.php:65
@@ -183,10 +194,6 @@ msgstr "Not defined which phone number to edit."
 #: library\C3op\Form/PhoneNumberEdit.php:47
 msgid "#Can't find this phone id at this contact phone list"
 msgstr "Can't find this phone id at this contact phone list"
-
-#: library\C3op\Form/ContactRemove.php:22
-msgid "#Confirm removal"
-msgstr "Confirmo: remova!"
 
 #: library\C3op\Form/Decorators.php:9
 msgid "First Name:"
@@ -371,7 +378,7 @@ msgid "#Value:"
 msgstr "Valor:"
 
 #: library\C3op\Form/OutlayCreate.php:45
-#: library\C3op\Form/ReceivableCreate.php:34
+#: library\C3op\Form/ReceivableCreate.php:48
 msgid "#Predicted Date"
 msgstr "Data Prevista"
 
@@ -466,7 +473,7 @@ msgstr "Sumário:"
 msgid "#Receivable"
 msgstr "Recebimento"
 
-#: library\C3op\Form/ReceivableCreate.php:49
+#: library\C3op\Form/ReceivableCreate.php:63
 msgid "#Predicted Value"
 msgstr "Valor Previsto"
 

@@ -153,6 +153,7 @@ class Projects_ActionController extends Zend_Controller_Action
         //    projectId
         //    projectTitle
         //    actionTitle
+        //    canRemoveAction
         //    status
         //    responsibleId
         //    responsibleName
@@ -191,6 +192,15 @@ class Projects_ActionController extends Zend_Controller_Action
             $parentActionTitle = "";
             $parentActionId = 0;
         }
+
+        $removal = new C3op_Projects_ActionRemoval($actionToBeDetailed, $this->actionMapper);
+
+        if ($removal->canBeRemoved()) {
+            $canRemoveAction = true;
+        } else {
+            $canRemoveAction = false;
+        }
+
 
         $subordinatedActionsList = $this->actionMapper->getActionsSubordinatedTo($actionToBeDetailed);
         $subordinatedActionsData = array();
@@ -260,6 +270,7 @@ class Projects_ActionController extends Zend_Controller_Action
             'projectId'               => $projectToBeDetailed->getId(),
             'projectTitle'            => $projectToBeDetailed->getShortTitle(),
             'title'                   => $actionToBeDetailed->getTitle(),
+            'canRemoveAction'         => $canRemoveAction,
             'status'                  => $status,
             'responsibleId'           => $responsibleId,
             'responsibleName'         => $responsibleName,
@@ -298,6 +309,55 @@ class Projects_ActionController extends Zend_Controller_Action
         $this->view->pageData = $pageData;
 
     }
+
+
+    public function removeAction()
+    {
+        $form = new C3op_Form_ActionRemove();
+        $this->view->form = $form;
+        $this->initActionMapper();
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            if ($form->isValid($postData)) {
+                $submitButton = $form->getUnfilteredValue('Submit');
+
+                if ($submitButton) {
+                    $theAction = $this->actionMapper->findById($postData['id']);
+                    $parentActionId = $theAction->getSubordinatedTo();
+                    if ($parentActionId) {
+                        $redirectTo = '/projects/action/detail/?id=' . $parentActionId;
+                    } else {
+                        $projectAction = $theAction->getProject();
+                        $redirectTo = '/projects/project/detail/?id=' . $projectAction;
+                    }
+
+                    $id = $form->process($postData);
+                    $this->_helper->getHelper('FlashMessenger')
+                        ->addMessage($this->view->translate('#The record was successfully removed.'));
+                    $this->_redirect($redirectTo);
+                } else {
+                    $id = $postData['id'];
+                    $this->_redirect('/projects/action/detail/?id=' . $id);
+                }
+            } else {
+                //form error: populate and go back
+                $this->view->form = $form;
+            }
+        } else {
+            // GET
+            $id = $this->checkIdFromGet();
+            $actionData = array();
+            $thisAction = $this->actionMapper->findById($id);
+            $idField = $form->getElement('id');
+            $idField->setValue($id);
+            $actionData = array(
+                'id'   => $id,
+                'title' => $thisAction->getTitle(),
+            );
+            $this->view->actionData = $actionData;
+        }
+    }
+
 
     public function successAction()
     {

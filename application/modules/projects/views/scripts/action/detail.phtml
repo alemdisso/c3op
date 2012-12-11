@@ -55,6 +55,14 @@ function rejectReceipt(id){
         </div><!-- MainHeader -->
         <div class="TituloForm">
           <h2><?php print(sprintf($this->translate("#Details of action %s"), $actionHeader['title'])); ?></h2>
+                <a href="/projects/action/edit/?id=<?php echo $actionHeader['id'] ?>"><?php echo $this->translate("#Edit action") ?></a>
+<?php
+    if ($actionHeader['canRemoveAction']) {
+?>
+                | <a href="/projects/action/remove/?id=<?php echo $actionHeader['id'] ?>"><?php echo $this->translate("#Remove action!") ?></a>
+<?php
+    }
+?>
         </div>
 
         <div class="Area">
@@ -208,10 +216,10 @@ if ($parentId > 0) {
           </div>
 
 
-          <div class="three columns offset-by-three inset-by-eight alpha omega">
+<!--          <div class="three columns offset-by-three inset-by-eight alpha omega">
             <a href="/projects/action/edit/?id=<?php print($actionHeader['id']) ?>" class="button three columns alpha omega"><?php print($this->translate("#Edit this action")); ?></a>
           </div>
-
+-->
         </div><!-- .Area -->
 
         <div id="tabs">

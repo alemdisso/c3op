@@ -350,5 +350,20 @@ class C3op_Projects_ActionMapper
 
     }
 
+    public function getAnyTeamMemberRelatedTo(C3op_Projects_Action $obj)
+    {
+
+        $query = $this->db->prepare('SELECT id FROM projects_team_members WHERE action = :action;');
+        $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
+        foreach ($resultPDO as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+
+    }
 
 }
