@@ -255,6 +255,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         //      status
         //      physicalProgress
         //      requirementForReceiving
+        //      receivableDescription
 
         $productsList = array();
 
@@ -288,22 +289,16 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $theReceivable = $this->receivableMapper->findById($theProduct->getRequirementForReceiving());
                 $requirementForReceiving = $theReceivable->getTitle();
                 $receivableId = $theProduct->getRequirementForReceiving();
+                $receivableDescription = $theReceivable->getDescription();
             } else {
                 $requirementForReceiving = $this->view->translate("#(not a requirement)");
                 $receivableId = null;
+                $receivableDescription = "";
             }
 
             $statusTypes = new C3op_Projects_ActionStatusTypes();
             $status = $statusTypes->TitleForType($theProduct->getStatus());
 
-
-
-        //      productTitle
-        //      predictedDate
-        //      realDate
-        //      status
-        //      physicalProgress
-        //      requirementForReceiving
             $productsList[$id] = array(
                     'productTitle'            => $productTitle,
                     'predictedDate'           => $predictedDate,
@@ -312,6 +307,7 @@ class Projects_ProjectController extends Zend_Controller_Action
                     'physicalProgress'        => "[ND]",
                     'receivableId'            => $receivableId,
                     'requirementForReceiving' => $requirementForReceiving,
+                    'receivableDescription'   => $receivableDescription,
                 );
         }
 
