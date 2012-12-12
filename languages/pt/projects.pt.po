@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-11 15:27-0300\n"
-"PO-Revision-Date: 2012-12-11 15:28-0300\n"
+"POT-Creation-Date: 2012-12-11 23:54-0300\n"
+"PO-Revision-Date: 2012-12-11 23:54-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -37,11 +37,11 @@ msgstr "O registro foi atualizado com sucesso."
 #: application\modules\projects/controllers/ActionController.php:218
 #: application\modules\projects/controllers/ProjectController.php:172
 #: application\modules\projects/controllers/ProjectController.php:179
-#: application\modules\projects/controllers/ProjectController.php:345
-#: application\modules\projects/controllers/ProjectController.php:400
-#: application\modules\projects/controllers/ProjectController.php:402
-#: application\modules\projects/controllers/ProjectController.php:403
-#: application\modules\projects/controllers/ProjectController.php:769
+#: application\modules\projects/controllers/ProjectController.php:349
+#: application\modules\projects/controllers/ProjectController.php:404
+#: application\modules\projects/controllers/ProjectController.php:406
+#: application\modules\projects/controllers/ProjectController.php:407
+#: application\modules\projects/controllers/ProjectController.php:773
 #: application\modules\projects/controllers/ReceivableController.php:93
 msgid "#Not defined"
 msgstr "Indefinido"
@@ -55,7 +55,7 @@ msgid "#Is not a milestone"
 msgstr "Não é um marco"
 
 #: application\modules\projects/controllers/ActionController.php:242
-#: application\modules\projects/controllers/ProjectController.php:231
+#: application\modules\projects/controllers/ProjectController.php:235
 #: application\modules\projects/controllers/ReceivableController.php:109
 #: application\modules\projects/controllers/ReceivableController.php:118
 msgid "#(not received)"
@@ -96,25 +96,30 @@ msgstr "Novo cliente"
 msgid "#New responsible"
 msgstr "Novo Responsável"
 
-#: application\modules\projects/controllers/ProjectController.php:224
-#: application\modules\projects/controllers/ProjectController.php:279
+#: application\modules\projects/controllers/ProjectController.php:187
+#, php-format
+msgid "#%s until %s"
+msgstr "%s a %s"
+
+#: application\modules\projects/controllers/ProjectController.php:228
+#: application\modules\projects/controllers/ProjectController.php:283
 msgid "#(undefined)"
 msgstr "(indefinido)"
 
-#: application\modules\projects/controllers/ProjectController.php:285
+#: application\modules\projects/controllers/ProjectController.php:289
 msgid "#(not finished)"
 msgstr "(a terminar)"
 
-#: application\modules\projects/controllers/ProjectController.php:294
+#: application\modules\projects/controllers/ProjectController.php:298
 msgid "#(not a requirement)"
 msgstr "(não é requisito)"
 
-#: application\modules\projects/controllers/ProjectController.php:409
-#: application\modules\projects/controllers/ProjectController.php:410
+#: application\modules\projects/controllers/ProjectController.php:413
+#: application\modules\projects/controllers/ProjectController.php:414
 msgid "#Not implemented"
 msgstr "(Não implementado)"
 
-#: application\modules\projects/controllers/ProjectController.php:478
+#: application\modules\projects/controllers/ProjectController.php:482
 msgid "#(unknown date)"
 msgstr "(data desconhecida)"
 

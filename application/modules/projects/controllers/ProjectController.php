@@ -183,7 +183,11 @@ class Projects_ProjectController extends Zend_Controller_Action
         $managementFee = $projectToBeDetailed->getManagementFee();
         $currencyDisplay = new  C3op_Util_CurrencyDisplay();
         $contractValue = $currencyDisplay->FormatCurrency($projectToBeDetailed->getValue());
-        $contractDate = C3op_Util_DateDisplay::FormatDateToShow($projectToBeDetailed->getBeginDate());
+        //$contractDate = C3op_Util_DateDisplay::FormatDateToShow($projectToBeDetailed->getBeginDate());
+        $contractDate = sprintf($this->view->translate("#%s until %s"),
+                C3op_Util_DateDisplay::FormatDateToShow($projectToBeDetailed->getBeginDate()),
+                C3op_Util_DateDisplay::FormatDateToShow($projectToBeDetailed->getFinishDate())
+                );
 
         $projectHeader = array(
                 'id'                  => $projectToBeDetailed->getId(),
