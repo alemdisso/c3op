@@ -16,7 +16,7 @@ class C3op_Form_TeamMemberContract extends Zend_Form
 
         $predictedBeginDate = new Zend_Form_Element_Text('predictedBeginDate');
         $dateValidator = new C3op_Util_ValidDate();
-        $predictedBeginDate->setLabel('Data de início:')
+        $predictedBeginDate->setLabel('#Begin date:')
             ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
@@ -30,7 +30,7 @@ class C3op_Form_TeamMemberContract extends Zend_Form
         $this->addElement($predictedBeginDate);
 
         $predictedFinishDate = new Zend_Form_Element_Text('predictedFinishDate');
-        $predictedFinishDate->setLabel('Data de término:')
+        $predictedFinishDate->setLabel('#Finish date:')
             ->setDecorators(array(
                 'ViewHelper',
                 'Errors',

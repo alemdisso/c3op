@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-11 15:26-0300\n"
-"PO-Revision-Date: 2012-12-11 15:26-0300\n"
+"POT-Creation-Date: 2012-12-14 16:36-0300\n"
+"PO-Revision-Date: 2012-12-14 16:36-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -64,11 +64,13 @@ msgstr "Descrição: "
 
 #: library\C3op\Form/ActionCreate.php:100
 #: library\C3op\Form/ProjectCreate.php:87
+#: library\C3op\Form/TeamMemberContract.php:19
 msgid "#Begin date:"
 msgstr "Data de início: "
 
 #: library\C3op\Form/ActionCreate.php:114
 #: library\C3op\Form/ProjectCreate.php:101
+#: library\C3op\Form/TeamMemberContract.php:33
 msgid "#Finish date:"
 msgstr "Data de término: "
 
@@ -91,23 +93,24 @@ msgstr "Gravar"
 msgid "#Status:"
 msgstr "Status:"
 
-#: library\C3op\Form/ActionRemove.php:20
+#: library\C3op\Form/ActionRemove.php:21
 #: library\C3op\Form/ContactRemove.php:22
 msgid "#Confirm removal"
 msgstr "Confirmo: remova!"
 
-#: library\C3op\Form/ActionRemove.php:20
+#: library\C3op\Form/ActionRemove.php:21
+#: library\C3op\Form/ContactRemove.php:22
 msgid "#Don't remove"
 msgstr "Não remover"
 
-#: library\C3op\Form/ActionRemove.php:31
+#: library\C3op\Form/ActionRemove.php:32
 #: library\C3op\Form/ContactCreate.php:96 library\C3op\Form/ContactEdit.php:40
 #: library\C3op\Form/ContactEmailEdit.php:34
 #: library\C3op\Form/ContactMessengerCreate.php:22
 #: library\C3op\Form/ContactMessengerEdit.php:31
 #: library\C3op\Form/ContactPhoneNumberCreate.php:22
 #: library\C3op\Form/ContactPhoneNumberEdit.php:31
-#: library\C3op\Form/ContactRemove.php:42 library\C3op\Form/EmailEdit.php:27
+#: library\C3op\Form/ContactRemove.php:33 library\C3op\Form/EmailEdit.php:27
 #: library\C3op\Form/InstitutionCreate.php:311
 #: library\C3op\Form/InstitutionEdit.php:25
 #: library\C3op\Form/LinkageCreate.php:89
@@ -133,6 +136,7 @@ msgid "#Area code:"
 msgstr "DDD:"
 
 #: library\C3op\Form/ContactCreate.php:47
+#: library\C3op\Form/PhoneNumberCreate.php:58
 msgid "#Local number:"
 msgstr "Número:"
 
@@ -194,14 +198,6 @@ msgstr "Not defined which phone number to edit."
 #: library\C3op\Form/PhoneNumberEdit.php:47
 msgid "#Can't find this phone id at this contact phone list"
 msgstr "Can't find this phone id at this contact phone list"
-
-#: library\C3op\Form/Decorators.php:9
-msgid "First Name:"
-msgstr "Nome:"
-
-#: library\C3op\Form/Decorators.php:11
-msgid "Last Name:"
-msgstr "Sobrenome:"
 
 #: library\C3op\Form/EmailCreate.php:22
 #: library\C3op\Form/PhoneNumberCreate.php:24
@@ -387,11 +383,6 @@ msgstr "Data Prevista"
 msgid "#Observation:"
 msgstr "Observação:"
 
-#: library\C3op\Form/PhoneNumberCreate.php:58
-#, fuzzy
-msgid "Número:"
-msgstr "Local number"
-
 #: library\C3op\Form/PhoneNumberCreate.php:76
 msgid "Gravar"
 msgstr "Save"
@@ -485,14 +476,6 @@ msgstr "Data Real"
 msgid "#Real Value"
 msgstr "Valor real"
 
-#: library\C3op\Form/TeamMemberContract.php:19
-msgid "Data de início:"
-msgstr ""
-
-#: library\C3op\Form/TeamMemberContract.php:33
-msgid "Data de término:"
-msgstr ""
-
 #: library\C3op\Form/TeamMemberContract.php:48
 msgid "Observações:"
 msgstr "Observation:"
@@ -536,6 +519,20 @@ msgstr "Usuário:"
 #: library\C3op\Form/UserLogin.php:51
 msgid "#Login"
 msgstr "Entrar"
+
+#, fuzzy
+#~ msgid "#Begin date"
+#~ msgstr "Data de início: "
+
+#~ msgid "First Name:"
+#~ msgstr "Nome:"
+
+#~ msgid "Last Name:"
+#~ msgstr "Sobrenome:"
+
+#, fuzzy
+#~ msgid "Número:"
+#~ msgstr "Local number"
 
 #~ msgid "Salvar"
 #~ msgstr "Save"

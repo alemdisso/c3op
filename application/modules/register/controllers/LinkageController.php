@@ -402,7 +402,7 @@ class Register_LinkageController extends Zend_Controller_Action
                 $this->contactMapper = new C3op_Register_ContactMapper($this->db);
             }
             $thisContact = $this->contactMapper->findById($contactId);
-            $this->view->removalMessage = sprintf(_("Confirma a remoção do vínculo entre %s e %s?"), $thisContact->GetName(), $thisInstitution->GetName());
+            $this->view->removalMessage = sprintf(_("#Confirm removal of linkage between %s and %s?"), $thisContact->GetName(), $thisInstitution->GetName());
             $this->view->form = $form;
         }
     }

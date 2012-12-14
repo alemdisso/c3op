@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-11 15:28-0300\n"
-"PO-Revision-Date: 2012-12-11 15:28-0300\n"
+"POT-Creation-Date: 2012-12-14 16:42-0300\n"
+"PO-Revision-Date: 2012-12-14 16:42-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -33,12 +33,12 @@ msgid "#The record was successfully created."
 msgstr "O registro foi criado com sucesso."
 
 #: application\modules\register/controllers/ContactController.php:100
-#: application\modules\register/controllers/ContactController.php:278
-#: application\modules\register/controllers/ContactController.php:316
-#: application\modules\register/controllers/ContactController.php:377
-#: application\modules\register/controllers/ContactController.php:413
-#: application\modules\register/controllers/ContactController.php:473
-#: application\modules\register/controllers/ContactController.php:508
+#: application\modules\register/controllers/ContactController.php:286
+#: application\modules\register/controllers/ContactController.php:324
+#: application\modules\register/controllers/ContactController.php:385
+#: application\modules\register/controllers/ContactController.php:421
+#: application\modules\register/controllers/ContactController.php:481
+#: application\modules\register/controllers/ContactController.php:516
 #: application\modules\register/controllers/InstitutionController.php:89
 #: application\modules\register/controllers/LinkageController.php:68
 #: application\modules\register/controllers/LinkageController.php:158
@@ -48,30 +48,30 @@ msgstr "O registro foi criado com sucesso."
 msgid "#The record was successfully updated."
 msgstr "O registro foi atualizado com sucesso."
 
-#: application\modules\register/controllers/ContactController.php:150
+#: application\modules\register/controllers/ContactController.php:154
 #: application\modules\register/controllers/LinkageController.php:379
 msgid "#The record was successfully removed."
 msgstr "O registro foi removido com sucesso."
 
-#: application\modules\register/controllers/ContactController.php:269
-#: application\modules\register/controllers/ContactController.php:368
-#: application\modules\register/controllers/ContactController.php:464
+#: application\modules\register/controllers/ContactController.php:277
+#: application\modules\register/controllers/ContactController.php:376
+#: application\modules\register/controllers/ContactController.php:472
 msgid "#Invalid contact id"
 msgstr "Contato inválido."
 
-#: application\modules\register/controllers/ContactController.php:308
+#: application\modules\register/controllers/ContactController.php:316
 msgid "#Invalid phone number"
 msgstr "Telefone inválido."
 
-#: application\modules\register/controllers/ContactController.php:335
-#: application\modules\register/controllers/ContactController.php:528
-#: application\modules\register/controllers/ContactController.php:573
-#: application\modules\register/controllers/ContactController.php:591
+#: application\modules\register/controllers/ContactController.php:343
+#: application\modules\register/controllers/ContactController.php:536
+#: application\modules\register/controllers/ContactController.php:581
+#: application\modules\register/controllers/ContactController.php:599
 #: application\modules\register/controllers/LinkageController.php:523
 msgid "#Invalid Contact Id from Get"
 msgstr ""
 
-#: application\modules\register/controllers/ContactController.php:433
+#: application\modules\register/controllers/ContactController.php:441
 msgid "#Invalid Email Id from Get"
 msgstr ""
 
@@ -88,8 +88,8 @@ msgstr ""
 
 #: application\modules\register/controllers/LinkageController.php:405
 #, php-format
-msgid "Confirma a remoção do vínculo entre %s e %s?"
-msgstr ""
+msgid "#Confirm removal of linkage between %s and %s?"
+msgstr "Confirma a remoção do vínculo entre %s e %s?"
 
 #: library\C3op\register/ContactTypes.php:27
 #: library\C3op\register/InstitutionTypes.php:32
@@ -217,8 +217,16 @@ msgid "#Options..."
 msgstr "Opções..."
 
 #: application\modules\register/views/scripts/contact/detail.phtml:82
-msgid "Editar"
-msgstr ""
+#: application\modules\register/views/scripts/contact/detail.phtml:142
+#: application\modules\register/views/scripts/contact/detail.phtml:201
+#: application\modules\register/views/scripts/contact/detail.phtml:265
+#: application\modules\register/views/scripts/contact/index.phtml:47
+#: application\modules\register/views/scripts/institution/detail.phtml:39
+#: application\modules\register/views/scripts/institution/index.phtml:63
+#: application\modules\register/views/scripts/linkage/detail.phtml:36
+#: application\modules\register/views/scripts/linkage/detail.phtml:66
+msgid "#Edit"
+msgstr "Editar"
 
 #: application\modules\register/views/scripts/contact/detail.phtml:96
 msgid "#Add phone number"
@@ -236,15 +244,6 @@ msgstr "Endereço"
 #: application\modules\register/views/scripts/institution/index.phtml:26
 msgid "#Type"
 msgstr "Tipo"
-
-#: application\modules\register/views/scripts/contact/detail.phtml:142
-#: application\modules\register/views/scripts/contact/detail.phtml:201
-#: application\modules\register/views/scripts/contact/detail.phtml:265
-#: application\modules\register/views/scripts/contact/index.phtml:47
-#: application\modules\register/views/scripts/institution/detail.phtml:39
-#: application\modules\register/views/scripts/institution/index.phtml:63
-msgid "#Edit"
-msgstr "Editar"
 
 #: application\modules\register/views/scripts/contact/detail.phtml:156
 msgid "#Add email"
@@ -267,8 +266,8 @@ msgid "#Add messenger"
 msgstr "Adicionar serviço"
 
 #: application\modules\register/views/scripts/contact/detail.phtml:230
-msgid "Vínculos"
-msgstr ""
+msgid "#Linkages"
+msgstr "Vínculos"
 
 #: application\modules\register/views/scripts/contact/detail.phtml:234
 msgid "#Institution"
@@ -333,10 +332,6 @@ msgstr "Remover contato"
 msgid "#Do you confirm removal of contact %s? This CAN'T be undone."
 msgstr "Confirma a remoção do contato %s? Isso NÃO poderá ser desfeito."
 
-#: application\modules\register/views/scripts/contact/remove.phtml:12
-msgid "#Not remove"
-msgstr "Não remova"
-
 #: application\modules\register/views/scripts/contact/success.phtml:2
 #: application\modules\register/views/scripts/institution/success.phtml:2
 #: application\modules\register/views/scripts/linkage/success.phtml:2
@@ -399,6 +394,13 @@ msgstr "Não existe lista de instituições cadastradas."
 #: application\modules\register/views/scripts/institution/index.phtml:94
 msgid "#Add new institution"
 msgstr "Criar Nova Instituição"
+
+#: application\modules\register/views/scripts/linkage/edit.phtml:3
+msgid "#Edit linkage"
+msgstr "Editar vínculo"
+
+#~ msgid "#Not remove"
+#~ msgstr "Não remova"
 
 #~ msgid "#The record was successfully remove."
 #~ msgstr "O registro foi removido com sucesso."

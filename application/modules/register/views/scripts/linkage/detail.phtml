@@ -33,7 +33,7 @@ if (is_array($this->linkageInfo)) {
 <?php } ?>
 <?php print($phoneInfo['local_number']) ?>
 <?php } ?>
-&nbsp;<a href="/register/linkage/change-phone-number/?id=<?php print($phoneId); ?>">Editar</a>
+&nbsp;<a href="/register/linkage/change-phone-number/?id=<?php print($phoneId); ?>"><?php echo $this->translate("#Edit") ?></a>
 <br />
 <?php
 }  // loop iterate list and print titlei
@@ -63,7 +63,7 @@ if (is_array($this->linkageInfo)) {
 
 <?php print($emailInfo['email']) ?>
 <?php } ?>
-&nbsp;<a href="/register/linkage/change-email/?id=<?php print($emailId); ?>">Editar</a>
+&nbsp;<a href="/register/linkage/change-email/?id=<?php print($emailId); ?>"><?php echo $this->translate("#Edit") ?></a>
 <br />
 <?php
 }  // loop iterate list and print titlei

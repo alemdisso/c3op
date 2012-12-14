@@ -55,7 +55,7 @@ class C3op_Form_PhoneNumberCreate extends Zend_Form
 
         $localNumber = new Zend_Form_Element_Text('localNumber');
         $phoneValidator = new C3op_Register_ValidPhoneLocalNumber();
-        $localNumber->setLabel('Número:')
+        $localNumber->setLabel('#Local number:')
                  ->setAttrib('alt','tel')
               ->setDecorators(array(
                   'ViewHelper',

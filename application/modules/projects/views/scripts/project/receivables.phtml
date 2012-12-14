@@ -4,10 +4,10 @@
         Funcionalidade foi incorporada a guia na página Detail
       </p>
     </div>
-<?php 
+<?php
 
 # ==============================================================================
-# Rodrigo, acho que este arquivo não é mais necessário, já que a mesma 
+# Rodrigo, acho que este arquivo não é mais necessário, já que a mesma
 # informação já consta da página de detalhes do projeto. Poderia confirmar?
 # ==============================================================================
 
@@ -24,23 +24,23 @@ if (is_array($this->projectInfo)) {
 <p />
 <hr>
 <h2>Recebimentos</h2>
-<?php 
+<?php
 /*
  * iterate list and print title
  */
 
     $receivablesList = $projectData['receivablesList'];
-    
+
     while (list(, $receivableInfo) = each($receivablesList)) {
 ?>
 
 <p class="receivable_line"><?php print($receivableInfo['title']) ?> | <?php print($receivableInfo['predictedDate']) ?> | <?php print($receivableInfo['predictedValue']) ?>
 
 <?php if (isset($receivableInfo['editLink'])) { ?>
-<a href="<?php print($receivableInfo['editLink']) ?>">Editar</a>
+<a href="<?php print($receivableInfo['editLink']) ?>"><?php echo $this->translate("#Edit") ?></a>
 <?php } ?>
 
-<?php 
+<?php
     $productsList = $receivableInfo['productsList'];
     while (list(, $productInfo) = each($productsList)) {
 ?>
@@ -64,16 +64,16 @@ if (is_array($this->projectInfo)) {
 
 
 
-    
+
 <?php
 }  // loop iterate list and print titlei
 ?>
 
 
 
-    
+
 <?php
-} else { // else exists projects list 
+} else { // else exists projects list
 ?>
     <?php print("Não há informações para este projeto.") ?>
 
