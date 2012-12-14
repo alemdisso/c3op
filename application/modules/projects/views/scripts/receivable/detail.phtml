@@ -8,7 +8,7 @@
           <h1><?php print($this->translate("#Project")); ?> <a href="/projects/project/detail/?id=<?php print($receivableData['projectId']) ?>"><?php print($receivableData['projectTitle']) ?></a></h1>
         </div><!-- MainHeader -->
         <div class="TituloForm">
-          <h2><?php print($receivableData['title']); ?></h2>
+          <h2><?php print(sprintf($this->translate("#Details of receivable %s"), $receivableData['title'])); ?></h2>
         </div>
 
         <div class="Area">

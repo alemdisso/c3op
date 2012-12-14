@@ -148,7 +148,7 @@ foreach($receivablesList as $id => $receivableInfo) {
 ?>
                 <tr>
                   <td>
-                    <span title="<?php print($receivableInfo['receivableDescription']) ?>" ><?php print($receivableInfo['receivableTitle']) ?></span>
+                    <a title="<?php print($receivableInfo['receivableDescription']) ?>" href="/projects/receivable/detail/?id=<?php print($id) ?>"><?php print($receivableInfo['receivableTitle']) ?></a>
                   </td>
                   <td>
                     <?php print($receivableInfo['predictedDate']) ?>
