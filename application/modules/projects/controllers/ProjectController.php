@@ -219,7 +219,9 @@ class Projects_ProjectController extends Zend_Controller_Action
 
         foreach ($projectReceivables as $id) {
             $theReceivable = $this->receivableMapper->findById($id);
-            $productTitle = $theReceivable->getTitle();
+            $receivableTitle = $theReceivable->getTitle();
+
+            $receivableDescription = $theReceivable->getDescription();
 
             $validator = new C3op_Util_ValidDate();
             if ($validator->isValid($theReceivable->getPredictedDate())) {
@@ -242,7 +244,8 @@ class Projects_ProjectController extends Zend_Controller_Action
             $realValue = $currencyDisplay->FormatCurrency($theReceivable->getRealValue());
 
             $receivablesList[$id] = array(
-                    'productTitle'       => $productTitle,
+                    'receivableTitle'       => $receivableTitle,
+                    'receivableDescription'   => $receivableDescription,
                     'predictedDate'      => $predictedDate,
                     'realDate'           => $realDate,
                     'predictedValue'     => $predictedValue,
