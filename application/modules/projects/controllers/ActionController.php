@@ -316,6 +316,7 @@ class Projects_ActionController extends Zend_Controller_Action
         $form = new C3op_Form_ActionRemove();
         $this->view->form = $form;
         $this->initActionMapper();
+
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {

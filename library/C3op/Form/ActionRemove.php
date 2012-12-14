@@ -1,6 +1,8 @@
 <?php
 class C3op_Form_ActionRemove extends Zend_Form
 {
+    protected $_buttons = array();
+
     public function init()
     {
 
@@ -16,8 +18,7 @@ class C3op_Form_ActionRemove extends Zend_Form
         $this->addElement($element);
         $element->setDecorators(array('ViewHelper'));
 
-// Example from form::init()
-  $this->setButtons(array('Submit'=>_('#Confirm removal'), 'Cancel'=>_('#Don\'t remove')));
+        $this->setButtons(array('Submit'=>_('#Confirm removal'), 'Cancel'=>_('#Don\'t remove')));
 
     }
 
@@ -40,7 +41,6 @@ class C3op_Form_ActionRemove extends Zend_Form
         }
     }
 
-protected $_buttons = array();
 
   /**
    * Sets a list of buttons - Buttons will be standard submits, or in the getJson() version

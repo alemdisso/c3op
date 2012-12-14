@@ -1,6 +1,8 @@
 <?php
 class C3op_Form_ContactRemove extends Zend_Form
 {
+    protected $_buttons = array();
+
     public function init()
     {
 
@@ -17,18 +19,7 @@ class C3op_Form_ContactRemove extends Zend_Form
         $element->setDecorators(array('ViewHelper'));
 
 
-        // remove submit button
-        $submit = new Zend_Form_Element_Submit('submit');
-        $submit->setLabel(_('#Confirm removal'))
-               ->setDecorators(array('ViewHelper','Errors',
-                    array(array('data' => 'HtmlTag'),
-                    array('tag' => 'div','class' => 'two columns inset-by-nine omega')),
-                    array('Label',
-                      array('tag' => 'div','tagClass' => 'three columns alpha Invisible')
-                    ),
-                  ))
-               ->setOptions(array('class' => 'submit Full alpha omega'));
-        $this->addElement($submit);
+        $this->setButtons(array('Submit'=>_('#Confirm removal'), 'Cancel'=>_('#Don\'t remove')));
 
     }
 
@@ -50,4 +41,38 @@ class C3op_Form_ContactRemove extends Zend_Form
             return $id;
         }
     }
+
+  /**
+   * Sets a list of buttons - Buttons will be standard submits, or in the getJson() version
+   * they are removed from display - but stuck in the json in the .buttons property
+   *
+   * $buttons = array('save'=>'Save This Thing', 'cancel'=>'Cancel') as an example
+   *
+   * @param array $buttons
+   * @return void
+   * @author Corey Frang
+   */
+  private function setButtons($buttons)
+  {
+    $this->_buttons = $buttons;
+    foreach ($buttons as $name => $label) {
+        $this->addElement('submit', $name, array(
+            'label'=>$label,
+            'class'=> "submit",
+            'decorators'=>array('ViewHelper'),
+            ));
+    }
+
+    $this->addDisplayGroup(array_keys($this->_buttons),'buttons', array(
+        'decorators'=>array(
+        'FormElements',
+        array('HtmlTag', array('tag' => 'div','class' => 'inset-by-nine omega')),
+
+    )
+    ));
+
+  }
+
+
+
 }

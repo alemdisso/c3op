@@ -140,15 +140,23 @@ class Register_ContactController extends Zend_Controller_Action
     {
         $form = new C3op_Form_ContactRemove();
         $this->view->form = $form;
-        $this->initContactMapper;
+        $this->initContactMapper();
 
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
-                $id = $form->process($postData);
-                $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage($this->view->translate('#The record was successfully removed.'));
-                $this->_redirect('/register/');
+                $submitButton = $form->getUnfilteredValue('Submit');
+
+                if ($submitButton) {
+
+                    $id = $form->process($postData);
+                    $this->_helper->getHelper('FlashMessenger')
+                        ->addMessage($this->view->translate('#The record was successfully removed.'));
+                    $this->_redirect('/register/contact');
+                } else {
+                    $id = $postData['id'];
+                    $this->_redirect('/register/contact/detail/?id=' . $id);
+                }
             } else {
                 //form error: populate and go back
                 $this->view->form = $form;
