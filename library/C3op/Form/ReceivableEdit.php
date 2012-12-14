@@ -38,6 +38,7 @@ class C3op_Form_ReceivableEdit extends C3op_Form_ReceivableCreate
             $converter = new C3op_Util_FloatConverter();
             $receivable->SetPredictedValue($converter->getDecimalDotValue($data['predictedValue'], new C3op_Util_ValidFloat()));
             $receivableMapper->update($receivable);
+            return $id;
         }
     }
 

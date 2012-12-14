@@ -158,10 +158,10 @@ class Projects_ReceivableController extends Zend_Controller_Action
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
-                $form->process($postData);
+                $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/project/success');
+                $this->_redirect('/projects/receivable/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -196,12 +196,12 @@ class Projects_ReceivableController extends Zend_Controller_Action
 
     public function successAction()
     {
-        $this->initProjectMapper();
-        $projectRelated =  $this->initProjectWithCheckedId($this->projectMapper);
+        $this->initReceivableMapper();
+        $receivableRelated =  $this->initReceivableWithCheckedId($this->receivableMapper);
 
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
             $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
-            $this->getResponse()->setHeader('Refresh', '1; URL=/projects/project/detail/?id=' . $projectRelated->getId());
+            $this->getResponse()->setHeader('Refresh', '1; URL=/projects/receivable/detail/?id=' . $receivableRelated->getId());
         } else {
             $this->_redirect('/projects');
         }
@@ -301,11 +301,6 @@ class Projects_ReceivableController extends Zend_Controller_Action
     }
 
     private function initReceivableWithCheckedId(C3op_Projects_ReceivableMapper $mapper)
-    {
-        return $mapper->findById($this->checkIdFromGet());
-    }
-
-    private function initProjectWithCheckedId(C3op_Projects_ProjectMapper $mapper)
     {
         return $mapper->findById($this->checkIdFromGet());
     }
