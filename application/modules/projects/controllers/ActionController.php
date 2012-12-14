@@ -220,8 +220,12 @@ class Projects_ActionController extends Zend_Controller_Action
 
             $data['status'] = $statusTypes->TitleForType($loopAction->getStatus());
 
-            $subordinatedActionsData[$loopActionId] = $data;
+            $removal = new C3op_Projects_ActionRemoval($loopAction, $this->actionMapper);
 
+            $data['canRemoveAction'] = $removal->canBeRemoved();
+
+
+            $subordinatedActionsData[$loopActionId] = $data;
 
         }
         if ($actionToBeDetailed->getMilestone()) {

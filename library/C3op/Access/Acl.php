@@ -47,14 +47,14 @@ public function __construct() {
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.action', 'create');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.action', 'detail');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.action', 'edit');
-    $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:projects.action', 'tree');
     $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR,   'c3op:projects.action', 'reject-receipt');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.action', 'success');
+    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.action', 'remove');
 
-    $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,   'c3op:projects.team-member');
-    $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,   'c3op:projects.team-member', 'create');
-    $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,   'c3op:projects.team-member', 'contract');
-    $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,   'c3op:projects.team-member', 'dismiss-contact');
+    $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:projects.team-member');
+    $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:projects.team-member', 'create');
+    $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:projects.team-member', 'contract');
+    $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:projects.team-member', 'dismiss-contact');
     $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:projects.team-member', 'contract');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.team-member', 'outlays');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.team-member', 'success');

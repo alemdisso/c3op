@@ -255,6 +255,17 @@ if ($parentId > 0) {
                           <li>
                             <a href="/projects/action/edit/?id=<?php print($id);?>"><?php print($this->translate("#Edit")); ?></a>
                           </li>
+<?php
+    if ($actionData['canRemoveAction']) {
+
+?>
+                          <li>
+                            <a href="/projects/action/remove/?id=<?php print($id);?>"><?php print($this->translate("#Remove")); ?></a>
+                          </li>
+<?php
+    }
+?>
+
                         </ul>
                     </div><!-- #submenu1 -->
                   </td>
