@@ -32,6 +32,41 @@ $outlaysList = $pageData['outlaysList'];
 $teamData = $pageData['teamMembersList'];
 $detailsData = $pageData['detailsData'];
 ?>
+
+<script type="text/javascript">
+jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+    "date-uk-pre": function ( a ) {
+        var ukDatea = a.split('/');
+        return (ukDatea[2] + ukDatea[1] + ukDatea[0]) * 1;
+    },
+
+    "date-uk-asc": function ( a, b ) {
+        return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+    },
+
+    "date-uk-desc": function ( a, b ) {
+        return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+    }
+} );
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#Receivings').dataTable( {
+            "aoColumns": [
+                null,
+                { "sSortDataType": "dom-text", "sType": "date-uk" },
+                null,
+                null,
+                null,
+                null,
+            ],
+            "aaSorting": [[ 1, "asc" ]]
+        } );
+    } );
+
+</script>
+
 <!--
 <script type="text/javascript">
 $(document).ready(function(){
@@ -130,7 +165,7 @@ $(document).ready(function(){
       <div id="tabs-receivables">
         <div class="Area">
            <h2><?php echo $this->translate("#Receiving") ?></h2>
-           <table id="Receivings" class="display dataTable">
+           <table id="Receivings" class="display ">
               <thead>
                 <tr>
                   <th width="300"><?php echo $this->translate("#Parcel") ?></th>
