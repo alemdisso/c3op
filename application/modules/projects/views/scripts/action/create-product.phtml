@@ -1,0 +1,21 @@
+        <div id="MainHeader">
+          <h1><?php echo $this->translate("#Project") ?> <a href="/projects/project/detail/?id=<?php echo $this->pageData['id']; ?>"><?php echo $this->projectTitle; ?></a></h1>
+        </div>
+        <div class="TituloForm">
+          <h2><?php echo $this->translate("#New product") ?></h2>
+        </div>
+<form id="form" action="<?php echo $this->escape($this->form->getAction()); ?>" method="<?php echo $this->escape($this->form->getMethod()); ?>">
+<table>
+  <?php echo $this->form->project ?>
+  <?php echo $this->form->title ?>
+  <?php echo $this->form->milestone ?>
+  <?php echo $this->form->requirementForReceiving ?>
+  <?php echo $this->form->responsible ?>
+  <?php echo $this->form->description ?>
+  <?php echo $this->form->predictedBeginDate ?>
+  <?php echo $this->form->predictedFinishDate ?>
+  <?php echo $this->form->submit ?>
+</table>
+</form>
+
+

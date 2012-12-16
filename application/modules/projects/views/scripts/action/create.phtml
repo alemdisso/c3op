@@ -1,7 +1,7 @@
         <div id="MainHeader">
-          <h1><?php echo $this->translate("#Project") ?> <a href="/projects/project/detail/?id=<?php echo $this->pageData['id']; ?>"><?php echo $this->projectTitle; ?></a></h1>
+          <h1><?php echo $this->translate("#Project") ?> <a href="/projects/project/detail/?id=<?php echo $this->pageData['projectId']; ?>"><?php echo $this->pageData['projectTitle']; ?></a></h1>
         </div>
         <div class="TituloForm">
-          <h2><?php echo $this->translate("#New action") ?></h2>
+          <h2><?php echo $this->pageData['actionLabel'] ?></h2>
         </div>
 <?php echo $this->form; ?>

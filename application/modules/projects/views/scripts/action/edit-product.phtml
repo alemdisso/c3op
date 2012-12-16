@@ -1,0 +1,10 @@
+<?php
+    $pageData = $this->pageData;
+?>
+        <div id="MainHeader">
+          <h1><?php echo $this->translate("#Project") ?> <a href="/projects/project/detail/?id=<?php echo $pageData['projectId']; ?>"><?php echo $pageData['title']; ?></a></h1>
+        </div>
+        <div class="TituloForm">
+          <h2><?php echo $this->translate("#Edit action") ?></h2>
+        </div>
+<?php echo $this->form; ?>

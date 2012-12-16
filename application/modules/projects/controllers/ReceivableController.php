@@ -29,10 +29,10 @@ class Projects_ReceivableController extends Zend_Controller_Action
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
-                $form->process($postData);
+                $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/receivable/success/?id=' . $postData['project']);
+                $this->_redirect('/projects/receivable/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -216,10 +216,10 @@ class Projects_ReceivableController extends Zend_Controller_Action
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
-                $form->process($postData);
+                $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/receivable/success/?id=' . $postData['project']);
+                $this->_redirect('/projects/receivable/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);

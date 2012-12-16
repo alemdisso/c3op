@@ -118,6 +118,8 @@ class C3op_Form_ReceivableCreate extends Zend_Form
             $receivable->SetRealDate($realDateConvertedToMySQL);
 
             $receivableMapper->insert($receivable);
+            return $receivable->getId();
+
         }
     }
 

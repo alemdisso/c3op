@@ -1,20 +1,14 @@
 <?php
-class C3op_Form_ActionCreate extends Zend_Form
+class C3op_Form_ProductCreate extends Zend_Form
 {
     public function init()
     {
         $this->setName('newActionForm')
-            ->setAction('/projects/action/create')
+            ->setAction('/projects/action/create-product')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
         $element = new Zend_Form_Element_Hidden('project');
-        $element->addValidator('Int')
-                ->addFilter('StringTrim');
-        $this->addElement($element);
-        $element->setDecorators(array('ViewHelper'));
-
-        $element = new Zend_Form_Element_Hidden('subordinatedTo');
         $element->addValidator('Int')
                 ->addFilter('StringTrim');
         $this->addElement($element);
@@ -36,44 +30,44 @@ class C3op_Form_ActionCreate extends Zend_Form
                 ->addFilter('StringTrim');
         $this->addElement($element);
 
-//        $element = new Zend_Form_Element_Checkbox('milestone');
-//        $element->setLabel('#This action is a milestone?') //'Essa ação é um marco do projeto?'
-//                ->setDecorators(array(
-//                    'ViewHelper',
-//                    'Errors',
-//                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'one column inset-by-ten omega')),
-//                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
-//                ))
-//                ->setOptions(array('checked' => '1', 'unChecked' => '0'))
-//                ->setValue('0')
-//                ;
-//        $this->addElement($element);
-//
-//        $element = new Zend_Form_Element_Select('requirementForReceiving');
-//        $element->setLabel('#Is requirement for receiving: ') //'É requisito para receber: '
-//                ->setDecorators(array(
-//                    'ViewHelper',
-//                    'Errors',
-//                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'four columns')),
-//                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
-//                ))
-//                ->setOptions(array('class' => 'Full alpha omega'))
-//                ->setRegisterInArrayValidator(false);
-//        $element->addMultiOption(0, _("#(not a requirement for receiving)")); // (não é requisito para recebimento)
-//        $this->addElement($element);
-//
-//        $element = new Zend_Form_Element_Select('subordinatedTo');
-//        $element->setLabel('#Subordinated to: ') //Subordinada a:
-//                ->setDecorators(array(
-//                    'ViewHelper',
-//                    'Errors',
-//                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'five columns omega')),
-//                    array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
-//                ))
-//                ->setOptions(array('class' => 'Full alpha omega'))
-//                ->setRegisterInArrayValidator(false);
-//        $element->addMultiOption(0, _("#(no action)"));
-//        $this->addElement($element);
+        $element = new Zend_Form_Element_Checkbox('milestone');
+        $element->setLabel('#This action is a milestone?') //'Essa ação é um marco do projeto?'
+                ->setDecorators(array(
+                    'ViewHelper',
+                    'Errors',
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'one column')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                ))
+                ->setOptions(array('checked' => '1', 'unChecked' => '0'))
+                ->setValue('0')
+                ;
+        $this->addElement($element);
+
+        $element = new Zend_Form_Element_Select('requirementForReceiving');
+        $element->setLabel('#Is requirement for receiving: ') //'É requisito para receber: '
+                ->setDecorators(array(
+                    'ViewHelper',
+                    'Errors',
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'six columns omega')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'four columns omega Right')),
+                ))
+                ->setOptions(array('class' => 'Full alpha omega'))
+                ->setRegisterInArrayValidator(false);
+        $element->addMultiOption(0, _("#(not a requirement for receiving)")); // (não é requisito para recebimento)
+        $this->addElement($element);
+
+        $element = new Zend_Form_Element_Select('subordinatedTo');
+        $element->setLabel('#Subordinated to: ') //Subordinada a:
+                ->setDecorators(array(
+                    'ViewHelper',
+                    'Errors',
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'five columns omega')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
+                ))
+                ->setOptions(array('class' => 'Full alpha omega'))
+                ->setRegisterInArrayValidator(false);
+        $element->addMultiOption(0, _("#(no action)"));
+        $this->addElement($element);
 
         $element = new Zend_Form_Element_Select('responsible');
         $element->setLabel('#Responsible: ')
@@ -180,23 +174,22 @@ class C3op_Form_ActionCreate extends Zend_Form
                 $action->SetPredictedFinishDate($dateForMysql);
             }
 
-            $action->SetSubordinatedTo($this->subordinatedTo->GetValue());
+            $action->SetSubordinatedTo(0);
             $action->SetResponsible($this->responsible->GetValue());
 
-//            $milestone = $this->milestone->GetValue();
-//            if ($milestone == '1') {
-//                $action->SetMilestone(1);
-//            } else {
-//                $action->SetMilestone(0);
-//            }
-//
-//            $requirementForReceiving = intval($this->requirementForReceiving->GetValue());
-//            if ($requirementForReceiving > 0) {
-//                $action->SetRequirementForReceiving($requirementForReceiving);
-//            } else {
-//                $action->SetRequirementForReceiving(0);
-//            }
-//
+            $milestone = $this->milestone->GetValue();
+            if ($milestone == '1') {
+                $action->SetMilestone(1);
+            } else {
+                $action->SetMilestone(0);
+            }
+
+            $requirementForReceiving = intval($this->requirementForReceiving->GetValue());
+            if ($requirementForReceiving > 0) {
+                $action->SetRequirementForReceiving($requirementForReceiving);
+            } else {
+                $action->SetRequirementForReceiving(0);
+            }
 
             $actionMapper->insert($action);
             return $action->getId();
