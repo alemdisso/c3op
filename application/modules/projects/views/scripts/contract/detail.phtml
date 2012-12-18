@@ -1,0 +1,99 @@
+<?php
+  $pageData = $this->pageData;
+  $receivableData = $pageData['receivableData'];
+  $productsList = $receivableData['requiredProducts'];
+?>
+
+        <div id="MainHeader">
+          <h1><?php print($this->translate("#Project")); ?> <a href="/projects/project/detail/?id=<?php print($receivableData['projectId']) ?>"><?php print($receivableData['projectTitle']) ?></a></h1>
+        </div><!-- MainHeader -->
+        <div class="TituloForm">
+          <h2><?php print(sprintf($this->translate("#Details of receivable %s"), $receivableData['title'])); ?></h2>
+        </div>
+
+        <div class="Area">
+
+          <div class="three columns alpha Right">
+            <?php print($this->translate("#Description:")); ?>
+          </div>
+          <div class="eleven columns omega">
+            <?php print($receivableData['description']); ?>&nbsp;
+          </div>
+
+          <div class="three columns alpha Right">
+            <?php print($this->translate("#Predicted receiving:")); ?>
+          </div>
+          <div class="three columns">
+            <?php print($receivableData['predictedDate']); ?>
+          </div>
+          <div class="three columns Right">
+            <?php print($this->translate("#Predicted value:")); ?>
+          </div>
+          <div class="three columns">
+            <?php print($receivableData['predictedValue']); ?>
+          </div>
+
+            <div class="three columns alpha Right">
+            <?php print($this->translate("#Date received:")); ?>
+          </div>
+          <div class="three columns">
+            <?php print($receivableData['realDate']); ?>
+          </div>
+          <div class="three columns Right">
+            <?php print($this->translate("#Real Value:")); ?>
+          </div>
+          <div class="three columns">
+            <?php print($receivableData['realValue']); ?>
+          </div>
+
+
+
+        </div><!-- .Area -->
+
+        <div id="tabs">
+          <ul>
+            <li><a href="#tabs-products"><?php echo $this->translate("#Products") ?></a></li>
+          </ul>
+
+          <div id="tabs-products">
+            <table id="SubAcoes" class="display dataTable">
+              <thead>
+                <tr>
+                  <th width="200"><?php print($this->translate("#Product")); ?></th>
+                  <th width="100"><?php print($this->translate("#Responsible")); ?></th>
+                  <th width="100"><?php print($this->translate("#Status")); ?></th>
+                  <th width="10">&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody>
+<?php
+  $requiredProducts = $receivableData['requiredProducts'];
+  foreach ($requiredProducts as $id => $actionData) {
+?>
+                <!-- ### loop de carga das ações subordinadas a esta ação -->
+                <tr>
+                  <td><a href="/projects/action/detail/?id=<?php print($id);?>"><?php print($actionData['title']) ?></a></td>
+                  <td><?php print($actionData['responsibleName']); ?></td>
+                  <td><?php print($this->translate($actionData['status'])); ?></td>
+                      <td>
+                    <a href="#" class="button one column alpha omega anchorclass" rel="submenu1"><?php print($this->translate("#Options")); ?></a>
+                    <div id="submenu1" class="anylinkcss">
+                        <ul>
+                          <li>
+                            <a href="/projects/action/edit/?id=<?php print($id);?>"><?php print($this->translate("#Edit")); ?></a>
+                          </li>
+                        </ul>
+                    </div><!-- #submenu1 -->
+                  </td>
+                </tr>
+              <!-- ### fim do loop de carga das ações subordinadas a esta ação -->
+<?php
+  }
+?>
+              </tbody>
+            </table>
+          </div><!-- #tabs-products -->
+
+
+        </div><!-- #tabs -->
+        <!-- ### Será preciso montar a tabela de recursos materias, idêntica à de recursos humanos, assim que forem tratados pelo sistema -->

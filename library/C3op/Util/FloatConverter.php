@@ -63,7 +63,7 @@ class C3op_Util_FloatConverter
                 return value;
             }
         } else {
-            throw new C3op_Projects_ReceivableException("Invalid value");
+            throw new C3op_Util_FloatException("Invalid value");
         }
     }
 

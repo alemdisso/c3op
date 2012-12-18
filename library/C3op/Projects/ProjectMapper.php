@@ -12,84 +12,95 @@ class C3op_Projects_ProjectMapper
     }
 
     public function getAllIds() {
+        $query = $this->db->prepare('SELECT id FROM projects_projects WHERE 1=1;');
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
         $result = array();
-        foreach ($this->db->query('SELECT id FROM projects_projects;') as $row) {
+        foreach ($resultPDO as $row) {
             $result[] = $row['id'];
         }
         return $result;
     }
 
-    public function insert(C3op_Projects_Project $new) {
-        $data = array(
-            'title' => $new->getTitle(),
-            'short_title' => $new->getShortTitle(),
-            'client' => $new->getClient(),
-            'our_responsible' => $new->GetOurResponsible(),
-            'responsible_at_client' => $new->GetResponsibleAtClient(),
-            'begin_date' => $new->GetBeginDate(),
-            'finish_date' => $new->GetFinishDate(),
-            'status' => $new->GetStatus(),
-            'value' => $new->GetValue(),
-            'contract_nature' => $new->GetContractNature(),
-            'area_activity' => $new->GetAreaActivity(),
-            'overhead' => $new->GetOverhead(),
-            'management_fee' => $new->GetManagementFee(),
-            'object' => $new->GetObject(),
-            'summary' => $new->GetSummary(),
-            'observation' => $new->GetObservation(),
-            );
+    public function insert(C3op_Projects_Project $obj) {
 
-        $this->db->insert('projects_projects', $data);
-        $new->SetId((int)$this->db->lastInsertId());
-        $this->identityMap[$new] = $new->GetId();
+
+       $query = $this->db->prepare("INSERT INTO projects_projects (title, short_title, client, our_responsible,
+            responsible_at_client, begin_date, finish_date, status,
+            value, contract_nature, area_activity, overhead,
+            management_fee, object, summary, observation)
+            VALUES (:title, :short_title, :client, :our_responsible
+            , :responsible_at_client, :begin_date, :finish_date, :status
+            , :value, :contract_nature, :area_activity, :overhead
+            , :management_fee, :object, :summary, :observation)");
+
+
+        $query->bindValue(':title', $obj->getTitle(), PDO::PARAM_STR);
+        $query->bindValue(':short_title', $obj->getShortTitle(), PDO::PARAM_STR);
+        $query->bindValue(':client', $obj->getClient(), PDO::PARAM_STR);
+        $query->bindValue(':our_responsible', $obj->getOurResponsible(), PDO::PARAM_STR);
+        $query->bindValue(':responsible_at_client', $obj->getResponsibleAtClient(), PDO::PARAM_STR);
+        $query->bindValue(':begin_date', $obj->getBeginDate(), PDO::PARAM_STR);
+        $query->bindValue(':finish_date', $obj->getFinishDate(), PDO::PARAM_STR);
+        $query->bindValue(':status', $obj->getStatus(), PDO::PARAM_STR);
+        $query->bindValue(':value', $obj->getValue(), PDO::PARAM_STR);
+        $query->bindValue(':contract_nature', $obj->getContractNature(), PDO::PARAM_STR);
+        $query->bindValue(':area_activity', $obj->getAreaActivity(), PDO::PARAM_STR);
+        $query->bindValue(':overhead', $obj->getOverhead(), PDO::PARAM_STR);
+        $query->bindValue(':management_fee', $obj->getManagementFee(), PDO::PARAM_STR);
+        $query->bindValue(':object', $obj->getObject(), PDO::PARAM_STR);
+        $query->bindValue(':summary', $obj->getSummary(), PDO::PARAM_STR);
+        $query->bindValue(':observation', $obj->getObservation(), PDO::PARAM_STR);
+
+        $query->execute();
+
+        $obj->SetId((int)$this->db->lastInsertId());
+        $this->identityMap[$obj] = $obj->getId();
 
     }
 
-    public function update(C3op_Projects_Project $p) {
-        if (!isset($this->identityMap[$p])) {
-            throw new C3op_Projects_ProjectMapperException('Object has no ID, cannot update.');
+    public function update(C3op_Projects_Project $obj) {
+
+        if (!isset($this->identityMap[$obj])) {
+            throw new C3op_Projects_ContractMapperException('Object has no ID, cannot update.');
         }
-        $this->db->exec(
-            sprintf(
-                'UPDATE projects_projects SET title = \'%s\'
-                    , short_title = \'%s\'
-                    , client = %d
-                    , our_responsible = %d
-                    , responsible_at_client = %d
-                    , begin_date = \'%s\'
-                    , finish_date = \'%s\'
-                    , status = %d
-                    , value = %f
-                    , contract_nature = %d
-                    , area_activity = %d
-                    , overhead = %f
-                    , management_fee = %f
-                    , object = \'%s\'
-                    , summary = \'%s\'
-                    , observation = \'%s\'
-                    WHERE id = %d;',
-                $p->GetTitle(),
-                $p->GetShortTitle(),
-                $p->GetClient(),
-                $p->GetOurResponsible(),
-                $p->GetResponsibleAtClient(),
-                $p->GetBeginDate(),
-                $p->GetFinishDate(),
-                $p->GetStatus(),
-                $p->GetValue(),
-                $p->GetContractNature(),
-                $p->GetAreaActivity(),
-                $p->GetOverhead(),
-                $p->GetManagementFee(),
-                $p->GetObject(),
-                $p->GetSummary(),
-                $p->GetObservation(),
-                $this->identityMap[$p]
-            )
-        );
+
+        $query = $this->db->prepare("UPDATE projects_contracts
+            SET title = :title, short_title = :short_title, client = :client, our_responsible = :our_responsible
+            ,  responsible_at_client = :responsible_at_client, begin_date = :begin_date, finish_date = :finish_date, status = :status
+            ,  value = :value, contract_nature = :contract_nature, area_activity = :area_activity, overhead = :overhead
+            ,  management_fee = :management_fee, object = :object, summary = :summary, observation = :observation
+            WHERE id = :id;");
+
+        $query->bindValue(':title', $obj->getTitle(), PDO::PARAM_STR);
+        $query->bindValue(':short_title', $obj->getShortTitle(), PDO::PARAM_STR);
+        $query->bindValue(':client', $obj->getClient(), PDO::PARAM_STR);
+        $query->bindValue(':our_responsible', $obj->getOurResponsible(), PDO::PARAM_STR);
+        $query->bindValue(':responsible_at_client', $obj->getResponsibleAtClient(), PDO::PARAM_STR);
+        $query->bindValue(':begin_date', $obj->getBeginDate(), PDO::PARAM_STR);
+        $query->bindValue(':finish_date', $obj->getFinishDate(), PDO::PARAM_STR);
+        $query->bindValue(':status', $obj->getStatus(), PDO::PARAM_STR);
+        $query->bindValue(':value', $obj->getValue(), PDO::PARAM_STR);
+        $query->bindValue(':contract_nature', $obj->getContractNature(), PDO::PARAM_STR);
+        $query->bindValue(':area_activity', $obj->getAreaActivity(), PDO::PARAM_STR);
+        $query->bindValue(':overhead', $obj->getOverhead(), PDO::PARAM_STR);
+        $query->bindValue(':management_fee', $obj->getManagementFee(), PDO::PARAM_STR);
+        $query->bindValue(':object', $obj->getObject(), PDO::PARAM_STR);
+        $query->bindValue(':summary', $obj->getSummary(), PDO::PARAM_STR);
+        $query->bindValue(':observation', $obj->getObservation(), PDO::PARAM_STR);
+        $query->bindValue(':id', $this->identityMap[$obj], PDO::PARAM_STR);
+
+        try {
+            $query->execute();
+        } catch (Exception $e) {
+            throw new C3op_Projects_ActionException("sql failed");
+        }
+
     }
 
     public function findById($id) {
+
         $this->identityMap->rewind();
         while ($this->identityMap->valid()) {
             if ($this->identityMap->getInfo() == $id) {
@@ -98,9 +109,7 @@ class C3op_Projects_ProjectMapper
             $this->identityMap->next();
         }
 
-        $result = $this->db->fetchRow(
-            sprintf(
-                'SELECT title
+        $query = $this->db->prepare('SELECT title
                     , short_title
                     , client
                     , our_responsible
@@ -115,109 +124,107 @@ class C3op_Projects_ProjectMapper
                     , management_fee
                     , object
                     , summary
-                    , observation FROM projects_projects WHERE id = %d;',
-                $id
-            )
-        );
+                    , observation FROM projects_projects WHERE id = :id;');
+        $query->bindValue(':id', $id, PDO::PARAM_STR);
+        $query->execute();
+
+        $result = $query->fetch();
+
         if (empty($result)) {
-            throw new C3op_Projects_ProjectMapperException(sprintf('There is no project with id #%d.', $id));
+            throw new C3op_Projects_ContractMapperException(sprintf('There is no contract with id #%d.', $id));
         }
-        $p = new C3op_Projects_Project();
+        $obj = new C3op_Projects_Project();
 
-        $this->setAttributeValue($p, $id, 'id');
-        $this->setAttributeValue($p, $result['title'], 'title');
-        $this->setAttributeValue($p, $result['short_title'], 'shortTitle');
-        $this->setAttributeValue($p, $result['client'], 'client');
-        $this->setAttributeValue($p, $result['our_responsible'], 'ourResponsible');
-        $this->setAttributeValue($p, $result['responsible_at_client'], 'responsibleAtClient');
-        $this->setAttributeValue($p, $result['begin_date'], 'beginDate');
-        $this->setAttributeValue($p, $result['finish_date'], 'finishDate');
-        $this->setAttributeValue($p, $result['status'], 'status');
-        $this->setAttributeValue($p, $result['value'], 'value');
-        $this->setAttributeValue($p, $result['contract_nature'], 'contractNature');
-        $this->setAttributeValue($p, $result['area_activity'], 'areaActivity');
-        $this->setAttributeValue($p, $result['overhead'], 'overhead');
-        $this->setAttributeValue($p, $result['management_fee'], 'managementFee');
-        $this->setAttributeValue($p, $result['object'], 'object');
-        $this->setAttributeValue($p, $result['summary'], 'summary');
-        $this->setAttributeValue($p, $result['observation'], 'observation');
+        $this->setAttributeValue($obj, $id, 'id');
+        $this->setAttributeValue($obj, $result['title'], 'title');
+        $this->setAttributeValue($obj, $result['short_title'], 'shortTitle');
+        $this->setAttributeValue($obj, $result['client'], 'client');
+        $this->setAttributeValue($obj, $result['our_responsible'], 'ourResponsible');
+        $this->setAttributeValue($obj, $result['responsible_at_client'], 'responsibleAtClient');
+        $this->setAttributeValue($obj, $result['begin_date'], 'beginDate');
+        $this->setAttributeValue($obj, $result['finish_date'], 'finishDate');
+        $this->setAttributeValue($obj, $result['status'], 'status');
+        $this->setAttributeValue($obj, $result['value'], 'value');
+        $this->setAttributeValue($obj, $result['contract_nature'], 'contractNature');
+        $this->setAttributeValue($obj, $result['area_activity'], 'areaActivity');
+        $this->setAttributeValue($obj, $result['overhead'], 'overhead');
+        $this->setAttributeValue($obj, $result['management_fee'], 'managementFee');
+        $this->setAttributeValue($obj, $result['object'], 'object');
+        $this->setAttributeValue($obj, $result['summary'], 'summary');
+        $this->setAttributeValue($obj, $result['observation'], 'observation');
 
-        $this->identityMap[$p] = $id;
-        return $p;
+
+        $this->identityMap[$obj] = $id;
+
+        return $obj;
     }
 
     public function delete(C3op_Projects_Project $p) {
-        if (!isset($this->identityMap[$p])) {
-            throw new C3op_Projects_ProjectMapperException('Object has no ID, cannot delete.');
+        if (!isset($this->identityMap[$obj])) {
+            throw new C3op_Projects_ContractMapperException('Object has no ID, cannot delete.');
         }
-        $this->db->exec(
-            sprintf(
-                'DELETE FROM projects_projects WHERE id = %d;',
-                $this->identityMap[$p]
-            )
-        );
-        unset($this->identityMap[$p]);
+        $query = $this->db->prepare('DELETE FROM projects_projects WHERE id = :id;');
+        $query->bindValue(':id', $this->identityMap[$obj], PDO::PARAM_STR);
+        $query->execute();
+        unset($this->identityMap[$obj]);
     }
 
-    public function getAllActions(C3op_Projects_Project $p)
+    public function getAllActions(C3op_Projects_Project $obj)
     {
-        $result = array();
-        foreach ($this->db->query(
-                sprintf(
-                    'SELECT id FROM projects_actions WHERE project = %d;',
-                    $p->GetId()
-                    )
-                )
-                as $row) {
-            $result[] = $row['id'];
-        }
-
-        return $result;
-    }
-
-    public function getAllProducts(C3op_Projects_Project $p)
-    {
+        $query = $this->db->prepare('SELECT id FROM projects_actions WHERE project = :project');
+        $query->bindValue(':project', $obj->GetId(), PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
 
         $result = array();
-        foreach ($this->db->query(
-                sprintf(
-                    'SELECT id FROM projects_actions WHERE project = %d AND subordinated_to = 0 AND requirement_for_receiving > 0;',
-                    $p->GetId()
-                    )
-                )
-                as $row) {
+        foreach ($resultPDO as $row) {
             $result[] = $row['id'];
         }
         return $result;
     }
 
-    public function getAllReceivables(C3op_Projects_Project $p)
+    public function getAllProducts(C3op_Projects_Project $obj)
     {
+        $query = $this->db->prepare('SELECT id FROM projects_actions WHERE project = :project AND subordinated_to = 0 AND requirement_for_receiving > 0;');
+        $query->bindValue(':project', $obj->GetId(), PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
         $result = array();
-        foreach ($this->db->query(
-                sprintf(
-                    'SELECT id FROM projects_receivables WHERE project = %d;',
-                    $p->GetId()
-                    )
-                )
-                as $row) {
+        foreach ($resultPDO as $row) {
             $result[] = $row['id'];
         }
         return $result;
+
     }
 
-    public function getAllActionsSubordinatedTo(C3op_Projects_Project $p, $actionId=0)
+    public function getAllReceivables(C3op_Projects_Project $obj)
+    {
+        $query = $this->db->prepare('SELECT id FROM projects_receivables WHERE project = :project;');
+        $query->bindValue(':project', $obj->GetId(), PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
+        foreach ($resultPDO as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+
+    }
+
+    public function getAllActionsSubordinatedTo(C3op_Projects_Project $obj, $actionId=0)
     {
         if ($actionId >= 0) {
+
+            $query = $this->db->prepare('SELECT id FROM projects_actions WHERE project = :project AND (subordinated_to IS NULL OR subordinated_to = :subordinated)');
+            $query->bindValue(':project', $obj->GetId(), PDO::PARAM_STR);
+            $query->bindValue(':subordinated_to', $actionId, PDO::PARAM_STR);
+            $query->execute();
+            $resultPDO = $query->fetchAll();
+
             $result = array();
-            foreach ($this->db->query(
-                    sprintf(
-                        'SELECT id FROM projects_actions WHERE project = %d AND (subordinated_to IS NULL OR subordinated_to = %d);',
-                        $p->GetId(),
-                        $actionId
-                        )
-                    )
-                    as $row) {
+            foreach ($resultPDO as $row) {
                 $result[] = $row['id'];
             }
 
@@ -244,7 +251,7 @@ class C3op_Projects_ProjectMapper
                     FROM projects_outlays o
                     INNER JOIN projects_actions a ON a.id = o.action
                     INNER JOIN projects_team_members t ON t.id = o.team_member
-                    WHERE o.project = %d AND t.linkage > 0', $p->GetId()
+                    WHERE o.project = %d AND t.linkage > 0', $p->getId()
                 )) as $row) {
             $result[] = $row['id'];
         }
@@ -258,7 +265,7 @@ class C3op_Projects_ProjectMapper
                     FROM projects_outlays o
                     INNER JOIN projects_actions a ON a.id = o.action
                     INNER JOIN projects_team_members t ON t.id = o.team_member
-                    WHERE a.done = 1 AND o.project = %d AND t.linkage > 0 ORDER BY o.predicted_date', $p->GetId()
+                    WHERE a.done = 1 AND o.project = %d AND t.linkage > 0 ORDER BY o.predicted_date', $p->getId()
                 )) as $row) {
             $result[] = $row['id'];
         }
@@ -270,7 +277,7 @@ class C3op_Projects_ProjectMapper
 
         foreach ($this->db->query(sprintf('SELECT a.id
                     FROM projects_actions a
-                    WHERE a.done = 1 AND a.project = %d ', $p->GetId()
+                    WHERE a.done = 1 AND a.project = %d ', $p->getId()
                 )) as $row) {
             $result[] = $row['id'];
         }
@@ -288,7 +295,7 @@ class C3op_Projects_ProjectMapper
                     ON a.id = d.action
                     WHERE a.status = %d AND a.project = %d ORDER BY d.real_begin_date'
                 , C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION
-                , $p->GetId()
+                , $p->getId()
                 )) as $row) {
 
             $action = $actionMapper->findById($row['id']);
@@ -312,7 +319,7 @@ class C3op_Projects_ProjectMapper
             a.status = %d
             OR a.status = %d
             )'
-            , $p->GetId()
+            , $p->getId()
             , C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED
             , C3op_Projects_TeamMemberStatusConstants::STATUS_ACQUITTED
 
@@ -335,7 +342,7 @@ class C3op_Projects_ProjectMapper
             OR t.status = %d
             OR t.status = %d
             )'
-            , $p->GetId()
+            , $p->getId()
             , C3op_Projects_TeamMemberStatusConstants::STATUS_UNDEFINED
             , C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED
             , C3op_Projects_TeamMemberStatusConstants::STATUS_ACQUITTED
@@ -345,6 +352,35 @@ class C3op_Projects_ProjectMapper
             $result[] = $row['id'];
         }
         return $result;
+    }
+
+    public function getAllContracts(C3op_Projects_Project $obj)
+    {
+        $query = $this->db->prepare('SELECT id FROM projects_contracts WHERE project = :project;');
+        $query->bindValue(':project', $obj->GetId(), PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
+        foreach ($resultPDO as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+
+    }
+
+    public function createContract(C3op_Projects_Project $obj)
+    {
+        $contractMapper = new C3op_Projects_ContractMapper($this->db);
+
+        $contract = new C3op_Projects_Contract($obj->getId(), $obj->getBeginDate(), false);
+        $contract->SetBeginDate($obj->getBeginDate());
+        $contract->SetFinishDate($obj->getFinishDate());
+        $contract->SetContractNature($obj->getContractNature());
+        $contract->SetValue($obj->getValue());
+        $contractMapper->insert($contract);
+
+
     }
 
 

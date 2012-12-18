@@ -312,16 +312,16 @@
         $dateValidator = new C3op_Util_ValidDate();
         if ($dateValidator->isValid($beginDate)) {
           $converter = new C3op_Util_DateConverter();
-          $dateForMysql = $converter->convertDateToMySQLFormat($beginDate);
-          $project->SetBeginDate($dateForMysql);
+          $beginDateForMysql = $converter->convertDateToMySQLFormat($beginDate);
+          $project->SetBeginDate($beginDateForMysql);
         }
 
         $finishDate = $this->finishDate->GetValue();
         $dateValidator = new C3op_Util_ValidDate();
         if ($dateValidator->isValid($finishDate)) {
           $converter = new C3op_Util_DateConverter();
-          $dateForMysql = $converter->convertDateToMySQLFormat($finishDate);
-          $project->SetFinishDate($dateForMysql);
+          $finishDateForMysql = $converter->convertDateToMySQLFormat($finishDate);
+          $project->SetFinishDate($finishDateForMysql);
         }
 
         $value = $this->status->GetValue();
@@ -336,7 +336,8 @@
         $converter = new C3op_Util_FloatConverter();
         $validator = new C3op_Util_ValidFloat();
         if ($validator->isValid($this->value->GetValue())) {
-            $project->SetValue($converter->getDecimalDotValue($this->value->GetValue(), $validator));
+            $projectValue = $converter->getDecimalDotValue($this->value->GetValue(), $validator);
+            $project->SetValue($projectValue);
         }
         $value = $this->overhead->GetValue();
         if ($value > 0) {
@@ -350,7 +351,20 @@
         $project->SetSummary($this->summary->GetValue());
         $project->SetObservation($this->observation->GetValue());
 
+
         $projectMapper->insert($project);
+
+        $contractMapper = new C3op_Projects_ContractMapper($db);
+
+        $contract = new C3op_Projects_Contract($project->getId(), $beginDateForMysql, false);
+        $contract->SetBeginDate($beginDateForMysql);
+        $contract->SetFinishDate($finishDateForMysql);
+        $contract->SetContractNature($this->contractNature->GetValue());
+        $contract->SetValue($projectValue);
+        $contractMapper->insert($contract);
+
+
+
       }
     }
   }

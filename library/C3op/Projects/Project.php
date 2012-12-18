@@ -32,10 +32,10 @@ class C3op_Projects_Project
         $this->status = 0;
     }
 
-    public function GetId()
+    public function getId()
     {
         return $this->id;
-    } //GetId
+    } //getId
 
     public function SetId($id)
     {
@@ -46,10 +46,10 @@ class C3op_Projects_Project
         }
     } //SetId
 
-    public function GetTitle()
+    public function getTitle()
     {
         return $this->title;
-    } //GetTitle
+    } //getTitle
 
     public function SetTitle($title)
     {
@@ -63,10 +63,10 @@ class C3op_Projects_Project
         }
     } //SetTitle
 
-    public function GetShortTitle()
+    public function getShortTitle()
     {
         return $this->shortTitle;
-    } //GetShortTitle
+    } //getShortTitle
 
     public function SetShortTitle($shortTitle)
     {
@@ -80,7 +80,7 @@ class C3op_Projects_Project
         }
     } //SetShortTitle
 
-    public function GetClient()
+    public function getClient()
     {
         return $this->client;
     }
@@ -95,7 +95,7 @@ class C3op_Projects_Project
         }
     }
 
-    public function GetOurResponsible()
+    public function getOurResponsible()
     {
         return $this->ourResponsible;
     }
@@ -110,7 +110,7 @@ class C3op_Projects_Project
         }
     }
 
-    public function GetResponsibleAtClient()
+    public function getResponsibleAtClient()
     {
         return $this->responsibleAtClient;
     }
@@ -125,10 +125,10 @@ class C3op_Projects_Project
         }
     }
 
-    public function GetBeginDate()
+    public function getBeginDate()
     {
         return $this->beginDate;
-    } //GetBeginDate
+    } //getBeginDate
 
     public function SetBeginDate($beginDate)
     {
@@ -144,10 +144,10 @@ class C3op_Projects_Project
         }
     } //SetBeginDate
 
-    public function GetFinishDate()
+    public function getFinishDate()
     {
         return $this->finishDate;
-    } //GetFinishDate
+    } //getFinishDate
 
     public function SetFinishDate($finishDate)
     {
@@ -174,7 +174,7 @@ class C3op_Projects_Project
         }
     }
 
-    public function GetValue()
+    public function getValue()
     {
         return $this->value;
     }
@@ -207,12 +207,12 @@ class C3op_Projects_Project
         }
     }
 
-    public function GetStatus()
+    public function getStatus()
     {
         return $this->status;
     }
 
-    public function GetContractNature()
+    public function getContractNature()
     {
         return $this->contractNature;
     }
@@ -243,7 +243,7 @@ class C3op_Projects_Project
         }
     }
 
-    public function GetAreaActivity()
+    public function getAreaActivity()
     {
         return $this->areaActivity;
     }
@@ -269,7 +269,7 @@ class C3op_Projects_Project
         }
     }
 
-    public function GetOverhead()
+    public function getOverhead()
     {
         return $this->overhead;
     }
@@ -285,15 +285,15 @@ class C3op_Projects_Project
         }
     }
 
-    public function GetManagementFee()
+    public function getManagementFee()
     {
         return $this->managementFee;
     }
 
-    public function GetObject()
+    public function getObject()
     {
         return $this->object;
-    } //GetObject
+    } //getObject
 
     public function SetObject($object)
     {
@@ -307,10 +307,10 @@ class C3op_Projects_Project
         }
     } //SetObject
 
-    public function GetSummary()
+    public function getSummary()
     {
         return $this->summary;
-    } //GetSummary
+    } //getSummary
 
     public function SetSummary($summary)
     {
@@ -324,10 +324,10 @@ class C3op_Projects_Project
         }
     } //SetSummary
 
-    public function GetObservation()
+    public function getObservation()
     {
         return $this->observation;
-    } //GetObservation
+    } //getObservation
 
     public function SetObservation($observation)
     {
