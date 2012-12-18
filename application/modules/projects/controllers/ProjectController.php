@@ -416,6 +416,16 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $staffEmail = $this->view->translate("#Not implemented");
                 $staffPhoneNumber = $this->view->translate("#Not implemented");
             }
+
+            $removal = new C3op_Projects_TeamMemberRemoval($theTeamMember, $this->teamMemberMapper);
+
+            if ($removal->canBeRemoved()) {
+                $canRemoveTeamMember = true;
+            } else {
+                $canRemoveTeamMember = false;
+            }
+
+
             $positionDescription = $theTeamMember->getDescription();
 
             $teamMembersList[$id] = array(
@@ -425,6 +435,7 @@ class Projects_ProjectController extends Zend_Controller_Action
                     'staffName'           => $staffName,
                     'staffPhoneNumber'    => $staffPhoneNumber,
                     'staffEmail'          => $staffEmail,
+                    'canRemoveTeamMember' => $canRemoveTeamMember,
                 );
         }
 

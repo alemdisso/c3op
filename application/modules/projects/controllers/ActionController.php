@@ -775,14 +775,14 @@ class Projects_ActionController extends Zend_Controller_Action
         $teamMembersIdsList = $this->teamMemberMapper->getAllTeamMembersOnAction($action);
 
         foreach ($teamMembersIdsList as $teamMemberId) {
-            $thisTeamMember = $this->teamMemberMapper->findById($teamMemberId);
+            $theTeamMember = $this->teamMemberMapper->findById($teamMemberId);
             $currencyDisplay = new  C3op_Util_CurrencyDisplay();
-            $currencyValue = $currencyDisplay->FormatCurrency($thisTeamMember->GetValue());
-            $totalValueExistentOutlays = $this->calculateTotalValueExistentOutlays($thisTeamMember);
+            $currencyValue = $currencyDisplay->FormatCurrency($theTeamMember->GetValue());
+            $totalValueExistentOutlays = $this->calculateTotalValueExistentOutlays($theTeamMember);
 
-            $descriptionMessage = $thisTeamMember->GetDescription();
+            $descriptionMessage = $theTeamMember->GetDescription();
 
-            $linkageId = $thisTeamMember->GetLinkage();
+            $linkageId = $theTeamMember->GetLinkage();
             $actionId = $action->GetId();
             $contactName = "(indefinido)";
             if ($linkageId > 0) {
@@ -795,7 +795,7 @@ class Projects_ActionController extends Zend_Controller_Action
             }
 
 
-            $status = $thisTeamMember->getStatus();
+            $status = $theTeamMember->getStatus();
             $statusTypes = new C3op_Projects_TeamMemberStatusTypes();
             $statusLabel = $statusTypes->TitleForType($status);
 
@@ -807,6 +807,17 @@ class Projects_ActionController extends Zend_Controller_Action
 //                $stillNotContracted = false;
             }
 
+            $removal = new C3op_Projects_TeamMemberRemoval($theTeamMember, $this->teamMemberMapper);
+
+            if ($removal->canBeRemoved()) {
+                $canRemoveTeamMember = true;
+            } else {
+                $canRemoveTeamMember = false;
+            }
+
+
+
+
             $teamMembersList[$teamMemberId] = array(
                 'id'                     => $teamMemberId,
                 'name'                   => $contactName,
@@ -815,6 +826,7 @@ class Projects_ActionController extends Zend_Controller_Action
                 'contractingStatusLabel' => $statusLabel,
 //                'stillNotContractedFlag' => $stillNotContracted,
                 'canContractFlag'        => $canContract,
+                'canRemoveTeamMember'    => $canRemoveTeamMember,
 
             );
         }

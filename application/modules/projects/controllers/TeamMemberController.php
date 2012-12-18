@@ -257,6 +257,55 @@ class Projects_TeamMemberController extends Zend_Controller_Action
         $this->view->teamMemberInfo = $teamMemberInfo;
     }
 
+    public function removeAction()
+    {
+        $form = new C3op_Form_TeamMemberRemove();
+        $this->view->form = $form;
+        $this->initTeamMemberMapper();
+        $this->initActionMapper();
+
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            if ($form->isValid($postData)) {
+                $submitButton = $form->getUnfilteredValue('Submit');
+
+                if ($submitButton) {
+                    $theTeamMember = $this->teamMemberMapper->findById($postData['id']);
+                    $theAction = $this->actionMapper->findById($theTeamMember->getAction());
+                    $projectTeamMember = $theAction->getProject();
+                    $redirectTo = '/projects/project/detail/?id=' . $projectTeamMember;
+
+                    $id = $form->process($postData);
+                    $this->_helper->getHelper('FlashMessenger')
+                        ->addMessage($this->view->translate('#The record was successfully removed.'));
+                    $this->_redirect($redirectTo);
+                } else {
+                    $id = $postData['id'];
+                    $theTeamMember = $this->teamMemberMapper->findById($id);
+                    $theAction = $this->actionMapper->findById($theTeamMember->getAction());
+                    $this->_redirect('/projects/project/detail/?id=' . $theAction->getProject());
+                }
+            } else {
+                //form error: populate and go back
+                $this->view->form = $form;
+            }
+        } else {
+            // GET
+            $id = $this->checkIdFromGet();
+            $teamMemberData = array();
+            $theTeamMember = $this->teamMemberMapper->findById($id);
+            $theAction = $this->actionMapper->findById($theTeamMember->getAction());
+            $idField = $form->getElement('id');
+            $idField->setValue($id);
+            $teamMemberData = array(
+                'id'   => $id,
+                'description' => $theTeamMember->getDescription(),
+                'actionTitle' => $theAction->getTitle(),
+            );
+            $this->view->teamMemberData = $teamMemberData;
+        }
+    }
+
     public function successAction()
     {
         $this->initTeamMemberMapper();

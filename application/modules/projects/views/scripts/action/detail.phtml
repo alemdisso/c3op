@@ -329,6 +329,19 @@ if ($parentId > 0) {
 <?php
     }
 ?>
+<?php
+
+if ($teamMemberData['canRemoveTeamMember']) {
+?>
+
+
+                          <li>
+                            <a href="/projects/team-member/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
+                          </li>
+
+<?php
+}
+?>
                       </ul>
                   </div><!-- #submenu1 -->
                 </td>

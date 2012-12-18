@@ -472,6 +472,20 @@ if($staffInfo['contactId'] > 0) {
                             <!-- [# LINK PARA A EDIÇÃO DO CONTATO ] -->
                             <a href="/projects/team-member/edit/?id=<?php print($id) ?>"><?php echo $this->translate("#Edit") ?></a>
                           </li>
+<?php
+
+if ($staffInfo['canRemoveTeamMember']) {
+?>
+
+
+                          <li>
+                            <a href="/projects/team-member/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
+                          </li>
+
+<?php
+}
+
+?>
                         </ul>
                     </div><!-- #submenu1 -->
                   </td>
