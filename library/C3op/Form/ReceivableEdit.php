@@ -35,8 +35,8 @@ class C3op_Form_ReceivableEdit extends C3op_Form_ReceivableCreate
             $receivable->SetDescription($data['description']);
             $receivable->SetProject($data['project']);
             $receivable->SetPredictedDate($this->prepareDateValueToSet($data['predictedDate'], new C3op_Util_ValidDate(), new C3op_Util_DateConverter()));
-            $converter = new C3op_Util_FloatConverter();
-            $receivable->SetPredictedValue($converter->getDecimalDotValue($data['predictedValue'], new C3op_Util_ValidFloat()));
+            $converter = new C3op_Util_DecimalConverter();
+            $receivable->SetPredictedValue($converter->getDecimalDotValue($data['predictedValue'], new C3op_Util_ValidDecimal()));
             $receivableMapper->update($receivable);
             return $id;
         }

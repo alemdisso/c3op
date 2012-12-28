@@ -32,9 +32,9 @@ class C3op_Form_TeamMemberEdit extends C3op_Form_TeamMemberCreate
             $teamMember = $teamMemberMapper->findById($id);
             $teamMember->SetDescription($this->description->GetValue());
             $teamMember->SetLinkage($this->linkage->GetValue());
-            
-            $converter = new C3op_Util_FloatConverter();
-            $validator = new C3op_Util_ValidFloat();
+
+            $converter = new C3op_Util_DecimalConverter();
+            $validator = new C3op_Util_ValidDecimal();
             if ($validator->isValid($this->value->GetValue())) {
                 $teamMember->SetValue($converter->getDecimalDotValue($this->value->GetValue(), $validator));
             }

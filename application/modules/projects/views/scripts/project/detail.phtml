@@ -12,8 +12,8 @@ $pageData = $this->pageData;
         //    responsibleAtClient
         //    overhead
         //    managementFee
-        //    contractValue
-        //    contractDate
+        //    projectValue
+        //    projectDates
         //
 $projectHeader = $pageData['projectHeader'];
 
@@ -100,6 +100,13 @@ $(document).ready(function(){
     <div id="MainHeader">
       <h1><?php echo $this->translate("#Project") ?> <?php print($projectHeader['projectTitle']) ?></h1>
       <a href="/projects/project/edit/?id=<?php echo $projectHeader['id'] ?>"><?php echo $this->translate("#Edit project") ?></a>
+<?php
+if ($projectHeader['hasContract']) {
+?>
+      | <a href="/projects/project/amend/?id=<?php echo $projectHeader['id'] ?>"><?php echo $this->translate("#Amend contract") ?></a>
+<?php
+}
+?>
     </div>
     <div class="Area">
       <div class="three columns alpha Right">
@@ -137,7 +144,7 @@ $(document).ready(function(){
         <?php echo $this->translate("#Contract value:") ?>
       </div>
       <div class="three columns omega">
-        <?php print($projectHeader['contractValue']) ?>
+        <?php print($projectHeader['projectValue']) ?>
       </div>
       <div class="three columns alpha Right">
         <?php echo $this->translate("#Responsible at client:") ?>
@@ -149,7 +156,7 @@ $(document).ready(function(){
         <?php echo $this->translate("#Contract date:") ?>
       </div>
       <div class="three columns omega">
-        <?php print($projectHeader['contractDate']) ?>
+        <?php print($projectHeader['projectDates']) ?>
       </div>
     </div><!-- .Area -->
     <div id="tabs">
@@ -306,7 +313,7 @@ foreach($productsList as $id => $productInfo) {
     <div class="Area">
 
       <p>
-        <a href="/projects/action/create/?project=<?php echo $projectHeader['id'] ?>" class="button three columns alpha omega"><?php echo $this->translate("#Add product") ?></a>
+        <a href="/projects/action/create-product/?project=<?php echo $projectHeader['id'] ?>" class="button three columns alpha omega"><?php echo $this->translate("#Add product") ?></a>
       </p>
 
     </div><!-- .Area -->

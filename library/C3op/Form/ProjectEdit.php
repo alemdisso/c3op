@@ -36,9 +36,27 @@ class C3op_Form_ProjectEdit extends C3op_Form_ProjectCreate
             $project->SetResponsibleAtClient($this->responsibleAtClient->GetValue());
 
             $beginDate = $this->beginDate->GetValue();
-            $project->SetBeginDate($this->prepareDateValueToSet($beginDate, new C3op_Util_ValidDate(), new C3op_Util_DateConverter()));
+            $dateValidator = new C3op_Util_ValidDate();
+            $beginDateForMysql = null;
+            if ($dateValidator->isValid($beginDate)) {
+            $converter = new C3op_Util_DateConverter();
+            $beginDateForMysql = $converter->convertDateToMySQLFormat($beginDate);
+            $project->SetBeginDate($beginDateForMysql);
+            }
+
             $finishDate = $this->finishDate->GetValue();
-            $project->SetFinishDate($this->prepareDateValueToSet($finishDate, new C3op_Util_ValidDate(), new C3op_Util_DateConverter()));
+            $dateValidator = new C3op_Util_ValidDate();
+            $finishDateForMysql = null;
+            if ($dateValidator->isValid($finishDate)) {
+                $converter = new C3op_Util_DateConverter();
+                $finishDateForMysql = $converter->convertDateToMySQLFormat($finishDate);
+                $project->SetFinishDate($finishDateForMysql);
+            }
+
+//            $beginDate = $this->beginDate->GetValue();
+//            $project->SetBeginDate($this->prepareDateValueToSet($beginDate, new C3op_Util_ValidDate(), new C3op_Util_DateConverter()));
+//            $finishDate = $this->finishDate->GetValue();
+//            $project->SetFinishDate($this->prepareDateValueToSet($finishDate, new C3op_Util_ValidDate(), new C3op_Util_DateConverter()));
 
             $value = $this->status->GetValue();
             if ($value) {
@@ -49,16 +67,21 @@ class C3op_Form_ProjectEdit extends C3op_Form_ProjectCreate
             $project->SetContractNature($this->contractNature->GetValue());
             $project->SetAreaActivity($this->areaActivity->GetValue());
 
-            $converter = new C3op_Util_FloatConverter();
-            $validator = new C3op_Util_ValidFloat();
+            $converter = new C3op_Util_DecimalConverter();
+            $validator = new C3op_Util_ValidDecimal();
+            $projectValue = 0;
             if ($validator->isValid($this->value->GetValue())) {
-                $project->SetValue($converter->getDecimalDotValue($this->value->GetValue(), $validator));
+                $projectValue = $converter->getDecimalDotValue($this->value->GetValue(), $validator);
+                $project->SetValue($projectValue);
             }
+//            if ($validator->isValid($this->value->GetValue())) {
+//                $project->SetValue($converter->getDecimalDotValue($this->value->GetValue(), $validator));
+//            }
             $value = $this->overhead->GetValue();
             if ($value > 0) {
                 $project->SetOverhead($converter->getDecimalDotValue($value, $validator));
             }
-            $value = $this->managementFee->GetValue();
+            $managementFee = $this->managementFee->GetValue();
             if ($value > 0) {
                 $project->SetManagementFee($converter->getDecimalDotValue($value, $validator));
             }
@@ -68,6 +91,31 @@ class C3op_Form_ProjectEdit extends C3op_Form_ProjectCreate
             $project->SetObservation($this->observation->GetValue());
 
             $projectMapper->update($project);
+
+            $doesIt = new C3op_Projects_ProjectSeemsToBeContracted($project);
+            if ($doesIt->seemsToBeContracted()) {
+
+                $contracts = $projectMapper->getAllContracts($project);
+                $contractMapper = new C3op_Projects_ContractMapper($db);
+                if (count($contracts)) {
+                    $contract = $contractMapper->findById($contracts[0]);
+        //                $projectsList[$id]['projectName'] = $thisProject->GetShortTitle() . "!!!";
+                } else {
+                    $contract = new C3op_Projects_Contract($project->getId(), $beginDateForMysql, false);
+                }
+
+                $contract->SetBeginDate($beginDateForMysql);
+                $contract->SetFinishDate($finishDateForMysql);
+                $contract->SetContractNature($this->contractNature->GetValue());
+                $contract->SetValue($projectValue);
+                $contract->SetManagementFee($managementFee);
+                $contract->SetObject($this->object->GetValue());
+                $contract->SetSummary($this->summary->GetValue());
+                $contract->SetObservation($this->observation->GetValue());
+                $contractMapper->insert($contract);
+            }
+
+
         }
     }
 

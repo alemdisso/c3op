@@ -1,6 +1,6 @@
 <?php
 
-class C3op_Util_FloatConverter
+class C3op_Util_DecimalConverter
 {
     public function identifyDecimalComma($value)
     {
@@ -54,7 +54,7 @@ class C3op_Util_FloatConverter
         }
     }
 
-    public function getDecimalDotValue($value, C3op_Util_ValidFloat $validator)
+    public function getDecimalDotValue($value, C3op_Util_ValidDecimal $validator)
     {
         if ($validator->isValid($value)) {
             if ($this->identifyDecimalComma($value)) {
@@ -63,7 +63,7 @@ class C3op_Util_FloatConverter
                 return value;
             }
         } else {
-            throw new C3op_Util_FloatException("Invalid value");
+            throw new C3op_Util_DecimalException("Invalid value");
         }
     }
 

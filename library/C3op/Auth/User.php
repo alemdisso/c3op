@@ -131,7 +131,7 @@ class C3op_Auth_User
 
     public function SetStatus($status)
     {
-        $validator = new C3op_Util_ValidPositiveFloat();
+        $validator = new C3op_Util_ValidPositiveDecimal();
 
         if ($validator->isValid($status)) {
             $this->status = (float) $status;

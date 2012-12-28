@@ -102,7 +102,7 @@ class C3op_Projects_TeamMember {
     } //getValue
 
     public function setValue($value) {
-        $validator = new C3op_Util_ValidPositiveFloat();
+        $validator = new C3op_Util_ValidPositiveDecimal();
         if ($validator->isValid($value)) {
             $this->value = $value;
         } else {

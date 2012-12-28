@@ -36,7 +36,7 @@ class C3op_Form_OutlayCreate extends Zend_Form
                 array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
             ))
             ->setOptions(array('class' => 'Full alpha omega'))
-            ->addValidator(new C3op_Util_ValidFloat())
+            ->addValidator(new C3op_Util_ValidDecimal())
             ->addFilter('StringTrim')
                 ;
         $this->addElement($element);
@@ -104,9 +104,9 @@ class C3op_Form_OutlayCreate extends Zend_Form
             $outlay->SetAction($this->action->GetValue());
             $outlay->SetProject($this->project->GetValue());
 
-            $converter = new C3op_Util_FloatConverter();
+            $converter = new C3op_Util_DecimalConverter();
 
-            $outlay->SetPredictedValue($converter->getDecimalDotValue($this->predictedValue->GetValue(), new C3op_Util_ValidFloat()));
+            $outlay->SetPredictedValue($converter->getDecimalDotValue($this->predictedValue->GetValue(), new C3op_Util_ValidDecimal()));
             $predictedDate = $this->predictedDate->GetValue();
             $dateValidator = new C3op_Util_ValidDate();
             if ($dateValidator->isValid($predictedDate)){

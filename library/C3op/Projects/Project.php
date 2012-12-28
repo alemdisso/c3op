@@ -134,12 +134,13 @@ class C3op_Projects_Project
     {
         if ($beginDate != "") {
             $dateValidator = new C3op_Util_ValidDate();
-            if ($dateValidator->isValid($beginDate)) {
+
+            if (($beginDate == "0000-00-00") || ($dateValidator->isValid($beginDate))) {
                 if ($this->beginDate != $beginDate) {
                     $this->beginDate = $beginDate;
                 }
             } else {
-                throw new C3op_Projects_ProjectException("This ($beginDate) is not a valid date of begin.");
+                throw new C3op_Projects_ContractException("This ($beginDate) is not a valid date of begin.");
             }
         }
     } //SetBeginDate
@@ -153,19 +154,20 @@ class C3op_Projects_Project
     {
         if ($finishDate != "") {
             $dateValidator = new C3op_Util_ValidDate();
-            if ($dateValidator->isValid($finishDate)) {
+
+            if (($finishDate == "0000-00-00") || ($dateValidator->isValid($finishDate))) {
                 if ($this->finishDate != $finishDate) {
                     $this->finishDate = $finishDate;
                 }
             } else {
-                throw new C3op_Projects_ProjectException("This ($finishDate) is not a valid date of finish.");
+                throw new C3op_Projects_ContractException("This ($finishDate) is not a valid date of finish.");
             }
         }
     } //SetFinishDate
 
     public function SetValue($value)
     {
-        $validator = new C3op_Util_ValidPositiveFloat();
+        $validator = new C3op_Util_ValidPositiveDecimal();
 
         if ($validator->isValid($value)) {
             $this->value = (float) $value;
@@ -260,7 +262,7 @@ class C3op_Projects_Project
 
     public function SetOverhead($overhead)
     {
-        $validator = new C3op_Util_ValidPositiveFloat();
+        $validator = new C3op_Util_ValidPositiveDecimal();
 
         if ($validator->isValid($overhead)) {
             $this->overhead = (float) $overhead;
@@ -276,7 +278,7 @@ class C3op_Projects_Project
 
     public function SetManagementFee($managementFee)
     {
-        $validator = new C3op_Util_ValidPositiveFloat();
+        $validator = new C3op_Util_ValidPositiveDecimal();
 
         if ($validator->isValid($managementFee)) {
             $this->managementFee = (float) $managementFee;

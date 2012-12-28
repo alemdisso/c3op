@@ -4,13 +4,16 @@ class C3op_Projects_Contract {
 
     protected $id;
     protected $project;
+    protected $amendment;
     protected $beginDate;
     protected $finishDate;
+    protected $signingDate;
     protected $value;
     protected $contractNature;
-    protected $title;
-    protected $signingDate;
-    protected $amendment;
+    protected $managementFee;
+    protected $object;
+    protected $summary;
+    protected $observation;
 
     function __construct($project, $signingDate, $amendment, $id=0) {
         $this->id = (int)$id;
@@ -51,6 +54,22 @@ class C3op_Projects_Contract {
         }
     }
 
+
+    public function SetAmendment($amendment)
+    {
+        if ($amendment) {
+            $this->amendment = true;
+        } else {
+            $this->amendment = false;
+        }
+    }
+
+    public function GetAmendment()
+    {
+        return $this->amendment;
+
+    }
+
     public function GetBeginDate()
     {
         return $this->beginDate;
@@ -60,12 +79,13 @@ class C3op_Projects_Contract {
     {
         if ($beginDate != "") {
             $dateValidator = new C3op_Util_ValidDate();
+
             if (($beginDate == "0000-00-00") || ($dateValidator->isValid($beginDate))) {
                 if ($this->beginDate != $beginDate) {
                     $this->beginDate = $beginDate;
                 }
             } else {
-                throw new C3op_Projects_ProjectException("This ($beginDate) is not a valid date of begin.");
+                throw new C3op_Projects_ContractException("This ($beginDate) is not a valid date of begin.");
             }
         }
     } //SetBeginDate
@@ -84,19 +104,38 @@ class C3op_Projects_Contract {
                     $this->finishDate = $finishDate;
                 }
             } else {
-                throw new C3op_Projects_ProjectException("This ($finishDate) is not a valid date of finish.");
+                throw new C3op_Projects_ContractException("This ($finishDate) is not a valid date of finish.");
             }
         }
     } //SetFinishDate
 
+    public function GetSigningDate()
+    {
+        return $this->signingDate;
+
+    } //GetSigningDate
+
+    public function SetSigningDate($signingDate)
+    {
+
+        $dateValidator = new C3op_Util_ValidDate();
+        if ($dateValidator->isValid($signingDate)) {
+            if (($signingDate == "0000-00-00") || ($dateValidator->isValid($signingDate))) {
+                $this->signingDate = $signingDate;
+            }
+        } else {
+            throw new C3op_Projects_ContractException("This ($signingDate) is not a valid date of begin.");
+        }
+    } //SetSigningDate
+
     public function SetValue($value)
     {
-        $validator = new C3op_Util_ValidPositiveFloat();
+        $validator = new C3op_Util_ValidPositiveDecimal();
 
-        if ($validator->isValid($value)) {
+        if (($value == 0) || ($validator->isValid($value))) {
             $this->value = (float) $value;
         } else {
-            throw new C3op_Projects_ProjectException("Value must be a positive number.");
+            throw new C3op_Projects_ContractException("Value must be a positive number.");
         }
     }
 
@@ -131,62 +170,77 @@ class C3op_Projects_Contract {
                 break;
 
             default:
-                throw new C3op_Projects_ProjectException("Invalid contract nature.");
+                throw new C3op_Projects_ContractException("Invalid contract nature.");
                 break;
         }
     }
 
-    public function GetTitle()
+    public function SetManagementFee($managementFee)
     {
-        return $this->title;
-    } //GetTitle
+        $validator = new C3op_Util_ValidPositiveDecimal();
 
-    public function SetTitle($title)
-    {
-        $validator = new C3op_Util_ValidString();
-        if ($validator->isValid($title)) {
-            if ($this->title != $title) {
-                $this->title = $title;
-            }
+        if (($managementFee == 0) || ($validator->isValid($managementFee))) {
+            $this->managementFee = (float) $managementFee;
         } else {
-            throw new C3op_Projects_ContractException("This ($title) is not a valid title.");
-        }
-
-    } //SetTitle
-
-    public function GetSigningDate()
-    {
-        return $this->signingDate;
-
-    } //GetSigningDate
-
-    public function SetSigningDate($signingDate)
-    {
-
-        $dateValidator = new C3op_Util_ValidDate();
-        if ($dateValidator->isValid($signingDate)) {
-            if (($signingDate == "0000-00-00") || ($dateValidator->isValid($signingDate))) {
-                $this->signingDate = $signingDate;
-            }
-        } else {
-            throw new C3op_Projects_ContractException("This ($signingDate) is not a valid date of begin.");
-        }
-    } //SetSigningDate
-
-    public function SetAmendment($amendment)
-    {
-        if ($amendment) {
-            $this->amendment = true;
-        } else {
-            $this->amendment = false;
+            throw new C3op_Projects_ContractException("Management Fee must be a positive number.");
         }
     }
 
-    public function GetAmendment()
+    public function getManagementFee()
     {
-        return $this->amendment;
-
+        return $this->managementFee;
     }
+
+    public function getObject()
+    {
+        return $this->object;
+    } //getObject
+
+    public function SetObject($object)
+    {
+        $validator = new C3op_Util_ValidLongString();
+        if ((is_null($object)) || ($validator->isValid($object))) {
+            if ($this->object != $object) {
+                $this->object = $object;
+            }
+        } else {
+            throw new C3op_Projects_ContractException("This ($object) is not a valid object.");
+        }
+    } //SetObject
+
+    public function getSummary()
+    {
+        return $this->summary;
+    } //getSummary
+
+    public function SetSummary($summary)
+    {
+        $validator = new C3op_Util_ValidLongString();
+        if ((is_null($summary)) || ($validator->isValid($summary))) {
+            if ($this->summary != $summary) {
+                $this->summary = $summary;
+            }
+        } else {
+            throw new C3op_Projects_ContractException("This ($summary) is not a valid summary.");
+        }
+    } //SetSummary
+
+    public function getObservation()
+    {
+        return $this->observation;
+    } //getObservation
+
+    public function SetObservation($observation)
+    {
+        $validator = new C3op_Util_ValidLongString();
+        if ((is_null($observation)) || ($validator->isValid($observation))) {
+            if ($this->observation != $observation) {
+                $this->observation = $observation;
+            }
+        } else {
+            throw new C3op_Projects_ContractException("This ($observation) is not a valid observation.");
+        }
+    } //SetObservation
 
 
 }

@@ -142,8 +142,8 @@ class Projects_ProjectController extends Zend_Controller_Action
         //    responsibleAtClient
         //    overhead
         //    managementFee
-        //    contractValue
-        //    contractDate
+        //    projectValue
+        //    projectDates
         //
 
         $projectTitle = $projectToBeDetailed->getShortTitle();
@@ -180,14 +180,27 @@ class Projects_ProjectController extends Zend_Controller_Action
         }
 
         $overhead = $projectToBeDetailed->getOverhead();
+        if ($overhead === null) {
+            $overhead = $this->view->translate("#N/A");
+        }
         $managementFee = $projectToBeDetailed->getManagementFee();
+        if ($managementFee === null) {
+            $managementFee = $this->view->translate("#N/A");
+        }
         $currencyDisplay = new  C3op_Util_CurrencyDisplay();
-        $contractValue = $currencyDisplay->FormatCurrency($projectToBeDetailed->getValue());
-        //$contractDate = C3op_Util_DateDisplay::FormatDateToShow($projectToBeDetailed->getBeginDate());
-        $contractDate = sprintf($this->view->translate("#%s until %s"),
+        $projectValue = $currencyDisplay->FormatCurrency($projectToBeDetailed->getValue());
+
+        $projectDates = sprintf($this->view->translate("#%s until %s"),
                 C3op_Util_DateDisplay::FormatDateToShow($projectToBeDetailed->getBeginDate()),
                 C3op_Util_DateDisplay::FormatDateToShow($projectToBeDetailed->getFinishDate())
                 );
+
+        $contracts = $this->projectMapper->getAllContracts($projectToBeDetailed);
+        if (count($contracts)) {
+            $hasContract = true;
+        } else {
+            $hasContract = false;
+        }
 
         $projectHeader = array(
                 'id'                  => $projectToBeDetailed->getId(),
@@ -198,8 +211,9 @@ class Projects_ProjectController extends Zend_Controller_Action
                 'responsibleAtClient' => $responsibleAtClient,
                 'overhead'            => $overhead,
                 'managementFee'       => $managementFee,
-                'contractValue'       => $contractValue,
-                'contractDate'        => $contractDate,
+                'projectValue'       => $projectValue,
+                'projectDates'        => $projectDates,
+                'hasContract'       => $hasContract,
             );
 
         // receivablesList
@@ -672,7 +686,8 @@ class Projects_ProjectController extends Zend_Controller_Action
     private function setDateValueToFormField(C3op_Form_ProjectCreate $form, $fieldName, $value)
     {
         $field = $form->getElement($fieldName);
-        if ($value != '0000-00-00')  {
+        $validator = new C3op_Util_ValidDate;
+        if (($value != '0000-00-00') && ($validator->isValid($value))) {
             $field->setValue($this->formatDataToShow($value));
         } else {
             $field->setValue("");

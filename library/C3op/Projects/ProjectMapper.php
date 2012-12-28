@@ -55,7 +55,7 @@ class C3op_Projects_ProjectMapper
 
         $query->execute();
 
-        $obj->SetId((int)$this->db->lastInsertId());
+        $obj->setId((int)$this->db->lastInsertId());
         $this->identityMap[$obj] = $obj->getId();
 
     }
@@ -66,7 +66,7 @@ class C3op_Projects_ProjectMapper
             throw new C3op_Projects_ContractMapperException('Object has no ID, cannot update.');
         }
 
-        $query = $this->db->prepare("UPDATE projects_contracts
+        $query = $this->db->prepare("UPDATE projects_projects
             SET title = :title, short_title = :short_title, client = :client, our_responsible = :our_responsible
             ,  responsible_at_client = :responsible_at_client, begin_date = :begin_date, finish_date = :finish_date, status = :status
             ,  value = :value, contract_nature = :contract_nature, area_activity = :area_activity, overhead = :overhead
@@ -172,7 +172,7 @@ class C3op_Projects_ProjectMapper
     public function getAllActions(C3op_Projects_Project $obj)
     {
         $query = $this->db->prepare('SELECT id FROM projects_actions WHERE project = :project');
-        $query->bindValue(':project', $obj->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':project', $obj->getId(), PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();
 
@@ -186,7 +186,7 @@ class C3op_Projects_ProjectMapper
     public function getAllProducts(C3op_Projects_Project $obj)
     {
         $query = $this->db->prepare('SELECT id FROM projects_actions WHERE project = :project AND subordinated_to = 0 AND requirement_for_receiving > 0;');
-        $query->bindValue(':project', $obj->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':project', $obj->getId(), PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();
 
@@ -201,7 +201,7 @@ class C3op_Projects_ProjectMapper
     public function getAllReceivables(C3op_Projects_Project $obj)
     {
         $query = $this->db->prepare('SELECT id FROM projects_receivables WHERE project = :project;');
-        $query->bindValue(':project', $obj->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':project', $obj->getId(), PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();
 
@@ -217,8 +217,8 @@ class C3op_Projects_ProjectMapper
     {
         if ($actionId >= 0) {
 
-            $query = $this->db->prepare('SELECT id FROM projects_actions WHERE project = :project AND (subordinated_to IS NULL OR subordinated_to = :subordinated)');
-            $query->bindValue(':project', $obj->GetId(), PDO::PARAM_STR);
+            $query = $this->db->prepare('SELECT id FROM projects_actions WHERE project = :project AND (subordinated_to IS NULL OR subordinated_to = :subordinated_to)');
+            $query->bindValue(':project', $obj->getId(), PDO::PARAM_STR);
             $query->bindValue(':subordinated_to', $actionId, PDO::PARAM_STR);
             $query->execute();
             $resultPDO = $query->fetchAll();
@@ -357,7 +357,7 @@ class C3op_Projects_ProjectMapper
     public function getAllContracts(C3op_Projects_Project $obj)
     {
         $query = $this->db->prepare('SELECT id FROM projects_contracts WHERE project = :project;');
-        $query->bindValue(':project', $obj->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':project', $obj->getId(), PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();
 
@@ -374,10 +374,23 @@ class C3op_Projects_ProjectMapper
         $contractMapper = new C3op_Projects_ContractMapper($this->db);
 
         $contract = new C3op_Projects_Contract($obj->getId(), $obj->getBeginDate(), false);
-        $contract->SetBeginDate($obj->getBeginDate());
-        $contract->SetFinishDate($obj->getFinishDate());
-        $contract->SetContractNature($obj->getContractNature());
-        $contract->SetValue($obj->getValue());
+        $contract->setBeginDate($obj->getBeginDate());
+        $contract->setFinishDate($obj->getFinishDate());
+        $contract->setContractNature($obj->getContractNature());
+        if (!is_null($obj->getValue())) {
+            $contract->setValue($obj->getValue());
+        } else {
+            $contract->setValue(0);
+        }
+        $contract->setValue($obj->getValue());
+        if (!is_null($obj->getManagementFee())) {
+            $contract->setManagementFee($obj->getManagementFee());
+        } else {
+            $contract->setManagementFee(0);
+        }
+        $contract->setObject($obj->getObject());
+        $contract->setSummary($obj->getSummary());
+        $contract->setObservation($obj->getObservation());
         $contractMapper->insert($contract);
 
 

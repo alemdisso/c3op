@@ -102,8 +102,8 @@ class C3op_Form_ReceivableNotify extends Zend_Form
                 $dateForMysql = $converter->convertDateToMySQLFormat($realDate);
                 $realDateConvertedToMySQL = $dateForMysql;
             }
-            $converter = new C3op_Util_FloatConverter();
-            $realValueWithDecimalPoint = $converter->getDecimalDotValue($this->realValue->GetValue(), new C3op_Util_ValidFloat());
+            $converter = new C3op_Util_DecimalConverter();
+            $realValueWithDecimalPoint = $converter->getDecimalDotValue($this->realValue->GetValue(), new C3op_Util_ValidDecimal());
 
 
             $receivable = $receivableMapper->findById($id);

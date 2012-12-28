@@ -55,28 +55,56 @@ class Projects_IndexController extends Zend_Controller_Action
 
             $actionsCount = count($this->projectMapper->GetAllActions($thisProject));
 
-            $projectsList[$id] = array(
-                'projectName' => $thisProject->GetShortTitle(),
-                'clientName' => $clientName,
-                'areaActivity' => $areaActivity,
-                'status' => $status,
-                'physicalProgress' => '[#12%]',
-                'payedPercentage' => '[#10%]',
-                'receivedPercentage' => '[#11%]',
-
-
-            );
-
-            /* temp */
             $contracts = $this->projectMapper->getAllContracts($thisProject);
             if (count($contracts)) {
-//                $projectsList[$id]['projectName'] = $thisProject->GetShortTitle() . "!!!";
+                $hasContract = true;
             } else {
-                $this->projectMapper->createContract($thisProject);
+                $hasContract = false;
             }
 
 
-        }
+            $projectsList[$id] = array(
+                'projectName'        => $thisProject->GetShortTitle(),
+                'clientName'         => $clientName,
+                'areaActivity'       => $areaActivity,
+                'status'             => $status,
+                'physicalProgress'   => '[#12%]',
+                'payedPercentage'    => '[#10%]',
+                'receivedPercentage' => '[#11%]',
+                'hasContract'       => $hasContract,
+            );
+
+            /* temp */
+
+//            $doesIt = new C3op_Projects_ProjectSeemsToBeInExecution($thisProject);
+//            if ($doesIt->seemsToBeInExecution()) {
+//                $thisProject->setStatus(C3op_Projects_ProjectStatusConstants::STATUS_EXECUTION);
+//                $this->projectMapper->update($thisProject);
+//            } else {
+//                $doesIt = new C3op_Projects_ProjectSeemsToBeFinished($thisProject);
+//                if ($doesIt->seemsToBeFinished()) {
+//                    $thisProject->setStatus(C3op_Projects_ProjectStatusConstants::STATUS_FINISHED);
+//                    $this->projectMapper->update($thisProject);
+//                } else {
+//                    $thisProject->setStatus(C3op_Projects_ProjectStatusConstants::STATUS_PLANNING);
+//                    $this->projectMapper->update($thisProject);
+//                }
+//            }
+//
+//            if ($hasContract) {
+////                $projectsList[$id]['projectName'] = $thisProject->GetShortTitle() . "!!!";
+//            } else {
+//                $doesIt = new C3op_Projects_ProjectSeemsToBeContracted($thisProject);
+//                if ($doesIt->seemsToBeContracted()) {
+//                    $this->projectMapper->createContract($thisProject);
+//                } else {
+////                    $projectsList[$id]['projectName'] = $thisProject->GetShortTitle() . "!?!";
+//                }
+//            }
+
+
+
+            }
 
 
         $pageData = array(

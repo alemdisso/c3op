@@ -107,8 +107,8 @@ class C3op_Form_ReceivableCreate extends Zend_Form
                 $dateForMysql = $converter->convertDateToMySQLFormat($predictedDate);
                 $predictedDateConvertedToMySQL = $dateForMysql;
             }
-            $converter = new C3op_Util_FloatConverter();
-            $predictedValueWithDecimalPoint = $converter->getDecimalDotValue($this->predictedValue->GetValue(), new C3op_Util_ValidFloat());
+            $converter = new C3op_Util_DecimalConverter();
+            $predictedValueWithDecimalPoint = $converter->getDecimalDotValue($this->predictedValue->GetValue(), new C3op_Util_ValidDecimal());
 
 
             $receivable = new C3op_Projects_Receivable($this->project->GetValue(),$predictedDateConvertedToMySQL, $predictedValueWithDecimalPoint);

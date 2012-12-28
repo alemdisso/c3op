@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-12-18 11:24-0300\n"
-"PO-Revision-Date: 2012-12-18 11:26-0300\n"
+"PO-Revision-Date: 2012-12-20 12:10-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -779,7 +779,7 @@ msgstr "Atualizar membro da equipe"
 
 #: application\modules\projects/views/scripts/team-member/remove.phtml:5
 msgid "#Remove team member"
-msgstr "Removerr membro da equipe"
+msgstr "Remover membro da equipe"
 
 #: application\modules\projects/views/scripts/team-member/remove.phtml:8
 #, php-format

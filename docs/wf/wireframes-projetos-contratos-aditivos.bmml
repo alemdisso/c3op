@@ -1,0 +1,54 @@
+<mockup version="1.0" skin="sketch" measuredW="1026" measuredH="771" mockupW="1024" mockupH="768">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::TitleWindow" x="2" y="3" w="1024" h="768" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Criar%20Projeto</text>
+      </controlProperties>
+    </control>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::Label" x="184" y="36" w="-1" h="-1" measuredW="40" measuredH="21" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>right</align>
+        <text>Nome</text>
+      </controlProperties>
+    </control>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::TextInput" x="249" y="33" w="655" h="-1" measuredW="79" measuredH="27" zOrder="2" locked="false" isInGroup="-1"/>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::Label" x="152" y="75" w="-1" h="-1" measuredW="72" measuredH="21" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>right</align>
+        <text>Nome%20curto</text>
+      </controlProperties>
+    </control>
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::TextInput" x="249" y="72" w="655" h="-1" measuredW="79" measuredH="27" zOrder="4" locked="false" isInGroup="-1"/>
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::Label" x="96" y="118" w="-1" h="-1" measuredW="128" measuredH="21" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>right</align>
+        <text>Respons%E1vel%20no%20IETS</text>
+      </controlProperties>
+    </control>
+    <control controlID="6" controlTypeID="com.balsamiq.mockups::ComboBox" x="249" y="117" w="563" h="-1" measuredW="94" measuredH="23" zOrder="6" locked="false" isInGroup="-1"/>
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::Label" x="115" y="155" w="-1" h="-1" measuredW="109" measuredH="21" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>right</align>
+        <text>%C1rea%20de%20atividade</text>
+      </controlProperties>
+    </control>
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::ComboBox" x="249" y="154" w="313" h="-1" measuredW="94" measuredH="23" zOrder="8" locked="false" isInGroup="-1"/>
+    <control controlID="9" controlTypeID="com.balsamiq.mockups::Label" x="633" y="155" w="-1" h="-1" measuredW="43" measuredH="21" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>right</align>
+        <text>Status</text>
+      </controlProperties>
+    </control>
+    <control controlID="10" controlTypeID="com.balsamiq.mockups::ComboBox" x="691" y="154" w="213" h="-1" measuredW="94" measuredH="23" zOrder="10" locked="false" isInGroup="-1"/>
+    <control controlID="11" controlTypeID="com.balsamiq.mockups::List" x="691" y="176" w="192" h="73" measuredW="100" measuredH="126" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Planejamento%0AExecu%E7%E3o%0APresta%E7%E3o%20de%20contas</text>
+      </controlProperties>
+    </control>
+    <control controlID="12" controlTypeID="com.balsamiq.mockups::Button" x="249" y="205" w="-1" h="-1" measuredW="65" measuredH="27" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Gravar</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

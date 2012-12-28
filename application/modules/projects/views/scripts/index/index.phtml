@@ -62,6 +62,16 @@
                           <li>
                               <a href="/projects/project/detail/?id=<?php print($id) ?>"><?php echo $this->translate("#Project details") ?></a>
                           </li>
+<?php
+if ($projectData['hasContract']) {
+?>
+                          <li>
+                              <a href="/projects/project/amend/?id=<?php print($id) ?>"><?php echo $this->translate("#Amend contract") ?></a>
+                          </li>
+
+<?php
+}
+?>
                           </ul>
                       </div><!-- #submenu1 -->
                   </td>

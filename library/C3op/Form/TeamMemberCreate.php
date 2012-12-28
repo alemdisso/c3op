@@ -41,7 +41,7 @@ class C3op_Form_TeamMemberCreate extends Zend_Form
                     array('Label', array('tag' => 'div', 'tagClass' => 'one column Right')),
                 ))
                 ->setOptions(array('class' => 'Full alpha omega'))
-            ->addValidator(new C3op_Util_ValidPositiveFloat)
+            ->addValidator(new C3op_Util_ValidPositiveDecimal)
             ->addFilter('StringTrim')
             ->addErrorMessage(_('#The value must be a positive number'))
                 ;
@@ -88,8 +88,8 @@ class C3op_Form_TeamMemberCreate extends Zend_Form
             $teamMember->SetDescription($this->description->GetValue());
             $teamMember->SetLinkage($this->linkage->GetValue());
 
-            $converter = new C3op_Util_FloatConverter();
-            $validator = new C3op_Util_ValidFloat();
+            $converter = new C3op_Util_DecimalConverter();
+            $validator = new C3op_Util_ValidDecimal();
             if ($validator->isValid($this->value->GetValue())) {
                 $teamMember->SetValue($converter->getDecimalDotValue($this->value->GetValue(), $validator));
             }

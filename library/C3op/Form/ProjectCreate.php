@@ -123,7 +123,7 @@
               ))
               ->setOptions(array('class' => 'two columns alpha omega'))
               ->setRequired(false)
-              ->addValidator(new C3op_Util_ValidFloat)
+              ->addValidator(new C3op_Util_ValidDecimal)
               ->addFilter('StringTrim');
       $this->addElement($element);
 
@@ -144,17 +144,12 @@
         $titleTypes = $obj->AllTitles();
         $element->addMultiOption(null, _("#(choose a status)"));
         while (list($key, $type) = each($titleTypes)) {
-        $element->addMultiOption($key, $type);
+            $element->addMultiOption($key, $type);
         }
         $this->addElement($element);
     } else {
-        $element = new Zend_Form_Element_Hidden('status');
-        $element->addValidator('Int')
-            ->addFilter('StringTrim');
-        $this->addElement($element);
-        $element->setDecorators(array('ViewHelper'));
 
-        $element = new Zend_Form_Element_Select('nilStatus');
+        $element = new Zend_Form_Element_Select('status');
         $element->setLabel('#Project status:')
                 ->setDecorators(array(
                 'ViewHelper',
@@ -165,6 +160,11 @@
                 ->setOptions(array('class' => 'three columns alpha omega'));
 
         $element->addMultiOption(null, _("#(disabled)"));
+        $obj = new C3op_Projects_ProjectStatusTypes();
+        $titleTypes = $obj->AllTitles();
+        while (list($key, $type) = each($titleTypes)) {
+            $element->addMultiOption($key, $type);
+        }
         $element->setAttrib('disabled', 'disabled');
         $this->addElement($element);
 
@@ -182,7 +182,7 @@
               ))
               ->setOptions(array('class' => 'two columns alpha omega'))
               ->setRequired(false)
-              ->addValidator(new C3op_Util_ValidFloat)
+              ->addValidator(new C3op_Util_ValidDecimal)
         ;
       $this->addElement($element);
 
@@ -197,7 +197,7 @@
               ))
               ->setOptions(array('class' => 'two columns alpha omega'))
               ->setRequired(false)
-              ->addValidator(new C3op_Util_ValidFloat)
+              ->addValidator(new C3op_Util_ValidDecimal)
               ->addFilter('HtmlEntities')
               ->addFilter('StringTrim');
       $this->addElement($element);
@@ -310,60 +310,69 @@
 
         $beginDate = $this->beginDate->GetValue();
         $dateValidator = new C3op_Util_ValidDate();
+        $beginDateForMysql = null;
         if ($dateValidator->isValid($beginDate)) {
           $converter = new C3op_Util_DateConverter();
           $beginDateForMysql = $converter->convertDateToMySQLFormat($beginDate);
-          $project->SetBeginDate($beginDateForMysql);
+          //$project->SetBeginDate($beginDateForMysql);
         }
 
         $finishDate = $this->finishDate->GetValue();
         $dateValidator = new C3op_Util_ValidDate();
+        $finishDateForMysql = null;
         if ($dateValidator->isValid($finishDate)) {
           $converter = new C3op_Util_DateConverter();
           $finishDateForMysql = $converter->convertDateToMySQLFormat($finishDate);
-          $project->SetFinishDate($finishDateForMysql);
+          //$project->SetFinishDate($finishDateForMysql);
         }
 
-        $value = $this->status->GetValue();
-        if ($value) {
+        $status = $this->status->GetValue();
+        if ($status) {
             $project->SetStatus($this->status->GetValue());
         } else {
             $project->SetStatus(C3op_Projects_ProjectStatusConstants::STATUS_NIL);
         }
-        $project->SetContractNature($this->contractNature->GetValue());
+        //$project->SetContractNature($this->contractNature->GetValue());
         $project->SetAreaActivity($this->areaActivity->GetValue());
 
-        $converter = new C3op_Util_FloatConverter();
-        $validator = new C3op_Util_ValidFloat();
+        $converter = new C3op_Util_DecimalConverter();
+        $validator = new C3op_Util_ValidDecimal();
+        $projectValue = 0;
         if ($validator->isValid($this->value->GetValue())) {
             $projectValue = $converter->getDecimalDotValue($this->value->GetValue(), $validator);
-            $project->SetValue($projectValue);
+            //$project->SetValue($projectValue);
         }
-        $value = $this->overhead->GetValue();
-        if ($value > 0) {
-            $project->SetOverhead($converter->getDecimalDotValue($value, $validator));
+        $overheadValue = $this->overhead->GetValue();
+        if ($overheadValue > 0) {
+            $project->SetOverhead($converter->getDecimalDotValue($overheadValue, $validator));
         }
-        $value = $this->managementFee->GetValue();
-        if ($value > 0) {
-            $project->SetManagementFee($converter->getDecimalDotValue($value, $validator));
+        $managementFee = $this->managementFee->GetValue();
+        if ($managementFee > 0) {
+            $project->SetManagementFee($converter->getDecimalDotValue($managementFee, $validator));
         }
         $project->SetObject($this->object->GetValue());
         $project->SetSummary($this->summary->GetValue());
         $project->SetObservation($this->observation->GetValue());
 
-
         $projectMapper->insert($project);
 
-        $contractMapper = new C3op_Projects_ContractMapper($db);
 
-        $contract = new C3op_Projects_Contract($project->getId(), $beginDateForMysql, false);
-        $contract->SetBeginDate($beginDateForMysql);
-        $contract->SetFinishDate($finishDateForMysql);
-        $contract->SetContractNature($this->contractNature->GetValue());
-        $contract->SetValue($projectValue);
-        $contractMapper->insert($contract);
+        $doesIt = new C3op_Projects_ProjectSeemsToBeContracted($project);
+        if ($doesIt->seemsToBeContracted()) {
 
+            $contractMapper = new C3op_Projects_ContractMapper($db);
 
+            $contract = new C3op_Projects_Contract($project->getId(), $beginDateForMysql, false);
+            $contract->SetBeginDate($beginDateForMysql);
+            $contract->SetFinishDate($finishDateForMysql);
+            $contract->SetContractNature($this->contractNature->GetValue());
+            $contract->SetValue($projectValue);
+            $contract->SetManagementFee($managementFee);
+            $contract->SetObject($this->object->GetValue());
+            $contract->SetSummary($this->summary->GetValue());
+            $contract->SetObservation($this->observation->GetValue());
+            $contractMapper->insert($contract);
+        }
 
       }
     }
