@@ -124,8 +124,7 @@ class C3op_Projects_ContractMapper
         $this->setAttributeValue($obj, $result['amendment'], 'amendment');
         $this->setAttributeValue($obj, $result['begin_date'], 'beginDate');
         $this->setAttributeValue($obj, $result['finish_date'], 'finishDate');
-        $this->setAttributeValue($obj, $result['signing_date'], 'signing_date');
-        $this->setAttributeValue($obj, $result['status'], 'status');
+        $this->setAttributeValue($obj, $result['signing_date'], 'signingDate');
         $this->setAttributeValue($obj, $result['value'], 'value');
         $this->setAttributeValue($obj, $result['contract_nature'], 'contractNature');
         $this->setAttributeValue($obj, $result['management_fee'], 'managementFee');

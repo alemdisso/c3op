@@ -158,6 +158,35 @@ if ($projectHeader['hasContract']) {
       <div class="three columns omega">
         <?php print($projectHeader['projectDates']) ?>
       </div>
+<?php
+    if ((is_array($projectHeader['amendmentsList'])) && (count($projectHeader['amendmentsList']) > 0)) {
+        $amendmentsList = $projectHeader['amendmentsList'];
+    }
+?>
+      <div class="three columns alpha Right">
+        <?php echo $this->translate("#Amendment(s)") ?>
+      </div>
+      <div class="nine columns omega">
+        &nbsp;
+      </div>
+<?php
+foreach($amendmentsList as $id => $contractInfo) {
+?>
+      <div class="three columns alpha Right">
+        &nbsp;
+      </div>
+      <div class="four columns alpha right">
+        <?php echo $contractInfo['signingDate'] ?>
+      </div>
+      <div class="five columns">
+        &nbsp;
+      </div>
+
+<?php
+    }
+?>
+
+
     </div><!-- .Area -->
     <div id="tabs">
       <ul>

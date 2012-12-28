@@ -2,9 +2,10 @@
 
 class Projects_ProjectController extends Zend_Controller_Action
 {
+    private $db;
     private $projectMapper;
     private $actionMapper;
-    private $db;
+    private $contractMapper;
     private $institutionMapper;
     private $contactMapper;
     private $linkageMapper;
@@ -28,6 +29,38 @@ class Projects_ProjectController extends Zend_Controller_Action
     {
         $this->db = Zend_Registry::get('db');
         $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
+    }
+
+    public function amendAction()
+    {
+        // cria form
+
+        $form = new C3op_Form_ProjectAmend;
+        $this->view->form = $form;
+
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            if ($form->isValid($postData)) {
+                $id = $form->process($postData);
+                $this->_helper->getHelper('FlashMessenger')
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                $this->_redirect('/projects/project/success/?id=' . $id);
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
+        } else {
+            $thisProject = $this->InitProjectWithCheckedId($this->projectMapper);
+            $id = $this->checkIdFromGet();
+            $thisProject = $this->InitProjectWithCheckedId($this->projectMapper);
+            $id = $this->checkIdFromGet();
+            $shortTitle = $thisProject->getShortTitle();
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $id);
+//            $data = $this->_request->getParams();
+//            $projectId = $data['id'];
+//            $this->PopulateProjectFields($projectId, $form);
+        }
     }
 
     public function createAction()
@@ -196,8 +229,19 @@ class Projects_ProjectController extends Zend_Controller_Action
                 );
 
         $contracts = $this->projectMapper->getAllContracts($projectToBeDetailed);
+        $amendmentsList = array();
         if (count($contracts)) {
             $hasContract = true;
+            $amendments = $this->projectMapper->getAllAmendments($projectToBeDetailed);
+            $this->initContractMapper();
+            foreach ($amendments as $id) {
+                $loopContract = $this->contractMapper->findById($id);
+                $contractData = array(
+                    'signingDate' =>  $loopContract->getSigningDate(),
+                );
+                $amendmentsList[$id] = $contractData;
+
+            }
         } else {
             $hasContract = false;
         }
@@ -211,9 +255,10 @@ class Projects_ProjectController extends Zend_Controller_Action
                 'responsibleAtClient' => $responsibleAtClient,
                 'overhead'            => $overhead,
                 'managementFee'       => $managementFee,
-                'projectValue'       => $projectValue,
+                'projectValue'        => $projectValue,
                 'projectDates'        => $projectDates,
-                'hasContract'       => $hasContract,
+                'hasContract'         => $hasContract,
+                'amendmentsList'      => $amendmentsList,
             );
 
         // receivablesList
@@ -596,6 +641,11 @@ class Projects_ProjectController extends Zend_Controller_Action
     private function initActionMapper()
     {
          $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
+    }
+
+    private function initContractMapper()
+    {
+         $this->contractMapper = new C3op_Projects_ContractMapper($this->db);
     }
 
     private function initOutlayMapper()

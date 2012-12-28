@@ -44,16 +44,6 @@ class C3op_Projects_Contract {
         return $this->project;
     }
 
-    public function SetProject($project)
-    {
-        if ($this->project != $project) {
-            $validator = new C3op_Util_ValidPositiveInteger();
-            if ($validator->isValid($project)) {
-                $this->project = $project;
-            }
-        }
-    }
-
 
     public function SetAmendment($amendment)
     {

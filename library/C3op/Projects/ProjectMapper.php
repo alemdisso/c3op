@@ -354,6 +354,21 @@ class C3op_Projects_ProjectMapper
         return $result;
     }
 
+    public function getAllAmendments(C3op_Projects_Project $obj)
+    {
+        $query = $this->db->prepare('SELECT id FROM projects_contracts WHERE project = :project AND amendment = true;');
+        $query->bindValue(':project', $obj->getId(), PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
+        foreach ($resultPDO as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+
+    }
+
     public function getAllContracts(C3op_Projects_Project $obj)
     {
         $query = $this->db->prepare('SELECT id FROM projects_contracts WHERE project = :project;');
