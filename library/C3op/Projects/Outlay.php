@@ -9,6 +9,8 @@ class C3op_Projects_Outlay
     protected $humanResource;
     protected $predictedDate;
     protected $predictedValue;
+    protected $realDate;
+    protected $realValue;
     protected $recurrent;
     protected $observation;
 
@@ -100,6 +102,41 @@ class C3op_Projects_Outlay
             throw new C3op_Projects_OutlayException("This ($predictedDate) is not a valid date of begin.");
         }
     } //SetPredictedDate
+
+    public function GetRealValue()
+    {
+        return $this->realValue;
+
+    }
+
+    public function SetRealValue($realValue)
+    {
+        if ($realValue >= 0) {
+            $this->realValue = (float) $realValue;
+        } else {
+            throw new C3op_Projects_OutlayException("Value must be a positive number.");
+
+        }
+    }
+
+    public function GetRealDate()
+    {
+        return $this->realDate;
+
+    } //GetRealDate
+
+    public function SetRealDate($realDate)
+    {
+
+        $dateValidator = new C3op_Util_ValidDate();
+        if ($dateValidator->isValid($realDate)) {
+            if ($this->realDate != $realDate) {
+                $this->realDate = $realDate;
+            }
+        } else {
+            throw new C3op_Projects_OutlayException("This ($realDate) is not a valid date of begin.");
+        }
+    } //SetRealDate
 
      public function GetRecurrent()
     {

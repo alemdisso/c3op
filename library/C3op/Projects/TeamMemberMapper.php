@@ -67,13 +67,11 @@ class C3op_Projects_TeamMemberMapper {
             $this->identityMap->next();
         }
 
-        $result = $this->db->fetchRow(
-            sprintf(
-                'SELECT action, description, linkage, value, status
-                     FROM projects_team_members WHERE id = %d;',
-                $id
-            )
-        );
+        $query = $this->db->prepare('SELECT action, description, linkage, value, status FROM projects_team_members WHERE id = :id;');
+        $query->bindValue(':id', $id, PDO::PARAM_STR);
+        $query->execute();
+        $result = $query->fetch();
+
         if (empty($result)) {
             throw new C3op_Projects_TeamMemberMapperException(sprintf('There is no Human Resource with id #%d.', $id));
         }
@@ -135,6 +133,25 @@ class C3op_Projects_TeamMemberMapper {
         }
         return $result;
     }
+
+    public function getSumOfPayedOutlays(C3op_Projects_TeamMember $obj)
+    {
+        $query = $this->db->prepare('SELECT SUM(real_value) as sum FROM projects_outlays WHERE team_member = :id AND real_value > 0 AND real_date IS NOT NULL AND real_date <> "0000-00-00";');
+        $query->bindValue(':id', $obj->GetId(), PDO::PARAM_STR);
+        $query->execute();
+        $result = $query->fetch();
+        return $result['sum'];
+    }
+
+    public function getSumOfProvidedButNotPayedOutlays(C3op_Projects_TeamMember $obj)
+    {
+        $query = $this->db->prepare('SELECT SUM(predicted_value) as sum FROM projects_outlays WHERE team_member = :id AND predicted_value > 0 AND (real_value IS NULL OR real_value = 0.0);');
+        $query->bindValue(':id', $obj->GetId(), PDO::PARAM_STR);
+        $query->execute();
+        $result = $query->fetch();
+        return $result['sum'];
+    }
+
 
 
 }

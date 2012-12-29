@@ -55,17 +55,5 @@ class C3op_Projects_ProjectSeemsToBeFinished {
 
     }
 
-    private function doesItHasAValue()
-    {
-        $validator = new C3op_Util_ValidPositiveDecimal();
-
-        if ($validator->isValid($this->project->getValue())) {
-            return true;
-        } else {
-            return false;
-        }
-
-    }
-
 }
 

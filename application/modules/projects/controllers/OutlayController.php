@@ -90,7 +90,7 @@ class Projects_OutlayController  extends Zend_Controller_Action
             if ($input->isValid()) {
                 $id = $input->id;
                 if (!isset($this->outlayMapper)) {
-                    $this->outlayMapper = new C3op_Projects_OutlayMapper($this->db);
+                    $this->initOutlayMapper();
                 }
                 $thisOutlay = $this->outlayMapper->findById($id);
                 if (!isset($this->teamMemberMapper)) {
@@ -103,7 +103,7 @@ class Projects_OutlayController  extends Zend_Controller_Action
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'project', $thisOutlay->GetProject());
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'action', $thisOutlay->GetAction());
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'teamMember', $thisOutlay->GetTeamMember());
-                $this->SetDateValueToFormField($form, 'predictedDate', $thisOutlay->GetPredictedDate());
+                $this->setDateValueToFormField($form, 'predictedDate', $thisOutlay->GetPredictedDate());
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'predictedValue', $thisOutlay->GetPredictedValue());
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'observation', $thisOutlay->GetObservation());
 
@@ -112,6 +112,46 @@ class Projects_OutlayController  extends Zend_Controller_Action
         }
         $this->view->pageData = $this->pageData;
     }
+    public function notifyAction()
+    {
+        // cria form
+        $form = new C3op_Form_OutlayNotify;
+        $this->view->form = $form;
+
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            if ($form->isValid($postData)) {
+                $id = $form->process($postData);
+                $this->_helper->getHelper('FlashMessenger')
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                $this->_redirect('/projects/outlay/success/?id=' . $id);
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
+        } else {
+            $data = $this->_request->getParams();
+            $filters = array(
+                'id' => new Zend_Filter_Alnum(),
+            );
+            $validators = array(
+                'id' => new C3op_Util_ValidId(),
+            );
+            $input = new Zend_Filter_Input($filters, $validators, $data);
+
+            if ($input->isValid()) {
+                $this->initOutlayMapper();
+                $outlayToBeNotified =  $this->initOutlayWithCheckedId($this->outlayMapper);
+                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $outlayToBeNotified->getId());
+//                $this->setDateValueToFormField($form, 'realDate', $thisOutlay->GetRealDate());
+//                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'realValue', $thisOutlay->GetRealValue());
+                $projectId = $this->populateProjectFields($outlayToBeNotified->GetProject(), $form);
+            }
+
+        }
+    }
+
 
     private function populateFieldsAssociatedToTeamMember(C3op_Projects_TeamMember $teamMember, C3op_Form_OutlayCreate $form)
     {
@@ -175,6 +215,13 @@ class Projects_OutlayController  extends Zend_Controller_Action
         }
     }
 
+    private function initOutlayMapper()
+    {
+        if (!isset($this->outlayMapper)) {
+            $this->outlayMapper = new C3op_Projects_OutlayMapper($this->db);
+        }
+    }
+
     private function initActionMapper()
     {
         if (!isset($this->actionMapper)) {
@@ -217,8 +264,42 @@ class Projects_OutlayController  extends Zend_Controller_Action
          $this->linkageMapper = new C3op_Register_LinkageMapper($this->db);
     }
 
+    private function setDateValueToFormField(Zend_Form $form, $fieldName, $value)
+    {
+        $field = $form->getElement($fieldName);
+        if ($value != '0000-00-00')  {
+            $field->setValue(C3op_Util_DateDisplay::FormatDateToShow($value));
+        } else {
+            $field->setValue("");
+        }
+    }
 
 
+    private function initOutlayWithCheckedId(C3op_Projects_OutlayMapper $mapper)
+    {
+        return $mapper->findById($this->checkIdFromGet());
+    }
 
+    private function populateProjectFields($projectId, Zend_Form $form)
+    {
+        $validator = new C3op_Util_ValidId();
+        if ($validator->isValid($projectId)) {
+            $projectField = $form->getElement('project');
+            $projectField->setValue($projectId);
+            $this->initProjectMapper();
+            $thisProject = $this->projectMapper->findById($projectId);
+            $this->view->projectTitle = $thisProject->GetShortTitle();
+            $this->view->projectId = $projectId;
+            return $projectId;
+        } else throw new C3op_Projects_ReceivableException("Receivable needs a positive integer project id.");
+
+    }
+
+    private function initProjectMapper()
+    {
+        if (!isset($this->projectMapper)) {
+            $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
+        }
+    }
 }
 

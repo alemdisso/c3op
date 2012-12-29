@@ -41,7 +41,7 @@ class Projects_ReceivableController extends Zend_Controller_Action
         } else {
             $data = $this->_request->getParams();
             $projectId = $data['project'];
-            $this->PopulateProjectFields($projectId, $form);
+            $this->populateProjectFields($projectId, $form);
         }
     }
 
@@ -248,7 +248,7 @@ class Projects_ReceivableController extends Zend_Controller_Action
         }
     }
 
-    private function PopulateProjectFields($projectId, Zend_Form $form)
+    private function populateProjectFields($projectId, Zend_Form $form)
     {
         $validator = new C3op_Util_ValidId();
         if ($validator->isValid($projectId)) {

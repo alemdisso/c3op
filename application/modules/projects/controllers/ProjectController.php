@@ -422,11 +422,22 @@ class Projects_ProjectController extends Zend_Controller_Action
                 }
             }
 
-            $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($theOutlay->getPredictedDate());
-            $realDate = C3op_Util_DateDisplay::FormatDateToShow('0000-00-00');
+            $validator = new C3op_Util_ValidDate();
+
+            if ($validator->isValid($theOutlay->getRealDate())) {
+                $realDate = C3op_Util_DateDisplay::FormatDateToShow($theOutlay->getRealDate());
+            } else {
+                $realDate = $this->view->translate('#(undefined)');
+            }
+
+            if ($validator->isValid($theOutlay->getPredictedDate())) {
+                $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($theOutlay->getPredictedDate());
+            } else {
+                $predictedDate = $this->view->translate('#(undefined)');
+            }
             $currencyDisplay = new  C3op_Util_CurrencyDisplay();
             $predictedValue = $currencyDisplay->FormatCurrency($theOutlay->getPredictedValue());
-            $realValue = $currencyDisplay->FormatCurrency('0');
+            $realValue = $currencyDisplay->FormatCurrency($theOutlay->getRealValue());
 
             $outlaysList[$id] = array(
                     'actionId' => $actionId,

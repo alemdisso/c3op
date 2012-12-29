@@ -28,6 +28,8 @@ class C3op_Projects_OutlayMapper
             'team_member' => $new->GetTeamMember(),
             'predicted_value' => $new->GetPredictedValue(),
             'predicted_date' => $new->GetPredictedDate(),
+            'real_value' => $new->GetRealValue(),
+            'real_date' => $new->GetRealDate(),
             'recurrent' => $new->GetRecurrent(),
             'observation' => $new->GetObservation(),
             );
@@ -45,12 +47,14 @@ class C3op_Projects_OutlayMapper
 
         $this->db->exec(
             sprintf(
-                'UPDATE projects_outlays SET project = %d, action = %d, team_member = %d, predicted_value = %.2f, predicted_date = \'%s\', recurrent = %d, observation = \'%s\' WHERE id = %d;',
+                'UPDATE projects_outlays SET project = %d, action = %d, team_member = %d, predicted_value = %.2f, predicted_date = \'%s\', real_value = %.2f, real_date = \'%s\', recurrent = %d, observation = \'%s\' WHERE id = %d;',
                 $o->GetProject(),
                 $o->GetAction(),
                 $o->GetTeamMember(),
                 $o->GetPredictedValue(),
                 $o->GetPredictedDate(),
+                $o->GetRealValue(),
+                $o->GetRealDate(),
                 $o->GetRecurrent(),
                 $o->GetObservation(),
                 $this->identityMap[$o]
@@ -71,7 +75,7 @@ class C3op_Projects_OutlayMapper
 
         $result = $this->db->fetchRow(
             sprintf(
-                'SELECT  project, action, team_member, predicted_value, predicted_date, recurrent, observation FROM projects_outlays WHERE id = %d;',
+                'SELECT  project, action, team_member, predicted_value, predicted_date, real_value, real_date, recurrent, observation FROM projects_outlays WHERE id = %d;',
                 $id
             )
         );
@@ -84,6 +88,8 @@ class C3op_Projects_OutlayMapper
         $this->setAttributeValue($r, $result['action'], 'action');
         $this->setAttributeValue($r, $result['predicted_value'], 'predictedValue');
         $this->setAttributeValue($r, $result['predicted_date'], 'predictedDate');
+        $this->setAttributeValue($r, $result['real_value'], 'realValue');
+        $this->setAttributeValue($r, $result['real_date'], 'realDate');
         $this->setAttributeValue($r, $result['recurrent'], 'recurrent');
         $this->setAttributeValue($r, $result['observation'], 'observation');
 

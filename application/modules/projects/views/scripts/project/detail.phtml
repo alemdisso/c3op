@@ -161,7 +161,6 @@ if ($projectHeader['hasContract']) {
 <?php
     if ((is_array($projectHeader['amendmentsList'])) && (count($projectHeader['amendmentsList']) > 0)) {
         $amendmentsList = $projectHeader['amendmentsList'];
-    }
 ?>
       <div class="three columns alpha Right">
         <?php echo $this->translate("#Amendment(s)") ?>
@@ -182,6 +181,9 @@ foreach($amendmentsList as $id => $contractInfo) {
         &nbsp;
       </div>
 
+<?php
+    }
+?>
 <?php
     }
 ?>
@@ -437,10 +439,6 @@ if($outlayInfo['payeeId'] > 0) {
               </tbody>
             </table><br />
 
-            <p>
-              <!-- [# LINK PARA PÁGINA DE CRIAÇÃO DE PAGAMENTO ]  -->
-              <a href="#" class="button three columns alpha omega"><?php echo $this->translate("#Predict outlay") ?></a>
-            </p>
 
 <?php
       } else { // end else there is payables in list

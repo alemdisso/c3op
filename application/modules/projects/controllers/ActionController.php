@@ -441,8 +441,11 @@ class Projects_ActionController extends Zend_Controller_Action
         //      id
         //      name
         //      description
-        //      valor
-        //      contractingStatus
+        //      value
+        //      contractingStatusLabel
+        //      canContractFlag
+        //      canRemoveTeamMember
+        //      canProvideOutlay
 
         $teamMembersList = $this->getTeamMembersList($actionToBeDetailed);
 
@@ -764,8 +767,11 @@ class Projects_ActionController extends Zend_Controller_Action
         //      id
         //      name
         //      description
-        //      valor
-        //      contractingStatus
+        //      value
+        //      contractingStatusLabel
+        //      canContractFlag
+        //      canRemoveTeamMember
+        //      canProvideOutlay
 
         if (!isset($this->linkageMapper)) {
             $this->initLinkageMapper();
@@ -801,13 +807,21 @@ class Projects_ActionController extends Zend_Controller_Action
 
             if ($status == C3op_Projects_TeamMemberStatusConstants::STATUS_FORESEEN) {
                 $canContract = true;
-//                $stillNotContracted = true;
             } else {
                 $canContract = false;
-//                $stillNotContracted = false;
             }
 
-            $removal = new C3op_Projects_TeamMemberRemoval($theTeamMember, $this->teamMemberMapper);
+            if ($status == C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED) {
+                $doesIt = new C3op_Projects_TeamMemberHasCredit($theTeamMember, $this->teamMemberMapper);
+                if ($doesIt->hasCredit()) {
+                    $canProvideOutlay = true;
+                } else {
+                    $canProvideOutlay = false;
+                }
+            } else {
+                $canProvideOutlay = false;
+            }
+           $removal = new C3op_Projects_TeamMemberRemoval($theTeamMember, $this->teamMemberMapper);
 
             if ($removal->canBeRemoved()) {
                 $canRemoveTeamMember = true;
@@ -824,9 +838,9 @@ class Projects_ActionController extends Zend_Controller_Action
                 'description'            => $descriptionMessage,
                 'value'                  => $currencyValue,
                 'contractingStatusLabel' => $statusLabel,
-//                'stillNotContractedFlag' => $stillNotContracted,
                 'canContractFlag'        => $canContract,
                 'canRemoveTeamMember'    => $canRemoveTeamMember,
+                'canProvideOutlay'       => $canProvideOutlay,
 
             );
         }

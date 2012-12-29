@@ -331,6 +331,19 @@ if ($parentId > 0) {
 ?>
 <?php
 
+if ($teamMemberData['canProvideOutlay']) {
+?>
+
+
+                          <li>
+                            <a href="/projects/outlay/create/?teamMember=<?php echo $id ?>"><?php echo $this->translate("#Provide outlay") ?></a>
+                          </li>
+
+<?php
+}
+?>
+<?php
+
 if ($teamMemberData['canRemoveTeamMember']) {
 ?>
 
