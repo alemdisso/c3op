@@ -67,7 +67,7 @@ class C3op_Projects_ReceivableMapper
         try {
             $query->execute();
         } catch (Exception $e) {
-            throw new C3op_Projects_ActionException("sql failed");
+            throw new C3op_Projects_ReceivableException("sql failed");
         }
 
     }
@@ -99,6 +99,9 @@ class C3op_Projects_ReceivableMapper
         $this->setAttributeValue($obj, $result['description'], 'description');
         $this->setAttributeValue($obj, $result['real_date'], 'realDate');
         $this->setAttributeValue($obj, $result['real_value'], 'realValue');
+
+        $deliveryData = $this->fetchFirstDeliveryDate($obj);
+        $this->setAttributeValue($obj, $deliveryData, 'deliveryDate');
 
         $this->identityMap[$obj] = $id;
 
@@ -139,6 +142,39 @@ class C3op_Projects_ReceivableMapper
         }
         return $result;
     }
+
+    public function updateDeliveries(C3op_Projects_Receivable $obj, $date)
+    {
+
+        $query = $this->db->prepare('UPDATE projects_deliveries SET predicted_date = :predicted_date WHERE receivable = :receivable');
+        $query->bindValue(':predicted_date', $date, PDO::PARAM_STR);
+        $query->bindValue(':receivable', $obj->GetId(), PDO::PARAM_STR);
+
+        try {
+            $query->execute();
+        } catch (Exception $e) {
+            throw new C3op_Projects_ReceivableException("sql failed");
+        }
+    }
+
+    private function fetchFirstDeliveryDate($obj)
+    {
+
+        $query = $this->db->prepare('SELECT predicted_date FROM projects_deliveries WHERE receivable = :receivable AND (real_date IS NULL OR real_date = "0000-00-00")ORDER BY predicted_date LIMIT 1;');
+        $query->bindValue(':receivable', $obj->GetId(), PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+        $result = array();
+        foreach ($resultPDO as $row) {
+            $result[] = $row['predicted_date'];
+            return $result[0];
+        }
+
+        return null;
+
+
+    }
+
 
 
 }

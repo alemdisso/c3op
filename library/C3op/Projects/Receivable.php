@@ -6,6 +6,7 @@ class C3op_Projects_Receivable {
     protected $project;
     protected $title;
     protected $description;
+    protected $deliveryDate;
     protected $predictedDate;
     protected $predictedValue;
     protected $realDate;
@@ -81,6 +82,12 @@ class C3op_Projects_Receivable {
         }
 
     } //SetDescription
+
+    public function GetDeliveryDate()
+    {
+        return $this->deliveryDate;
+
+    } //GetDeliveryDate
 
     public function GetPredictedDate()
     {

@@ -65,6 +65,7 @@ class Projects_ReceivableController extends Zend_Controller_Action
         //    projectId
         //    projectTitle
         //    description
+        //    deliveryDate
         //    predictedDate
         //    predictedValue
         //    realDate
@@ -108,6 +109,11 @@ class Projects_ReceivableController extends Zend_Controller_Action
         } else {
             $realDate = $this->view->translate("#(not received)");
         }
+        if ($validator->isValid($receivableToBeDetailed->getDeliveryDate())) {
+            $deliveryDate = C3op_Util_DateDisplay::FormatDateToShow($receivableToBeDetailed->getDeliveryDate());
+        } else {
+            $deliveryDate = null;
+        }
 
 
         $currencyDisplay = new  C3op_Util_CurrencyDisplay();
@@ -131,6 +137,7 @@ class Projects_ReceivableController extends Zend_Controller_Action
             'projectTitle'     => $projectToBeDetailed->getShortTitle(),
             'title'            => $receivableToBeDetailed->getTitle(),
             'description'      => $description,
+            'deliveryDate'     => $deliveryDate,
             'predictedDate'    => $predictedDate,
             'predictedValue'   => $predictedValue,
             'realValue'        => $realValue,
@@ -183,7 +190,9 @@ class Projects_ReceivableController extends Zend_Controller_Action
                 }
                 $thisReceivable = $this->receivableMapper->findById($id);
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'title', $thisReceivable->GetTitle());
+                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'description', $thisReceivable->GetDescription());
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $id);
+                $this->SetDateValueToFormField($form, 'deliveryDate', $thisReceivable->GetDeliveryDate());
                 $this->SetDateValueToFormField($form, 'predictedDate', $thisReceivable->GetPredictedDate());
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'predictedValue', $thisReceivable->GetPredictedValue());
 //                $this->SetDateValueToFormField($form, 'realDate', $thisReceivable->GetRealDate());

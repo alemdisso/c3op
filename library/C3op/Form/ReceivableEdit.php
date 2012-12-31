@@ -34,9 +34,30 @@ class C3op_Form_ReceivableEdit extends C3op_Form_ReceivableCreate
             $receivable->SetTitle($data['title']);
             $receivable->SetDescription($data['description']);
             $receivable->SetProject($data['project']);
-            $receivable->SetPredictedDate($this->prepareDateValueToSet($data['predictedDate'], new C3op_Util_ValidDate(), new C3op_Util_DateConverter()));
+
+            $dateValidator = new C3op_Util_ValidDate();
+            $converter = new C3op_Util_DateConverter();
+
+            $deliveryDate = $this->deliveryDate->GetValue();
+            if ($dateValidator->isValid($deliveryDate))
+            {
+                $dateForMysql = $converter->convertDateToMySQLFormat($deliveryDate);
+                $deliveryDateConvertedToMySQL = $dateForMysql;
+            }
+
+            $predictedDate = $this->predictedDate->GetValue();
+            if ($dateValidator->isValid($predictedDate))
+            {
+                $dateForMysql = $converter->convertDateToMySQLFormat($predictedDate);
+                $predictedDateConvertedToMySQL = $dateForMysql;
+            }
+
+
+
+            $receivable->SetPredictedDate($predictedDateConvertedToMySQL);
             $converter = new C3op_Util_DecimalConverter();
             $receivable->SetPredictedValue($converter->getDecimalDotValue($data['predictedValue'], new C3op_Util_ValidDecimal()));
+            $receivableMapper->updateDeliveries($receivable, $deliveryDateConvertedToMySQL);
             $receivableMapper->update($receivable);
             return $id;
         }

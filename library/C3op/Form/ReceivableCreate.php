@@ -44,8 +44,8 @@ class C3op_Form_ReceivableCreate extends Zend_Form
                 ->addFilter('StringTrim');
         $this->addElement($element);
 
-        $element = new Zend_Form_Element_Text('predictedDate');
-        $element->setLabel('#Predicted Date')
+        $element = new Zend_Form_Element_Text('deliveryDate');
+        $element->setLabel('#Delivery Date')
             ->setAttrib('alt','date')
             ->setDecorators(array(
                 'ViewHelper',
@@ -59,14 +59,29 @@ class C3op_Form_ReceivableCreate extends Zend_Form
                 ;
         $this->addElement($element);
 
+        $element = new Zend_Form_Element_Text('predictedDate');
+        $element->setLabel('#Predicted Date')
+            ->setAttrib('alt','date')
+            ->setDecorators(array(
+                'ViewHelper',
+                'Errors',
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
+            ))
+            ->setOptions(array('class' => 'Full alpha omega datepicker'))
+            ->addValidator(new C3op_Util_ValidString)
+            ->addFilter('StringTrim')
+                ;
+        $this->addElement($element);
+
         $element = new Zend_Form_Element_Text('predictedValue');
         $element->setLabel('#Predicted Value')
             ->setAttrib('alt','decimal')
             ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
-                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns')),
-                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'two columns alpha Right')),
             ))
             ->setOptions(array('class' => 'Full alpha omega'))
             ->addValidator(new C3op_Util_ValidString)
@@ -99,14 +114,23 @@ class C3op_Form_ReceivableCreate extends Zend_Form
             $db = Zend_Registry::get('db');
             $receivableMapper = new C3op_Projects_ReceivableMapper($db);
 
-            $predictedDate = $this->predictedDate->GetValue();
             $dateValidator = new C3op_Util_ValidDate();
+            $converter = new C3op_Util_DateConverter();
+
+            $deliveryDate = $this->deliveryDate->GetValue();
+            if ($dateValidator->isValid($deliveryDate))
+            {
+                $dateForMysql = $converter->convertDateToMySQLFormat($deliveryDate);
+                $deliveryDateConvertedToMySQL = $dateForMysql;
+            }
+
+            $predictedDate = $this->predictedDate->GetValue();
             if ($dateValidator->isValid($predictedDate))
             {
-                $converter = new C3op_Util_DateConverter();
                 $dateForMysql = $converter->convertDateToMySQLFormat($predictedDate);
                 $predictedDateConvertedToMySQL = $dateForMysql;
             }
+
             $converter = new C3op_Util_DecimalConverter();
             $predictedValueWithDecimalPoint = $converter->getDecimalDotValue($this->predictedValue->GetValue(), new C3op_Util_ValidDecimal());
 
@@ -118,6 +142,13 @@ class C3op_Form_ReceivableCreate extends Zend_Form
             $receivable->SetRealDate($realDateConvertedToMySQL);
 
             $receivableMapper->insert($receivable);
+
+            $deliveryMapper = new C3op_Projects_DeliveryMapper($db);
+
+            $delivery = new C3op_Projects_Delivery($receivable->getId(), $receivable->GetProject(), $deliveryDateConvertedToMySQL);
+            $deliveryMapper->insert($delivery);
+
+
             return $receivable->getId();
 
         }

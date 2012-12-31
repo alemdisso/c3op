@@ -33,6 +33,19 @@
             <?php print($receivableData['predictedValue']); ?>
           </div>
 
+<?php
+if (!is_null($receivableData['deliveryDate'])) {
+?>
+          <div class="three columns alpha Right">
+            <?php print($this->translate("#Delivery Date:")); ?>
+          </div>
+          <div class="nine columns left">
+            <?php print($receivableData['deliveryDate']); ?>
+          </div>
+<?php
+}
+?>
+
             <div class="three columns alpha Right">
             <?php print($this->translate("#Date received:")); ?>
           </div>
