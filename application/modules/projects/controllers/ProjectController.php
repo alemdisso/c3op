@@ -12,6 +12,7 @@ class Projects_ProjectController extends Zend_Controller_Action
     private $outlayMapper;
     private $receivableMapper;
     private $teamMemberMapper;
+    private $outsideServiceMapper;
     private $treeData;
 
     public function preDispatch()
@@ -519,6 +520,81 @@ class Projects_ProjectController extends Zend_Controller_Action
                 );
         }
 
+        // outsideServicesList
+        //   * id =>
+        //      institutionName
+        //      actionId
+        //      institutionId
+        //      serviceDescription
+        //      institutionEmail
+        //      institutionPhoneNumber
+
+        if (!isset($this->outsideServiceMapper)) {
+            $this->initOutsideServiceMapper();
+        }
+        $outsideServicesList = array();
+        $projectTeam = $this->projectMapper->getAllOutsideServicesContractedOrPredictedAt($projectToBeDetailed);
+        if (!isset($this->outsideServiceMapper)) {
+            $this->initOutsideServiceMapper();
+        }
+        if (!isset($this->linkageMapper)) {
+            $this->initLinkageMapper();
+        }
+
+        foreach ($projectTeam as $id) {
+            $theOutsideService = $this->outsideServiceMapper->findById($id);
+            $actionId = $theOutsideService->getAction();
+            $theAction = $this->actionMapper->findById($actionId);
+            $actionTitle = $theAction->getTitle();
+//            $institutionName = $this->view->translate("#Not defined");
+//            $institutionId = 0;
+//            $institutionEmail = $this->view->translate("#Not defined");
+//            $institutionPhoneNumber = $this->view->translate("#Not defined");
+//            if ($theOutsideService->getLinkage() > 0) {
+//                $theLinkage = $this->linkageMapper->findById($theOutsideService->getLinkage());
+//                $theContact = $this->contactMapper->findById($theLinkage->getContact());
+//                $institutionId = $theContact->getId();
+//                $institutionName = $theContact->getName();
+//                $institutionEmail = $this->view->translate("#Not implemented");
+//                $institutionPhoneNumber = $this->view->translate("#Not implemented");
+//            }
+
+            $institutionEmail = $this->view->translate("#Not implemented");
+            $institutionPhoneNumber = $this->view->translate("#Not implemented");
+            $institutionName = $this->view->translate("#Not defined");
+            $institutionId = $theOutsideService->GetInstitution();
+            $institutionName = $this->view->translate("(#not defined)");
+            if ($institutionId > 0) {
+                $this->initContactMapper();
+                $this->initInstitutionMapper();
+                $institutionService = $this->institutionMapper->findById($institutionId);
+                $institutionName = $institutionService->GetName();
+            }
+
+
+
+            $removal = new C3op_Projects_OutsideServiceRemoval($theOutsideService, $this->outsideServiceMapper);
+
+            if ($removal->canBeRemoved()) {
+                $canRemoveOutsideService = true;
+            } else {
+                $canRemoveOutsideService = false;
+            }
+
+
+            $serviceDescription = $theOutsideService->getDescription();
+
+            $outsideServicesList[$id] = array(
+                    'institutionId'           => $institutionId,
+                    'actionId'                => $theOutsideService->getAction(),
+                    'serviceDescription'      => $serviceDescription,
+                    'institutionName'         => $institutionName,
+                    'institutionPhoneNumber'  => $institutionPhoneNumber,
+                    'institutionEmail'        => $institutionEmail,
+                    'canRemoveOutsideService' => $canRemoveOutsideService,
+                );
+        }
+
         $objTree = new C3op_Projects_ProjectTree();
         $tree = $objTree->retrieveTree($projectToBeDetailed, $this->projectMapper, $this->actionMapper);
 
@@ -537,13 +613,14 @@ class Projects_ProjectController extends Zend_Controller_Action
 
 
         $pageData = array(
-            'projectHeader'   => $projectHeader,
-            'receivablesList' => $receivablesList,
-            'productsList'    => $productsList,
-            'outlaysList'     => $outlaysList,
-            'actionsTree'     => $actionTreeList,
-            'teamMembersList' => $teamMembersList,
-            'detailsData'     => $detailsData,
+            'projectHeader'       => $projectHeader,
+            'receivablesList'     => $receivablesList,
+            'productsList'        => $productsList,
+            'outlaysList'         => $outlaysList,
+            'actionsTree'         => $actionTreeList,
+            'teamMembersList'     => $teamMembersList,
+            'outsideServicesList' => $outsideServicesList,
+            'detailsData'         => $detailsData,
 
         );
         $this->view->pageData = $pageData;
@@ -674,6 +751,11 @@ class Projects_ProjectController extends Zend_Controller_Action
         if (!isset($this->outlayMapper)) {
             $this->outlayMapper = new C3op_Projects_OutlayMapper($this->db);
         }
+    }
+
+    private function initOutsideServiceMapper()
+    {
+         $this->outsideServiceMapper = new C3op_Projects_OutsideServiceMapper($this->db);
     }
 
     private function initReceivableMapper()

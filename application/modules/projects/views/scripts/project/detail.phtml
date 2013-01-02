@@ -22,6 +22,7 @@ $productsList = $pageData['productsList'];
 $actionsList = $pageData['actionsTree'];
 $outlaysList = $pageData['outlaysList'];
 $teamData = $pageData['teamMembersList'];
+$servicesData = $pageData['outsideServicesList'];
 $detailsData = $pageData['detailsData'];
 ?>
 
@@ -188,6 +189,7 @@ foreach($amendmentsList as $id => $contractInfo) {
         <li><a href="#tabs-products"><?php echo $this->translate("#Products") ?></a></li>
         <li><a href="#tabs-payments"><?php echo $this->translate("#Payments") ?></a></li>
         <li><a href="#tabs-staff"><?php echo $this->translate("#Staff") ?></a></li>
+        <li><a href="#tabs-services"><?php echo $this->translate("#Services") ?></a></li>
         <li><a href="#tabs-action"><?php echo $this->translate("#Actions") ?></a></li>
         <li><a href="#tabs-details"><?php echo $this->translate("#Details") ?></a></li>
       </ul>
@@ -445,7 +447,6 @@ if($outlayInfo['payeeId'] > 0) {
           </div><!-- Area -->
         </div><!-- tabs-payments -->
 
-<!-- ### ACHO QUE O CONTEÚDO DESTA ABA É NOVO - NÃO ENCONTREI EM NENHUM PHTM -->
         <div id="tabs-staff">
           <div class="Area">
             <h2><?php print($this->translate('#Team')) ?></h2>
@@ -524,6 +525,91 @@ if ($staffInfo['canRemoveTeamMember']) {
             </table><br />
           </div><!-- Area -->
         </div><!-- tabs-staff -->
+
+
+
+        <div id="tabs-services">
+          <div class="Area">
+            <h2><?php print($this->translate('#Services')) ?></h2>
+            <table id="Equipe" class="display dataTable">
+              <thead>
+                <tr>
+                  <th width="220"><?php echo $this->translate("#Organization") ?></th>
+                  <th width="80"><?php echo $this->translate("#Service") ?></th>
+                  <th width="100"><?php echo $this->translate("#Email") ?></th>
+                  <th width="100"><?php echo $this->translate("#Phone number") ?></th>
+                  <th width="100">&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody>
+              <!-- ### loop de carga dos recursos humanos alocados ao projeto -->
+<?php
+
+foreach($servicesData as $id => $serviceInfo) {
+?>
+                <tr>
+                  <td>
+<?php
+if($serviceInfo['institutionId'] > 0) {
+?>
+                    <a href="/register/institution/detail/?id=<?php  print $serviceInfo['institutionId'] ?>"><?php print($serviceInfo['institutionName']) ?></a>
+<?php
+
+} else {
+?>
+<?php print($serviceInfo['institutionName']) ?>
+<?php
+
+}
+?>
+                  </td>
+                  <td>
+                    <a href="/projects/action/detail/?id=<?php print($serviceInfo['actionId']) ?>"><?php print($serviceInfo['serviceDescription']) ?></a>
+                  </td>
+                  <td>
+                    <a href="mailto:<?php print($serviceInfo['institutionEmail']) ?>"><?php print($serviceInfo['institutionEmail']) ?></a>
+                  </td>
+                  <td>
+                    <?php print($serviceInfo['institutionPhoneNumber']) ?>
+                  </td>
+                  <td>
+                    <a href="#" class="anchorclass" rel="submenu1"><?php echo $this->translate("#Options") ?></a>
+                    <div id="submenu1" class="anylinkcss">
+                        <ul>
+                          <li>
+                            <!-- [# LINK PARA A EDIÇÃO DO CONTATO ] -->
+                            <a href="/projects/outside-service/edit/?id=<?php print($id) ?>"><?php echo $this->translate("#Edit") ?></a>
+                          </li>
+<?php
+
+if ($serviceInfo['canRemoveOutsideService']) {
+?>
+
+
+                          <li>
+                            <a href="/projects/outside-service/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
+                          </li>
+
+<?php
+}
+
+?>
+                        </ul>
+                    </div><!-- #submenu1 -->
+                  </td>
+                </tr>
+<?php
+}
+?>
+              <!-- ### loop de carga dos recursos humanos alocados ao projeto -->
+              </tbody>
+            </table><br />
+          </div><!-- Area -->
+        </div><!-- tabs-services -->
+
+
+
+
         <div id="tabs-action">
           <div class="Area">
             <h2><?php echo $this->translate("#Actions") ?></h2>

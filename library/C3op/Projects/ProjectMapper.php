@@ -258,26 +258,50 @@ class C3op_Projects_ProjectMapper
         return $result;
     }
 
-    public function getAllOutlaysRelatedToDoneActions(C3op_Projects_Project $p) {
+    public function getAllOutlaysRelatedToDoneActions(C3op_Projects_Project $obj) {
         $result = array();
 
         foreach ($this->db->query(sprintf('SELECT o.id, o.predicted_date
                     FROM projects_outlays o
                     INNER JOIN projects_actions a ON a.id = o.action
                     INNER JOIN projects_team_members t ON t.id = o.team_member
-                    WHERE a.done = 1 AND o.project = %d AND t.linkage > 0 ORDER BY o.predicted_date', $p->getId()
+                    WHERE a.done = 1 AND o.project = %d AND t.linkage > 0 ORDER BY o.predicted_date', $obj->getId()
                 )) as $row) {
             $result[] = $row['id'];
         }
         return $result;
     }
 
-    public function getAllDoneActions(C3op_Projects_Project $p) {
+    public function getAllOutsideServicesContractedOrPredictedAt(C3op_Projects_Project $obj) {
+        $result = array();
+
+        foreach ($this->db->query(sprintf('SELECT s.id
+            FROM projects_actions a
+            INNER JOIN projects_outside_services s ON a.id = s.action
+            WHERE a.project = %d
+            AND (
+            s.status = %d
+            OR s.status = %d
+            OR s.status = %d
+            OR s.status = %d
+            )'
+            , $obj->getId()
+            , C3op_Projects_OutsideServiceStatusConstants::STATUS_UNDEFINED
+            , C3op_Projects_OutsideServiceStatusConstants::STATUS_CONTRACTED
+            , C3op_Projects_OutsideServiceStatusConstants::STATUS_ACQUITTED
+            , C3op_Projects_OutsideServiceStatusConstants::STATUS_FORESEEN
+                )) as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
+    public function getAllDoneActions(C3op_Projects_Project $obj) {
         $result = array();
 
         foreach ($this->db->query(sprintf('SELECT a.id
                     FROM projects_actions a
-                    WHERE a.done = 1 AND a.project = %d ', $p->getId()
+                    WHERE a.done = 1 AND a.project = %d ', $obj->getId()
                 )) as $row) {
             $result[] = $row['id'];
         }
@@ -285,7 +309,7 @@ class C3op_Projects_ProjectMapper
         return $result;
     }
 
-    public function getAllUnacknowledgededActions(C3op_Projects_Project $p
+    public function getAllUnacknowledgededActions(C3op_Projects_Project $obj
                                         , C3op_Projects_ActionMapper $actionMapper) {
         $result = array();
 
@@ -295,7 +319,7 @@ class C3op_Projects_ProjectMapper
                     ON a.id = d.action
                     WHERE a.status = %d AND a.project = %d ORDER BY d.real_begin_date'
                 , C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION
-                , $p->getId()
+                , $obj->getId()
                 )) as $row) {
 
             $action = $actionMapper->findById($row['id']);
@@ -307,7 +331,7 @@ class C3op_Projects_ProjectMapper
         return $result;
     }
 
-    public function getAllTeamMembersContractedAt(C3op_Projects_Project $p) {
+    public function getAllTeamMembersContractedAt(C3op_Projects_Project $obj) {
         $result = array();
 
         foreach ($this->db->query(sprintf('SELECT t.id
@@ -319,7 +343,7 @@ class C3op_Projects_ProjectMapper
             a.status = %d
             OR a.status = %d
             )'
-            , $p->getId()
+            , $obj->getId()
             , C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED
             , C3op_Projects_TeamMemberStatusConstants::STATUS_ACQUITTED
 
@@ -329,7 +353,7 @@ class C3op_Projects_ProjectMapper
         return $result;
     }
 
-    public function getAllTeamMembersContractedOrPredictedAt(C3op_Projects_Project $p) {
+    public function getAllTeamMembersContractedOrPredictedAt(C3op_Projects_Project $obj) {
         $result = array();
 
         foreach ($this->db->query(sprintf('SELECT t.id
@@ -342,7 +366,7 @@ class C3op_Projects_ProjectMapper
             OR t.status = %d
             OR t.status = %d
             )'
-            , $p->getId()
+            , $obj->getId()
             , C3op_Projects_TeamMemberStatusConstants::STATUS_UNDEFINED
             , C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED
             , C3op_Projects_TeamMemberStatusConstants::STATUS_ACQUITTED
