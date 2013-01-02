@@ -133,12 +133,12 @@ class Projects_OutsideServiceController extends Zend_Controller_Action
 
                     $contactsList = $this->institutionMapper->getAllContactsThatAreLinkedToAnInstitution($thisOutsideService->getInstitution());
 
-
-                    while (list($id, $contactData) = each($contactsList)) {
-                        $loopContact = $this->contactMapper->findById($id);
+                    foreach ($contactsList as $key => $contactData) {
+                        $loopContact = $this->contactMapper->findById($contactData['id']);
                         $name = $loopContact->getName();
                         $linkageField->addMultiOption($id, $name);
                     }
+
                     $linkageField->setValue($thisOutsideService->getLinkage());
                 } else {
                     $linkageField->setValue(0);

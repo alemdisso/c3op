@@ -122,12 +122,12 @@ class C3op_Projects_OutsideServiceMapper {
         $attribute->setValue($i, $fieldValue);
     }
 
-    public function getAllOutlays(C3op_Projects_OutsideService $obj)
+    public function getAllPaylees(C3op_Projects_OutsideService $obj)
     {
         $result = array();
         foreach ($this->db->query(
                 sprintf(
-                    'SELECT id FROM projects_outlays WHERE outside_service = %d;',
+                    'SELECT id FROM projects_paylees WHERE outside_service = %d;',
                     $obj->GetId()
                     )
                 )

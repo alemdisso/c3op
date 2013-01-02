@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-02 11:01-0300\n"
-"PO-Revision-Date: 2013-01-02 11:01-0300\n"
+"POT-Creation-Date: 2013-01-02 15:05-0300\n"
+"PO-Revision-Date: 2013-01-02 15:06-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -69,6 +69,7 @@ msgstr "Data de término: "
 #: library\C3op\Form/LinkageCreate.php:73 library\C3op\Form/LinkageEdit.php:76
 #: library\C3op\Form/MessengerCreate.php:58
 #: library\C3op\Form/OutlayCreate.php:79 library\C3op\Form/OutlayNotify.php:58
+#: library\C3op\Form/OutsideServiceCreate.php:78
 #: library\C3op\Form/ProductCreate.php:131
 #: library\C3op\Form/ProductEdit.php:58 library\C3op\Form/ProjectAmend.php:50
 #: library\C3op\Form/ProjectCreate.php:284
@@ -96,12 +97,14 @@ msgstr "(nenhuma ação)"
 
 #: library\C3op\Form/ActionRemove.php:21
 #: library\C3op\Form/ContactRemove.php:22
+#: library\C3op\Form/OutsideServiceRemove.php:21
 #: library\C3op\Form/TeamMemberRemove.php:21
 msgid "#Confirm removal"
 msgstr "Confirmo: remova!"
 
 #: library\C3op\Form/ActionRemove.php:21
 #: library\C3op\Form/ContactRemove.php:22
+#: library\C3op\Form/OutsideServiceRemove.php:21
 #: library\C3op\Form/TeamMemberRemove.php:21
 msgid "#Don't remove"
 msgstr "Não remover"
@@ -123,6 +126,7 @@ msgstr "Não remover"
 #: library\C3op\Form/LinkagePhoneNumberEdit.php:31
 #: library\C3op\Form/LinkageRemove.php:36
 #: library\C3op\Form/MessengerCreate.php:73
+#: library\C3op\Form/OutsideServiceRemove.php:32
 #: library\C3op\Form/PhoneNumberEdit.php:26
 #: library\C3op\Form/TeamMemberRemove.php:32
 #: library\C3op\Form/UserCreate.php:117 library\C3op\Form/UserEdit.php:28
@@ -370,6 +374,7 @@ msgid "#I confirm: remove!"
 msgstr "Confirmo: remova!"
 
 #: library\C3op\Form/MessengerCreate.php:22
+#: library\C3op\Form/OutsideServiceCreate.php:18
 msgid "#Service:"
 msgstr "Serviço:"
 
@@ -386,6 +391,7 @@ msgid "#Invalid address"
 msgstr "Invalid address"
 
 #: library\C3op\Form/OutlayCreate.php:30
+#: library\C3op\Form/OutsideServiceCreate.php:35
 #: library\C3op\Form/ProjectCreate.php:116
 #: library\C3op\Form/TeamMemberCreate.php:35
 msgid "#Value:"
@@ -405,6 +411,30 @@ msgstr "Data Real"
 #: library\C3op\Form/ReceivableNotify.php:56
 msgid "#Real Value"
 msgstr "Valor real"
+
+#: library\C3op\Form/OutsideServiceCreate.php:28
+#: library\C3op\Form/TeamMemberCreate.php:28
+msgid "#A valid role description is required"
+msgstr "Por favor informe o papel desse membro do time"
+
+#: library\C3op\Form/OutsideServiceCreate.php:46
+#: library\C3op\Form/TeamMemberCreate.php:46
+msgid "#The value must be a positive number"
+msgstr "O valor precisa ser um número positivo"
+
+#: library\C3op\Form/OutsideServiceCreate.php:51
+msgid "#Company:"
+msgstr "Organização:"
+
+#: library\C3op\Form/OutsideServiceCreate.php:60
+#: library\C3op\Form/OutsideServiceCreate.php:73
+#: library\C3op\Form/TeamMemberCreate.php:60
+msgid "#undefined"
+msgstr "indefinido"
+
+#: library\C3op\Form/OutsideServiceCreate.php:64
+msgid "#Responsible at Supplier:"
+msgstr "Responsável no fornecedor: "
 
 #: library\C3op\Form/PhoneNumberCreate.php:76
 msgid "Gravar"
@@ -519,21 +549,9 @@ msgstr "Observation:"
 msgid "#Role:"
 msgstr "Função:"
 
-#: library\C3op\Form/TeamMemberCreate.php:28
-msgid "#A valid role description is required"
-msgstr "Por favor informe o papel desse membro do time"
-
-#: library\C3op\Form/TeamMemberCreate.php:46
-msgid "#The value must be a positive number"
-msgstr "O valor precisa ser um número positivo"
-
 #: library\C3op\Form/TeamMemberCreate.php:51
 msgid "#Who:"
 msgstr "Quem:"
-
-#: library\C3op\Form/TeamMemberCreate.php:60
-msgid "#undefined"
-msgstr "indefinido"
 
 #: library\C3op\Form/UserCreate.php:31
 msgid "#Role"

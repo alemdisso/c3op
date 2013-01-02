@@ -2,6 +2,7 @@
   $pageData = $this->pageData;
   $actionHeader = $pageData['actionHeader'];
   $teamData = $pageData['teamMembersList'];
+  $servicesData = $pageData['outsideServicesList'];
 ?>
 
 <script type="text/javascript">
@@ -224,11 +225,12 @@ if ($parentId > 0) {
 
         <div id="tabs">
           <ul>
-            <li><a href="#tabs-1"><?php echo $this->translate("#Subactions") ?></a></li>
-            <li><a href="#tabs-2"><?php echo $this->translate("#Team") ?></a></li>
+            <li><a href="#tabs-subactions"><?php echo $this->translate("#Subactions") ?></a></li>
+            <li><a href="#tabs-team"><?php echo $this->translate("#Team") ?></a></li>
+            <li><a href="#tabs-services"><?php echo $this->translate("#Services") ?></a></li>
           </ul>
 
-          <div id="tabs-1">
+          <div id="tabs-subactions">
             <table id="SubAcoes" class="display dataTable">
               <thead>
                 <tr>
@@ -279,9 +281,9 @@ if ($parentId > 0) {
             <p>
               <a href="/projects/action/create/?subordinatedTo=<?php print($actionHeader['id']) ?>" class="button three columns alpha omega"><?php print($this->translate("#Create new action")) ?></a>
             </p>
-          </div><!-- #tabs-1 -->
+          </div><!-- #tabs-subactions -->
 
-          <div id="tabs-2">
+          <div id="tabs-team">
 
           <table id="RecursosHumanos" class="display dataTable">
             <thead>
@@ -371,7 +373,100 @@ if ($teamMemberData['canRemoveTeamMember']) {
             <a href="/projects/team-member/create/?actionId=<?php print($actionHeader['id']); ?>" class="button three columns alpha omega"><?php print($this->translate("#Anticipate team member")); ?></a>
           </p>
 
-          </div><!-- #tabs-2 -->
+          </div><!-- #tabs-team -->
+
+
+          <div id="tabs-services">
+
+          <table id="RecursosHumanos" class="display dataTable">
+            <thead>
+              <tr>
+                <th width="220"><?php print($this->translate("#Name")); ?></th>
+                <th width="80"><?php print($this->translate("#Service")); ?></th>
+                <th width="100"><?php print($this->translate("#Value")); ?></th>
+                <th width="100"><?php print($this->translate("#Status")); ?></th>
+                <th width="100">&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+
+<?php
+  foreach ($servicesData as $id => $outsideServiceData) {
+?>          <!-- ### loop de carga dos recursos humanos alocados a esta ação -->
+              <tr>
+                <td>
+                  <a href="/projects/outside-service/edit/?id=<?php print($id) ?>"><?php print($outsideServiceData['name']) ?></a>
+                </td>
+                <td>
+                  <a href="/projects/outside-service/edit/?id=<?php print($id) ?>"><?php print($outsideServiceData['description']) ?></a>
+                </td>
+                <td>
+                  <?php print($outsideServiceData['value']) ?>
+                </td>
+                <td>
+                  <?php print($outsideServiceData['contractingStatusLabel']) ?>
+                </td>
+                <td>
+                  <a href="#" class="button one column alpha omega anchorclass" rel="submenu2"><?php print($this->translate("#Options")); ?></a>
+                  <div id="submenu2" class="anylinkcss">
+                      <ul>
+                        <li>
+                          <a href="/projects/outside-service/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
+                        </li>
+
+<?php
+    if ($outsideServiceData['canContractFlag']) {
+?>
+                        <li>
+                          <a class="parent_info" href="/projects/outside-service/contract/?id=<?php print($id);?>" ><?php print($this->translate("#Confirm outside service contracting")); ?></a>
+                        </li>
+
+<?php
+    }
+?>
+<?php
+
+if ($outsideServiceData['canProvideOutlay']) {
+?>
+
+
+                          <li>
+                            <a href="/projects/outlay/create/?outsideService=<?php echo $id ?>"><?php echo $this->translate("#Provide outlay") ?></a>
+                          </li>
+
+<?php
+}
+?>
+<?php
+
+if ($outsideServiceData['canRemoveOutsideService']) {
+?>
+
+
+                          <li>
+                            <a href="/projects/outside-service/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
+                          </li>
+
+<?php
+}
+?>
+                      </ul>
+                  </div><!-- #submenu1 -->
+                </td>
+              </tr>
+              <!-- ### fim do loop de carga dos recursos humanos alocados a esta ação -->
+<?php
+  }
+?>
+
+            </tbody>
+          </table>
+
+          <p>
+            <a href="/projects/outside-service/create/?actionId=<?php print($actionHeader['id']); ?>" class="button three columns alpha omega"><?php print($this->translate("#Anticipate outside service")); ?></a>
+          </p>
+
+          </div><!-- #tabs-services -->
 
         </div><!-- #tabs -->
         <!-- ### Será preciso montar a tabela de recursos materias, idêntica à de recursos humanos, assim que forem tratados pelo sistema -->

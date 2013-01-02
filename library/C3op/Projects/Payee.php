@@ -1,23 +1,27 @@
 <?php
 
-class C3op_Projects_Outlay
+class C3op_Projects_Payee
 {
 
     protected $id;
     protected $project;
     protected $action;
-    protected $teamMember;
-    protected $predictedDate;
-    protected $predictedValue;
-    protected $realDate;
-    protected $realValue;
-    protected $recurrent;
-    protected $observation;
+    protected $humanResource;
+    protected $outsideService;
+    protected $materialSupplier;
 
-    function __construct($teamMember, $id=0) {
+    function __construct($humanResource=0, $outsideService=0, $materialSupplier=0, $id=0) {
         $this->id = (int)$id;
-        $this->teamMember = $teamMember;
+
+        if (($humanResource) || ($outsideService) || ($materialSupplier)) {
+            $this->humanResource = $humanResource;
+            $this->outsideService = $outsideService;
+            $this->materialSupplier = $materialSupplier;
+        } else {
+            throw new C3op_Projects_PayleeException('Can\'t create a payee without someone to pay.');
+        }
     }
+
 
     public function GetId() {
         return $this->id;
@@ -60,12 +64,12 @@ class C3op_Projects_Outlay
 
     public function GetTeamMember()
     {
-        return $this->teamMember;
+        return $this->humanResource;
     }
 
-    public function SetTeamMember($teamMember)
+    public function SetTeamMember($humanResource)
     {
-        $this->teamMember = $teamMember;
+        $this->humanResource = $humanResource;
     }
 
     public function GetPredictedValue()

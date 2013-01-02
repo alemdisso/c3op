@@ -48,7 +48,7 @@ class C3op_Form_OutsideServiceCreate extends Zend_Form
         $this->addElement($element);
 
         $element = new Zend_Form_Element_Select('institution', array('onChange' => 'javascript:populateResponsibleAtSupplier()'));
-        $element->setLabel('#Institution:')
+        $element->setLabel('#Company:')
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
@@ -61,7 +61,7 @@ class C3op_Form_OutsideServiceCreate extends Zend_Form
         $this->addElement($element);
 
         $element = new Zend_Form_Element_Select('linkage');
-        $element->setLabel('#Who:')
+        $element->setLabel('#Responsible at Supplier:')
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',

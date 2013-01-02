@@ -4,9 +4,11 @@ class Projects_ActionController extends Zend_Controller_Action
 {
     private $actionMapper;
     private $teamMemberMapper;
+    private $outsideServiceMapper;
     private $projectMapper;
     private $receivableMapper;
     private $contactMapper;
+    private $institutionMapper;
     private $db;
     private $treeData;
 
@@ -284,7 +286,9 @@ class Projects_ActionController extends Zend_Controller_Action
         $this->initActionMapper();
         $this->initProjectMapper();
         $this->initContactMapper();
+        $this->initInstitutionMapper();
         $this->initTeamMemberMapper();
+        $this->initOutsideServiceMapper();
 
         $actionToBeDetailed =  $this->initActionWithCheckedId($this->actionMapper);
         $projectToBeDetailed = $this->projectMapper->findById($actionToBeDetailed->getProject());
@@ -449,9 +453,23 @@ class Projects_ActionController extends Zend_Controller_Action
 
         $teamMembersList = $this->getTeamMembersList($actionToBeDetailed);
 
+        // outsideServiceList
+        //   * outsideServiceInfo
+        //      id
+        //      name
+        //      description
+        //      value
+        //      contractingStatusLabel
+        //      canContractFlag
+        //      canRemoveOutsideService
+        //      canProvideOutlay
+
+        $outsideServicesList = $this->getOutsideServicesList($actionToBeDetailed);
+
         $pageData = array(
-            'actionHeader' => $actionHeader,
-            'teamMembersList' => $teamMembersList,
+            'actionHeader'        => $actionHeader,
+            'teamMembersList'     => $teamMembersList,
+            'outsideServicesList' => $outsideServicesList,
         );
 
         $this->view->pageData = $pageData;
@@ -710,6 +728,13 @@ class Projects_ActionController extends Zend_Controller_Action
         }
     }
 
+    private function initInstitutionMapper()
+    {
+        if (!isset($this->institutionMapper)) {
+            $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
+        }
+    }
+
     private function initLinkageMapper()
     {
         if (!isset($this->linkageMapper)) {
@@ -721,6 +746,13 @@ class Projects_ActionController extends Zend_Controller_Action
     {
         if (!isset($this->teamMemberMapper)) {
             $this->teamMemberMapper = new C3op_Projects_TeamMemberMapper($this->db);
+        }
+    }
+
+    private function initOutsideServiceMapper()
+    {
+        if (!isset($this->outsideServiceMapper)) {
+            $this->outsideServiceMapper = new C3op_Projects_OutsideServiceMapper($this->db);
         }
     }
 
@@ -846,6 +878,95 @@ class Projects_ActionController extends Zend_Controller_Action
         }
 
         return $teamMembersList;
+
+    }
+
+     private function getOutsideServicesList(C3op_Projects_Action $action)
+    {
+
+        // outsideServiceList
+        //   * outsideServiceInfo
+        //      id
+        //      name
+        //      description
+        //      value
+        //      contractingStatusLabel
+        //      canContractFlag
+        //      canRemoveOutsideService
+        //      canProvideOutlay
+
+        if (!isset($this->linkageMapper)) {
+            $this->initLinkageMapper();
+        }
+
+        $outsideServicesList = array();
+        $outsideServicesIdsList = $this->outsideServiceMapper->getAllOutsideServicesOnAction($action);
+
+        foreach ($outsideServicesIdsList as $outsideServiceId) {
+            $theOutsideService = $this->outsideServiceMapper->findById($outsideServiceId);
+            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+            $currencyValue = $currencyDisplay->FormatCurrency($theOutsideService->GetValue());
+            //$totalValueExistentOutlays = $this->calculateTotalValueExistentOutlays($theOutsideService);
+            $totalValueExistentOutlays = "???";
+
+            $descriptionMessage = $theOutsideService->GetDescription();
+
+            $institutionId = $theOutsideService->GetInstitution();
+            $actionId = $action->GetId();
+            $institutionName = $this->view->translate("(#not defined)");
+            if ($institutionId > 0) {
+                $this->initContactMapper();
+                $this->initInstitutionMapper();
+                $institutionService = $this->institutionMapper->findById($institutionId);
+                $institutionName = $institutionService->GetName();
+            }
+
+
+            $status = $theOutsideService->getStatus();
+            $statusTypes = new C3op_Projects_OutsideServiceStatusTypes();
+            $statusLabel = $statusTypes->TitleForType($status);
+
+            if ($status == C3op_Projects_OutsideServiceStatusConstants::STATUS_FORESEEN) {
+                $canContract = true;
+            } else {
+                $canContract = false;
+            }
+
+            if ($status == C3op_Projects_OutsideServiceStatusConstants::STATUS_CONTRACTED) {
+                $doesIt = new C3op_Projects_OutsideServiceHasCredit($theOutsideService, $this->outsideServiceMapper);
+                if ($doesIt->hasCredit()) {
+                    $canProvideOutlay = true;
+                } else {
+                    $canProvideOutlay = false;
+                }
+            } else {
+                $canProvideOutlay = false;
+            }
+           $removal = new C3op_Projects_OutsideServiceRemoval($theOutsideService, $this->outsideServiceMapper);
+
+            if ($removal->canBeRemoved()) {
+                $canRemoveOutsideService = true;
+            } else {
+                $canRemoveOutsideService = false;
+            }
+
+
+
+
+            $outsideServicesList[$outsideServiceId] = array(
+                'id'                     => $outsideServiceId,
+                'name'                   => $institutionName,
+                'description'            => $descriptionMessage,
+                'value'                  => $currencyValue,
+                'contractingStatusLabel' => $statusLabel,
+                'canContractFlag'        => $canContract,
+                'canRemoveOutsideService'    => $canRemoveOutsideService,
+                'canProvideOutlay'       => $canProvideOutlay,
+
+            );
+        }
+
+        return $outsideServicesList;
 
     }
 
