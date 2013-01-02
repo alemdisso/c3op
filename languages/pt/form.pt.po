@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-14 16:36-0300\n"
-"PO-Revision-Date: 2012-12-14 16:36-0300\n"
+"POT-Creation-Date: 2013-01-02 11:01-0300\n"
+"PO-Revision-Date: 2013-01-02 11:01-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -15,73 +15,64 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: library\\C3op\\Form\n"
 
-#: library\C3op\Form/ActionCreate.php:18
+#: library\C3op\Form/ActionCreate.php:25
 #: library\C3op\Form/ContactCreate.php:15
 #: library\C3op\Form/InstitutionCreate.php:14
+#: library\C3op\Form/ProductCreate.php:19
 #: library\C3op\Form/ProjectCreate.php:10 library\C3op\Form/UserCreate.php:15
 msgid "#Name:"
 msgstr "Nome:"
 
-#: library\C3op\Form/ActionCreate.php:27
+#: library\C3op\Form/ActionCreate.php:34
 #: library\C3op\Form/InstitutionCreate.php:15
+#: library\C3op\Form/ProductCreate.php:28
 msgid "#Name is required"
 msgstr "Nome é um campo obrigatório."
 
-#: library\C3op\Form/ActionCreate.php:33
-msgid "#This action is a milestone?"
-msgstr "Essa ação é um marco do projeto?"
-
-#: library\C3op\Form/ActionCreate.php:46
-msgid "#Is requirement for receiving: "
-msgstr "É requisito para receber: "
-
-#: library\C3op\Form/ActionCreate.php:55
-msgid "#(not a requirement for receiving)"
-msgstr "(não é requisito para recebimento) "
-
-#: library\C3op\Form/ActionCreate.php:59
-msgid "#Subordinated to: "
-msgstr "Subordinada a: "
-
-#: library\C3op\Form/ActionCreate.php:68
-msgid "#(no action)"
-msgstr "(nenhuma ação)"
-
-#: library\C3op\Form/ActionCreate.php:72
+#: library\C3op\Form/ActionCreate.php:79
+#: library\C3op\Form/ProductCreate.php:73
 msgid "#Responsible: "
 msgstr "Responsável: "
 
-#: library\C3op\Form/ActionCreate.php:81
+#: library\C3op\Form/ActionCreate.php:88
+#: library\C3op\Form/ProductCreate.php:82
 #: library\C3op\Form/ProjectCreate.php:67
 #: library\C3op\Form/ProjectCreate.php:82
 msgid "#(choose a person)"
 msgstr "(escolha uma pessoa)"
 
-#: library\C3op\Form/ActionCreate.php:85
+#: library\C3op\Form/ActionCreate.php:92
+#: library\C3op\Form/ProductCreate.php:86
 #: library\C3op\Form/ReceivableCreate.php:34
 msgid "#Description:"
 msgstr "Descrição: "
 
-#: library\C3op\Form/ActionCreate.php:100
+#: library\C3op\Form/ActionCreate.php:107
+#: library\C3op\Form/ProductCreate.php:101
 #: library\C3op\Form/ProjectCreate.php:87
 #: library\C3op\Form/TeamMemberContract.php:19
 msgid "#Begin date:"
 msgstr "Data de início: "
 
-#: library\C3op\Form/ActionCreate.php:114
+#: library\C3op\Form/ActionCreate.php:121
+#: library\C3op\Form/ProductCreate.php:115
 #: library\C3op\Form/ProjectCreate.php:101
 #: library\C3op\Form/TeamMemberContract.php:33
 msgid "#Finish date:"
 msgstr "Data de término: "
 
-#: library\C3op\Form/ActionCreate.php:130 library\C3op\Form/ActionEdit.php:41
-#: library\C3op\Form/ContactCreate.php:80 library\C3op\Form/EmailCreate.php:57
+#: library\C3op\Form/ActionCreate.php:137 library\C3op\Form/ActionEdit.php:58
+#: library\C3op\Form/ContactCreate.php:80
+#: library\C3op\Form/ContractCreate.php:64
+#: library\C3op\Form/EmailCreate.php:57
 #: library\C3op\Form/InstitutionCreate.php:291
 #: library\C3op\Form/LinkageCreate.php:73 library\C3op\Form/LinkageEdit.php:76
 #: library\C3op\Form/MessengerCreate.php:58
-#: library\C3op\Form/OutlayCreate.php:79
+#: library\C3op\Form/OutlayCreate.php:79 library\C3op\Form/OutlayNotify.php:58
+#: library\C3op\Form/ProductCreate.php:131
+#: library\C3op\Form/ProductEdit.php:58 library\C3op\Form/ProjectAmend.php:50
 #: library\C3op\Form/ProjectCreate.php:284
-#: library\C3op\Form/ReceivableCreate.php:79
+#: library\C3op\Form/ReceivableCreate.php:94
 #: library\C3op\Form/ReceivableNotify.php:72
 #: library\C3op\Form/TeamMemberContract.php:65
 #: library\C3op\Form/TeamMemberCreate.php:65
@@ -89,17 +80,29 @@ msgstr "Data de término: "
 msgid "#Submit"
 msgstr "Gravar"
 
-#: library\C3op\Form/ActionEdit.php:24
+#: library\C3op\Form/ActionEdit.php:26 library\C3op\Form/ProductEdit.php:26
 msgid "#Status:"
 msgstr "Status:"
 
+#: library\C3op\Form/ActionEdit.php:43 library\C3op\Form/ProductCreate.php:60
+#: library\C3op\Form/ProductEdit.php:43
+msgid "#Subordinated to: "
+msgstr "Subordinada a: "
+
+#: library\C3op\Form/ActionEdit.php:52 library\C3op\Form/ProductCreate.php:69
+#: library\C3op\Form/ProductEdit.php:52
+msgid "#(no action)"
+msgstr "(nenhuma ação)"
+
 #: library\C3op\Form/ActionRemove.php:21
 #: library\C3op\Form/ContactRemove.php:22
+#: library\C3op\Form/TeamMemberRemove.php:21
 msgid "#Confirm removal"
 msgstr "Confirmo: remova!"
 
 #: library\C3op\Form/ActionRemove.php:21
 #: library\C3op\Form/ContactRemove.php:22
+#: library\C3op\Form/TeamMemberRemove.php:21
 msgid "#Don't remove"
 msgstr "Não remover"
 
@@ -121,6 +124,7 @@ msgstr "Não remover"
 #: library\C3op\Form/LinkageRemove.php:36
 #: library\C3op\Form/MessengerCreate.php:73
 #: library\C3op\Form/PhoneNumberEdit.php:26
+#: library\C3op\Form/TeamMemberRemove.php:32
 #: library\C3op\Form/UserCreate.php:117 library\C3op\Form/UserEdit.php:28
 #: library\C3op\Form/UserLogin.php:68
 msgid "#Invalid data!"
@@ -198,6 +202,20 @@ msgstr "Not defined which phone number to edit."
 #: library\C3op\Form/PhoneNumberEdit.php:47
 msgid "#Can't find this phone id at this contact phone list"
 msgstr "Can't find this phone id at this contact phone list"
+
+#: library\C3op\Form/ContractCreate.php:20
+msgid "#Contract"
+msgstr "Contrato:"
+
+#: library\C3op\Form/ContractCreate.php:34
+#: library\C3op\Form/OutlayCreate.php:45
+#: library\C3op\Form/ReceivableCreate.php:63
+msgid "#Predicted Date"
+msgstr "Data Prevista"
+
+#: library\C3op\Form/ContractCreate.php:49
+msgid "#This contract is a amendment?"
+msgstr "Esse contrato é um aditivo?"
 
 #: library\C3op\Form/EmailCreate.php:22
 #: library\C3op\Form/PhoneNumberCreate.php:24
@@ -373,19 +391,40 @@ msgstr "Invalid address"
 msgid "#Value:"
 msgstr "Valor:"
 
-#: library\C3op\Form/OutlayCreate.php:45
-#: library\C3op\Form/ReceivableCreate.php:48
-msgid "#Predicted Date"
-msgstr "Data Prevista"
-
-#: library\C3op\Form/OutlayCreate.php:61
+#: library\C3op\Form/OutlayCreate.php:61 library\C3op\Form/ProjectAmend.php:20
 #: library\C3op\Form/ProjectCreate.php:269
 msgid "#Observation:"
 msgstr "Observação:"
 
+#: library\C3op\Form/OutlayNotify.php:27
+#: library\C3op\Form/ReceivableNotify.php:41
+msgid "#Real Date"
+msgstr "Data Real"
+
+#: library\C3op\Form/OutlayNotify.php:42
+#: library\C3op\Form/ReceivableNotify.php:56
+msgid "#Real Value"
+msgstr "Valor real"
+
 #: library\C3op\Form/PhoneNumberCreate.php:76
 msgid "Gravar"
 msgstr "Save"
+
+#: library\C3op\Form/ProductCreate.php:34
+msgid "#This action is a milestone?"
+msgstr "Essa ação é um marco do projeto?"
+
+#: library\C3op\Form/ProductCreate.php:47
+msgid "#Is requirement for receiving: "
+msgstr "É requisito para receber: "
+
+#: library\C3op\Form/ProductCreate.php:56
+msgid "#(not a requirement for receiving)"
+msgstr "(não é requisito para recebimento) "
+
+#: library\C3op\Form/ProjectAmend.php:34
+msgid "#Signing Date"
+msgstr "Data da Assinatura"
 
 #: library\C3op\Form/ProjectCreate.php:18
 msgid "#Title is required"
@@ -420,7 +459,7 @@ msgid "#Responsible at client"
 msgstr "Responsável pelo cliente "
 
 #: library\C3op\Form/ProjectCreate.php:134
-#: library\C3op\Form/ProjectCreate.php:158
+#: library\C3op\Form/ProjectCreate.php:153
 msgid "#Project status:"
 msgstr "Status do projeto:"
 
@@ -428,7 +467,7 @@ msgstr "Status do projeto:"
 msgid "#(choose a status)"
 msgstr "(escolha um status)"
 
-#: library\C3op\Form/ProjectCreate.php:167
+#: library\C3op\Form/ProjectCreate.php:162
 msgid "#(disabled)"
 msgstr "(desabilitado)"
 
@@ -464,17 +503,13 @@ msgstr "Sumário:"
 msgid "#Receivable"
 msgstr "Recebimento"
 
-#: library\C3op\Form/ReceivableCreate.php:63
+#: library\C3op\Form/ReceivableCreate.php:48
+msgid "#Delivery Date"
+msgstr "Data de Entrega"
+
+#: library\C3op\Form/ReceivableCreate.php:78
 msgid "#Predicted Value"
 msgstr "Valor Previsto"
-
-#: library\C3op\Form/ReceivableNotify.php:41
-msgid "#Real Date"
-msgstr "Data Real"
-
-#: library\C3op\Form/ReceivableNotify.php:56
-msgid "#Real Value"
-msgstr "Valor real"
 
 #: library\C3op\Form/TeamMemberContract.php:48
 msgid "Observações:"
@@ -590,9 +625,6 @@ msgstr "Entrar"
 
 #~ msgid "Acrescentar conta para %s"
 #~ msgstr "Add service to %s"
-
-#~ msgid "Contato:"
-#~ msgstr "Contact:"
 
 #~ msgid "Telefones"
 #~ msgstr "Phone numbers"
