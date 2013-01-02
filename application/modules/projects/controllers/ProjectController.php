@@ -339,11 +339,21 @@ class Projects_ProjectController extends Zend_Controller_Action
             $productTitle = $theProduct->getTitle();
 
             $validator = new C3op_Util_ValidDate();
-            if ($validator->isValid($theProduct->getPredictedFinishDate())) {
-                $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($theProduct->getPredictedFinishDate());
+
+
+            $receivableId = $theProduct->getRequirementForReceiving();
+            if ($receivableId) {
+                $receivable = $this->receivableMapper->findById($receivableId);
+                if ($validator->isValid($receivable->getPredictedDate())) {
+                    $deliveryDate = C3op_Util_DateDisplay::FormatDateToShow($receivable->getPredictedDate());
+                } else {
+                    $deliveryDate = $this->view->translate("#(no delivery)");
+                }
+
             } else {
-                $predictedDate = $this->view->translate("#(undefined)");
+                $deliveryDate = $this->view->translate("#(no delivery)");
             }
+
 
             if ($validator->isValid($theProduct->getRealFinishDate())) {
                 $realDate = C3op_Util_DateDisplay::FormatDateToShow($theProduct->getRealFinishDate());
@@ -367,7 +377,7 @@ class Projects_ProjectController extends Zend_Controller_Action
 
             $productsList[$id] = array(
                     'productTitle'            => $productTitle,
-                    'predictedDate'           => $predictedDate,
+                    'deliveryDate'            => $deliveryDate,
                     'realDate'                => $realDate,
                     'status'                  => $this->view->translate($status),
                     'physicalProgress'        => "[ND]",

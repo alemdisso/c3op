@@ -17,14 +17,6 @@ $pageData = $this->pageData;
         //
 $projectHeader = $pageData['projectHeader'];
 
-        // receivablesList
-        //   * id =>
-        //      productTitle
-        //      predictedDate
-        //      realDate
-        //      predictedValue
-        //      realValue
-
 $receivablesList = $pageData['receivablesList'];
 $productsList = $pageData['productsList'];
 $actionsList = $pageData['actionsTree'];
@@ -290,7 +282,7 @@ if ($receivableInfo['canNotifyReceiving']) {
               <thead>
                 <tr>
                   <th width="225"><?php echo $this->translate("#Product") ?></th>
-                  <th width="50"><?php echo $this->translate("#Predicted date") ?></th>
+                  <th width="50"><?php echo $this->translate("#Delivery") ?></th>
                   <th width="50"><?php echo $this->translate("#Real date") ?></th>
                   <th width="70"><?php echo $this->translate("#Status") ?></th>
                   <th width="30"><?php echo $this->translate("#% physical progress")  ?></th>
@@ -306,10 +298,10 @@ foreach($productsList as $id => $productInfo) {
                   <td>
                     <a href="/projects/action/detail/?id=<?php print($id) ?>"><?php print($productInfo['productTitle']) ?></a>
                   </td>
-                  <td class="Right">
-                    <?php print($productInfo['predictedDate']) ?>
+                  <td class="Left">
+                    <?php print($productInfo['deliveryDate']) ?>
                   </td>
-                  <td class="Right">
+                  <td class="Left">
                     <?php  print($productInfo['realDate']) ?>
                   </td>
                   <td>
