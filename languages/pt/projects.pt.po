@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-02 11:00-0300\n"
-"PO-Revision-Date: 2013-01-02 11:01-0300\n"
+"POT-Creation-Date: 2013-01-02 13:53-0300\n"
+"PO-Revision-Date: 2013-01-02 13:54-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -37,6 +37,9 @@ msgstr "Criar ação subordinada a %s"
 #: application\modules\projects/controllers/OutlayController.php:39
 #: application\modules\projects/controllers/OutlayController.php:74
 #: application\modules\projects/controllers/OutlayController.php:126
+#: application\modules\projects/controllers/OutsideServiceController.php:36
+#: application\modules\projects/controllers/OutsideServiceController.php:89
+#: application\modules\projects/controllers/OutsideServiceController.php:186
 #: application\modules\projects/controllers/ProjectController.php:46
 #: application\modules\projects/controllers/ProjectController.php:110
 #: application\modules\projects/controllers/ReceivableController.php:34
@@ -83,6 +86,7 @@ msgid "#(not started)"
 msgstr "(não iniciada)"
 
 #: application\modules\projects/controllers/ActionController.php:485
+#: application\modules\projects/controllers/OutsideServiceController.php:303
 #: application\modules\projects/controllers/TeamMemberController.php:280
 msgid "#The record was successfully removed."
 msgstr "O registro foi removido com sucesso."
@@ -161,6 +165,7 @@ msgstr "(data desconhecida)"
 #: library\C3op\projects/ActionStatusTypes.php:36
 #: library\C3op\projects/AreaActivityTypes.php:34
 #: library\C3op\projects/ContractNatureTypes.php:33
+#: library\C3op\projects/OutsideServiceStatusTypes.php:32
 #: library\C3op\projects/ProjectStatusTypes.php:38
 #: library\C3op\projects/TeamMemberStatusTypes.php:32
 msgid "#Unknown type"
@@ -326,6 +331,7 @@ msgstr "Confirma entrega"
 #: application\modules\projects/views/scripts/index/index.phtml:24
 #: application\modules\projects/views/scripts/outlay/create.phtml:4
 #: application\modules\projects/views/scripts/outlay/edit.phtml:4
+#: application\modules\projects/views/scripts/outside-service/create.phtml:21
 #: application\modules\projects/views/scripts/project/detail.phtml:93
 #: application\modules\projects/views/scripts/receivable/create.phtml:2
 #: application\modules\projects/views/scripts/receivable/detail.phtml:8
@@ -618,6 +624,7 @@ msgstr "Prever pagamento"
 
 #: application\modules\projects/views/scripts/outlay/create.phtml:10
 #: application\modules\projects/views/scripts/outlay/edit.phtml:10
+#: application\modules\projects/views/scripts/outside-service/edit.phtml:24
 #: application\modules\projects/views/scripts/team-member/edit.phtml:8
 msgid "#Action:"
 msgstr "Ação:"
@@ -634,6 +641,31 @@ msgstr "Editar pagamento"
 #: application\modules\projects/views/scripts/outlay/notify.phtml:5
 msgid "#Notify outlay"
 msgstr "Confirmar pagamento"
+
+#: application\modules\projects/views/scripts/outside-service/create.phtml:24
+msgid "#New outside service for action"
+msgstr "Novo serviço para a ação"
+
+#: application\modules\projects/views/scripts/outside-service/edit.phtml:21
+msgid "#Edit outside service"
+msgstr "Editar serviço"
+
+#: application\modules\projects/views/scripts/outside-service/remove.phtml:5
+msgid "#Remove outside service"
+msgstr "Remover serviço de terceiros"
+
+#: application\modules\projects/views/scripts/outside-service/remove.phtml:8
+#, php-format
+msgid ""
+"#Do you confirm removal of outside service %s in action %s? This CAN'T be "
+"undone."
+msgstr ""
+"Você confirma a remoção do serviço %s na ação %s? Isso NÃO pode ser desfeito."
+
+#: application\modules\projects/views/scripts/outside-service/success.phtml:2
+#: application\modules\projects/views/scripts/team-member/success.phtml:2
+msgid "#Success!"
+msgstr "Sucesso!"
 
 #: application\modules\projects/views/scripts/project/amend.phtml:5
 msgid "#New amendment"
@@ -849,10 +881,6 @@ msgid ""
 "#Do you confirm removal of team member %s in action %s? This CAN'T be undone."
 msgstr ""
 "Você confirma a remoção da função %s na ação %s? Isso NÃO pode ser desfeito."
-
-#: application\modules\projects/views/scripts/team-member/success.phtml:2
-msgid "#Success!"
-msgstr "Sucesso!"
 
 #~ msgid "#Predict outlay"
 #~ msgstr "Prever pagamento"

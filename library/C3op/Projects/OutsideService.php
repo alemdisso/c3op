@@ -1,10 +1,11 @@
 <?php
 
-class C3op_Projects_TeamMember {
+class C3op_Projects_OutsideService {
 
     protected $id;
     protected $action;
     protected $description;
+    protected $institution;
     protected $linkage;
     protected $value;
     protected $status;
@@ -13,6 +14,7 @@ class C3op_Projects_TeamMember {
         $this->id = (int)$id;
         $this->action = "";
         $this->description = "";
+        $this->institution = 0;
         $this->linkage = 0;
         $this->value = "";
         $this->status = "";
@@ -26,7 +28,7 @@ class C3op_Projects_TeamMember {
         if (($this->id == 0) && ($id > 0)) {
             $this->id = (int)$id;
         } else {
-            throw new C3op_Projects_TeamMemberException('It\'s not possible to change a Human Resource\'s ID');
+            throw new C3op_Projects_OutsideServiceException('It\'s not possible to change a Human Resource\'s ID');
         }
     } //setId
 
@@ -41,7 +43,7 @@ class C3op_Projects_TeamMember {
                 $this->action = $action;
             }
         } else {
-            throw new C3op_Projects_TeamMemberException("This ($action) is not a valid action.");
+            throw new C3op_Projects_OutsideServiceException("This ($action) is not a valid action.");
         }
 
     } //setAction
@@ -57,9 +59,33 @@ class C3op_Projects_TeamMember {
                 $this->description = $description;
             }
         } else {
-            throw new C3op_Projects_TeamMemberException("This ($description) is not a valid description.");
+            throw new C3op_Projects_OutsideServiceException("This ($description) is not a valid description.");
         }
     } //setDescription
+
+    public function getInstitution() {
+        return $this->institution;
+    } //getInstitution
+
+    public function setInstitution($institution) {
+        $validator = new C3op_Util_ValidPositiveInteger();
+        if ($validator->isValid($institution)) {
+            if ($this->institution != $institution) {
+                $this->institution = $institution;
+                if ($institution > 0) {
+                    $this->SetStatus(C3op_Projects_OutsideServiceStatusConstants::STATUS_FORESEEN);
+                } else {
+                    if ($this->GetStatus() != C3op_Projects_OutsideServiceStatusConstants::STATUS_CANCEL) {
+                        $this->SetStatus(C3op_Projects_OutsideServiceStatusConstants::STATUS_UNDEFINED);
+
+                    }
+                }
+            }
+        } else {
+            throw new C3op_Projects_OutsideServiceException("This ($institution) is not a valid institution.");
+        }
+
+    } //setInstitution
 
     public function getLinkage() {
         return $this->linkage;
@@ -71,16 +97,16 @@ class C3op_Projects_TeamMember {
             if ($this->linkage != $linkage) {
                 $this->linkage = $linkage;
                 if ($linkage > 0) {
-                    $this->SetStatus(C3op_Projects_TeamMemberStatusConstants::STATUS_FORESEEN);
+                    $this->SetStatus(C3op_Projects_OutsideServiceStatusConstants::STATUS_FORESEEN);
                 } else {
-                    if ($this->GetStatus() != C3op_Projects_TeamMemberStatusConstants::STATUS_CANCEL) {
-                        $this->SetStatus(C3op_Projects_TeamMemberStatusConstants::STATUS_UNDEFINED);
+                    if ($this->GetStatus() != C3op_Projects_OutsideServiceStatusConstants::STATUS_CANCEL) {
+                        $this->SetStatus(C3op_Projects_OutsideServiceStatusConstants::STATUS_UNDEFINED);
 
                     }
                 }
             }
         } else {
-            throw new C3op_Projects_TeamMemberException("This ($linkage) is not a valid linkage.");
+            throw new C3op_Projects_OutsideServiceException("This ($linkage) is not a valid linkage.");
         }
 
     } //setLinkage
@@ -109,7 +135,7 @@ class C3op_Projects_TeamMember {
                 $this->status = $status;
             }
         } else {
-            throw new C3op_Projects_TeamMemberException("This ($status) is not a valid status.");
+            throw new C3op_Projects_OutsideServiceException("This ($status) is not a valid status.");
         }
 
     } //setStatus

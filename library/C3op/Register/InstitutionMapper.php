@@ -171,6 +171,24 @@ class C3op_Register_InstitutionMapper
         return $result;
     }
 
+    public function getAllServiceSuppliers() {
+        $result = array();
+        foreach ($this->db->query(
+            sprintf(
+                'SELECT id, short_name FROM register_institutions WHERE relationship_type = %d OR relationship_type = %d OR relationship_type = %d;'
+                , C3op_Register_InstitutionRelationshipConstants::RELATIONSHIP_GENERAL
+                , C3op_Register_InstitutionRelationshipConstants::RELATIONSHIP_PARTNER
+                , C3op_Register_InstitutionRelationshipConstants::RELATIONSHIP_SUPPLIER
+            )
+        )as $row) {
+            $result[] = array(
+                'id' =>$row['id'],
+                'short_name' =>$row['short_name'],
+                );
+        }
+        return $result;
+    }
+
     public function getAllLinkages(C3op_Register_Institution $i)
     {
         $result = array();
