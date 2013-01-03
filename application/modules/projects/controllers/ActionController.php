@@ -10,7 +10,6 @@ class Projects_ActionController extends Zend_Controller_Action
     private $contactMapper;
     private $institutionMapper;
     private $db;
-    private $treeData;
 
     public function preDispatch()
     {

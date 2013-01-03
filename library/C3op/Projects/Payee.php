@@ -6,15 +6,15 @@ class C3op_Projects_Payee
     protected $id;
     protected $project;
     protected $action;
-    protected $humanResource;
+    protected $teamMember;
     protected $outsideService;
     protected $materialSupply;
 
-    function __construct($humanResource=0, $outsideService=0, $materialSupply=0, $id=0) {
+    function __construct($teamMember=0, $outsideService=0, $materialSupply=0, $id=0) {
         $this->id = (int)$id;
 
-        if (($humanResource) || ($outsideService) || ($materialSupply)) {
-            $this->humanResource = $humanResource;
+        if (($teamMember) || ($outsideService) || ($materialSupply)) {
+            $this->teamMember = $teamMember;
             $this->outsideService = $outsideService;
             $this->materialSupply = $materialSupply;
         } else {
@@ -64,12 +64,12 @@ class C3op_Projects_Payee
 
     public function GetTeamMember()
     {
-        return $this->humanResource;
+        return $this->teamMember;
     }
 
-    public function SetTeamMember($humanResource)
+    public function SetTeamMember($teamMember)
     {
-        $this->humanResource = $humanResource;
+        $this->teamMember = $teamMember;
     }
 
     public function GetPredictedValue()

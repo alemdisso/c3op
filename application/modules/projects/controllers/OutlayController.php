@@ -204,14 +204,15 @@ class Projects_OutlayController  extends Zend_Controller_Action
     public function successAction()
     {
 
-        $this->initActionMapper();
-        $actionRelated =  $this->initActionWithCheckedId($this->actionMapper);
+        $this->initOutlayMapper();
+        $outlay =  $this->initOutlayWithCheckedId($this->outlayMapper);
+        $actionRelatedId = $outlay->GetAction();
 
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
             $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
-            $this->getResponse()->setHeader('Refresh', '1; URL=/projects/action/detail/?id=' . $actionRelated->GetId());
+            $this->getResponse()->setHeader('Refresh', '1; URL=/projects/action/detail/?id=' . $actionRelatedId);
         } else {
-            $this->_redirect('/projects');
+            $this->_redirect('/projects/action/detail/?id=' . $actionRelatedId);
         }
     }
 

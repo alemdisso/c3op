@@ -25,7 +25,7 @@ class C3op_Form_MaterialSupplyCreate extends Zend_Form
                 ->setOptions(array('class' => 'Full alpha omega'))
             ->addValidator(new C3op_Util_ValidString)
             ->setRequired(true)
-            ->addErrorMessage(_('#A valid role description is required'))
+            ->addErrorMessage(_('#A valid material description is required'))
             ->addFilter('StringTrim')
                 ;
         $this->addElement($element);
@@ -46,6 +46,26 @@ class C3op_Form_MaterialSupplyCreate extends Zend_Form
             ->addErrorMessage(_('#The value must be a positive number'))
                 ;
         $this->addElement($element);
+
+
+        $element = new Zend_Form_Element_Text('quantity');
+        $element->setLabel('#Quantity:')
+                ->setDecorators(array(
+                    'ViewHelper',
+                    'Errors',
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'five columns')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                ))
+                ->setOptions(array('class' => 'Full alpha omega'))
+            ->addValidator(new C3op_Util_ValidString)
+            ->setRequired(true)
+            ->addErrorMessage(_('#A valid quantity is required'))
+            ->addFilter('StringTrim')
+                ;
+        $this->addElement($element);
+
+
+
 
         $element = new Zend_Form_Element_Select('institution', array('onChange' => 'javascript:populateResponsibleAtSupplier()'));
         $element->setLabel('#Company:')

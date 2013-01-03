@@ -97,6 +97,8 @@ class C3op_Form_OutlayNotify extends Zend_Form
             $outlay->SetRealValue($realValueWithDecimalPoint);
 
             $outlayMapper->update($outlay);
+
+            return($outlay->getId());
         }
     }
 

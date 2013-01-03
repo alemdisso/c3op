@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-01-02 23:28-0300\n"
-"PO-Revision-Date: 2013-01-02 23:28-0300\n"
+"PO-Revision-Date: 2013-01-03 11:55-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -448,11 +448,11 @@ msgstr "Equipe"
 #: application\modules\projects/views/scripts/project/detail.phtml:192
 #: application\modules\projects/views/scripts/project/detail.phtml:533
 msgid "#Services"
-msgstr "Serviços"
+msgstr "Terceiros"
 
 #: application\modules\projects/views/scripts/action/detail.phtml:232
 msgid "#Material"
-msgstr "Materiais"
+msgstr "Serviços e Materiais"
 
 #: application\modules\projects/views/scripts/action/detail.phtml:239
 #: application\modules\projects/views/scripts/project/detail.phtml:363
