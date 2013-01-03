@@ -35,6 +35,7 @@ public function __construct() {
     $this->add(new Zend_Acl_Resource('c3op:projects.action'));
     $this->add(new Zend_Acl_Resource('c3op:projects.team-member'));
     $this->add(new Zend_Acl_Resource('c3op:projects.outside-service'));
+    $this->add(new Zend_Acl_Resource('c3op:projects.material-supply'));
     $this->add(new Zend_Acl_Resource('c3op:projects.outlay'));
     $this->add(new Zend_Acl_Resource('c3op:projects.project'));
     $this->add(new Zend_Acl_Resource('c3op:projects.receivable'));
@@ -66,10 +67,18 @@ public function __construct() {
     $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:projects.outside-service');
     $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:projects.outside-service', 'create');
     $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:projects.outside-service', 'contract');
-    $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:projects.outside-service', 'dismiss-contact');
+    $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:projects.outside-service', 'dismiss-service');
     $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:projects.outside-service', 'contract');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.outside-service', 'outlays');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.outside-service', 'success');
+
+    $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:projects.material-supply');
+    $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:projects.material-supply', 'create');
+    $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:projects.material-supply', 'contract');
+    $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:projects.material-supply', 'dismiss-material');
+    $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:projects.material-supply', 'contract');
+    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.material-supply', 'outlays');
+    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.material-supply', 'success');
 
     $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:projects.outlay', 'create');
     $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:projects.outlay', 'edit');

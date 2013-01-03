@@ -3,6 +3,7 @@
   $actionHeader = $pageData['actionHeader'];
   $teamData = $pageData['teamMembersList'];
   $servicesData = $pageData['outsideServicesList'];
+  $materialData = $pageData['materialSuppliesList'];
 ?>
 
 <script type="text/javascript">
@@ -228,6 +229,7 @@ if ($parentId > 0) {
             <li><a href="#tabs-subactions"><?php echo $this->translate("#Subactions") ?></a></li>
             <li><a href="#tabs-team"><?php echo $this->translate("#Team") ?></a></li>
             <li><a href="#tabs-services"><?php echo $this->translate("#Services") ?></a></li>
+            <li><a href="#tabs-material"><?php echo $this->translate("#Material") ?></a></li>
           </ul>
 
           <div id="tabs-subactions">
@@ -285,7 +287,7 @@ if ($parentId > 0) {
 
           <div id="tabs-team">
 
-          <table id="RecursosHumanos" class="display dataTable">
+          <table id="TeamMembers" class="display dataTable">
             <thead>
               <tr>
                 <th width="220"><?php print($this->translate("#Name")); ?></th>
@@ -378,7 +380,7 @@ if ($teamMemberData['canRemoveTeamMember']) {
 
           <div id="tabs-services">
 
-          <table id="RecursosHumanos" class="display dataTable">
+          <table id="OutsideServices" class="display dataTable">
             <thead>
               <tr>
                 <th width="220"><?php print($this->translate("#Name")); ?></th>
@@ -467,5 +469,97 @@ if ($outsideServiceData['canRemoveOutsideService']) {
           </p>
 
           </div><!-- #tabs-services -->
+
+          <div id="tabs-material">
+
+          <table id="MaterialSupplies" class="display dataTable">
+            <thead>
+              <tr>
+                <th width="220"><?php print($this->translate("#Organization")); ?></th>
+                <th width="80"><?php print($this->translate("#Service")); ?></th>
+                <th width="100"><?php print($this->translate("#Value")); ?></th>
+                <th width="100"><?php print($this->translate("#Status")); ?></th>
+                <th width="100">&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+
+<?php
+  foreach ($materialData as $id => $materialSupplyData) {
+?>          <!-- ### loop de carga dos recursos humanos alocados a esta ação -->
+              <tr>
+                <td>
+                  <a href="/projects/material-supply/edit/?id=<?php print($id) ?>"><?php print($materialSupplyData['name']) ?></a>
+                </td>
+                <td>
+                  <a href="/projects/material-supply/edit/?id=<?php print($id) ?>"><?php print($materialSupplyData['description']) ?></a>
+                </td>
+                <td>
+                  <?php print($materialSupplyData['value']) ?>
+                </td>
+                <td>
+                  <?php print($materialSupplyData['contractingStatusLabel']) ?>
+                </td>
+                <td>
+                  <a href="#" class="button one column alpha omega anchorclass" rel="submenu2"><?php print($this->translate("#Options")); ?></a>
+                  <div id="submenu2" class="anylinkcss">
+                      <ul>
+                        <li>
+                          <a href="/projects/material-supply/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
+                        </li>
+
+<?php
+    if ($materialSupplyData['canContractFlag']) {
+?>
+                        <li>
+                          <a class="parent_info" href="/projects/material-supply/contract/?id=<?php print($id);?>" ><?php print($this->translate("#Confirm material supply contracting")); ?></a>
+                        </li>
+
+<?php
+    }
+?>
+<?php
+
+if ($materialSupplyData['canProvideOutlay']) {
+?>
+
+
+                          <li>
+                            <a href="/projects/outlay/create/?materialSupply=<?php echo $id ?>"><?php echo $this->translate("#Provide outlay") ?></a>
+                          </li>
+
+<?php
+}
+?>
+<?php
+
+if ($materialSupplyData['canRemoveMaterialSupply']) {
+?>
+
+
+                          <li>
+                            <a href="/projects/material-supply/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
+                          </li>
+
+<?php
+}
+?>
+                      </ul>
+                  </div><!-- #submenu1 -->
+                </td>
+              </tr>
+              <!-- ### fim do loop de carga dos recursos humanos alocados a esta ação -->
+<?php
+  }
+?>
+
+            </tbody>
+          </table>
+
+          <p>
+            <a href="/projects/material-supply/create/?actionId=<?php print($actionHeader['id']); ?>" class="button three columns alpha omega"><?php print($this->translate("#Anticipate material supply")); ?></a>
+          </p>
+
+          </div><!-- #tabs-material -->
 
         </div><!-- #tabs -->

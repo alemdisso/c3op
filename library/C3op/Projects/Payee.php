@@ -8,15 +8,15 @@ class C3op_Projects_Payee
     protected $action;
     protected $humanResource;
     protected $outsideService;
-    protected $materialSupplier;
+    protected $materialSupply;
 
-    function __construct($humanResource=0, $outsideService=0, $materialSupplier=0, $id=0) {
+    function __construct($humanResource=0, $outsideService=0, $materialSupply=0, $id=0) {
         $this->id = (int)$id;
 
-        if (($humanResource) || ($outsideService) || ($materialSupplier)) {
+        if (($humanResource) || ($outsideService) || ($materialSupply)) {
             $this->humanResource = $humanResource;
             $this->outsideService = $outsideService;
-            $this->materialSupplier = $materialSupplier;
+            $this->materialSupply = $materialSupply;
         } else {
             throw new C3op_Projects_PayleeException('Can\'t create a payee without someone to pay.');
         }

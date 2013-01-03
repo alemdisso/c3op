@@ -27,7 +27,7 @@ class C3op_Projects_PayleeMapper
             'action' => $new->GetAction(),
             'team_member' => $new->GetTeamMember(),
             'outside_service' => $new->GetOutsideService(),
-            'material_supplier' => $new->GetMaterialSupplier(),
+            'material_supply' => $new->GetMaterialSupply(),
             );
         $this->db->insert('projects_paylees', $data);
         $new->SetId((int)$this->db->lastInsertId());
@@ -43,7 +43,7 @@ class C3op_Projects_PayleeMapper
 
         $this->db->exec(
             sprintf(
-                'UPDATE projects_paylees SET project = %d, action = %d, team_member = %d, outside_service = %d, material_supplier = %d WHERE id = %d;',
+                'UPDATE projects_paylees SET project = %d, action = %d, team_member = %d, outside_service = %d, material_supply = %d WHERE id = %d;',
                 $o->GetProject(),
                 $o->GetAction(),
                 $o->GetTeamMember(),
@@ -71,7 +71,7 @@ class C3op_Projects_PayleeMapper
 
         $result = $this->db->fetchRow(
             sprintf(
-                'SELECT  project, action, team_member, outside_service, material_supplier, real_value, real_date, recurrent, observation FROM projects_outlays WHERE id = %d;',
+                'SELECT  project, action, team_member, outside_service, material_supply, real_value, real_date, recurrent, observation FROM projects_outlays WHERE id = %d;',
                 $id
             )
         );
@@ -83,7 +83,7 @@ class C3op_Projects_PayleeMapper
         $this->setAttributeValue($r, $result['project'], 'project');
         $this->setAttributeValue($r, $result['action'], 'action');
         $this->setAttributeValue($r, $result['outside_service'], 'outsideService');
-        $this->setAttributeValue($r, $result['material_supplier'], 'materialSupplier');
+        $this->setAttributeValue($r, $result['material_supply'], 'materialSupply');
 
         $this->identityMap[$r] = $id;
         return $r;
@@ -130,10 +130,10 @@ class C3op_Projects_PayleeMapper
         return $result;
     }
 
-     public function getAllPayleesForMaterialSupplier(C3op_Projects_MaterialSupplier $obj) {
+     public function getAllPayleesForMaterialSupply(C3op_Projects_MaterialSupply $obj) {
         $result = array();
             foreach ($this->db->query(
-                    sprintf('SELECT id FROM projects_paylees WHERE material_supplier = %d;', $obj->GetId())) as $row) {
+                    sprintf('SELECT id FROM projects_paylees WHERE material_supply = %d;', $obj->GetId())) as $row) {
             $result[] = $row['id'];
         }
         return $result;
