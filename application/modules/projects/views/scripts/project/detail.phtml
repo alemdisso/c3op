@@ -413,10 +413,24 @@ if($outlayInfo['payeeId'] > 0) {
                             <!-- [# LINK PARA A EDIÇÃO DO PAGAMENTO ] -->
                             <a href="/projects/outlay/edit/?id=<?php print($id) ?>"><?php echo $this->translate("#Edit") ?></a>
                           </li>
+
+<?php
+
+if ($outlayInfo['canNotifyOutlay']) {
+?>
+
+
                           <li>
                             <!-- [# LINK PARA FORM DE CONFIRMAÇÃO DE PAGAMENTO -> VAI ABRIR EM BOX DE DIÁLOGO MODAL ] -->
                             <a href="/projects/outlay/notify/?id=<?php print($id) ?>"><?php echo $this->translate("#Confirm payment") ?></a>
                           </li>
+
+<?php
+}
+
+?>
+
+
                           <li>
                             <!-- [# LINK PARA PÁGINA DE DETALHAMENTO DO PAGAMENTO ] -->
                             <a href="/projects/outlay/detail/?id=<?php print($id) ?>"><?php echo $this->translate("#Outlay details") ?></a>

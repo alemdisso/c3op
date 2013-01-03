@@ -345,8 +345,8 @@ class Projects_ProjectController extends Zend_Controller_Action
             $receivableId = $theProduct->getRequirementForReceiving();
             if ($receivableId) {
                 $receivable = $this->receivableMapper->findById($receivableId);
-                if ($validator->isValid($receivable->getPredictedDate())) {
-                    $deliveryDate = C3op_Util_DateDisplay::FormatDateToShow($receivable->getPredictedDate());
+                if ($validator->isValid($receivable->getDeliveryDate())) {
+                    $deliveryDate = C3op_Util_DateDisplay::FormatDateToShow($receivable->getDeliveryDate());
                 } else {
                     $deliveryDate = $this->view->translate("#(no delivery)");
                 }
@@ -430,6 +430,22 @@ class Projects_ProjectController extends Zend_Controller_Action
 
                     $payeeId = $theContact->getId();
                     $payeeName = $theContact->getName();
+
+                    $status = $theTeamMember->getStatus();
+                    if ($status == C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED) {
+                        $doesIt = new C3op_Projects_TeamMemberHasCredit($theTeamMember, $this->teamMemberMapper);
+                        if ($doesIt->hasCredit()) {
+                            $canProvideOutlay = true;
+                        } else {
+                            $canProvideOutlay = false;
+                        }
+                    } else {
+                        $canProvideOutlay = false;
+                    }
+
+
+
+
                 }
             }
 
@@ -450,6 +466,7 @@ class Projects_ProjectController extends Zend_Controller_Action
             $predictedValue = $currencyDisplay->FormatCurrency($theOutlay->getPredictedValue());
             $realValue = $currencyDisplay->FormatCurrency($theOutlay->getRealValue());
 
+
             $outlaysList[$id] = array(
                     'actionId' => $actionId,
                     'actionTitle' => $actionTitle,
@@ -459,6 +476,7 @@ class Projects_ProjectController extends Zend_Controller_Action
                     'realDate' => $realDate,
                     'predictedValue' => $predictedValue,
                     'realValue' => $realValue,
+                    'canNotifyOutlay' => $canProvideOutlay,
                 );
         }
 
