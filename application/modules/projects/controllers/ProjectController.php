@@ -13,6 +13,7 @@ class Projects_ProjectController extends Zend_Controller_Action
     private $receivableMapper;
     private $teamMemberMapper;
     private $outsideServiceMapper;
+    private $materialSupplyMapper;
     private $treeData;
 
     public function preDispatch()
@@ -613,6 +614,9 @@ class Projects_ProjectController extends Zend_Controller_Action
                 );
         }
 
+        $materialSuppliesList = $this->getMaterialSuppliesList($projectToBeDetailed);
+
+
         $objTree = new C3op_Projects_ProjectTree();
         $tree = $objTree->retrieveTree($projectToBeDetailed, $this->projectMapper, $this->actionMapper);
 
@@ -631,14 +635,15 @@ class Projects_ProjectController extends Zend_Controller_Action
 
 
         $pageData = array(
-            'projectHeader'       => $projectHeader,
-            'receivablesList'     => $receivablesList,
-            'productsList'        => $productsList,
-            'outlaysList'         => $outlaysList,
-            'actionsTree'         => $actionTreeList,
-            'teamMembersList'     => $teamMembersList,
-            'outsideServicesList' => $outsideServicesList,
-            'detailsData'         => $detailsData,
+            'projectHeader'        => $projectHeader,
+            'receivablesList'      => $receivablesList,
+            'productsList'         => $productsList,
+            'outlaysList'          => $outlaysList,
+            'actionsTree'          => $actionTreeList,
+            'teamMembersList'      => $teamMembersList,
+            'outsideServicesList'  => $outsideServicesList,
+            'materialSuppliesList' => $materialSuppliesList,
+            'detailsData'          => $detailsData,
 
         );
         $this->view->pageData = $pageData;
@@ -774,6 +779,11 @@ class Projects_ProjectController extends Zend_Controller_Action
     private function initOutsideServiceMapper()
     {
          $this->outsideServiceMapper = new C3op_Projects_OutsideServiceMapper($this->db);
+    }
+
+    private function initMaterialSupplyMapper()
+    {
+         $this->materialSupplyMapper = new C3op_Projects_MaterialSupplyMapper($this->db);
     }
 
     private function initReceivableMapper()
@@ -1040,6 +1050,97 @@ class Projects_ProjectController extends Zend_Controller_Action
 
     }
 
+     private function getMaterialSuppliesList(C3op_Projects_Project $project)
+    {
+        // materialSupplyList
+        //   * materialSupplyInfo
+        //      id
+        //      name
+        //      description
+        //      value
+        //      contractingStatusLabel
+        //      canContractFlag
+        //      canRemoveMaterialSupply
+        //      canProvideOutlay
+
+        if (!isset($this->materialSupplyMapper)) {
+            $this->initmaterialSupplyMapper();
+        }
+
+        if (!isset($this->linkageMapper)) {
+            $this->initLinkageMapper();
+        }
+
+        $materialSuppliesList = array();
+        $materialSuppliesIdsList = $this->projectMapper->getAllMaterialSuppliesContractedOrPredictedAt($project);
+
+        foreach ($materialSuppliesIdsList as $materialSupplyId) {
+            $theMaterialSupply = $this->materialSupplyMapper->findById($materialSupplyId);
+            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+            $currencyValue = $currencyDisplay->FormatCurrency($theMaterialSupply->GetTotalValue());
+            //$totalValueExistentOutlays = $this->calculateTotalValueExistentOutlays($theMaterialSupply);
+            $totalValueExistentOutlays = "???";
+
+            $descriptionMessage = $theMaterialSupply->GetDescription();
+
+            $institutionId = $theMaterialSupply->GetInstitution();
+            //$actionId = $action->GetId();
+            $institutionName = $this->view->translate("(#not defined)");
+            if ($institutionId > 0) {
+                $this->initContactMapper();
+                $this->initInstitutionMapper();
+                $institutionService = $this->institutionMapper->findById($institutionId);
+                $institutionName = $institutionService->GetName();
+            }
+
+
+            $status = $theMaterialSupply->getStatus();
+            $statusTypes = new C3op_Projects_MaterialSupplyStatusTypes();
+            $statusLabel = $statusTypes->TitleForType($status);
+
+            if ($status == C3op_Projects_MaterialSupplyStatusConstants::STATUS_FORESEEN) {
+                $canContract = true;
+            } else {
+                $canContract = false;
+            }
+
+            if ($status == C3op_Projects_MaterialSupplyStatusConstants::STATUS_CONTRACTED) {
+                $doesIt = new C3op_Projects_MaterialSupplyHasCredit($theMaterialSupply, $this->materialSupplyMapper);
+                if ($doesIt->hasCredit()) {
+                    $canProvideOutlay = true;
+                } else {
+                    $canProvideOutlay = false;
+                }
+            } else {
+                $canProvideOutlay = false;
+            }
+           $removal = new C3op_Projects_MaterialSupplyRemoval($theMaterialSupply, $this->materialSupplyMapper);
+
+            if ($removal->canBeRemoved()) {
+                $canRemoveMaterialSupply = true;
+            } else {
+                $canRemoveMaterialSupply = false;
+            }
+
+
+
+
+            $materialSuppliesList[$materialSupplyId] = array(
+                'id'                     => $materialSupplyId,
+                'name'                   => $institutionName,
+                'description'            => $descriptionMessage,
+                'value'                  => $currencyValue,
+                'contractingStatusLabel' => $statusLabel,
+                'canContractFlag'        => $canContract,
+                'canRemoveMaterialSupply'    => $canRemoveMaterialSupply,
+                'canProvideOutlay'       => $canProvideOutlay,
+
+            );
+        }
+
+        return $materialSuppliesList;
+
+    }
 
 
 }

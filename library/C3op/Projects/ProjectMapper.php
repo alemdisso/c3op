@@ -232,6 +232,30 @@ class C3op_Projects_ProjectMapper
         } else throw new C3op_Projects_ActionMapperException("invalid action id to find subordinated for");
     }
 
+    public function getAllMaterialSuppliesContractedOrPredictedAt(C3op_Projects_Project $obj) {
+        $result = array();
+
+        foreach ($this->db->query(sprintf('SELECT s.id
+            FROM projects_actions a
+            INNER JOIN projects_material_supplies s ON a.id = s.action
+            WHERE a.project = %d
+            AND (
+            s.status = %d
+            OR s.status = %d
+            OR s.status = %d
+            OR s.status = %d
+            )'
+            , $obj->getId()
+            , C3op_Projects_MaterialSupplyStatusConstants::STATUS_UNDEFINED
+            , C3op_Projects_MaterialSupplyStatusConstants::STATUS_CONTRACTED
+            , C3op_Projects_MaterialSupplyStatusConstants::STATUS_ACQUITTED
+            , C3op_Projects_MaterialSupplyStatusConstants::STATUS_FORESEEN
+                )) as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
     public function getAllProductsOf(C3op_Projects_Project $p)
     {
             return $this->getAllActionsSubordinatedTo($p, 0);
