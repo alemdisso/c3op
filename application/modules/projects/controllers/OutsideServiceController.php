@@ -218,6 +218,7 @@ class Projects_OutsideServiceController extends Zend_Controller_Action
 
                 $allContacts = $this->contactMapper->getAllIds();
                 $linkage = $this->linkageMapper->findById($thisOutsideService->getLinkage());
+
                 $contact = $this->contactMapper->findById($linkage->getContact());
                 $contactName = $contact->GetName();
 
@@ -338,14 +339,19 @@ class Projects_OutsideServiceController extends Zend_Controller_Action
         if (!isset($this->institutionMapper)) {
             $this->initInstitutionMapper();
         }
+        if (!isset($this->linkageMapper)) {
+            $this->initLinkageMapper();
+        }
+
         if (!isset($this->contactMapper)) {
             $this->initContactMapper();
         }
 
-        $contactsList = $this->institutionMapper->getAllContactsThatAreLinkedToAnInstitution($id);
+        $linkagessList = $this->institutionMapper->getAllLinkagesAtAnInstitution($id);
         $data = array();
-        foreach ($contactsList as $k => $id) {
-            $loopContact = $this->contactMapper->findById($id);
+        foreach ($linkagessList as $k => $id) {
+            $loopLinkage = $this->linkageMapper->findById($id);
+            $loopContact = $this->contactMapper->findById($loopLinkage->getContact());
             $data[] = array('id' => $id, 'title' => $loopContact->getName());
         }
 

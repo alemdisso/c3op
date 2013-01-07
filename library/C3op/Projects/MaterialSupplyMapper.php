@@ -22,7 +22,7 @@ class C3op_Projects_MaterialSupplyMapper {
 
 
         $query = $this->db->prepare("INSERT INTO projects_material_supplies (
-            action, description, institution, linkage, quantity, unit, unitValue, totalValue, status) VALUES (:action, :description, :institution, :linkage, :quantity, :unit, :unitValue, :totalValue, :status)");
+            action, description, institution, linkage, quantity, unit, unit_value, total_value, status) VALUES (:action, :description, :institution, :linkage, :quantity, :unit, :unitValue, :totalValue, :status)");
 
         $query->bindValue(':action', $new->GetAction(), PDO::PARAM_INT);
         $query->bindValue(':description', $new->GetDescription(), PDO::PARAM_STR);
@@ -168,7 +168,7 @@ class C3op_Projects_MaterialSupplyMapper {
         $result = array();
         return $result;
 
-        
+
         $query = $this->db->prepare('SELECT SUM(predicted_value) as sum FROM projects_outlays WHERE team_member = :id AND predicted_value > 0 AND (real_value IS NULL OR real_value = 0.0);');
         $query->bindValue(':id', $obj->GetId(), PDO::PARAM_STR);
         $query->execute();

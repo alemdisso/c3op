@@ -222,6 +222,23 @@ class C3op_Register_InstitutionMapper
     }
 
 
+    public function getAllLinkagesAtAnInstitution($institutionId) {
+
+        if (is_numeric($institutionId) && ($institutionId >0)) {
+            $result = array();
+            foreach ($this->db->query('SELECT DISTINCTROW l.id
+                        FROM register_linkages l
+                        WHERE l.contact > 0 AND l.institution =' . $institutionId
+                        ) as $row) {
+                $result[] = $row['id'];
+            }
+            return $result;
+        } else {
+            throw new C3op_Register_InstitutionMapperException('Invalid institution id. Impossible to get contacts list');
+        }
+    }
+
+
 
 
 }

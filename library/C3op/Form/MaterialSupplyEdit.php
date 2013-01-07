@@ -33,11 +33,16 @@ class C3op_Form_MaterialSupplyEdit extends C3op_Form_MaterialSupplyCreate
             $materialSupply->SetDescription($this->description->GetValue());
             $materialSupply->SetInstitution($this->institution->GetValue());
             $materialSupply->SetLinkage($this->linkage->GetValue());
+            $materialSupply->SetUnit($this->unit->GetValue());
 
             $converter = new C3op_Util_DecimalConverter();
             $validator = new C3op_Util_ValidDecimal();
-            if ($validator->isValid($this->value->GetValue())) {
-                $materialSupply->SetValue($converter->getDecimalDotValue($this->value->GetValue(), $validator));
+            if ($validator->isValid($this->unitValue->GetValue())) {
+                $materialSupply->SetUnitValue($converter->getDecimalDotValue($this->unitValue->GetValue(), $validator));
+            }
+            $validator = new C3op_Util_ValidPositiveInteger();
+            if ($validator->isValid($this->quantity->GetValue())) {
+                $materialSupply->setQuantity($this->quantity->GetValue());
             }
 
             $materialSupply->SetAction($this->action->GetValue());

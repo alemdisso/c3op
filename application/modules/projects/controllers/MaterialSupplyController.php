@@ -146,8 +146,12 @@ class Projects_MaterialSupplyController extends Zend_Controller_Action
                 }
                 $idField = $form->getElement('id');
                 $idField->setValue($id);
-                $valueField = $form->getElement('value');
-                $valueField->setValue($thisMaterialSupply->getValue());
+                $element = $form->getElement('unitValue');
+                $element->setValue($thisMaterialSupply->getUnitValue());
+                $element = $form->getElement('quantity');
+                $element->setValue($thisMaterialSupply->getQuantity());
+                $element = $form->getElement('unit');
+                $element->setValue($thisMaterialSupply->getUnit());
                 $actionField = $form->getElement('action');
                 $actionField->setValue($thisMaterialSupply->getAction());
                 if (!isset($this->actionMapper)) {

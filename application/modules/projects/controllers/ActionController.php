@@ -1014,7 +1014,7 @@ class Projects_ActionController extends Zend_Controller_Action
         foreach ($materialSuppliesIdsList as $materialSupplyId) {
             $theMaterialSupply = $this->materialSupplyMapper->findById($materialSupplyId);
             $currencyDisplay = new  C3op_Util_CurrencyDisplay();
-            $currencyValue = $currencyDisplay->FormatCurrency($theMaterialSupply->GetValue());
+            $currencyValue = $currencyDisplay->FormatCurrency($theMaterialSupply->GetTotalValue());
             //$totalValueExistentOutlays = $this->calculateTotalValueExistentOutlays($theMaterialSupply);
             $totalValueExistentOutlays = "???";
 
@@ -1032,16 +1032,16 @@ class Projects_ActionController extends Zend_Controller_Action
 
 
             $status = $theMaterialSupply->getStatus();
-            $statusTypes = new C3op_Projects_MaterialSuppliestatusTypes();
+            $statusTypes = new C3op_Projects_MaterialSupplyStatusTypes();
             $statusLabel = $statusTypes->TitleForType($status);
 
-            if ($status == C3op_Projects_MaterialSuppliestatusConstants::STATUS_FORESEEN) {
+            if ($status == C3op_Projects_MaterialSupplyStatusConstants::STATUS_FORESEEN) {
                 $canContract = true;
             } else {
                 $canContract = false;
             }
 
-            if ($status == C3op_Projects_MaterialSuppliestatusConstants::STATUS_CONTRACTED) {
+            if ($status == C3op_Projects_MaterialSupplyStatusConstants::STATUS_CONTRACTED) {
                 $doesIt = new C3op_Projects_MaterialSupplyHasCredit($theMaterialSupply, $this->materialSupplyMapper);
                 if ($doesIt->hasCredit()) {
                     $canProvideOutlay = true;

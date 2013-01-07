@@ -19,8 +19,8 @@ class C3op_Form_MaterialSupplyCreate extends Zend_Form
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
-                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'seven columns')),
-                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'two columns alpha Right')),
                 ))
                 ->setOptions(array('class' => 'Full alpha omega'))
             ->addValidator(new C3op_Util_ValidString)
@@ -31,14 +31,14 @@ class C3op_Form_MaterialSupplyCreate extends Zend_Form
         $this->addElement($element);
 
 
-        $element = new Zend_Form_Element_Text('value');
-        $element->setLabel('#Value:')
+        $element = new Zend_Form_Element_Text('unitValue');
+        $element->setLabel('#Unit value:')
                 ->setAttrib('alt','decimal')
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
-                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns omega')),
-                    array('Label', array('tag' => 'div', 'tagClass' => 'one column Right')),
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns omega')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'two columns alpha Right')),
                 ))
                 ->setOptions(array('class' => 'Full alpha omega'))
             ->addValidator(new C3op_Util_ValidPositiveDecimal)
@@ -53,8 +53,8 @@ class C3op_Form_MaterialSupplyCreate extends Zend_Form
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
-                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'five columns')),
-                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'two columns alpha Right')),
                 ))
                 ->setOptions(array('class' => 'Full alpha omega'))
             ->addValidator(new C3op_Util_ValidString)
@@ -65,6 +65,21 @@ class C3op_Form_MaterialSupplyCreate extends Zend_Form
         $this->addElement($element);
 
 
+        $element = new Zend_Form_Element_Text('unit');
+        $validator = new C3op_Util_ValidString();
+        $element->setLabel(_('#Unit:'))
+              ->setDecorators(array(
+                  'ViewHelper',
+                  'Errors',
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
+              ))
+                ->setOptions(array('class' => 'Full alpha omega'))
+            ->setRequired(false)
+            ->addValidator($validator)
+            ->addFilter('StringTrim');
+        $this->addElement($element);
+
 
 
         $element = new Zend_Form_Element_Select('institution', array('onChange' => 'javascript:populateResponsibleAtSupplier()'));
@@ -73,7 +88,7 @@ class C3op_Form_MaterialSupplyCreate extends Zend_Form
                     'ViewHelper',
                     'Errors',
                     array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
-                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'two columns alpha Right')),
                 ))
                 ->setOptions(array('class' => 'Full alpha omega'))
                 ->setRegisterInArrayValidator(false);
@@ -86,7 +101,7 @@ class C3op_Form_MaterialSupplyCreate extends Zend_Form
                     'ViewHelper',
                     'Errors',
                     array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
-                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'two columns alpha Right')),
                 ))
                 ->setOptions(array('class' => 'Full alpha omega'))
                 ->setRegisterInArrayValidator(false);
@@ -121,11 +136,23 @@ class C3op_Form_MaterialSupplyCreate extends Zend_Form
             $materialSupply->SetDescription($this->description->GetValue());
             $materialSupply->SetInstitution($this->institution->GetValue());
             $materialSupply->SetLinkage($this->linkage->GetValue());
+            $materialSupply->SetUnit($this->unit->GetValue());
+            if (!$this->institution->GetValue()) {
+                $materialSupply->SetStatus(C3op_Projects_MaterialSupplyStatusConstants::STATUS_UNDEFINED);
+            }
+
+
+
 
             $converter = new C3op_Util_DecimalConverter();
             $validator = new C3op_Util_ValidDecimal();
-            if ($validator->isValid($this->value->GetValue())) {
-                $materialSupply->SetValue($converter->getDecimalDotValue($this->value->GetValue(), $validator));
+            if ($validator->isValid($this->unitValue->GetValue())) {
+                $materialSupply->SetUnitValue($converter->getDecimalDotValue($this->unitValue->GetValue(), $validator));
+            }
+
+            $validator = new C3op_Util_ValidPositiveInteger();
+            if ($validator->isValid($this->quantity->GetValue())) {
+                $materialSupply->setQuantity($this->quantity->GetValue());
             }
 
             $materialSupply->SetAction($this->action->GetValue());

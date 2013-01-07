@@ -151,17 +151,9 @@ class C3op_Projects_MaterialSupply {
     } //setUnitValue
 
     public function getTotalValue() {
-        return $this->totalValue;
-    } //getTotalValue
 
-    public function setTotalValue($totalValue) {
-        $validator = new C3op_Util_ValidPositiveDecimal();
-        if ($validator->isValid($totalValue)) {
-            $this->totalValue = $totalValue;
-        } else {
-            $this->totalValue = "";
-        }
-    } //setTotalValue
+        return $this->getUnitValue() * $this->GetQuantity();
+    } //getTotalValue
 
     public function getStatus() {
         return $this->status;

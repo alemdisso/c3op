@@ -188,9 +188,9 @@ foreach($amendmentsList as $id => $contractInfo) {
         <li><a href="#tabs-receivables"><?php echo $this->translate("#Receiving") ?></a></li>
         <li><a href="#tabs-products"><?php echo $this->translate("#Products") ?></a></li>
         <li><a href="#tabs-payments"><?php echo $this->translate("#Payments") ?></a></li>
+        <li><a href="#tabs-action"><?php echo $this->translate("#Actions") ?></a></li>
         <li><a href="#tabs-staff"><?php echo $this->translate("#Staff") ?></a></li>
         <li><a href="#tabs-services"><?php echo $this->translate("#Services") ?></a></li>
-        <li><a href="#tabs-action"><?php echo $this->translate("#Actions") ?></a></li>
         <li><a href="#tabs-details"><?php echo $this->translate("#Details") ?></a></li>
       </ul>
 
@@ -461,6 +461,58 @@ if ($outlayInfo['canNotifyOutlay']) {
           </div><!-- Area -->
         </div><!-- tabs-payments -->
 
+
+
+        <div id="tabs-action">
+          <div class="Area">
+            <h2><?php echo $this->translate("#Actions") ?></h2>
+    <table id="tree" border="1">
+    	<thead>
+    		<tr>
+    			<th width="200" align="left"><?php echo $this->translate("#Action") ?></th>
+    			<th width="200" align="left"><?php echo $this->translate("#Responsible") ?></th>
+    			<th width="100" align="left"><?php echo $this->translate("#Pred. begin date") ?></th>
+    			<th width="100" align="left"><?php echo $this->translate("#Real begin date") ?></th>
+    			<th width="100" align="left"><?php echo $this->translate("#Pred. finish date") ?></th>
+    			<th width="100" align="left"><?php echo $this->translate("#Real finish date") ?></th>
+    		</tr>
+    	</thead>
+    	<tbody>
+<?php
+foreach ($actionsList as $id => $actionData) {
+    $nodeId = "node-" . $id;
+    $childOf = $actionData['subordinatedTo'];
+    if ($childOf > 0) {
+        $classId = "\"child-of-node-$childOf\"";
+        $classId = 'class = ' . $classId;
+    }
+
+?>
+        <tr id="<?php print ($nodeId) ?>" <?php print (($childOf > 0 ? $classId : '')) ?>>
+          <td><a href='/projects/action/detail/?id=<?php print($id) ?>'><?php print ($actionData['title']) ?></a></td>
+          <td><?php print ($actionData['responsibleName']) ?></td>
+          <td><?php print ($actionData['predictedBeginDate']) ?></td>
+          <td><?php print ($actionData['realBeginDate']) ?></td>
+          <td><?php print ($actionData['predictedFinishDate']) ?></td>
+          <td><?php print ($actionData['realFinishDate']) ?></td>
+        </tr>
+<?php
+}
+?>
+        <!-- # Fim do loop -->
+      </tbody>
+    </table>
+<br />
+          </div><!-- Area -->
+    <div class="Area">
+      <p>
+        <a href="/projects/project/payables/?id=<?php print($projectHeader['id']) ?>" class="button three columns alpha omega">Consultar ações realizadas</a>
+        <a href="/projects/action/create/?project=<?php print($projectHeader['id']) ?>" class="button three columns "><?php echo $this->translate("#Create new action") ?></a>
+        <a href="/projects/project/unacknowledged/?id=<?php print($projectHeader['id']) ?>" class="button three columns alpha omega">Ações com início a confirmar</a>
+      </p>
+    </div><!-- .Area -->
+
+        </div><!-- tabs-action -->
         <div id="tabs-staff">
           <div class="Area">
             <h2><?php print($this->translate('#Team')) ?></h2>
@@ -622,58 +674,6 @@ if ($serviceInfo['canRemoveOutsideService']) {
         </div><!-- tabs-services -->
 
 
-
-
-        <div id="tabs-action">
-          <div class="Area">
-            <h2><?php echo $this->translate("#Actions") ?></h2>
-    <table id="tree" border="1">
-    	<thead>
-    		<tr>
-    			<th width="200" align="left"><?php echo $this->translate("#Action") ?></th>
-    			<th width="200" align="left"><?php echo $this->translate("#Responsible") ?></th>
-    			<th width="100" align="left"><?php echo $this->translate("#Pred. begin date") ?></th>
-    			<th width="100" align="left"><?php echo $this->translate("#Real begin date") ?></th>
-    			<th width="100" align="left"><?php echo $this->translate("#Pred. finish date") ?></th>
-    			<th width="100" align="left"><?php echo $this->translate("#Real finish date") ?></th>
-    		</tr>
-    	</thead>
-    	<tbody>
-<?php
-foreach ($actionsList as $id => $actionData) {
-    $nodeId = "node-" . $id;
-    $childOf = $actionData['subordinatedTo'];
-    if ($childOf > 0) {
-        $classId = "\"child-of-node-$childOf\"";
-        $classId = 'class = ' . $classId;
-    }
-
-?>
-        <tr id="<?php print ($nodeId) ?>" <?php print (($childOf > 0 ? $classId : '')) ?>>
-          <td><a href='/projects/action/detail/?id=<?php print($id) ?>'><?php print ($actionData['title']) ?></a></td>
-          <td><?php print ($actionData['responsibleName']) ?></td>
-          <td><?php print ($actionData['predictedBeginDate']) ?></td>
-          <td><?php print ($actionData['realBeginDate']) ?></td>
-          <td><?php print ($actionData['predictedFinishDate']) ?></td>
-          <td><?php print ($actionData['realFinishDate']) ?></td>
-        </tr>
-<?php
-}
-?>
-        <!-- # Fim do loop -->
-      </tbody>
-    </table>
-<br />
-          </div><!-- Area -->
-    <div class="Area">
-      <p>
-        <a href="/projects/project/payables/?id=<?php print($projectHeader['id']) ?>" class="button three columns alpha omega">Consultar ações realizadas</a>
-        <a href="/projects/action/create/?project=<?php print($projectHeader['id']) ?>" class="button three columns "><?php echo $this->translate("#Create new action") ?></a>
-        <a href="/projects/project/unacknowledged/?id=<?php print($projectHeader['id']) ?>" class="button three columns alpha omega">Ações com início a confirmar</a>
-      </p>
-    </div><!-- .Area -->
-
-        </div><!-- tabs-action -->
         <div id="tabs-details">
           <div class="Area">
             <h2><?php echo $this->translate("#Details") ?></h2>
