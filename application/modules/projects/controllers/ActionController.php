@@ -415,7 +415,12 @@ class Projects_ActionController extends Zend_Controller_Action
         $relatedProductTitle = $productRelated->getTitle();
         $dateFinder = new C3op_Projects_ProductDeliveryDate($productRelated, $this->actionMapper);
         $productDeliveryDate = $dateFinder->retrieve();
-        $productDeliveryDate = C3op_Util_DateDisplay::FormatDateToShow($productDeliveryDate);
+        $validator = new C3op_Util_ValidDate();
+        if ($validator->isValid($productDeliveryDate)) {
+            $productDeliveryDate = C3op_Util_DateDisplay::FormatDateToShow($productDeliveryDate);
+        } else {
+            $productDeliveryDate = $this->view->translate("#(not defined)");
+        }
 
 
         $notAProduct = true;
