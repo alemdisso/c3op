@@ -188,7 +188,12 @@ class Projects_ActionController extends Zend_Controller_Action
                 }
 
                 $this->populateResponsibleField($form, $inputAction->getResponsible());
-//                $this->populateRequirementForReceivingField($projectId, $form, $inputAction->getRequirementForReceiving());
+
+                if ($inputAction->getSubordinatedTo() > 0) {
+                    $form->removeElement('requirementForReceiving');
+                } else {
+                    $this->populateRequirementForReceivingField($projectId, $form, $inputAction->getRequirementForReceiving());
+                }
 //                $subordinatedToField = $form->getElement('subordinatedTo');
 //                $subordinatedToField->setValue($inputAction->getSubordinatedTo());
 
