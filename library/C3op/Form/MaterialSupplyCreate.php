@@ -15,7 +15,7 @@ class C3op_Form_MaterialSupplyCreate extends Zend_Form
         $this->addElement($action);
 
         $element = new Zend_Form_Element_Text('description');
-        $element->setLabel('#Service:')
+        $element->setLabel('#Material:')
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',

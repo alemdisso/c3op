@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-02 15:05-0300\n"
-"PO-Revision-Date: 2013-01-02 15:06-0300\n"
+"POT-Creation-Date: 2013-01-08 13:02-0300\n"
+"PO-Revision-Date: 2013-01-08 13:02-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -48,6 +48,8 @@ msgid "#Description:"
 msgstr "Descrição: "
 
 #: library\C3op\Form/ActionCreate.php:107
+#: library\C3op\Form/MaterialSupplyContract.php:19
+#: library\C3op\Form/OutsideServiceContract.php:19
 #: library\C3op\Form/ProductCreate.php:101
 #: library\C3op\Form/ProjectCreate.php:87
 #: library\C3op\Form/TeamMemberContract.php:19
@@ -55,6 +57,8 @@ msgid "#Begin date:"
 msgstr "Data de início: "
 
 #: library\C3op\Form/ActionCreate.php:121
+#: library\C3op\Form/MaterialSupplyContract.php:33
+#: library\C3op\Form/OutsideServiceContract.php:33
 #: library\C3op\Form/ProductCreate.php:115
 #: library\C3op\Form/ProjectCreate.php:101
 #: library\C3op\Form/TeamMemberContract.php:33
@@ -67,8 +71,11 @@ msgstr "Data de término: "
 #: library\C3op\Form/EmailCreate.php:57
 #: library\C3op\Form/InstitutionCreate.php:291
 #: library\C3op\Form/LinkageCreate.php:73 library\C3op\Form/LinkageEdit.php:76
+#: library\C3op\Form/MaterialSupplyContract.php:65
+#: library\C3op\Form/MaterialSupplyCreate.php:113
 #: library\C3op\Form/MessengerCreate.php:58
 #: library\C3op\Form/OutlayCreate.php:79 library\C3op\Form/OutlayNotify.php:58
+#: library\C3op\Form/OutsideServiceContract.php:65
 #: library\C3op\Form/OutsideServiceCreate.php:78
 #: library\C3op\Form/ProductCreate.php:131
 #: library\C3op\Form/ProductEdit.php:58 library\C3op\Form/ProjectAmend.php:50
@@ -97,6 +104,7 @@ msgstr "(nenhuma ação)"
 
 #: library\C3op\Form/ActionRemove.php:21
 #: library\C3op\Form/ContactRemove.php:22
+#: library\C3op\Form/MaterialSupplyRemove.php:21
 #: library\C3op\Form/OutsideServiceRemove.php:21
 #: library\C3op\Form/TeamMemberRemove.php:21
 msgid "#Confirm removal"
@@ -104,6 +112,7 @@ msgstr "Confirmo: remova!"
 
 #: library\C3op\Form/ActionRemove.php:21
 #: library\C3op\Form/ContactRemove.php:22
+#: library\C3op\Form/MaterialSupplyRemove.php:21
 #: library\C3op\Form/OutsideServiceRemove.php:21
 #: library\C3op\Form/TeamMemberRemove.php:21
 msgid "#Don't remove"
@@ -125,6 +134,7 @@ msgstr "Não remover"
 #: library\C3op\Form/LinkagePhoneNumberCreate.php:22
 #: library\C3op\Form/LinkagePhoneNumberEdit.php:31
 #: library\C3op\Form/LinkageRemove.php:36
+#: library\C3op\Form/MaterialSupplyRemove.php:32
 #: library\C3op\Form/MessengerCreate.php:73
 #: library\C3op\Form/OutsideServiceRemove.php:32
 #: library\C3op\Form/PhoneNumberEdit.php:26
@@ -373,6 +383,60 @@ msgstr "Can't find this phone id at this linkage phone list"
 msgid "#I confirm: remove!"
 msgstr "Confirmo: remova!"
 
+#: library\C3op\Form/MaterialSupplyContract.php:48
+#: library\C3op\Form/OutsideServiceContract.php:48
+#: library\C3op\Form/TeamMemberContract.php:48
+msgid "Observações:"
+msgstr "Observation:"
+
+#: library\C3op\Form/MaterialSupplyCreate.php:18
+msgid "#Material:"
+msgstr "Descrição: "
+
+#: library\C3op\Form/MaterialSupplyCreate.php:28
+msgid "#A valid material description is required"
+msgstr "Descreva qual material"
+
+#: library\C3op\Form/MaterialSupplyCreate.php:35
+msgid "#Unit value:"
+msgstr "Valor unitário:"
+
+#: library\C3op\Form/MaterialSupplyCreate.php:46
+#: library\C3op\Form/OutsideServiceCreate.php:46
+#: library\C3op\Form/TeamMemberCreate.php:46
+msgid "#The value must be a positive number"
+msgstr "O valor precisa ser um número positivo"
+
+#: library\C3op\Form/MaterialSupplyCreate.php:52
+msgid "#Quantity:"
+msgstr "Quantidade:"
+
+#: library\C3op\Form/MaterialSupplyCreate.php:62
+msgid "#A valid quantity is required"
+msgstr "Por favor informe a quantidade"
+
+#: library\C3op\Form/MaterialSupplyCreate.php:70
+msgid "#Unit:"
+msgstr "Unidade:"
+
+#: library\C3op\Form/MaterialSupplyCreate.php:86
+#: library\C3op\Form/OutsideServiceCreate.php:51
+msgid "#Company:"
+msgstr "Organização:"
+
+#: library\C3op\Form/MaterialSupplyCreate.php:95
+#: library\C3op\Form/MaterialSupplyCreate.php:108
+#: library\C3op\Form/OutsideServiceCreate.php:60
+#: library\C3op\Form/OutsideServiceCreate.php:73
+#: library\C3op\Form/TeamMemberCreate.php:60
+msgid "#undefined"
+msgstr "indefinido"
+
+#: library\C3op\Form/MaterialSupplyCreate.php:99
+#: library\C3op\Form/OutsideServiceCreate.php:64
+msgid "#Responsible at Supplier:"
+msgstr "Responsável no fornecedor: "
+
 #: library\C3op\Form/MessengerCreate.php:22
 #: library\C3op\Form/OutsideServiceCreate.php:18
 msgid "#Service:"
@@ -416,25 +480,6 @@ msgstr "Valor real"
 #: library\C3op\Form/TeamMemberCreate.php:28
 msgid "#A valid role description is required"
 msgstr "Por favor informe o papel desse membro do time"
-
-#: library\C3op\Form/OutsideServiceCreate.php:46
-#: library\C3op\Form/TeamMemberCreate.php:46
-msgid "#The value must be a positive number"
-msgstr "O valor precisa ser um número positivo"
-
-#: library\C3op\Form/OutsideServiceCreate.php:51
-msgid "#Company:"
-msgstr "Organização:"
-
-#: library\C3op\Form/OutsideServiceCreate.php:60
-#: library\C3op\Form/OutsideServiceCreate.php:73
-#: library\C3op\Form/TeamMemberCreate.php:60
-msgid "#undefined"
-msgstr "indefinido"
-
-#: library\C3op\Form/OutsideServiceCreate.php:64
-msgid "#Responsible at Supplier:"
-msgstr "Responsável no fornecedor: "
 
 #: library\C3op\Form/PhoneNumberCreate.php:76
 msgid "Gravar"
@@ -540,10 +585,6 @@ msgstr "Data de Entrega"
 #: library\C3op\Form/ReceivableCreate.php:78
 msgid "#Predicted Value"
 msgstr "Valor Previsto"
-
-#: library\C3op\Form/TeamMemberContract.php:48
-msgid "Observações:"
-msgstr "Observation:"
 
 #: library\C3op\Form/TeamMemberCreate.php:18
 msgid "#Role:"
