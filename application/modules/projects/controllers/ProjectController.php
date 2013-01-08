@@ -225,10 +225,15 @@ class Projects_ProjectController extends Zend_Controller_Action
         $currencyDisplay = new  C3op_Util_CurrencyDisplay();
         $projectValue = $currencyDisplay->FormatCurrency($projectToBeDetailed->getValue());
 
-        $projectDates = sprintf($this->view->translate("#%s until %s"),
-                C3op_Util_DateDisplay::FormatDateToShow($projectToBeDetailed->getBeginDate()),
-                C3op_Util_DateDisplay::FormatDateToShow($projectToBeDetailed->getFinishDate())
-                );
+        $validator = new C3op_Util_ValidDate();
+        if (($validator->isValid($projectToBeDetailed->getBeginDate())) && ($validator->isValid($projectToBeDetailed->getFinishDate()))) {
+            $projectDates = sprintf($this->view->translate("#%s until %s"),
+                    C3op_Util_DateDisplay::FormatDateToShow($projectToBeDetailed->getBeginDate()),
+                    C3op_Util_DateDisplay::FormatDateToShow($projectToBeDetailed->getFinishDate())
+                    );
+        } else {
+            $projectDates = $this->view->translate("#Undefined dates");
+        }
 
         $contracts = $this->projectMapper->getAllContracts($projectToBeDetailed);
         $amendmentsList = array();
