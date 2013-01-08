@@ -217,6 +217,19 @@ if ($parentId > 0) {
             <?php print($actionHeader['totalContractedValue']); ?>
           </div>
 
+<?php
+  if ($actionHeader['notAProduct']) {
+      $productLink = "<a href='/projects/action/detail/?id='" . $actionHeader['relatedProductId'] . "'>" . $actionHeader['relatedProductTitle'] . "</a>";
+?>
+          <div class="nine columns alpha omega">
+            <?php printf($this->translate("#This action is related to product %s that should be delivered until %s"), $productLink, $actionHeader['productDeliveryDate']); ?>
+          </div>
+
+<?php
+  }
+?>
+
+
 
 <!--          <div class="three columns offset-by-three inset-by-eight alpha omega">
             <a href="/projects/action/edit/?id=<?php print($actionHeader['id']) ?>" class="button three columns alpha omega"><?php print($this->translate("#Edit this action")); ?></a>

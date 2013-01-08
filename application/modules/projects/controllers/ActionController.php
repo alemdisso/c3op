@@ -304,11 +304,6 @@ class Projects_ActionController extends Zend_Controller_Action
         //    responsibleName
         //    parentActionId
         //    parentActionTitle
-        //    subordinatedTree
-        //      * id =>
-        //        actionTitle
-        //        responsibleName
-        //        status
         //    description
         //    predictedBeginDate
         //    predictedFinishDate
@@ -414,6 +409,22 @@ class Projects_ActionController extends Zend_Controller_Action
         $currencyDisplay = new  C3op_Util_CurrencyDisplay();
         $totalContractedValue = $currencyDisplay->FormatCurrency($actionValue->totalValue());
 
+        $finder = new C3op_Projects_ActionRelatedProduct($actionToBeDetailed, $this->actionMapper);
+        $productRelated = $finder->retrieve();
+        $relatedProductId = $productRelated->getId();
+        $relatedProductTitle = $productRelated->getTitle();
+        $dateFinder = new C3op_Projects_ProductDeliveryDate($productRelated, $this->actionMapper);
+        $productDeliveryDate = $dateFinder->retrieve();
+        $productDeliveryDate = C3op_Util_DateDisplay::FormatDateToShow($productDeliveryDate);
+
+
+        $notAProduct = true;
+        if ($productRelated->getId() == $actionToBeDetailed->getId()) {
+            $notAProduct = false;
+        }
+
+
+
         $actionHeader = array(
             'id'                      => $actionToBeDetailed->getId(),
             'projectId'               => $projectToBeDetailed->getId(),
@@ -437,6 +448,10 @@ class Projects_ActionController extends Zend_Controller_Action
             'receiptToAcceptOrReject' => $receiptToAcceptOrReject,
             'waitingToReceipt'        => $waitingToReceipt,
             'totalContractedValue'    => $totalContractedValue,
+            'notAProduct'             => $notAProduct,
+            'relatedProductTitle'     => $relatedProductTitle,
+            'relatedProductId'        => $relatedProductId,
+            'productDeliveryDate'     => $productDeliveryDate,
         );
 
 

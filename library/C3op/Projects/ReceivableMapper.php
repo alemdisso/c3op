@@ -145,10 +145,19 @@ class C3op_Projects_ReceivableMapper
 
     public function updateDeliveries(C3op_Projects_Receivable $obj, $date)
     {
+        $firstDelivery = $this->fetchFirstDeliveryDate($obj);
 
-        $query = $this->db->prepare('UPDATE projects_deliveries SET predicted_date = :predicted_date WHERE receivable = :receivable');
-        $query->bindValue(':predicted_date', $date, PDO::PARAM_STR);
-        $query->bindValue(':receivable', $obj->GetId(), PDO::PARAM_STR);
+        if ($firstDelivery === null) {
+            $query = $this->db->prepare('INSERT INTO projects_deliveries (predicted_date, receivable) VALUES (:predicted_date, :receivable)');
+            $query->bindValue(':predicted_date', $date, PDO::PARAM_STR);
+            $query->bindValue(':receivable', $obj->GetId(), PDO::PARAM_STR);
+
+
+        } else {
+            $query = $this->db->prepare('UPDATE projects_deliveries SET predicted_date = :predicted_date WHERE receivable = :receivable');
+            $query->bindValue(':predicted_date', $date, PDO::PARAM_STR);
+            $query->bindValue(':receivable', $obj->GetId(), PDO::PARAM_STR);
+        }
 
         try {
             $query->execute();
@@ -157,7 +166,7 @@ class C3op_Projects_ReceivableMapper
         }
     }
 
-    private function fetchFirstDeliveryDate($obj)
+    private function fetchFirstDeliveryDate(C3op_Projects_Receivable $obj)
     {
 
         $query = $this->db->prepare('SELECT predicted_date FROM projects_deliveries WHERE receivable = :receivable AND (real_date IS NULL OR real_date = "0000-00-00")ORDER BY predicted_date LIMIT 1;');
