@@ -340,13 +340,12 @@ class Projects_ProjectController extends Zend_Controller_Action
             $this->initReceivableMapper();
         }
 
-
         foreach ($projectProducts as $id) {
             $theProduct = $this->actionMapper->findById($id);
             $productTitle = $theProduct->getTitle();
 
-            $validator = new C3op_Util_ValidDate();
 
+            $validator = new C3op_Util_ValidDate();
 
             $receivableId = $theProduct->getRequirementForReceiving();
             if ($receivableId) {

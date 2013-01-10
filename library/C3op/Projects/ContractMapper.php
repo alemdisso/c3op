@@ -61,18 +61,17 @@ class C3op_Projects_ContractMapper
         }
 
         $query = $this->db->prepare("UPDATE projects_contracts SET project = :project, amendment = :amendment,
-            begin_date = :begin_date, finish_date = :finish_date, signing_date = :signing_date,value = :value,
-            management_fee = :management_fee, object = :object, summary = :summary, observation = :observation
+            begin_date = :begin_date, finish_date = :finish_date, signing_date = :signing_date, value = :value,
+            contract_nature = :contract_nature, management_fee = :management_fee, object = :object, summary = :summary, observation = :observation
             WHERE id = :id;");
 
         $query->bindValue(':project', $obj->getProject(), PDO::PARAM_STR);
+        $query->bindValue(':amendment', $obj->getAmendment(), PDO::PARAM_STR);
         $query->bindValue(':begin_date', $obj->getBeginDate(), PDO::PARAM_STR);
         $query->bindValue(':finish_date', $obj->getFinishDate(), PDO::PARAM_STR);
+        $query->bindValue(':signing_date', $obj->getSigningDate(), PDO::PARAM_STR);
         $query->bindValue(':value', $obj->getValue(), PDO::PARAM_STR);
         $query->bindValue(':contract_nature', $obj->getContractNature(), PDO::PARAM_STR);
-        $query->bindValue(':title', $obj->getTitle(), PDO::PARAM_STR);
-        $query->bindValue(':signing_date', $obj->getSigningDate(), PDO::PARAM_STR);
-        $query->bindValue(':amendment', $obj->getAmendment(), PDO::PARAM_STR);
         $query->bindValue(':management_fee', $obj->getManagementFee(), PDO::PARAM_STR);
         $query->bindValue(':object', $obj->getObject(), PDO::PARAM_STR);
         $query->bindValue(':summary', $obj->getSummary(), PDO::PARAM_STR);

@@ -185,7 +185,7 @@ class C3op_Projects_ProjectMapper
 
     public function getAllProducts(C3op_Projects_Project $obj)
     {
-        $query = $this->db->prepare('SELECT id FROM projects_actions WHERE project = :project AND subordinated_to = 0 AND requirement_for_receiving > 0;');
+        $query = $this->db->prepare('SELECT id FROM projects_actions WHERE project = :project AND subordinated_to = 0;');
         $query->bindValue(':project', $obj->getId(), PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();
