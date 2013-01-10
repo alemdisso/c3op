@@ -34,6 +34,67 @@ if (is_array($pageData['contactInfo'])) {
     <a href="/register/contact/edit/?id=<?php print($contactInfo['id']) ?>" class="button three columns alpha omega"><?php print($this->translate("#Edit contact details")); ?></a>
     </div>
 </div><!-- .Area -->
+
+          <div class="Area">
+<?php
+
+    $linkagesList = $pageData['linkagesList'];
+
+    if (count($linkagesList) > 0) {
+
+?>
+          <div class="Area">
+            <h2><?php echo $this->translate("#Linkages") ?></h2>
+            <table id="Telefones" class="display dataTable">
+              <thead>
+                <tr>
+                  <th width="220"><?php echo $this->translate("#Institution") ?></th>
+                  <th width="80"><?php echo $this->translate("#Departament") ?></th>
+                  <th width="100"><?php echo $this->translate("#Position") ?></th>
+                  <th width="1%">&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody>
+<?php
+    foreach($linkagesList as $linkageId => $linkageInfo){
+?>
+                <tr>
+                  <td>
+<?php if (isset($linkageInfo['institutionName'])) { ?>
+<a href="/register/institution/edit/?id=<?php print($linkageInfo['institutionId']) ?>"><?php print($linkageInfo['institutionName']) ?></a>
+<?php } else { ?>&nbsp;<?php } ?>
+                  </td>
+                  <td>
+<?php if (isset($linkageInfo['department']) && ($linkageInfo['department'] != "")) { ?>
+<?php print($linkageInfo['department']) ?>
+<?php } else { print '&nbsp;'; }?>
+                  </td>
+                  <td>
+<?php if (isset($linkageInfo['position']) && ($linkageInfo['position'] != "")) { ?>
+<?php print($linkageInfo['position']) ?>
+<?php } else { print '&nbsp;'; }?>
+                  </td>
+                  <td>
+                    <a class="anchorclass button" rel="submenu1"><?php echo $this->translate("#Options...") ?></a>
+                    <div id="submenu1" class="anylinkcss">
+                        <ul>
+                          <li>
+                            <a href="/register/linkage/edit/?id=<?php print($linkageId); ?>"><?php echo $this->translate("#Edit") ?></a>
+                          </li>
+                        </ul>
+                    </div><!-- #submenu1 -->
+                  </td>
+                </tr>
+<?php
+}  // loop iterate list and print titlei
+?>
+              </tbody>
+            </table>
+<?php } ?>
+              <a href="/register/linkage/create/?contact=<?php print($contactInfo['id']) ?>" class="button three columns alpha omega"><?php echo $this->translate("#Create new linkage") ?></a>
+          </div><!-- Area -->
+
+
 <div class="Area">
 <?php
 
@@ -215,69 +276,6 @@ if (is_array($pageData['contactInfo'])) {
               <a href="/register/contact/add-messenger/?contact=<?php print($contactInfo['id']) ?>" class="button three columns alpha omega"><?php echo $this->translate("#Add messenger") ?></a>
             </p>
           </div><!-- .Area -->
-          <div class="Area">
-<?php
-/*
- * iterate list and print title
- */
-
-    $linkagesList = $pageData['linkagesList'];
-
-    if (count($linkagesList) > 0) {
-
-?>
-          <div class="Area">
-            <h2><?php echo $this->translate("#Linkages") ?></h2>
-            <table id="Telefones" class="display dataTable">
-              <thead>
-                <tr>
-                  <th width="220"><?php echo $this->translate("#Institution") ?></th>
-                  <th width="80"><?php echo $this->translate("#Departament") ?></th>
-                  <th width="100"><?php echo $this->translate("#Position") ?></th>
-                  <th width="1%">&nbsp;</th>
-                </tr>
-              </thead>
-              <tbody>
-<?php
-    foreach($linkagesList as $linkageId => $linkageInfo){
-?>
-                <tr>
-                  <td>
-<?php if (isset($linkageInfo['institutionName'])) { ?>
-<a href="/register/institution/edit/?id=<?php print($linkageInfo['institutionId']) ?>"><?php print($linkageInfo['institutionName']) ?></a>
-<?php } else { ?>&nbsp;<?php } ?>
-                  </td>
-                  <td>
-<?php if (isset($linkageInfo['department']) && ($linkageInfo['department'] != "")) { ?>
-<?php print($linkageInfo['department']) ?>
-<?php } else { print '&nbsp;'; }?>
-                  </td>
-                  <td>
-<?php if (isset($linkageInfo['position']) && ($linkageInfo['position'] != "")) { ?>
-<?php print($linkageInfo['position']) ?>
-<?php } else { print '&nbsp;'; }?>
-                  </td>
-                  <td>
-                    <a class="anchorclass button" rel="submenu1"><?php echo $this->translate("#Options...") ?></a>
-                    <div id="submenu1" class="anylinkcss">
-                        <ul>
-                          <li>
-                            <a href="/register/linkage/edit/?id=<?php print($linkageId); ?>"><?php echo $this->translate("#Edit") ?></a>
-                          </li>
-                        </ul>
-                    </div><!-- #submenu1 -->
-                  </td>
-                </tr>
-<?php
-}  // loop iterate list and print titlei
-?>
-              </tbody>
-            </table>
-<?php } ?>
-            <p>
-              <a href="/register/linkage/create/?contact=<?php print($contactInfo['id']) ?>" class="button three columns alpha omega"><?php echo $this->translate("#Create new linkage") ?></a>
-            </p>
-          </div><!-- Area -->
 <?php
 } else { // else exists contacts list
 ?>

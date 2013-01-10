@@ -204,9 +204,9 @@ class Projects_OutlayController  extends Zend_Controller_Action
     public function successAction()
     {
 
-        $this->initOutlayMapper();
-        $outlay =  $this->initOutlayWithCheckedId($this->outlayMapper);
-        $actionRelatedId = $outlay->GetAction();
+        $this->initActionMapper();
+        $action =  $this->initActionWithCheckedId($this->actionMapper);
+        $actionRelatedId = $action->GetId();
 
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
             $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
