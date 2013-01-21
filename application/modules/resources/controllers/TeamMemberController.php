@@ -1,6 +1,6 @@
 <?php
 
-class Projects_TeamMemberController extends Zend_Controller_Action
+class Resources_TeamMemberController extends Zend_Controller_Action
 {
     private $teamMemberMapper;
     private $actionMapper;
@@ -33,7 +33,7 @@ class Projects_TeamMemberController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/team-member/success/?id=' . $id);
+                $this->_redirect('/resources/team-member/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -85,7 +85,7 @@ class Projects_TeamMemberController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/team-member/success/?id=' . $id);
+                $this->_redirect('/resources/team-member/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -103,7 +103,7 @@ class Projects_TeamMemberController extends Zend_Controller_Action
             if ($input->isValid()) {
                 $id = $input->id;
                 if (!isset($this->teamMemberMapper)) {
-                    $this->teamMemberMapper = new C3op_Projects_TeamMemberMapper($this->db);
+                    $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
                 }
                 $thisTeamMember = $this->teamMemberMapper->findById($id);
                 $descriptionField = $form->getElement('description');
@@ -161,7 +161,7 @@ class Projects_TeamMemberController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/team-member/success/?id=' . $id);
+                $this->_redirect('/resources/team-member/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -214,7 +214,7 @@ class Projects_TeamMemberController extends Zend_Controller_Action
     {
         $outlayMapper = new C3op_Finances_OutlayMapper($this->db);
         if (!isset($this->teamMemberMapper)) {
-            $this->teamMemberMapper = new C3op_Projects_TeamMemberMapper($this->db);
+            $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
         }
 
         $id = $this->checkIdFromGet();
@@ -328,13 +328,13 @@ class Projects_TeamMemberController extends Zend_Controller_Action
         $this->initActionMapper();
         $teamMember =  $this->initTeamMemberWithCheckedId($this->teamMemberMapper);
         $action = $this->actionMapper->findById($teamMember->GetAction());
-        $dismissal = new C3op_Projects_TeamMemberDismissal();
+        $dismissal = new C3op_Resources_TeamMemberDismissal();
         $dismissal->ContactDismiss($action, $teamMember, $this->teamMemberMapper);
 
         echo 'Contato dispensado';
     }
 
-    private function initTeamMemberWithCheckedId(C3op_Projects_TeamMemberMapper $mapper)
+    private function initTeamMemberWithCheckedId(C3op_Resources_TeamMemberMapper $mapper)
     {
         return $mapper->findById($this->checkIdFromGet());
     }
@@ -397,7 +397,7 @@ class Projects_TeamMemberController extends Zend_Controller_Action
 
    private function initTeamMemberMapper()
     {
-         $this->teamMemberMapper = new C3op_Projects_TeamMemberMapper($this->db);
+         $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
     }
 
     private function initContactMapper()

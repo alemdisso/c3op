@@ -1,6 +1,6 @@
 <?php
 
-class C3op_Projects_MaterialSupplyMapper {
+class C3op_Resources_MaterialSupplyMapper {
 
     protected $db;
     protected $identityMap;
@@ -12,16 +12,16 @@ class C3op_Projects_MaterialSupplyMapper {
 
     public function getAllIds() {
         $result = array();
-            foreach ($this->db->query('SELECT id FROM projects_material_supplies;') as $row) {
+            foreach ($this->db->query('SELECT id FROM resources_material_supplies;') as $row) {
             $result[] = $row['id'];
         }
         return $result;
     }
 
-    public function insert(C3op_Projects_MaterialSupply $new) {
+    public function insert(C3op_Resources_MaterialSupply $new) {
 
 
-        $query = $this->db->prepare("INSERT INTO projects_material_supplies (
+        $query = $this->db->prepare("INSERT INTO resources_material_supplies (
             action, description, institution, linkage, quantity, unit, unit_value, total_value, status) VALUES (:action, :description, :institution, :linkage, :quantity, :unit, :unitValue, :totalValue, :status)");
 
         $query->bindValue(':action', $new->GetAction(), PDO::PARAM_INT);
@@ -41,12 +41,12 @@ class C3op_Projects_MaterialSupplyMapper {
 
     }
 
-    public function update(C3op_Projects_MaterialSupply $obj) {
+    public function update(C3op_Resources_MaterialSupply $obj) {
         if (!isset($this->identityMap[$obj])) {
-            throw new C3op_Projects_MaterialSupplyMapperException('Object has no ID, cannot update.');
+            throw new C3op_Resources_MaterialSupplyMapperException('Object has no ID, cannot update.');
         }
 
-        $query = $this->db->prepare("UPDATE projects_material_supplies SET action = :action, description = :description, institution = :institution, linkage = :linkage, quantity = :quantity, unit = :unit, unit_value = :unitValue, total_value = :totalValue, status = :status WHERE id = :id;");
+        $query = $this->db->prepare("UPDATE resources_material_supplies SET action = :action, description = :description, institution = :institution, linkage = :linkage, quantity = :quantity, unit = :unit, unit_value = :unitValue, total_value = :totalValue, status = :status WHERE id = :id;");
 
         $query->bindValue(':action', $obj->GetAction(), PDO::PARAM_STR);
         $query->bindValue(':description', $obj->GetDescription(), PDO::PARAM_STR);
@@ -62,7 +62,7 @@ class C3op_Projects_MaterialSupplyMapper {
         try {
             $query->execute();
         } catch (Exception $e) {
-            throw new C3op_Projects_MaterialSupplyException("$sql failed");
+            throw new C3op_Resources_MaterialSupplyException("$sql failed");
         }
 
     }
@@ -76,15 +76,15 @@ class C3op_Projects_MaterialSupplyMapper {
             $this->identityMap->next();
         }
 
-        $query = $this->db->prepare('SELECT action, description, institution, linkage, quantity, unit, unit_value, total_value, status FROM projects_material_supplies WHERE id = :id;');
+        $query = $this->db->prepare('SELECT action, description, institution, linkage, quantity, unit, unit_value, total_value, status FROM resources_material_supplies WHERE id = :id;');
         $query->bindValue(':id', $id, PDO::PARAM_STR);
         $query->execute();
         $result = $query->fetch();
 
         if (empty($result)) {
-            throw new C3op_Projects_MaterialSupplyMapperException(sprintf('There is no Human Resource with id #%d.', $id));
+            throw new C3op_Resources_MaterialSupplyMapperException(sprintf('There is no Human Resource with id #%d.', $id));
         }
-        $obj = new C3op_Projects_MaterialSupply();
+        $obj = new C3op_Resources_MaterialSupply();
 
         $this->setAttributeValue($obj, $id, 'id');
         $this->setAttributeValue($obj, $result['action'], 'action');
@@ -103,13 +103,13 @@ class C3op_Projects_MaterialSupplyMapper {
         $this->FetchDates($obj);
     }
 
-    public function delete(C3op_Projects_MaterialSupply $i) {
+    public function delete(C3op_Resources_MaterialSupply $i) {
         if (!isset($this->identityMap[$i])) {
-            throw new C3op_Projects_MaterialSupplyMapperException('Object has no ID, cannot delete.');
+            throw new C3op_Resources_MaterialSupplyMapperException('Object has no ID, cannot delete.');
         }
         $this->db->exec(
             sprintf(
-                'DELETE FROM projects_material_supplies WHERE id = %d;',
+                'DELETE FROM resources_material_supplies WHERE id = %d;',
                 $this->identityMap[$i]
             )
         );
@@ -119,20 +119,20 @@ class C3op_Projects_MaterialSupplyMapper {
      public function getAllMaterialSuppliesOnAction(C3op_Projects_Action $a) {
         $result = array();
             foreach ($this->db->query(
-                    sprintf('SELECT id FROM projects_material_supplies WHERE action = %d;', $a->GetId())) as $row) {
+                    sprintf('SELECT id FROM resources_material_supplies WHERE action = %d;', $a->GetId())) as $row) {
             $result[] = $row['id'];
         }
         return $result;
     }
 
-   private function setAttributeValue(C3op_Projects_MaterialSupply $i, $fieldValue, $attributeName)
+   private function setAttributeValue(C3op_Resources_MaterialSupply $i, $fieldValue, $attributeName)
     {
         $attribute = new ReflectionProperty($i, $attributeName);
         $attribute->setAccessible(TRUE);
         $attribute->setValue($i, $fieldValue);
     }
 
-    public function getAllOutlays(C3op_Projects_MaterialSupply $obj)
+    public function getAllOutlays(C3op_Resources_MaterialSupply $obj)
     {
         $result = array();
         return $result;
@@ -150,7 +150,7 @@ class C3op_Projects_MaterialSupplyMapper {
         return $result;
     }
 
-    public function getSumOfPayedOutlays(C3op_Projects_MaterialSupply $obj)
+    public function getSumOfPayedOutlays(C3op_Resources_MaterialSupply $obj)
     {
         $result = array();
         return $result;
@@ -163,7 +163,7 @@ class C3op_Projects_MaterialSupplyMapper {
         return $result['sum'];
     }
 
-    public function getSumOfProvidedButNotPayedOutlays(C3op_Projects_MaterialSupply $obj)
+    public function getSumOfProvidedButNotPayedOutlays(C3op_Resources_MaterialSupply $obj)
     {
         $result = array();
         return $result;
@@ -175,6 +175,32 @@ class C3op_Projects_MaterialSupplyMapper {
         $result = $query->fetch();
         return $result['sum'];
     }
+
+
+    public function getAllMaterialSuppliesContractedOrPredictedAt(C3op_Projects_Project $obj) {
+        $result = array();
+
+        foreach ($this->db->query(sprintf('SELECT s.id
+            FROM projects_actions a
+            INNER JOIN resources_material_supplies s ON a.id = s.action
+            WHERE a.project = %d
+            AND (
+            s.status = %d
+            OR s.status = %d
+            OR s.status = %d
+            OR s.status = %d
+            )'
+            , $obj->getId()
+            , C3op_Resources_MaterialSupplyStatusConstants::STATUS_UNDEFINED
+            , C3op_Resources_MaterialSupplyStatusConstants::STATUS_CONTRACTED
+            , C3op_Resources_MaterialSupplyStatusConstants::STATUS_ACQUITTED
+            , C3op_Resources_MaterialSupplyStatusConstants::STATUS_FORESEEN
+                )) as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
 
 
 

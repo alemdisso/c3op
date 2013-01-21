@@ -1,5 +1,5 @@
 <?php
-class C3op_Projects_OutsideServiceMapperException extends RuntimeException
+class C3op_Resources_OutsideServiceMapperException extends RuntimeException
 {
 }
 

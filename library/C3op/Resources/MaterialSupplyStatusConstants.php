@@ -1,6 +1,6 @@
 <?php
 
-class C3op_Projects_MaterialSupplyStatusConstants
+class C3op_Resources_MaterialSupplyStatusConstants
 {
     const STATUS_NIL = 0;
     const STATUS_UNDEFINED = 100;

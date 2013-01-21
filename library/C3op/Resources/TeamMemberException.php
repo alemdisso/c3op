@@ -1,5 +1,5 @@
 <?php
 
-class C3op_Projects_TeamMemberException extends RuntimeException {
+class C3op_Resources_TeamMemberException extends RuntimeException {
 }
 

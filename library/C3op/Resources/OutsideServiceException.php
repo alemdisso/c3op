@@ -1,5 +1,5 @@
 <?php
 
-class C3op_Projects_OutsideServiceException extends RuntimeException {
+class C3op_Resources_OutsideServiceException extends RuntimeException {
 }
 

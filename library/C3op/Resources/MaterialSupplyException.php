@@ -1,5 +1,5 @@
 <?php
 
-class C3op_Projects_MaterialSupplyException extends RuntimeException {
+class C3op_Resources_MaterialSupplyException extends RuntimeException {
 }
 

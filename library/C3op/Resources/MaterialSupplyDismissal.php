@@ -1,10 +1,10 @@
 <?php
 
-class C3op_Projects_MaterialSupplyDismissal {
+class C3op_Resources_MaterialSupplyDismissal {
 
     public function ContactDismiss(C3op_Projects_Action $action,
-                                   C3op_Projects_MaterialSupply $materialSupply,
-                                   C3op_Projects_MaterialSupplyMapper $materialSupplyMapper)
+                                   C3op_Resources_MaterialSupply $materialSupply,
+                                   C3op_Resources_MaterialSupplyMapper $materialSupplyMapper)
     {
 
         if ($materialSupply->GetLinkage() > 0) {
@@ -16,7 +16,7 @@ class C3op_Projects_MaterialSupplyDismissal {
 
     }
 
-    private function LogDismiss(C3op_Projects_Action $action, C3op_Projects_MaterialSupply $materialSupply)
+    private function LogDismiss(C3op_Projects_Action $action, C3op_Resources_MaterialSupply $materialSupply)
     {
         $logger = new C3op_Projects_EventLogger();
         $msg = $materialSupply->getLinkage();

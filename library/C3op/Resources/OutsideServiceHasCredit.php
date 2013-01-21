@@ -1,11 +1,11 @@
 <?php
 
-class C3op_Projects_OutsideServiceHasCredit {
+class C3op_Resources_OutsideServiceHasCredit {
 
     private $outsideService;
     private $mapper;
 
-    function __construct(C3op_Projects_OutsideService $outsideService, C3op_Projects_OutsideServiceMapper $mapper)
+    function __construct(C3op_Resources_OutsideService $outsideService, C3op_Resources_OutsideServiceMapper $mapper)
     {
             $this->outsideService = $outsideService;
             $this->mapper = $mapper;

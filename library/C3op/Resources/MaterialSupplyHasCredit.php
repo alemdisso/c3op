@@ -1,11 +1,11 @@
 <?php
 
-class C3op_Projects_MaterialSupplyHasCredit {
+class C3op_Resources_MaterialSupplyHasCredit {
 
     private $materialSupply;
     private $mapper;
 
-    function __construct(C3op_Projects_MaterialSupply $materialSupply, C3op_Projects_MaterialSupplyMapper $mapper)
+    function __construct(C3op_Resources_MaterialSupply $materialSupply, C3op_Resources_MaterialSupplyMapper $mapper)
     {
             $this->materialSupply = $materialSupply;
             $this->mapper = $mapper;

@@ -7,7 +7,7 @@ class C3op_Form_TeamMemberEdit extends C3op_Form_TeamMemberCreate
 
         // initialize form
         $this->setName('editTeamMemberForm')
-            ->setAction('/projects/team-member/edit')
+            ->setAction('/resources/team-member/edit')
             ->setMethod('post');
 
         $id = new Zend_Form_Element_Hidden('id');
@@ -23,7 +23,7 @@ class C3op_Form_TeamMemberEdit extends C3op_Form_TeamMemberCreate
     public function process($data) {
 
         $db = Zend_Registry::get('db');
-        $teamMemberMapper = new C3op_Projects_TeamMemberMapper($db);
+        $teamMemberMapper = new C3op_Resources_TeamMemberMapper($db);
 
         if ($this->isValid($data) !== true) {
             throw new C3op_Form_InstitutionEditException('Invalid data!');

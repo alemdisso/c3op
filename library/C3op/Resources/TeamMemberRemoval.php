@@ -1,11 +1,11 @@
 <?php
 
-class C3op_Projects_TeamMemberRemoval {
+class C3op_Resources_TeamMemberRemoval {
 
     private $teamMember;
     private $teamMemberMapper;
 
-    public function __construct(C3op_Projects_TeamMember $teamMember, C3op_Projects_TeamMemberMapper $teamMemberMapper)
+    public function __construct(C3op_Resources_TeamMember $teamMember, C3op_Resources_TeamMemberMapper $teamMemberMapper)
     {
         $this->teamMember = $teamMember;
         $this->teamMemberMapper = $teamMemberMapper;
@@ -35,7 +35,7 @@ class C3op_Projects_TeamMemberRemoval {
             $this->teamMemberMapper->delete($this->teamMember);
 
         } else {
-            throw new C3op_Projects_TeamMemberException("This Team Member can't be removed");
+            throw new C3op_Resources_TeamMemberException("This Team Member can't be removed");
         }
 
 
@@ -57,8 +57,8 @@ class C3op_Projects_TeamMemberRemoval {
     {
         $status = $this->teamMember->getStatus();
 
-        if (($status == C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED)
-                || ($status == C3op_Projects_TeamMemberStatusConstants::STATUS_ACQUITTED)) {
+        if (($status == C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED)
+                || ($status == C3op_Resources_TeamMemberStatusConstants::STATUS_ACQUITTED)) {
             return true;
         } else {
             return false;

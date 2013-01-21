@@ -1,11 +1,11 @@
 <?php
 
-class C3op_Projects_MaterialSupplyRemoval {
+class C3op_Resources_MaterialSupplyRemoval {
 
     private $materialSupply;
     private $materialSupplyMapper;
 
-    public function __construct(C3op_Projects_MaterialSupply $materialSupply, C3op_Projects_MaterialSupplyMapper $materialSupplyMapper)
+    public function __construct(C3op_Resources_MaterialSupply $materialSupply, C3op_Resources_MaterialSupplyMapper $materialSupplyMapper)
     {
         $this->materialSupply = $materialSupply;
         $this->materialSupplyMapper = $materialSupplyMapper;
@@ -35,7 +35,7 @@ class C3op_Projects_MaterialSupplyRemoval {
             $this->materialSupplyMapper->delete($this->materialSupply);
 
         } else {
-            throw new C3op_Projects_MaterialSupplyException("This Team Member can't be removed");
+            throw new C3op_Resources_MaterialSupplyException("This Team Member can't be removed");
         }
 
 
@@ -57,8 +57,8 @@ class C3op_Projects_MaterialSupplyRemoval {
     {
         $status = $this->materialSupply->getStatus();
 
-        if (($status == C3op_Projects_MaterialSupplyStatusConstants::STATUS_CONTRACTED)
-                || ($status == C3op_Projects_MaterialSupplyStatusConstants::STATUS_ACQUITTED)) {
+        if (($status == C3op_Resources_MaterialSupplyStatusConstants::STATUS_CONTRACTED)
+                || ($status == C3op_Resources_MaterialSupplyStatusConstants::STATUS_ACQUITTED)) {
             return true;
         } else {
             return false;

@@ -48,12 +48,12 @@ class Finances_OutlayController  extends Zend_Controller_Action
             if (isset($data['teamMember'])) {
                 $teamMemberId = $data['teamMember'];
                 if (!isset($this->teamMemberMapper)) {
-                    $this->teamMemberMapper = new C3op_Projects_TeamMemberMapper($this->db);
+                    $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
                 }
                 $outlayTeamMember = $this->teamMemberMapper->findById($teamMemberId);
                 $this->populateFieldsAssociatedToTeamMember($outlayTeamMember, $form);
             } else {
-                throw new C3op_Projects_TeamMemberException("Um desembolso precisa estar associado a um recurso.");
+                throw new C3op_Resources_TeamMemberException("Um desembolso precisa estar associado a um recurso.");
                 $teamMemberId = 0;
                 $projectId = $data['project'];
             }
@@ -94,7 +94,7 @@ class Finances_OutlayController  extends Zend_Controller_Action
                 }
                 $thisOutlay = $this->outlayMapper->findById($id);
                 if (!isset($this->teamMemberMapper)) {
-                    $this->teamMemberMapper = new C3op_Projects_TeamMemberMapper($this->db);
+                    $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
                 }
 
                 $outlayTeamMember = $this->teamMemberMapper->findById($thisOutlay->GetTeamMember());
@@ -153,7 +153,7 @@ class Finances_OutlayController  extends Zend_Controller_Action
     }
 
 
-    private function populateFieldsAssociatedToTeamMember(C3op_Projects_TeamMember $teamMember, C3op_Form_OutlayCreate $form)
+    private function populateFieldsAssociatedToTeamMember(C3op_Resources_TeamMember $teamMember, C3op_Form_OutlayCreate $form)
     {
 
         $teamMemberField = $form->getElement('teamMember');

@@ -309,7 +309,7 @@ class Finances_ReceivableController extends Zend_Controller_Action
     private function initTeamMemberMapper()
     {
         if (!isset($this->teamMemberMapper)) {
-            $this->teamMemberMapper = new C3op_Projects_TeamMemberMapper($this->db);
+            $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
         }
     }
 

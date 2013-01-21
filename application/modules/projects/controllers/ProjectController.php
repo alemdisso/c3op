@@ -283,7 +283,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         }
 
         $projectReceivables = $this->receivableMapper->getAllReceivables($projectToBeDetailed);
-        
+
         foreach ($projectReceivables as $id) {
             $theReceivable = $this->receivableMapper->findById($id);
             $receivableTitle = $theReceivable->getTitle();
@@ -438,8 +438,8 @@ class Projects_ProjectController extends Zend_Controller_Action
                     $payeeName = $theContact->getName();
 
                     $status = $theTeamMember->getStatus();
-                    if ($status == C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED) {
-                        $doesIt = new C3op_Projects_TeamMemberHasCredit($theTeamMember, $this->teamMemberMapper);
+                    if ($status == C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED) {
+                        $doesIt = new C3op_Resources_TeamMemberHasCredit($theTeamMember, $this->teamMemberMapper);
                         if ($doesIt->hasCredit()) {
                             $canProvideOutlay = true;
                         } else {
@@ -496,10 +496,10 @@ class Projects_ProjectController extends Zend_Controller_Action
         //      staffPhoneNumber
 
         $teamMembersList = array();
-        $projectTeam = $this->projectMapper->getAllTeamMembersContractedOrPredictedAt($projectToBeDetailed);
         if (!isset($this->teamMemberMapper)) {
             $this->initTeamMemberMapper();
         }
+        $projectTeam = $this->teamMemberMapper->getAllTeamMembersContractedOrPredictedAt($projectToBeDetailed);
         if (!isset($this->linkageMapper)) {
             $this->initLinkageMapper();
         }
@@ -522,7 +522,7 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $staffPhoneNumber = $this->view->translate("#Not implemented");
             }
 
-            $removal = new C3op_Projects_TeamMemberRemoval($theTeamMember, $this->teamMemberMapper);
+            $removal = new C3op_Resources_TeamMemberRemoval($theTeamMember, $this->teamMemberMapper);
 
             if ($removal->canBeRemoved()) {
                 $canRemoveTeamMember = true;
@@ -557,10 +557,7 @@ class Projects_ProjectController extends Zend_Controller_Action
             $this->initOutsideServiceMapper();
         }
         $outsideServicesList = array();
-        $projectTeam = $this->projectMapper->getAllOutsideServicesContractedOrPredictedAt($projectToBeDetailed);
-        if (!isset($this->outsideServiceMapper)) {
-            $this->initOutsideServiceMapper();
-        }
+        $projectTeam = $this->outsideServiceMapper->getAllOutsideServicesContractedOrPredictedAt($projectToBeDetailed);
         if (!isset($this->linkageMapper)) {
             $this->initLinkageMapper();
         }
@@ -597,7 +594,7 @@ class Projects_ProjectController extends Zend_Controller_Action
 
 
 
-            $removal = new C3op_Projects_OutsideServiceRemoval($theOutsideService, $this->outsideServiceMapper);
+            $removal = new C3op_Resources_OutsideServiceRemoval($theOutsideService, $this->outsideServiceMapper);
 
             if ($removal->canBeRemoved()) {
                 $canRemoveOutsideService = true;
@@ -783,12 +780,12 @@ class Projects_ProjectController extends Zend_Controller_Action
 
     private function initOutsideServiceMapper()
     {
-         $this->outsideServiceMapper = new C3op_Projects_OutsideServiceMapper($this->db);
+         $this->outsideServiceMapper = new C3op_Resources_OutsideServiceMapper($this->db);
     }
 
     private function initMaterialSupplyMapper()
     {
-         $this->materialSupplyMapper = new C3op_Projects_MaterialSupplyMapper($this->db);
+         $this->materialSupplyMapper = new C3op_Resources_MaterialSupplyMapper($this->db);
     }
 
     private function initReceivableMapper()
@@ -800,7 +797,7 @@ class Projects_ProjectController extends Zend_Controller_Action
 
     private function initTeamMemberMapper()
     {
-         $this->teamMemberMapper = new C3op_Projects_TeamMemberMapper($this->db);
+         $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
     }
 
     private function initInstitutionMapper()
@@ -945,7 +942,7 @@ class Projects_ProjectController extends Zend_Controller_Action
     {
         $teamMemberId = $outlay->getTeamMember();
         if (!isset($this->teamMemberMapper)) {
-            $this->teamMemberMapper = new C3op_Projects_TeamMemberMapper($this->db);
+            $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
         }
         $outlayTeamMember = $this->teamMemberMapper->findById($teamMemberId);
         $listOutlaysForTeamMember = $this->teamMemberMapper->getAllOutlays($outlayTeamMember);
@@ -1077,7 +1074,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         }
 
         $materialSuppliesList = array();
-        $materialSuppliesIdsList = $this->projectMapper->getAllMaterialSuppliesContractedOrPredictedAt($project);
+        $materialSuppliesIdsList = $this->materialSupplyMapper->getAllMaterialSuppliesContractedOrPredictedAt($project);
 
         foreach ($materialSuppliesIdsList as $materialSupplyId) {
             $theMaterialSupply = $this->materialSupplyMapper->findById($materialSupplyId);
@@ -1100,17 +1097,17 @@ class Projects_ProjectController extends Zend_Controller_Action
 
 
             $status = $theMaterialSupply->getStatus();
-            $statusTypes = new C3op_Projects_MaterialSupplyStatusTypes();
+            $statusTypes = new C3op_Resources_MaterialSupplyStatusTypes();
             $statusLabel = $statusTypes->TitleForType($status);
 
-            if ($status == C3op_Projects_MaterialSupplyStatusConstants::STATUS_FORESEEN) {
+            if ($status == C3op_Resources_MaterialSupplyStatusConstants::STATUS_FORESEEN) {
                 $canContract = true;
             } else {
                 $canContract = false;
             }
 
-            if ($status == C3op_Projects_MaterialSupplyStatusConstants::STATUS_CONTRACTED) {
-                $doesIt = new C3op_Projects_MaterialSupplyHasCredit($theMaterialSupply, $this->materialSupplyMapper);
+            if ($status == C3op_Resources_MaterialSupplyStatusConstants::STATUS_CONTRACTED) {
+                $doesIt = new C3op_Resources_MaterialSupplyHasCredit($theMaterialSupply, $this->materialSupplyMapper);
                 if ($doesIt->hasCredit()) {
                     $canProvideOutlay = true;
                 } else {
@@ -1119,7 +1116,7 @@ class Projects_ProjectController extends Zend_Controller_Action
             } else {
                 $canProvideOutlay = false;
             }
-           $removal = new C3op_Projects_MaterialSupplyRemoval($theMaterialSupply, $this->materialSupplyMapper);
+           $removal = new C3op_Resources_MaterialSupplyRemoval($theMaterialSupply, $this->materialSupplyMapper);
 
             if ($removal->canBeRemoved()) {
                 $canRemoveMaterialSupply = true;

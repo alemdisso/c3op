@@ -1,6 +1,6 @@
 <?php
 
-class C3op_Projects_OutsideServiceStatusConstants
+class C3op_Resources_OutsideServiceStatusConstants
 {
     const STATUS_NIL = 0;
     const STATUS_UNDEFINED = 100;

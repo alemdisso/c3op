@@ -112,7 +112,7 @@ class C3op_Projects_PayleeMapper
         $attribute->setValue($a, $fieldValue);
     }
 
-     public function getAllPayleesForTeamMember(C3op_Projects_TeamMember $obj) {
+     public function getAllPayleesForTeamMember(C3op_Resources_TeamMember $obj) {
         $result = array();
             foreach ($this->db->query(
                     sprintf('SELECT id FROM projects_paylees WHERE team_member = %d;', $obj->GetId())) as $row) {
@@ -121,7 +121,7 @@ class C3op_Projects_PayleeMapper
         return $result;
     }
 
-     public function getAllPayleesForOutsideService(C3op_Projects_OutsideService $obj) {
+     public function getAllPayleesForOutsideService(C3op_Resources_OutsideService $obj) {
         $result = array();
             foreach ($this->db->query(
                     sprintf('SELECT id FROM projects_paylees WHERE outside_service = %d;', $obj->GetId())) as $row) {
@@ -130,7 +130,7 @@ class C3op_Projects_PayleeMapper
         return $result;
     }
 
-     public function getAllPayleesForMaterialSupply(C3op_Projects_MaterialSupply $obj) {
+     public function getAllPayleesForMaterialSupply(C3op_Resources_MaterialSupply $obj) {
         $result = array();
             foreach ($this->db->query(
                     sprintf('SELECT id FROM projects_paylees WHERE material_supply = %d;', $obj->GetId())) as $row) {

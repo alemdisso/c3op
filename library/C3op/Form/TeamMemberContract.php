@@ -5,7 +5,7 @@ class C3op_Form_TeamMemberContract extends Zend_Form
     public function init()
     {
         $this->setName('newTeamMemberForm')
-            ->setAction('/projects/team-member/contract')
+            ->setAction('/resources/team-member/contract')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
@@ -82,7 +82,7 @@ class C3op_Form_TeamMemberContract extends Zend_Form
         else
         {
             $db = Zend_Registry::get('db');
-            $teamMemberMapper = new C3op_Projects_TeamMemberMapper($db);
+            $teamMemberMapper = new C3op_Resources_TeamMemberMapper($db);
             $teamMember = $teamMemberMapper->findById($this->id->GetValue());
             $actionMapper = new C3op_Projects_ActionMapper($this->db);
             $itsAction = $actionMapper->findById($teamMember->GetAction());
@@ -127,7 +127,7 @@ class C3op_Form_TeamMemberContract extends Zend_Form
             if ($dateChanged && ($observation == "")) {
                 throw new C3op_Form_TeamMemberCreateException('#Date changing must be justified');
             } else {
-                $contracting = new C3op_Projects_TeamMemberContracting();
+                $contracting = new C3op_Resources_TeamMemberContracting();
                 $contracting->teamMemberContract($itsAction, $teamMember, $teamMemberMapper);
                 if (($observation != "") && ($itsAction->GetPredictedBeginDate() != $newBeginDate)) {
                     C3op_Projects_ActionDateChange::ChangePredictedBeginDate($itsAction, $actionMapper, $newBeginDate, $observation);

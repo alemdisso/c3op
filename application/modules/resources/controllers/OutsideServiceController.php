@@ -1,6 +1,6 @@
 <?php
 
-class Projects_OutsideServiceController extends Zend_Controller_Action
+class Resources_OutsideServiceController extends Zend_Controller_Action
 {
     private $outsideServiceMapper;
     private $actionMapper;
@@ -34,7 +34,7 @@ class Projects_OutsideServiceController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/outside-service/success/?id=' . $id);
+                $this->_redirect('/resources/outside-service/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -87,7 +87,7 @@ class Projects_OutsideServiceController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/outside-service/success/?id=' . $id);
+                $this->_redirect('/resources/outside-service/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -105,7 +105,7 @@ class Projects_OutsideServiceController extends Zend_Controller_Action
             if ($input->isValid()) {
                 $id = $input->id;
                 if (!isset($this->outsideServiceMapper)) {
-                    $this->outsideServiceMapper = new C3op_Projects_OutsideServiceMapper($this->db);
+                    $this->outsideServiceMapper = new C3op_Resources_OutsideServiceMapper($this->db);
                 }
                 $thisOutsideService = $this->outsideServiceMapper->findById($id);
                 $descriptionField = $form->getElement('description');
@@ -184,7 +184,7 @@ class Projects_OutsideServiceController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/outside-service/success/?id=' . $id);
+                $this->_redirect('/resources/outside-service/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -238,7 +238,7 @@ class Projects_OutsideServiceController extends Zend_Controller_Action
     {
         $outlayMapper = new C3op_Finances_OutlayMapper($this->db);
         if (!isset($this->outsideServiceMapper)) {
-            $this->outsideServiceMapper = new C3op_Projects_OutsideServiceMapper($this->db);
+            $this->outsideServiceMapper = new C3op_Resources_OutsideServiceMapper($this->db);
         }
 
         $id = $this->checkIdFromGet();
@@ -382,13 +382,13 @@ class Projects_OutsideServiceController extends Zend_Controller_Action
         $this->initActionMapper();
         $outsideService =  $this->initOutsideServiceWithCheckedId($this->outsideServiceMapper);
         $action = $this->actionMapper->findById($outsideService->GetAction());
-        $dismissal = new C3op_Projects_OutsideServiceDismissal();
+        $dismissal = new C3op_Resources_OutsideServiceDismissal();
         $dismissal->ContactDismiss($action, $outsideService, $this->outsideServiceMapper);
 
         echo 'Contato dispensado';
     }
 
-    private function initOutsideServiceWithCheckedId(C3op_Projects_OutsideServiceMapper $mapper)
+    private function initOutsideServiceWithCheckedId(C3op_Resources_OutsideServiceMapper $mapper)
     {
         return $mapper->findById($this->checkIdFromGet());
     }
@@ -451,7 +451,7 @@ class Projects_OutsideServiceController extends Zend_Controller_Action
 
    private function initOutsideServiceMapper()
     {
-         $this->outsideServiceMapper = new C3op_Projects_OutsideServiceMapper($this->db);
+         $this->outsideServiceMapper = new C3op_Resources_OutsideServiceMapper($this->db);
     }
 
     private function initContactMapper()

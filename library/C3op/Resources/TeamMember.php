@@ -1,6 +1,6 @@
 <?php
 
-class C3op_Projects_TeamMember {
+class C3op_Resources_TeamMember {
 
     protected $id;
     protected $action;
@@ -26,7 +26,7 @@ class C3op_Projects_TeamMember {
         if (($this->id == 0) && ($id > 0)) {
             $this->id = (int)$id;
         } else {
-            throw new C3op_Projects_TeamMemberException('It\'s not possible to change a Human Resource\'s ID');
+            throw new C3op_Resources_TeamMemberException('It\'s not possible to change a Human Resource\'s ID');
         }
     } //setId
 
@@ -41,7 +41,7 @@ class C3op_Projects_TeamMember {
                 $this->action = $action;
             }
         } else {
-            throw new C3op_Projects_TeamMemberException("This ($action) is not a valid action.");
+            throw new C3op_Resources_TeamMemberException("This ($action) is not a valid action.");
         }
 
     } //setAction
@@ -57,7 +57,7 @@ class C3op_Projects_TeamMember {
                 $this->description = $description;
             }
         } else {
-            throw new C3op_Projects_TeamMemberException("This ($description) is not a valid description.");
+            throw new C3op_Resources_TeamMemberException("This ($description) is not a valid description.");
         }
     } //setDescription
 
@@ -71,16 +71,16 @@ class C3op_Projects_TeamMember {
             if ($this->linkage != $linkage) {
                 $this->linkage = $linkage;
                 if ($linkage > 0) {
-                    $this->SetStatus(C3op_Projects_TeamMemberStatusConstants::STATUS_FORESEEN);
+                    $this->SetStatus(C3op_Resources_TeamMemberStatusConstants::STATUS_FORESEEN);
                 } else {
-                    if ($this->GetStatus() != C3op_Projects_TeamMemberStatusConstants::STATUS_CANCEL) {
-                        $this->SetStatus(C3op_Projects_TeamMemberStatusConstants::STATUS_UNDEFINED);
+                    if ($this->GetStatus() != C3op_Resources_TeamMemberStatusConstants::STATUS_CANCEL) {
+                        $this->SetStatus(C3op_Resources_TeamMemberStatusConstants::STATUS_UNDEFINED);
 
                     }
                 }
             }
         } else {
-            throw new C3op_Projects_TeamMemberException("This ($linkage) is not a valid linkage.");
+            throw new C3op_Resources_TeamMemberException("This ($linkage) is not a valid linkage.");
         }
 
     } //setLinkage
@@ -109,7 +109,7 @@ class C3op_Projects_TeamMember {
                 $this->status = $status;
             }
         } else {
-            throw new C3op_Projects_TeamMemberException("This ($status) is not a valid status.");
+            throw new C3op_Resources_TeamMemberException("This ($status) is not a valid status.");
         }
 
     } //setStatus

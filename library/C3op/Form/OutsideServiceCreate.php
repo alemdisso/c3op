@@ -5,7 +5,7 @@ class C3op_Form_OutsideServiceCreate extends Zend_Form
     public function init()
     {
         $this->setName('newOutsideServiceForm')
-            ->setAction('/projects/outside-service/create')
+            ->setAction('/resources/outside-service/create')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
@@ -96,8 +96,8 @@ class C3op_Form_OutsideServiceCreate extends Zend_Form
         else
         {
             $db = Zend_Registry::get('db');
-            $outsideServiceMapper = new C3op_Projects_OutsideServiceMapper($db);
-            $outsideService = new C3op_Projects_OutsideService();
+            $outsideServiceMapper = new C3op_Resources_OutsideServiceMapper($db);
+            $outsideService = new C3op_Resources_OutsideService();
             $outsideService->SetDescription($this->description->GetValue());
             $outsideService->SetInstitution($this->institution->GetValue());
             $outsideService->SetLinkage($this->linkage->GetValue());

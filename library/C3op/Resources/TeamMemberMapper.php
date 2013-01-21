@@ -1,6 +1,6 @@
 <?php
 
-class C3op_Projects_TeamMemberMapper {
+class C3op_Resources_TeamMemberMapper {
 
     protected $db;
     protected $identityMap;
@@ -12,16 +12,16 @@ class C3op_Projects_TeamMemberMapper {
 
     public function getAllIds() {
         $result = array();
-            foreach ($this->db->query('SELECT id FROM projects_team_members;') as $row) {
+            foreach ($this->db->query('SELECT id FROM resources_team_members;') as $row) {
             $result[] = $row['id'];
         }
         return $result;
     }
 
-    public function insert(C3op_Projects_TeamMember $new) {
+    public function insert(C3op_Resources_TeamMember $new) {
 
 
-        $query = $this->db->prepare("INSERT INTO projects_team_members (action, linkage, description, value, status) VALUES (:action, :linkage, :description, :value, :status)");
+        $query = $this->db->prepare("INSERT INTO resources_team_members (action, linkage, description, value, status) VALUES (:action, :linkage, :description, :value, :status)");
 
         $query->bindValue(':action', $new->GetAction(), PDO::PARAM_INT);
         $query->bindValue(':linkage', $new->getLinkage(), PDO::PARAM_INT);
@@ -36,12 +36,12 @@ class C3op_Projects_TeamMemberMapper {
 
     }
 
-    public function update(C3op_Projects_TeamMember $obj) {
+    public function update(C3op_Resources_TeamMember $obj) {
         if (!isset($this->identityMap[$obj])) {
-            throw new C3op_Projects_TeamMemberMapperException('Object has no ID, cannot update.');
+            throw new C3op_Resources_TeamMemberMapperException('Object has no ID, cannot update.');
         }
 
-        $query = $this->db->prepare("UPDATE projects_team_members SET action = :action, description = :description, linkage = :linkage, value = :value, status = :status WHERE id = :id;");
+        $query = $this->db->prepare("UPDATE resources_team_members SET action = :action, description = :description, linkage = :linkage, value = :value, status = :status WHERE id = :id;");
 
         $query->bindValue(':action', $obj->GetAction(), PDO::PARAM_STR);
         $query->bindValue(':description', $obj->GetDescription(), PDO::PARAM_STR);
@@ -53,7 +53,7 @@ class C3op_Projects_TeamMemberMapper {
         try {
             $query->execute();
         } catch (Exception $e) {
-            throw new C3op_Projects_TeamMemberException("$sql failed");
+            throw new C3op_Resources_TeamMemberException("$sql failed");
         }
 
     }
@@ -67,15 +67,15 @@ class C3op_Projects_TeamMemberMapper {
             $this->identityMap->next();
         }
 
-        $query = $this->db->prepare('SELECT action, description, linkage, value, status FROM projects_team_members WHERE id = :id;');
+        $query = $this->db->prepare('SELECT action, description, linkage, value, status FROM resources_team_members WHERE id = :id;');
         $query->bindValue(':id', $id, PDO::PARAM_STR);
         $query->execute();
         $result = $query->fetch();
 
         if (empty($result)) {
-            throw new C3op_Projects_TeamMemberMapperException(sprintf('There is no Human Resource with id #%d.', $id));
+            throw new C3op_Resources_TeamMemberMapperException(sprintf('There is no Human Resource with id #%d.', $id));
         }
-        $obj = new C3op_Projects_TeamMember();
+        $obj = new C3op_Resources_TeamMember();
 
         $this->setAttributeValue($obj, $id, 'id');
         $this->setAttributeValue($obj, $result['action'], 'action');
@@ -90,13 +90,13 @@ class C3op_Projects_TeamMemberMapper {
         $this->FetchDates($obj);
     }
 
-    public function delete(C3op_Projects_TeamMember $i) {
+    public function delete(C3op_Resources_TeamMember $i) {
         if (!isset($this->identityMap[$i])) {
-            throw new C3op_Projects_TeamMemberMapperException('Object has no ID, cannot delete.');
+            throw new C3op_Resources_TeamMemberMapperException('Object has no ID, cannot delete.');
         }
         $this->db->exec(
             sprintf(
-                'DELETE FROM projects_team_members WHERE id = %d;',
+                'DELETE FROM resources_team_members WHERE id = %d;',
                 $this->identityMap[$i]
             )
         );
@@ -106,20 +106,20 @@ class C3op_Projects_TeamMemberMapper {
      public function getAllTeamMembersOnAction(C3op_Projects_Action $a) {
         $result = array();
             foreach ($this->db->query(
-                    sprintf('SELECT id FROM projects_team_members WHERE action = %d;', $a->GetId())) as $row) {
+                    sprintf('SELECT id FROM resources_team_members WHERE action = %d;', $a->GetId())) as $row) {
             $result[] = $row['id'];
         }
         return $result;
     }
 
-   private function setAttributeValue(C3op_Projects_TeamMember $i, $fieldValue, $attributeName)
+   private function setAttributeValue(C3op_Resources_TeamMember $i, $fieldValue, $attributeName)
     {
         $attribute = new ReflectionProperty($i, $attributeName);
         $attribute->setAccessible(TRUE);
         $attribute->setValue($i, $fieldValue);
     }
 
-    public function getAllOutlays(C3op_Projects_TeamMember $obj)
+    public function getAllOutlays(C3op_Resources_TeamMember $obj)
     {
         $result = array();
         foreach ($this->db->query(
@@ -134,7 +134,54 @@ class C3op_Projects_TeamMemberMapper {
         return $result;
     }
 
-    public function getSumOfPayedOutlays(C3op_Projects_TeamMember $obj)
+     public function getAllTeamMembersContractedAt(C3op_Projects_Project $obj) {
+        $result = array();
+
+        foreach ($this->db->query(sprintf('SELECT t.id
+            FROM projects_actions a
+            INNER JOIN resources_team_members t ON a.id = t.action
+            WHERE t.linkage > 0
+            AND a.project = %d
+            AND (
+            a.status = %d
+            OR a.status = %d
+            )'
+            , $obj->getId()
+            , C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED
+            , C3op_Resources_TeamMemberStatusConstants::STATUS_ACQUITTED
+
+                )) as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
+    public function getAllTeamMembersContractedOrPredictedAt(C3op_Projects_Project $obj) {
+        $result = array();
+
+        foreach ($this->db->query(sprintf('SELECT t.id
+            FROM projects_actions a
+            INNER JOIN resources_team_members t ON a.id = t.action
+            WHERE a.project = %d
+            AND (
+            t.status = %d
+            OR t.status = %d
+            OR t.status = %d
+            OR t.status = %d
+            )'
+            , $obj->getId()
+            , C3op_Resources_TeamMemberStatusConstants::STATUS_UNDEFINED
+            , C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED
+            , C3op_Resources_TeamMemberStatusConstants::STATUS_ACQUITTED
+            , C3op_Resources_TeamMemberStatusConstants::STATUS_FORESEEN
+
+                )) as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
+   public function getSumOfPayedOutlays(C3op_Resources_TeamMember $obj)
     {
         $query = $this->db->prepare('SELECT SUM(real_value) as sum FROM finances_outlays WHERE team_member = :id AND real_value > 0 AND real_date IS NOT NULL AND real_date <> "0000-00-00";');
         $query->bindValue(':id', $obj->GetId(), PDO::PARAM_STR);
@@ -143,7 +190,7 @@ class C3op_Projects_TeamMemberMapper {
         return $result['sum'];
     }
 
-    public function getSumOfProvidedButNotPayedOutlays(C3op_Projects_TeamMember $obj)
+    public function getSumOfProvidedButNotPayedOutlays(C3op_Resources_TeamMember $obj)
     {
         $query = $this->db->prepare('SELECT SUM(predicted_value) as sum FROM finances_outlays WHERE team_member = :id AND predicted_value > 0 AND (real_value IS NULL OR real_value = 0.0);');
         $query->bindValue(':id', $obj->GetId(), PDO::PARAM_STR);

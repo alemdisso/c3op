@@ -8,7 +8,7 @@ class C3op_Form_TeamMemberRemove extends Zend_Form
 
         // initialize form
         $this->setName('removeTeamMemberForm')
-            ->setAction('/projects/team-member/remove')
+            ->setAction('/resources/team-member/remove')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
@@ -25,7 +25,7 @@ class C3op_Form_TeamMemberRemove extends Zend_Form
     public function process($data) {
 
         $db = Zend_Registry::get('db');
-        $teamMemberMapper = new C3op_Projects_TeamMemberMapper($db);
+        $teamMemberMapper = new C3op_Resources_TeamMemberMapper($db);
 
         if ($this->isValid($data) !== true)
         {
@@ -35,7 +35,7 @@ class C3op_Form_TeamMemberRemove extends Zend_Form
         {
             $id = $data['id'];
             $teamMember = $teamMemberMapper->findById($id);
-            $teamMemberRemoval = new C3op_Projects_TeamMemberRemoval($teamMember, $teamMemberMapper);
+            $teamMemberRemoval = new C3op_Resources_TeamMemberRemoval($teamMember, $teamMemberMapper);
             $teamMemberRemoval->remove();
             return $id;
         }

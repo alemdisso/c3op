@@ -8,7 +8,7 @@ class C3op_Form_MaterialSupplyRemove extends Zend_Form
 
         // initialize form
         $this->setName('removeMaterialSupplyForm')
-            ->setAction('/projects/material-supply/remove')
+            ->setAction('/resources/material-supply/remove')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
@@ -25,7 +25,7 @@ class C3op_Form_MaterialSupplyRemove extends Zend_Form
     public function process($data) {
 
         $db = Zend_Registry::get('db');
-        $materialSupplyMapper = new C3op_Projects_MaterialSupplyMapper($db);
+        $materialSupplyMapper = new C3op_Resources_MaterialSupplyMapper($db);
 
         if ($this->isValid($data) !== true)
         {
@@ -35,7 +35,7 @@ class C3op_Form_MaterialSupplyRemove extends Zend_Form
         {
             $id = $data['id'];
             $materialSupply = $materialSupplyMapper->findById($id);
-            $materialSupplyRemoval = new C3op_Projects_MaterialSupplyRemoval($materialSupply, $materialSupplyMapper);
+            $materialSupplyRemoval = new C3op_Resources_MaterialSupplyRemoval($materialSupply, $materialSupplyMapper);
             $materialSupplyRemoval->remove();
             return $id;
         }

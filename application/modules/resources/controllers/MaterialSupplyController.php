@@ -1,6 +1,6 @@
 <?php
 
-class Projects_MaterialSupplyController extends Zend_Controller_Action
+class Resources_MaterialSupplyController extends Zend_Controller_Action
 {
     private $materialSupplyMapper;
     private $actionMapper;
@@ -105,7 +105,7 @@ class Projects_MaterialSupplyController extends Zend_Controller_Action
             if ($input->isValid()) {
                 $id = $input->id;
                 if (!isset($this->materialSupplyMapper)) {
-                    $this->materialSupplyMapper = new C3op_Projects_MaterialSupplyMapper($this->db);
+                    $this->materialSupplyMapper = new C3op_Resources_MaterialSupplyMapper($this->db);
                 }
                 $thisMaterialSupply = $this->materialSupplyMapper->findById($id);
                 $descriptionField = $form->getElement('description');
@@ -241,7 +241,7 @@ class Projects_MaterialSupplyController extends Zend_Controller_Action
     {
         $outlayMapper = new C3op_Finances_OutlayMapper($this->db);
         if (!isset($this->materialSupplyMapper)) {
-            $this->materialSupplyMapper = new C3op_Projects_MaterialSupplyMapper($this->db);
+            $this->materialSupplyMapper = new C3op_Resources_MaterialSupplyMapper($this->db);
         }
 
         $id = $this->checkIdFromGet();
@@ -380,13 +380,13 @@ class Projects_MaterialSupplyController extends Zend_Controller_Action
         $this->initActionMapper();
         $materialSupply =  $this->initMaterialSupplyWithCheckedId($this->materialSupplyMapper);
         $action = $this->actionMapper->findById($materialSupply->GetAction());
-        $dismissal = new C3op_Projects_MaterialSupplyDismissal();
+        $dismissal = new C3op_Resources_MaterialSupplyDismissal();
         $dismissal->ContactDismiss($action, $materialSupply, $this->materialSupplyMapper);
 
         echo 'Contato dispensado';
     }
 
-    private function initMaterialSupplyWithCheckedId(C3op_Projects_MaterialSupplyMapper $mapper)
+    private function initMaterialSupplyWithCheckedId(C3op_Resources_MaterialSupplyMapper $mapper)
     {
         return $mapper->findById($this->checkIdFromGet());
     }
@@ -449,7 +449,7 @@ class Projects_MaterialSupplyController extends Zend_Controller_Action
 
    private function initMaterialSupplyMapper()
     {
-         $this->materialSupplyMapper = new C3op_Projects_MaterialSupplyMapper($this->db);
+         $this->materialSupplyMapper = new C3op_Resources_MaterialSupplyMapper($this->db);
     }
 
     private function initContactMapper()

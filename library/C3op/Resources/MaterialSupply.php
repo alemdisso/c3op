@@ -1,6 +1,6 @@
 <?php
 
-class C3op_Projects_MaterialSupply {
+class C3op_Resources_MaterialSupply {
 
     protected $id;
     protected $action;
@@ -34,7 +34,7 @@ class C3op_Projects_MaterialSupply {
         if (($this->id == 0) && ($id > 0)) {
             $this->id = (int)$id;
         } else {
-            throw new C3op_Projects_MaterialSupplyException('It\'s not possible to change a Human Resource\'s ID');
+            throw new C3op_Resources_MaterialSupplyException('It\'s not possible to change a Human Resource\'s ID');
         }
     } //setId
 
@@ -49,7 +49,7 @@ class C3op_Projects_MaterialSupply {
                 $this->action = $action;
             }
         } else {
-            throw new C3op_Projects_MaterialSupplyException("This ($action) is not a valid action.");
+            throw new C3op_Resources_MaterialSupplyException("This ($action) is not a valid action.");
         }
 
     } //setAction
@@ -65,7 +65,7 @@ class C3op_Projects_MaterialSupply {
                 $this->description = $description;
             }
         } else {
-            throw new C3op_Projects_MaterialSupplyException("This ($description) is not a valid description.");
+            throw new C3op_Resources_MaterialSupplyException("This ($description) is not a valid description.");
         }
     } //setDescription
 
@@ -79,16 +79,16 @@ class C3op_Projects_MaterialSupply {
             if ($this->institution != $institution) {
                 $this->institution = $institution;
                 if ($institution > 0) {
-                    $this->SetStatus(C3op_Projects_MaterialSupplyStatusConstants::STATUS_FORESEEN);
+                    $this->SetStatus(C3op_Resources_MaterialSupplyStatusConstants::STATUS_FORESEEN);
                 } else {
-                    if ($this->GetStatus() != C3op_Projects_MaterialSupplyStatusConstants::STATUS_CANCEL) {
-                        $this->SetStatus(C3op_Projects_MaterialSupplyStatusConstants::STATUS_UNDEFINED);
+                    if ($this->GetStatus() != C3op_Resources_MaterialSupplyStatusConstants::STATUS_CANCEL) {
+                        $this->SetStatus(C3op_Resources_MaterialSupplyStatusConstants::STATUS_UNDEFINED);
 
                     }
                 }
             }
         } else {
-            throw new C3op_Projects_MaterialSupplyException("This ($institution) is not a valid institution.");
+            throw new C3op_Resources_MaterialSupplyException("This ($institution) is not a valid institution.");
         }
 
     } //setInstitution
@@ -104,7 +104,7 @@ class C3op_Projects_MaterialSupply {
                 $this->linkage = $linkage;
             }
         } else {
-            throw new C3op_Projects_MaterialSupplyException("This ($linkage) is not a valid linkage.");
+            throw new C3op_Resources_MaterialSupplyException("This ($linkage) is not a valid linkage.");
         }
 
     } //setLinkage
@@ -133,7 +133,7 @@ class C3op_Projects_MaterialSupply {
                 $this->unit = $unit;
             }
         } else {
-            throw new C3op_Projects_MaterialSupplyException("This ($unit) is not a valid unit.");
+            throw new C3op_Resources_MaterialSupplyException("This ($unit) is not a valid unit.");
         }
     } //setUnit
 
@@ -166,7 +166,7 @@ class C3op_Projects_MaterialSupply {
                 $this->status = $status;
             }
         } else {
-            throw new C3op_Projects_MaterialSupplyException("This ($status) is not a valid status.");
+            throw new C3op_Resources_MaterialSupplyException("This ($status) is not a valid status.");
         }
 
     } //setStatus

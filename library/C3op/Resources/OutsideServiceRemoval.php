@@ -1,11 +1,11 @@
 <?php
 
-class C3op_Projects_OutsideServiceRemoval {
+class C3op_Resources_OutsideServiceRemoval {
 
     private $outsideService;
     private $outsideServiceMapper;
 
-    public function __construct(C3op_Projects_OutsideService $outsideService, C3op_Projects_OutsideServiceMapper $outsideServiceMapper)
+    public function __construct(C3op_Resources_OutsideService $outsideService, C3op_Resources_OutsideServiceMapper $outsideServiceMapper)
     {
         $this->outsideService = $outsideService;
         $this->outsideServiceMapper = $outsideServiceMapper;
@@ -35,7 +35,7 @@ class C3op_Projects_OutsideServiceRemoval {
             $this->outsideServiceMapper->delete($this->outsideService);
 
         } else {
-            throw new C3op_Projects_OutsideServiceException("This Team Member can't be removed");
+            throw new C3op_Resources_OutsideServiceException("This Team Member can't be removed");
         }
 
 
@@ -59,8 +59,8 @@ class C3op_Projects_OutsideServiceRemoval {
     {
         $status = $this->outsideService->getStatus();
 
-        if (($status == C3op_Projects_OutsideServiceStatusConstants::STATUS_CONTRACTED)
-                || ($status == C3op_Projects_OutsideServiceStatusConstants::STATUS_ACQUITTED)) {
+        if (($status == C3op_Resources_OutsideServiceStatusConstants::STATUS_CONTRACTED)
+                || ($status == C3op_Resources_OutsideServiceStatusConstants::STATUS_ACQUITTED)) {
             return true;
         } else {
             return false;

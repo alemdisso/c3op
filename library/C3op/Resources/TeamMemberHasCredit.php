@@ -1,11 +1,11 @@
 <?php
 
-class C3op_Projects_TeamMemberHasCredit {
+class C3op_Resources_TeamMemberHasCredit {
 
     private $teamMember;
     private $mapper;
 
-    function __construct(C3op_Projects_TeamMember $teamMember, C3op_Projects_TeamMemberMapper $mapper)
+    function __construct(C3op_Resources_TeamMember $teamMember, C3op_Resources_TeamMemberMapper $mapper)
     {
             $this->teamMember = $teamMember;
             $this->mapper = $mapper;
