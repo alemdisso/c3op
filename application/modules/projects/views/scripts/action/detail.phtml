@@ -526,10 +526,10 @@ if ($outsideServiceData['canRemoveOutsideService']) {
 ?>          <!-- ### loop de carga dos recursos humanos alocados a esta ação -->
               <tr>
                 <td>
-                  <a href="/projects/material-supply/edit/?id=<?php print($id) ?>"><?php print($materialSupplyData['name']) ?></a>
+                  <a href="/resources/material-supply/edit/?id=<?php print($id) ?>"><?php print($materialSupplyData['name']) ?></a>
                 </td>
                 <td>
-                  <a href="/projects/material-supply/edit/?id=<?php print($id) ?>"><?php print($materialSupplyData['description']) ?></a>
+                  <a href="/resources/material-supply/edit/?id=<?php print($id) ?>"><?php print($materialSupplyData['description']) ?></a>
                 </td>
                 <td>
                   <?php print($materialSupplyData['value']) ?>
@@ -542,14 +542,14 @@ if ($outsideServiceData['canRemoveOutsideService']) {
                   <div id="submenu2" class="anylinkcss">
                       <ul>
                         <li>
-                          <a href="/projects/material-supply/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
+                          <a href="/resources/material-supply/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
                         </li>
 
 <?php
     if ($materialSupplyData['canContractFlag']) {
 ?>
                         <li>
-                          <a class="parent_info" href="/projects/material-supply/contract/?id=<?php print($id);?>" ><?php print($this->translate("#Confirm material supply contracting")); ?></a>
+                          <a class="parent_info" href="/resources/material-supply/contract/?id=<?php print($id);?>" ><?php print($this->translate("#Confirm material supply contracting")); ?></a>
                         </li>
 
 <?php
@@ -575,7 +575,7 @@ if ($materialSupplyData['canRemoveMaterialSupply']) {
 
 
                           <li>
-                            <a href="/projects/material-supply/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
+                            <a href="/resources/material-supply/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
                           </li>
 
 <?php
@@ -594,7 +594,7 @@ if ($materialSupplyData['canRemoveMaterialSupply']) {
           </table>
 
           <p>
-            <a href="/projects/material-supply/create/?actionId=<?php print($actionHeader['id']); ?>" class="button three columns alpha omega"><?php print($this->translate("#Anticipate material supply")); ?></a>
+            <a href="/resources/material-supply/create/?actionId=<?php print($actionHeader['id']); ?>" class="button three columns alpha omega"><?php print($this->translate("#Anticipate material supply")); ?></a>
           </p>
 
           </div><!-- #tabs-material -->
