@@ -258,13 +258,13 @@ if ($parentId > 0) {
               <tbody>
 <?php
   $subordinatedActions = $actionHeader['subordinatedActions'];
-  foreach ($subordinatedActions as $id => $actionData) {
+  foreach ($subordinatedActions as $id => $subordinatedActionData) {
 ?>
                 <!-- ### loop de carga das ações subordinadas a esta ação -->
                 <tr>
-                  <td><a href="/projects/action/detail/?id=<?php print($id);?>"><?php print($actionData['title']) ?></a></td>
-                  <td><?php print($actionData['responsibleName']); ?></td>
-                  <td><?php print($this->translate($actionData['status'])); ?></td>
+                  <td><a href="/projects/action/detail/?id=<?php print($id);?>"><?php print($subordinatedActionData['title']) ?></a></td>
+                  <td><?php print($subordinatedActionData['responsibleName']); ?></td>
+                  <td><?php print($this->translate($subordinatedActionData['status'])); ?></td>
                       <td>
                     <a href="#" class="button one column alpha omega anchorclass" rel="submenu1"><?php print($this->translate("#Options")); ?></a>
                     <div id="submenu1" class="anylinkcss">
@@ -273,7 +273,7 @@ if ($parentId > 0) {
                             <a href="/projects/action/edit/?id=<?php print($id);?>"><?php print($this->translate("#Edit")); ?></a>
                           </li>
 <?php
-    if ($actionData['canRemoveAction']) {
+    if ($subordinatedActionData['canRemoveAction']) {
 
 ?>
                           <li>
@@ -316,11 +316,28 @@ if ($parentId > 0) {
   foreach ($teamData as $id => $teamMemberData) {
 ?>          <!-- ### loop de carga dos recursos humanos alocados a esta ação -->
               <tr>
-                <td>
-                  <a href="/projects/team-member/edit/?id=<?php print($id) ?>"><?php print($teamMemberData['name']) ?></a>
+<?php
+    if($teamMemberData['contactId']) {
+
+?>
+                  <td>
+                  <a href="/register/contact/detail/?id=<?php print($teamMemberData['contactId']) ?>"><?php print($teamMemberData['name']) ?></a>
                 </td>
+<?php
+    } else {
+
+?>
+                  <td>
+                  <?php print($teamMemberData['name']) ?>
+                </td>
+    <?php
+
+    }
+
+
+?>
                 <td>
-                  <a href="/projects/team-member/edit/?id=<?php print($id) ?>"><?php print($teamMemberData['description']) ?></a>
+                  <a href="/projects/team-member/detail/?id=<?php print($id) ?>"><?php print($teamMemberData['description']) ?></a>
                 </td>
                 <td>
                   <?php print($teamMemberData['value']) ?>
@@ -332,11 +349,18 @@ if ($parentId > 0) {
                   <a href="#" class="button one column alpha omega anchorclass" rel="submenu2"><?php print($this->translate("#Options")); ?></a>
                   <div id="submenu2" class="anylinkcss">
                       <ul>
+<?php
+    if($actionHeader['canEditResource']) {
+
+?>
                         <li>
                           <a href="/projects/team-member/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
                         </li>
 
 <?php
+    }
+?>
+    <?php
     if ($teamMemberData['canContractFlag']) {
 ?>
                         <li>

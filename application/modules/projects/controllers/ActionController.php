@@ -286,7 +286,6 @@ class Projects_ActionController extends Zend_Controller_Action
     {
         $pageData = array();
 
-        $actionsList = array();
         $this->initActionMapper();
         $this->initProjectMapper();
         $this->initContactMapper();
@@ -304,6 +303,7 @@ class Projects_ActionController extends Zend_Controller_Action
         //    projectTitle
         //    actionTitle
         //    canRemoveAction
+        //    canEditResource
         //    status
         //    responsibleId
         //    responsibleName
@@ -346,6 +346,12 @@ class Projects_ActionController extends Zend_Controller_Action
             $canRemoveAction = false;
         }
 
+
+        if ($actionToBeDetailed->getStatus() == C3op_Projects_ActionStatusConstants::STATUS_PLAN) {
+            $canEditResource = true;
+        } else {
+            $canEditResource = false;
+        }
 
         $subordinatedActionsList = $this->actionMapper->getActionsSubordinatedTo($actionToBeDetailed);
         $subordinatedActionsData = array();
@@ -441,6 +447,7 @@ class Projects_ActionController extends Zend_Controller_Action
             'projectTitle'            => $projectToBeDetailed->getShortTitle(),
             'title'                   => $actionToBeDetailed->getTitle(),
             'canRemoveAction'         => $canRemoveAction,
+            'canEditResource'         => $canEditResource,
             'status'                  => $status,
             'responsibleId'           => $responsibleId,
             'responsibleName'         => $responsibleName,
@@ -468,6 +475,7 @@ class Projects_ActionController extends Zend_Controller_Action
         // teamMemberList
         //   * teamMemberInfo
         //      id
+        //      contactId
         //      name
         //      description
         //      value
@@ -843,6 +851,7 @@ class Projects_ActionController extends Zend_Controller_Action
         // teamMemberList
         //   * teamMemberInfo
         //      id
+        //      contactId
         //      name
         //      description
         //      value
@@ -868,6 +877,7 @@ class Projects_ActionController extends Zend_Controller_Action
 
             $linkageId = $theTeamMember->GetLinkage();
             $contactName = "(indefinido)";
+            $contactId = 0;
             if ($linkageId > 0) {
                 $this->initContactMapper();
                 $this->initLinkageMapper();
@@ -911,6 +921,7 @@ class Projects_ActionController extends Zend_Controller_Action
 
             $teamMembersList[$teamMemberId] = array(
                 'id'                     => $teamMemberId,
+                'contactId'              => $contactId,
                 'name'                   => $contactName,
                 'description'            => $descriptionMessage,
                 'value'                  => $currencyValue,
