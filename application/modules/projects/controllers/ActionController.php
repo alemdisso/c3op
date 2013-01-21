@@ -867,7 +867,6 @@ class Projects_ActionController extends Zend_Controller_Action
             $descriptionMessage = $theTeamMember->GetDescription();
 
             $linkageId = $theTeamMember->GetLinkage();
-            $actionId = $action->GetId();
             $contactName = "(indefinido)";
             if ($linkageId > 0) {
                 $this->initContactMapper();
@@ -958,7 +957,6 @@ class Projects_ActionController extends Zend_Controller_Action
             $descriptionMessage = $theOutsideService->GetDescription();
 
             $institutionId = $theOutsideService->GetInstitution();
-            $actionId = $action->GetId();
             $institutionName = $this->view->translate("(#not defined)");
             if ($institutionId > 0) {
                 $this->initContactMapper();
@@ -1001,13 +999,13 @@ class Projects_ActionController extends Zend_Controller_Action
 
             $outsideServicesList[$outsideServiceId] = array(
                 'id'                     => $outsideServiceId,
-                'name'                   => $institutionName,
-                'description'            => $descriptionMessage,
-                'value'                  => $currencyValue,
-                'contractingStatusLabel' => $statusLabel,
-                'canContractFlag'        => $canContract,
-                'canRemoveOutsideService'    => $canRemoveOutsideService,
-                'canProvideOutlay'       => $canProvideOutlay,
+                'name'                    => $institutionName,
+                'description'             => $descriptionMessage,
+                'value'                   => $currencyValue,
+                'contractingStatusLabel'  => $statusLabel,
+                'canContractFlag'         => $canContract,
+                'canRemoveOutsideService' => $canRemoveOutsideService,
+                'canProvideOutlay'        => $canProvideOutlay,
 
             );
         }
@@ -1046,7 +1044,6 @@ class Projects_ActionController extends Zend_Controller_Action
             $descriptionMessage = $theMaterialSupply->GetDescription();
 
             $institutionId = $theMaterialSupply->GetInstitution();
-            $actionId = $action->GetId();
             $institutionName = $this->view->translate("(#not defined)");
             if ($institutionId > 0) {
                 $this->initContactMapper();
@@ -1088,14 +1085,14 @@ class Projects_ActionController extends Zend_Controller_Action
 
 
             $materialSuppliesList[$materialSupplyId] = array(
-                'id'                     => $materialSupplyId,
-                'name'                   => $institutionName,
-                'description'            => $descriptionMessage,
-                'value'                  => $currencyValue,
-                'contractingStatusLabel' => $statusLabel,
-                'canContractFlag'        => $canContract,
-                'canRemoveMaterialSupply'    => $canRemoveMaterialSupply,
-                'canProvideOutlay'       => $canProvideOutlay,
+                'id'                      => $materialSupplyId,
+                'name'                    => $institutionName,
+                'description'             => $descriptionMessage,
+                'value'                   => $currencyValue,
+                'contractingStatusLabel'  => $statusLabel,
+                'canContractFlag'         => $canContract,
+                'canRemoveMaterialSupply' => $canRemoveMaterialSupply,
+                'canProvideOutlay'        => $canProvideOutlay,
 
             );
         }
