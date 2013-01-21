@@ -34,7 +34,7 @@ class Resources_MaterialSupplyController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/material-supply/success/?id=' . $id);
+                $this->_redirect('/resources/material-supply/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -87,7 +87,7 @@ class Resources_MaterialSupplyController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/material-supply/success/?id=' . $id);
+                $this->_redirect('/resources/material-supply/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -188,7 +188,7 @@ class Resources_MaterialSupplyController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/material-supply/success/?id=' . $id);
+                $this->_redirect('/resources/material-supply/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);

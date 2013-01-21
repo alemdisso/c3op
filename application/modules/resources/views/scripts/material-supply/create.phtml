@@ -2,7 +2,7 @@
             function populateResponsibleAtSupplier() {
               var id = $('#institution').val();
 
-              $.getJSON('/projects/material-supply/populate-responsible-at-supplier/?id=' + id, function(data) {
+              $.getJSON('/resources/material-supply/populate-responsible-at-supplier/?id=' + id, function(data) {
                 var html = '';
                 var len = data.length;
                 html += '<option value="0">(escolha uma pessoa)</option>';
