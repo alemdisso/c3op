@@ -424,7 +424,7 @@ class Projects_ActionController extends Zend_Controller_Action
         $productRelated = $finder->retrieve();
         $relatedProductId = $productRelated->getId();
         $relatedProductTitle = $productRelated->getTitle();
-        $dateFinder = new C3op_Projects_ProductDeliveryDate($productRelated, $this->actionMapper);
+        $dateFinder = new C3op_Finances_ProductDeliveryDate($productRelated, $this->actionMapper);
         $productDeliveryDate = $dateFinder->retrieve();
         $validator = new C3op_Util_ValidDate();
         if ($validator->isValid($productDeliveryDate)) {
@@ -730,7 +730,7 @@ class Projects_ActionController extends Zend_Controller_Action
             $this->initProjectMapper();
             $this->initReceivableMapper();
             $theProject = $this->projectMapper->findById($projectId);
-            $allReceivables = $this->projectMapper->getAllReceivables($theProject);
+            $allReceivables = $this->receivableMapper->getAllReceivables($theProject);
 
             while (list($key, $receivableId) = each($allReceivables)) {
                 $eachReceivable = $this->receivableMapper->findById($receivableId);
@@ -813,14 +813,14 @@ class Projects_ActionController extends Zend_Controller_Action
     private function initReceivableMapper()
     {
         if (!isset($this->receivableMapper)) {
-            $this->receivableMapper = new C3op_Projects_ReceivableMapper($this->db);
+            $this->receivableMapper = new C3op_Finances_ReceivableMapper($this->db);
         }
     }
 
     private function calculateTotalValueExistentOutlays(C3op_Projects_TeamMember $h)
     {
         if (!isset($this->outlayMapper)) {
-            $this->outlayMapper = new C3op_Projects_OutlayMapper($this->db);
+            $this->outlayMapper = new C3op_Finances_OutlayMapper($this->db);
         }
 
         $outlays = $this->outlayMapper->getAllOutlaysForTeamMember($h);

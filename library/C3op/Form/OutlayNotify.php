@@ -6,7 +6,7 @@ class C3op_Form_OutlayNotify extends Zend_Form
 
         // initialize form
         $this->setName('notifyOutlayForm')
-            ->setAction('/projects/outlay/notify')
+            ->setAction('/finances/outlay/notify')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
@@ -76,7 +76,7 @@ class C3op_Form_OutlayNotify extends Zend_Form
         else
         {
             $db = Zend_Registry::get('db');
-            $outlayMapper = new C3op_Projects_OutlayMapper($db);
+            $outlayMapper = new C3op_Finances_OutlayMapper($db);
             $id = $data['id'];
 
 

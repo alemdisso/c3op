@@ -219,7 +219,7 @@ if ($parentId > 0) {
 
 <?php
   if ($actionHeader['notAProduct']) {
-      $productLink = "<a href='/projects/action/detail/?id='" . $actionHeader['relatedProductId'] . "'>" . $actionHeader['relatedProductTitle'] . "</a>";
+            $productLink = "<a href='/projects/action/detail/?id=" . $actionHeader['relatedProductId'] . "'>" . $actionHeader['relatedProductTitle'] . "</a>";
 ?>
           <div class="nine columns alpha omega">
             <?php printf($this->translate("#This action is related to product %s that should be delivered until %s"), $productLink, $actionHeader['productDeliveryDate']); ?>
@@ -377,7 +377,7 @@ if ($teamMemberData['canProvideOutlay']) {
 
 
                           <li>
-                            <a href="/projects/outlay/create/?teamMember=<?php echo $id ?>"><?php echo $this->translate("#Provide outlay") ?></a>
+                            <a href="/finances/outlay/create/?teamMember=<?php echo $id ?>"><?php echo $this->translate("#Provide outlay") ?></a>
                           </li>
 
 <?php
@@ -470,7 +470,7 @@ if ($outsideServiceData['canProvideOutlay']) {
 
 
                           <li>
-                            <a href="/projects/outlay/create/?outsideService=<?php echo $id ?>"><?php echo $this->translate("#Provide outlay") ?></a>
+                            <a href="/finances/outlay/create/?outsideService=<?php echo $id ?>"><?php echo $this->translate("#Provide outlay") ?></a>
                           </li>
 
 <?php
@@ -562,7 +562,7 @@ if ($materialSupplyData['canProvideOutlay']) {
 
 
                           <li>
-                            <a href="/projects/outlay/create/?materialSupply=<?php echo $id ?>"><?php echo $this->translate("#Provide outlay") ?></a>
+                            <a href="/finances/outlay/create/?materialSupply=<?php echo $id ?>"><?php echo $this->translate("#Provide outlay") ?></a>
                           </li>
 
 <?php

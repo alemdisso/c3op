@@ -278,11 +278,12 @@ class Projects_ProjectController extends Zend_Controller_Action
 
         $receivablesList = array();
 
-        $projectReceivables = $this->projectMapper->getAllReceivables($projectToBeDetailed);
         if (!isset($this->receivableMapper)) {
             $this->initReceivableMapper();
         }
 
+        $projectReceivables = $this->receivableMapper->getAllReceivables($projectToBeDetailed);
+        
         foreach ($projectReceivables as $id) {
             $theReceivable = $this->receivableMapper->findById($id);
             $receivableTitle = $theReceivable->getTitle();
@@ -655,11 +656,11 @@ class Projects_ProjectController extends Zend_Controller_Action
 
     public function receivablesAction()
     {
-        $receivableMapper = new C3op_Projects_ReceivableMapper($this->db);
+        $receivableMapper = new C3op_Finances_ReceivableMapper($this->db);
 
         $id = $this->checkIdFromGet();
         $thisProject = $this->projectMapper->findById($id);
-        $receivablesIdList = $this->projectMapper->getAllReceivables($thisProject);
+        $receivablesIdList = $this->receivableMapper->getAllReceivables($thisProject);
         $receivablesList = array();
         reset ($receivablesList);
         $receivablesTotalValue = 0;
@@ -706,7 +707,7 @@ class Projects_ProjectController extends Zend_Controller_Action
                 'productsList' => $productsList,
                 'predictedDate' => $predictedDate,
                 'predictedValue' => $predictedValue,
-                'editLink' => '/projects/receivable/edit/?id=' . $receivableId   ,
+                'editLink' => '/finances/receivable/edit/?id=' . $receivableId   ,
             );
         }
 
@@ -776,7 +777,7 @@ class Projects_ProjectController extends Zend_Controller_Action
     private function initOutlayMapper()
     {
         if (!isset($this->outlayMapper)) {
-            $this->outlayMapper = new C3op_Projects_OutlayMapper($this->db);
+            $this->outlayMapper = new C3op_Finances_OutlayMapper($this->db);
         }
     }
 
@@ -793,7 +794,7 @@ class Projects_ProjectController extends Zend_Controller_Action
     private function initReceivableMapper()
     {
         if (!isset($this->receivableMapper)) {
-            $this->receivableMapper = new C3op_Projects_ReceivableMapper($this->db);
+            $this->receivableMapper = new C3op_Finances_ReceivableMapper($this->db);
         }
     }
 
@@ -940,7 +941,7 @@ class Projects_ProjectController extends Zend_Controller_Action
             }
    }
 
-    private function outlayAsAParcel(C3op_Projects_Outlay $outlay)
+    private function outlayAsAParcel(C3op_Finances_Outlay $outlay)
     {
         $teamMemberId = $outlay->getTeamMember();
         if (!isset($this->teamMemberMapper)) {

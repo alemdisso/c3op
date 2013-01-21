@@ -1,6 +1,6 @@
 <?php
 
-class C3op_Projects_Receivable {
+class C3op_Finances_Receivable {
 
     protected $id;
     protected $project;
@@ -28,7 +28,7 @@ class C3op_Projects_Receivable {
         if (($this->id == 0) && ($id > 0)) {
             $this->id = (int)$id;
         } else {
-            throw new C3op_Projects_ReceivableException('It\'s not possible to change a receivable\'s ID');
+            throw new C3op_Finances_ReceivableException('It\'s not possible to change a receivable\'s ID');
         }
     } //SetId
 
@@ -60,7 +60,7 @@ class C3op_Projects_Receivable {
                 $this->title = $title;
             }
         } else {
-            throw new C3op_Projects_ReceivableException("This ($title) is not a valid title.");
+            throw new C3op_Finances_ReceivableException("This ($title) is not a valid title.");
         }
 
     } //SetTitle
@@ -78,7 +78,7 @@ class C3op_Projects_Receivable {
                 $this->description = $description;
             }
         } else {
-            throw new C3op_Projects_ReceivableException("This ($description) is not a valid description.");
+            throw new C3op_Finances_ReceivableException("This ($description) is not a valid description.");
         }
 
     } //SetDescription
@@ -104,7 +104,7 @@ class C3op_Projects_Receivable {
                 $this->predictedDate = $predictedDate;
             }
         } else {
-            throw new C3op_Projects_ReceivableException("This ($predictedDate) is not a valid date of begin.");
+            throw new C3op_Finances_ReceivableException("This ($predictedDate) is not a valid date of begin.");
         }
     } //SetPredictedDate
 
@@ -123,7 +123,7 @@ class C3op_Projects_Receivable {
                     $this->realDate = $realDate;
                 }
             } else {
-                throw new C3op_Projects_ReceivableException("This ($realDate) is not a valid date of begin.");
+                throw new C3op_Finances_ReceivableException("This ($realDate) is not a valid date of begin.");
             }
         }
     } //SetRealDate
@@ -133,7 +133,7 @@ class C3op_Projects_Receivable {
         if ($predictedValue >= 0) {
             $this->predictedValue = (float) $predictedValue;
         } else {
-            throw new C3op_Projects_ReceivableException("Value must be a positive number.");
+            throw new C3op_Finances_ReceivableException("Value must be a positive number.");
 
         }
     }
@@ -149,7 +149,7 @@ class C3op_Projects_Receivable {
         if ($realValue >= 0) {
             $this->realValue = (float) $realValue;
         } else {
-            throw new C3op_Projects_ReceivableException("Real value of a receivable must be a positive number.");
+            throw new C3op_Finances_ReceivableException("Real value of a receivable must be a positive number.");
         }
     }
 

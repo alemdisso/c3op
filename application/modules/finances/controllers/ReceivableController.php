@@ -1,6 +1,6 @@
 <?php
 
-class Projects_ReceivableController extends Zend_Controller_Action
+class Finances_ReceivableController extends Zend_Controller_Action
 {
     private $receivableMapper;
     private $projectMapper;
@@ -32,7 +32,7 @@ class Projects_ReceivableController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/receivable/success/?id=' . $id);
+                $this->_redirect('/finances/receivable/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -165,7 +165,7 @@ class Projects_ReceivableController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/receivable/success/?id=' . $id);
+                $this->_redirect('/finances/receivable/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -183,7 +183,7 @@ class Projects_ReceivableController extends Zend_Controller_Action
             if ($input->isValid()) {
                 $id = $input->id;
                 if (!isset($this->receivableMapper)) {
-                    $this->receivableMapper = new C3op_Projects_ReceivableMapper($this->db);
+                    $this->receivableMapper = new C3op_Finances_ReceivableMapper($this->db);
                 }
                 $thisReceivable = $this->receivableMapper->findById($id);
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'title', $thisReceivable->GetTitle());
@@ -212,7 +212,7 @@ class Projects_ReceivableController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/receivable/success/?id=' . $id);
+                $this->_redirect('/finances/receivable/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -248,7 +248,7 @@ class Projects_ReceivableController extends Zend_Controller_Action
 
         if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
             $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
-            $this->getResponse()->setHeader('Refresh', '1; URL=/projects/receivable/detail/?id=' . $receivableRelated->getId());
+            $this->getResponse()->setHeader('Refresh', '1; URL=/finances/receivable/detail/?id=' . $receivableRelated->getId());
         } else {
             $this->_redirect('/projects');
         }
@@ -268,7 +268,7 @@ class Projects_ReceivableController extends Zend_Controller_Action
             $id = $input->id;
             return $id;
         }
-        throw new C3op_Projects_OutlayException("Invalid Action Id from Get");
+        throw new C3op_Finances_OutlayException("Invalid Action Id from Get");
 
     }
 
@@ -297,11 +297,11 @@ class Projects_ReceivableController extends Zend_Controller_Action
     private function initReceivableMapper()
     {
         if (!isset($this->receivableMapper)) {
-            $this->receivableMapper = new C3op_Projects_ReceivableMapper($this->db);
+            $this->receivableMapper = new C3op_Finances_ReceivableMapper($this->db);
         }
     }
 
-    private function initReceivableWithCheckedId(C3op_Projects_ReceivableMapper $mapper)
+    private function initReceivableWithCheckedId(C3op_Finances_ReceivableMapper $mapper)
     {
         return $mapper->findById($this->checkIdFromGet());
     }
@@ -324,7 +324,7 @@ class Projects_ReceivableController extends Zend_Controller_Action
             $this->view->projectTitle = $thisProject->GetShortTitle();
             $this->view->projectId = $projectId;
             return $projectId;
-        } else throw new C3op_Projects_ReceivableException("Receivable needs a positive integer project id.");
+        } else throw new C3op_Finances_ReceivableException("Receivable needs a positive integer project id.");
 
     }
 

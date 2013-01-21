@@ -1,6 +1,6 @@
 <?php
 
-class C3op_Projects_ProductDeliveryDate {
+class C3op_Finances_ProductDeliveryDate {
 
     private $action;
     private $actionMapper;
@@ -17,7 +17,7 @@ class C3op_Projects_ProductDeliveryDate {
     {
 
         if ($this->action->getRequirementForReceiving()) {
-            $receivableMapper = new C3op_Projects_ReceivableMapper();
+            $receivableMapper = new C3op_Finances_ReceivableMapper();
             $receivable = $receivableMapper->findById($this->action->getRequirementForReceiving());
             return $receivable->GetDeliveryDate();
         } else {

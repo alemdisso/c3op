@@ -8,7 +8,7 @@ class C3op_Form_OutlayEdit extends C3op_Form_OutlayCreate
 
         // initialize form
         $this->setName('editOutlayForm')
-            ->setAction('/projects/outlay/edit')
+            ->setAction('/finances/outlay/edit')
             ->setMethod('post');
 
         $id = new Zend_Form_Element_Hidden('id');
@@ -23,7 +23,7 @@ class C3op_Form_OutlayEdit extends C3op_Form_OutlayCreate
     public function process($data) {
 
         $db = Zend_Registry::get('db');
-        $outlayMapper = new C3op_Projects_OutlayMapper($db);
+        $outlayMapper = new C3op_Finances_OutlayMapper($db);
         if ($this->isValid($data) !== true) {
             throw new C3op_Form_OutlayEditException('Invalid data!');
         } else {

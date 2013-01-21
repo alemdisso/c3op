@@ -6,7 +6,7 @@ class C3op_Form_ReceivableNotify extends Zend_Form
 
         // initialize form
         $this->setName('notifyReceivableForm')
-            ->setAction('/projects/receivable/notify')
+            ->setAction('/finances/receivable/notify')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
@@ -90,7 +90,7 @@ class C3op_Form_ReceivableNotify extends Zend_Form
         else
         {
             $db = Zend_Registry::get('db');
-            $receivableMapper = new C3op_Projects_ReceivableMapper($db);
+            $receivableMapper = new C3op_Finances_ReceivableMapper($db);
             $id = $data['id'];
 
 

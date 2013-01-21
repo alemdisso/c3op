@@ -1,6 +1,6 @@
 <?php
 
-class C3op_Projects_OutlayMapper
+class C3op_Finances_OutlayMapper
 {
     protected $db;
     protected $identityMap;
@@ -14,13 +14,13 @@ class C3op_Projects_OutlayMapper
     public function getAllIds()
     {
         $result = array();
-        foreach ($this->db->query('SELECT id FROM projects_outlays;') as $row) {
+        foreach ($this->db->query('SELECT id FROM finances_outlays;') as $row) {
             $result[] = $row['id'];
         }
         return $result;
     }
 
-    public function insert(C3op_Projects_Outlay $new)
+    public function insert(C3op_Finances_Outlay $new)
     {
         $data = array(
             'project' => $new->GetProject(),
@@ -33,21 +33,21 @@ class C3op_Projects_OutlayMapper
             'recurrent' => $new->GetRecurrent(),
             'observation' => $new->GetObservation(),
             );
-        $this->db->insert('projects_outlays', $data);
+        $this->db->insert('finances_outlays', $data);
         $new->SetId((int)$this->db->lastInsertId());
         $this->identityMap[$new] = $new->GetId();
 
     }
 
-    public function update(C3op_Projects_Outlay $o)
+    public function update(C3op_Finances_Outlay $o)
     {
         if (!isset($this->identityMap[$o])) {
-            throw new C3op_Projects_OutlayMapperException('Object has no ID, cannot update.');
+            throw new C3op_Finances_OutlayMapperException('Object has no ID, cannot update.');
         }
 
         $this->db->exec(
             sprintf(
-                'UPDATE projects_outlays SET project = %d, action = %d, team_member = %d, predicted_value = %.2f, predicted_date = \'%s\', real_value = %.2f, real_date = \'%s\', recurrent = %d, observation = \'%s\' WHERE id = %d;',
+                'UPDATE finances_outlays SET project = %d, action = %d, team_member = %d, predicted_value = %.2f, predicted_date = \'%s\', real_value = %.2f, real_date = \'%s\', recurrent = %d, observation = \'%s\' WHERE id = %d;',
                 $o->GetProject(),
                 $o->GetAction(),
                 $o->GetTeamMember(),
@@ -75,14 +75,14 @@ class C3op_Projects_OutlayMapper
 
         $result = $this->db->fetchRow(
             sprintf(
-                'SELECT  project, action, team_member, predicted_value, predicted_date, real_value, real_date, recurrent, observation FROM projects_outlays WHERE id = %d;',
+                'SELECT  project, action, team_member, predicted_value, predicted_date, real_value, real_date, recurrent, observation FROM finances_outlays WHERE id = %d;',
                 $id
             )
         );
         if (empty($result)) {
-            throw new C3op_Projects_OutlayMapperException(sprintf('There is no outlay with id #%d.', $id));
+            throw new C3op_Finances_OutlayMapperException(sprintf('There is no outlay with id #%d.', $id));
         }
-        $r = new C3op_Projects_Outlay($result['team_member'], $id);
+        $r = new C3op_Finances_Outlay($result['team_member'], $id);
         $this->setAttributeValue($r, $id, 'id');
         $this->setAttributeValue($r, $result['project'], 'project');
         $this->setAttributeValue($r, $result['action'], 'action');
@@ -98,14 +98,14 @@ class C3op_Projects_OutlayMapper
 
     }
 
-    public function delete(C3op_Projects_Outlay $a)
+    public function delete(C3op_Finances_Outlay $a)
     {
         if (!isset($this->identityMap[$a])) {
-            throw new C3op_Projects_OutlayMapperException('Object has no ID, cannot delete.');
+            throw new C3op_Finances_OutlayMapperException('Object has no ID, cannot delete.');
         }
         $this->db->exec(
             sprintf(
-                'DELETE FROM projects_outlays WHERE id = %d;',
+                'DELETE FROM finances_outlays WHERE id = %d;',
                 $this->identityMap[$a]
             )
         );
@@ -113,7 +113,7 @@ class C3op_Projects_OutlayMapper
     }
 
 
-    private function setAttributeValue(C3op_Projects_Outlay $a, $fieldValue, $attributeName)
+    private function setAttributeValue(C3op_Finances_Outlay $a, $fieldValue, $attributeName)
     {
         $attribute = new ReflectionProperty($a, $attributeName);
         $attribute->setAccessible(TRUE);
@@ -123,7 +123,7 @@ class C3op_Projects_OutlayMapper
      public function getAllOutlaysForTeamMember(C3op_Projects_TeamMember $h) {
         $result = array();
             foreach ($this->db->query(
-                    sprintf('SELECT id FROM projects_outlays WHERE team_member = %d;', $h->GetId())) as $row) {
+                    sprintf('SELECT id FROM finances_outlays WHERE team_member = %d;', $h->GetId())) as $row) {
             $result[] = $row['id'];
         }
         return $result;

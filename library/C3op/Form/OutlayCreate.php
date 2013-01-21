@@ -4,7 +4,7 @@ class C3op_Form_OutlayCreate extends Zend_Form
     public function init()
     {
         $this->setName('newOutlayForm')
-             ->setAction('/projects/outlay/create')
+             ->setAction('/finances/outlay/create')
              ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
              ->setMethod('post');
 
@@ -98,9 +98,9 @@ class C3op_Form_OutlayCreate extends Zend_Form
         {
             $db = Zend_Registry::get('db');
 
-            $outlayMapper = new C3op_Projects_OutlayMapper($db);
+            $outlayMapper = new C3op_Finances_OutlayMapper($db);
 
-            $outlay = new C3op_Projects_Outlay($this->teamMember->GetValue());
+            $outlay = new C3op_Finances_Outlay($this->teamMember->GetValue());
             $outlay->SetAction($this->action->GetValue());
             $outlay->SetProject($this->project->GetValue());
 

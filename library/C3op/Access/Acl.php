@@ -38,7 +38,7 @@ public function __construct() {
     $this->add(new Zend_Acl_Resource('c3op:projects.material-supply'));
     $this->add(new Zend_Acl_Resource('c3op:projects.outlay'));
     $this->add(new Zend_Acl_Resource('c3op:projects.project'));
-    $this->add(new Zend_Acl_Resource('c3op:projects.receivable'));
+    $this->add(new Zend_Acl_Resource('c3op:finances.receivable'));
     $this->add(new Zend_Acl_Resource('c3op:projects.contract'));
 
     $this->allow(C3op_Access_RolesConstants::ROLE_UNKNOWN,       'c3op:auth.login', 'index');
@@ -94,13 +94,13 @@ public function __construct() {
     $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:projects.project', 'unacknowledged');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.project', 'populate-responsible-at-client');
 
-    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.receivable', 'create');
-    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.receivable', 'edit');
-    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.receivable', 'success');
-    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.receivable', 'notify');
-    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.receivable', 'detail');
-    $this->deny(C3op_Access_RolesConstants::ROLE_CONTROLLER,     'c3op:projects.receivable');
-    $this->allow(C3op_Access_RolesConstants::ROLE_DIRECTOR,      'c3op:projects.receivable', 'detail');
+    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:finances.receivable', 'create');
+    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:finances.receivable', 'edit');
+    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:finances.receivable', 'success');
+    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:finances.receivable', 'notify');
+    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:finances.receivable', 'detail');
+    $this->deny(C3op_Access_RolesConstants::ROLE_CONTROLLER,     'c3op:finances.receivable');
+    $this->allow(C3op_Access_RolesConstants::ROLE_DIRECTOR,      'c3op:finances.receivable', 'detail');
 
     $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:projects.contract', 'create');
     $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:projects.contract', 'edit');

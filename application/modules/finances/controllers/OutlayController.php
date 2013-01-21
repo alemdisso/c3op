@@ -1,6 +1,6 @@
 <?php
 
-class Projects_OutlayController  extends Zend_Controller_Action
+class Finances_OutlayController  extends Zend_Controller_Action
 {
     private $actionMapper;
     private $teamMemberMapper;
@@ -37,7 +37,7 @@ class Projects_OutlayController  extends Zend_Controller_Action
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/outlay/success/?id=' . $postData['action']);
+                $this->_redirect('/finances/outlay/success/?id=' . $postData['action']);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -72,7 +72,7 @@ class Projects_OutlayController  extends Zend_Controller_Action
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/outlay/success/?id=' . $postData['action']);
+                $this->_redirect('/finances/outlay/success/?id=' . $postData['action']);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -124,7 +124,7 @@ class Projects_OutlayController  extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/outlay/success/?id=' . $id);
+                $this->_redirect('/finances/outlay/success/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -219,7 +219,7 @@ class Projects_OutlayController  extends Zend_Controller_Action
     private function initOutlayMapper()
     {
         if (!isset($this->outlayMapper)) {
-            $this->outlayMapper = new C3op_Projects_OutlayMapper($this->db);
+            $this->outlayMapper = new C3op_Finances_OutlayMapper($this->db);
         }
     }
 
@@ -250,7 +250,7 @@ class Projects_OutlayController  extends Zend_Controller_Action
             $id = $input->id;
             return $id;
         }
-        throw new C3op_Projects_OutlayException("Invalid Action Id from Get");
+        throw new C3op_Finances_OutlayException("Invalid Action Id from Get");
 
     }
 
@@ -276,7 +276,7 @@ class Projects_OutlayController  extends Zend_Controller_Action
     }
 
 
-    private function initOutlayWithCheckedId(C3op_Projects_OutlayMapper $mapper)
+    private function initOutlayWithCheckedId(C3op_Finances_OutlayMapper $mapper)
     {
         return $mapper->findById($this->checkIdFromGet());
     }
@@ -292,7 +292,7 @@ class Projects_OutlayController  extends Zend_Controller_Action
             $this->view->projectTitle = $thisProject->GetShortTitle();
             $this->view->projectId = $projectId;
             return $projectId;
-        } else throw new C3op_Projects_ReceivableException("Receivable needs a positive integer project id.");
+        } else throw new C3op_Finances_ReceivableException("Receivable needs a positive integer project id.");
 
     }
 

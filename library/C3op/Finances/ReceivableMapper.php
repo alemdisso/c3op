@@ -1,6 +1,6 @@
 <?php
 
-class C3op_Projects_ReceivableMapper
+class C3op_Finances_ReceivableMapper
 {
 
     protected $db;
@@ -14,7 +14,7 @@ class C3op_Projects_ReceivableMapper
 
     public function getAllIds()
     {
-        $query = $this->db->prepare('SELECT id FROM projects_receivables WHERE 1=1;');
+        $query = $this->db->prepare('SELECT id FROM finances_receivables WHERE 1=1;');
         $query->execute();
         $resultPDO = $query->fetchAll();
 
@@ -26,10 +26,10 @@ class C3op_Projects_ReceivableMapper
 
     }
 
-    public function insert(C3op_Projects_Receivable $obj)
+    public function insert(C3op_Finances_Receivable $obj)
     {
 
-        $query = $this->db->prepare("INSERT INTO projects_receivables (project, title, description, predicted_date, real_date, predicted_value, real_value)
+        $query = $this->db->prepare("INSERT INTO finances_receivables (project, title, description, predicted_date, real_date, predicted_value, real_value)
             VALUES (:project, :title, :description, :predicted_date, :real_date, :predicted_value, :real_value)");
 
         $query->bindValue(':project', $obj->GetProject(), PDO::PARAM_STR);
@@ -47,13 +47,13 @@ class C3op_Projects_ReceivableMapper
 
     }
 
-    public function update(C3op_Projects_Receivable $obj)
+    public function update(C3op_Finances_Receivable $obj)
     {
         if (!isset($this->identityMap[$obj])) {
-            throw new C3op_Projects_ReceivableMapperException('Object has no ID, cannot update.');
+            throw new C3op_Finances_ReceivableMapperException('Object has no ID, cannot update.');
         }
 
-        $query = $this->db->prepare("UPDATE projects_receivables SET project = :project, title = :title, description = :description, predicted_date = :predicted_date, real_date = :real_date, predicted_value = :predicted_value, real_value = :real_value WHERE id = :id;");
+        $query = $this->db->prepare("UPDATE finances_receivables SET project = :project, title = :title, description = :description, predicted_date = :predicted_date, real_date = :real_date, predicted_value = :predicted_value, real_value = :real_value WHERE id = :id;");
 
         $query->bindValue(':project', $obj->GetProject(), PDO::PARAM_STR);
         $query->bindValue(':title', $obj->GetTitle(), PDO::PARAM_STR);
@@ -67,7 +67,7 @@ class C3op_Projects_ReceivableMapper
         try {
             $query->execute();
         } catch (Exception $e) {
-            throw new C3op_Projects_ReceivableException("sql failed");
+            throw new C3op_Finances_ReceivableException("sql failed");
         }
 
     }
@@ -82,18 +82,18 @@ class C3op_Projects_ReceivableMapper
             $this->identityMap->next();
         }
 
-        $query = $this->db->prepare('SELECT project, title, description, predicted_date, real_date, predicted_value, real_value FROM projects_receivables WHERE id = :id;');
+        $query = $this->db->prepare('SELECT project, title, description, predicted_date, real_date, predicted_value, real_value FROM finances_receivables WHERE id = :id;');
         $query->bindValue(':id', $id, PDO::PARAM_STR);
         $query->execute();
 
         $result = $query->fetch();
 
         if (empty($result)) {
-            throw new C3op_Projects_ReceivableMapperException(sprintf('There is no receivable with id #%d.', $id));
+            throw new C3op_Finances_ReceivableMapperException(sprintf('There is no receivable with id #%d.', $id));
         }
         $project = $result['project'];
 
-        $obj = new C3op_Projects_Receivable($result['project'], $result['predicted_date'], $result['predicted_value'], $id);
+        $obj = new C3op_Finances_Receivable($result['project'], $result['predicted_date'], $result['predicted_value'], $id);
         $this->setAttributeValue($obj, $id, 'id');
         $this->setAttributeValue($obj, $result['title'], 'title');
         $this->setAttributeValue($obj, $result['description'], 'description');
@@ -109,26 +109,26 @@ class C3op_Projects_ReceivableMapper
 
     }
 
-    public function delete(C3op_Projects_Receivable $obj)
+    public function delete(C3op_Finances_Receivable $obj)
     {
         if (!isset($this->identityMap[$obj])) {
-            throw new C3op_Projects_ReceivableMapperException('Object has no ID, cannot delete.');
+            throw new C3op_Finances_ReceivableMapperException('Object has no ID, cannot delete.');
         }
-        $query = $this->db->prepare('DELETE FROM projects_receivables WHERE id = :id;');
+        $query = $this->db->prepare('DELETE FROM finances_receivables WHERE id = :id;');
         $query->bindValue(':id', $this->identityMap[$obj], PDO::PARAM_STR);
         $query->execute();
         unset($this->identityMap[$obj]);
     }
 
 
-    private function setAttributeValue(C3op_Projects_Receivable $a, $fieldValue, $attributeName)
+    private function setAttributeValue(C3op_Finances_Receivable $a, $fieldValue, $attributeName)
     {
         $attribute = new ReflectionProperty($a, $attributeName);
         $attribute->setAccessible(TRUE);
         $attribute->setValue($a, $fieldValue);
     }
 
-    public function getAllProducts(C3op_Projects_Receivable $obj)
+    public function getAllProducts(C3op_Finances_Receivable $obj)
     {
 
        $query = $this->db->prepare('SELECT id FROM projects_actions WHERE requirement_for_receiving = :requirement_for_receiving;');
@@ -143,7 +143,7 @@ class C3op_Projects_ReceivableMapper
         return $result;
     }
 
-    public function updateDeliveries(C3op_Projects_Receivable $obj, $date)
+    public function updateDeliveries(C3op_Finances_Receivable $obj, $date)
     {
         $firstDelivery = $this->fetchFirstDeliveryDate($obj);
 
@@ -162,11 +162,11 @@ class C3op_Projects_ReceivableMapper
         try {
             $query->execute();
         } catch (Exception $e) {
-            throw new C3op_Projects_ReceivableException("sql failed");
+            throw new C3op_Finances_ReceivableException("sql failed");
         }
     }
 
-    private function fetchFirstDeliveryDate(C3op_Projects_Receivable $obj)
+    private function fetchFirstDeliveryDate(C3op_Finances_Receivable $obj)
     {
 
         $query = $this->db->prepare('SELECT predicted_date FROM projects_deliveries WHERE receivable = :receivable AND (real_date IS NULL OR real_date = "0000-00-00")ORDER BY predicted_date LIMIT 1;');
@@ -181,6 +181,21 @@ class C3op_Projects_ReceivableMapper
 
         return null;
 
+
+    }
+
+    public function getAllReceivables(C3op_Projects_Project $obj)
+    {
+        $query = $this->db->prepare('SELECT id FROM finances_receivables WHERE project = :project;');
+        $query->bindValue(':project', $obj->getId(), PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
+        foreach ($resultPDO as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
 
     }
 

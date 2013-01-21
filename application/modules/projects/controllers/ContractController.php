@@ -271,7 +271,7 @@ class Projects_ContractController extends Zend_Controller_Action
             $id = $input->id;
             return $id;
         }
-        throw new C3op_Projects_OutlayException("Invalid Action Id from Get");
+        throw new C3op_Finances_OutlayException("Invalid Action Id from Get");
 
     }
 

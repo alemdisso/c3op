@@ -71,7 +71,7 @@ class C3op_Projects_PayleeMapper
 
         $result = $this->db->fetchRow(
             sprintf(
-                'SELECT  project, action, team_member, outside_service, material_supply, real_value, real_date, recurrent, observation FROM projects_outlays WHERE id = %d;',
+                'SELECT  project, action, team_member, outside_service, material_supply, real_value, real_date, recurrent, observation FROM finances_outlays WHERE id = %d;',
                 $id
             )
         );

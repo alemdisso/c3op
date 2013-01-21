@@ -212,7 +212,7 @@ class Projects_TeamMemberController extends Zend_Controller_Action
 
     public function outlaysAction()
     {
-        $outlayMapper = new C3op_Projects_OutlayMapper($this->db);
+        $outlayMapper = new C3op_Finances_OutlayMapper($this->db);
         if (!isset($this->teamMemberMapper)) {
             $this->teamMemberMapper = new C3op_Projects_TeamMemberMapper($this->db);
         }
@@ -244,7 +244,7 @@ class Projects_TeamMemberController extends Zend_Controller_Action
             $outlaysList[$outlayId] = array(
                 'observation' => $observation,
                 'value' => $value,
-                'editLink' => '/projects/outlay/edit/?id=' . $outlayId   ,
+                'editLink' => '/finances/outlay/edit/?id=' . $outlayId   ,
             );
         }
 

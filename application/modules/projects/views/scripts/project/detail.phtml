@@ -244,7 +244,7 @@ foreach($receivablesList as $id => $receivableInfo) {
 ?>
                 <tr>
                   <td>
-                    <a title="<?php print($receivableInfo['receivableDescription']) ?>" href="/projects/receivable/detail/?id=<?php print($id) ?>"><?php print($receivableInfo['receivableTitle']) ?></a>
+                    <a title="<?php print($receivableInfo['receivableDescription']) ?>" href="/finances/receivable/detail/?id=<?php print($id) ?>"><?php print($receivableInfo['receivableTitle']) ?></a>
                   </td>
                   <td>
                     <?php print($receivableInfo['predictedDate']) ?>
@@ -264,7 +264,7 @@ foreach($receivablesList as $id => $receivableInfo) {
                         <ul>
                           <li>
                             <!-- [# LINK PARA A EDIÇÃO DO PRODUTO ] -->
-                            <a href="/projects/receivable/edit/?id=<?php echo $id ?>"><?php echo $this->translate("#Edit") ?></a>
+                            <a href="/finances/receivable/edit/?id=<?php echo $id ?>"><?php echo $this->translate("#Edit") ?></a>
                           </li>
                           <li>
                             <!-- [# LINK PARA A EDIÇÃO DO PRODUTO ] -->
@@ -278,7 +278,7 @@ if ($receivableInfo['canNotifyReceiving']) {
 
                           <li>
                             <!-- [# LINK PARA FORM DE CONFIRMAÇÃO DE RECEBIMENTO -> VAI ABRIR EM BOX DE DIÁLOGO MODAL ] -->
-                            <a href="/projects/receivable/notify/?id=<?php echo $id ?>"><?php echo $this->translate("#Notify receiving") ?></a>
+                            <a href="/finances/receivable/notify/?id=<?php echo $id ?>"><?php echo $this->translate("#Notify receiving") ?></a>
                           </li>
 
 <?php
@@ -299,7 +299,7 @@ if ($receivableInfo['canNotifyReceiving']) {
     <div class="Area">
 
       <p>
-        <a href="/projects/receivable/create/?project=<?php echo $projectHeader['id'] ?>" class="button three columns alpha omega"><?php echo $this->translate("#Predict receiving") ?></a>
+        <a href="/finances/receivable/create/?project=<?php echo $projectHeader['id'] ?>" class="button three columns alpha omega"><?php echo $this->translate("#Predict receiving") ?></a>
       </p>
 
     </div><!-- .Area -->
@@ -346,7 +346,7 @@ foreach($productsList as $id => $productInfo) {
     if ((isset($productInfo['receivableId'])) && ($productInfo['receivableId'] > 0)) {
 ?>
                       <div class="receivable">
-                          <a title="<?php print($productInfo['receivableDescription']) ?>" href="/projects/receivable/detail/?id=<?php  print($productInfo['receivableId'])  ?>"><?php  print($productInfo['requirementForReceiving'])  ?></a>
+                          <a title="<?php print($productInfo['receivableDescription']) ?>" href="/finances/receivable/detail/?id=<?php  print($productInfo['receivableId'])  ?>"><?php  print($productInfo['requirementForReceiving'])  ?></a>
                           <!--<em>Essa é a descrição de um recebimento conforme consta no contrato.<br>Inclusive com mais de uma linha.<br></em>-->
                       </div
 <?php
@@ -440,7 +440,7 @@ if($outlayInfo['payeeId'] > 0) {
                         <ul>
                           <li>
                             <!-- [# LINK PARA A EDIÇÃO DO PAGAMENTO ] -->
-                            <a href="/projects/outlay/edit/?id=<?php print($id) ?>"><?php echo $this->translate("#Edit") ?></a>
+                            <a href="/finances/outlay/edit/?id=<?php print($id) ?>"><?php echo $this->translate("#Edit") ?></a>
                           </li>
 
 <?php
@@ -451,7 +451,7 @@ if ($outlayInfo['canNotifyOutlay']) {
 
                           <li>
                             <!-- [# LINK PARA FORM DE CONFIRMAÇÃO DE PAGAMENTO -> VAI ABRIR EM BOX DE DIÁLOGO MODAL ] -->
-                            <a href="/projects/outlay/notify/?id=<?php print($id) ?>"><?php echo $this->translate("#Confirm payment") ?></a>
+                            <a href="/finances/outlay/notify/?id=<?php print($id) ?>"><?php echo $this->translate("#Confirm payment") ?></a>
                           </li>
 
 <?php
@@ -462,7 +462,7 @@ if ($outlayInfo['canNotifyOutlay']) {
 
                           <li>
                             <!-- [# LINK PARA PÁGINA DE DETALHAMENTO DO PAGAMENTO ] -->
-                            <a href="/projects/outlay/detail/?id=<?php print($id) ?>"><?php echo $this->translate("#Outlay details") ?></a>
+                            <a href="/finances/outlay/detail/?id=<?php print($id) ?>"><?php echo $this->translate("#Outlay details") ?></a>
                           </li>
                         </ul>
                     </div><!-- #submenu1 -->
@@ -759,7 +759,7 @@ if ($materialSupplyData['canProvideOutlay']) {
 
 
                           <li>
-                            <a href="/projects/outlay/create/?materialSupply=<?php echo $id ?>"><?php echo $this->translate("#Provide outlay") ?></a>
+                            <a href="/finances/outlay/create/?materialSupply=<?php echo $id ?>"><?php echo $this->translate("#Provide outlay") ?></a>
                           </li>
 
 <?php

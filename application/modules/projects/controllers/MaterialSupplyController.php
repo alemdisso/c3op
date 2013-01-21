@@ -239,7 +239,7 @@ class Projects_MaterialSupplyController extends Zend_Controller_Action
 
     public function outlaysAction()
     {
-        $outlayMapper = new C3op_Projects_OutlayMapper($this->db);
+        $outlayMapper = new C3op_Finances_OutlayMapper($this->db);
         if (!isset($this->materialSupplyMapper)) {
             $this->materialSupplyMapper = new C3op_Projects_MaterialSupplyMapper($this->db);
         }
@@ -271,7 +271,7 @@ class Projects_MaterialSupplyController extends Zend_Controller_Action
             $outlaysList[$outlayId] = array(
                 'observation' => $observation,
                 'value' => $value,
-                'editLink' => '/projects/outlay/edit/?id=' . $outlayId   ,
+                'editLink' => '/finances/outlay/edit/?id=' . $outlayId   ,
             );
         }
 

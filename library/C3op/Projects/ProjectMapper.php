@@ -198,21 +198,6 @@ class C3op_Projects_ProjectMapper
 
     }
 
-    public function getAllReceivables(C3op_Projects_Project $obj)
-    {
-        $query = $this->db->prepare('SELECT id FROM projects_receivables WHERE project = :project;');
-        $query->bindValue(':project', $obj->getId(), PDO::PARAM_STR);
-        $query->execute();
-        $resultPDO = $query->fetchAll();
-
-        $result = array();
-        foreach ($resultPDO as $row) {
-            $result[] = $row['id'];
-        }
-        return $result;
-
-    }
-
     public function getAllActionsSubordinatedTo(C3op_Projects_Project $obj, $actionId=0)
     {
         if ($actionId >= 0) {
@@ -272,7 +257,7 @@ class C3op_Projects_ProjectMapper
         $result = array();
 
         foreach ($this->db->query(sprintf('SELECT o.id, o.predicted_date
-                    FROM projects_outlays o
+                    FROM finances_outlays o
                     INNER JOIN projects_actions a ON a.id = o.action
                     INNER JOIN projects_team_members t ON t.id = o.team_member
                     WHERE o.project = %d AND t.linkage > 0', $p->getId()
@@ -286,7 +271,7 @@ class C3op_Projects_ProjectMapper
         $result = array();
 
         foreach ($this->db->query(sprintf('SELECT o.id, o.predicted_date
-                    FROM projects_outlays o
+                    FROM finances_outlays o
                     INNER JOIN projects_actions a ON a.id = o.action
                     INNER JOIN projects_team_members t ON t.id = o.team_member
                     WHERE a.done = 1 AND o.project = %d AND t.linkage > 0 ORDER BY o.predicted_date', $obj->getId()
