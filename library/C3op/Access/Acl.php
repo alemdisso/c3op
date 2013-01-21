@@ -36,7 +36,7 @@ public function __construct() {
     $this->add(new Zend_Acl_Resource('c3op:projects.team-member'));
     $this->add(new Zend_Acl_Resource('c3op:projects.outside-service'));
     $this->add(new Zend_Acl_Resource('c3op:projects.material-supply'));
-    $this->add(new Zend_Acl_Resource('c3op:projects.outlay'));
+    $this->add(new Zend_Acl_Resource('c3op:finances.outlay'));
     $this->add(new Zend_Acl_Resource('c3op:projects.project'));
     $this->add(new Zend_Acl_Resource('c3op:finances.receivable'));
     $this->add(new Zend_Acl_Resource('c3op:projects.contract'));
@@ -80,10 +80,10 @@ public function __construct() {
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.material-supply', 'outlays');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.material-supply', 'success');
 
-    $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:projects.outlay', 'create');
-    $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:projects.outlay', 'edit');
-    $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:projects.outlay', 'success');
-    $this->deny(C3op_Access_RolesConstants::ROLE_CONTROLLER,     'c3op:projects.outlay');
+    $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:finances.outlay', 'create');
+    $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:finances.outlay', 'edit');
+    $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:finances.outlay', 'success');
+    $this->deny(C3op_Access_RolesConstants::ROLE_CONTROLLER,     'c3op:finances.outlay');
 
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.project', 'amend');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.project', 'create');
