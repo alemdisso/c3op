@@ -337,7 +337,7 @@ if ($parentId > 0) {
 
 ?>
                 <td>
-                  <a href="/projects/team-member/detail/?id=<?php print($id) ?>"><?php print($teamMemberData['description']) ?></a>
+                  <a href="/resources/team-member/detail/?id=<?php print($id) ?>"><?php print($teamMemberData['description']) ?></a>
                 </td>
                 <td>
                   <?php print($teamMemberData['value']) ?>
@@ -354,7 +354,7 @@ if ($parentId > 0) {
 
 ?>
                         <li>
-                          <a href="/projects/team-member/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
+                          <a href="/resources/team-member/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
                         </li>
 
 <?php
@@ -364,7 +364,7 @@ if ($parentId > 0) {
     if ($teamMemberData['canContractFlag']) {
 ?>
                         <li>
-                          <a class="parent_info" href="/projects/team-member/contract/?id=<?php print($id);?>" ><?php print($this->translate("#Confirm team member contracting")); ?></a>
+                          <a class="parent_info" href="/resources/team-member/contract/?id=<?php print($id);?>" ><?php print($this->translate("#Confirm team member contracting")); ?></a>
                         </li>
 
 <?php
@@ -390,7 +390,7 @@ if ($teamMemberData['canRemoveTeamMember']) {
 
 
                           <li>
-                            <a href="/projects/team-member/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
+                            <a href="/resources/team-member/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
                           </li>
 
 <?php
@@ -409,7 +409,7 @@ if ($teamMemberData['canRemoveTeamMember']) {
           </table>
 
           <p>
-            <a href="/projects/team-member/create/?actionId=<?php print($actionHeader['id']); ?>" class="button three columns alpha omega"><?php print($this->translate("#Anticipate team member")); ?></a>
+            <a href="/resources/team-member/create/?actionId=<?php print($actionHeader['id']); ?>" class="button three columns alpha omega"><?php print($this->translate("#Anticipate team member")); ?></a>
           </p>
 
           </div><!-- #tabs-team -->
@@ -434,10 +434,10 @@ if ($teamMemberData['canRemoveTeamMember']) {
 ?>          <!-- ### loop de carga dos recursos humanos alocados a esta ação -->
               <tr>
                 <td>
-                  <a href="/projects/outside-service/edit/?id=<?php print($id) ?>"><?php print($outsideServiceData['name']) ?></a>
+                  <a href="/resources/outside-service/edit/?id=<?php print($id) ?>"><?php print($outsideServiceData['name']) ?></a>
                 </td>
                 <td>
-                  <a href="/projects/outside-service/edit/?id=<?php print($id) ?>"><?php print($outsideServiceData['description']) ?></a>
+                  <a href="/resources/outside-service/edit/?id=<?php print($id) ?>"><?php print($outsideServiceData['description']) ?></a>
                 </td>
                 <td>
                   <?php print($outsideServiceData['value']) ?>
@@ -450,14 +450,14 @@ if ($teamMemberData['canRemoveTeamMember']) {
                   <div id="submenu2" class="anylinkcss">
                       <ul>
                         <li>
-                          <a href="/projects/outside-service/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
+                          <a href="/resources/outside-service/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
                         </li>
 
 <?php
     if ($outsideServiceData['canContractFlag']) {
 ?>
                         <li>
-                          <a class="parent_info" href="/projects/outside-service/contract/?id=<?php print($id);?>" ><?php print($this->translate("#Confirm outside service contracting")); ?></a>
+                          <a class="parent_info" href="/resources/outside-service/contract/?id=<?php print($id);?>" ><?php print($this->translate("#Confirm outside service contracting")); ?></a>
                         </li>
 
 <?php
@@ -483,7 +483,7 @@ if ($outsideServiceData['canRemoveOutsideService']) {
 
 
                           <li>
-                            <a href="/projects/outside-service/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
+                            <a href="/resources/outside-service/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
                           </li>
 
 <?php
@@ -502,7 +502,7 @@ if ($outsideServiceData['canRemoveOutsideService']) {
           </table>
 
           <p>
-            <a href="/projects/outside-service/create/?actionId=<?php print($actionHeader['id']); ?>" class="button three columns alpha omega"><?php print($this->translate("#Anticipate outside service")); ?></a>
+            <a href="/resources/outside-service/create/?actionId=<?php print($actionHeader['id']); ?>" class="button three columns alpha omega"><?php print($this->translate("#Anticipate outside service")); ?></a>
           </p>
 
           </div><!-- #tabs-services -->

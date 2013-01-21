@@ -120,7 +120,7 @@ class C3op_Finances_OutlayMapper
         $attribute->setValue($a, $fieldValue);
     }
 
-     public function getAllOutlaysForTeamMember(C3op_Projects_TeamMember $h) {
+     public function getAllOutlaysForTeamMember(C3op_Resources_TeamMember $h) {
         $result = array();
             foreach ($this->db->query(
                     sprintf('SELECT id FROM finances_outlays WHERE team_member = %d;', $h->GetId())) as $row) {

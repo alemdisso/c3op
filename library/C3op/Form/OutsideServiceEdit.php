@@ -7,7 +7,7 @@ class C3op_Form_OutsideServiceEdit extends C3op_Form_OutsideServiceCreate
 
         // initialize form
         $this->setName('editOutsideServiceForm')
-            ->setAction('/projects/outside-service/edit')
+            ->setAction('/resources/outside-service/edit')
             ->setMethod('post');
 
         $id = new Zend_Form_Element_Hidden('id');
@@ -23,7 +23,7 @@ class C3op_Form_OutsideServiceEdit extends C3op_Form_OutsideServiceCreate
     public function process($data) {
 
         $db = Zend_Registry::get('db');
-        $outsideServiceMapper = new C3op_Projects_OutsideServiceMapper($db);
+        $outsideServiceMapper = new C3op_Resources_OutsideServiceMapper($db);
 
         if ($this->isValid($data) !== true) {
             throw new C3op_Form_InstitutionEditException('Invalid data!');

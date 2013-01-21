@@ -277,9 +277,9 @@ class C3op_Projects_ActionMapper
 
     public function getContractedValueJustForThisAction(C3op_Projects_Action $obj)
     {
-        $query = $this->db->prepare('SELECT SUM(value) as value FROM projects_team_members WHERE action = :action AND status = :status;');
+        $query = $this->db->prepare('SELECT SUM(value) as value FROM resources_team_members WHERE action = :action AND status = :status;');
         $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
-        $query->bindValue(':status', C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
+        $query->bindValue(':status', C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();
 
@@ -336,9 +336,9 @@ class C3op_Projects_ActionMapper
     public function getContractedTeamMembers(C3op_Projects_Action $obj)
     {
 
-        $query = $this->db->prepare('SELECT id FROM projects_team_members WHERE action = :action AND status = :status;');
+        $query = $this->db->prepare('SELECT id FROM resources_team_members WHERE action = :action AND status = :status;');
         $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
-        $query->bindValue(':status', C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
+        $query->bindValue(':status', C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();
 
@@ -353,7 +353,7 @@ class C3op_Projects_ActionMapper
     public function getAnyTeamMemberRelatedTo(C3op_Projects_Action $obj)
     {
 
-        $query = $this->db->prepare('SELECT id FROM projects_team_members WHERE action = :action;');
+        $query = $this->db->prepare('SELECT id FROM resources_team_members WHERE action = :action;');
         $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();
