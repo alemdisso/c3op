@@ -119,6 +119,27 @@ class C3op_Resources_TeamMemberMapper {
         $attribute->setValue($i, $fieldValue);
     }
 
+    public function getAllActionsEngaging(C3op_Register_Linkage $obj, C3op_Projects_Project $project)
+    {
+        $query = $this->db->prepare('SELECT a.id as id, t.id as teamMemberId
+                    FROM projects_actions a
+                    LEFT JOIN resources_team_members t ON a.id = t.action
+                    LEFT JOIN register_linkages l ON t.linkage = l.id
+                    WHERE a.project = :project AND l.id = :linkage;');
+        $query->bindValue(':project', $project->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':linkage', $obj->GetId(), PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
+        foreach ($resultPDO as $row) {
+            $result[$row['id']] = array(
+                'teamMember' => $row['teamMemberId'],
+            );
+        }
+        return $result;
+    }
+
     public function getAllOutlays(C3op_Resources_TeamMember $obj)
     {
         $result = array();

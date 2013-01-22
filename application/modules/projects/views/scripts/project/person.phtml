@@ -1,0 +1,65 @@
+<?php
+  $pageData = $this->pageData;
+  $personData = $pageData['personData'];
+?>
+
+        <div id="MainHeader">
+          <h1><?php print($this->translate("#Project")); ?> <a href="/projects/project/detail/?id=<?php print($personData['projectId']) ?>"><?php print($personData['projectTitle']) ?></a></h1>
+        </div><!-- MainHeader -->
+        <div class="TituloForm">
+          <h2><?php print(sprintf($this->translate("#%s's participation in the project"), $personData['name'])); ?></h2>
+
+        </div>
+
+
+        <div id="tabs">
+          <ul>
+            <li><a href="#tabs-actions"><?php echo $this->translate("#Actions") ?></a></li>
+          </ul>
+
+          <div id="tabs-actions">
+            <table id="SubActions" class="display dataTable">
+              <thead>
+                <tr>
+                  <th width="160"><?php print($this->translate("#Action")); ?></th>
+                  <th width="75"><?php print($this->translate("#Position")); ?></th>
+                  <th width="60"><?php print($this->translate("#Payed Value")); ?></th>
+                  <th width="60"><?php print($this->translate("#Total Value")); ?></th>
+                  <th width="80"><?php print($this->translate("#Status")); ?></th>
+                  <th width="10">&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody>
+<?php
+  $personActions = $personData['personActions'];
+  foreach ($personActions as $id => $actionData) {
+?>
+                <!-- ### loop de carga das ações subordinadas a esta ação -->
+                <tr>
+                  <td><a href="/projects/action/detail/?id=<?php print($id);?>"><?php print($actionData['title']) ?></a></td>
+                  <td><?php print($actionData['position']); ?></td>
+                  <td><?php print($actionData['payedValue']); ?></td>
+                  <td><?php print($actionData['totalValue']); ?></td>
+                  <td><?php print($this->translate($actionData['status'])); ?></td>
+                      <td>
+                    <a href="#" class="button one column alpha omega anchorclass" rel="submenu1"><?php print($this->translate("#Options")); ?></a>
+                    <div id="submenu1" class="anylinkcss">
+                        <ul>
+                          <li>
+                            <a href="/resources/team-member/edit/?id=<?php print($id);?>"><?php print($this->translate("#Edit")); ?></a>
+                          </li>
+                        </ul>
+                    </div><!-- #submenu1 -->
+                  </td>
+                </tr>
+              <!-- ### fim do loop de carga das ações subordinadas a esta ação -->
+<?php
+  }
+?>
+              </tbody>
+            </table>
+          </div><!-- #tabs-actions -->
+
+
+        </div><!-- #tabs -->
+        <!-- ### Será preciso montar a tabela de recursos materias, idêntica à de recursos humanos, assim que forem tratados pelo sistema -->

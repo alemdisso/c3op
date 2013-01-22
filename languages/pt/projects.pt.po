@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-22 10:42-0300\n"
-"PO-Revision-Date: 2013-01-22 10:42-0300\n"
+"POT-Creation-Date: 2013-01-22 19:49-0300\n"
+"PO-Revision-Date: 2013-01-22 19:49-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -35,18 +35,18 @@ msgstr "Criar ação subordinada a %s"
 #: application\modules\projects/controllers/ContractController.php:34
 #: application\modules\projects/controllers/ContractController.php:155
 #: application\modules\projects/controllers/ProjectController.php:48
-#: application\modules\projects/controllers/ProjectController.php:112
+#: application\modules\projects/controllers/ProjectController.php:553
 msgid "#The record was successfully updated."
 msgstr "O registro foi atualizado com sucesso."
 
 #: application\modules\projects/controllers/ActionController.php:329
 #: application\modules\projects/controllers/ActionController.php:369
 #: application\modules\projects/controllers/ContractController.php:91
-#: application\modules\projects/controllers/ProjectController.php:207
-#: application\modules\projects/controllers/ProjectController.php:214
-#: application\modules\projects/controllers/ProjectController.php:428
-#: application\modules\projects/controllers/ProjectController.php:609
-#: application\modules\projects/controllers/ProjectController.php:1009
+#: application\modules\projects/controllers/ProjectController.php:285
+#: application\modules\projects/controllers/ProjectController.php:475
+#: application\modules\projects/controllers/ProjectController.php:1001
+#: application\modules\projects/controllers/ProjectController.php:1208
+#: application\modules\projects/controllers/ProjectController.php:1215
 msgid "#Not defined"
 msgstr "A definir"
 
@@ -60,7 +60,7 @@ msgstr "Não é um marco"
 
 #: application\modules\projects/controllers/ActionController.php:397
 #: application\modules\projects/controllers/ContractController.php:107
-#: application\modules\projects/controllers/ProjectController.php:304
+#: application\modules\projects/controllers/ProjectController.php:161
 msgid "#(not received)"
 msgstr "(não recebido)"
 
@@ -70,7 +70,8 @@ msgstr "(não iniciada)"
 
 #: application\modules\projects/controllers/ActionController.php:433
 #: application\modules\projects/controllers/IndexController.php:44
-#: application\modules\projects/controllers/ProjectController.php:190
+#: application\modules\projects/controllers/ProjectController.php:625
+#: application\modules\projects/controllers/ProjectController.php:1195
 msgid "#(not defined)"
 msgstr "(não definido)"
 
@@ -92,8 +93,8 @@ msgstr ""
 
 #: application\modules\projects/controllers/ActionController.php:971
 #: application\modules\projects/controllers/ActionController.php:1058
-#: application\modules\projects/controllers/ProjectController.php:611
-#: application\modules\projects/controllers/ProjectController.php:1114
+#: application\modules\projects/controllers/ProjectController.php:477
+#: application\modules\projects/controllers/ProjectController.php:1106
 msgid "(#not defined)"
 msgstr "(não definido)"
 
@@ -101,67 +102,65 @@ msgstr "(não definido)"
 msgid "#(not registered)"
 msgstr "(não cadastrada)"
 
-#: application\modules\projects/controllers/ProjectController.php:94
+#: application\modules\projects/controllers/ProjectController.php:92
 msgid "#New client"
 msgstr "Novo cliente"
 
+#: application\modules\projects/controllers/ProjectController.php:94
 #: application\modules\projects/controllers/ProjectController.php:96
-#: application\modules\projects/controllers/ProjectController.php:98
 msgid "#New responsible"
 msgstr "Novo Responsável"
 
-#: application\modules\projects/controllers/ProjectController.php:219
-#: application\modules\projects/controllers/ProjectController.php:223
+#: application\modules\projects/controllers/ProjectController.php:154
+#: application\modules\projects/controllers/ProjectController.php:320
+#: application\modules\projects/controllers/ProjectController.php:326
+msgid "#(undefined)"
+msgstr "(indefinido)"
+
+#: application\modules\projects/controllers/ProjectController.php:214
+#: application\modules\projects/controllers/ProjectController.php:218
+msgid "#(no delivery)"
+msgstr "(sem entrega)"
+
+#: application\modules\projects/controllers/ProjectController.php:225
+msgid "#(not finished)"
+msgstr "(a terminar)"
+
+#: application\modules\projects/controllers/ProjectController.php:234
+msgid "#(not a requirement)"
+msgstr "(não é requisito)"
+
+#: application\modules\projects/controllers/ProjectController.php:375
+msgid "#To be defined"
+msgstr "(A definir)"
+
+#: application\modules\projects/controllers/ProjectController.php:377
+#: application\modules\projects/controllers/ProjectController.php:378
+msgid "#---"
+msgstr "-"
+
+#: application\modules\projects/controllers/ProjectController.php:473
+#: application\modules\projects/controllers/ProjectController.php:474
+msgid "#Not implemented"
+msgstr "(Não implementado)"
+
+#: application\modules\projects/controllers/ProjectController.php:689
+msgid "#(unknown date)"
+msgstr "(data desconhecida)"
+
+#: application\modules\projects/controllers/ProjectController.php:1220
+#: application\modules\projects/controllers/ProjectController.php:1224
 msgid "#N/A"
 msgstr "N/D"
 
-#: application\modules\projects/controllers/ProjectController.php:230
+#: application\modules\projects/controllers/ProjectController.php:1231
 #, php-format
 msgid "#%s until %s"
 msgstr "%s a %s"
 
-#: application\modules\projects/controllers/ProjectController.php:235
+#: application\modules\projects/controllers/ProjectController.php:1236
 msgid "#Undefined dates"
 msgstr "Datas indefinidas"
-
-#: application\modules\projects/controllers/ProjectController.php:297
-#: application\modules\projects/controllers/ProjectController.php:463
-#: application\modules\projects/controllers/ProjectController.php:469
-msgid "#(undefined)"
-msgstr "(indefinido)"
-
-#: application\modules\projects/controllers/ProjectController.php:357
-#: application\modules\projects/controllers/ProjectController.php:361
-msgid "#(no delivery)"
-msgstr "(sem entrega)"
-
-#: application\modules\projects/controllers/ProjectController.php:368
-msgid "#(not finished)"
-msgstr "(a terminar)"
-
-#: application\modules\projects/controllers/ProjectController.php:377
-msgid "#(not a requirement)"
-msgstr "(não é requisito)"
-
-#: application\modules\projects/controllers/ProjectController.php:518
-msgid "#To be defined"
-msgstr "(A definir)"
-
-#: application\modules\projects/controllers/ProjectController.php:520
-#: application\modules\projects/controllers/ProjectController.php:521
-msgid "#---"
-msgstr "-"
-
-#: application\modules\projects/controllers/ProjectController.php:539
-#: application\modules\projects/controllers/ProjectController.php:540
-#: application\modules\projects/controllers/ProjectController.php:607
-#: application\modules\projects/controllers/ProjectController.php:608
-msgid "#Not implemented"
-msgstr "(Não implementado)"
-
-#: application\modules\projects/controllers/ProjectController.php:702
-msgid "#(unknown date)"
-msgstr "(data desconhecida)"
 
 #: library\C3op\projects/ActionEventTypes.php:45
 #: library\C3op\projects/ActionStatusTypes.php:36
@@ -330,6 +329,7 @@ msgstr "Confirma entrega"
 #: application\modules\projects/views/scripts/contract/detail.phtml:8
 #: application\modules\projects/views/scripts/index/index.phtml:24
 #: application\modules\projects/views/scripts/project/detail.phtml:122
+#: application\modules\projects/views/scripts/project/person.phtml:7
 msgid "#Project"
 msgstr "Projeto"
 
@@ -365,6 +365,7 @@ msgstr "Responsável:"
 #: application\modules\projects/views/scripts/index/index.phtml:27
 #: application\modules\projects/views/scripts/project/detail.phtml:318
 #: application\modules\projects/views/scripts/project/detail.phtml:716
+#: application\modules\projects/views/scripts/project/person.phtml:28
 msgid "#Status"
 msgstr "Status"
 
@@ -442,6 +443,7 @@ msgstr "Serviços e Materiais"
 #: application\modules\projects/views/scripts/action/detail.phtml:252
 #: application\modules\projects/views/scripts/project/detail.phtml:392
 #: application\modules\projects/views/scripts/project/detail.phtml:501
+#: application\modules\projects/views/scripts/project/person.phtml:24
 msgid "#Action"
 msgstr "Ação"
 
@@ -461,6 +463,7 @@ msgstr "Responsável"
 #: application\modules\projects/views/scripts/project/detail.phtml:590
 #: application\modules\projects/views/scripts/project/detail.phtml:671
 #: application\modules\projects/views/scripts/project/detail.phtml:738
+#: application\modules\projects/views/scripts/project/person.phtml:45
 msgid "#Options"
 msgstr "Opções"
 
@@ -475,6 +478,7 @@ msgstr "Opções"
 #: application\modules\projects/views/scripts/project/detail.phtml:595
 #: application\modules\projects/views/scripts/project/detail.phtml:676
 #: application\modules\projects/views/scripts/project/detail.phtml:742
+#: application\modules\projects/views/scripts/project/person.phtml:49
 #: application\modules\projects/views/scripts/project/receivables.phtml:40
 msgid "#Edit"
 msgstr "Editar"
@@ -725,6 +729,7 @@ msgstr "Pagamentos"
 
 #: application\modules\projects/views/scripts/project/detail.phtml:219
 #: application\modules\projects/views/scripts/project/detail.phtml:497
+#: application\modules\projects/views/scripts/project/person.phtml:17
 msgid "#Actions"
 msgstr "Ações"
 
@@ -840,6 +845,23 @@ msgstr "Sumário"
 #: application\modules\projects/views/scripts/project/detail.phtml:833
 msgid "#Observation"
 msgstr "Observações"
+
+#: application\modules\projects/views/scripts/project/person.phtml:10
+#, php-format
+msgid "#%s's participation in the project"
+msgstr "Participação de %s"
+
+#: application\modules\projects/views/scripts/project/person.phtml:25
+msgid "#Position"
+msgstr "Função"
+
+#: application\modules\projects/views/scripts/project/person.phtml:26
+msgid "#Payed Value"
+msgstr "Valor pago:"
+
+#: application\modules\projects/views/scripts/project/person.phtml:27
+msgid "#Total Value"
+msgstr "Valor total:"
 
 #~ msgid "#Confirm contracting"
 #~ msgstr "Confirmar contratação de"

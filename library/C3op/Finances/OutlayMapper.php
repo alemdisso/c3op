@@ -129,6 +129,24 @@ class C3op_Finances_OutlayMapper
         return $result;
     }
 
+     public function totalPayedValueForTeamMember(C3op_Resources_TeamMember $obj) {
+
+
+        $query = $this->db->prepare('SELECT SUM(real_value) as value
+            FROM finances_outlays
+            WHERE team_member = :teamMember
+            AND (real_date IS NOT NULL);');
+        $query->bindValue(':teamMember', $obj->GetId(), PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
+        foreach ($resultPDO as $row) {
+            return $row['value'];
+        }
+        return "0.00";
+    }
+
 
 
 }
