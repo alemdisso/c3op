@@ -156,6 +156,28 @@ class C3op_Resources_TeamMemberMapper {
         return $result;
     }
 
+     public function getAllUnassignedPositionsAt(C3op_Projects_Project $obj) {
+        $result = array();
+
+        foreach ($this->db->query(sprintf('SELECT t.id
+            FROM projects_actions a
+            INNER JOIN resources_team_members t ON a.id = t.action
+            WHERE t.linkage = 0
+            AND a.project = %d
+            AND (
+            a.status = %d
+            OR a.status = %d
+            )'
+            , $obj->getId()
+            , C3op_Resources_TeamMemberStatusConstants::STATUS_UNDEFINED
+            , C3op_Resources_TeamMemberStatusConstants::STATUS_FORESEEN
+
+                )) as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
     public function getAllTeamMembersContractedOrPredictedAt(C3op_Projects_Project $obj) {
         $result = array();
 
@@ -179,6 +201,69 @@ class C3op_Resources_TeamMemberMapper {
             $result[] = $row['id'];
         }
         return $result;
+    }
+
+    public function getAllUniqueTeamMembersContractedAt(C3op_Projects_Project $obj) {
+        $result = array();
+
+
+//SELECT _t.linkage, resources_team_members.id, _t.value
+//
+//FROM  (
+//SELECT  `linkage` , MAX(  `value` )  `value`
+//FROM resources_team_members
+//WHERE linkage >0
+//GROUP BY linkage
+//ORDER BY MAX( value ) DESC
+//) _t JOIN resources_team_members
+//USING (linkage, value) INNER JOIN projects_actions a ON resources_team_members.action = a.id WHERE a.project = 4
+//ORDER BY _t.value DESC
+
+
+        foreach ($this->db->query(sprintf('SELECT t.id
+            FROM projects_actions a
+            INNER JOIN resources_team_members t ON a.id = t.action
+            WHERE a.project = %d
+            AND t.linkage > 0
+            AND (
+            t.status = %d
+            OR t.status = %d
+            OR t.status = %d
+            OR t.status = %d
+            ) GROUP BY t.linkage'
+            , $obj->getId()
+            , C3op_Resources_TeamMemberStatusConstants::STATUS_UNDEFINED
+            , C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED
+            , C3op_Resources_TeamMemberStatusConstants::STATUS_ACQUITTED
+            , C3op_Resources_TeamMemberStatusConstants::STATUS_FORESEEN
+
+                )) as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
+    public function findMainPositionForAPerson(C3op_Resources_TeamMember $obj) {
+        foreach ($this->db->query(sprintf('SELECT t.id
+            FROM resources_team_members t
+            INNER JOIN register_linkages l ON t.linkage = l.id
+            WHERE t.linkage = %d
+            AND (
+            t.status = %d
+            OR t.status = %d
+            OR t.status = %d
+            ) ORDER BY value DESC LIMIT 1'
+            , $obj->getLinkage()
+            , C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED
+            , C3op_Resources_TeamMemberStatusConstants::STATUS_ACQUITTED
+            , C3op_Resources_TeamMemberStatusConstants::STATUS_FORESEEN
+
+                )) as $row) {
+
+            return $this->findById($row['id']);
+        }
+        throw new C3op_Resources_TeamMemberMapperException('Odd enough, we couldn\'t find any(?!) positions for this same team member');
+
     }
 
    public function getSumOfPayedOutlays(C3op_Resources_TeamMember $obj)

@@ -491,6 +491,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         //      staffName
         //      actionId
         //      contactId
+        //      linkageInstitutionName
         //      positionDescription
         //      staffEmail
         //      staffPhoneNumber
@@ -499,29 +500,51 @@ class Projects_ProjectController extends Zend_Controller_Action
         if (!isset($this->teamMemberMapper)) {
             $this->initTeamMemberMapper();
         }
-        $projectTeam = $this->teamMemberMapper->getAllTeamMembersContractedOrPredictedAt($projectToBeDetailed);
+        $projectTeam = $this->teamMemberMapper->getAllUniqueTeamMembersContractedAt($projectToBeDetailed);
         if (!isset($this->linkageMapper)) {
             $this->initLinkageMapper();
         }
 
+        $rolesArray = $this->teamMemberMapper->getAllUnassignedPositionsAt($projectToBeDetailed);
+        foreach ($rolesArray as $id) {
+            $projectTeam[] = $id;
+        }
+
+
         foreach ($projectTeam as $id) {
             $theTeamMember = $this->teamMemberMapper->findById($id);
-            $actionId = $theTeamMember->getAction();
-            $theAction = $this->actionMapper->findById($actionId);
-            $actionTitle = $theAction->getTitle();
-            $staffName = $this->view->translate("#Not defined");
+
+            // init labels
+            $staffName = $this->view->translate("#To be defined");
             $staffId = 0;
-            $staffEmail = $this->view->translate("#Not defined");
-            $staffPhoneNumber = $this->view->translate("#Not defined");
+            $staffEmail = $this->view->translate("#---");
+            $staffPhoneNumber = $this->view->translate("#---");
+
             if ($theTeamMember->getLinkage() > 0) {
+
+
+                $valuestPosition = $this->teamMemberMapper->findMainPositionForAPerson($theTeamMember);
+
+                if ($valuestPosition->getId() != $theTeamMember->getId()) {
+                    $theTeamMember = $valuestPosition;
+                }
+
                 $theLinkage = $this->linkageMapper->findById($theTeamMember->getLinkage());
                 $theContact = $this->contactMapper->findById($theLinkage->getContact());
+                $theInstitution = $this->institutionMapper->findById($theLinkage->getInstitution());
+
                 $staffId = $theContact->getId();
                 $staffName = $theContact->getName();
+                $linkageInstitutionName = $theInstitution->getShortName();
                 $staffEmail = $this->view->translate("#Not implemented");
                 $staffPhoneNumber = $this->view->translate("#Not implemented");
             }
 
+
+
+            $actionId = $theTeamMember->getAction();
+            $theAction = $this->actionMapper->findById($actionId);
+            $actionTitle = $theAction->getTitle();
             $removal = new C3op_Resources_TeamMemberRemoval($theTeamMember, $this->teamMemberMapper);
 
             if ($removal->canBeRemoved()) {
@@ -530,17 +553,18 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $canRemoveTeamMember = false;
             }
 
-
             $positionDescription = $theTeamMember->getDescription();
 
+
             $teamMembersList[$id] = array(
-                    'contactId'           => $staffId,
-                    'actionId'            => $theTeamMember->getAction(),
-                    'positionDescription' => $positionDescription,
-                    'staffName'           => $staffName,
-                    'staffPhoneNumber'    => $staffPhoneNumber,
-                    'staffEmail'          => $staffEmail,
-                    'canRemoveTeamMember' => $canRemoveTeamMember,
+                    'contactId'              => $staffId,
+                    'linkageInstitutionName' => $linkageInstitutionName,
+                    'actionId'               => $theTeamMember->getAction(),
+                    'positionDescription'    => $positionDescription,
+                    'staffName'              => $staffName,
+                    'staffPhoneNumber'       => $staffPhoneNumber,
+                    'staffEmail'             => $staffEmail,
+                    'canRemoveTeamMember'    => $canRemoveTeamMember,
                 );
         }
 
