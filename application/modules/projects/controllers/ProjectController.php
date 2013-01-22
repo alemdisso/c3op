@@ -517,8 +517,8 @@ class Projects_ProjectController extends Zend_Controller_Action
             // init labels
             $staffName = $this->view->translate("#To be defined");
             $staffId = 0;
-            $staffEmail = $this->view->translate("#---");
-            $staffPhoneNumber = $this->view->translate("#---");
+            $emailString = $this->view->translate("#---");
+            $phoneNumberString = $this->view->translate("#---");
 
             if ($theTeamMember->getLinkage() > 0) {
 
@@ -536,8 +536,17 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $staffId = $theContact->getId();
                 $staffName = $theContact->getName();
                 $linkageInstitutionName = $theInstitution->getShortName();
-                $staffEmail = $this->view->translate("#Not implemented");
-                $staffPhoneNumber = $this->view->translate("#Not implemented");
+                $data = $theLinkage->getEmails();
+                if (count($data)) {
+                    $staffEmail = reset($data);
+                    $emailString = $staffEmail->getAddress();
+                }
+                $data = $theLinkage->getPhoneNumbers();
+                if (count($data)) {
+                    $staffPhoneNumber = reset($data);
+                    $phoneNumberString = "({$staffPhoneNumber->getAreaCode()}) {$staffPhoneNumber->getLocalNumber()}";
+                }
+
             }
 
 
@@ -562,8 +571,8 @@ class Projects_ProjectController extends Zend_Controller_Action
                     'actionId'               => $theTeamMember->getAction(),
                     'positionDescription'    => $positionDescription,
                     'staffName'              => $staffName,
-                    'staffPhoneNumber'       => $staffPhoneNumber,
-                    'staffEmail'             => $staffEmail,
+                    'staffPhoneNumber'       => $phoneNumberString,
+                    'staffEmail'             => $emailString,
                     'canRemoveTeamMember'    => $canRemoveTeamMember,
                 );
         }
