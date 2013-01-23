@@ -283,7 +283,7 @@ class C3op_Resources_TeamMemberMapper {
 
             return $this->findById($row['id']);
         }
-        throw new C3op_Resources_TeamMemberMapperException('Odd enough, we couldn\'t find any(?!) positions for this same team member');
+        return $obj;
 
     }
 

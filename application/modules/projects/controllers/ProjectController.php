@@ -347,6 +347,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         //   * id =>
         //      staffName
         //      actionId
+        //      linkageId
         //      contactId
         //      linkageInstitutionName
         //      positionDescription
@@ -376,6 +377,7 @@ class Projects_ProjectController extends Zend_Controller_Action
             $staffId = 0;
             $emailString = $this->view->translate("#---");
             $phoneNumberString = $this->view->translate("#---");
+
 
             if ($theTeamMember->getLinkage() > 0) {
 
@@ -424,6 +426,7 @@ class Projects_ProjectController extends Zend_Controller_Action
 
             $teamMembersList[$id] = array(
                     'contactId'              => $staffId,
+                    'linkageId'              => $theLinkage->getId(),
                     'linkageInstitutionName' => $linkageInstitutionName,
                     'actionId'               => $theTeamMember->getAction(),
                     'positionDescription'    => $positionDescription,

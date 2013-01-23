@@ -566,7 +566,7 @@ foreach($teamData as $id => $staffInfo) {
 <?php
 if($staffInfo['contactId'] > 0) {
 ?>
-                    <a alt="<?php print $staffInfo['linkageInstitutionName']; ?>" href="/register/contact/detail/?id=<?php  print $staffInfo['contactId'] ?>"><?php print($staffInfo['staffName']) ?></a>
+                    <a alt="<?php print $staffInfo['linkageInstitutionName']; ?>" href="/projects/project/person/?id=<?php  print $projectHeader['id'] ?>&linkage=<?php  print $staffInfo['linkageId'] ?>"><?php print($staffInfo['staffName']) ?></a>
 <?php
 
 } else {
