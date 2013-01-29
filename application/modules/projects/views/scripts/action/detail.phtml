@@ -318,10 +318,9 @@ if ($parentId > 0) {
               <tr>
 <?php
     if($teamMemberData['contactId']) {
-
 ?>
                   <td>
-                  <a href="/register/contact/detail/?id=<?php print($teamMemberData['contactId']) ?>"><?php print($teamMemberData['name']) ?></a>
+                  <a href="/projects/project/person/?id=<?php print($actionHeader['projectId']) ?>&linkage=<?php print($teamMemberData['linkageId']) ?>"><?php print($teamMemberData['name']) ?></a>
                 </td>
 <?php
     } else {
@@ -396,6 +395,10 @@ if ($teamMemberData['canRemoveTeamMember']) {
 <?php
 }
 ?>
+                        <li>
+                          <a href="/register/contact/detail/?id=<?php print($teamMemberData['contactId']) ?>"><?php echo $this->translate("#Contact detail") ?></a>
+                        </li>
+
                       </ul>
                   </div><!-- #submenu1 -->
                 </td>

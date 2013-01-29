@@ -18,5 +18,20 @@
         <div class="four columns omega">
           <a href="/resources/team-member/detail/?id=<?php echo $pageData['teamMemberId']; ?>"><?php echo $pageData['contactName']; ?></a>
         </div>
+
+        <div class="three columns Right alpha">
+          <?php print($this->translate("#Duration:")) ?>
+        </div>
+        <div class="four columns">
+          <?php echo $pageData['durationMessage']; ?>
+        </div>
+
+
+        <div class="three columns Right">
+            <?php print($this->translate("#Budget (payed/total):")) ?>
+        </div>
+        <div class="four columns omega">
+          <?php echo $pageData['budgetAvailable']; ?>
+        </div>
       </div>
 <?php echo $this->form; ?>

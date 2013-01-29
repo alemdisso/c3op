@@ -476,6 +476,7 @@ class Projects_ActionController extends Zend_Controller_Action
         //   * teamMemberInfo
         //      id
         //      contactId
+        //      linkageId
         //      name
         //      description
         //      value
@@ -852,6 +853,7 @@ class Projects_ActionController extends Zend_Controller_Action
         //   * teamMemberInfo
         //      id
         //      contactId
+        //      linkageId
         //      name
         //      description
         //      value
@@ -922,6 +924,7 @@ class Projects_ActionController extends Zend_Controller_Action
             $teamMembersList[$teamMemberId] = array(
                 'id'                     => $teamMemberId,
                 'contactId'              => $contactId,
+                'linkageId'              => $linkageId,
                 'name'                   => $contactName,
                 'description'            => $descriptionMessage,
                 'value'                  => $currencyValue,

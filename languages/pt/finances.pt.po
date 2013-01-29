@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-21 14:06-0300\n"
-"PO-Revision-Date: 2013-01-21 14:06-0300\n"
+"POT-Creation-Date: 2013-01-23 16:55-0300\n"
+"PO-Revision-Date: 2013-01-23 16:56-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -25,9 +25,28 @@ msgstr ""
 msgid "#The record was successfully updated."
 msgstr "O registro foi atualizado com sucesso."
 
-#: application\modules\finances/controllers/OutlayController.php:162
+#: application\modules\finances/controllers/OutlayController.php:169
 msgid "#(not defined)"
 msgstr "(não definido)"
+
+#: application\modules\finances/controllers/OutlayController.php:226
+#, php-format
+msgid "#From %s until %s (%s)"
+msgstr "De %s a %s (%s)"
+
+#: application\modules\finances/controllers/OutlayController.php:230
+#, php-format
+msgid "#Began in %s, predicted to finish until %s (%s)"
+msgstr "De %s a %s (%s)"
+
+#: application\modules\finances/controllers/OutlayController.php:234
+#, php-format
+msgid "#Predicted to begin in %s, and to finish until %s (%s)"
+msgstr "De %s a %s (%s)"
+
+#: application\modules\finances/controllers/OutlayController.php:236
+msgid "#Undefined dates"
+msgstr "Datas indefinidas"
 
 #: application\modules\finances/controllers/ReceivableController.php:94
 msgid "#Not defined"
@@ -62,6 +81,14 @@ msgstr "Ação:"
 #: application\modules\finances/views/scripts/outlay/edit.phtml:16
 msgid "#Team member:"
 msgstr "Recurso:"
+
+#: application\modules\finances/views/scripts/outlay/create.phtml:23
+msgid "#Duration:"
+msgstr "Status:"
+
+#: application\modules\finances/views/scripts/outlay/create.phtml:31
+msgid "#Budget (payed/total):"
+msgstr "Verba (paga/total):"
 
 #: application\modules\finances/views/scripts/outlay/edit.phtml:7
 msgid "#Edit outlay"
@@ -185,12 +212,6 @@ msgstr "Informar recebimento"
 #~ msgid "#N/A"
 #~ msgstr "N/D"
 
-#~ msgid "#%s until %s"
-#~ msgstr "%s a %s"
-
-#~ msgid "#Undefined dates"
-#~ msgstr "Datas indefinidas"
-
 #~ msgid "#(undefined)"
 #~ msgstr "(indefinido)"
 
@@ -265,9 +286,6 @@ msgstr "Informar recebimento"
 
 #~ msgid "#Partnership term"
 #~ msgstr "Termo de parceria"
-
-#~ msgid "#Donation"
-#~ msgstr "Doação"
 
 #~ msgid "#Sponsorship"
 #~ msgstr "Patrocínio"

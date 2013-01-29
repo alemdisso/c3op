@@ -51,7 +51,7 @@ class Finances_OutlayController  extends Zend_Controller_Action
                     $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
                 }
                 $outlayTeamMember = $this->teamMemberMapper->findById($teamMemberId);
-                $this->populateFieldsAssociatedToTeamMember($outlayTeamMember, $form);
+                $teamMemberData = $this->populateFieldsAssociatedToTeamMember($outlayTeamMember, $form);
             } else {
                 throw new C3op_Resources_TeamMemberException("Um desembolso precisa estar associado a um recurso.");
                 $teamMemberId = 0;
@@ -59,7 +59,7 @@ class Finances_OutlayController  extends Zend_Controller_Action
             }
 
         }
-        $this->view->pageData = $this->pageData;
+        $this->view->pageData = $teamMemberData;
     }
 
     public function editAction()
@@ -98,7 +98,7 @@ class Finances_OutlayController  extends Zend_Controller_Action
                 }
 
                 $outlayTeamMember = $this->teamMemberMapper->findById($thisOutlay->GetTeamMember());
-                $this->populateFieldsAssociatedToTeamMember($outlayTeamMember, $form);
+                $teamMemberData = $this->populateFieldsAssociatedToTeamMember($outlayTeamMember, $form);
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $id);
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'project', $thisOutlay->GetProject());
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'action', $thisOutlay->GetAction());
@@ -110,7 +110,7 @@ class Finances_OutlayController  extends Zend_Controller_Action
             }
 
         }
-        $this->view->pageData = $this->pageData;
+        $this->view->pageData = $teamMemberData;
     }
     public function notifyAction()
     {
@@ -156,13 +156,18 @@ class Finances_OutlayController  extends Zend_Controller_Action
     private function populateFieldsAssociatedToTeamMember(C3op_Resources_TeamMember $teamMember, C3op_Form_OutlayCreate $form)
     {
 
+        if (!isset($this->outlayMapper)) {
+            $this->initOutlayMapper();
+        }
+
         $teamMemberField = $form->getElement('teamMember');
         $teamMemberField->setValue($teamMember->Getid());
 
-        $this->pageData['contactName'] = $this->view->translate("#(not defined)");
-        $this->pageData['teamMemberId'] = null;
+        $teamMemberData = array();
 
 
+        $contactName = $this->view->translate("#(not defined)");
+        $teamMemberId = null;
 
         if ($teamMember->getLinkage() > 0) {
             if (!isset($this->linkageMapper)) {
@@ -175,8 +180,8 @@ class Finances_OutlayController  extends Zend_Controller_Action
             $teamMemberLinkage = $this->linkageMapper->findById($teamMember->getLinkage());
             $teamMemberContact = $this->contactMapper->findById($teamMemberLinkage->getContact());
 
-            $this->pageData['contactName'] = $teamMemberContact->GetName();
-            $this->pageData['teamMemberId'] = $teamMember->Getid();
+            $contactName = $teamMemberContact->GetName();
+            $teamMemberId = $teamMember->Getid();
         }
 
         if (!isset($this->actionMapper)) {
@@ -186,8 +191,8 @@ class Finances_OutlayController  extends Zend_Controller_Action
         $actionField->setValue($teamMember->GetAction());
 
         $teamMemberAction = $this->actionMapper->findById($teamMember->GetAction());
-        $this->pageData['actionTitle'] = $teamMemberAction->GetTitle();
-        $this->pageData['actionId'] = $teamMemberAction->GetId();
+        $actionTitle = $teamMemberAction->GetTitle();
+        $actionId = $teamMemberAction->GetId();
 
         $projectField = $form->getElement('project');
         $projectField->setValue($teamMemberAction->GetProject());
@@ -196,8 +201,56 @@ class Finances_OutlayController  extends Zend_Controller_Action
             $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
         }
         $thisProject = $this->projectMapper->findById($teamMemberAction->GetProject());
-        $this->pageData['projectTitle'] = $thisProject->GetShortTitle();
-        $this->pageData['projectId'] = $thisProject->GetId();
+        $projectTitle = $thisProject->GetShortTitle();
+        $projectId = $thisProject->GetId();
+
+        $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+
+        $payedValue = $this->outlayMapper->totalPayedValueForTeamMember($teamMember);
+        if ($payedValue === null) {
+            $payedValue = "0.00";
+        }
+        $payedValue = $currencyDisplay->FormatCurrency($payedValue);
+        $totalValue = $currencyDisplay->FormatCurrency($teamMember->getValue());
+
+        $actionStatus = $teamMemberAction->getStatus();
+        $statusTypes = new C3op_Projects_ActionStatusTypes();
+        $actionStatusLabel = $this->view->translate($statusTypes->TitleForType($actionStatus));
+
+
+
+        $validator = new C3op_Util_ValidDate();
+        if (($validator->isValid($teamMemberAction->getRealBeginDate())) && ($validator->isValid($teamMemberAction->getRealFinishDate()))) {
+            $beginDate = C3op_Util_DateDisplay::FormatDateToShow($teamMemberAction->getRealBeginDate());
+            $finishDate = C3op_Util_DateDisplay::FormatDateToShow($teamMemberAction->getRealFinishDate());
+            $durationMessage = sprintf($this->view->translate("#From %s until %s (%s)"), $beginDate, $finishDate, $actionStatusLabel);
+        } else if (($validator->isValid($teamMemberAction->getRealBeginDate())) && ($validator->isValid($teamMemberAction->getPredictedFinishDate()))) {
+            $beginDate = C3op_Util_DateDisplay::FormatDateToShow($teamMemberAction->getRealBeginDate());
+            $finishDate = C3op_Util_DateDisplay::FormatDateToShow($teamMemberAction->getPredictedFinishDate());
+            $durationMessage = sprintf($this->view->translate("#Began in %s, predicted to finish until %s (%s)"), $beginDate, $finishDate, $actionStatusLabel);
+        } else if (($validator->isValid($teamMemberAction->getPredictedBeginDate())) && ($validator->isValid($teamMemberAction->getPredictedFinishDate()))) {
+            $beginDate = C3op_Util_DateDisplay::FormatDateToShow($teamMemberAction->getPredictedBeginDate());
+            $finishDate = C3op_Util_DateDisplay::FormatDateToShow($teamMemberAction->getPredictedFinishDate());
+            $durationMessage = sprintf($this->view->translate("#Predicted to begin in %s, and to finish until %s (%s)"), $beginDate, $finishDate, $actionStatusLabel);
+        } else{
+            $durationMessage = $this->view->translate("#Undefined dates");
+        }
+
+
+
+
+        $teamMemberData = array(
+            'contactName'     => $contactName,
+            'teamMemberId'    => $teamMemberId,
+            'actionTitle'     => $actionTitle,
+            'actionId'        => $actionId,
+            'projectTitle'    => $projectTitle,
+            'projectId'       => $projectId,
+            'budgetAvailable' => "$payedValue/$totalValue",
+            'durationMessage' => $durationMessage,
+        );
+
+        return $teamMemberData;
 
    }
 
