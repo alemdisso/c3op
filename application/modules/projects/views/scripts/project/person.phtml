@@ -10,6 +10,16 @@
           <h2><?php print(sprintf($this->translate("#%s's participation in the project"), $personData['name'])); ?></h2>
 
         </div>
+        <div class="Area">
+
+          <div class="three columns alpha Right">
+            <?php print($this->translate("#Total Value (payed/contracted):")); ?>
+          </div>
+          <div class="six columns">
+            <?php print($personData['payedValue']); ?>/<?php print($personData['totalValue']); ?>
+          </div>
+        </div>
+
 
 
         <div id="tabs">
@@ -25,7 +35,7 @@
                   <th width="75"><?php print($this->translate("#Position")); ?></th>
                   <th width="60"><?php print($this->translate("#Payed Value")); ?></th>
                   <th width="60"><?php print($this->translate("#Total Value")); ?></th>
-                  <th width="80"><?php print($this->translate("#Status")); ?></th>
+                  <th width="80"><?php print($this->translate("#Action Status")); ?></th>
                   <th width="10">&nbsp;</th>
                 </tr>
               </thead>
@@ -46,8 +56,21 @@
                     <div id="submenu1" class="anylinkcss">
                         <ul>
                           <li>
-                            <a href="/resources/team-member/edit/?id=<?php print($id);?>"><?php print($this->translate("#Edit")); ?></a>
+                            <a href="/resources/team-member/edit/?id=<?php print($actionData['teamMemberId']);?>"><?php print($this->translate("#Edit")); ?></a>
                           </li>
+<?php
+
+if ($actionData['canProvideOutlay']) {
+?>
+
+
+                          <li>
+                            <a href="/finances/outlay/create/?teamMember=<?php echo $actionData['teamMemberId'] ?>"><?php echo $this->translate("#Provide outlay") ?></a>
+                          </li>
+
+<?php
+}
+?>
                         </ul>
                     </div><!-- #submenu1 -->
                   </td>

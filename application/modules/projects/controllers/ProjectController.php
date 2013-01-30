@@ -616,37 +616,67 @@ class Projects_ProjectController extends Zend_Controller_Action
         $actionsEngaged = $this->teamMemberMapper->getAllActionsEngaging($linkage, $project);
 
         $personActions = array();
+        $personPayedValue = 0;
+        $personTotalValue = 0;
+        $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+
         foreach ($actionsEngaged as $id => $data) {
             $action = $this->actionMapper->findById($id);
             $teamMember = $this->teamMemberMapper->findById($data['teamMember']);
 
-            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
-
             if ($teamMember->getValue() > 0) {
-                $totalValue = $currencyDisplay->FormatCurrency($teamMember->getValue());
+                $personTotalValue += $teamMember->getValue();
+                $actionTotalValue = $currencyDisplay->FormatCurrency($teamMember->getValue());
             } else {
-                $totalValue = $this->view->translate("#(not defined)");
+                $actionTotalValue = $this->view->translate("#(not defined)");
             }
 
-            $payedValue = $this->outlayMapper->totalPayedValueForTeamMember($teamMember);
-            if ($payedValue > 0) {
-                $payedValue = $currencyDisplay->FormatCurrency($payedValue);
+            $actionPayedValue = $this->outlayMapper->totalPayedValueForTeamMember($teamMember);
+            if ($actionPayedValue > 0) {
+                $personPayedValue += $actionPayedValue;
+                $actionPayedValue = $currencyDisplay->FormatCurrency($actionPayedValue);
             } else {
-                $payedValue = $currencyDisplay->FormatCurrency(0);
+                $actionPayedValue = $currencyDisplay->FormatCurrency(0);
             }
 
             $statusTypes = new C3op_Projects_ActionStatusTypes();
-            $status = $statusTypes->TitleForType($action->getStatus());
+            $rawActionStatus = $action->getStatus();
+            $actionStatusLabel = $statusTypes->TitleForType($rawActionStatus);
 
-
+            $rawTeamMemberStatus = $teamMember->getStatus();
+            if ($rawTeamMemberStatus == C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED) {
+                $doesIt = new C3op_Resources_TeamMemberHasCredit($teamMember, $this->teamMemberMapper);
+                if ($doesIt->hasCredit()) {
+                    $canProvideOutlay = true;
+                } else {
+                    $canProvideOutlay = false;
+                }
+            } else {
+                $canProvideOutlay = false;
+            }
 
             $personActions[$id] = array(
-                'title' => $action->getTitle(),
-                'position' => $teamMember->getDescription(),
-                'payedValue' => $payedValue,
-                'totalValue' => $totalValue,
-                'status' => $this->view->translate($status),
+                'teamMemberId'     => $teamMember->getId(),
+                'title'            => $action->getTitle(),
+                'position'         => $teamMember->getDescription(),
+                'payedValue'       => $actionPayedValue,
+                'totalValue'       => $actionTotalValue,
+                'status'           => $this->view->translate($actionStatusLabel),
+                'canProvideOutlay' => $canProvideOutlay,
             );
+        }
+
+        if ($personTotalValue > 0) {
+            $personTotalValue = $currencyDisplay->FormatCurrency($personTotalValue);
+        } else {
+            $personTotalValue = $this->view->translate("#(not defined)");
+        }
+
+        if ($personPayedValue > 0) {
+            $personPayedValue += $actionPayedValue;
+            $personPayedValue = $currencyDisplay->FormatCurrency($actionPayedValue);
+        } else {
+            $personPayedValue = $currencyDisplay->FormatCurrency(0);
         }
 
 
@@ -655,6 +685,8 @@ class Projects_ProjectController extends Zend_Controller_Action
             'projectId' => $project->getId(),
             'name' => $contact->getName(),
             'projectTitle' => $project->getShortTitle(),
+            'payedValue' => $personPayedValue,
+            'totalValue' => $personTotalValue,
             'personActions' => $personActions,
         );
 

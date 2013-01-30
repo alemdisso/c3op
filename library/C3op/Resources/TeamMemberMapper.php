@@ -125,9 +125,12 @@ class C3op_Resources_TeamMemberMapper {
                     FROM projects_actions a
                     LEFT JOIN resources_team_members t ON a.id = t.action
                     LEFT JOIN register_linkages l ON t.linkage = l.id
-                    WHERE a.project = :project AND l.id = :linkage;');
+                    WHERE a.project = :project AND l.id = :linkage
+                    AND (t.status = :contracted OR t.status = :acquitted);');
         $query->bindValue(':project', $project->GetId(), PDO::PARAM_STR);
         $query->bindValue(':linkage', $obj->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':contracted', C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
+        $query->bindValue(':acquitted', C3op_Resources_TeamMemberStatusConstants::STATUS_ACQUITTED, PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();
 
@@ -293,7 +296,11 @@ class C3op_Resources_TeamMemberMapper {
         $query->bindValue(':id', $obj->GetId(), PDO::PARAM_STR);
         $query->execute();
         $result = $query->fetch();
-        return $result['sum'];
+        if ( is_null($result['sum'])) {
+            return 0;
+        } else {
+            return $result['sum'];
+        }
     }
 
     public function getSumOfProvidedButNotPayedOutlays(C3op_Resources_TeamMember $obj)
