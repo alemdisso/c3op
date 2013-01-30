@@ -71,6 +71,19 @@ if ($actionData['canProvideOutlay']) {
 <?php
 }
 ?>
+<?php
+
+if ($actionData['canNotifyOutlay']) {
+?>
+
+
+                          <li>
+                            <a href="/finances/outlay/notify/?id=<?php echo $actionData['outlayId'] ?>"><?php echo $this->translate("#Notify outlay") ?></a>
+                          </li>
+
+<?php
+}
+?>
                         </ul>
                     </div><!-- #submenu1 -->
                   </td>

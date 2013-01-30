@@ -902,7 +902,7 @@ class Projects_ActionController extends Zend_Controller_Action
 
             if ($status == C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED) {
                 $doesIt = new C3op_Resources_TeamMemberHasCredit($theTeamMember, $this->teamMemberMapper);
-                if ($doesIt->hasCredit()) {
+                if ($doesIt->hasCreditToPay()) {
                     $canProvideOutlay = true;
                 } else {
                     $canProvideOutlay = false;

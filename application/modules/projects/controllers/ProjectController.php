@@ -297,13 +297,13 @@ class Projects_ProjectController extends Zend_Controller_Action
                     $status = $theTeamMember->getStatus();
                     if ($status == C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED) {
                         $doesIt = new C3op_Resources_TeamMemberHasCredit($theTeamMember, $this->teamMemberMapper);
-                        if ($doesIt->hasCredit()) {
-                            $canProvideOutlay = true;
+                        if ($doesIt->hasCreditToPay()) {
+                            $canNotifyOutlay = true;
                         } else {
-                            $canProvideOutlay = false;
+                            $canNotifyOutlay = false;
                         }
                     } else {
-                        $canProvideOutlay = false;
+                        $canNotifyOutlay = false;
                     }
 
 
@@ -339,7 +339,7 @@ class Projects_ProjectController extends Zend_Controller_Action
                     'realDate' => $realDate,
                     'predictedValue' => $predictedValue,
                     'realValue' => $realValue,
-                    'canNotifyOutlay' => $canProvideOutlay,
+                    'canNotifyOutlay' => $canNotifyOutlay,
                 );
         }
 
@@ -644,12 +644,22 @@ class Projects_ProjectController extends Zend_Controller_Action
             $actionStatusLabel = $statusTypes->TitleForType($rawActionStatus);
 
             $rawTeamMemberStatus = $teamMember->getStatus();
+            $outlayId = 0;
             if ($rawTeamMemberStatus == C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED) {
                 $doesIt = new C3op_Resources_TeamMemberHasCredit($teamMember, $this->teamMemberMapper);
-                if ($doesIt->hasCredit()) {
+                if ($doesIt->hasCreditToProvide()) {
                     $canProvideOutlay = true;
                 } else {
                     $canProvideOutlay = false;
+                }
+                if ($doesIt->hasCreditToPay()) {
+                    $canNotifyOutlay = true;
+                    $result = $this->teamMemberMapper->getNextOutlayToPayTo($teamMember);
+                    if ($result !== null) {
+                        $outlayId = $result['id'];
+                    }
+                } else {
+                    $canNotifyOutlay = false;
                 }
             } else {
                 $canProvideOutlay = false;
@@ -663,6 +673,8 @@ class Projects_ProjectController extends Zend_Controller_Action
                 'totalValue'       => $actionTotalValue,
                 'status'           => $this->view->translate($actionStatusLabel),
                 'canProvideOutlay' => $canProvideOutlay,
+                'canNotifyOutlay'  => $canNotifyOutlay,
+                'outlayId'         => $outlayId,
             );
         }
 
