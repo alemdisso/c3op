@@ -301,6 +301,7 @@ class C3op_Resources_TeamMemberMapper {
 
    public function getSumOfPayedOutlays(C3op_Resources_TeamMember $obj)
     {
+//       die(sprintf('SELECT SUM(real_value) as sum FROM finances_outlays WHERE team_member = \'%s\' AND real_value > 0 AND real_date IS NOT NULL AND real_date <> "0000-00-00";', $obj->GetId()));
         $query = $this->db->prepare('SELECT SUM(real_value) as sum FROM finances_outlays WHERE team_member = :id AND real_value > 0 AND real_date IS NOT NULL AND real_date <> "0000-00-00";');
         $query->bindValue(':id', $obj->GetId(), PDO::PARAM_STR);
         $query->execute();
@@ -318,7 +319,11 @@ class C3op_Resources_TeamMemberMapper {
         $query->bindValue(':id', $obj->GetId(), PDO::PARAM_STR);
         $query->execute();
         $result = $query->fetch();
-        return $result['sum'];
+        if ( is_null($result['sum'])) {
+            return 0;
+        } else {
+            return $result['sum'];
+        }
     }
 
     public function getSumOfProvidedButNotPayedOutlays(C3op_Resources_TeamMember $obj)
@@ -327,7 +332,11 @@ class C3op_Resources_TeamMemberMapper {
         $query->bindValue(':id', $obj->GetId(), PDO::PARAM_STR);
         $query->execute();
         $result = $query->fetch();
-        return $result['sum'];
+        if ( is_null($result['sum'])) {
+            return 0;
+        } else {
+            return $result['sum'];
+        }
     }
 
 

@@ -51,7 +51,8 @@ class Finances_OutlayController  extends Zend_Controller_Action
                     $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
                 }
                 $outlayTeamMember = $this->teamMemberMapper->findById($teamMemberId);
-                $teamMemberData = $this->populateFieldsAssociatedToTeamMember($outlayTeamMember, $form);
+                $this->populateHiddenFieldsAssociatedToTeamMember($outlayTeamMember, $form);
+                $teamMemberData = $this->fetchTeamMemberData($outlayTeamMember);
             } else {
                 throw new C3op_Resources_TeamMemberException("Um desembolso precisa estar associado a um recurso.");
                 $teamMemberId = 0;
@@ -98,7 +99,10 @@ class Finances_OutlayController  extends Zend_Controller_Action
                 }
 
                 $outlayTeamMember = $this->teamMemberMapper->findById($thisOutlay->GetTeamMember());
-                $teamMemberData = $this->populateFieldsAssociatedToTeamMember($outlayTeamMember, $form);
+
+                $teamMemberData = $this->fetchTeamMemberData($outlayTeamMember);
+
+                //$teamMemberData = $this->populateFieldsAssociatedToTeamMember($outlayTeamMember, $form);
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $id);
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'project', $thisOutlay->GetProject());
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'action', $thisOutlay->GetAction());
@@ -153,53 +157,72 @@ class Finances_OutlayController  extends Zend_Controller_Action
     }
 
 
-    private function populateFieldsAssociatedToTeamMember(C3op_Resources_TeamMember $teamMember, C3op_Form_OutlayCreate $form)
+    private function populateHiddenFieldsAssociatedToTeamMember(C3op_Resources_TeamMember $teamMember, C3op_Form_OutlayCreate $form)
     {
 
         if (!isset($this->outlayMapper)) {
             $this->initOutlayMapper();
         }
+        if (!isset($this->actionMapper)) {
+            $this->initActionMapper();
+        }
 
-        $teamMemberField = $form->getElement('teamMember');
-        $teamMemberField->setValue($teamMember->Getid());
+        $element = $form->getElement('teamMember');
+        $element->setValue($teamMember->Getid());
+
+        $element = $form->getElement('action');
+        $element->setValue($teamMember->GetAction());
+
+        $teamMemberAction = $this->actionMapper->findById($teamMember->GetAction());
+        $element = $form->getElement('project');
+        $element->setValue($teamMemberAction->GetProject());
+
+        $payedValue = $this->outlayMapper->totalPayedValueForTeamMember($teamMember);
+        if ($payedValue === null) {
+            $payedValue = "0.00";
+        }
+
+        $predictedValue = $teamMember->getValue() - $payedValue;
+        $element = $form->getElement('predictedValue');
+        $element->setValue($predictedValue);
+
+   }
+
+    private function fetchTeamMemberData(C3op_Resources_TeamMember $teamMember)
+    {
+
+        if (!isset($this->outlayMapper)) {
+            $this->initOutlayMapper();
+        }
+        if (!isset($this->linkageMapper)) {
+            $this->initLinkageMapper();
+        }
+        if (!isset($this->contactMapper)) {
+            $this->initContactMapper();
+        }
+        if (!isset($this->actionMapper)) {
+            $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
+        }
+        if (!isset($this->projectMapper)) {
+            $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
+        }
 
         $teamMemberData = array();
-
 
         $contactName = $this->view->translate("#(not defined)");
         $teamMemberId = null;
 
         if ($teamMember->getLinkage() > 0) {
-            if (!isset($this->linkageMapper)) {
-                $this->initLinkageMapper();
-            }
-            if (!isset($this->contactMapper)) {
-                $this->initContactMapper();
-            }
-
             $teamMemberLinkage = $this->linkageMapper->findById($teamMember->getLinkage());
             $teamMemberContact = $this->contactMapper->findById($teamMemberLinkage->getContact());
-
             $contactName = $teamMemberContact->GetName();
             $teamMemberId = $teamMember->Getid();
         }
-
-        if (!isset($this->actionMapper)) {
-            $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
-        }
-        $actionField = $form->getElement('action');
-        $actionField->setValue($teamMember->GetAction());
 
         $teamMemberAction = $this->actionMapper->findById($teamMember->GetAction());
         $actionTitle = $teamMemberAction->GetTitle();
         $actionId = $teamMemberAction->GetId();
 
-        $projectField = $form->getElement('project');
-        $projectField->setValue($teamMemberAction->GetProject());
-
-        if (!isset($this->projectMapper)) {
-            $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
-        }
         $thisProject = $this->projectMapper->findById($teamMemberAction->GetProject());
         $projectTitle = $thisProject->GetShortTitle();
         $projectId = $thisProject->GetId();
@@ -217,27 +240,22 @@ class Finances_OutlayController  extends Zend_Controller_Action
         $statusTypes = new C3op_Projects_ActionStatusTypes();
         $actionStatusLabel = $this->view->translate($statusTypes->TitleForType($actionStatus));
 
-
-
         $validator = new C3op_Util_ValidDate();
         if (($validator->isValid($teamMemberAction->getRealBeginDate())) && ($validator->isValid($teamMemberAction->getRealFinishDate()))) {
             $beginDate = C3op_Util_DateDisplay::FormatDateToShow($teamMemberAction->getRealBeginDate());
             $finishDate = C3op_Util_DateDisplay::FormatDateToShow($teamMemberAction->getRealFinishDate());
-            $durationMessage = sprintf($this->view->translate("#From %s until %s (%s)"), $beginDate, $finishDate, $actionStatusLabel);
+            $durationMessage = sprintf($this->view->translate("#From %s until %s"), $beginDate, $finishDate);
         } else if (($validator->isValid($teamMemberAction->getRealBeginDate())) && ($validator->isValid($teamMemberAction->getPredictedFinishDate()))) {
             $beginDate = C3op_Util_DateDisplay::FormatDateToShow($teamMemberAction->getRealBeginDate());
             $finishDate = C3op_Util_DateDisplay::FormatDateToShow($teamMemberAction->getPredictedFinishDate());
-            $durationMessage = sprintf($this->view->translate("#Began in %s, predicted to finish until %s (%s)"), $beginDate, $finishDate, $actionStatusLabel);
+            $durationMessage = sprintf($this->view->translate("#Began in %s, predicted to finish until %s"), $beginDate, $finishDate);
         } else if (($validator->isValid($teamMemberAction->getPredictedBeginDate())) && ($validator->isValid($teamMemberAction->getPredictedFinishDate()))) {
             $beginDate = C3op_Util_DateDisplay::FormatDateToShow($teamMemberAction->getPredictedBeginDate());
             $finishDate = C3op_Util_DateDisplay::FormatDateToShow($teamMemberAction->getPredictedFinishDate());
-            $durationMessage = sprintf($this->view->translate("#Predicted to begin in %s, and to finish until %s (%s)"), $beginDate, $finishDate, $actionStatusLabel);
+            $durationMessage = sprintf($this->view->translate("#Predicted to begin in %s, and to finish until %s"), $beginDate, $finishDate);
         } else{
             $durationMessage = $this->view->translate("#Undefined dates");
         }
-
-
-
 
         $teamMemberData = array(
             'contactName'     => $contactName,
@@ -247,7 +265,9 @@ class Finances_OutlayController  extends Zend_Controller_Action
             'projectTitle'    => $projectTitle,
             'projectId'       => $projectId,
             'budgetAvailable' => "$payedValue/$totalValue",
-            'durationMessage' => $durationMessage,
+            'duration'        => $durationMessage,
+            'status'          => $actionStatusLabel,
+            'outlayValue'     => $totalValue,
         );
 
         return $teamMemberData;

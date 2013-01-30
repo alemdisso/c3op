@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-23 16:55-0300\n"
-"PO-Revision-Date: 2013-01-23 16:56-0300\n"
+"POT-Creation-Date: 2013-01-30 17:19-0300\n"
+"PO-Revision-Date: 2013-01-30 17:22-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -31,18 +31,18 @@ msgstr "(não definido)"
 
 #: application\modules\finances/controllers/OutlayController.php:226
 #, php-format
-msgid "#From %s until %s (%s)"
-msgstr "De %s a %s (%s)"
+msgid "#From %s until %s"
+msgstr "De %s a %s"
 
 #: application\modules\finances/controllers/OutlayController.php:230
 #, php-format
-msgid "#Began in %s, predicted to finish until %s (%s)"
-msgstr "De %s a %s (%s)"
+msgid "#Began in %s, predicted to finish until %s"
+msgstr "Começou em %s, prevista para terminar em %s"
 
 #: application\modules\finances/controllers/OutlayController.php:234
 #, php-format
-msgid "#Predicted to begin in %s, and to finish until %s (%s)"
-msgstr "De %s a %s (%s)"
+msgid "#Predicted to begin in %s, and to finish until %s"
+msgstr "Prevista para começar em  %s e terminar em %s"
 
 #: application\modules\finances/controllers/OutlayController.php:236
 msgid "#Undefined dates"
@@ -69,30 +69,29 @@ msgid "#Project"
 msgstr "Projeto"
 
 #: application\modules\finances/views/scripts/outlay/create.phtml:7
-msgid "#Create outlay"
-msgstr "Prever pagamento"
+#, php-format
+msgid "#Create outlay of %s to %s regarding '%s'"
+msgstr "Prever pagamento de %s para %s na ação '%s'"
 
 #: application\modules\finances/views/scripts/outlay/create.phtml:10
-#: application\modules\finances/views/scripts/outlay/edit.phtml:10
-msgid "#Action:"
-msgstr "Ação:"
-
-#: application\modules\finances/views/scripts/outlay/create.phtml:16
-#: application\modules\finances/views/scripts/outlay/edit.phtml:16
-msgid "#Team member:"
-msgstr "Recurso:"
-
-#: application\modules\finances/views/scripts/outlay/create.phtml:23
 msgid "#Duration:"
-msgstr "Status:"
+msgstr "Prazo da ação:"
 
-#: application\modules\finances/views/scripts/outlay/create.phtml:31
-msgid "#Budget (payed/total):"
-msgstr "Verba (paga/total):"
+#: application\modules\finances/views/scripts/outlay/create.phtml:17
+msgid "#Status:"
+msgstr "Status"
 
 #: application\modules\finances/views/scripts/outlay/edit.phtml:7
 msgid "#Edit outlay"
 msgstr "Editar pagamento"
+
+#: application\modules\finances/views/scripts/outlay/edit.phtml:10
+msgid "#Action:"
+msgstr "Ação:"
+
+#: application\modules\finances/views/scripts/outlay/edit.phtml:16
+msgid "#Team member:"
+msgstr "Recurso:"
 
 #: application\modules\finances/views/scripts/outlay/notify.phtml:5
 msgid "#Notify outlay"
@@ -168,6 +167,12 @@ msgstr "Editar"
 #: application\modules\finances/views/scripts/receivable/notify.phtml:5
 msgid "#Notify receiving"
 msgstr "Informar recebimento"
+
+#~ msgid "#Create outlay"
+#~ msgstr "Prever pagamento"
+
+#~ msgid "#Budget (payed/total):"
+#~ msgstr "Verba (paga/total):"
 
 #~ msgid "#The record was successfully created."
 #~ msgstr "O registro foi criado com sucesso."

@@ -77,7 +77,7 @@ class C3op_Finances_Outlay
     public function SetPredictedValue($predictedValue)
     {
         if ($predictedValue >= 0) {
-            $this->predictedValue = (float) $predictedValue;
+            $this->predictedValue = $predictedValue;
         } else {
             throw new C3op_Finances_OutlayException("Value must be a positive number.");
 

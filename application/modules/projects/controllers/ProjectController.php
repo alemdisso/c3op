@@ -685,8 +685,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         }
 
         if ($personPayedValue > 0) {
-            $personPayedValue += $actionPayedValue;
-            $personPayedValue = $currencyDisplay->FormatCurrency($actionPayedValue);
+            $personPayedValue = $currencyDisplay->FormatCurrency($personPayedValue);
         } else {
             $personPayedValue = $currencyDisplay->FormatCurrency(0);
         }

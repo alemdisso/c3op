@@ -32,6 +32,7 @@ class C3op_Resources_TeamMemberHasCredit {
         $payed = $this->mapper->getSumOfPayedOutlays($this->teamMember);
         $provided = $this->mapper->getSumOfProvidedOutlays($this->teamMember);
 
+        //die("$budget > $provided");
         if ($budget > $provided)
         {
             return true;
