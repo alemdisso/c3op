@@ -4,6 +4,7 @@ class C3op_Resources_TeamMember {
 
     protected $id;
     protected $action;
+    protected $project;
     protected $description;
     protected $linkage;
     protected $value;
@@ -11,7 +12,8 @@ class C3op_Resources_TeamMember {
 
     function __construct($id=0) {
         $this->id = (int)$id;
-        $this->action = "";
+        $this->project = 0;
+        $this->action = 0;
         $this->description = "";
         $this->linkage = 0;
         $this->value = "";
@@ -27,6 +29,18 @@ class C3op_Resources_TeamMember {
             $this->id = (int)$id;
         } else {
             throw new C3op_Resources_TeamMemberException('It\'s not possible to change a Human Resource\'s ID');
+        }
+    } //setId
+
+    public function getProject() {
+        return $this->project;
+    } //getId
+
+    public function setproject($project) {
+        if (($this->project == 0) && ($project > 0)) {
+            $this->project = (int)$project;
+        } else {
+            throw new C3op_Resources_TeamMemberException('It\'s not possible to change a Human Resource\'s project');
         }
     } //setId
 

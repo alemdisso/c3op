@@ -21,8 +21,9 @@ class C3op_Resources_TeamMemberMapper {
     public function insert(C3op_Resources_TeamMember $new) {
 
 
-        $query = $this->db->prepare("INSERT INTO resources_team_members (action, linkage, description, value, status) VALUES (:action, :linkage, :description, :value, :status)");
+        $query = $this->db->prepare("INSERT INTO resources_team_members (project, action, linkage, description, value, status) VALUES (:action, :linkage, :description, :value, :status)");
 
+        $query->bindValue(':project', $new->GetProject(), PDO::PARAM_INT);
         $query->bindValue(':action', $new->GetAction(), PDO::PARAM_INT);
         $query->bindValue(':linkage', $new->getLinkage(), PDO::PARAM_INT);
         $query->bindValue(':description', $new->GetDescription(), PDO::PARAM_STR);
@@ -41,8 +42,9 @@ class C3op_Resources_TeamMemberMapper {
             throw new C3op_Resources_TeamMemberMapperException('Object has no ID, cannot update.');
         }
 
-        $query = $this->db->prepare("UPDATE resources_team_members SET action = :action, description = :description, linkage = :linkage, value = :value, status = :status WHERE id = :id;");
+        $query = $this->db->prepare("UPDATE resources_team_members SET project = :project, action = :action, description = :description, linkage = :linkage, value = :value, status = :status WHERE id = :id;");
 
+        $query->bindValue(':project', $obj->GetProject(), PDO::PARAM_STR);
         $query->bindValue(':action', $obj->GetAction(), PDO::PARAM_STR);
         $query->bindValue(':description', $obj->GetDescription(), PDO::PARAM_STR);
         $query->bindValue(':linkage', $obj->getLinkage(), PDO::PARAM_STR);
@@ -67,7 +69,7 @@ class C3op_Resources_TeamMemberMapper {
             $this->identityMap->next();
         }
 
-        $query = $this->db->prepare('SELECT action, description, linkage, value, status FROM resources_team_members WHERE id = :id;');
+        $query = $this->db->prepare('SELECT project, action, description, linkage, value, status FROM resources_team_members WHERE id = :id;');
         $query->bindValue(':id', $id, PDO::PARAM_STR);
         $query->execute();
         $result = $query->fetch();
@@ -78,6 +80,9 @@ class C3op_Resources_TeamMemberMapper {
         $obj = new C3op_Resources_TeamMember();
 
         $this->setAttributeValue($obj, $id, 'id');
+
+
+        $this->setAttributeValue($obj, $result['project'], 'project');
         $this->setAttributeValue($obj, $result['action'], 'action');
         $this->setAttributeValue($obj, $result['description'], 'description');
         $this->setAttributeValue($obj, $result['linkage'], 'linkage');
@@ -85,6 +90,16 @@ class C3op_Resources_TeamMemberMapper {
         $this->setAttributeValue($obj, $result['status'], 'status');
 
         $this->identityMap[$obj] = $id;
+//TEMP
+        if ($result['project'] == 0) {
+            $actionMapper = new C3op_Projects_ActionMapper($this->db);
+            $action = $actionMapper->findById($result['action']);
+            $this->setAttributeValue($obj, $action->getProject(), 'project');
+            $this->update($obj);
+
+        }
+//  END TEMP
+
         return $obj;
 
         $this->FetchDates($obj);
@@ -271,13 +286,14 @@ class C3op_Resources_TeamMemberMapper {
         foreach ($this->db->query(sprintf('SELECT t.id
             FROM resources_team_members t
             INNER JOIN register_linkages l ON t.linkage = l.id
-            WHERE t.linkage = %d
+            WHERE t.linkage = %d AND t.project = %d
             AND (
             t.status = %d
             OR t.status = %d
             OR t.status = %d
             ) ORDER BY value DESC LIMIT 1'
             , $obj->getLinkage()
+            , $obj->getProject()
             , C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED
             , C3op_Resources_TeamMemberStatusConstants::STATUS_ACQUITTED
             , C3op_Resources_TeamMemberStatusConstants::STATUS_FORESEEN
