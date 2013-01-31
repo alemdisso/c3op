@@ -358,7 +358,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         if (!isset($this->teamMemberMapper)) {
             $this->initTeamMemberMapper();
         }
-        $projectTeam = $this->teamMemberMapper->getAllUniqueTeamMembersContractedAt($projectToBeDetailed);
+        $projectTeam = $this->teamMemberMapper->getAllTeamMembersContractedOrPredictedAt($projectToBeDetailed);
         if (!isset($this->linkageMapper)) {
             $this->initLinkageMapper();
         }
@@ -644,6 +644,8 @@ class Projects_ProjectController extends Zend_Controller_Action
             $actionStatusLabel = $statusTypes->TitleForType($rawActionStatus);
 
             $rawTeamMemberStatus = $teamMember->getStatus();
+            $statusTypes = new C3op_Resources_TeamMemberStatusTypes();
+            $teamMemberStatusLabel = $statusTypes->TitleForType($rawTeamMemberStatus);
             $outlayId = 0;
             if ($rawTeamMemberStatus == C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED) {
                 $doesIt = new C3op_Resources_TeamMemberHasCredit($teamMember, $this->teamMemberMapper);
@@ -671,7 +673,7 @@ class Projects_ProjectController extends Zend_Controller_Action
                 'position'         => $teamMember->getDescription(),
                 'payedValue'       => $actionPayedValue,
                 'totalValue'       => $actionTotalValue,
-                'status'           => $this->view->translate($actionStatusLabel),
+                'status'           => $this->view->translate($teamMemberStatusLabel),
                 'canProvideOutlay' => $canProvideOutlay,
                 'canNotifyOutlay'  => $canNotifyOutlay,
                 'outlayId'         => $outlayId,

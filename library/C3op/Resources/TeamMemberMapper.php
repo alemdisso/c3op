@@ -21,7 +21,7 @@ class C3op_Resources_TeamMemberMapper {
     public function insert(C3op_Resources_TeamMember $new) {
 
 
-        $query = $this->db->prepare("INSERT INTO resources_team_members (project, action, linkage, description, value, status) VALUES (:action, :linkage, :description, :value, :status)");
+        $query = $this->db->prepare("INSERT INTO resources_team_members (project, action, linkage, description, value, status) VALUES (:project, :action, :linkage, :description, :value, :status)");
 
         $query->bindValue(':project', $new->GetProject(), PDO::PARAM_INT);
         $query->bindValue(':action', $new->GetAction(), PDO::PARAM_INT);
@@ -141,9 +141,10 @@ class C3op_Resources_TeamMemberMapper {
                     LEFT JOIN resources_team_members t ON a.id = t.action
                     LEFT JOIN register_linkages l ON t.linkage = l.id
                     WHERE a.project = :project AND l.id = :linkage
-                    AND (t.status = :contracted OR t.status = :acquitted);');
+                    AND (t.status = :foreseen OR t.status = :contracted OR t.status = :acquitted);');
         $query->bindValue(':project', $project->GetId(), PDO::PARAM_STR);
         $query->bindValue(':linkage', $obj->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':foreseen', C3op_Resources_TeamMemberStatusConstants::STATUS_FORESEEN, PDO::PARAM_STR);
         $query->bindValue(':contracted', C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
         $query->bindValue(':acquitted', C3op_Resources_TeamMemberStatusConstants::STATUS_ACQUITTED, PDO::PARAM_STR);
         $query->execute();

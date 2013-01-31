@@ -347,7 +347,8 @@ class Projects_ActionController extends Zend_Controller_Action
         }
 
 
-        if ($actionToBeDetailed->getStatus() == C3op_Projects_ActionStatusConstants::STATUS_PLAN) {
+        if (($actionToBeDetailed->getStatus() == C3op_Projects_ActionStatusConstants::STATUS_PLAN)) {
+        
             $canEditResource = true;
         } else {
             $canEditResource = false;
@@ -894,7 +895,7 @@ class Projects_ActionController extends Zend_Controller_Action
             $statusTypes = new C3op_Resources_TeamMemberStatusTypes();
             $statusLabel = $statusTypes->TitleForType($status);
 
-            if ($status == C3op_Resources_TeamMemberStatusConstants::STATUS_FORESEEN) {
+            if (($theTeamMember->getLinkage() > 0) && ($status == C3op_Resources_TeamMemberStatusConstants::STATUS_FORESEEN)) {
                 $canContract = true;
             } else {
                 $canContract = false;
