@@ -90,15 +90,6 @@ class C3op_Resources_TeamMemberMapper {
         $this->setAttributeValue($obj, $result['status'], 'status');
 
         $this->identityMap[$obj] = $id;
-//TEMP
-        if ($result['project'] == 0) {
-            $actionMapper = new C3op_Projects_ActionMapper($this->db);
-            $action = $actionMapper->findById($result['action']);
-            $this->setAttributeValue($obj, $action->getProject(), 'project');
-            $this->update($obj);
-
-        }
-//  END TEMP
 
         return $obj;
 
@@ -355,7 +346,6 @@ class C3op_Resources_TeamMemberMapper {
             return $result['sum'];
         }
     }
-
 
 
 }

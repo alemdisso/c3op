@@ -372,6 +372,9 @@ class Projects_ProjectController extends Zend_Controller_Action
         foreach ($projectTeam as $id) {
             $theTeamMember = $this->teamMemberMapper->findById($id);
 
+
+
+
             // init labels
             $staffName = $this->view->translate("#To be defined");
             $staffId = 0;
@@ -1322,6 +1325,7 @@ class Projects_ProjectController extends Zend_Controller_Action
 
 
     }
+
 
 
 }

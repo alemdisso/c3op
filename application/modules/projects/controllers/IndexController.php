@@ -40,7 +40,6 @@ class Projects_IndexController extends Zend_Controller_Action
         foreach ($list as $id) {
             $thisProject = $this->projectMapper->findById($id);
 
-
             $clientName = $this->view->translate('#(not defined)');
             if ($thisProject->getClient() > 0) {
                 $thisClient = $this->institutionMapper->findById($thisProject->getClient());
