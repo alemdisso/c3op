@@ -111,6 +111,7 @@ class C3op_Form_ReceivableNotify extends Zend_Form
             $receivable->SetRealValue($realValueWithDecimalPoint);
 
             $receivableMapper->update($receivable);
+            return ($id);
         }
     }
 

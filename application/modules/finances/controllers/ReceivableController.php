@@ -194,7 +194,9 @@ class Finances_ReceivableController extends Zend_Controller_Action
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'predictedValue', $thisReceivable->GetPredictedValue());
 //                $this->setDateValueToFormField($form, 'realDate', $thisReceivable->GetRealDate());
 //                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'realValue', $thisReceivable->GetRealValue());
-                $projectId = $this->populateProjectFields($thisReceivable->GetProject(), $form);
+                $projectId = $thisReceivable->GetProject();
+                $this->getReceivableData($thisReceivable);
+                $this->populateProjectFields($projectId, $form);
             }
 
         }
@@ -231,11 +233,13 @@ class Finances_ReceivableController extends Zend_Controller_Action
             if ($input->isValid()) {
                 $this->initReceivableMapper();
                 $receivableToBeNotified =  $this->initReceivableWithCheckedId($this->receivableMapper);
-                $this->view->title = $receivableToBeNotified->GetTitle();
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $receivableToBeNotified->getId());
 //                $this->setDateValueToFormField($form, 'realDate', $thisReceivable->GetRealDate());
 //                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'realValue', $thisReceivable->GetRealValue());
-                $projectId = $this->populateProjectFields($receivableToBeNotified->GetProject(), $form);
+                $projectId = $receivableToBeNotified->GetProject();
+                $data = $this->getReceivableData($receivableToBeNotified);
+                $this->populateProjectFields($projectId, $form);
+                $this->view->pageData = $data;
             }
 
         }
@@ -313,17 +317,37 @@ class Finances_ReceivableController extends Zend_Controller_Action
         }
     }
 
+    private function getReceivableData(C3op_Finances_Receivable $receivable)
+    {
+        $projectId = $receivable->getProject();
+
+        $validator = new C3op_Util_ValidId();
+        if ($validator->isValid($projectId)) {
+            $this->initProjectMapper();
+            $thisProject = $this->projectMapper->findById($projectId);
+            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+            $predictedValue = $currencyDisplay->FormatCurrency($receivable->getPredictedValue());
+            $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($receivable->getPredictedDate());
+            $receivableDetails = sprintf ($this->view->translate("#Receiving %s predicted for %s"), $predictedValue, $predictedDate);
+
+            $data = array(
+                'title'             => $receivable->getTitle(),
+                'projectTitle'      => $thisProject->GetShortTitle(),
+                'projectId'         => $projectId,
+                'receivableDetails' => $receivableDetails,
+            );
+
+            return $data;
+        } else throw new C3op_Finances_ReceivableException("Receivable needs a positive integer project id.");
+
+    }
+
     private function populateProjectFields($projectId, Zend_Form $form)
     {
         $validator = new C3op_Util_ValidId();
         if ($validator->isValid($projectId)) {
             $projectField = $form->getElement('project');
             $projectField->setValue($projectId);
-            $this->initProjectMapper();
-            $thisProject = $this->projectMapper->findById($projectId);
-            $this->view->projectTitle = $thisProject->GetShortTitle();
-            $this->view->projectId = $projectId;
-            return $projectId;
         } else throw new C3op_Finances_ReceivableException("Receivable needs a positive integer project id.");
 
     }
