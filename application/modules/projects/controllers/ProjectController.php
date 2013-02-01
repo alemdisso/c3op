@@ -621,6 +621,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         $personActions = array();
         $personPayedValue = 0;
         $personTotalValue = 0;
+        $personContractedValue = 0;
         $currencyDisplay = new  C3op_Util_CurrencyDisplay();
 
         foreach ($actionsEngaged as $id => $data) {
@@ -629,9 +630,22 @@ class Projects_ProjectController extends Zend_Controller_Action
 
             if ($teamMember->getValue() > 0) {
                 $personTotalValue += $teamMember->getValue();
+                $contractingStatus = new C3op_Projects_ActionContracting($action, $this->actionMapper);
+                if ($contractingStatus->isContracted()) {
+                    $personContractedValue += $teamMember->getValue();
+
+                }
                 $actionTotalValue = $currencyDisplay->FormatCurrency($teamMember->getValue());
             } else {
                 $actionTotalValue = $this->view->translate("#(not defined)");
+            }
+
+            $actionPayedValue = $this->outlayMapper->totalPayedValueForTeamMember($teamMember);
+            if ($actionPayedValue > 0) {
+                $personPayedValue += $actionPayedValue;
+                $actionPayedValue = $currencyDisplay->FormatCurrency($actionPayedValue);
+            } else {
+                $actionPayedValue = $currencyDisplay->FormatCurrency(0);
             }
 
             $actionPayedValue = $this->outlayMapper->totalPayedValueForTeamMember($teamMember);
@@ -676,7 +690,8 @@ class Projects_ProjectController extends Zend_Controller_Action
                 'position'         => $teamMember->getDescription(),
                 'payedValue'       => $actionPayedValue,
                 'totalValue'       => $actionTotalValue,
-                'status'           => $this->view->translate($teamMemberStatusLabel),
+                'actionStatus'     => $this->view->translate($actionStatusLabel),
+                'teamMemberStatus' => $this->view->translate($teamMemberStatusLabel),
                 'canProvideOutlay' => $canProvideOutlay,
                 'canNotifyOutlay'  => $canNotifyOutlay,
                 'outlayId'         => $outlayId,
@@ -695,6 +710,12 @@ class Projects_ProjectController extends Zend_Controller_Action
             $personPayedValue = $currencyDisplay->FormatCurrency(0);
         }
 
+        if ($personContractedValue > 0) {
+            $personContractedValue = $currencyDisplay->FormatCurrency($personContractedValue);
+        } else {
+            $personContractedValue = $this->view->translate("#(not defined)");
+        }
+
 
 
         $personData = array(
@@ -702,6 +723,7 @@ class Projects_ProjectController extends Zend_Controller_Action
             'name' => $contact->getName(),
             'projectTitle' => $project->getShortTitle(),
             'payedValue' => $personPayedValue,
+            'contractedValue'  => $personContractedValue,
             'totalValue' => $personTotalValue,
             'personActions' => $personActions,
         );

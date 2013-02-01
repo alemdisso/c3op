@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-30 16:09-0300\n"
-"PO-Revision-Date: 2013-01-30 16:09-0300\n"
+"POT-Creation-Date: 2013-02-01 16:15-0300\n"
+"PO-Revision-Date: 2013-02-01 16:16-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -35,56 +35,57 @@ msgstr "Criar ação subordinada a %s"
 #: application\modules\projects/controllers/ContractController.php:34
 #: application\modules\projects/controllers/ContractController.php:155
 #: application\modules\projects/controllers/ProjectController.php:48
-#: application\modules\projects/controllers/ProjectController.php:556
+#: application\modules\projects/controllers/ProjectController.php:559
 msgid "#The record was successfully updated."
 msgstr "O registro foi atualizado com sucesso."
 
 #: application\modules\projects/controllers/ActionController.php:329
-#: application\modules\projects/controllers/ActionController.php:369
+#: application\modules\projects/controllers/ActionController.php:370
 #: application\modules\projects/controllers/ContractController.php:91
 #: application\modules\projects/controllers/ProjectController.php:285
-#: application\modules\projects/controllers/ProjectController.php:478
-#: application\modules\projects/controllers/ProjectController.php:1048
-#: application\modules\projects/controllers/ProjectController.php:1255
-#: application\modules\projects/controllers/ProjectController.php:1262
+#: application\modules\projects/controllers/ProjectController.php:481
+#: application\modules\projects/controllers/ProjectController.php:1074
+#: application\modules\projects/controllers/ProjectController.php:1281
+#: application\modules\projects/controllers/ProjectController.php:1288
 msgid "#Not defined"
 msgstr "A definir"
 
-#: application\modules\projects/controllers/ActionController.php:383
+#: application\modules\projects/controllers/ActionController.php:384
 msgid "#Is a milestone"
 msgstr "É um marco"
 
-#: application\modules\projects/controllers/ActionController.php:385
+#: application\modules\projects/controllers/ActionController.php:386
 msgid "#Is not a milestone"
 msgstr "Não é um marco"
 
-#: application\modules\projects/controllers/ActionController.php:397
+#: application\modules\projects/controllers/ActionController.php:398
 #: application\modules\projects/controllers/ContractController.php:107
 #: application\modules\projects/controllers/ProjectController.php:161
 msgid "#(not received)"
 msgstr "(não recebido)"
 
-#: application\modules\projects/controllers/ActionController.php:402
+#: application\modules\projects/controllers/ActionController.php:403
 msgid "#(not started)"
 msgstr "(não iniciada)"
 
-#: application\modules\projects/controllers/ActionController.php:433
-#: application\modules\projects/controllers/IndexController.php:44
-#: application\modules\projects/controllers/ProjectController.php:631
-#: application\modules\projects/controllers/ProjectController.php:684
-#: application\modules\projects/controllers/ProjectController.php:1242
+#: application\modules\projects/controllers/ActionController.php:434
+#: application\modules\projects/controllers/IndexController.php:43
+#: application\modules\projects/controllers/ProjectController.php:640
+#: application\modules\projects/controllers/ProjectController.php:704
+#: application\modules\projects/controllers/ProjectController.php:716
+#: application\modules\projects/controllers/ProjectController.php:1268
 msgid "#(not defined)"
 msgstr "(não definido)"
 
-#: application\modules\projects/controllers/ActionController.php:551
+#: application\modules\projects/controllers/ActionController.php:552
 msgid "#The record was successfully removed."
 msgstr "O registro foi removido com sucesso."
 
-#: application\modules\projects/controllers/ActionController.php:690
+#: application\modules\projects/controllers/ActionController.php:691
 msgid "#It needs a positive integer project id to populate project fields."
 msgstr "It needs a positive integer project id to populate project fields."
 
-#: application\modules\projects/controllers/ActionController.php:721
+#: application\modules\projects/controllers/ActionController.php:722
 msgid ""
 "#It needs a positive integer project id to find other actions from same "
 "project."
@@ -92,10 +93,10 @@ msgstr ""
 "It needs a positive integer project id to find other actions from same "
 "project."
 
-#: application\modules\projects/controllers/ActionController.php:974
-#: application\modules\projects/controllers/ActionController.php:1061
-#: application\modules\projects/controllers/ProjectController.php:480
-#: application\modules\projects/controllers/ProjectController.php:1153
+#: application\modules\projects/controllers/ActionController.php:975
+#: application\modules\projects/controllers/ActionController.php:1062
+#: application\modules\projects/controllers/ProjectController.php:483
+#: application\modules\projects/controllers/ProjectController.php:1179
 msgid "(#not defined)"
 msgstr "(não definido)"
 
@@ -131,35 +132,35 @@ msgstr "(a terminar)"
 msgid "#(not a requirement)"
 msgstr "(não é requisito)"
 
-#: application\modules\projects/controllers/ProjectController.php:376
+#: application\modules\projects/controllers/ProjectController.php:379
 msgid "#To be defined"
 msgstr "(A definir)"
 
-#: application\modules\projects/controllers/ProjectController.php:378
-#: application\modules\projects/controllers/ProjectController.php:379
+#: application\modules\projects/controllers/ProjectController.php:381
+#: application\modules\projects/controllers/ProjectController.php:382
 msgid "#---"
 msgstr "-"
 
-#: application\modules\projects/controllers/ProjectController.php:476
-#: application\modules\projects/controllers/ProjectController.php:477
+#: application\modules\projects/controllers/ProjectController.php:479
+#: application\modules\projects/controllers/ProjectController.php:480
 msgid "#Not implemented"
 msgstr "(Não implementado)"
 
-#: application\modules\projects/controllers/ProjectController.php:736
+#: application\modules\projects/controllers/ProjectController.php:762
 msgid "#(unknown date)"
 msgstr "(data desconhecida)"
 
-#: application\modules\projects/controllers/ProjectController.php:1267
-#: application\modules\projects/controllers/ProjectController.php:1271
+#: application\modules\projects/controllers/ProjectController.php:1293
+#: application\modules\projects/controllers/ProjectController.php:1297
 msgid "#N/A"
 msgstr "N/D"
 
-#: application\modules\projects/controllers/ProjectController.php:1278
+#: application\modules\projects/controllers/ProjectController.php:1304
 #, php-format
 msgid "#%s until %s"
 msgstr "%s a %s"
 
-#: application\modules\projects/controllers/ProjectController.php:1283
+#: application\modules\projects/controllers/ProjectController.php:1309
 msgid "#Undefined dates"
 msgstr "Datas indefinidas"
 
@@ -366,6 +367,7 @@ msgstr "Responsável:"
 #: application\modules\projects/views/scripts/index/index.phtml:27
 #: application\modules\projects/views/scripts/project/detail.phtml:318
 #: application\modules\projects/views/scripts/project/detail.phtml:716
+#: application\modules\projects/views/scripts/project/person.phtml:50
 msgid "#Status"
 msgstr "Status"
 
@@ -443,7 +445,7 @@ msgstr "Serviços e Materiais"
 #: application\modules\projects/views/scripts/action/detail.phtml:252
 #: application\modules\projects/views/scripts/project/detail.phtml:392
 #: application\modules\projects/views/scripts/project/detail.phtml:501
-#: application\modules\projects/views/scripts/project/person.phtml:34
+#: application\modules\projects/views/scripts/project/person.phtml:46
 msgid "#Action"
 msgstr "Ação"
 
@@ -463,7 +465,7 @@ msgstr "Responsável"
 #: application\modules\projects/views/scripts/project/detail.phtml:590
 #: application\modules\projects/views/scripts/project/detail.phtml:671
 #: application\modules\projects/views/scripts/project/detail.phtml:738
-#: application\modules\projects/views/scripts/project/person.phtml:55
+#: application\modules\projects/views/scripts/project/person.phtml:67
 msgid "#Options"
 msgstr "Opções"
 
@@ -478,7 +480,7 @@ msgstr "Opções"
 #: application\modules\projects/views/scripts/project/detail.phtml:595
 #: application\modules\projects/views/scripts/project/detail.phtml:676
 #: application\modules\projects/views/scripts/project/detail.phtml:742
-#: application\modules\projects/views/scripts/project/person.phtml:59
+#: application\modules\projects/views/scripts/project/person.phtml:71
 #: application\modules\projects/views/scripts/project/receivables.phtml:40
 msgid "#Edit"
 msgstr "Editar"
@@ -512,6 +514,7 @@ msgstr "Papel"
 #: application\modules\projects/views/scripts/action/detail.phtml:428
 #: application\modules\projects/views/scripts/action/detail.phtml:520
 #: application\modules\projects/views/scripts/project/detail.phtml:715
+#: application\modules\projects/views/scripts/project/person.phtml:49
 msgid "#Value"
 msgstr "Valor"
 
@@ -523,7 +526,7 @@ msgstr "Confirmar contratação"
 #: application\modules\projects/views/scripts/action/detail.phtml:476
 #: application\modules\projects/views/scripts/action/detail.phtml:568
 #: application\modules\projects/views/scripts/project/detail.phtml:762
-#: application\modules\projects/views/scripts/project/person.phtml:68
+#: application\modules\projects/views/scripts/project/person.phtml:80
 msgid "#Provide outlay"
 msgstr "Prever pagamento"
 
@@ -734,7 +737,7 @@ msgstr "Pagamentos"
 
 #: application\modules\projects/views/scripts/project/detail.phtml:219
 #: application\modules\projects/views/scripts/project/detail.phtml:497
-#: application\modules\projects/views/scripts/project/person.phtml:27
+#: application\modules\projects/views/scripts/project/person.phtml:39
 msgid "#Actions"
 msgstr "Ações"
 
@@ -857,28 +860,37 @@ msgid "#%s's participation in the project"
 msgstr "Participação de %s"
 
 #: application\modules\projects/views/scripts/project/person.phtml:16
-msgid "#Total Value (payed/contracted):"
-msgstr "Valor total (pago/contratado): "
+msgid "#Predicted:"
+msgstr "Valor previsto:"
 
-#: application\modules\projects/views/scripts/project/person.phtml:35
+#: application\modules\projects/views/scripts/project/person.phtml:22
+msgid "#Contracted:"
+msgstr "Contratado:"
+
+#: application\modules\projects/views/scripts/project/person.phtml:28
+msgid "#Payed:"
+msgstr "Pago:"
+
+#: application\modules\projects/views/scripts/project/person.phtml:47
 msgid "#Position"
 msgstr "Função"
 
-#: application\modules\projects/views/scripts/project/person.phtml:36
-msgid "#Payed Value"
-msgstr "Valor pago:"
-
-#: application\modules\projects/views/scripts/project/person.phtml:37
-msgid "#Total Value"
-msgstr "Valor total:"
-
-#: application\modules\projects/views/scripts/project/person.phtml:38
+#: application\modules\projects/views/scripts/project/person.phtml:48
 msgid "#Action Status"
 msgstr "Status da Ação"
 
-#: application\modules\projects/views/scripts/project/person.phtml:81
+#: application\modules\projects/views/scripts/project/person.phtml:93
 msgid "#Notify outlay"
 msgstr "Confirmar pagamento"
+
+#~ msgid "#Total Value (payed/contracted):"
+#~ msgstr "Valor total (pago/contratado): "
+
+#~ msgid "#Payed Value"
+#~ msgstr "Valor pago:"
+
+#~ msgid "#Total Value"
+#~ msgstr "Valor total:"
 
 #~ msgid "#Confirm contracting"
 #~ msgstr "Confirmar contratação de"
