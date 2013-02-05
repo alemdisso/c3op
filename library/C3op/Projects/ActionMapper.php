@@ -113,7 +113,7 @@ class C3op_Projects_ActionMapper
         $this->identityMap[$obj] = $id;
 
         $this->fetchDates($obj);
-//        $check = new C3op_Projects_ActionCheckStart($obj, $this);
+        $check = new C3op_Projects_ActionCheckStart($obj, $this);
         return $obj;
 
     }
