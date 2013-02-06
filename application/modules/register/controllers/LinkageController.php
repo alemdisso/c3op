@@ -81,7 +81,7 @@ class Register_LinkageController extends Zend_Controller_Action
             $options['contact'] = $contactId;
             $form = new C3op_Form_LinkageEdit($options);
             $this->PopulateContactFields($contactId, $form);
-            $this->PopulateInstitutionsField($form, $thisLinkage->GetInstitution());
+            $this->populateInstitutionsField($form, $thisLinkage->GetInstitution());
             $this->view->form = $form;
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $id);
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'department', $thisLinkage->getDepartment());
@@ -438,8 +438,9 @@ class Register_LinkageController extends Zend_Controller_Action
         } else throw new C3op_Register_LinkageException("Linkage needs a positive integer contact id.");
     }
 
-    private function PopulateInstitutionsField(C3op_Form_LinkageCreate $form, $currentInstitution=0)
+    private function populateInstitutionsField(C3op_Form_LinkageCreate $form, $currentInstitution=0)
     {
+
         $institutionField = $form->getElement('institution');
         if (!isset($this->linkageMapper)) {
             $this->linkageMapper = new C3op_Register_LinkageMapper($this->db);
@@ -454,7 +455,7 @@ class Register_LinkageController extends Zend_Controller_Action
             $this->view->linkInstitutionDetail = "/register/institution/detail/?id=" . $currentInstitution;
         }
 
-        $allInstitutions = $this->institutionMapper->getAllIds();
+        $allInstitutions = $this->institutionMapper->getAllIdsOrderedByName();
         while (list($key, $institutionId) = each($allInstitutions)) {
             $eachInstitution = $this->institutionMapper->findById($institutionId);
             $institutionField->addMultiOption($institutionId, $eachInstitution->GetName());

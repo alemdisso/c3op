@@ -19,6 +19,22 @@ class C3op_Register_InstitutionMapper
         return $result;
     }
 
+    public function getAllIdsOrderedByName() {
+        $result = array();
+            foreach ($this->db->query('SELECT id FROM register_institutions ORDER BY name;') as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
+    public function getAllIdsOrderedByShortName() {
+        $result = array();
+            foreach ($this->db->query('SELECT id FROM register_institutions ORDER BY short_name;') as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
     public function insert(C3op_Register_Institution $new) {
         $data = array(
             'name' => $new->GetName(),
