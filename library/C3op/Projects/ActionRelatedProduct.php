@@ -11,8 +11,8 @@ class C3op_Projects_ActionRelatedProduct {
     {
         $this->action = $action;
         $this->actionMapper = $actionMapper;
-        $tree = new C3op_Projects_ActionsAbove($action, $actionMapper);
-        $this->actionsAbove = $tree->retrieve();
+        $above = new C3op_Projects_ActionsAbove($action, $actionMapper);
+        $this->actionsAbove = $above->retrieve();
 
     }
 

@@ -148,6 +148,29 @@ class C3op_Projects_ActionMapper
         return $result;
     }
 
+
+    public function getPossibleSubordination(C3op_Projects_Action $obj)
+    {
+        $below = new C3op_Projects_ActionsBelow($obj, $this);
+        $actionsBelow = $below->retrieve();
+
+        $id = $obj->GetId();
+        $actionsBelow = implode(',', $actionsBelow);
+        $actionsBelow .= ",$id";
+
+//        die();
+
+        $queryString = sprintf("SELECT id FROM projects_actions WHERE project = %d AND id NOT IN (%s);<BR>", $obj->getProject(), $actionsBelow);
+        $query = $this->db->prepare($queryString);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+        $result = array();
+        foreach ($resultPDO as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
     public function getActionsSubordinatedTo(C3op_Projects_Action $obj)
     {
         $query = $this->db->prepare('SELECT id FROM projects_actions WHERE subordinated_to = :subordinatedTo;');

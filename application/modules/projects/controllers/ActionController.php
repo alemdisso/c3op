@@ -348,7 +348,7 @@ class Projects_ActionController extends Zend_Controller_Action
 
 
         if (($actionToBeDetailed->getStatus() == C3op_Projects_ActionStatusConstants::STATUS_PLAN)) {
-        
+
             $canEditResource = true;
         } else {
             $canEditResource = false;
@@ -702,8 +702,7 @@ class Projects_ActionController extends Zend_Controller_Action
             if ($actionId > 0) {
                 $actionToBePopulated = $this->actionMapper->findById($actionId);
                 $parentActionId = $actionToBePopulated->GetSubordinatedTo();
-                $allOtherActionsInProject = $this->actionMapper->getAllOtherActions($actionToBePopulated);
-
+                $allOtherActionsInProject = $this->actionMapper->getPossibleSubordination($actionToBePopulated);
             } else {
                 if (!isset($this->projectMapper)) {
                     $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
