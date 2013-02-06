@@ -67,9 +67,6 @@
                     <a href="#" class="button one column alpha omega anchorclass" rel="submenu1"><?php print($this->translate("#Options")); ?></a>
                     <div id="submenu1" class="anylinkcss">
                         <ul>
-                          <li>
-                            <a href="/resources/team-member/edit/?id=<?php print($actionData['teamMemberId']);?>"><?php print($this->translate("#Edit")); ?></a>
-                          </li>
 <?php
 
 if ($actionData['canProvideOutlay']) {
@@ -96,6 +93,43 @@ if ($actionData['canNotifyOutlay']) {
 <?php
 }
 ?>
+    <?php
+    if ($actionData['canContractFlag']) {
+?>
+                        <li>
+                          <a class="parent_info" href="/resources/team-member/contract/?id=<?php print($actionData['teamMemberId']);?>" ><?php print($this->translate("#Confirm team member contracting")); ?></a>
+                        </li>
+
+<?php
+    }
+?>
+
+<?php
+    if($actionData['canEditResource']) {
+
+?>
+                        <li>
+                          <a href="/resources/team-member/edit/?id=<?php print($actionData['teamMemberId']) ?>"><?php print($this->translate("#Edit")); ?></a>
+                        </li>
+
+<?php
+    }
+?>
+
+<?php
+
+if ($actionData['canRemoveTeamMember']) {
+?>
+
+
+                          <li>
+                            <a href="/resources/team-member/remove/?id=<?php echo $actionData['teamMemberId'] ?>"><?php echo $this->translate("#Remove") ?></a>
+                          </li>
+
+<?php
+}
+?>
+
                         </ul>
                     </div><!-- #submenu1 -->
                   </td>

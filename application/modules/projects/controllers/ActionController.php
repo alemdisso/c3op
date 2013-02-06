@@ -910,16 +910,13 @@ class Projects_ActionController extends Zend_Controller_Action
             } else {
                 $canProvideOutlay = false;
             }
-           $removal = new C3op_Resources_TeamMemberRemoval($theTeamMember, $this->teamMemberMapper);
 
+            $removal = new C3op_Resources_TeamMemberRemoval($theTeamMember, $this->teamMemberMapper);
             if ($removal->canBeRemoved()) {
                 $canRemoveTeamMember = true;
             } else {
                 $canRemoveTeamMember = false;
             }
-
-
-
 
             $teamMembersList[$teamMemberId] = array(
                 'id'                     => $teamMemberId,

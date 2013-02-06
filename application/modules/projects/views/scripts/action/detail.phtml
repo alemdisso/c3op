@@ -336,7 +336,7 @@ if ($parentId > 0) {
 
 ?>
                 <td>
-                  <a href="/resources/team-member/detail/?id=<?php print($id) ?>"><?php print($teamMemberData['description']) ?></a>
+                  <?php print($teamMemberData['description']) ?>
                 </td>
                 <td>
                   <?php print($teamMemberData['value']) ?>
@@ -395,9 +395,15 @@ if ($teamMemberData['canRemoveTeamMember']) {
 <?php
 }
 ?>
+<?php
+if($teamMemberData['contactId'] > 0) {
+?>
                         <li>
                           <a href="/register/contact/detail/?id=<?php print($teamMemberData['contactId']) ?>"><?php echo $this->translate("#Contact detail") ?></a>
                         </li>
+<?php
+}
+?>
 
                       </ul>
                   </div><!-- #submenu1 -->

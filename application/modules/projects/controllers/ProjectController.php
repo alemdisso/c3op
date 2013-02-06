@@ -358,7 +358,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         if (!isset($this->teamMemberMapper)) {
             $this->initTeamMemberMapper();
         }
-        $projectTeam = $this->teamMemberMapper->getAllTeamMembersContractedOrPredictedAt($projectToBeDetailed);
+        $projectTeam = $this->teamMemberMapper->getAllUniqueTeamMembersContractedOrPredictedAt($projectToBeDetailed);
         if (!isset($this->linkageMapper)) {
             $this->initLinkageMapper();
         }
@@ -663,7 +663,15 @@ class Projects_ProjectController extends Zend_Controller_Action
             $rawTeamMemberStatus = $teamMember->getStatus();
             $statusTypes = new C3op_Resources_TeamMemberStatusTypes();
             $teamMemberStatusLabel = $statusTypes->TitleForType($rawTeamMemberStatus);
+            if (($teamMember->getLinkage() > 0) && ($rawTeamMemberStatus == C3op_Resources_TeamMemberStatusConstants::STATUS_FORESEEN)) {
+                $canContract = true;
+            } else {
+                $canContract = false;
+            }
+
             $outlayId = 0;
+            $canNotifyOutlay = false;
+            $canProvideOutlay = false;
             if ($rawTeamMemberStatus == C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED) {
                 $doesIt = new C3op_Resources_TeamMemberHasCredit($teamMember, $this->teamMemberMapper);
                 if ($doesIt->hasCreditToProvide()) {
@@ -672,10 +680,13 @@ class Projects_ProjectController extends Zend_Controller_Action
                     $canProvideOutlay = false;
                 }
                 if ($doesIt->hasCreditToPay()) {
-                    $canNotifyOutlay = true;
                     $result = $this->teamMemberMapper->getNextOutlayToPayTo($teamMember);
                     if ($result !== null) {
-                        $outlayId = $result['id'];
+                        $canNotifyOutlay = true;
+                        $outlayId = $result;
+                    } else {
+                        $canNotifyOutlay = false;
+
                     }
                 } else {
                     $canNotifyOutlay = false;
@@ -684,17 +695,30 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $canProvideOutlay = false;
             }
 
+            $removal = new C3op_Resources_TeamMemberRemoval($teamMember, $this->teamMemberMapper);
+            if ($removal->canBeRemoved()) {
+                $canEditResource = true;
+                $canRemoveTeamMember = true;
+            } else {
+                $canEditResource = false;
+                $canRemoveTeamMember = false;
+            }
+
+
             $personActions[$id] = array(
-                'teamMemberId'     => $teamMember->getId(),
-                'title'            => $action->getTitle(),
-                'position'         => $teamMember->getDescription(),
-                'payedValue'       => $actionPayedValue,
-                'totalValue'       => $actionTotalValue,
-                'actionStatus'     => $this->view->translate($actionStatusLabel),
-                'teamMemberStatus' => $this->view->translate($teamMemberStatusLabel),
-                'canProvideOutlay' => $canProvideOutlay,
-                'canNotifyOutlay'  => $canNotifyOutlay,
-                'outlayId'         => $outlayId,
+                'teamMemberId'        => $teamMember->getId(),
+                'title'               => $action->getTitle(),
+                'position'            => $teamMember->getDescription(),
+                'payedValue'          => $actionPayedValue,
+                'totalValue'          => $actionTotalValue,
+                'actionStatus'        => $this->view->translate($actionStatusLabel),
+                'teamMemberStatus'    => $this->view->translate($teamMemberStatusLabel),
+                'canContractFlag'     => $canContract,
+                'canProvideOutlay'    => $canProvideOutlay,
+                'canNotifyOutlay'     => $canNotifyOutlay,
+                'canEditResource'     => $canEditResource,
+                'canRemoveTeamMember' => $canRemoveTeamMember,
+                'outlayId'            => $outlayId,
             );
         }
 

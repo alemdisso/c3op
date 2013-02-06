@@ -217,7 +217,7 @@ foreach($amendmentsList as $id => $contractInfo) {
         <li><a href="#tabs-products"><?php echo $this->translate("#Products") ?></a></li>
         <li><a href="#tabs-payments"><?php echo $this->translate("#Payments") ?></a></li>
         <li><a href="#tabs-action"><?php echo $this->translate("#Actions") ?></a></li>
-        <li><a href="#tabs-staff"><?php echo $this->translate("#Staff") ?></a></li>
+        <li><a href="#tabs-team"><?php echo $this->translate("#Staff") ?></a></li>
         <li><a href="#tabs-services"><?php echo $this->translate("#Services") ?></a></li>
         <li><a href="#tabs-material"><?php echo $this->translate("#Material") ?></a></li>
         <li><a href="#tabs-details"><?php echo $this->translate("#Details") ?></a></li>
@@ -542,7 +542,7 @@ foreach ($actionsList as $id => $actionData) {
     </div><!-- .Area -->
 
         </div><!-- tabs-action -->
-        <div id="tabs-staff">
+        <div id="tabs-team">
           <div class="Area">
             <h2><?php print($this->translate('#Team')) ?></h2>
             <table id="Equipe" class="display dataTable">
@@ -559,54 +559,47 @@ foreach ($actionsList as $id => $actionData) {
               <!-- ### loop de carga dos recursos humanos alocados ao projeto -->
 <?php
 
-foreach($teamData as $id => $staffInfo) {
+foreach($teamData as $id => $teamMemberInfo) {
 ?>
                 <tr>
                   <td>
 <?php
-if($staffInfo['contactId'] > 0) {
+if($teamMemberInfo['linkageId'] > 0) {
 ?>
-                    <a alt="<?php print $staffInfo['linkageInstitutionName']; ?>" href="/projects/project/person/?id=<?php  print $projectHeader['id'] ?>&linkage=<?php  print $staffInfo['linkageId'] ?>"><?php print($staffInfo['staffName']) ?></a>
+                    <a alt="<?php print $teamMemberInfo['linkageInstitutionName']; ?>" href="/projects/project/person/?id=<?php  print $projectHeader['id'] ?>&linkage=<?php  print $teamMemberInfo['linkageId'] ?>"><?php print($teamMemberInfo['staffName']) ?></a>
 <?php
 
-} else {
+} else { // (undefined)
 ?>
-<?php print($staffInfo['staffName']) ?>
+<?php print($teamMemberInfo['staffName']) ?>
 <?php
 
 }
 ?>
                   </td>
                   <td>
-                    <a href="/projects/action/detail/?id=<?php print($staffInfo['actionId']) ?>"><?php print($staffInfo['positionDescription']) ?></a>
+                    <a href="/projects/action/detail/?id=<?php print($teamMemberInfo['actionId']) ?>#tabs-team"><?php print($teamMemberInfo['positionDescription']) ?></a>
                   </td>
                   <td>
-                    <a href="mailto:<?php print($staffInfo['staffEmail']) ?>"><?php print($staffInfo['staffEmail']) ?></a>
+                    <a href="mailto:<?php print($teamMemberInfo['staffEmail']) ?>"><?php print($teamMemberInfo['staffEmail']) ?></a>
                   </td>
                   <td>
-                    <?php print($staffInfo['staffPhoneNumber']) ?>
+                    <?php print($teamMemberInfo['staffPhoneNumber']) ?>
                   </td>
                   <td>
                     <a href="#" class="anchorclass" rel="submenu1"><?php echo $this->translate("#Options") ?></a>
                     <div id="submenu1" class="anylinkcss">
                         <ul>
-                          <li>
-                            <!-- [# LINK PARA A EDIÇÃO DO CONTATO ] -->
-                            <a href="/resources/team-member/edit/?id=<?php print($id) ?>"><?php echo $this->translate("#Edit") ?></a>
-                          </li>
 <?php
-
-if ($staffInfo['canRemoveTeamMember']) {
+if($teamMemberInfo['contactId'] > 0) { 
 ?>
-
-
                           <li>
-                            <a href="/resources/team-member/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
+                            <!-- [# LINK PARA A DETALHES DO CONTATO ] -->
+                            <a href="/register/contact/detail/?id=<?php print($teamMemberInfo['contactId']) ?>"><?php echo $this->translate("#Contact detail") ?></a>
                           </li>
-
 <?php
-}
 
+}
 ?>
                         </ul>
                     </div><!-- #submenu1 -->
@@ -619,7 +612,7 @@ if ($staffInfo['canRemoveTeamMember']) {
               </tbody>
             </table><br />
           </div><!-- Area -->
-        </div><!-- tabs-staff -->
+        </div><!-- tabs-team -->
 
 
 

@@ -260,6 +260,30 @@ class C3op_Resources_TeamMemberMapper {
             t.status = %d
             OR t.status = %d
             OR t.status = %d
+            ) GROUP BY t.linkage'
+            , $obj->getId()
+            , C3op_Resources_TeamMemberStatusConstants::STATUS_UNDEFINED
+            , C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED
+            , C3op_Resources_TeamMemberStatusConstants::STATUS_ACQUITTED
+
+                )) as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
+    public function getAllUniqueTeamMembersContractedOrPredictedAt(C3op_Projects_Project $obj) {
+        $result = array();
+
+        foreach ($this->db->query(sprintf('SELECT t.id
+            FROM projects_actions a
+            INNER JOIN resources_team_members t ON a.id = t.action
+            WHERE a.project = %d
+            AND t.linkage > 0
+            AND (
+            t.status = %d
+            OR t.status = %d
+            OR t.status = %d
             OR t.status = %d
             ) GROUP BY t.linkage'
             , $obj->getId()
@@ -303,8 +327,13 @@ class C3op_Resources_TeamMemberMapper {
         $query = $this->db->prepare('SELECT id FROM finances_outlays WHERE team_member = :id AND predicted_value > 0 AND (real_value IS NULL OR real_value = 0.0) ORDER BY predicted_date LIMIT 1;');
         $query->bindValue(':id', $obj->GetId(), PDO::PARAM_STR);
         $query->execute();
-        $result = $query->fetch();
-        return $result;
+
+        if ($query->rowCount() > 0) {
+                $result = $query->fetch();
+                return $result;
+        } else {
+            return null;
+        }
     }
 
    public function getSumOfPayedOutlays(C3op_Resources_TeamMember $obj)
