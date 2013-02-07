@@ -683,7 +683,7 @@ class Projects_ProjectController extends Zend_Controller_Action
                     $result = $this->teamMemberMapper->getNextOutlayToPayTo($teamMember);
                     if ($result !== null) {
                         $canNotifyOutlay = true;
-                        $outlayId = $result;
+                        $outlayId = $result['id'];
                     } else {
                         $canNotifyOutlay = false;
 
