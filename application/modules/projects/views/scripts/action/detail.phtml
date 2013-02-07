@@ -369,6 +369,16 @@ if ($parentId > 0) {
 <?php
     }
 ?>
+    <?php
+    if ($teamMemberData['canDismissFlag']) {
+?>
+                        <li>
+                          <a class="parent_info" href="/resources/team-member/dismiss/?id=<?php print($id);?>" ><?php print($this->translate("#Dismiss team member")); ?></a>
+                        </li>
+
+<?php
+    }
+?>
 <?php
 
 if ($teamMemberData['canProvideOutlay']) {

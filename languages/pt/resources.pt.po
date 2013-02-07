@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-21 14:08-0300\n"
-"PO-Revision-Date: 2013-01-21 14:08-0300\n"
+"POT-Creation-Date: 2013-02-07 09:16-0300\n"
+"PO-Revision-Date: 2013-02-07 09:17-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -25,6 +25,7 @@ msgstr ""
 #: application\modules\resources/controllers/TeamMemberController.php:35
 #: application\modules\resources/controllers/TeamMemberController.php:87
 #: application\modules\resources/controllers/TeamMemberController.php:163
+#: application\modules\resources/controllers/TeamMemberController.php:333
 msgid "#The record was successfully updated."
 msgstr "O registro foi atualizado com sucesso."
 
@@ -36,9 +37,37 @@ msgstr "O registro foi removido com sucesso."
 
 #: library\C3op\resources/MaterialSupplyStatusTypes.php:32
 #: library\C3op\resources/OutsideServiceStatusTypes.php:32
-#: library\C3op\resources/TeamMemberStatusTypes.php:32
+#: library\C3op\resources/TeamMemberStatusTypes.php:33
 msgid "#Unknown type"
 msgstr "Tipo indefinido"
+
+#: library\C3op\resources/TeamMemberStatusTypes.php:10
+msgid "#Nil"
+msgstr "Nula"
+
+#: library\C3op\resources/TeamMemberStatusTypes.php:11
+msgid "#Undefined"
+msgstr "(indefinido)"
+
+#: library\C3op\resources/TeamMemberStatusTypes.php:12
+msgid "#Foreseen"
+msgstr "Previsto"
+
+#: library\C3op\resources/TeamMemberStatusTypes.php:13
+msgid "#Contracted"
+msgstr "Contratado"
+
+#: library\C3op\resources/TeamMemberStatusTypes.php:14
+msgid "#Acquitted"
+msgstr "Quitado"
+
+#: library\C3op\resources/TeamMemberStatusTypes.php:15
+msgid "#Dismissed"
+msgstr "Dispensado"
+
+#: library\C3op\resources/TeamMemberStatusTypes.php:16
+msgid "#Canceled"
+msgstr "Cancelado"
 
 #: application\modules\resources/views/scripts/material-supply/contract.phtml:5
 #: application\modules\resources/views/scripts/outside-service/contract.phtml:5
@@ -49,6 +78,7 @@ msgstr "Confirmar contratação de"
 #: application\modules\resources/views/scripts/material-supply/contract.phtml:7
 #: application\modules\resources/views/scripts/outside-service/contract.phtml:7
 #: application\modules\resources/views/scripts/team-member/contract.phtml:7
+#: application\modules\resources/views/scripts/team-member/dismiss.phtml:7
 msgid "#In action "
 msgstr "na ação"
 
@@ -121,6 +151,14 @@ msgstr ""
 #: application\modules\resources/views/scripts/team-member/create.phtml:8
 msgid "#New team member for action"
 msgstr "Novo membro de equipe para a ação"
+
+#: application\modules\resources/views/scripts/team-member/dismiss.phtml:5
+msgid "#Confirm dismissing"
+msgstr "Confirmar distrato"
+
+#: application\modules\resources/views/scripts/team-member/dismiss.phtml:8
+msgid "#Enter below the reason for dismissing"
+msgstr "Informe os motivos do distrato"
 
 #: application\modules\resources/views/scripts/team-member/edit.phtml:5
 msgid "#Edit team member"
@@ -199,9 +237,6 @@ msgstr ""
 #~ msgid "#Undefined dates"
 #~ msgstr "Datas indefinidas"
 
-#~ msgid "#(undefined)"
-#~ msgstr "(indefinido)"
-
 #~ msgid "#(no delivery)"
 #~ msgstr "(sem entrega)"
 
@@ -216,9 +251,6 @@ msgstr ""
 
 #~ msgid "#(unknown date)"
 #~ msgstr "(data desconhecida)"
-
-#~ msgid "#Nil"
-#~ msgstr "Nula"
 
 #~ msgid "#Planning"
 #~ msgstr "Em Planejamento"
@@ -262,9 +294,6 @@ msgstr ""
 #~ msgid "#Corporate social responsibility"
 #~ msgstr "Responsabilidade social corporativa"
 
-#~ msgid "#Contract"
-#~ msgstr "Contrato"
-
 #~ msgid "#Agreement"
 #~ msgstr "Convênio"
 
@@ -300,9 +329,6 @@ msgstr ""
 
 #~ msgid "#Accountability"
 #~ msgstr "Prestação de contas"
-
-#~ msgid "#Canceled"
-#~ msgstr "Cancelado"
 
 #~ msgid "#Suspended"
 #~ msgstr "Suspenso"
@@ -617,9 +643,6 @@ msgstr ""
 #~ msgid "#Payee"
 #~ msgstr "Beneficiado"
 
-#~ msgid "#Confirm payment"
-#~ msgstr "Confirmar pagamento"
-
 #~ msgid "#Outlay details"
 #~ msgstr "Detalhes do pagamento"
 
@@ -671,9 +694,6 @@ msgstr ""
 
 #~ msgid "#New action"
 #~ msgstr "Nova ação"
-
-#~ msgid "#Dismiss team member"
-#~ msgstr "Cancelar previsão de recurso"
 
 #~ msgid "#Contact details"
 #~ msgstr "Detalhes do contato"

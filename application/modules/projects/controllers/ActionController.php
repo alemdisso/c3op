@@ -320,7 +320,7 @@ class Projects_ActionController extends Zend_Controller_Action
         //
 
         $statusTypes = new C3op_Projects_ActionStatusTypes();
-        $status = $statusTypes->TitleForType($actionToBeDetailed->getStatus());
+        $status = $this->view->translate($statusTypes->TitleForType($actionToBeDetailed->getStatus()));
         $responsibleId = $actionToBeDetailed->getResponsible();
         if ($responsibleId > 0) {
             $responsibleContact = $this->contactMapper->findById($responsibleId);
@@ -342,17 +342,12 @@ class Projects_ActionController extends Zend_Controller_Action
 
         if ($removal->canBeRemoved()) {
             $canRemoveAction = true;
-        } else {
-            $canRemoveAction = false;
-        }
-
-
-        if (($actionToBeDetailed->getStatus() == C3op_Projects_ActionStatusConstants::STATUS_PLAN)) {
-
             $canEditResource = true;
         } else {
+            $canRemoveAction = false;
             $canEditResource = false;
         }
+
 
         $subordinatedActionsList = $this->actionMapper->getActionsSubordinatedTo($actionToBeDetailed);
         $subordinatedActionsData = array();
@@ -370,7 +365,7 @@ class Projects_ActionController extends Zend_Controller_Action
                 $data['responsibleName'] = $this->view->translate("#Not defined");
             }
 
-            $data['status'] = $statusTypes->TitleForType($loopAction->getStatus());
+            $data['status'] = $this->view->translate($statusTypes->TitleForType($loopAction->getStatus()));
 
             $removal = new C3op_Projects_ActionRemoval($loopAction, $this->actionMapper);
 
@@ -892,7 +887,7 @@ class Projects_ActionController extends Zend_Controller_Action
 
             $status = $theTeamMember->getStatus();
             $statusTypes = new C3op_Resources_TeamMemberStatusTypes();
-            $statusLabel = $statusTypes->TitleForType($status);
+            $statusLabel = $this->view->translate($statusTypes->TitleForType($status));
 
             if (($theTeamMember->getLinkage() > 0) && ($status == C3op_Resources_TeamMemberStatusConstants::STATUS_FORESEEN)) {
                 $canContract = true;
@@ -900,7 +895,9 @@ class Projects_ActionController extends Zend_Controller_Action
                 $canContract = false;
             }
 
+            $canDismiss = false;
             if ($status == C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED) {
+                $canDismiss = true;
                 $doesIt = new C3op_Resources_TeamMemberHasCredit($theTeamMember, $this->teamMemberMapper);
                 if ($doesIt->hasCreditToProvide()) {
                     $canProvideOutlay = true;
@@ -927,6 +924,7 @@ class Projects_ActionController extends Zend_Controller_Action
                 'value'                  => $currencyValue,
                 'contractingStatusLabel' => $statusLabel,
                 'canContractFlag'        => $canContract,
+                'canDismissFlag'         => $canDismiss,
                 'canRemoveTeamMember'    => $canRemoveTeamMember,
                 'canProvideOutlay'       => $canProvideOutlay,
 
@@ -979,7 +977,7 @@ class Projects_ActionController extends Zend_Controller_Action
 
             $status = $theOutsideService->getStatus();
             $statusTypes = new C3op_Resources_OutsideServiceStatusTypes();
-            $statusLabel = $statusTypes->TitleForType($status);
+            $statusLabel = $this->view->translate($statusTypes->TitleForType($status));
 
             if ($status == C3op_Resources_OutsideServiceStatusConstants::STATUS_FORESEEN) {
                 $canContract = true;
@@ -1066,7 +1064,7 @@ class Projects_ActionController extends Zend_Controller_Action
 
             $status = $theMaterialSupply->getStatus();
             $statusTypes = new C3op_Resources_MaterialSupplyStatusTypes();
-            $statusLabel = $statusTypes->TitleForType($status);
+            $statusLabel = $this->view->translate($statusTypes->TitleForType($status));
 
             if ($status == C3op_Resources_MaterialSupplyStatusConstants::STATUS_FORESEEN) {
                 $canContract = true;

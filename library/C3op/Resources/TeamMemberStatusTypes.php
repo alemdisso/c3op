@@ -7,12 +7,13 @@ class C3op_Resources_TeamMemberStatusTypes {
 
     public function __construct() {
         $this->status = array(
-        C3op_Resources_TeamMemberStatusConstants::STATUS_NIL => "Nulo",
-        C3op_Resources_TeamMemberStatusConstants::STATUS_UNDEFINED => "Indefinido",
-        C3op_Resources_TeamMemberStatusConstants::STATUS_FORESEEN => "Previsto",
-        C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED => "Contratado",
-        C3op_Resources_TeamMemberStatusConstants::STATUS_ACQUITTED => "Quitado",
-        C3op_Resources_TeamMemberStatusConstants::STATUS_CANCEL => "Cancelado",
+        C3op_Resources_TeamMemberStatusConstants::STATUS_NIL => _("#Nil"),
+        C3op_Resources_TeamMemberStatusConstants::STATUS_UNDEFINED => _("#Undefined"),
+        C3op_Resources_TeamMemberStatusConstants::STATUS_FORESEEN => _("#Foreseen"),
+        C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED => _("#Contracted"),
+        C3op_Resources_TeamMemberStatusConstants::STATUS_ACQUITTED => _("#Acquitted"),
+        C3op_Resources_TeamMemberStatusConstants::STATUS_DISMISSED => _("#Dismissed"),
+        C3op_Resources_TeamMemberStatusConstants::STATUS_CANCEL => _("#Canceled"),
         );
     }
 
@@ -24,6 +25,7 @@ class C3op_Resources_TeamMemberStatusTypes {
                 case C3op_Resources_TeamMemberStatusConstants::STATUS_FORESEEN:
                 case C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED:
                 case C3op_Resources_TeamMemberStatusConstants::STATUS_ACQUITTED:
+                case C3op_Resources_TeamMemberStatusConstants::STATUS_DISMISSED:
                 case C3op_Resources_TeamMemberStatusConstants::STATUS_CANCEL:
                     return $this->status[$type];
                     break;

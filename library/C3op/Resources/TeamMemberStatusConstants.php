@@ -7,5 +7,6 @@ class C3op_Resources_TeamMemberStatusConstants
     const STATUS_FORESEEN = 200;
     const STATUS_CONTRACTED = 300;
     const STATUS_ACQUITTED = 400;
+    const STATUS_DISMISSED = 500;
     const STATUS_CANCEL = 10000;
 }

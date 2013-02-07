@@ -199,6 +199,7 @@ class Resources_TeamMemberController extends Zend_Controller_Action
                 $contactName = $contact->GetName();
 
                 $actionTitle = $thisAction->GetTitle();
+
                $headerData = array(
                    'teamMemberName' => $contactName,
                    'actionTitle'    => $actionTitle,
@@ -318,6 +319,71 @@ class Resources_TeamMemberController extends Zend_Controller_Action
             $this->_redirect('/projects');
         }
     }
+
+
+    public function dismissAction()
+    {
+        $form = new C3op_Form_TeamMemberDismiss;
+        $headerData = array();
+        $this->view->form = $form;
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            if ($form->isValid($postData)) {
+                $id = $form->process($postData);
+                $this->_helper->getHelper('FlashMessenger')
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                $this->_redirect('/resources/team-member/success/?id=' . $id);
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
+        } else {
+            $data = $this->_request->getParams();
+            $filters = array(
+                'id' => new Zend_Filter_Alnum(),
+            );
+            $validators = array(
+                'id' => new C3op_Util_ValidId(),
+            );
+            $input = new Zend_Filter_Input($filters, $validators, $data);
+            if ($input->isValid()) {
+
+                $id = $input->id;
+                $this->initTeamMemberMapper();
+                $thisTeamMember = $this->teamMemberMapper->findById($id);
+
+                if ($thisTeamMember->getStatus() != C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED) {
+
+                    throw new C3op_Projects_ProjectException("Can\' dismiss a team member that is not contracted.");
+
+                }
+
+                $idField = $form->getElement('id');
+                $idField->setValue($id);
+                $this->initActionMapper();
+                $thisAction = $this->actionMapper->findById($thisTeamMember->getAction());
+
+                $this->initContactMapper();
+                $this->initLinkageMapper();
+
+                $linkage = $this->linkageMapper->findById($thisTeamMember->getLinkage());
+                $contact = $this->contactMapper->findById($linkage->getContact());
+                $contactName = $contact->GetName();
+
+                $actionTitle = $thisAction->GetTitle();
+               $headerData = array(
+                   'teamMemberName' => $contactName,
+                   'actionTitle'    => $actionTitle,
+               ) ;
+
+            }
+
+        }
+        $this->view->headerData = $headerData;
+    }
+
+
 
    public function dismissContactAction()
     {
