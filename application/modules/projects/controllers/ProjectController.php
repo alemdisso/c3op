@@ -381,8 +381,8 @@ class Projects_ProjectController extends Zend_Controller_Action
             $emailString = $this->view->translate("#---");
             $phoneNumberString = $this->view->translate("#---");
 
-
-            if ($theTeamMember->getLinkage() > 0) {
+            $linkageId = $theTeamMember->getLinkage();
+            if ($linkageId > 0) {
 
 
                 $valuestPosition = $this->teamMemberMapper->findMainPositionForAPerson($theTeamMember);
@@ -429,7 +429,7 @@ class Projects_ProjectController extends Zend_Controller_Action
 
             $teamMembersList[$id] = array(
                     'contactId'              => $staffId,
-                    'linkageId'              => $theLinkage->getId(),
+                    'linkageId'              => $linkageId,
                     'linkageInstitutionName' => $linkageInstitutionName,
                     'actionId'               => $theTeamMember->getAction(),
                     'positionDescription'    => $positionDescription,
