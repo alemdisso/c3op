@@ -83,7 +83,7 @@ public function __construct() {
     $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:finances.outlay', 'create');
     $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:finances.outlay', 'edit');
     $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:finances.outlay', 'success');
-    $this->deny(C3op_Access_RolesConstants::ROLE_CONTROLLER,     'c3op:finances.outlay');
+    //$this->deny(C3op_Access_RolesConstants::ROLE_CONTROLLER,     'c3op:finances.outlay');
 
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.project', 'amend');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.project', 'create');
@@ -102,6 +102,8 @@ public function __construct() {
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:finances.receivable', 'detail');
     $this->deny(C3op_Access_RolesConstants::ROLE_CONTROLLER,     'c3op:finances.receivable');
     $this->allow(C3op_Access_RolesConstants::ROLE_DIRECTOR,      'c3op:finances.receivable', 'detail');
+    $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR,      'c3op:finances.receivable', 'notify');
+    $this->allow(C3op_Access_RolesConstants::ROLE_DIRECTOR,      'c3op:finances.receivable', 'notify');
 
     $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:projects.contract', 'create');
     $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:projects.contract', 'edit');

@@ -155,12 +155,18 @@ class C3op_Projects_ActionMapper
         $actionsBelow = $below->retrieve();
 
         $id = $obj->GetId();
-        $actionsBelow = implode(',', $actionsBelow);
-        $actionsBelow .= ",$id";
+
+        if (count($actionsBelow) > 0) {
+            $actionsBelow = implode(',', $actionsBelow);
+            $actionsBelow .= ",$id";
+            $queryString = sprintf("SELECT id FROM projects_actions WHERE project = %d AND id NOT IN (%s);<BR>", $obj->getProject(), $actionsBelow);
+        } else {
+            $queryString = sprintf("SELECT id FROM projects_actions WHERE project = %d AND id != %d;<BR>", $obj->getProject(), $id);
+
+        }
 
 //        die();
 
-        $queryString = sprintf("SELECT id FROM projects_actions WHERE project = %d AND id NOT IN (%s);<BR>", $obj->getProject(), $actionsBelow);
         $query = $this->db->prepare($queryString);
         $query->execute();
         $resultPDO = $query->fetchAll();
