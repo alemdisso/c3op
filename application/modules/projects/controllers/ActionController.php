@@ -342,10 +342,8 @@ class Projects_ActionController extends Zend_Controller_Action
 
         if ($removal->canBeRemoved()) {
             $canRemoveAction = true;
-            $canEditResource = true;
         } else {
             $canRemoveAction = false;
-            $canEditResource = false;
         }
 
 
@@ -443,7 +441,6 @@ class Projects_ActionController extends Zend_Controller_Action
             'projectTitle'            => $projectToBeDetailed->getShortTitle(),
             'title'                   => $actionToBeDetailed->getTitle(),
             'canRemoveAction'         => $canRemoveAction,
-            'canEditResource'         => $canEditResource,
             'status'                  => $status,
             'responsibleId'           => $responsibleId,
             'responsibleName'         => $responsibleName,
@@ -855,6 +852,7 @@ class Projects_ActionController extends Zend_Controller_Action
         //      contractingStatusLabel
         //      canContractFlag
         //      canRemoveTeamMember
+        //      canEditResource
         //      canProvideOutlay
 
         if (!isset($this->linkageMapper)) {
@@ -911,8 +909,10 @@ class Projects_ActionController extends Zend_Controller_Action
             $removal = new C3op_Resources_TeamMemberRemoval($theTeamMember, $this->teamMemberMapper);
             if ($removal->canBeRemoved()) {
                 $canRemoveTeamMember = true;
+                $canEditResource = true;
             } else {
                 $canRemoveTeamMember = false;
+                $canEditResource = false;
             }
 
             $teamMembersList[$teamMemberId] = array(
@@ -926,6 +926,7 @@ class Projects_ActionController extends Zend_Controller_Action
                 'canContractFlag'        => $canContract,
                 'canDismissFlag'         => $canDismiss,
                 'canRemoveTeamMember'    => $canRemoveTeamMember,
+                'canEditResource'        => $canEditResource,
                 'canProvideOutlay'       => $canProvideOutlay,
 
             );
