@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-30 17:19-0300\n"
-"PO-Revision-Date: 2013-01-30 17:22-0300\n"
+"POT-Creation-Date: 2013-02-10 11:44-0300\n"
+"PO-Revision-Date: 2013-02-10 11:44-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -17,34 +17,34 @@ msgstr ""
 "X-Poedit-SearchPath-1: library\\C3op\\finances\n"
 
 #: application\modules\finances/controllers/OutlayController.php:39
-#: application\modules\finances/controllers/OutlayController.php:74
-#: application\modules\finances/controllers/OutlayController.php:126
+#: application\modules\finances/controllers/OutlayController.php:75
+#: application\modules\finances/controllers/OutlayController.php:130
 #: application\modules\finances/controllers/ReceivableController.php:34
 #: application\modules\finances/controllers/ReceivableController.php:167
-#: application\modules\finances/controllers/ReceivableController.php:214
+#: application\modules\finances/controllers/ReceivableController.php:216
 msgid "#The record was successfully updated."
 msgstr "O registro foi atualizado com sucesso."
 
-#: application\modules\finances/controllers/OutlayController.php:169
+#: application\modules\finances/controllers/OutlayController.php:212
 msgid "#(not defined)"
 msgstr "(não definido)"
 
-#: application\modules\finances/controllers/OutlayController.php:226
+#: application\modules\finances/controllers/OutlayController.php:247
 #, php-format
 msgid "#From %s until %s"
 msgstr "De %s a %s"
 
-#: application\modules\finances/controllers/OutlayController.php:230
+#: application\modules\finances/controllers/OutlayController.php:251
 #, php-format
 msgid "#Began in %s, predicted to finish until %s"
 msgstr "Começou em %s, prevista para terminar em %s"
 
-#: application\modules\finances/controllers/OutlayController.php:234
+#: application\modules\finances/controllers/OutlayController.php:255
 #, php-format
 msgid "#Predicted to begin in %s, and to finish until %s"
 msgstr "Prevista para começar em  %s e terminar em %s"
 
-#: application\modules\finances/controllers/OutlayController.php:236
+#: application\modules\finances/controllers/OutlayController.php:257
 msgid "#Undefined dates"
 msgstr "Datas indefinidas"
 
@@ -60,6 +60,11 @@ msgstr "(não recebido)"
 #: application\modules\finances/controllers/ReceivableController.php:130
 msgid "#(not registered)"
 msgstr "(não cadastrada)"
+
+#: application\modules\finances/controllers/ReceivableController.php:331
+#, php-format
+msgid "#Receiving %s predicted for %s"
+msgstr "Recebimento de %s, previsto para %s"
 
 #: application\modules\finances/views/scripts/outlay/create.phtml:4
 #: application\modules\finances/views/scripts/outlay/edit.phtml:4
@@ -164,7 +169,7 @@ msgstr "Opções"
 msgid "#Edit"
 msgstr "Editar"
 
-#: application\modules\finances/views/scripts/receivable/notify.phtml:5
+#: application\modules\finances/views/scripts/receivable/notify.phtml:10
 msgid "#Notify receiving"
 msgstr "Informar recebimento"
 

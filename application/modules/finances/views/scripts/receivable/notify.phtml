@@ -4,7 +4,7 @@ $pageData = $this->pageData;
 
 ?>
 <div id="MainHeader">
-          <h1>Projeto <a href="/projects/project/detail/?id=<?php echo $pageData['projectId']; ?>"><?php echo $this->$pageData['projectTitle']; ?></a></h1>
+          <h1>Projeto <a href="/projects/project/detail/?id=<?php echo $pageData['projectId']; ?>"><?php echo $pageData['projectTitle']; ?></a></h1>
         </div>
         <div class="TituloForm">
           <h2><?php print $this->translate("#Notify receiving") ?></h2>
