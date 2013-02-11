@@ -379,12 +379,28 @@ class Projects_ActionController extends Zend_Controller_Action
             $milestone = _("#Is not a milestone");
         }
 
-        $predictedBeginDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getPredictedBeginDate());
-
-        $predictedFinishDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getPredictedFinishDate());
-        $realFinishDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getRealFinishDate());
-
         $validator = new C3op_Util_ValidDate();
+
+        if ($validator->isValid($actionToBeDetailed->getPredictedBeginDate())) {
+            $predictedBeginDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getPredictedBeginDate());
+        } else {
+            $predictedBeginDate = $this->view->translate("#(undefined)");
+        }
+
+        if ($validator->isValid($actionToBeDetailed->getPredictedFinishDate())) {
+            $predictedFinishDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getPredictedFinishDate());
+        } else {
+            $predictedFinishDate = $this->view->translate("#(undefined)");
+        }
+
+        $realFinishDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getRealFinishDate());
+        if ($validator->isValid($actionToBeDetailed->getRealFinishDate())) {
+            $realFinishDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getRealFinishDate());
+        } else {
+            $realFinishDate = $this->view->translate("#(not finished)");
+        }
+
+
         if ($validator->isValid($actionToBeDetailed->getReceiptDate($this->actionMapper))) {
             $receiptDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getReceiptDate($this->actionMapper));
         } else {
