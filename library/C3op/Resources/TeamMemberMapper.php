@@ -338,8 +338,7 @@ class C3op_Resources_TeamMemberMapper {
 
    public function getSumOfPayedOutlays(C3op_Resources_TeamMember $obj)
     {
-//       die(sprintf('SELECT SUM(real_value) as sum FROM finances_outlays WHERE team_member = \'%s\' AND real_value > 0 AND real_date IS NOT NULL AND real_date <> "0000-00-00";', $obj->GetId()));
-        $query = $this->db->prepare('SELECT SUM(real_value) as sum FROM finances_outlays WHERE team_member = :id AND real_value > 0 AND real_date IS NOT NULL AND real_date <> "0000-00-00";');
+        $query = $this->db->prepare('SELECT SUM(real_value) as sum FROM finances_outlays WHERE team_member = :id AND real_value > 0 AND real_date IS NOT NULL;');
         $query->bindValue(':id', $obj->GetId(), PDO::PARAM_STR);
         $query->execute();
         $result = $query->fetch();

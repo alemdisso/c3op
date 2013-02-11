@@ -243,7 +243,7 @@ class C3op_Projects_ActionMapper
         $result = $query->fetch();
 
         if (empty($result)) {
-            $receiptDate = "0000-00-00";
+            $receiptDate = null;
         } else {
             //want only date, not full timestamp
             $dateAndTimeStamp = explode(" ", $result['timestamp']);

@@ -983,7 +983,7 @@ class Projects_ProjectController extends Zend_Controller_Action
     {
         $field = $form->getElement($fieldName);
         $validator = new C3op_Util_ValidDate;
-        if (($value != '0000-00-00') && ($validator->isValid($value))) {
+        if ((!is_null($value)) && ($validator->isValid($value))) {
             $field->setValue($this->formatDataToShow($value));
         } else {
             $field->setValue("");

@@ -37,9 +37,9 @@ class C3op_Projects_ActionCheckStart {
 
             if ($compare->isPast($action->getPredictedFinishDate())) {
                 $action->SetStatus(C3op_Projects_ActionStatusConstants::STATUS_COMPLETE);
+                $action->SetRealFinishDate($action->getPredictedFinishDate());
             } else {
                 $action->SetStatus(C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION);
-                $action->SetRealFinishDate($action->getPredictedFinishDate());
             }
             $actionMapper->update($action);
 

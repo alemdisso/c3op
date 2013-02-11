@@ -7,7 +7,7 @@ class C3op_Projects_ReceiptRejection {
     {
 
         $action->SetStatus(C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION);
-        //$action->SetRealFinishDate("0000-00-00");
+        $action->SetRealFinishDate(null);
         $mapper->update($action);
 
         $this->LogRejection($action);

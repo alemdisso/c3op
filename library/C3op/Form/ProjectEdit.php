@@ -130,7 +130,7 @@ class C3op_Form_ProjectEdit extends C3op_Form_ProjectCreate
         if ($validator->isValid($value)) {
             return $converter->convertDateToMySQLFormat($value);
         } else {
-            return "0000-00-00";
+            return null;
         }
     }
 

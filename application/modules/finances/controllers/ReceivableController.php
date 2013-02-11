@@ -355,7 +355,8 @@ class Finances_ReceivableController extends Zend_Controller_Action
     private function setDateValueToFormField(Zend_Form $form, $fieldName, $value)
     {
         $field = $form->getElement($fieldName);
-        if (($value != '0000-00-00') && ($value != "")) {
+        $dateValidator = new C3op_Util_ValidDate();
+        if ((!is_null($value)) && ($validator->isValid($value))) {
             $field->setValue(C3op_Util_DateDisplay::FormatDateToShow($value));
         } else {
             $field->setValue("");
