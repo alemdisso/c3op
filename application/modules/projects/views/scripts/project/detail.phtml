@@ -44,13 +44,6 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
 } );
 </script>
 
-<script type="text/javascript">
-$.fn.expandAll = function() {
-    $(this).find("tr").removeClass("collapsed").addClass("expanded").each(function(){
-        $(this).expand();
-    });
-};
-</script>
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -503,7 +496,7 @@ if ($outlayInfo['canNotifyOutlay']) {
         <div id="tabs-action">
           <div class="Area">
             <h2><?php echo $this->translate("#Actions") ?></h2>
-            <a href="javascript:$('.treeTable').expandAll();"><?php echo $this->translate("#Expand all") ?></a>
+            <a href="javascript:$('.treeTable').expandAll();"><?php echo $this->translate("#Expand all") ?></a> | <a href="javascript:$('.treeTable').collapseAll();"><?php echo $this->translate("#Collapse all") ?></a>
     <table id="tree" border="1">
     	<thead>
     		<tr>
