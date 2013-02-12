@@ -45,6 +45,14 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
 </script>
 
 <script type="text/javascript">
+$.fn.expandAll = function() {
+    $(this).find("tr").removeClass("collapsed").addClass("expanded").each(function(){
+        $(this).expand();
+    });
+};
+</script>
+
+<script type="text/javascript">
     $(document).ready(function() {
         $('#Receivables').dataTable( {
             "aoColumns": [
@@ -495,6 +503,7 @@ if ($outlayInfo['canNotifyOutlay']) {
         <div id="tabs-action">
           <div class="Area">
             <h2><?php echo $this->translate("#Actions") ?></h2>
+            <a href="javascript:$('.treeTable').expandAll();"><?php echo $this->translate("#Expand all") ?></a>
     <table id="tree" border="1">
     	<thead>
     		<tr>
@@ -591,7 +600,7 @@ if($teamMemberInfo['linkageId'] > 0) {
                     <div id="submenu1" class="anylinkcss">
                         <ul>
 <?php
-if($teamMemberInfo['contactId'] > 0) { 
+if($teamMemberInfo['contactId'] > 0) {
 ?>
                           <li>
                             <!-- [# LINK PARA A DETALHES DO CONTATO ] -->

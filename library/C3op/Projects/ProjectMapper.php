@@ -202,7 +202,12 @@ class C3op_Projects_ProjectMapper
     {
         if ($actionId >= 0) {
 
-            $query = $this->db->prepare('SELECT id FROM projects_actions WHERE project = :project AND (subordinated_to IS NULL OR subordinated_to = :subordinated_to)');
+            $query = $this->db->prepare('SELECT a.id, d.real_finish_date FROM projects_actions a
+                                         JOIN projects_actions_dates d
+                                         ON a.id = d.action
+                                         WHERE a.project = :project
+                                         AND (a.subordinated_to IS NULL OR a.subordinated_to = :subordinated_to)
+                                         ORDER BY d.predicted_begin_date, d.predicted_finish_date, d.real_begin_date, d.real_finish_date');
             $query->bindValue(':project', $obj->getId(), PDO::PARAM_STR);
             $query->bindValue(':subordinated_to', $actionId, PDO::PARAM_STR);
             $query->execute();

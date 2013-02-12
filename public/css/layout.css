@@ -1,20 +1,20 @@
-/* 
+/*
 ==== c3op ======================================================================
-     Function : Defines pages general layout 
+     Function : Defines pages general layout
      Author   : Ricardo Porto
      Date     : 10/08/2012
--------------------------------------------------------------------------------- 
+--------------------------------------------------------------------------------
      Based on Skeleton - http://getskeleton.com/
--------------------------------------------------------------------------------- 
+--------------------------------------------------------------------------------
 */
 
-/* 
+/*
 ---- Table of Content ----------------------------------------------------------
      #Site Styles
      #Page Styles
      #Media Queries
-     #Font-Face 
--------------------------------------------------------------------------------- 
+     #Font-Face
+--------------------------------------------------------------------------------
 */
 
 
@@ -31,7 +31,7 @@
   border-radius: 0px 10px 10px 10px;
   margin: 20px 10px;
   position: absolute;
-  width: 130px; 
+  width: 130px;
 }
 
 .FieldError {
@@ -155,8 +155,8 @@
 #MainHeader h1 a:hover {
   background-color: #f6f6f6;
   border: 1px #f0f0f0 solid;
-  margin: -1px -5px; 
-  padding: 1px 4px; 
+  margin: -1px -5px;
+  padding: 1px 4px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
@@ -181,7 +181,7 @@
   border-bottom: 1px #c0c0bf solid;
   display: table;
   padding: 20px 0 10px 0;
-  width: 100%; 
+  width: 100%;
 }
 
 .TituloForm {
@@ -189,6 +189,10 @@
 }
 
 .Area h2 {
+}
+
+.Area a {
+    color: #933;
 }
 
 .TituloForm h2 a {
@@ -199,8 +203,8 @@
 .TituloForm h2 a:hover {
   background-color: #f6f6f6;
   border: 1px #f0f0f0 solid;
-  margin: 0px -4px; 
-  padding: 0px 3px; 
+  margin: 0px -4px;
+  padding: 0px 3px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
@@ -216,7 +220,7 @@
 /*  */
 
 dl.zend_form {
-  padding: 20px 0 10px 0; 
+  padding: 20px 0 10px 0;
   border-bottom: 1px #c0c0bf solid;
 }
 
@@ -264,7 +268,7 @@ dl.zend_form {
 
 a.button {
   color: #333;
-  margin: 0 10px; 
+  margin: 0 10px;
   text-decoration: none;
 }
 
@@ -272,7 +276,7 @@ a.button {
   padding: 2px 5px;
   background-position: 50px;
   margin: 0px;
-} 
+}
 
 .Red { /* temporário */
   background-color: #f00;
@@ -311,11 +315,11 @@ input[type="button"] {
 }
 
 .SubTable {
- width: 100%; 
+ width: 100%;
 }
 
 .SubTable td {
- padding: 2px 10px 2px 0; 
+ padding: 2px 10px 2px 0;
  vertical-align: middle;
 }
 
@@ -342,8 +346,8 @@ input[type="button"] {
 
 /* - #Typography ------------------------------------------------------------ */
 
-    /*  This is the proper syntax for an @font-face file. Just create a "fonts" 
-        folder inside the public folder, copy your FontName into code below and 
+    /*  This is the proper syntax for an @font-face file. Just create a "fonts"
+        folder inside the public folder, copy your FontName into code below and
         remove comment brackets */
 
 /*
