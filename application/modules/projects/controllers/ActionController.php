@@ -37,7 +37,7 @@ class Projects_ActionController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully created.'));
-                $this->_redirect('/projects/action/success/?id=' . $id);
+                $this->_redirect(sprintf('/projects/action/detail/?id=%d&success=1', $id));
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -101,7 +101,7 @@ class Projects_ActionController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully created.'));
-                $this->_redirect('/projects/action/success/?id=' . $id);
+                $this->_redirect(sprintf('/projects/action/detail/?id=%d&success=1', $id));
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -140,7 +140,7 @@ class Projects_ActionController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/action/success/?id=' . $id);
+                $this->_redirect(sprintf('/projects/action/detail/?id=%d&success=1', $id));
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -218,7 +218,7 @@ class Projects_ActionController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/action/success/?id=' . $id);
+                $this->_redirect(sprintf('/projects/action/detail/?id=%d&success=1', $id));
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -296,6 +296,7 @@ class Projects_ActionController extends Zend_Controller_Action
 
         $actionToBeDetailed =  $this->initActionWithCheckedId($this->actionMapper);
         $projectToBeDetailed = $this->projectMapper->findById($actionToBeDetailed->getProject());
+        $messageToShow = $this->_helper->flashMessenger->getMessages();
 
         //  actionHeader
         //    id
@@ -453,6 +454,7 @@ class Projects_ActionController extends Zend_Controller_Action
 
         $actionHeader = array(
             'id'                      => $actionToBeDetailed->getId(),
+            'messageToShow'           => $messageToShow,
             'projectId'               => $projectToBeDetailed->getId(),
             'projectTitle'            => $projectToBeDetailed->getShortTitle(),
             'title'                   => $actionToBeDetailed->getTitle(),
@@ -653,6 +655,32 @@ class Projects_ActionController extends Zend_Controller_Action
 
 
     }
+
+
+    private function checkIfSuccessRedirected()
+    {
+        $data = $this->_request->getParams();
+        $filters = array(
+            'success' => new Zend_Filter_Alnum(),
+        );
+        $validators = array(
+            'success' => array('Digits', new Zend_Validate_GreaterThan(0)),
+        );
+        $input = new Zend_Filter_Input($filters, $validators, $data);
+        if ($input->isValid()) {
+            $success = $input->success;
+            if ($success > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+        throw new C3op_Projects_ActionException("Invalid Action Id from Get");
+
+    }
+
 
     private function initActionWithCheckedId(C3op_Projects_ActionMapper $mapper)
     {

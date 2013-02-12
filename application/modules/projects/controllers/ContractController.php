@@ -32,7 +32,7 @@ class Projects_ContractController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/contract/success/?id=' . $id);
+                $this->_redirect('/projects/contract/detail/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -58,6 +58,7 @@ class Projects_ContractController extends Zend_Controller_Action
 
         $contractToBeDetailed =  $this->initContractWithCheckedId($this->contractMapper);
         $projectToBeDetailed = $this->projectMapper->findById($contractToBeDetailed->getProject());
+        $messageToShow = $this->_helper->flashMessenger->getMessages();
 
         //  actionHeader
         //    id
@@ -119,12 +120,13 @@ class Projects_ContractController extends Zend_Controller_Action
 
         $contractData = array(
             'id'               => $contractToBeDetailed->getId(),
+            'messageToShow'    => $messageToShow,
             'projectId'        => $projectToBeDetailed->getId(),
             'projectTitle'     => $projectToBeDetailed->getShortTitle(),
             'title'            => $contractToBeDetailed->getTitle(),
             'description'      => $description,
-            'signingDate'    => $signingDate,
-            'amendment'   => $amendment,
+            'signingDate'      => $signingDate,
+            'amendment'        => $amendment,
             'realValue'        => $realValue,
             'realDate'         => $realDate,
             'requiredProducts' => $requiredProductsData,
@@ -153,7 +155,7 @@ class Projects_ContractController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/contract/success/?id=' . $id);
+                $this->_redirect('/projects/contract/detail/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);

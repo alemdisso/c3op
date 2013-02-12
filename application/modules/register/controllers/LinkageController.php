@@ -36,7 +36,7 @@ class Register_LinkageController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully created.'));
-                $this->_redirect('/register/linkage/success/?contact=' . $postData['contact']);
+                $this->_redirect('/register/contact/detail/?success=1&id=' . $postData['contact']);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -66,7 +66,7 @@ class Register_LinkageController extends Zend_Controller_Action
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/register/linkage/success/?contact=' . $postData['contact']);
+                $this->_redirect('/register/linkage/detail/?success=1&id=' . $postData['contact']);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -156,7 +156,7 @@ class Register_LinkageController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/register/linkage/success/?id=' . $id);
+                $this->_redirect('/register/linkage/detail/?success=1&id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -202,7 +202,7 @@ class Register_LinkageController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/register/linkage/success/?id=' . $id);
+                $this->_redirect('/register/linkage/detail/?success=1&id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -273,7 +273,7 @@ class Register_LinkageController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/register/linkage/success/?id=' . $id);
+                $this->_redirect('/register/linkage/detail/?success=1&id=' . $id);
             } else throw new C3op_Register_LinkageException("Invalid data for email.");
         } else {
             $linkageId = $this->checkLinkageFromGet();
@@ -315,7 +315,7 @@ class Register_LinkageController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/register/linkage/success/?id=' . $id);
+                $this->_redirect('/register/linkage/detail/?success=1&id=' . $id);
             } else throw new C3op_Register_LinkageException("Invalid data for email.");
         } else {
             $data = $this->_request->getParams();

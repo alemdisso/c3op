@@ -8,6 +8,16 @@ if (is_array($pageData['contactInfo'])) {
   <h1><?php print($contactInfo['name']) ?></h1>
 </div>
 
+<?php
+    if ($pageData['messageToShow']) {
+?>
+        <div class="flashMessage">
+            <?php echo $this->translate($pageData['messageToShow']); ?>
+        </div>
+<?php
+    }
+?>
+
 
 <div class="Area">
   <div class="three columns Right alpha">

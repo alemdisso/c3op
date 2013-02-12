@@ -79,7 +79,7 @@ class Register_ContactController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully created.'));
-                $this->_redirect('/register/contact/success/?id=' . $id);
+                $this->_redirect('/register/contact/detail/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -98,7 +98,7 @@ class Register_ContactController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/register/contact/success/?id=' . $id);
+                $this->_redirect('/register/contact/detail/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -180,6 +180,8 @@ class Register_ContactController extends Zend_Controller_Action
     {
         $id = $this->checkIdFromGet();
         $contactBeingDetailed = $this->contactMapper->findById($id);
+        $messageToShow = $this->_helper->flashMessenger->getMessages();
+
 
         //  contactInfo
         //    id
@@ -257,11 +259,12 @@ class Register_ContactController extends Zend_Controller_Action
         }
 
         $pageData = array(
-            'contactInfo' => $contactInfo,
-            'phonesList' => $phonesList,
-            'emailsList' => $emailsList,
+            'messageToShow'  => $messageToShow,
+            'contactInfo'    => $contactInfo,
+            'phonesList'     => $phonesList,
+            'emailsList'     => $emailsList,
             'messengersList' => $messengersList,
-            'linkagesList' => $linkagesList,
+            'linkagesList'   => $linkagesList,
         );
 
         $this->view->pageData = $pageData;
@@ -284,7 +287,7 @@ class Register_ContactController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/register/contact/success/?id=' . $id);
+                $this->_redirect('/register/contact/detail/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -322,7 +325,7 @@ class Register_ContactController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/register/contact/success/?id=' . $id);
+                $this->_redirect('/register/contact/detail/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -383,7 +386,7 @@ class Register_ContactController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/register/contact/success/?id=' . $id);
+                $this->_redirect('/register/contact/detail/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -419,7 +422,7 @@ class Register_ContactController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/register/contact/success/?id=' . $id);
+                $this->_redirect('/register/contact/detail/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -479,7 +482,7 @@ class Register_ContactController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/register/contact/success/?id=' . $id);
+                $this->_redirect('/register/contact/detail/?id=' . $id);
             } else {
                 $form->populate($postData);
                 $this->view->form = $form;
@@ -514,7 +517,7 @@ class Register_ContactController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/register/contact/success/?id=' . $id);
+                $this->_redirect('/register/contact/detail/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);

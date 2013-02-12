@@ -55,6 +55,17 @@ function rejectReceipt(id){
         <div id="MainHeader">
           <h1><?php print($this->translate("#Project")); ?> <a href="/projects/project/detail/?id=<?php print($actionHeader['projectId']) ?>"><?php print($actionHeader['projectTitle']) ?></a></h1>
         </div><!-- MainHeader -->
+
+<?php
+    if ($actionHeader['messageToShow']) {
+?>
+        <div class="flashMessage">
+            <?php echo $this->translate($actionHeader['messageToShow']); ?>
+        </div>
+<?php
+    }
+?>
+
         <div class="TituloForm">
           <h2><?php print(sprintf($this->translate("#Details of action %s"), $actionHeader['title'])); ?></h2>
                 <a href="/projects/action/edit/?id=<?php echo $actionHeader['id'] ?>"><?php echo $this->translate("#Edit action") ?></a>
