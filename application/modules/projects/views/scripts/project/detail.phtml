@@ -123,6 +123,15 @@ $(document).ready(function(){
       <h1><?php echo $this->translate("#Project") ?> <?php print($projectHeader['projectTitle']) ?></h1>
       <a href="/projects/project/edit/?id=<?php echo $projectHeader['id'] ?>"><?php echo $this->translate("#Edit project") ?></a>
 <?php
+    if ($pageData['messageToShow']) {
+?>
+        <div class="flashMessage">
+            <?php echo $this->translate($pageData['messageToShow']); ?>
+        </div>
+<?php
+    }
+?>
+<?php
 if ($projectHeader['hasContract']) {
 ?>
       | <a href="/projects/project/amend/?id=<?php echo $projectHeader['id'] ?>"><?php echo $this->translate("#Amend contract") ?></a>

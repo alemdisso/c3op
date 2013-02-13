@@ -37,7 +37,7 @@ class Includes_HeaderController extends Zend_Controller_Action
 
         $navigationTabs = array();
 
-        $test = new C3op_Auth_UserCanSeeFinances($user);
+        $test = new C3op_Access_UserCanSeeFinances($user);
         if ($test->can()) {
             $navigationTabs['finances']= array(
                     'url' => '/finances',

@@ -66,7 +66,7 @@ class Register_LinkageController extends Zend_Controller_Action
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/register/linkage/detail/?success=1&id=' . $postData['contact']);
+                $this->_redirect('/register/contact/detail/?id=' . $postData['contact']);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);

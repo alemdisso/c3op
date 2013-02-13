@@ -373,6 +373,7 @@
             $contract->SetObservation($this->observation->GetValue());
             $contractMapper->insert($contract);
         }
+        return $project->getId();
 
       }
     }

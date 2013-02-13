@@ -1,6 +1,6 @@
 <?php
 
-class C3op_Auth_UserCanSeeFinances
+class C3op_Access_UserCanSeeFinances
 {
 
 

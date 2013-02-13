@@ -71,7 +71,7 @@ if (is_array($pageData['contactInfo'])) {
                 <tr>
                   <td>
 <?php if (isset($linkageInfo['institutionName'])) { ?>
-<a href="/register/institution/edit/?id=<?php print($linkageInfo['institutionId']) ?>"><?php print($linkageInfo['institutionName']) ?></a>
+<a href="/register/institution/detail/?id=<?php print($linkageInfo['institutionId']) ?>"><?php print($linkageInfo['institutionName']) ?></a>
 <?php } else { ?>&nbsp;<?php } ?>
                   </td>
                   <td>

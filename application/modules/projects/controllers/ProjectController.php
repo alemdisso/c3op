@@ -46,7 +46,7 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/project/success/?id=' . $id);
+                $this->_redirect('/projects/project/detail/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -72,10 +72,10 @@ class Projects_ProjectController extends Zend_Controller_Action
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
-                $form->process($postData);
+                $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage('#The record was successfully updated.');
-                $this->_redirect('/projects/project/success');
+                $this->_redirect('/projects/project/detail/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -108,6 +108,7 @@ class Projects_ProjectController extends Zend_Controller_Action
             $this->initActionMapper();
         }
         $projectToBeDetailed = $this->initProjectWithCheckedId($this->projectMapper);
+        $messageToShow = $this->_helper->flashMessenger->getMessages();
 
 
 
@@ -534,6 +535,7 @@ class Projects_ProjectController extends Zend_Controller_Action
 
         $pageData = array(
             'projectHeader'        => $projectHeader,
+            'messageToShow'        => $messageToShow,
             'receivablesList'      => $receivablesList,
             'productsList'         => $productsList,
             'outlaysList'          => $outlaysList,
