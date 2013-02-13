@@ -32,9 +32,11 @@ class Resources_MaterialSupplyController extends Zend_Controller_Action
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
+                $this->initMaterialSupplyMapper();
+                $materialSupply =  $this->materialSupplyMapper->findById($id);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/resources/material-supply/success/?id=' . $id);
+                    ->addMessage($this->view->translate('#The material supply was created.'));
+                $this->_redirect('/projects/action/detail/?id=' . $materialSupply->GetAction());
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -85,9 +87,11 @@ class Resources_MaterialSupplyController extends Zend_Controller_Action
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
+                $this->initMaterialSupplyMapper();
+                $materialSupply =  $this->materialSupplyMapper->findById($id);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/resources/material-supply/success/?id=' . $id);
+                $this->_redirect('/projects/action/detail/?id=' . $materialSupply->GetAction());
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -186,9 +190,11 @@ class Resources_MaterialSupplyController extends Zend_Controller_Action
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
+                $this->initMaterialSupplyMapper();
+                $materialSupply =  $this->materialSupplyMapper->findById($id);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/resources/material-supply/success/?id=' . $id);
+                    ->addMessage($this->view->translate('#The material supply acquisition was registered.'));
+                $this->_redirect('/projects/action/detail/?id=' . $materialSupply->GetAction());
             } else {
                 //form error: populate and go back
                 $form->populate($postData);

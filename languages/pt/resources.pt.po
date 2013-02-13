@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-07 09:42-0300\n"
-"PO-Revision-Date: 2013-02-07 09:42-0300\n"
+"POT-Creation-Date: 2013-02-13 19:59-0300\n"
+"PO-Revision-Date: 2013-02-13 20:01-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -16,24 +16,45 @@ msgstr ""
 "X-Poedit-SearchPath-0: application\\modules\\resources\n"
 "X-Poedit-SearchPath-1: library\\C3op\\resources\n"
 
-#: application\modules\resources/controllers/MaterialSupplyController.php:36
-#: application\modules\resources/controllers/MaterialSupplyController.php:89
-#: application\modules\resources/controllers/MaterialSupplyController.php:190
-#: application\modules\resources/controllers/OutsideServiceController.php:36
-#: application\modules\resources/controllers/OutsideServiceController.php:89
-#: application\modules\resources/controllers/OutsideServiceController.php:186
-#: application\modules\resources/controllers/TeamMemberController.php:35
-#: application\modules\resources/controllers/TeamMemberController.php:87
-#: application\modules\resources/controllers/TeamMemberController.php:163
-#: application\modules\resources/controllers/TeamMemberController.php:334
+#: application\modules\resources/controllers/MaterialSupplyController.php:38
+msgid "#The material supply was created."
+msgstr "Material criado."
+
+#: application\modules\resources/controllers/MaterialSupplyController.php:93
+#: application\modules\resources/controllers/OutsideServiceController.php:93
+#: application\modules\resources/controllers/TeamMemberController.php:91
 msgid "#The record was successfully updated."
 msgstr "O registro foi atualizado com sucesso."
 
-#: application\modules\resources/controllers/MaterialSupplyController.php:307
-#: application\modules\resources/controllers/OutsideServiceController.php:304
-#: application\modules\resources/controllers/TeamMemberController.php:281
+#: application\modules\resources/controllers/MaterialSupplyController.php:196
+msgid "#The material supply acquisition was registered."
+msgstr "A contratação foi registrada."
+
+#: application\modules\resources/controllers/MaterialSupplyController.php:313
+#: application\modules\resources/controllers/OutsideServiceController.php:310
+#: application\modules\resources/controllers/TeamMemberController.php:287
 msgid "#The record was successfully removed."
 msgstr "O registro foi removido com sucesso."
+
+#: application\modules\resources/controllers/OutsideServiceController.php:38
+msgid "#The outside service was created."
+msgstr "O serviço foi criado."
+
+#: application\modules\resources/controllers/OutsideServiceController.php:192
+msgid "#The outside service is contracted."
+msgstr "Contratação confirmada."
+
+#: application\modules\resources/controllers/TeamMemberController.php:37
+msgid "#The team member was created."
+msgstr "O membro de equipe foi criado."
+
+#: application\modules\resources/controllers/TeamMemberController.php:169
+msgid "#The team member is contracted."
+msgstr "Contratação confirmada."
+
+#: application\modules\resources/controllers/TeamMemberController.php:342
+msgid "#The team member was dismissed."
+msgstr "O distrato foi registrado."
 
 #: library\C3op\resources/MaterialSupplyStatusTypes.php:32
 #: library\C3op\resources/OutsideServiceStatusTypes.php:32
@@ -445,9 +466,6 @@ msgstr ""
 #~ msgid "#Value"
 #~ msgstr "Valor"
 
-#~ msgid "#Confirm team member contracting"
-#~ msgstr "Confirmar contratação"
-
 #~ msgid "#Provide outlay"
 #~ msgstr "Prever pagamento"
 
@@ -456,9 +474,6 @@ msgstr ""
 
 #~ msgid "#Service"
 #~ msgstr "Serviço"
-
-#~ msgid "#Confirm outside service contracting"
-#~ msgstr "Confirmar contratação de serviço"
 
 #~ msgid "#Anticipate outside service"
 #~ msgstr "Prever serviço de terceiros"

@@ -32,9 +32,11 @@ class Resources_OutsideServiceController extends Zend_Controller_Action
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
+                $this->initOutsideSeviceMapper();
+                $outsideSevice =  $this->outsideSeviceMapper->findById($id);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/resources/outside-service/success/?id=' . $id);
+                    ->addMessage($this->view->translate('#The outside service was created.'));
+                $this->_redirect('/projects/action/detail/?id=' . $outsideSevice->GetAction());
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -85,9 +87,11 @@ class Resources_OutsideServiceController extends Zend_Controller_Action
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
+                $this->initOutsideSeviceMapper();
+                $outsideSevice =  $this->outsideSeviceMapper->findById($id);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/resources/outside-service/success/?id=' . $id);
+                $this->_redirect('/projects/action/detail/?id=' . $outsideSevice->GetAction());
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -182,9 +186,11 @@ class Resources_OutsideServiceController extends Zend_Controller_Action
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
+                $this->initOutsideSeviceMapper();
+                $outsideSevice =  $this->outsideSeviceMapper->findById($id);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/resources/outside-service/success/?id=' . $id);
+                    ->addMessage($this->view->translate('#The outside service is contracted.'));
+                $this->_redirect('/projects/action/detail/?id=' . $outsideSevice->GetAction());
             } else {
                 //form error: populate and go back
                 $form->populate($postData);

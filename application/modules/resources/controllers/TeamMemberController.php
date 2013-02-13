@@ -31,9 +31,11 @@ class Resources_TeamMemberController extends Zend_Controller_Action
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
+                $this->initTeamMemberMapper();
+                $teamMember =  $this->teamMemberMapper->findById($id);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/resources/team-member/success/?id=' . $id);
+                    ->addMessage($this->view->translate('#The team member was created.'));
+                $this->_redirect('/projects/action/detail/?id=' . $teamMember->GetAction());
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -83,9 +85,11 @@ class Resources_TeamMemberController extends Zend_Controller_Action
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
+                $this->initTeamMemberMapper();
+                $teamMember =  $this->teamMemberMapper->findById($id);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/resources/team-member/success/?id=' . $id);
+                $this->_redirect('/projects/action/detail/?id=' . $teamMember->GetAction());
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -159,9 +163,11 @@ class Resources_TeamMemberController extends Zend_Controller_Action
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
+                $this->initTeamMemberMapper();
+                $teamMember =  $this->teamMemberMapper->findById($id);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/resources/team-member/success/?id=' . $id);
+                    ->addMessage($this->view->translate('#The team member is contracted.'));
+                $this->_redirect('/projects/action/detail/?id=' . $teamMember->GetAction());
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -330,9 +336,11 @@ class Resources_TeamMemberController extends Zend_Controller_Action
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
+                $this->initTeamMemberMapper();
+                $teamMember =  $this->teamMemberMapper->findById($id);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/resources/team-member/success/?id=' . $id);
+                    ->addMessage($this->view->translate('#The team member was dismissed.'));
+                $this->_redirect('/projects/action/detail/?id=' . $teamMember->GetAction());
             } else {
                 //form error: populate and go back
                 $form->populate($postData);

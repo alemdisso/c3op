@@ -36,8 +36,8 @@ class Finances_OutlayController  extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/finances/outlay/success/?id=' . $postData['action']);
+                    ->addMessage($this->view->translate('#The outlay was successfully created.'));
+                $this->_redirect('/projects/action/detail/?id=' . $postData['action']);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -73,7 +73,7 @@ class Finances_OutlayController  extends Zend_Controller_Action
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/finances/outlay/success/?id=' . $postData['action']);
+                $this->_redirect('/projects/action/detail/?id=' . $postData['action']);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -124,11 +124,14 @@ class Finances_OutlayController  extends Zend_Controller_Action
 
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
+            $outlayMapper = new C3op_Finances_OutlayMapper($this->db);
+            $outlayBeingNotified = $outlayMapper->FindById($postData['id']);
+            $actionId = $outlayBeingNotified->getAction();
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/finances/outlay/success/?id=' . $id);
+                $this->_redirect('/projects/action/detail/?id=' . $actionId);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
