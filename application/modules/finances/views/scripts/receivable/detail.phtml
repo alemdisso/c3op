@@ -7,6 +7,15 @@
         <div id="MainHeader">
           <h1><?php print($this->translate("#Project")); ?> <a href="/projects/project/detail/?id=<?php print($receivableData['projectId']) ?>"><?php print($receivableData['projectTitle']) ?></a></h1>
         </div><!-- MainHeader -->
+<?php
+    if ($receivableData['messageToShow']) {
+?>
+        <div class="flashMessage">
+            <?php echo $this->translate($receivableData['messageToShow']); ?>
+        </div>
+<?php
+    }
+?>
         <div class="TituloForm">
           <h2><?php print(sprintf($this->translate("#Details of receivable %s"), $receivableData['title'])); ?></h2>
             <a href="/finances/receivable/edit/?id=<?php echo $receivableData['id'] ?>"><?php echo $this->translate("#Edit receivable") ?></a>

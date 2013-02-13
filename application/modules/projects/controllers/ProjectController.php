@@ -559,7 +559,7 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/project/success');
+                $this->_redirect('/projects/project/detail/?id=' . $postData['id']);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);

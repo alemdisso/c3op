@@ -1,5 +1,9 @@
-        <div id="MainHeader">
-          <h1><?php echo $this->translate("#Project") ?> <a href="/projects/project/detail/?id=<?php echo $this->projectId; ?>"><?php echo $this->projectTitle; ?></a></h1>
+<?php
+$pageData = $this->pageData;
+
+?>
+<div id="MainHeader">
+          <h1><?php echo $this->translate("#Project") ?> <a href="/projects/project/detail/?id=<?php echo $pageData['id']; ?>"><?php echo $pageData['projectTitle']; ?></a></h1>
 
         </div>
         <div class="TituloForm">

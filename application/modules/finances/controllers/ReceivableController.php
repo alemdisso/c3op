@@ -32,7 +32,7 @@ class Finances_ReceivableController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/finances/receivable/success/?id=' . $id);
+                $this->_redirect('/finances/receivable/detail/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -42,6 +42,13 @@ class Finances_ReceivableController extends Zend_Controller_Action
             $data = $this->_request->getParams();
             $projectId = $data['project'];
             $this->populateProjectFields($projectId, $form);
+            $this->initProjectMapper();
+            $projectToBeDetailed = $this->projectMapper->findById($projectId);
+            $pageData = array(
+              'id' => $projectId,
+              'projectTitle' => $projectToBeDetailed->getShortTitle(),
+            );
+            $this->view->pageData = $pageData;
         }
     }
 
@@ -58,6 +65,7 @@ class Finances_ReceivableController extends Zend_Controller_Action
 
         $receivableToBeDetailed =  $this->initReceivableWithCheckedId($this->receivableMapper);
         $projectToBeDetailed = $this->projectMapper->findById($receivableToBeDetailed->getProject());
+        $messageToShow = $this->_helper->flashMessenger->getMessages();
 
         //  actionHeader
         //    id
@@ -133,6 +141,7 @@ class Finances_ReceivableController extends Zend_Controller_Action
 
         $receivableData = array(
             'id'               => $receivableToBeDetailed->getId(),
+            'messageToShow'    => $messageToShow,
             'projectId'        => $projectToBeDetailed->getId(),
             'projectTitle'     => $projectToBeDetailed->getShortTitle(),
             'title'            => $receivableToBeDetailed->getTitle(),
@@ -165,7 +174,7 @@ class Finances_ReceivableController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/finances/receivable/success/?id=' . $id);
+                $this->_redirect('/finances/receivable/detail/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);

@@ -65,10 +65,10 @@ class Register_InstitutionController extends Zend_Controller_Action
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
-                $form->process($postData);
+                $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully created.'));
-                $this->_redirect('/register/institution/success');
+                $this->_redirect('/register/institution/detail/?id=' . $id);
             } else {
                //form error: populate and go back
                 $form->populate($postData);
@@ -87,7 +87,7 @@ class Register_InstitutionController extends Zend_Controller_Action
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/register/institution/success');
+                $this->_redirect('/register/institution/detail/?id=' . $postData['id']);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -134,6 +134,7 @@ class Register_InstitutionController extends Zend_Controller_Action
 
         $id = $this->checkIdFromGet();
         $thisInstitution = $this->institutionMapper->findById($id);
+        $messageToShow = $this->_helper->flashMessenger->getMessages();
 
         $linkagesIdsList = $this->institutionMapper->getAllLinkages($thisInstitution);
         $linkagesList = array();
@@ -157,6 +158,7 @@ class Register_InstitutionController extends Zend_Controller_Action
         );
 
         $pageData = array(
+            'messageToShow'   => $messageToShow,
             'institutionInfo' => $institutionInfo,
         );
         $this->view->pageData = $pageData;

@@ -6,6 +6,15 @@
         <div id="MainHeader">
           <h1><?php print($institutionInfo['name']) ?></h1>
         </div>
+<?php
+    if ($pageData['messageToShow']) {
+?>
+        <div class="flashMessage">
+            <?php echo $this->translate($pageData['messageToShow']); ?>
+        </div>
+<?php
+    }
+?>
         <div class="Area">
           <h2><?php print($this->translate("#Contacts in this institution")) ?></h2>
           <table class="display dataTable">

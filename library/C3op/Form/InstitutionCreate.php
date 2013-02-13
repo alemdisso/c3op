@@ -336,6 +336,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
 
 
             $institutionMapper->insert($institution);
+            return $institution->getId();
         }
     }
 

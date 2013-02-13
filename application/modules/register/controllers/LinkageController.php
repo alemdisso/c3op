@@ -371,13 +371,18 @@ class Register_LinkageController extends Zend_Controller_Action
         // cria form
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
+            $linkageMapper = new C3op_Register_LinkageMapper($db);
+            $linkageToBeRemoved = $linkageMapper->FindById($postData['id']);
+            $contactId = $linkageToBeRemoved->getContact();
+
+
             $form = new C3op_Form_LinkageRemove();
             $this->view->form = $form;
             if ($form->isValid($postData)) {
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully removed.'));
-                $this->_redirect('/register/linkage/success');
+                $this->_redirect('/register/contact/detail/?id='.$contactId);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
