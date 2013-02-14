@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-13 22:29-0300\n"
-"PO-Revision-Date: 2013-02-13 22:29-0300\n"
+"POT-Creation-Date: 2013-02-14 21:46-0300\n"
+"PO-Revision-Date: 2013-02-14 21:46-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -27,12 +27,15 @@ msgid "#The outlay was successfully created."
 msgstr "O pagamento foi criado com sucesso."
 
 #: application\modules\finances/controllers/OutlayController.php:75
-#: application\modules\finances/controllers/OutlayController.php:133
 #: application\modules\finances/controllers/ReceivableController.php:34
 #: application\modules\finances/controllers/ReceivableController.php:176
 #: application\modules\finances/controllers/ReceivableController.php:225
 msgid "#The record was successfully updated."
 msgstr "O registro foi atualizado com sucesso."
+
+#: application\modules\finances/controllers/OutlayController.php:133
+msgid "#The payment was successfully notified."
+msgstr "O pagamento foi confirmado."
 
 #: application\modules\finances/controllers/OutlayController.php:253
 #, php-format
