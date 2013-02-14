@@ -39,7 +39,7 @@
       foreach ($projectsList as $id => $projectData) {
 ?>
                 <tr>
-                  <td><a href="/projects/project/detail/?id=<?php print($id) ?>"><?php print($projectData['projectName']) ?></a></td>
+                  <td><a href="/finances/project/detail/?id=<?php print($id) ?>"><?php print($projectData['projectName']) ?></a></td>
                   <td><?php print($projectData['clientName']) ?></td>
                   <td><?php print($this->translate($projectData['areaActivity'])) ?></td>
                   <td><?php print($this->translate($projectData['status'])) ?></td>
@@ -60,7 +60,7 @@
                               <a href="/projects/action/create/?project=<?php print($id) ?>"><?php echo $this->translate("#Create action") ?></a>
                           </li>
                           <li>
-                              <a href="/projects/project/detail/?id=<?php print($id) ?>"><?php echo $this->translate("#Project details") ?></a>
+                              <a href="/finances/project/detail/?id=<?php print($id) ?>"><?php echo $this->translate("#Project details") ?></a>
                           </li>
 <?php
 if ($projectData['hasContract']) {

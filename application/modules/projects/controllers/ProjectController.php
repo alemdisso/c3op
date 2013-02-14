@@ -126,59 +126,6 @@ class Projects_ProjectController extends Zend_Controller_Action
         //
         $projectHeader = $this->fillProjectHeaderData($projectToBeDetailed);
 
-        // receivablesList
-        //   * id =>
-        //      receivableTitle
-        //      predictedDate
-        //      realDate
-        //      predictedValue
-        //      realValue
-
-        $receivablesList = array();
-
-        if (!isset($this->receivableMapper)) {
-            $this->initReceivableMapper();
-        }
-
-        $projectReceivables = $this->receivableMapper->getAllReceivables($projectToBeDetailed);
-
-        foreach ($projectReceivables as $id) {
-            $theReceivable = $this->receivableMapper->findById($id);
-            $receivableTitle = $theReceivable->getTitle();
-
-            $receivableDescription = $theReceivable->getDescription();
-
-            $validator = new C3op_Util_ValidDate();
-            if ($validator->isValid($theReceivable->getPredictedDate())) {
-                $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($theReceivable->getPredictedDate());
-            } else {
-                $predictedDate = $this->view->translate("#(undefined)");
-            }
-
-            if ($validator->isValid($theReceivable->getRealDate())) {
-                $realDate = C3op_Util_DateDisplay::FormatDateToShow($theReceivable->getRealDate());
-                $canNotifyReceiving = false;
-            } else {
-                $realDate = $this->view->translate("#(not received)");
-                $canNotifyReceiving = true;
-            }
-
-            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
-
-            $predictedValue = $currencyDisplay->FormatCurrency($theReceivable->getPredictedValue());
-            $realValue = $currencyDisplay->FormatCurrency($theReceivable->getRealValue());
-
-            $receivablesList[$id] = array(
-                    'receivableTitle'       => $receivableTitle,
-                    'receivableDescription'   => $receivableDescription,
-                    'predictedDate'      => $predictedDate,
-                    'realDate'           => $realDate,
-                    'predictedValue'     => $predictedValue,
-                    'realValue'          => $realValue,
-                    'canNotifyReceiving' => $canNotifyReceiving,
-                );
-        }
-
         // productsList
         //   * id =>
         //      productTitle
@@ -249,98 +196,6 @@ class Projects_ProjectController extends Zend_Controller_Action
                     'receivableId'            => $receivableId,
                     'requirementForReceiving' => $requirementForReceiving,
                     'receivableDescription'   => $receivableDescription,
-                );
-        }
-
-        // outlaysList
-        //   * id =>
-        //      actionId
-        //      actionTitle
-        //      payeeId
-        //      payeeName
-        //      predictedDate
-        //      realDate
-        //      predictedValue
-        //      realValue
-
-        $outlaysList = array();
-        $projectOutlays = $this->projectMapper->getAllOutlaysOf($projectToBeDetailed);
-        if (!isset($this->outlayMapper)) {
-            $this->initOutlayMapper();
-        }
-        if (!isset($this->teamMemberMapper)) {
-            $this->initTeamMemberMapper();
-        }
-        if (!isset($this->linkageMapper)) {
-            $this->initLinkageMapper();
-        }
-        if (!isset($this->contactMapper)) {
-            $this->initContactMapper();
-        }
-
-        foreach ($projectOutlays as $id) {
-            $theOutlay = $this->outlayMapper->findById($id);
-            $actionId = $theOutlay->getAction();
-            $theAction = $this->actionMapper->findById($actionId);
-            $actionTitle = $theAction->getTitle();
-            $payeeName = $this->view->translate("#Not defined");
-            $payeeId = 0;
-            if ($theOutlay->getTeamMember() > 0) {
-                $theTeamMember = $this->teamMemberMapper->findById($theOutlay->getTeamMember());
-                if ($theTeamMember->getLinkage() > 0) {
-
-                    $theLinkage = $this->linkageMapper->findById($theTeamMember->getLinkage());
-                    $theContact = $this->contactMapper->findById($theLinkage->getContact());
-
-                    $payeeId = $theContact->getId();
-                    $payeeName = $theContact->getName();
-
-                    $status = $theTeamMember->getStatus();
-                    if ($status == C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED) {
-                        $doesIt = new C3op_Resources_TeamMemberHasCredit($theTeamMember, $this->teamMemberMapper);
-                        if ($doesIt->hasCreditToPay()) {
-                            $canNotifyOutlay = true;
-                        } else {
-                            $canNotifyOutlay = false;
-                        }
-                    } else {
-                        $canNotifyOutlay = false;
-                    }
-
-
-
-
-                }
-            }
-
-            $validator = new C3op_Util_ValidDate();
-
-            if ($validator->isValid($theOutlay->getRealDate())) {
-                $realDate = C3op_Util_DateDisplay::FormatDateToShow($theOutlay->getRealDate());
-            } else {
-                $realDate = $this->view->translate('#(undefined)');
-            }
-
-            if ($validator->isValid($theOutlay->getPredictedDate())) {
-                $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($theOutlay->getPredictedDate());
-            } else {
-                $predictedDate = $this->view->translate('#(undefined)');
-            }
-            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
-            $predictedValue = $currencyDisplay->FormatCurrency($theOutlay->getPredictedValue());
-            $realValue = $currencyDisplay->FormatCurrency($theOutlay->getRealValue());
-
-
-            $outlaysList[$id] = array(
-                    'actionId' => $actionId,
-                    'actionTitle' => $actionTitle,
-                    'payeeId' => $payeeId,
-                    'payeeName' => $payeeName,
-                    'predictedDate' => $predictedDate,
-                    'realDate' => $realDate,
-                    'predictedValue' => $predictedValue,
-                    'realValue' => $realValue,
-                    'canNotifyOutlay' => $canNotifyOutlay,
                 );
         }
 
@@ -536,9 +391,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         $pageData = array(
             'projectHeader'        => $projectHeader,
             'messageToShow'        => $messageToShow,
-            'receivablesList'      => $receivablesList,
             'productsList'         => $productsList,
-            'outlaysList'          => $outlaysList,
             'actionsTree'          => $actionTreeList,
             'teamMembersList'      => $teamMembersList,
             'outsideServicesList'  => $outsideServicesList,

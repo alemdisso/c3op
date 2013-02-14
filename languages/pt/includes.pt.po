@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-12 22:09-0300\n"
-"PO-Revision-Date: 2012-10-12 22:09-0300\n"
+"POT-Creation-Date: 2013-02-13 22:09-0300\n"
+"PO-Revision-Date: 2013-02-13 22:09-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -15,11 +15,15 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: application\\modules\\includes\n"
 
-#: application\modules\includes/controllers/HeaderController.php:39
+#: application\modules\includes/controllers/HeaderController.php:44
+msgid "#Finances"
+msgstr "Financeiro"
+
+#: application\modules\includes/controllers/HeaderController.php:50
 msgid "#Projects"
 msgstr "Projetos"
 
-#: application\modules\includes/controllers/HeaderController.php:44
+#: application\modules\includes/controllers/HeaderController.php:55
 msgid "#Register"
 msgstr "Cadastro"
 
@@ -39,7 +43,7 @@ msgstr "Olá"
 msgid "#Logout"
 msgstr "Sair"
 
-#: application\modules\includes/views/scripts/header/include.phtml:40
+#: application\modules\includes/views/scripts/header/include.phtml:39
 msgid "#Please login."
 msgstr "Se identifique para entrar no sistema."
 

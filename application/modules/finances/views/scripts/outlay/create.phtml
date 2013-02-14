@@ -1,7 +1,7 @@
 <?php
     $pageData = $this->pageData;
 ?>        <div id="MainHeader">
-          <h1><?php print($this->translate("#Project")) ?> <a href="/projects/project/detail/?id=<?php echo $pageData['projectId']; ?>"><?php echo $pageData['projectTitle']; ?></a></h1>
+          <h1><?php print($this->translate("#Project")) ?> <a href="/finances/project/detail/?id=<?php echo $pageData['projectId']; ?>"><?php echo $pageData['projectTitle']; ?></a></h1>
         </div>
       <div class="TituloForm">
         <h2><?php printf($this->translate("#Create outlay of %s to %s regarding '%s'"), $pageData['outlayValue'], $pageData['contactName'], $pageData['actionTitle']) ?></h2>
