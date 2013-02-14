@@ -5,6 +5,21 @@
           <h1><?php echo $this->translate("#Project") ?> <a href="/projects/project/detail/?id=<?php echo $pageData['projectId']; ?>"><?php echo $pageData['title']; ?></a></h1>
         </div>
         <div class="TituloForm">
-          <h2><?php echo $this->translate("#Edit action") ?></h2>
+          <h2><?php echo $this->translate("#Edit product") ?></h2>
         </div>
-<?php echo $this->form; ?>
+<form id="form" action="<?php echo $this->escape($this->form->getAction()); ?>" method="<?php echo $this->escape($this->form->getMethod()); ?>">
+<table>
+  <?php echo $this->form->id ?>
+  <?php echo $this->form->project ?>
+  <?php echo $this->form->title ?>
+  <?php echo $this->form->milestone ?>
+  <?php echo $this->form->requirementForReceiving ?>
+  <?php echo $this->form->responsible ?>
+  <?php echo $this->form->description ?>
+  <?php echo $this->form->predictedBeginDate ?>
+  <?php echo $this->form->predictedFinishDate ?>
+  <?php echo $this->form->product ?>
+  <?php echo $this->form->subordinatedTo ?>
+  <?php echo $this->form->submit ?>
+</table>
+</form>

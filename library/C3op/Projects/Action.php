@@ -12,6 +12,7 @@ class C3op_Projects_Action {
     protected $subordinatedTo = 0;
     protected $responsible = 0;
     protected $milestone = false;
+    protected $product = false;
     protected $requirementForReceiving = false;
     protected $predictedBeginDate = null;
     protected $predictedFinishDate = null;
@@ -158,6 +159,9 @@ class C3op_Projects_Action {
     public function setSubordinatedTo($subordinatedTo)
     {
         $this->subordinatedTo = $subordinatedTo;
+        if ($subordinatedTo > 0) {
+            $this->setProduct(0);
+        }
     }
 
     public function getSubordinatedTo()
@@ -193,6 +197,21 @@ class C3op_Projects_Action {
     public function getMilestone()
     {
         return $this->milestone;
+    }
+
+    public function setProduct($product)
+    {
+        if ($product) {
+            $this->product = $product;
+            $this->setSubordinatedTo(0);
+        } else {
+            $this->product = 0;
+        }
+    }
+
+    public function getProduct()
+    {
+        return $this->product;
     }
 
     public function setRequirementForReceiving($requirementForReceiving)

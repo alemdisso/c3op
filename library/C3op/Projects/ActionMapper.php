@@ -39,6 +39,7 @@ class C3op_Projects_ActionMapper
         $query->bindValue(':subordinated_to', $obj->GetSubordinatedTo(), PDO::PARAM_STR);
         $query->bindValue(':responsible', $obj->GetResponsible(), PDO::PARAM_STR);
         $query->bindValue(':milestone', $obj->GetMilestone(), PDO::PARAM_STR);
+        $query->bindValue(':product', $obj->GetProduct(), PDO::PARAM_STR);
         $query->bindValue(':requirement_for_receiving', $obj->GetRequirementForReceiving(), PDO::PARAM_STR);
 
         $query->execute();
@@ -56,7 +57,12 @@ class C3op_Projects_ActionMapper
             throw new C3op_Projects_ActionMapperException('Object has no ID, cannot update.');
         }
 
-        $query = $this->db->prepare("UPDATE projects_actions SET title = :title, project = :project, done = :done, status = :status, description = :description, subordinated_to = :subordinated_to, responsible = :responsible, milestone = :milestone, requirement_for_receiving = :requirement_for_receiving WHERE id = :id;");
+        $query = $this->db->prepare("UPDATE projects_actions
+            SET title = :title, project = :project, done = :done
+            , status = :status, description = :description
+            , subordinated_to = :subordinated_to, responsible = :responsible
+            , milestone = :milestone, product = :product, requirement_for_receiving = :requirement_for_receiving
+            WHERE id = :id;");
 
         $query->bindValue(':title', $obj->GetTitle(), PDO::PARAM_STR);
         $query->bindValue(':project', $obj->GetProject(), PDO::PARAM_STR);
@@ -66,6 +72,7 @@ class C3op_Projects_ActionMapper
         $query->bindValue(':subordinated_to', $obj->GetSubordinatedTo(), PDO::PARAM_STR);
         $query->bindValue(':responsible', $obj->GetResponsible(), PDO::PARAM_STR);
         $query->bindValue(':milestone', $obj->GetMilestone(), PDO::PARAM_STR);
+        $query->bindValue(':product', $obj->GetProduct(), PDO::PARAM_STR);
         $query->bindValue(':requirement_for_receiving', $obj->GetRequirementForReceiving(), PDO::PARAM_STR);
         $query->bindValue(':id', $this->identityMap[$obj], PDO::PARAM_STR);
 
@@ -87,7 +94,7 @@ class C3op_Projects_ActionMapper
             }
             $this->identityMap->next();
         }
-        $query = $this->db->prepare('SELECT title, project, done, status, description, subordinated_to, responsible, milestone, requirement_for_receiving FROM projects_actions WHERE id = :id;');
+        $query = $this->db->prepare('SELECT title, project, done, status, description, subordinated_to, responsible, milestone, product, requirement_for_receiving FROM projects_actions WHERE id = :id;');
         $query->bindValue(':id', $id, PDO::PARAM_STR);
         $query->execute();
         $result = $query->fetch();
@@ -108,6 +115,7 @@ class C3op_Projects_ActionMapper
         $this->setAttributeValue($obj, $result['subordinated_to'], 'subordinatedTo');
         $this->setAttributeValue($obj, $result['responsible'], 'responsible');
         $this->setAttributeValue($obj, $result['milestone'], 'milestone');
+        $this->setAttributeValue($obj, $result['product'], 'product');
         $this->setAttributeValue($obj, $result['requirement_for_receiving'], 'requirementForReceiving');
 
         $this->identityMap[$obj] = $id;

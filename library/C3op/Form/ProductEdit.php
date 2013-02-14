@@ -44,13 +44,27 @@ class C3op_Form_ProductEdit extends C3op_Form_ProductCreate
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
-                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'five columns omega')),
-                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns Right')),
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'four columns omega')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'four columns Right')),
                 ))
                 ->setOptions(array('class' => 'Full alpha omega'))
                 ->setRegisterInArrayValidator(false);
         $element->addMultiOption(0, _("#(no action)"));
         $this->addElement($element);
+
+        $element = new Zend_Form_Element_Checkbox('product');
+        $element->setLabel('#This action is a product?')
+                ->setDecorators(array(
+                    'ViewHelper',
+                    'Errors',
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'one column')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                ))
+                ->setOptions(array('checked' => '1', 'unChecked' => '0'))
+                ->setValue('0')
+                ;
+        $this->addElement($element);
+
 
 
         // create submit button
@@ -87,6 +101,7 @@ class C3op_Form_ProductEdit extends C3op_Form_ProductCreate
             //$action->SetSubordinatedTo($data['subordinatedTo']);
             $action->SetResponsible($data['responsible']);
             $action->SetMilestone($data['milestone']);
+            $action->SetProduct($data['product']);
             $action->SetRequirementForReceiving($data['requirementForReceiving']);
 
             $predictedBeginDate = $data['predictedBeginDate'];

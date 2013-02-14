@@ -119,6 +119,9 @@ class Projects_ActionController extends Zend_Controller_Action
                 $projectId = $data['project'];
             }
 
+            $element = $form->getElement('product');
+            $element->setValue(1);
+
             $projectData = $this->populateProjectFields($projectId, $form);
             $this->populateResponsibleField($form);
             $this->populateRequirementForReceivingField($projectId, $form, $requirementForReceiving);
@@ -244,6 +247,9 @@ class Projects_ActionController extends Zend_Controller_Action
                 $element = $form->getElement('id');
                 $element->setValue($id);
 
+                $element = $form->getElement('product');
+                $element->setValue($inputAction->getProduct());
+
                 $element = $form->getElement('milestone');
                 $element->setValue($inputAction->getMilestone());
 
@@ -270,7 +276,7 @@ class Projects_ActionController extends Zend_Controller_Action
 //                $subordinatedToField = $form->getElement('subordinatedTo');
 //                $subordinatedToField->setValue($inputAction->getSubordinatedTo());
 
-//                $this->populateSubordinatedActionsField($projectId, $form, $id);
+                $this->populateSubordinatedActionsField($projectId, $form, $id);
             }
 
             $pageData = array(
@@ -711,6 +717,8 @@ class Projects_ActionController extends Zend_Controller_Action
         if ($validator->isValid($projectId)) {
             $projectField = $form->getElement('project');
             $projectField->setValue($projectId);
+//            $projectField = $form->getElement('product');
+//            $projectField->setValue($projectId);
             if (!isset($this->projectMapper)) {
                 $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
             }

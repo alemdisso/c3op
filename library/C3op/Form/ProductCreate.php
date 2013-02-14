@@ -14,6 +14,12 @@ class C3op_Form_ProductCreate extends Zend_Form
         $this->addElement($element);
         $element->setDecorators(array('ViewHelper'));
 
+        $element = new Zend_Form_Element_Hidden('product');
+        $element->addValidator('Int')
+                ->addFilter('StringTrim');
+        $this->addElement($element);
+        $element->setDecorators(array('ViewHelper'));
+
         $element = new Zend_Form_Element_Text('title');
         $titleValidator = new C3op_Projects_ProjectValidTitle();
         $element->setLabel(_('#Name:'))
@@ -184,6 +190,7 @@ class C3op_Form_ProductCreate extends Zend_Form
                 $action->SetMilestone(0);
             }
 
+            $action->SetProduct(true);
             $requirementForReceiving = intval($this->requirementForReceiving->GetValue());
             if ($requirementForReceiving > 0) {
                 $action->SetRequirementForReceiving($requirementForReceiving);
