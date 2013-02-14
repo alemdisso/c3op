@@ -1,8 +1,13 @@
+<?php
+
+$pageData = $this->pageData;
+
+?>
         <div id="MainHeader">
           <h1>Projeto <a href="/finances/project/detail/?id=<?php echo $this->projectId; ?>"><?php echo $this->projectTitle; ?></a></h1>
         </div>
         <div class="TituloForm">
           <h2><?php print $this->translate("#Notify outlay") ?></h2>
-          <div><?php print $this->title ?></div>
+          <div><?php print $pageData['outlayDetails'] ?></div>
         </div>
 <?php echo $this->form; ?>

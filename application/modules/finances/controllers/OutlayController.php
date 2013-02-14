@@ -130,7 +130,7 @@ class Finances_OutlayController  extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                    ->addMessage($this->view->translate('#The payment was successfully notified.'));
                 $this->_redirect('/projects/action/detail/?id=' . $actionId);
             } else {
                 //form error: populate and go back
@@ -153,7 +153,10 @@ class Finances_OutlayController  extends Zend_Controller_Action
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $outlayToBeNotified->getId());
 //                $this->setDateValueToFormField($form, 'realDate', $thisOutlay->GetRealDate());
 //                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'realValue', $thisOutlay->GetRealValue());
-                $projectId = $this->populateProjectFields($outlayToBeNotified->GetProject(), $form);
+                $projectId = $outlayToBeNotified->GetProject();
+                $data = $this->getOutlayData($outlayToBeNotified);
+                $this->populateProjectFields($projectId, $form);
+                $this->view->pageData = $data;
             }
 
         }
@@ -358,20 +361,43 @@ class Finances_OutlayController  extends Zend_Controller_Action
         return $mapper->findById($this->checkIdFromGet());
     }
 
+
+    private function getOutlayData(C3op_Finances_Outlay $outlay)
+    {
+        $projectId = $outlay->getProject();
+
+        $validator = new C3op_Util_ValidId();
+        if ($validator->isValid($projectId)) {
+            $this->initProjectMapper();
+            $thisProject = $this->projectMapper->findById($projectId);
+            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+            $predictedValue = $currencyDisplay->FormatCurrency($outlay->getPredictedValue());
+            $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($outlay->getPredictedDate());
+            $outlayDetails = sprintf ($this->view->translate("#Paying %s predicted for %s"), $predictedValue, $predictedDate);
+
+            $data = array(
+                'projectTitle'      => $thisProject->GetShortTitle(),
+                'projectId'         => $projectId,
+                'outlayDetails' => $outlayDetails,
+            );
+
+            return $data;
+        } else throw new C3op_Finances_OutlayException("Outlay needs a positive integer project id.");
+
+    }
+
     private function populateProjectFields($projectId, Zend_Form $form)
     {
         $validator = new C3op_Util_ValidId();
         if ($validator->isValid($projectId)) {
             $projectField = $form->getElement('project');
             $projectField->setValue($projectId);
-            $this->initProjectMapper();
-            $thisProject = $this->projectMapper->findById($projectId);
-            $this->view->projectTitle = $thisProject->GetShortTitle();
-            $this->view->projectId = $projectId;
-            return $projectId;
-        } else throw new C3op_Finances_ReceivableException("Receivable needs a positive integer project id.");
+        } else throw new C3op_Finances_OutlayException("Outlay needs a positive integer project id.");
 
     }
+
+
+
 
     private function initProjectMapper()
     {

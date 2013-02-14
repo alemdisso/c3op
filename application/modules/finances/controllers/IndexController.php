@@ -61,6 +61,10 @@ class Finances_IndexController extends Zend_Controller_Action
                 $hasContract = false;
             }
 
+           $this->receivableMapper = new C3op_Finances_ReceivableMapper($this->db);
+           $obj = new C3op_Finances_ProjectFinancialProgress($thisProject, $this->receivableMapper);
+           $receivedPercentage = $obj->progress();
+
 
             $projectsList[$id] = array(
                 'projectName'        => $thisProject->GetShortTitle(),
@@ -69,7 +73,7 @@ class Finances_IndexController extends Zend_Controller_Action
                 'status'             => $status,
                 'physicalProgress'   => '[#12%]',
                 'payedPercentage'    => '[#10%]',
-                'receivedPercentage' => '[#11%]',
+                'receivedPercentage' => $receivedPercentage,
                 'hasContract'       => $hasContract,
             );
 
