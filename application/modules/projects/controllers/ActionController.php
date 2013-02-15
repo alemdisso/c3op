@@ -419,18 +419,22 @@ class Projects_ActionController extends Zend_Controller_Action
         $realBeginDate = $this->view->translate("#(not started)");
         if ($actionToBeDetailed->hasBegun()) {
             $realBeginDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getRealBeginDate());
-            $obj = new C3op_Projects_ActionStartMode($actionToBeDetailed, $this->actionMapper);
-            if ($obj->isUnacknowledged()) {
-                $unacknowledgedStart = true;
-            } else {
+            $tester = new C3op_Access_PrivilegeTester("projects", "action", "acknowledge-receipt");
+            if ($tester->allow()) {
                 if ($actionToBeDetailed->waitingToReceipt()) {
                     $waitingToReceipt = true;
                 }
             }
+
         }
+
+//        $showReceiptOption = $this->UserCanAcceptOrRejectReceipt($user, $actionToBeDetailed);
         $receiptToAcceptOrReject = false;
         if ($actionToBeDetailed->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_RECEIVED) {
-            $receiptToAcceptOrReject = true;
+            $tester = new C3op_Access_PrivilegeTester("projects", "action", "accept-receipt");
+            if ($tester->allow()) {
+                $receiptToAcceptOrReject = true;
+            }
         }
 
         $actionValue = new C3op_Projects_ActionValue($actionToBeDetailed,$this->actionMapper);
@@ -605,7 +609,12 @@ class Projects_ActionController extends Zend_Controller_Action
     public function acknowledgeReceiptAction()
     {
         $this->_helper->layout->disableLayout();
-        //$this->_helper->viewRenderer->setNoRender(TRUE);
+
+        $tester = new C3op_Access_PrivilegeTester("projects", "action", "accept-receipt");
+        if (!$tester->allow()) {
+            $this->_helper->viewRenderer->setNoRender(TRUE);
+        }
+
 
         $this->initActionMapper();
         $actionToBeChanged =  $this->initActionWithCheckedId($this->actionMapper);

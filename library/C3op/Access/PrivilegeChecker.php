@@ -5,7 +5,7 @@ class C3op_Access_PrivilegeChecker
     private $user;
     private $acl;
 
-    public function __construct() {
+    public function __construct($module="", $action="", $controller="") {
         $this->user = Zend_Registry::get('user');
         $this->acl = Zend_Registry::get('acl');
 
@@ -17,9 +17,13 @@ class C3op_Access_PrivilegeChecker
 
         $controllerInstance = Zend_Controller_Front::getInstance();
         $request = $controllerInstance->getRequest();
-        $module = $controllerInstance->getRequest()->getModuleName();
-        $action = $controllerInstance->getRequest()->getActionName();
-        $controller = $controllerInstance->getRequest()->getControllerName();
+        if (($module == "") || ($action == "") || ($controller == "")) {
+            $module = $controllerInstance->getRequest()->getModuleName();
+            $action = $controllerInstance->getRequest()->getActionName();
+            $controller = $controllerInstance->getRequest()->getControllerName();
+        } else {
+            die("$module=, $action, $controller");
+        }
         $moduleLevel = "c3op:" . $module;
         $controllerLevel = $moduleLevel . "." . $controller;
 
