@@ -1,4 +1,61 @@
-        <div id="MainHeader">
+<script type="text/javascript">
+
+    function clearSubordinatedToField()
+    {
+        var $el = $("#subordinatedTo");
+        $el.empty();
+        $el.append($("<option></option")
+            .attr("value", 0)
+            .text("(Um produto não pode ser subordinado a outra ação)"));
+        $el.prop('disabled', true);
+    }
+
+    function populateSubordinatedToField() {
+        var id = $('#id').val();
+        var $el = $("#subordinatedTo");
+
+        $.getJSON('/projects/action/populate-subordinated-to/?id=' + id, function(data) {
+        var html = '';
+        var len = data.length;
+        html += '<option value="0">(nenhuma ação)</option>';
+        for (var i = 0; i< len; i++) {
+            html += '<option value="' + data[i].id + '">' + data[i].title + '</option>';
+        }
+        $el.empty();
+        $el.append(html);
+        $el.prop('disabled', false);
+        });
+    }
+
+
+$( document ).ready(function() {
+
+        var $p = $("#product");
+        var $sT = $("#subordinatedTo");
+
+        if ($p.is(':checked')) {
+            clearSubordinatedToField();
+        }
+
+    $('#product').click(function(){
+        if (this.checked) {      //this.checked is NOT from jquery
+            clearSubordinatedToField();
+        } else {
+            populateSubordinatedToField();
+        }
+    });
+
+
+
+
+});
+
+
+</script>
+
+
+
+<div id="MainHeader">
           <h1><?php echo $this->translate("#Project") ?> <a href="<?php echo $this->linkProjectDetail; ?>"><?php echo $this->projectTitle; ?></a></h1>
         </div>
         <div class="TituloForm">

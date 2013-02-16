@@ -29,7 +29,7 @@ class C3op_Projects_ActionMapper
     public function insert(C3op_Projects_Action $obj)
     {
 
-        $query = $this->db->prepare("INSERT INTO projects_actions (title, project, done, status, description, subordinated_to, responsible, milestone, requirement_for_receiving) VALUES (:title, :project, :done, :status, :description, :subordinated_to, :responsible, :milestone, :requirement_for_receiving)");
+        $query = $this->db->prepare("INSERT INTO projects_actions (title, project, done, status, description, subordinated_to, responsible, milestone, product, requirement_for_receiving) VALUES (:title, :project, :done, :status, :description, :subordinated_to, :responsible, :milestone, :product, :requirement_for_receiving)");
 
         $query->bindValue(':title', $obj->GetTitle(), PDO::PARAM_STR);
         $query->bindValue(':project', $obj->GetProject(), PDO::PARAM_STR);

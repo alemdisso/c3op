@@ -970,19 +970,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         $this->_helper->viewRenderer->setNoRender(TRUE);
 
         $id = $this->checkIdFromGet();
-        if (!isset($this->institutionMapper)) {
-            $this->initInstitutionMapper();
-        }
-        if (!isset($this->contactMapper)) {
-            $this->initContactMapper();
-        }
-
-        $contactsList = $this->institutionMapper->getAllContactsThatAreLinkedToAnInstitution($id);
-        $data = array();
-        foreach ($contactsList as $k => $id) {
-            $loopContact = $this->contactMapper->findById($id);
-            $data[] = array('id' => $id, 'title' => $loopContact->getName());
-        }
+        $data = $this->fillContactsDataFrom($id);
 
         echo json_encode($data);
 
@@ -1109,6 +1097,26 @@ class Projects_ProjectController extends Zend_Controller_Action
         }
 
         return $materialSuppliesList;
+
+    }
+
+    private function fillContactsDataFrom($institutionId)
+    {
+            if (!isset($this->institutionMapper)) {
+                $this->initInstitutionMapper();
+            }
+            if (!isset($this->contactMapper)) {
+                $this->initContactMapper();
+            }
+
+            $contactsList = $this->institutionMapper->getAllContactsThatAreLinkedToAnInstitution($institutionId);
+            $data = array();
+            foreach ($contactsList as $k => $id) {
+                $loopContact = $this->contactMapper->findById($id);
+                $data[] = array('id' => $id, 'title' => $loopContact->getName());
+            }
+
+            return $data;
 
     }
 

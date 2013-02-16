@@ -79,7 +79,7 @@ class Projects_ActionController extends Zend_Controller_Action
             $subordinatedToField = $form->getElement('subordinatedTo');
             $subordinatedToField->setValue($subordinatedTo);
 
-            //$this->populateSubordinatedActionsField($projectId, $form, 0, $subordinatedTo);
+            //$this->populateSubordinatedToField($projectId, $form, 0, $subordinatedTo);
             $pageData = array(
                 'projectId'    => $projectId,
                 'projectTitle' => $projectData['title'],
@@ -172,6 +172,9 @@ class Projects_ActionController extends Zend_Controller_Action
 //                $element = $form->getElement('milestone');
 //                $element->setValue($inputAction->getMilestone());
 
+                $element = $form->getElement('product');
+                $element->setValue($inputAction->getProduct());
+
                 $projectData = $this->populateProjectFields($inputAction->getProject(), $form);
                 $projectId = $projectData['id'];
 
@@ -200,7 +203,7 @@ class Projects_ActionController extends Zend_Controller_Action
 //                $subordinatedToField = $form->getElement('subordinatedTo');
 //                $subordinatedToField->setValue($inputAction->getSubordinatedTo());
 
-                $this->populateSubordinatedActionsField($projectId, $form, $id);
+                $this->populateSubordinatedToField($projectId, $form, $id);
             }
 
             $pageData = array(
@@ -276,7 +279,7 @@ class Projects_ActionController extends Zend_Controller_Action
 //                $subordinatedToField = $form->getElement('subordinatedTo');
 //                $subordinatedToField->setValue($inputAction->getSubordinatedTo());
 
-                $this->populateSubordinatedActionsField($projectId, $form, $id);
+                $this->populateSubordinatedToField($projectId, $form, $id);
             }
 
             $pageData = array(
@@ -745,11 +748,28 @@ class Projects_ActionController extends Zend_Controller_Action
 
    }
 
-    private function populateSubordinatedActionsField($projectId, Zend_Form $form, $actionId = 0, $parentActionId = 0)
+    private function populateSubordinatedToField($projectId, Zend_Form $form, $actionId = 0, $parentActionId = 0)
     {
         $validator = new C3op_Util_ValidId();
         if ($validator->isValid($projectId)) {
             $subordinatedToField = $form->getElement('subordinatedTo');
+
+            $data = $this->fillSubordinatedToDataFrom($projectId, $actionId);
+
+            while (list($key, $row) = each($data)) {
+                $eachAction = $this->actionMapper->findById($row['id']);
+                $subordinatedToField->addMultiOption($row['id'], $row['title']);
+            }
+
+            $subordinatedToField->setValue($parentActionId);
+
+        } else throw new C3op_Projects_ActionException(_("#It needs a positive integer project id to find other actions from same project."));
+   }
+
+   private function fillPossibleSubordinatedTree($projectId, $actionId=0)
+   {
+        $validator = new C3op_Util_ValidId();
+        if ($validator->isValid($projectId)) {
             $this->initActionMapper();
 
             if ($actionId > 0) {
@@ -764,14 +784,16 @@ class Projects_ActionController extends Zend_Controller_Action
                 $allOtherActionsInProject = $this->projectMapper->getAllActions($theProject);
             }
 
+            $jsonX = array();
             while (list($key, $actionId) = each($allOtherActionsInProject)) {
                 $eachAction = $this->actionMapper->findById($actionId);
                 $subordinatedToField->addMultiOption($actionId, $eachAction->GetTitle());
+                $jsonX[] = array($actionId => $eachAction->GetTitle());
             }
 
-            $subordinatedToField->setValue($parentActionId);
 
         } else throw new C3op_Projects_ActionException(_("#It needs a positive integer project id to find other actions from same project."));
+
    }
 
     private function populateRequirementForReceivingField($projectId, Zend_Form $form, $setedReceivableId = 0)
@@ -998,6 +1020,29 @@ class Projects_ActionController extends Zend_Controller_Action
 
     }
 
+    public  function populateSubordinatedToAction()
+    {
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(TRUE);
+
+        $id = $this->checkIdFromGet();
+        if (!isset($this->actionMapper)) {
+            $this->initActionMapper();
+        }
+        $action = $this->actionMapper->findById($id);
+        $projectId = $action->getProject();
+
+        $data = $this->fillSubordinatedToDataFrom($projectId, $id);
+
+
+        echo json_encode($data);
+
+
+    }
+
+
+
+
      private function getOutsideServicesList(C3op_Projects_Action $action)
     {
 
@@ -1172,5 +1217,35 @@ class Projects_ActionController extends Zend_Controller_Action
         return $materialSuppliesList;
 
     }
+
+
+    private function fillSubordinatedToDataFrom($projectId, $actionId=0)
+    {
+            if (!isset($this->actionMapper)) {
+                $this->initActionMapper();
+            }
+
+            if ($actionId > 0) {
+                $actionToBePopulated = $this->actionMapper->findById($actionId);
+                $parentActionId = $actionToBePopulated->GetSubordinatedTo();
+                $actionsList = $this->actionMapper->getPossibleSubordination($actionToBePopulated);
+            } else {
+                if (!isset($this->projectMapper)) {
+                    $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
+                }
+                $theProject = $this->projectMapper->findById($projectId);
+                $actionsList = $this->projectMapper->getAllActions($theProject);
+            }
+
+            $data = array();
+            foreach ($actionsList as $k => $id) {
+                $loopAction = $this->actionMapper->findById($id);
+                $data[] = array('id' => $id, 'title' => $loopAction->getTitle());
+            }
+
+            return $data;
+
+    }
+
 
 }
