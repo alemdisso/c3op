@@ -32,21 +32,17 @@ class C3op_Resources_TeamMemberHasCredit {
 
     public function hasCreditToProvide()
     {
-        if ($this->actionHasBeenApproved()) {
-            $budget = $this->teamMember->getValue();
-            $payed = $this->mapper->getSumOfPayedOutlays($this->teamMember);
-            $provided = $this->mapper->getSumOfProvidedOutlays($this->teamMember);
+        $budget = $this->teamMember->getValue();
+        $payed = $this->mapper->getSumOfPayedOutlays($this->teamMember);
+        $provided = $this->mapper->getSumOfProvidedOutlays($this->teamMember);
 
-            //die("$budget > $provided");
-            if ($budget > $provided)
-            {
-                return true;
-            } else {
-                return false;
-
-            }
+        //die("$budget > $provided");
+        if ($budget > $provided)
+        {
+            return true;
         } else {
             return false;
+
         }
     }
 
