@@ -81,6 +81,7 @@ public function __construct() {
     $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:resources.team-member', 'contract');
     $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:resources.team-member', 'dismiss-contact');
     $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:resources.team-member', 'contract');
+    $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:resources.team-member', 'dismiss');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:resources.team-member', 'outlays');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:resources.team-member', 'success');
 

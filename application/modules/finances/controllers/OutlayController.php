@@ -3,12 +3,14 @@
 class Finances_OutlayController  extends Zend_Controller_Action
 {
     private $actionMapper;
-    private $teamMemberMapper;
-    private $projectMapper;
-    private $outlayMapper;
     private $contactMapper;
     private $linkageMapper;
+    private $outlayMapper;
+    private $projectMapper;
+    private $teamMemberMapper;
+
     private $pageData;
+
     private $db;
 
     public function preDispatch()
@@ -162,37 +164,23 @@ class Finances_OutlayController  extends Zend_Controller_Action
         }
     }
 
-
-    private function populateHiddenFieldsAssociatedToTeamMember(C3op_Resources_TeamMember $teamMember, C3op_Form_OutlayCreate $form)
+    private function checkIdFromGet()
     {
-
-        if (!isset($this->outlayMapper)) {
-            $this->initOutlayMapper();
+        $data = $this->_request->getParams();
+        $filters = array(
+            'id' => new Zend_Filter_Alnum(),
+        );
+        $validators = array(
+            'id' => array('Digits', new Zend_Validate_GreaterThan(0)),
+        );
+        $input = new Zend_Filter_Input($filters, $validators, $data);
+        if ($input->isValid()) {
+            $id = $input->id;
+            return $id;
         }
-        if (!isset($this->actionMapper)) {
-            $this->initActionMapper();
-        }
+        throw new C3op_Finances_OutlayException("Invalid Action Id from Get");
 
-        $element = $form->getElement('teamMember');
-        $element->setValue($teamMember->Getid());
-
-        $element = $form->getElement('action');
-        $element->setValue($teamMember->GetAction());
-
-        $teamMemberAction = $this->actionMapper->findById($teamMember->GetAction());
-        $element = $form->getElement('project');
-        $element->setValue($teamMemberAction->GetProject());
-
-        $payedValue = $this->outlayMapper->totalPayedValueForTeamMember($teamMember);
-        if ($payedValue === null) {
-            $payedValue = "0.00";
-        }
-
-        $predictedValue = $teamMember->getValue() - $payedValue;
-        $element = $form->getElement('predictedValue');
-        $element->setValue($predictedValue);
-
-   }
+    }
 
     private function fetchTeamMemberData(C3op_Resources_TeamMember $teamMember)
     {
@@ -280,88 +268,6 @@ class Finances_OutlayController  extends Zend_Controller_Action
 
    }
 
-    public function successAction()
-    {
-
-        $this->initActionMapper();
-        $action =  $this->initActionWithCheckedId($this->actionMapper);
-        $actionRelatedId = $action->GetId();
-
-        if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
-            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
-            $this->getResponse()->setHeader('Refresh', '1; URL=/projects/action/detail/?id=' . $actionRelatedId);
-        } else {
-            $this->_redirect('/projects/action/detail/?id=' . $actionRelatedId);
-        }
-    }
-
-    private function initOutlayMapper()
-    {
-        if (!isset($this->outlayMapper)) {
-            $this->outlayMapper = new C3op_Finances_OutlayMapper($this->db);
-        }
-    }
-
-    private function initActionMapper()
-    {
-        if (!isset($this->actionMapper)) {
-            $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
-        }
-    }
-
-
-    private function initActionWithCheckedId(C3op_Projects_ActionMapper $mapper)
-    {
-        return $mapper->findById($this->checkIdFromGet());
-    }
-
-    private function checkIdFromGet()
-    {
-        $data = $this->_request->getParams();
-        $filters = array(
-            'id' => new Zend_Filter_Alnum(),
-        );
-        $validators = array(
-            'id' => array('Digits', new Zend_Validate_GreaterThan(0)),
-        );
-        $input = new Zend_Filter_Input($filters, $validators, $data);
-        if ($input->isValid()) {
-            $id = $input->id;
-            return $id;
-        }
-        throw new C3op_Finances_OutlayException("Invalid Action Id from Get");
-
-    }
-
-
-    private function initContactMapper()
-    {
-         $this->contactMapper = new C3op_Register_ContactMapper($this->db);
-    }
-
-    private function initLinkageMapper()
-    {
-         $this->linkageMapper = new C3op_Register_LinkageMapper($this->db);
-    }
-
-    private function setDateValueToFormField(Zend_Form $form, $fieldName, $value)
-    {
-        $field = $form->getElement($fieldName);
-        $validator = new C3op_Util_ValidDate();
-        if ((!is_null($value)) && ($validator->isValid($value))) {
-            $field->setValue(C3op_Util_DateDisplay::FormatDateToShow($value));
-        } else {
-            $field->setValue("");
-        }
-    }
-
-
-    private function initOutlayWithCheckedId(C3op_Finances_OutlayMapper $mapper)
-    {
-        return $mapper->findById($this->checkIdFromGet());
-    }
-
-
     private function getOutlayData(C3op_Finances_Outlay $outlay)
     {
         $projectId = $outlay->getProject();
@@ -386,6 +292,75 @@ class Finances_OutlayController  extends Zend_Controller_Action
 
     }
 
+
+    private function initActionMapper()
+    {
+        if (!isset($this->actionMapper)) {
+            $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
+        }
+    }
+
+    private function initContactMapper()
+    {
+         $this->contactMapper = new C3op_Register_ContactMapper($this->db);
+    }
+
+    private function initLinkageMapper()
+    {
+         $this->linkageMapper = new C3op_Register_LinkageMapper($this->db);
+    }
+
+
+    private function initOutlayMapper()
+    {
+        if (!isset($this->outlayMapper)) {
+            $this->outlayMapper = new C3op_Finances_OutlayMapper($this->db);
+        }
+    }
+
+    private function initOutlayWithCheckedId(C3op_Finances_OutlayMapper $mapper)
+    {
+        return $mapper->findById($this->checkIdFromGet());
+    }
+
+    private function initProjectMapper()
+    {
+        if (!isset($this->projectMapper)) {
+            $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
+        }
+    }
+
+    private function populateHiddenFieldsAssociatedToTeamMember(C3op_Resources_TeamMember $teamMember, C3op_Form_OutlayCreate $form)
+    {
+
+        if (!isset($this->outlayMapper)) {
+            $this->initOutlayMapper();
+        }
+        if (!isset($this->actionMapper)) {
+            $this->initActionMapper();
+        }
+
+        $element = $form->getElement('teamMember');
+        $element->setValue($teamMember->Getid());
+
+        $element = $form->getElement('action');
+        $element->setValue($teamMember->GetAction());
+
+        $teamMemberAction = $this->actionMapper->findById($teamMember->GetAction());
+        $element = $form->getElement('project');
+        $element->setValue($teamMemberAction->GetProject());
+
+        $payedValue = $this->outlayMapper->totalPayedValueForTeamMember($teamMember);
+        if ($payedValue === null) {
+            $payedValue = "0.00";
+        }
+
+        $predictedValue = $teamMember->getValue() - $payedValue;
+        $element = $form->getElement('predictedValue');
+        $element->setValue($predictedValue);
+
+   }
+
     private function populateProjectFields($projectId, Zend_Form $form)
     {
         $validator = new C3op_Util_ValidId();
@@ -396,14 +371,21 @@ class Finances_OutlayController  extends Zend_Controller_Action
 
     }
 
-
-
-
-    private function initProjectMapper()
+    private function setDateValueToFormField(Zend_Form $form, $fieldName, $value)
     {
-        if (!isset($this->projectMapper)) {
-            $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
+        $field = $form->getElement($fieldName);
+        $validator = new C3op_Util_ValidDate();
+        if ((!is_null($value)) && ($validator->isValid($value))) {
+            $field->setValue(C3op_Util_DateDisplay::FormatDateToShow($value));
+        } else {
+            $field->setValue("");
         }
     }
+
+
+
+
+
+
 }
 
