@@ -148,6 +148,24 @@ class C3op_Finances_OutlayMapper
     }
 
 
+public function fetchAllOutlaysFromAllActiveProjects()
+{
+
+    $result = array();
+    foreach ($this->db->query(
+            'SELECT o.id
+            FROM finances_outlays o JOIN
+            projects_projects p ON o.project = p.id
+            WHERE (p.status = 40 OR p.status = 50)
+            ORDER BY o.predicted_date ASC;') as $row) {
+            $result[] = $row['id'];
+    }
+    return $result;
+
+
+
+}
+
 public function fetchAllOutlaysThatCanBePayed()
 {
 

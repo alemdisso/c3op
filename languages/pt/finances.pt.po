@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-20 11:37-0300\n"
-"PO-Revision-Date: 2013-02-20 11:38-0300\n"
+"POT-Creation-Date: 2013-02-21 16:30-0300\n"
+"PO-Revision-Date: 2013-02-21 16:31-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -17,19 +17,36 @@ msgstr ""
 "X-Poedit-SearchPath-1: library\\C3op\\finances\n"
 
 #: application\modules\finances/controllers/IndexController.php:51
-#: application\modules\finances/controllers/IndexController.php:152
+#: application\modules\finances/controllers/IndexController.php:275
 #: application\modules\finances/controllers/OutlayController.php:206
 #: application\modules\finances/controllers/ProjectController.php:713
 msgid "#(not defined)"
 msgstr "(não definido)"
 
-#: application\modules\finances/controllers/IndexController.php:205
+#: application\modules\finances/controllers/IndexController.php:177
+#: application\modules\finances/controllers/ProjectController.php:148
+#: application\modules\finances/controllers/ProjectController.php:519
+#: application\modules\finances/controllers/ProjectController.php:726
+#: application\modules\finances/controllers/ProjectController.php:733
+#: application\modules\finances/controllers/ReceivableController.php:102
+msgid "#Not defined"
+msgstr "Indefinido"
+
+#: application\modules\finances/controllers/IndexController.php:218
+#: application\modules\finances/controllers/IndexController.php:224
+#: application\modules\finances/controllers/ProjectController.php:90
+#: application\modules\finances/controllers/ProjectController.php:183
+#: application\modules\finances/controllers/ProjectController.php:189
+msgid "#(undefined)"
+msgstr "(indefinido)"
+
+#: application\modules\finances/controllers/IndexController.php:328
 #: application\modules\finances/controllers/OutlayController.php:251
 #: application\modules\finances/controllers/ProjectController.php:754
 msgid "#Undefined dates"
 msgstr "Datas indefinidas"
 
-#: application\modules\finances/controllers/IndexController.php:225
+#: application\modules\finances/controllers/IndexController.php:348
 msgid "#It needs a team member to be payed."
 msgstr "Deve haver alguém para ser pago."
 
@@ -68,25 +85,11 @@ msgstr "Prevista para começar em  %s e terminar em %s"
 msgid "#Paying %s predicted for %s"
 msgstr "Pagamento de %s, previsto para %s"
 
-#: application\modules\finances/controllers/ProjectController.php:90
-#: application\modules\finances/controllers/ProjectController.php:183
-#: application\modules\finances/controllers/ProjectController.php:189
-msgid "#(undefined)"
-msgstr "(indefinido)"
-
 #: application\modules\finances/controllers/ProjectController.php:97
 #: application\modules\finances/controllers/ReceivableController.php:118
 #: application\modules\finances/controllers/ReceivableController.php:132
 msgid "#(not received)"
 msgstr "(não recebido)"
-
-#: application\modules\finances/controllers/ProjectController.php:148
-#: application\modules\finances/controllers/ProjectController.php:519
-#: application\modules\finances/controllers/ProjectController.php:726
-#: application\modules\finances/controllers/ProjectController.php:733
-#: application\modules\finances/controllers/ReceivableController.php:102
-msgid "#Not defined"
-msgstr "Indefinido"
 
 #: application\modules\finances/controllers/ProjectController.php:245
 msgid "#(unknown date)"
@@ -115,22 +118,26 @@ msgstr "(não cadastrada)"
 msgid "#Receiving %s predicted for %s"
 msgstr "Recebimento de %s, previsto para %s"
 
-#: application\modules\finances/views/scripts/index/index.phtml:101
+#: application\modules\finances/views/scripts/index/index.phtml:58
 msgid "#Finances"
 msgstr "Finanças"
 
-#: application\modules\finances/views/scripts/index/index.phtml:105
-#: application\modules\finances/views/scripts/index/index.phtml:111
+#: application\modules\finances/views/scripts/index/index.phtml:62
+#: application\modules\finances/views/scripts/index/index.phtml:69
 msgid "#Projects"
 msgstr "Projetos"
 
-#: application\modules\finances/views/scripts/index/index.phtml:106
+#: application\modules\finances/views/scripts/index/index.phtml:63
+msgid "#Outlays"
+msgstr "Pagamentos"
+
+#: application\modules\finances/views/scripts/index/index.phtml:64
 msgid "#Payables"
 msgstr "A pagar"
 
-#: application\modules\finances/views/scripts/index/index.phtml:127
-#: application\modules\finances/views/scripts/index/index.phtml:227
-#: application\modules\finances/views/scripts/index/__index.phtml:24
+#: application\modules\finances/views/scripts/index/index.phtml:85
+#: application\modules\finances/views/scripts/index/index.phtml:186
+#: application\modules\finances/views/scripts/index/index.phtml:311
 #: application\modules\finances/views/scripts/outlay/create.phtml:4
 #: application\modules\finances/views/scripts/outlay/edit.phtml:4
 #: application\modules\finances/views/scripts/project/detail.phtml:118
@@ -139,129 +146,143 @@ msgstr "A pagar"
 msgid "#Project"
 msgstr "Projeto"
 
-#: application\modules\finances/views/scripts/index/index.phtml:128
-#: application\modules\finances/views/scripts/index/__index.phtml:25
+#: application\modules\finances/views/scripts/index/index.phtml:86
 msgid "#Client"
 msgstr "Cliente"
 
-#: application\modules\finances/views/scripts/index/index.phtml:129
-#: application\modules\finances/views/scripts/index/__index.phtml:26
+#: application\modules\finances/views/scripts/index/index.phtml:87
 msgid "#Area"
 msgstr "Área"
 
-#: application\modules\finances/views/scripts/index/index.phtml:130
-#: application\modules\finances/views/scripts/index/index.phtml:232
-#: application\modules\finances/views/scripts/index/__index.phtml:27
+#: application\modules\finances/views/scripts/index/index.phtml:88
+#: application\modules\finances/views/scripts/index/index.phtml:316
 #: application\modules\finances/views/scripts/receivable/detail.phtml:87
 msgid "#Status"
 msgstr "Status"
 
-#: application\modules\finances/views/scripts/index/index.phtml:131
-#: application\modules\finances/views/scripts/index/__index.phtml:28
+#: application\modules\finances/views/scripts/index/index.phtml:89
 msgid "#% physical progress"
 msgstr "% físico"
 
-#: application\modules\finances/views/scripts/index/index.phtml:132
-#: application\modules\finances/views/scripts/index/__index.phtml:29
+#: application\modules\finances/views/scripts/index/index.phtml:90
 msgid "#% payables"
 msgstr "% pagtos"
 
-#: application\modules\finances/views/scripts/index/index.phtml:133
-#: application\modules\finances/views/scripts/index/__index.phtml:30
+#: application\modules\finances/views/scripts/index/index.phtml:91
 msgid "#% receivings"
 msgstr "% receb"
 
-#: application\modules\finances/views/scripts/index/index.phtml:153
-#: application\modules\finances/views/scripts/index/__index.phtml:50
+#: application\modules\finances/views/scripts/index/index.phtml:111
 msgid "#Options..."
 msgstr "Opções..."
 
-#: application\modules\finances/views/scripts/index/index.phtml:157
-#: application\modules\finances/views/scripts/index/index.phtml:266
-#: application\modules\finances/views/scripts/index/__index.phtml:54
+#: application\modules\finances/views/scripts/index/index.phtml:115
+#: application\modules\finances/views/scripts/index/index.phtml:241
+#: application\modules\finances/views/scripts/index/index.phtml:350
 #: application\modules\finances/views/scripts/project/detail.phtml:266
 #: application\modules\finances/views/scripts/project/detail.phtml:374
 #: application\modules\finances/views/scripts/receivable/detail.phtml:106
 msgid "#Edit"
 msgstr "Editar"
 
-#: application\modules\finances/views/scripts/index/index.phtml:160
-#: application\modules\finances/views/scripts/index/__index.phtml:57
+#: application\modules\finances/views/scripts/index/index.phtml:118
 msgid "#Predict Receiving"
 msgstr "Prever recebimento"
 
-#: application\modules\finances/views/scripts/index/index.phtml:163
-#: application\modules\finances/views/scripts/index/__index.phtml:60
+#: application\modules\finances/views/scripts/index/index.phtml:121
 msgid "#Create action"
 msgstr "Criar ação"
 
-#: application\modules\finances/views/scripts/index/index.phtml:166
-#: application\modules\finances/views/scripts/index/__index.phtml:63
+#: application\modules\finances/views/scripts/index/index.phtml:124
 msgid "#Project details"
 msgstr "Detalhes do projeto"
 
-#: application\modules\finances/views/scripts/index/index.phtml:172
-#: application\modules\finances/views/scripts/index/__index.phtml:69
+#: application\modules\finances/views/scripts/index/index.phtml:130
 #: application\modules\finances/views/scripts/project/detail.phtml:132
 msgid "#Amend contract"
 msgstr "Cadastrar aditivo"
 
-#: application\modules\finances/views/scripts/index/index.phtml:200
-#: application\modules\finances/views/scripts/index/__index.phtml:97
+#: application\modules\finances/views/scripts/index/index.phtml:158
 msgid "#There is no list of projects."
 msgstr "Não existe uma lista de projetos."
 
-#: application\modules\finances/views/scripts/index/index.phtml:205
-#: application\modules\finances/views/scripts/index/__index.phtml:102
+#: application\modules\finances/views/scripts/index/index.phtml:163
 msgid "#Create New Project"
 msgstr "Criar novo projeto"
 
-#: application\modules\finances/views/scripts/index/index.phtml:214
-msgid "#Approved actions to pay"
-msgstr "Ações a pagar"
+#: application\modules\finances/views/scripts/index/index.phtml:174
+msgid "#All outlays"
+msgstr "Todos os pagamentos"
 
-#: application\modules\finances/views/scripts/index/index.phtml:228
+#: application\modules\finances/views/scripts/index/index.phtml:187
+#: application\modules\finances/views/scripts/index/index.phtml:312
 #: application\modules\finances/views/scripts/project/detail.phtml:323
 msgid "#Action"
 msgstr "Ação"
 
-#: application\modules\finances/views/scripts/index/index.phtml:229
+#: application\modules\finances/views/scripts/index/index.phtml:188
+#: application\modules\finances/views/scripts/index/index.phtml:313
 #: application\modules\finances/views/scripts/project/detail.phtml:324
 msgid "#Payee"
 msgstr "Beneficiado"
 
-#: application\modules\finances/views/scripts/index/index.phtml:230
+#: application\modules\finances/views/scripts/index/index.phtml:189
+#: application\modules\finances/views/scripts/index/index.phtml:314
 #: application\modules\finances/views/scripts/project/detail.phtml:232
 #: application\modules\finances/views/scripts/project/detail.phtml:325
 msgid "#Predicted date"
 msgstr "Data prevista"
 
-#: application\modules\finances/views/scripts/index/index.phtml:231
+#: application\modules\finances/views/scripts/index/index.phtml:190
+#: application\modules\finances/views/scripts/project/detail.phtml:234
+#: application\modules\finances/views/scripts/project/detail.phtml:326
+msgid "#Real date"
+msgstr "Data real"
+
+#: application\modules\finances/views/scripts/index/index.phtml:191
+#: application\modules\finances/views/scripts/index/index.phtml:315
 #: application\modules\finances/views/scripts/project/detail.phtml:233
 #: application\modules\finances/views/scripts/project/detail.phtml:327
 msgid "#Predicted value"
 msgstr "Valor previsto"
 
-#: application\modules\finances/views/scripts/index/index.phtml:261
+#: application\modules\finances/views/scripts/index/index.phtml:192
+#: application\modules\finances/views/scripts/project/detail.phtml:235
+#: application\modules\finances/views/scripts/project/detail.phtml:328
+msgid "#Real value"
+msgstr "Valor real"
+
+#: application\modules\finances/views/scripts/index/index.phtml:236
+#: application\modules\finances/views/scripts/index/index.phtml:345
 #: application\modules\finances/views/scripts/project/detail.phtml:261
 #: application\modules\finances/views/scripts/project/detail.phtml:369
 #: application\modules\finances/views/scripts/receivable/detail.phtml:102
 msgid "#Options"
 msgstr "Opções"
 
-#: application\modules\finances/views/scripts/index/index.phtml:277
+#: application\modules\finances/views/scripts/index/index.phtml:252
+#: application\modules\finances/views/scripts/index/index.phtml:361
 #: application\modules\finances/views/scripts/project/detail.phtml:385
 msgid "#Confirm payment"
 msgstr "Confirmar pagamento"
 
-#: application\modules\finances/views/scripts/index/index.phtml:302
+#: application\modules\finances/views/scripts/index/index.phtml:263
+#: application\modules\finances/views/scripts/project/detail.phtml:396
+msgid "#Outlay details"
+msgstr "Detalhes do pagamento"
+
+#: application\modules\finances/views/scripts/index/index.phtml:282
+msgid "#There is no registered outlays."
+msgstr "Não existe uma lista de pagamentos."
+
+#: application\modules\finances/views/scripts/index/index.phtml:298
+msgid "#Approved actions to pay"
+msgstr "Ações a pagar"
+
+#: application\modules\finances/views/scripts/index/index.phtml:386
 #: application\modules\finances/views/scripts/project/detail.phtml:414
 msgid "#There is no outlays related to this project."
 msgstr "Não há pagamentos associados a esse projeto."
-
-#: application\modules\finances/views/scripts/index/__index.phtml:6
-msgid "#Projects (finances vision)"
-msgstr "Visão financeira dos projetos"
 
 #: application\modules\finances/views/scripts/outlay/create.phtml:7
 #, php-format
@@ -351,16 +372,6 @@ msgstr "Pagamentos"
 msgid "#Parcel"
 msgstr "Parcela"
 
-#: application\modules\finances/views/scripts/project/detail.phtml:234
-#: application\modules\finances/views/scripts/project/detail.phtml:326
-msgid "#Real date"
-msgstr "Data real"
-
-#: application\modules\finances/views/scripts/project/detail.phtml:235
-#: application\modules\finances/views/scripts/project/detail.phtml:328
-msgid "#Real value"
-msgstr "Valor real"
-
 #: application\modules\finances/views/scripts/project/detail.phtml:270
 msgid "#Add product"
 msgstr "Adicionar produto"
@@ -373,10 +384,6 @@ msgstr "Informar recebimento"
 #: application\modules\finances/views/scripts/project/detail.phtml:301
 msgid "#Predict receiving"
 msgstr "Prever recebimento"
-
-#: application\modules\finances/views/scripts/project/detail.phtml:396
-msgid "#Outlay details"
-msgstr "Detalhes do pagamento"
 
 #: application\modules\finances/views/scripts/receivable/create.phtml:10
 msgid "#New receivable"
@@ -427,6 +434,9 @@ msgstr "Produto"
 #: application\modules\finances/views/scripts/receivable/detail.phtml:86
 msgid "#Responsible"
 msgstr "Responsável"
+
+#~ msgid "#Projects (finances vision)"
+#~ msgstr "Visão financeira dos projetos"
 
 #~ msgid "#Create outlay"
 #~ msgstr "Prever pagamento"

@@ -92,6 +92,7 @@ class Finances_IndexController extends Zend_Controller_Action
         $this->outlayMapper = new C3op_Finances_OutlayMapper($this->db);
 
         $list = $this->outlayMapper->fetchAllOutlaysThatCanBePayed();
+        $payablesList = array();
 
         foreach ($list as $id) {
 
@@ -100,20 +101,38 @@ class Finances_IndexController extends Zend_Controller_Action
             }
             $thisOutlay = $this->outlayMapper->findById($id);
 
-            $teamMemberData = $this->fetchOutlayData($thisOutlay);
+            $data = $this->fetchPayableData($thisOutlay);
 
 
 
 
-            $payablesList[$id] = $teamMemberData;
+            $payablesList[$id] = $data;
 
         }
+
+        $list = $this->outlayMapper->fetchAllOutlaysFromAllActiveProjects();
+        $outlaysList = array();
+
+        foreach ($list as $id) {
+
+            if (!isset($this->outlayMapper)) {
+                $this->initOutlayMapper();
+            }
+            $thisOutlay = $this->outlayMapper->findById($id);
+
+            $data = $this->fetchOutlayData($thisOutlay);
+
+            $outlaysList[$id] = $data;
+
+        }
+
 
 
 
         $pageData = array(
                 'projectsList' => $projectsList,
                 'payablesList' => $payablesList,
+                'outlaysList'  => $outlaysList,
             );
 
         $this->view->pageData = $pageData;
@@ -125,6 +144,110 @@ class Finances_IndexController extends Zend_Controller_Action
     }
 
     private function fetchOutlayData(C3op_Finances_Outlay $outlay)
+    {
+
+        if (!isset($this->teamMemberMapper)) {
+            $this->initTeamMemberMapper();
+        }
+        if (!isset($this->linkageMapper)) {
+            $this->initLinkageMapper();
+        }
+        if (!isset($this->contactMapper)) {
+            $this->initContactMapper();
+        }
+        if (!isset($this->actionMapper)) {
+            $this->initActionMapper();
+        }
+        if (!isset($this->projectMapper)) {
+            $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
+        }
+
+        $outlayData = array();
+
+        $actionId = $outlay->getAction();
+        $theAction = $this->actionMapper->findById($actionId);
+        $actionTitle = $theAction->getTitle();
+
+        $thisProject = $this->projectMapper->findById($outlay->GetProject());
+        $projectTitle = $thisProject->GetShortTitle();
+        $projectId = $thisProject->GetId();
+
+
+
+        $payeeName = $this->view->translate("#Not defined");
+        $payeeId = 0;
+        if ($outlay->getTeamMember() > 0) {
+            $teamMemberId = $outlay->getTeamMember();
+            $theTeamMember = $this->teamMemberMapper->findById($teamMemberId);
+
+            $linkageId = null;
+
+
+            if ($theTeamMember->getLinkage() > 0) {
+
+                $theLinkage = $this->linkageMapper->findById($theTeamMember->getLinkage());
+                $theContact = $this->contactMapper->findById($theLinkage->getContact());
+
+                $payeeId = $theContact->getId();
+                $payeeName = $theContact->getName();
+                $linkageId = $theTeamMember->getLinkage();
+
+                $status = $theTeamMember->getStatus();
+                if ($status == C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED) {
+                    $doesIt = new C3op_Resources_TeamMemberHasCredit($theTeamMember, $this->teamMemberMapper);
+                    if ($doesIt->hasCreditToPay()) {
+                        $canNotifyOutlay = true;
+                    } else {
+                        $canNotifyOutlay = false;
+                    }
+                } else {
+                    $canNotifyOutlay = false;
+                }
+
+
+
+
+            }
+        }
+
+        $validator = new C3op_Util_ValidDate();
+
+        if ($validator->isValid($outlay->getRealDate())) {
+            $realDate = C3op_Util_DateDisplay::FormatDateToShow($outlay->getRealDate());
+        } else {
+            $realDate = $this->view->translate('#(undefined)');
+        }
+
+        if ($validator->isValid($outlay->getPredictedDate())) {
+            $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($outlay->getPredictedDate());
+        } else {
+            $predictedDate = $this->view->translate('#(undefined)');
+        }
+        $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+        $predictedValue = $currencyDisplay->FormatCurrency($outlay->getPredictedValue());
+        $realValue = $currencyDisplay->FormatCurrency($outlay->getRealValue());
+
+        $outlayData = array(
+            'payeeName'       => $payeeName,
+            'payeeId'         => $payeeId,
+            'actionTitle'     => $actionTitle,
+            'actionId'        => $actionId,
+            'linkageId'       => $linkageId,
+            'teamMemberId'    => $teamMemberId,
+            'projectTitle'    => $projectTitle,
+            'projectId'       => $projectId,
+            'predictedDate'   => $predictedDate,
+            'realDate'        => $realDate,
+            'predictedValue'  => $predictedValue,
+            'realValue'       => $realValue,
+            'canNotifyOutlay' => $canNotifyOutlay,
+        );
+
+        return $outlayData;
+    }
+
+
+    private function fetchPayableData(C3op_Finances_Outlay $outlay)
     {
 
         if (!isset($this->teamMemberMapper)) {
