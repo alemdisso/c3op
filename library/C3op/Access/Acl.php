@@ -48,7 +48,7 @@ public function __construct() {
     $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:finances.outlay', 'edit');
     $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:finances.outlay', 'notify');
     $this->deny(C3op_Access_RolesConstants::ROLE_CONTROLLER,     'c3op:finances.outlay');
-    $this->allow(C3op_Access_RolesConstants::ROLE_DIRECTOR, 'c3op:finances.outlay', 'create');
+    $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR, 'c3op:finances.outlay', 'create');
     $this->allow(C3op_Access_RolesConstants::ROLE_DIRECTOR, 'c3op:finances.outlay', 'edit');
     $this->allow(C3op_Access_RolesConstants::ROLE_DIRECTOR, 'c3op:finances.outlay', 'create');
     $this->allow(C3op_Access_RolesConstants::ROLE_DIRECTOR, 'c3op:finances.outlay', 'notify');
