@@ -110,7 +110,7 @@ class C3op_Form_ActionEdit extends C3op_Form_ActionCreate
             }
             $action->SetDescription($data['description']);
             $action->SetSubordinatedTo($data['subordinatedTo']);
-            $action->SetResponsible($data['responsible']);
+            $action->setSupervisor($data['supervisor']);
             $action->SetRequirementForReceiving($data['requirementForReceiving']);
 //            $action->SetMilestone($data['milestone']);
 //            $action->SetRequirementForReceiving($data['requirementForReceiving']);

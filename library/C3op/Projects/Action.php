@@ -10,7 +10,7 @@ class C3op_Projects_Action {
     protected $description;
     protected $begin;
     protected $subordinatedTo = 0;
-    protected $responsible = 0;
+    protected $supervisor = 0;
     protected $milestone = false;
     protected $product = false;
     protected $requirementForReceiving = false;
@@ -170,17 +170,17 @@ class C3op_Projects_Action {
     }
 
 
-    public function getResponsible()
+    public function getSupervisor()
     {
-        return $this->responsible;
+        return $this->supervisor;
     }
 
-    public function setResponsible($responsible)
+    public function setSupervisor($supervisor)
     {
-        if ($this->responsible != $responsible) {
+        if ($this->supervisor != $supervisor) {
             $validator = new C3op_Util_ValidPositiveInteger();
-            if ($validator->isValid($responsible)) {
-                $this->responsible = $responsible;
+            if ($validator->isValid($supervisor)) {
+                $this->supervisor = $supervisor;
             }
         }
     }

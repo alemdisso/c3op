@@ -95,8 +95,8 @@ class Finances_ReceivableController extends Zend_Controller_Action
             $data = array();
             $data['title'] = $loopAction->getTitle();
 
-            if ($loopAction->getResponsible()) {
-                $theContact = $this->contactMapper->findById($loopAction->getResponsible());
+            if ($loopAction->getSupervisor()) {
+                $theContact = $this->contactMapper->findById($loopAction->getSupervisor());
                 $data['responsibleName'] = $theContact->getName();
             } else {
                 $data['responsibleName'] = $this->view->translate("#Not defined");

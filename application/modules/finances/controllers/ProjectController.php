@@ -512,8 +512,8 @@ class Finances_ProjectController extends Zend_Controller_Action
             $data['title'] = $loopAction->getTitle();
             $data['subordinatedTo'] = $loopAction->getSubordinatedTo();
 
-            if ($loopAction->getResponsible()) {
-                $theContact = $this->contactMapper->findById($loopAction->getResponsible());
+            if ($loopAction->getSupervisor()) {
+                $theContact = $this->contactMapper->findById($loopAction->getSupervisor());
                 $data['responsibleName'] = $theContact->getName();
             } else {
                 $data['responsibleName'] = $this->view->translate("#Not defined");

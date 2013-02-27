@@ -181,7 +181,7 @@ class C3op_Form_ActionCreate extends Zend_Form
             }
 
             $action->SetSubordinatedTo($this->subordinatedTo->GetValue());
-            $action->SetResponsible($this->responsible->GetValue());
+            $action->setSupervisor($this->responsible->GetValue());
 
 //            $milestone = $this->milestone->GetValue();
 //            if ($milestone == '1') {

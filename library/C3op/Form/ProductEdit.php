@@ -99,7 +99,7 @@ class C3op_Form_ProductEdit extends C3op_Form_ProductCreate
             }
             $action->SetDescription($data['description']);
             //$action->SetSubordinatedTo($data['subordinatedTo']);
-            $action->SetResponsible($data['responsible']);
+            $action->setSupervisor($data['supervisor']);
             $action->SetMilestone($data['milestone']);
             $action->SetProduct($data['product']);
             $action->SetRequirementForReceiving($data['requirementForReceiving']);

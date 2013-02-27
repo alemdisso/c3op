@@ -58,10 +58,10 @@ function rejectReceipt(id){
         </div><!-- MainHeader -->
 
 <?php
-    if ($actionHeader['messageToShow']) {
+    if ($pageData['messageToShow']) {
 ?>
         <div class="flashMessage">
-            <?php echo $this->translate($actionHeader['messageToShow']); ?>
+            <?php echo $this->translate($pageData['messageToShow']); ?>
         </div>
 <?php
     }
@@ -82,10 +82,10 @@ function rejectReceipt(id){
         <div class="Area">
 
           <div class="three columns alpha Right">
-            <?php print($this->translate("#Responsible:")); ?>
+            <?php print($this->translate("#Supervisor:")); ?>
           </div>
           <div class="six columns">
-            <?php print($actionHeader['responsibleName']); ?>
+            <?php print($actionHeader['supervisorName']); ?>
           </div>
           <div class="two columns Right">
             <?php print($this->translate("#Status")); ?>
@@ -129,50 +129,47 @@ if ($parentId > 0) {
           <div class="three columns alpha Right">
             <?php print($this->translate("#Predicted begin:")); ?>
           </div>
-          <div class="one column">
-            <?php print($actionHeader['predictedBeginDate']); ?>
+          <div class="two column">
+            <?php print($this->translate($actionHeader['predictedBeginDate'])); ?>
           </div>
           <div class="three columns Right">
             <?php print($this->translate("#Predicted finish:")); ?>
           </div>
           <div class="two columns">
-            <?php print($actionHeader['predictedFinishDate']); ?>
+            <?php print($this->translate($actionHeader['predictedFinishDate'])); ?>
           </div>
-          <div class="two columns inset-by-three omega">
-            <?php print($this->translate($actionHeader['milestone'])); ?>
+          <div class="two columns inset-by-two omega">
+<?php
+            if ($actionHeader['isAMilestone']) {
+?>
+            <?php print($this->translate('#Is a milestone')); ?>
+
+<?
+            } else {
+?>
+            <?php print($this->translate('#Is not a milestone')); ?>
+
+<?
+            }
+?>
+
+
           </div>
 
             <div class="three columns alpha Right">
             <?php print($this->translate("#Real begin:")); ?>
           </div>
           <div class="two columns">
-            <?php print($actionHeader['realBeginDate']); ?>
+            <?php print($this->translate($actionHeader['realBeginDate'])); ?>
           </div>
           <div class="two columns Right">
             <?php print($this->translate("#Real finish:")); ?>
           </div>
           <div class="two columns">
-            <?php print($actionHeader['realFinishDate']); ?>
+            <?php print($this->translate($actionHeader['realFinishDate'])); ?>
           </div>
           <div class="three columns inset-by-two omega">
 
-<?php
-  if ($actionHeader['unacknowledgedStart']) {
-?>
-            <div id='acknowledgeStart-<?php print($actionHeader['id']); ?>'>
-              <a class="full column button full column alpha omega" href="javascript:acknowledgeStart('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Acknowledge start")); ?></a>
-            </div>
-
-            &nbsp;
-    <?php
-  }
-  if ($actionHeader['receiptToAcceptOrReject']) {
-
-?>
-            &nbsp;
-<?php
-  }
-?>
 <?php
   if ($actionHeader['waitingToReceipt']) {
 ?>
@@ -199,7 +196,7 @@ if ($parentId > 0) {
             <?php print($this->translate("#Receipt date:")); ?>
           </div>
           <div class="one column">
-            <?php print($actionHeader['receiptDate']); ?>
+            <?php print($this->translate($actionHeader['receiptDate'])); ?>
           </div>
           <div class="six columns inset-by-four">
             <div id="receiptAcknowledgement-<?php print($actionHeader['id']);?>">
@@ -220,19 +217,13 @@ if ($parentId > 0) {
   }
 ?>
 
-          <div class="three columns alpha Right">
-            <?php print($this->translate("#Total contracted value:")); ?>
-          </div>
-          <div class="two columns">
-            <?php print($actionHeader['totalContractedValue']); ?>
-          </div>
 
 <?php
   if ($actionHeader['notAProduct']) {
             $productLink = "<a href='/projects/action/detail/?id=" . $actionHeader['relatedProductId'] . "'>" . $actionHeader['relatedProductTitle'] . "</a>";
 ?>
-          <div class="nine columns alpha omega">
-            <?php printf($this->translate("#This action is related to product %s that should be delivered until %s"), $productLink, $actionHeader['productDeliveryDate']); ?>
+          <div class="eleven columns alpha omega">
+            <?php printf($this->translate("#This action is related to product %s that should be delivered until %s"), $productLink, $this->translate($actionHeader['productDeliveryDate'])); ?>
           </div>
 
 <?php
@@ -257,7 +248,7 @@ if ($parentId > 0) {
               <thead>
                 <tr>
                   <th width="200"><?php print($this->translate("#Action")); ?></th>
-                  <th width="100"><?php print($this->translate("#Responsible")); ?></th>
+                  <th width="100"><?php print($this->translate("#Supervisor")); ?></th>
                   <th width="100"><?php print($this->translate("#Status")); ?></th>
                   <th width="10">&nbsp;</th>
                 </tr>
@@ -270,7 +261,7 @@ if ($parentId > 0) {
                 <!-- ### loop de carga das ações subordinadas a esta ação -->
                 <tr>
                   <td><a href="/projects/action/detail/?id=<?php print($id);?>"><?php print($subordinatedActionData['title']) ?></a></td>
-                  <td><?php print($subordinatedActionData['responsibleName']); ?></td>
+                  <td><?php print($this->translate($subordinatedActionData['supervisorName'])); ?></td>
                   <td><?php print($this->translate($subordinatedActionData['status'])); ?></td>
                       <td>
                     <a href="#" class="button one column alpha omega anchorclass" rel="submenu1"><?php print($this->translate("#Options")); ?></a>

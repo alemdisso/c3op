@@ -683,7 +683,8 @@ class Projects_ProjectController extends Zend_Controller_Action
         $projectInfo = array(
             'title' => $thisProject->getShortTitle(),
             'linkDetail' => '/projects/project/detail/?id=' . $id   ,
-            'projectValue' => $projectValue,
+//            'projectValue' => $projectValue,
+            'projectValue' => "N/D",
             'editLink' => '/projects/project/edit/?id=' . $id   ,
             'receivablesList' => $receivablesList,
         );
@@ -946,8 +947,8 @@ class Projects_ProjectController extends Zend_Controller_Action
             $data['title'] = $loopAction->getTitle();
             $data['subordinatedTo'] = $loopAction->getSubordinatedTo();
 
-            if ($loopAction->getResponsible()) {
-                $theContact = $this->contactMapper->findById($loopAction->getResponsible());
+            if ($loopAction->getSupervisor()) {
+                $theContact = $this->contactMapper->findById($loopAction->getSupervisor());
                 $data['responsibleName'] = $theContact->getName();
             } else {
                 $data['responsibleName'] = $this->view->translate("#Not defined");
@@ -1087,7 +1088,8 @@ class Projects_ProjectController extends Zend_Controller_Action
                 'id'                     => $materialSupplyId,
                 'name'                   => $institutionName,
                 'description'            => $descriptionMessage,
-                'value'                  => $currencyValue,
+                'value'                  => "N/D",
+//                'value'                  => $currencyValue,
                 'contractingStatusLabel' => $statusLabel,
                 'canContractFlag'        => $canContract,
                 'canRemoveMaterialSupply'    => $canRemoveMaterialSupply,
