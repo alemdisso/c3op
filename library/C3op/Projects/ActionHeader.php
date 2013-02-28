@@ -11,10 +11,10 @@ class C3op_Projects_ActionHeader {
     public function __construct($db, C3op_Projects_Action $action, C3op_Projects_ActionMapper $mapper)
     {
         $this->data = array(
-            'notAProduct'             => "1",
-            'relatedProductTitle'     => "um produto",
-            'relatedProductId'        => "2",
-            'productDeliveryDate'     => "03-5-2010",
+//            'notAProduct'             => "1",
+//            'relatedProductTitle'     => "um produto",
+//            'relatedProductId'        => "2",
+//            'productDeliveryDate'     => "03-5-2010",
 
         );
 
@@ -223,18 +223,18 @@ class C3op_Projects_ActionHeader {
         }
 
 
-        $notAProduct = true;
+//die("{$relatedProductId} == {$this->action->getId()}");
         if ($productRelated->getId() == $this->action->getId()) {
             $this->data['notAProduct'] = false;
-            $this->data['relatedProductTitle'] = $relatedProductTitle;
-            $this->data['productDeliveryDate'] = $productDeliveryDate;
-            $this->data['relatedProductId'] = $productRelated->getId();
-
-        } else {
-            $this->data['notAProduct'] = true;
             $this->data['relatedProductTitle'] = "#(no product)";
             $this->data['productDeliveryDate'] = "#(no product to deliver)";
             $this->data['relatedProductId'] = "0";
+
+        } else {
+            $this->data['notAProduct'] = true;
+            $this->data['relatedProductTitle'] = $relatedProductTitle;
+            $this->data['productDeliveryDate'] = $productDeliveryDate;
+            $this->data['relatedProductId'] = $productRelated->getId();
 
         }
 

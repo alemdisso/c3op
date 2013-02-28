@@ -85,7 +85,7 @@ function rejectReceipt(id){
             <?php print($this->translate("#Supervisor:")); ?>
           </div>
           <div class="six columns">
-            <?php print($actionHeader['supervisorName']); ?>
+            <?php print($this->translate($actionHeader['supervisorName'])); ?>
           </div>
           <div class="two columns Right">
             <?php print($this->translate("#Status")); ?>
@@ -219,10 +219,13 @@ if ($parentId > 0) {
 
 
 <?php
-  if ($actionHeader['notAProduct']) {
+  if (($actionHeader['notAProduct'] ) && ($actionHeader['relatedProductId'])) {
             $productLink = "<a href='/projects/action/detail/?id=" . $actionHeader['relatedProductId'] . "'>" . $actionHeader['relatedProductTitle'] . "</a>";
 ?>
-          <div class="eleven columns alpha omega">
+          <div class="three columns alpha Right">
+             &nbsp;
+          </div>
+          <div class="eight columns omega">
             <?php printf($this->translate("#This action is related to product %s that should be delivered until %s"), $productLink, $this->translate($actionHeader['productDeliveryDate'])); ?>
           </div>
 
