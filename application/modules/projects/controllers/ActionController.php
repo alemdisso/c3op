@@ -73,7 +73,7 @@ class Projects_ActionController extends Zend_Controller_Action
             }
 
             $projectData = $this->populateProjectFields($projectId, $form);
-            $this->populateResponsibleField($form);
+            $this->populateSupervisorField($form);
             //$this->populateRequirementForReceivingField($projectId, $form, $requirementForReceiving);
 
             $subordinatedToField = $form->getElement('subordinatedTo');
@@ -123,7 +123,7 @@ class Projects_ActionController extends Zend_Controller_Action
             $element->setValue(1);
 
             $projectData = $this->populateProjectFields($projectId, $form);
-            $this->populateResponsibleField($form);
+            $this->populateSupervisorField($form);
             $this->populateRequirementForReceivingField($projectId, $form, $requirementForReceiving);
             $pageData = array(
                 'id'           => $projectId,
@@ -193,7 +193,7 @@ class Projects_ActionController extends Zend_Controller_Action
                     $form->removeElement('status');
                 }
 
-                $this->populateResponsibleField($form, $inputAction->getSupervisor());
+                $this->populateSupervisorField($form, $inputAction->getSupervisor());
 
                 if ($inputAction->getSubordinatedTo() > 0) {
                     $form->removeElement('requirementForReceiving');
@@ -274,7 +274,7 @@ class Projects_ActionController extends Zend_Controller_Action
                     $form->removeElement('status');
                 }
 
-                $this->populateResponsibleField($form, $inputAction->getSupervisor());
+                $this->populateSupervisorField($form, $inputAction->getSupervisor());
                 $this->populateRequirementForReceivingField($projectId, $form, $inputAction->getRequirementForReceiving());
 //                $subordinatedToField = $form->getElement('subordinatedTo');
 //                $subordinatedToField->setValue($inputAction->getSubordinatedTo());
@@ -307,7 +307,6 @@ class Projects_ActionController extends Zend_Controller_Action
 
         $header = new C3op_Projects_ActionHeader($this->db, $actionToBeDetailed, $this->actionMapper);
         $actionHeader = $header->fetch();
-
 
         // teamMemberList
         //   * teamMemberInfo
@@ -632,16 +631,16 @@ class Projects_ActionController extends Zend_Controller_Action
         } else throw new C3op_Projects_ActionException("Action needs a positive integer project id to find possible receivables to to be a requirement.");
    }
 
-    private function populateResponsibleField(Zend_Form $form, $currentResponsible = 0)
+    private function populateSupervisorField(Zend_Form $form, $currentSupervisor = 0)
     {
             $this->initContactMapper();
-            $responsibleField = $form->getElement('responsible');
-            $allThatCanBeResponsible = $this->contactMapper->getAllContactThatAreLinkedToAContractant();
-            while (list($key, $contactId) = each($allThatCanBeResponsible)) {
-                $eachPossibleResponsible = $this->contactMapper->findById($contactId);
-                $responsibleField->addMultiOption($contactId, $eachPossibleResponsible->GetName());
+            $supervisorField = $form->getElement('supervisor');
+            $allThatCanBeSupervisor = $this->contactMapper->getAllContactThatAreLinkedToAContractant();
+            while (list($key, $contactId) = each($allThatCanBeSupervisor)) {
+                $eachPossibleSupervisor = $this->contactMapper->findById($contactId);
+                $supervisorField->addMultiOption($contactId, $eachPossibleSupervisor->GetName());
             }
-            $responsibleField->setValue($currentResponsible);
+            $supervisorField->setValue($currentSupervisor);
    }
 
     private function initProjectMapper()

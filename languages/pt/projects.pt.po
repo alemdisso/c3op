@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-14 21:46-0300\n"
-"PO-Revision-Date: 2013-02-14 21:46-0300\n"
+"POT-Creation-Date: 2013-02-28 10:26-0300\n"
+"PO-Revision-Date: 2013-02-28 10:27-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -31,7 +31,7 @@ msgid "#Create action subordinated to %s"
 msgstr "Criar ação subordinada a %s"
 
 #: application\modules\projects/controllers/ActionController.php:145
-#: application\modules\projects/controllers/ActionController.php:223
+#: application\modules\projects/controllers/ActionController.php:226
 #: application\modules\projects/controllers/ContractController.php:34
 #: application\modules\projects/controllers/ContractController.php:157
 #: application\modules\projects/controllers/ProjectController.php:48
@@ -39,61 +39,16 @@ msgstr "Criar ação subordinada a %s"
 msgid "#The record was successfully updated."
 msgstr "O registro foi atualizado com sucesso."
 
-#: application\modules\projects/controllers/ActionController.php:336
-#: application\modules\projects/controllers/ActionController.php:370
-#: application\modules\projects/controllers/ContractController.php:92
-#: application\modules\projects/controllers/ProjectController.php:337
-#: application\modules\projects/controllers/ProjectController.php:953
-#: application\modules\projects/controllers/ProjectController.php:1160
-#: application\modules\projects/controllers/ProjectController.php:1167
-msgid "#Not defined"
-msgstr "A definir"
-
-#: application\modules\projects/controllers/ActionController.php:384
-msgid "#Is a milestone"
-msgstr "É um marco"
-
-#: application\modules\projects/controllers/ActionController.php:386
-msgid "#Is not a milestone"
-msgstr "Não é um marco"
-
-#: application\modules\projects/controllers/ActionController.php:394
-#: application\modules\projects/controllers/ActionController.php:400
-msgid "#(undefined)"
-msgstr "(indefinido)"
-
-#: application\modules\projects/controllers/ActionController.php:407
-#: application\modules\projects/controllers/ProjectController.php:173
-msgid "#(not finished)"
-msgstr "(a terminar)"
-
-#: application\modules\projects/controllers/ActionController.php:414
-#: application\modules\projects/controllers/ContractController.php:108
-msgid "#(not received)"
-msgstr "(não recebido)"
-
-#: application\modules\projects/controllers/ActionController.php:419
-msgid "#(not started)"
-msgstr "(não iniciada)"
-
-#: application\modules\projects/controllers/ActionController.php:450
-#: application\modules\projects/controllers/IndexController.php:43
-#: application\modules\projects/controllers/ProjectController.php:495
-#: application\modules\projects/controllers/ProjectController.php:583
-#: application\modules\projects/controllers/ProjectController.php:595
-#: application\modules\projects/controllers/ProjectController.php:1147
-msgid "#(not defined)"
-msgstr "(não definido)"
-
-#: application\modules\projects/controllers/ActionController.php:568
+#: application\modules\projects/controllers/ActionController.php:389
 msgid "#The record was successfully removed."
 msgstr "O registro foi removido com sucesso."
 
-#: application\modules\projects/controllers/ActionController.php:735
+#: application\modules\projects/controllers/ActionController.php:561
 msgid "#It needs a positive integer project id to populate project fields."
 msgstr "It needs a positive integer project id to populate project fields."
 
-#: application\modules\projects/controllers/ActionController.php:765
+#: application\modules\projects/controllers/ActionController.php:580
+#: application\modules\projects/controllers/ActionController.php:609
 msgid ""
 "#It needs a positive integer project id to find other actions from same "
 "project."
@@ -101,16 +56,36 @@ msgstr ""
 "It needs a positive integer project id to find other actions from same "
 "project."
 
-#: application\modules\projects/controllers/ActionController.php:1023
-#: application\modules\projects/controllers/ActionController.php:1110
+#: application\modules\projects/controllers/ActionController.php:894
+#: application\modules\projects/controllers/ActionController.php:983
 #: application\modules\projects/controllers/ProjectController.php:339
-#: application\modules\projects/controllers/ProjectController.php:1058
+#: application\modules\projects/controllers/ProjectController.php:1047
 msgid "(#not defined)"
 msgstr "(não definido)"
+
+#: application\modules\projects/controllers/ContractController.php:92
+#: application\modules\projects/controllers/ProjectController.php:337
+#: application\modules\projects/controllers/ProjectController.php:954
+#: application\modules\projects/controllers/ProjectController.php:1170
+#: application\modules\projects/controllers/ProjectController.php:1177
+msgid "#Not defined"
+msgstr "A definir"
+
+#: application\modules\projects/controllers/ContractController.php:108
+msgid "#(not received)"
+msgstr "(não recebido)"
 
 #: application\modules\projects/controllers/ContractController.php:117
 msgid "#(not registered)"
 msgstr "(não cadastrada)"
+
+#: application\modules\projects/controllers/IndexController.php:43
+#: application\modules\projects/controllers/ProjectController.php:495
+#: application\modules\projects/controllers/ProjectController.php:583
+#: application\modules\projects/controllers/ProjectController.php:595
+#: application\modules\projects/controllers/ProjectController.php:1157
+msgid "#(not defined)"
+msgstr "(não definido)"
 
 #: application\modules\projects/controllers/ProjectController.php:92
 msgid "#New client"
@@ -125,6 +100,10 @@ msgstr "Novo Responsável"
 #: application\modules\projects/controllers/ProjectController.php:166
 msgid "#(no delivery)"
 msgstr "(sem entrega)"
+
+#: application\modules\projects/controllers/ProjectController.php:173
+msgid "#(not finished)"
+msgstr "(a terminar)"
 
 #: application\modules\projects/controllers/ProjectController.php:182
 msgid "#(not a requirement)"
@@ -148,17 +127,17 @@ msgstr "(Não implementado)"
 msgid "#(unknown date)"
 msgstr "(data desconhecida)"
 
-#: application\modules\projects/controllers/ProjectController.php:1172
-#: application\modules\projects/controllers/ProjectController.php:1176
+#: application\modules\projects/controllers/ProjectController.php:1182
+#: application\modules\projects/controllers/ProjectController.php:1186
 msgid "#N/A"
 msgstr "N/D"
 
-#: application\modules\projects/controllers/ProjectController.php:1183
+#: application\modules\projects/controllers/ProjectController.php:1193
 #, php-format
 msgid "#%s until %s"
 msgstr "%s a %s"
 
-#: application\modules\projects/controllers/ProjectController.php:1188
+#: application\modules\projects/controllers/ProjectController.php:1198
 msgid "#Undefined dates"
 msgstr "Datas indefinidas"
 
@@ -303,12 +282,12 @@ msgid "#Action received."
 msgstr "Ação entregue"
 
 #: application\modules\projects/views/scripts/action/acknowledge-receipt.phtml:10
-#: application\modules\projects/views/scripts/action/detail.phtml:206
+#: application\modules\projects/views/scripts/action/detail.phtml:204
 msgid "#Reject receipt"
 msgstr "Rejeitar tarefa"
 
 #: application\modules\projects/views/scripts/action/acknowledge-receipt.phtml:13
-#: application\modules\projects/views/scripts/action/detail.phtml:209
+#: application\modules\projects/views/scripts/action/detail.phtml:207
 msgid "#Accept receipt"
 msgstr "Aceitar tarefa"
 
@@ -317,15 +296,15 @@ msgid "#Start confirmed."
 msgstr "Início confirmado."
 
 #: application\modules\projects/views/scripts/action/acknowledge-start.phtml:8
-#: application\modules\projects/views/scripts/action/detail.phtml:180
+#: application\modules\projects/views/scripts/action/detail.phtml:178
 msgid "#Confirm task realization"
 msgstr "Confirma entrega"
 
 #: application\modules\projects/views/scripts/action/create-product.phtml:2
 #: application\modules\projects/views/scripts/action/create.phtml:2
-#: application\modules\projects/views/scripts/action/detail.phtml:56
+#: application\modules\projects/views/scripts/action/detail.phtml:57
 #: application\modules\projects/views/scripts/action/edit-product.phtml:5
-#: application\modules\projects/views/scripts/action/edit.phtml:2
+#: application\modules\projects/views/scripts/action/edit.phtml:59
 #: application\modules\projects/views/scripts/contract/detail.phtml:8
 #: application\modules\projects/views/scripts/index/index.phtml:24
 #: application\modules\projects/views/scripts/project/detail.phtml:48
@@ -337,29 +316,29 @@ msgstr "Projeto"
 msgid "#New product"
 msgstr "Novo produto"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:70
+#: application\modules\projects/views/scripts/action/detail.phtml:71
 #, php-format
 msgid "#Details of action %s"
 msgstr "Detalhamento da ação %s"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:71
-#: application\modules\projects/views/scripts/action/edit.phtml:5
+#: application\modules\projects/views/scripts/action/detail.phtml:72
+#: application\modules\projects/views/scripts/action/edit.phtml:62
 msgid "#Edit action"
 msgstr "Editar ação"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:75
+#: application\modules\projects/views/scripts/action/detail.phtml:76
 msgid "#Remove action!"
 msgstr "Remover esta ação!"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:84
-msgid "#Responsible:"
-msgstr "Responsável:"
+#: application\modules\projects/views/scripts/action/detail.phtml:85
+msgid "#Supervisor:"
+msgstr "Supervisor:"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:90
-#: application\modules\projects/views/scripts/action/detail.phtml:260
-#: application\modules\projects/views/scripts/action/detail.phtml:315
-#: application\modules\projects/views/scripts/action/detail.phtml:451
-#: application\modules\projects/views/scripts/action/detail.phtml:543
+#: application\modules\projects/views/scripts/action/detail.phtml:91
+#: application\modules\projects/views/scripts/action/detail.phtml:252
+#: application\modules\projects/views/scripts/action/detail.phtml:307
+#: application\modules\projects/views/scripts/action/detail.phtml:443
+#: application\modules\projects/views/scripts/action/detail.phtml:535
 #: application\modules\projects/views/scripts/contract/detail.phtml:73
 #: application\modules\projects/views/scripts/index/index.phtml:27
 #: application\modules\projects/views/scripts/project/detail.phtml:168
@@ -368,89 +347,87 @@ msgstr "Responsável:"
 msgid "#Status"
 msgstr "Status"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:97
+#: application\modules\projects/views/scripts/action/detail.phtml:98
 msgid "#Subordinated to:"
 msgstr "Subordinada a:"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:113
+#: application\modules\projects/views/scripts/action/detail.phtml:114
 msgid "#None action"
 msgstr "(nenhuma ação)"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:122
+#: application\modules\projects/views/scripts/action/detail.phtml:123
 #: application\modules\projects/views/scripts/contract/detail.phtml:26
 msgid "#Description:"
 msgstr "Descrição"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:129
+#: application\modules\projects/views/scripts/action/detail.phtml:130
 msgid "#Predicted begin:"
 msgstr "Data prevista:"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:135
+#: application\modules\projects/views/scripts/action/detail.phtml:136
 msgid "#Predicted finish:"
 msgstr "Término previsto:"
 
 #: application\modules\projects/views/scripts/action/detail.phtml:145
+msgid "#Is a milestone"
+msgstr "É um marco"
+
+#: application\modules\projects/views/scripts/action/detail.phtml:150
+msgid "#Is not a milestone"
+msgstr "Não é um marco"
+
+#: application\modules\projects/views/scripts/action/detail.phtml:160
 msgid "#Real begin:"
 msgstr "Início real:"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:151
+#: application\modules\projects/views/scripts/action/detail.phtml:166
 msgid "#Real finish:"
 msgstr "Término real:"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:162
-msgid "#Acknowledge start"
-msgstr "Confirmar início"
-
-#: application\modules\projects/views/scripts/action/detail.phtml:198
+#: application\modules\projects/views/scripts/action/detail.phtml:196
 msgid "#Receipt date:"
 msgstr "Recebida em:"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:223
-msgid "#Total contracted value:"
-msgstr "Valor total contratado: "
-
-#: application\modules\projects/views/scripts/action/detail.phtml:234
+#: application\modules\projects/views/scripts/action/detail.phtml:226
 #, php-format
 msgid "#This action is related to product %s that should be delivered until %s"
 msgstr "Essa ação faz parte do produto %s, que deve ser entregue até %s."
 
-#: application\modules\projects/views/scripts/action/detail.phtml:248
+#: application\modules\projects/views/scripts/action/detail.phtml:240
 msgid "#Subactions"
 msgstr "Sub-ações"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:249
+#: application\modules\projects/views/scripts/action/detail.phtml:241
 #: application\modules\projects/views/scripts/project/detail.phtml:281
 msgid "#Team"
 msgstr "Equipe"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:250
+#: application\modules\projects/views/scripts/action/detail.phtml:242
 #: application\modules\projects/views/scripts/project/detail.phtml:154
 #: application\modules\projects/views/scripts/project/detail.phtml:355
 msgid "#Services"
 msgstr "Terceiros"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:251
+#: application\modules\projects/views/scripts/action/detail.phtml:243
 #: application\modules\projects/views/scripts/project/detail.phtml:155
 #: application\modules\projects/views/scripts/project/detail.phtml:436
 msgid "#Material"
 msgstr "Serviços e Materiais"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:258
+#: application\modules\projects/views/scripts/action/detail.phtml:250
 #: application\modules\projects/views/scripts/project/detail.phtml:235
 #: application\modules\projects/views/scripts/project/person.phtml:46
 msgid "#Action"
 msgstr "Ação"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:259
-#: application\modules\projects/views/scripts/contract/detail.phtml:72
-#: application\modules\projects/views/scripts/project/detail.phtml:236
-msgid "#Responsible"
-msgstr "Responsável"
+#: application\modules\projects/views/scripts/action/detail.phtml:251
+msgid "#Supervisor"
+msgstr "Supervisor"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:275
-#: application\modules\projects/views/scripts/action/detail.phtml:354
-#: application\modules\projects/views/scripts/action/detail.phtml:474
-#: application\modules\projects/views/scripts/action/detail.phtml:566
+#: application\modules\projects/views/scripts/action/detail.phtml:267
+#: application\modules\projects/views/scripts/action/detail.phtml:346
+#: application\modules\projects/views/scripts/action/detail.phtml:466
+#: application\modules\projects/views/scripts/action/detail.phtml:558
 #: application\modules\projects/views/scripts/contract/detail.phtml:88
 #: application\modules\projects/views/scripts/project/detail.phtml:324
 #: application\modules\projects/views/scripts/project/detail.phtml:398
@@ -459,10 +436,10 @@ msgstr "Responsável"
 msgid "#Options"
 msgstr "Opções"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:279
-#: application\modules\projects/views/scripts/action/detail.phtml:362
-#: application\modules\projects/views/scripts/action/detail.phtml:478
-#: application\modules\projects/views/scripts/action/detail.phtml:570
+#: application\modules\projects/views/scripts/action/detail.phtml:271
+#: application\modules\projects/views/scripts/action/detail.phtml:354
+#: application\modules\projects/views/scripts/action/detail.phtml:470
+#: application\modules\projects/views/scripts/action/detail.phtml:562
 #: application\modules\projects/views/scripts/contract/detail.phtml:92
 #: application\modules\projects/views/scripts/index/index.phtml:54
 #: application\modules\projects/views/scripts/project/detail.phtml:403
@@ -472,92 +449,92 @@ msgstr "Opções"
 msgid "#Edit"
 msgstr "Editar"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:286
-#: application\modules\projects/views/scripts/action/detail.phtml:408
-#: application\modules\projects/views/scripts/action/detail.phtml:511
-#: application\modules\projects/views/scripts/action/detail.phtml:603
+#: application\modules\projects/views/scripts/action/detail.phtml:278
+#: application\modules\projects/views/scripts/action/detail.phtml:400
+#: application\modules\projects/views/scripts/action/detail.phtml:503
+#: application\modules\projects/views/scripts/action/detail.phtml:595
 #: application\modules\projects/views/scripts/project/detail.phtml:412
 #: application\modules\projects/views/scripts/project/detail.phtml:502
 #: application\modules\projects/views/scripts/project/person.phtml:126
 msgid "#Remove"
 msgstr "Remover"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:303
+#: application\modules\projects/views/scripts/action/detail.phtml:295
 #: application\modules\projects/views/scripts/project/detail.phtml:273
 msgid "#Create new action"
 msgstr "Criar nova ação"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:312
-#: application\modules\projects/views/scripts/action/detail.phtml:448
+#: application\modules\projects/views/scripts/action/detail.phtml:304
+#: application\modules\projects/views/scripts/action/detail.phtml:440
 #: application\modules\projects/views/scripts/project/detail.phtml:285
 msgid "#Name"
 msgstr "Nome"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:313
+#: application\modules\projects/views/scripts/action/detail.phtml:305
 msgid "#Role"
 msgstr "Papel"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:314
-#: application\modules\projects/views/scripts/action/detail.phtml:450
-#: application\modules\projects/views/scripts/action/detail.phtml:542
+#: application\modules\projects/views/scripts/action/detail.phtml:306
+#: application\modules\projects/views/scripts/action/detail.phtml:442
+#: application\modules\projects/views/scripts/action/detail.phtml:534
 #: application\modules\projects/views/scripts/project/detail.phtml:442
 #: application\modules\projects/views/scripts/project/person.phtml:49
 msgid "#Value"
 msgstr "Valor"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:372
+#: application\modules\projects/views/scripts/action/detail.phtml:364
 #: application\modules\projects/views/scripts/project/person.phtml:100
 msgid "#Confirm team member contracting"
 msgstr "Confirmar contratação"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:382
+#: application\modules\projects/views/scripts/action/detail.phtml:374
 msgid "#Dismiss team memb"
 msgstr "Registrar distrato"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:395
-#: application\modules\projects/views/scripts/action/detail.phtml:498
-#: application\modules\projects/views/scripts/action/detail.phtml:590
+#: application\modules\projects/views/scripts/action/detail.phtml:387
+#: application\modules\projects/views/scripts/action/detail.phtml:490
+#: application\modules\projects/views/scripts/action/detail.phtml:582
 #: application\modules\projects/views/scripts/project/detail.phtml:489
 #: application\modules\projects/views/scripts/project/person.phtml:77
 msgid "#Provide outlay"
 msgstr "Prever pagamento"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:418
+#: application\modules\projects/views/scripts/action/detail.phtml:410
 #: application\modules\projects/views/scripts/project/detail.phtml:332
 msgid "#Contact detail"
 msgstr "Detalhes do contato"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:437
+#: application\modules\projects/views/scripts/action/detail.phtml:429
 msgid "#Anticipate team member"
 msgstr "Prever membro da equipe"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:449
-#: application\modules\projects/views/scripts/action/detail.phtml:541
+#: application\modules\projects/views/scripts/action/detail.phtml:441
+#: application\modules\projects/views/scripts/action/detail.phtml:533
 #: application\modules\projects/views/scripts/project/detail.phtml:360
 #: application\modules\projects/views/scripts/project/detail.phtml:441
 msgid "#Service"
 msgstr "Serviço"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:485
+#: application\modules\projects/views/scripts/action/detail.phtml:477
 msgid "#Confirm outside service contracting"
 msgstr "Confirmar contratação de serviço"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:530
+#: application\modules\projects/views/scripts/action/detail.phtml:522
 msgid "#Anticipate outside service"
 msgstr "Prever serviço de terceiros"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:540
+#: application\modules\projects/views/scripts/action/detail.phtml:532
 #: application\modules\projects/views/scripts/project/detail.phtml:359
 #: application\modules\projects/views/scripts/project/detail.phtml:440
 msgid "#Organization"
 msgstr "Organização"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:577
+#: application\modules\projects/views/scripts/action/detail.phtml:569
 #: application\modules\projects/views/scripts/project/detail.phtml:476
 msgid "#Confirm material supply contracting"
 msgstr "Confirmar aquisição de material"
 
-#: application\modules\projects/views/scripts/action/detail.phtml:622
+#: application\modules\projects/views/scripts/action/detail.phtml:614
 msgid "#Anticipate material supply"
 msgstr "Prever aquisição de material"
 
@@ -615,6 +592,11 @@ msgstr "Produtos"
 #: application\modules\projects/views/scripts/project/detail.phtml:165
 msgid "#Product"
 msgstr "Produto"
+
+#: application\modules\projects/views/scripts/contract/detail.phtml:72
+#: application\modules\projects/views/scripts/project/detail.phtml:236
+msgid "#Responsible"
+msgstr "Responsável"
 
 #: application\modules\projects/views/scripts/contract/edit.phtml:5
 msgid "#Edit receivable"
@@ -831,6 +813,21 @@ msgstr "Status da Ação"
 #: application\modules\projects/views/scripts/project/person.phtml:90
 msgid "#Notify outlay"
 msgstr "Confirmar pagamento"
+
+#~ msgid "#(undefined)"
+#~ msgstr "(indefinido)"
+
+#~ msgid "#(not started)"
+#~ msgstr "(não iniciada)"
+
+#~ msgid "#Responsible:"
+#~ msgstr "Responsável:"
+
+#~ msgid "#Acknowledge start"
+#~ msgstr "Confirmar início"
+
+#~ msgid "#Total contracted value:"
+#~ msgstr "Valor total contratado: "
 
 #~ msgid "#Receiving"
 #~ msgstr "Recebimentos"

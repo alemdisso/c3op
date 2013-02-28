@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-21 16:30-0300\n"
-"PO-Revision-Date: 2013-02-21 16:31-0300\n"
+"POT-Creation-Date: 2013-02-28 10:27-0300\n"
+"PO-Revision-Date: 2013-02-28 10:27-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -15,6 +15,52 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: application\\modules\\finances\n"
 "X-Poedit-SearchPath-1: library\\C3op\\finances\n"
+
+#: application\modules\finances/controllers/ActionController.php:39
+#: application\modules\finances/controllers/ActionController.php:103
+msgid "#The record was successfully created."
+msgstr "O registro foi atualizado com sucesso."
+
+#: application\modules\finances/controllers/ActionController.php:68
+msgid "#Create product"
+msgstr "Adicionar produto"
+
+#: application\modules\finances/controllers/ActionController.php:72
+#, php-format
+msgid "#Create action subordinated to %s"
+msgstr "Criar ação subordinada a %s"
+
+#: application\modules\finances/controllers/ActionController.php:145
+#: application\modules\finances/controllers/ActionController.php:226
+#: application\modules\finances/controllers/OutlayController.php:77
+#: application\modules\finances/controllers/ReceivableController.php:34
+#: application\modules\finances/controllers/ReceivableController.php:176
+#: application\modules\finances/controllers/ReceivableController.php:225
+msgid "#The record was successfully updated."
+msgstr "O registro foi atualizado com sucesso."
+
+#: application\modules\finances/controllers/ActionController.php:389
+msgid "#The record was successfully removed."
+msgstr "O registro foi removido com sucesso."
+
+#: application\modules\finances/controllers/ActionController.php:561
+msgid "#It needs a positive integer project id to populate project fields."
+msgstr "It needs a positive integer project id to populate project fields."
+
+#: application\modules\finances/controllers/ActionController.php:580
+#: application\modules\finances/controllers/ActionController.php:609
+msgid ""
+"#It needs a positive integer project id to find other actions from same "
+"project."
+msgstr ""
+"It needs a positive integer project id to find other actions from same "
+"project."
+
+#: application\modules\finances/controllers/ActionController.php:893
+#: application\modules\finances/controllers/ActionController.php:981
+#: application\modules\finances/controllers/ProjectController.php:624
+msgid "(#not defined)"
+msgstr "(não definido)"
 
 #: application\modules\finances/controllers/IndexController.php:51
 #: application\modules\finances/controllers/IndexController.php:275
@@ -54,13 +100,6 @@ msgstr "Deve haver alguém para ser pago."
 msgid "#The outlay was successfully created."
 msgstr "O pagamento foi criado com sucesso."
 
-#: application\modules\finances/controllers/OutlayController.php:77
-#: application\modules\finances/controllers/ReceivableController.php:34
-#: application\modules\finances/controllers/ReceivableController.php:176
-#: application\modules\finances/controllers/ReceivableController.php:225
-msgid "#The record was successfully updated."
-msgstr "O registro foi atualizado com sucesso."
-
 #: application\modules\finances/controllers/OutlayController.php:135
 msgid "#The payment was successfully notified."
 msgstr "O pagamento foi confirmado."
@@ -94,10 +133,6 @@ msgstr "(não recebido)"
 #: application\modules\finances/controllers/ProjectController.php:245
 msgid "#(unknown date)"
 msgstr "(data desconhecida)"
-
-#: application\modules\finances/controllers/ProjectController.php:624
-msgid "(#not defined)"
-msgstr "(não definido)"
 
 #: application\modules\finances/controllers/ProjectController.php:738
 #: application\modules\finances/controllers/ProjectController.php:742
@@ -444,12 +479,6 @@ msgstr "Responsável"
 #~ msgid "#Budget (payed/total):"
 #~ msgstr "Verba (paga/total):"
 
-#~ msgid "#Create product"
-#~ msgstr "Adicionar produto"
-
-#~ msgid "#Create action subordinated to %s"
-#~ msgstr "Criar ação subordinada a %s"
-
 #~ msgid "#Is a milestone"
 #~ msgstr "É um marco"
 
@@ -458,19 +487,6 @@ msgstr "Responsável"
 
 #~ msgid "#(not started)"
 #~ msgstr "(não iniciada)"
-
-#~ msgid "#The record was successfully removed."
-#~ msgstr "O registro foi removido com sucesso."
-
-#~ msgid "#It needs a positive integer project id to populate project fields."
-#~ msgstr "It needs a positive integer project id to populate project fields."
-
-#~ msgid ""
-#~ "#It needs a positive integer project id to find other actions from same "
-#~ "project."
-#~ msgstr ""
-#~ "It needs a positive integer project id to find other actions from same "
-#~ "project."
 
 #~ msgid "#New client"
 #~ msgstr "Novo cliente"
