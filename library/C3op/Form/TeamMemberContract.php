@@ -116,10 +116,10 @@ class C3op_Form_TeamMemberContract extends Zend_Form
             $formerPredictedFinishDate = $itsAction->GetPredictedFinishDate();
 
             $dateChanged = false;
-            if (($dateValidator->isValid($formerPredictedBeginDate)) && ($formerPredictedBeginDate != $newBeginDate)) {
+            if (($dateValidator->isValid($formerPredictedBeginDate)) && (!is_null($formerPredictedBeginDate)) && ($formerPredictedBeginDate != $newBeginDate)) {
                 $dateChanged = true;
             }
-            if (($dateValidator->isValid($formerPredictedFinishDate)) && ($formerPredictedFinishDate != $newFinishDate)) {
+            if (($dateValidator->isValid($formerPredictedFinishDate)) && (!is_null($formerPredictedFinishDate)) && ($formerPredictedFinishDate != $newFinishDate)) {
                 $dateChanged = true;
             }
 
@@ -129,10 +129,10 @@ class C3op_Form_TeamMemberContract extends Zend_Form
             } else {
                 $contracting = new C3op_Resources_TeamMemberContracting();
                 $contracting->teamMemberContract($itsAction, $teamMember, $teamMemberMapper);
-                if (($observation != "") && ($itsAction->GetPredictedBeginDate() != $newBeginDate)) {
+                if ($itsAction->GetPredictedBeginDate() != $newBeginDate) {
                     C3op_Projects_ActionDateChange::ChangePredictedBeginDate($itsAction, $actionMapper, $newBeginDate, $observation);
                 }
-                if (($observation != "") && ($itsAction->GetPredictedFinishDate() != $newFinishDate)) {
+                if ($itsAction->GetPredictedFinishDate() != $newFinishDate) {
                     C3op_Projects_ActionDateChange::ChangePredictedFinishDate($itsAction, $actionMapper, $newFinishDate, $observation);
                 }
 
