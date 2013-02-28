@@ -27,7 +27,7 @@ class C3op_Projects_ActionHeader {
     public function fetch($financesData=false)
     {
         $this->fillMainData();
-        $this->fillDatesData();
+        $this->fillDatesData($this->action, $this->data);
         $this->fillSupervisorData();
         $this->fillProjectData();
         $this->fillRelatedActionsData();
@@ -82,45 +82,46 @@ class C3op_Projects_ActionHeader {
 
 
     }
-    private function fillDatesData()
+    private function fillDatesData(C3op_Projects_Action $action, &$data)
     {
         $validator = new C3op_Util_ValidDate();
 
-        if ($validator->isValid($this->action->getPredictedBeginDate())) {
-            $predictedBeginDate = C3op_Util_DateDisplay::FormatDateToShow($this->action->getPredictedBeginDate());
+        if ($validator->isValid($action->getPredictedBeginDate())) {
+            $predictedBeginDate = C3op_Util_DateDisplay::FormatDateToShow($action->getPredictedBeginDate());
         } else {
             $predictedBeginDate = "#(undefined)";
         }
 
-        if ($validator->isValid($this->action->getPredictedFinishDate())) {
-            $predictedFinishDate = C3op_Util_DateDisplay::FormatDateToShow($this->action->getPredictedFinishDate());
+        if ($validator->isValid($action->getPredictedFinishDate())) {
+            $predictedFinishDate = C3op_Util_DateDisplay::FormatDateToShow($action->getPredictedFinishDate());
         } else {
             $predictedFinishDate = "#(undefined)";
         }
 
-        if ($this->action->hasBegun()) {
-            $realBeginDate = C3op_Util_DateDisplay::FormatDateToShow($this->action->getRealBeginDate());
+        if ($action->hasBegun()) {
+            $realBeginDate = C3op_Util_DateDisplay::FormatDateToShow($action->getRealBeginDate());
 
             if (is_null($realBeginDate)) {
-                $this->action->setRealBeginDate($this->action->getPredictedBeginDate());
-                $this->mapper->update($this->action);
-                $realBeginDate = C3op_Util_DateDisplay::FormatDateToShow($this->action->getRealBeginDate());
+                $action->setRealBeginDate($action->getPredictedBeginDate());
+                $this->mapper->update($action);
+                $realBeginDate = C3op_Util_DateDisplay::FormatDateToShow($action->getRealBeginDate());
             }
         } else {
-            $realBeginDate = "#(not started)";
+            $realBeginDate = _("#(not started)");
         }
 
 
-        $realFinishDate = C3op_Util_DateDisplay::FormatDateToShow($this->action->getRealFinishDate());
-        if ($validator->isValid($this->action->getRealFinishDate())) {
-            $realFinishDate = C3op_Util_DateDisplay::FormatDateToShow($this->action->getRealFinishDate());
+        $realFinishDate = C3op_Util_DateDisplay::FormatDateToShow($action->getRealFinishDate());
+
+        if ($validator->isValid($action->getRealFinishDate()) && (!is_null($realFinishDate))) {
+            $realFinishDate = C3op_Util_DateDisplay::FormatDateToShow($action->getRealFinishDate());
         } else {
             $realFinishDate = "#(not finished)";
         }
 
 
-        if ($validator->isValid($this->action->getReceiptDate($this->mapper))) {
-            $receiptDate = C3op_Util_DateDisplay::FormatDateToShow($this->action->getReceiptDate($this->mapper));
+        if ($validator->isValid($action->getReceiptDate($this->mapper))) {
+            $receiptDate = C3op_Util_DateDisplay::FormatDateToShow($action->getReceiptDate($this->mapper));
         } else {
             $receiptDate = "#(not received)";
         }
@@ -128,11 +129,11 @@ class C3op_Projects_ActionHeader {
 
 
 
-        $this->data['predictedBeginDate'] = $predictedBeginDate;
-        $this->data['predictedFinishDate'] = $predictedFinishDate;
-        $this->data['realBeginDate'] = $realBeginDate;
-        $this->data['realFinishDate'] = $realFinishDate;
-        $this->data['receiptDate'] = $receiptDate;
+        $data['predictedBeginDate'] = $predictedBeginDate;
+        $data['predictedFinishDate'] = $predictedFinishDate;
+        $data['realBeginDate'] = $realBeginDate;
+        $data['realFinishDate'] = $realFinishDate;
+        $data['receiptDate'] = $receiptDate;
 
     }
 
@@ -243,39 +244,50 @@ class C3op_Projects_ActionHeader {
 
     }
 
-
-    private function fillSubordinatedActionsData()
+   private function fillSubActionsTreeData($tree)
     {
+       // actionInfo
+       //   title
+       //   subordinatedTo
+       //   responsibleName
+       //   predictedBeginDate
+       //   realBeginDate
+       //   predictedFinishDate
+       //   realFinishDate
+       //
 
-        $this->initContactMapper();
-        $statusTypes = new C3op_Projects_ActionStatusTypes();
-        $subordinatedActionsList = $this->mapper->getActionsSubordinatedTo($this->action);
-        $subordinatedActionsData = array();
-
-        foreach($subordinatedActionsList as $loopActionId) {
-
-            $loopAction = $this->mapper->findById($loopActionId);
+        foreach ($tree as $id => $subTree) {
+            $loopAction = $this->mapper->findById($id);
             $data = array();
             $data['title'] = $loopAction->getTitle();
+            $data['subordinatedTo'] = $loopAction->getSubordinatedTo();
 
             if ($loopAction->getSupervisor()) {
                 $theContact = $this->contactMapper->findById($loopAction->getSupervisor());
-                $data['supervisorName'] = $theContact->getName();
+                $data['responsibleName'] = $theContact->getName();
             } else {
-                $data['supervisorName'] = "#Not defined";
+                $data['responsibleName'] = "#Not defined";
             }
 
-            $data['status'] = $statusTypes->TitleForType($loopAction->getStatus());
+            $this->fillDatesData($loopAction, $data);
 
-            $removal = new C3op_Projects_ActionRemoval($loopAction, $this->mapper);
+//            $data['predictedBeginDate'] = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getPredictedBeginDate());
+//            $data['realBeginDate'] = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getRealBeginDate());
+//            $data['predictedFinishDate'] = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getPredictedFinishDate());
+//            $data['realFinishDate'] = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getRealFinishDate());
 
-            $data['canRemoveAction'] = $removal->canBeRemoved();
-            $subordinatedActionsData[$loopActionId] = $data;
-
+            $this->data['subActionsTree'][$id] = $data;
+            $this->fillSubActionsTreeData($subTree);
         }
+    }
 
-        $this->data['subordinatedActions'] = $subordinatedActionsData;
 
+    private function fillSubordinatedActionsData()
+    {
+        $this->data['subActionsTree'] = array();
+        $obj = new C3op_Projects_ActionTree();
+        $tree = $obj->retrieveTree($this->action, $this->mapper);
+        $this->fillSubActionsTreeData($tree);
 
     }
 
