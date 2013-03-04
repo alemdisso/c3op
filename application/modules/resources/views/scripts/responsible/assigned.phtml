@@ -1,0 +1,12 @@
+<?php
+  $pageData = $this->pageData;
+
+  $projectId = $pageData['projectId'];
+  $linkageId = $pageData['linkageId'];
+  $contactName = $pageData['contactName'];
+  $personLink = "<a href='/projects/project/person/?id=$projectId&linkage=$linkageId'>$contactName</a>";
+  
+?>
+<?php print($this->translate("#Action was assigned")); ?>
+<br class="clear" />
+<?php print(sprintf($this->translate("#%s was assigned responsible for this action"), $personLink)); ?>

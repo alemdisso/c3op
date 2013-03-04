@@ -225,6 +225,11 @@
   line-height: 110%;
 }
 
+.Area h3 {
+    font-size: 14px;
+    font-weight:700;
+}
+
 /*  */
 
 dl.zend_form {
@@ -330,6 +335,20 @@ input[type="button"] {
  padding: 2px 10px 2px 0;
  vertical-align: middle;
 }
+
+slidingForm {
+    height:300px;
+    background-color: #99CCFF;
+    padding:20px;
+    margin-top:10px;
+    border-bottom:5px solid #3399FF;
+}
+
+.show_hide_responsible_form {
+    display:none;
+}
+
+
 
 /* - #Page Styles ----------------------------------------------------------- */
 

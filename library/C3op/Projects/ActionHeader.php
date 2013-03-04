@@ -31,6 +31,7 @@ class C3op_Projects_ActionHeader {
         $this->fillSupervisorData();
         $this->fillProjectData();
         $this->fillRelatedActionsData();
+        $this->fillResponsibleData();
         $this->fillActionsFlowData();
         if ($financesData) {
             $this->fillValueData();
@@ -73,15 +74,13 @@ class C3op_Projects_ActionHeader {
         }
 
 
-
-
-
         $this->data['canRemoveAction'] = $canRemoveAction;
         $this->data['receiptToAcceptOrReject'] = $receiptToAcceptOrReject;
         $this->data['waitingToReceipt'] = $waitingToReceipt;
 
 
     }
+
     private function fillDatesData(C3op_Projects_Action $action, &$data)
     {
         $validator = new C3op_Util_ValidDate();
@@ -157,57 +156,6 @@ class C3op_Projects_ActionHeader {
 
     }
 
-    private function fillProjectData()
-    {
-        $this->initProjectMapper();
-
-        $project = $this->projectMapper->findById($this->action->getProject());
-
-
-        $this->data['projectId'] = $project->getId();
-        $this->data['projectTitle'] = $project->getShortTitle();
-
-
-
-    }
-
-    private function fillRelatedActionsData()
-    {
-
-        $this->fillSubordinatedActionsData();
-
-        if ($this->action->getSubordinatedTo() > 0) {
-            $parentAction = $this->mapper->findById($this->action->getSubordinatedTo());
-            $parentActionTitle = $parentAction->getTitle();
-            $parentActionId = $parentAction->getId();
-        } else {
-            $parentActionTitle = "";
-            $parentActionId = 0;
-        }
-
-        $this->data['parentActionId'] = $parentActionId;
-        $this->data['parentActionTitle'] = $parentActionTitle;
-
-    }
-
-    private function fillSupervisorData()
-    {
-
-        $this->initContactMapper();
-        $supervisorId = $this->action->getSupervisor();
-        if ($supervisorId > 0) {
-            $supervisorContact = $this->contactMapper->findById($supervisorId);
-            $supervisorName = $supervisorContact->getName();
-        } else {
-            $supervisorName = "#Not defined";
-        }
-
-
-        $this->data['supervisorId'] = $supervisorId;
-        $this->data['supervisorName'] = $supervisorName;
-
-    }
-
     private function fillProductRelatedData()
     {
         $finder = new C3op_Projects_ActionRelatedProduct($this->action, $this->mapper);
@@ -241,6 +189,59 @@ class C3op_Projects_ActionHeader {
 
 
 
+
+    }
+
+    private function fillProjectData()
+    {
+        $this->initProjectMapper();
+
+        $project = $this->projectMapper->findById($this->action->getProject());
+
+
+        $this->data['projectId'] = $project->getId();
+        $this->data['projectTitle'] = $project->getShortTitle();
+
+
+
+    }
+
+    private function fillRelatedActionsData()
+    {
+
+        $this->fillSubordinatedActionsData();
+
+        if ($this->action->getSubordinatedTo() > 0) {
+            $parentAction = $this->mapper->findById($this->action->getSubordinatedTo());
+            $parentActionTitle = $parentAction->getTitle();
+            $parentActionId = $parentAction->getId();
+        } else {
+            $parentActionTitle = "";
+            $parentActionId = 0;
+        }
+
+        $this->data['parentActionId'] = $parentActionId;
+        $this->data['parentActionTitle'] = $parentActionTitle;
+
+    }
+
+    private function fillResponsibleData()
+    {
+        $responsible = new C3op_Projects_ActionResponsible($this->action, $this->mapper, $this->db);
+
+        if ($responsible->doesItHasAResponsible()) {
+            $data = $responsible->fetch();
+            $this->data['hasResponsible'] = true;
+            $this->data['responsibleId'] = $data['responsibleId'];
+            $this->data['responsibleName'] = $data['responsibleName'];
+            $this->data['statusLabel'] = $data['statusLabel'];
+        } else {
+            $this->data['hasResponsible'] = false;
+            $this->data['responsibleId'] = 0;
+            $this->data['responsibleName'] = _('#(unassigned)');
+            $this->data['statusLabel'] = _('#(unknown)');
+
+        }
 
     }
 
@@ -288,6 +289,24 @@ class C3op_Projects_ActionHeader {
         $obj = new C3op_Projects_ActionTree();
         $tree = $obj->retrieveTree($this->action, $this->mapper);
         $this->fillSubActionsTreeData($tree);
+
+    }
+
+    private function fillSupervisorData()
+    {
+
+        $this->initContactMapper();
+        $supervisorId = $this->action->getSupervisor();
+        if ($supervisorId > 0) {
+            $supervisorContact = $this->contactMapper->findById($supervisorId);
+            $supervisorName = $supervisorContact->getName();
+        } else {
+            $supervisorName = "#Not defined";
+        }
+
+
+        $this->data['supervisorId'] = $supervisorId;
+        $this->data['supervisorName'] = $supervisorName;
 
     }
 

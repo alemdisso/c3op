@@ -92,9 +92,7 @@ class C3op_Form_OutsideServiceCreate extends Zend_Form
         if ($this->isValid($data) !== true)
         {
             throw new C3op_Form_OutsideServiceCreateException('Invalid data!');
-        }
-        else
-        {
+        } else {
             $db = Zend_Registry::get('db');
             $outsideServiceMapper = new C3op_Resources_OutsideServiceMapper($db);
             $outsideService = new C3op_Resources_OutsideService();

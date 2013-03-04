@@ -52,6 +52,37 @@ function rejectReceipt(id){
   })
 }
 </script>
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+        $("#responsibleDiv").hide();
+        $("#responsibleButton").show();
+
+    $('#responsibleButton').click(function(){
+        $.ajax({
+            type: 'get',
+            data: 'id=<?php print $actionHeader['id'] ?>',
+            url:'/resources/responsible/create',
+            success: function(successReturn){
+            $('#responsibleFormDiv').html(successReturn);
+            }
+        })
+
+
+         $("#responsibleDiv").slideToggle();
+         $("#responsibleButton").hide();
+    });
+    $('#hideHref').click(function(){
+         $("#responsibleDiv").slideToggle();
+         $("#responsibleButton").show();
+    });
+
+
+
+});
+
+</script>
 
         <div id="MainHeader">
           <h1><?php print($this->translate("#Project")); ?> <a href="/projects/project/detail/?id=<?php print($actionHeader['projectId']) ?>"><?php print($actionHeader['projectTitle']) ?></a></h1>
@@ -168,16 +199,17 @@ if ($parentId > 0) {
           <div class="two columns">
             <?php print($this->translate($actionHeader['realFinishDate'])); ?>
           </div>
-          <div class="three columns inset-by-two omega">
 
 <?php
   if ($actionHeader['waitingToReceipt']) {
 ?>
+          <div class="three columns inset-by-two omega">
             <div id="acknowledgeReceipt-<?php print($actionHeader['id']);?>">
               <div class="three columns alpha omega">
                 <a class="button full column alpha omega parent_info" href="javascript:acknowledgeReceipt('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Confirm task realization")); ?></a>
               </div>
             </div>
+          </div>
 
 &nbsp;
 
@@ -188,7 +220,6 @@ if ($parentId > 0) {
 <?php
   }
 ?>
-          </div>
 <?php
   if ($actionHeader['receiptToAcceptOrReject']) {
 ?>
@@ -222,19 +253,43 @@ if ($parentId > 0) {
   if (($actionHeader['notAProduct'] ) && ($actionHeader['relatedProductId'])) {
             $productLink = "<a href='/projects/action/detail/?id=" . $actionHeader['relatedProductId'] . "'>" . $actionHeader['relatedProductTitle'] . "</a>";
 ?>
-          <div class="three columns alpha Right">
-             &nbsp;
-          </div>
-          <div class="eight columns omega">
+          <div class="eight columns offset-by-three">
             <?php printf($this->translate("#This action is related to product %s that should be delivered until %s"), $productLink, $this->translate($actionHeader['productDeliveryDate'])); ?>
           </div>
 
 <?php
   }
 ?>
+          <br class="clear" />
+          <div class="eight columns offset-by-three">
+              <a anchor="responsible"></a>
+<?php
+if (!$actionHeader['hasResponsible']) {
+?>
+
+            <a id="responsibleButton" class="button two columns alpha omega parent_info" href="#responsible"><?php print($this->translate("#Inform responsible")); ?></a>
+          <div id="responsibleDiv" class="slidingDiv">
+              <h3>   <?php print($this->translate("#Inform responsible")); ?>  </h3>
+              <div id="responsibleFormDiv">&nbsp;</div>
+            <br class="clear"/>
+            <a class="alpha" href="#responsible" id="hideHref"><?php print($this->translate("#Hide form")); ?></a>
+
+          </div>
+<?php
+  } else {
+    $projectId = $actionHeader['projectId'];
+    $linkageId = $actionHeader['responsibleId'];
+    $contactName = $actionHeader['responsibleName'];
+    $personLink = "<a href='/projects/project/person/?id=$projectId&linkage=$linkageId'>$contactName</a>";
 
 
+?>
+<?php print(sprintf($this->translate("#%s was assigned responsible for this action"), $personLink)); ?> (<?php print($this->translate($actionHeader['statusLabel'])); ?>)
+<?php
 
+  }
+?>
+          </div>
 
         </div><!-- .Area -->
 
@@ -422,10 +477,6 @@ if($teamMemberData['contactId'] > 0) {
             </tbody>
           </table>
 
-          <p>
-            <a href="/resources/team-member/create/?actionId=<?php print($actionHeader['id']); ?>" class="button three columns alpha omega"><?php print($this->translate("#Anticipate team member")); ?></a>
-          </p>
-
           </div><!-- #tabs-team -->
 
 
@@ -514,10 +565,6 @@ if ($outsideServiceData['canRemoveOutsideService']) {
 
             </tbody>
           </table>
-
-          <p>
-            <a href="/resources/outside-service/create/?actionId=<?php print($actionHeader['id']); ?>" class="button three columns alpha omega"><?php print($this->translate("#Anticipate outside service")); ?></a>
-          </p>
 
           </div><!-- #tabs-services -->
 

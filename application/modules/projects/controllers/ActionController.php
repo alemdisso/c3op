@@ -304,7 +304,6 @@ class Projects_ActionController extends Zend_Controller_Action
 //        $projectToBeDetailed = $this->projectMapper->findById($actionToBeDetailed->getProject());
         $messageToShow = $this->_helper->flashMessenger->getMessages();
 
-
         $header = new C3op_Projects_ActionHeader($this->db, $actionToBeDetailed, $this->actionMapper);
         $actionHeader = $header->fetch();
 

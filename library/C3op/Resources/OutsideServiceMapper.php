@@ -21,9 +21,10 @@ class C3op_Resources_OutsideServiceMapper {
     public function insert(C3op_Resources_OutsideService $new) {
 
 
-        $query = $this->db->prepare("INSERT INTO resources_outside_services (action, institution, linkage, description, value, status) VALUES (:action, :institution, :linkage, :description, :value, :status)");
+        $query = $this->db->prepare("INSERT INTO resources_outside_services (action, project, institution, linkage, description, value, status) VALUES (:action, :project, :institution, :linkage, :description, :value, :status)");
 
         $query->bindValue(':action', $new->GetAction(), PDO::PARAM_INT);
+        $query->bindValue(':project', $new->GetProject(), PDO::PARAM_INT);
         $query->bindValue(':institution', $new->getInstitution(), PDO::PARAM_INT);
         $query->bindValue(':linkage', $new->getLinkage(), PDO::PARAM_INT);
         $query->bindValue(':description', $new->GetDescription(), PDO::PARAM_STR);
@@ -42,9 +43,10 @@ class C3op_Resources_OutsideServiceMapper {
             throw new C3op_Resources_OutsideServiceMapperException('Object has no ID, cannot update.');
         }
 
-        $query = $this->db->prepare("UPDATE resources_outside_services SET action = :action, description = :description, institution = :institution, linkage = :linkage, value = :value, status = :status WHERE id = :id;");
+        $query = $this->db->prepare("UPDATE resources_outside_services SET action = :action, project = :project, description = :description, institution = :institution, linkage = :linkage, value = :value, status = :status WHERE id = :id;");
 
         $query->bindValue(':action', $obj->GetAction(), PDO::PARAM_STR);
+        $query->bindValue(':project', $obj->GetProject(), PDO::PARAM_STR);
         $query->bindValue(':description', $obj->GetDescription(), PDO::PARAM_STR);
         $query->bindValue(':institution', $obj->getInstitution(), PDO::PARAM_STR);
         $query->bindValue(':linkage', $obj->getLinkage(), PDO::PARAM_STR);
@@ -69,7 +71,7 @@ class C3op_Resources_OutsideServiceMapper {
             $this->identityMap->next();
         }
 
-        $query = $this->db->prepare('SELECT action, description, institution, linkage, value, status FROM resources_outside_services WHERE id = :id;');
+        $query = $this->db->prepare('SELECT action, project, description, institution, linkage, value, status FROM resources_outside_services WHERE id = :id;');
         $query->bindValue(':id', $id, PDO::PARAM_STR);
         $query->execute();
         $result = $query->fetch();
@@ -81,6 +83,7 @@ class C3op_Resources_OutsideServiceMapper {
 
         $this->setAttributeValue($obj, $id, 'id');
         $this->setAttributeValue($obj, $result['action'], 'action');
+        $this->setAttributeValue($obj, $result['project'], 'project');
         $this->setAttributeValue($obj, $result['description'], 'description');
         $this->setAttributeValue($obj, $result['institution'], 'institution');
         $this->setAttributeValue($obj, $result['linkage'], 'linkage');
