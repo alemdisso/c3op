@@ -32,11 +32,11 @@ class Resources_OutsideServiceController extends Zend_Controller_Action
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
-                $this->initOutsideSeviceMapper();
-                $outsideSevice =  $this->outsideSeviceMapper->findById($id);
+                $this->initOutsideServiceMapper();
+                $outsideService =  $this->outsideServiceMapper->findById($id);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The outside service was created.'));
-                $this->_redirect('/projects/action/detail/?id=' . $outsideSevice->GetAction());
+                $this->_redirect('/projects/action/detail/?id=' . $outsideService->GetAction());
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -87,11 +87,11 @@ class Resources_OutsideServiceController extends Zend_Controller_Action
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
-                $this->initOutsideSeviceMapper();
-                $outsideSevice =  $this->outsideSeviceMapper->findById($id);
+                $this->initOutsideServiceMapper();
+                $outsideService =  $this->outsideServiceMapper->findById($id);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/action/detail/?id=' . $outsideSevice->GetAction());
+                $this->_redirect('/projects/action/detail/?id=' . $outsideService->GetAction());
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -186,11 +186,11 @@ class Resources_OutsideServiceController extends Zend_Controller_Action
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
-                $this->initOutsideSeviceMapper();
-                $outsideSevice =  $this->outsideSeviceMapper->findById($id);
+                $this->initOutsideServiceMapper();
+                $outsideService =  $this->outsideServiceMapper->findById($id);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The outside service is contracted.'));
-                $this->_redirect('/projects/action/detail/?id=' . $outsideSevice->GetAction());
+                $this->_redirect('/projects/action/detail/?id=' . $outsideService->GetAction());
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -455,11 +455,6 @@ class Resources_OutsideServiceController extends Zend_Controller_Action
          $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
     }
 
-   private function initOutsideServiceMapper()
-    {
-         $this->outsideServiceMapper = new C3op_Resources_OutsideServiceMapper($this->db);
-    }
-
     private function initContactMapper()
     {
          $this->contactMapper = new C3op_Register_ContactMapper($this->db);
@@ -475,9 +470,12 @@ class Resources_OutsideServiceController extends Zend_Controller_Action
          $this->linkageMapper = new C3op_Register_LinkageMapper($this->db);
     }
 
-    private function initActionWithCheckedId(C3op_Projects_ActionMapper $mapper)
+
+    private function initOutsideServiceMapper()
     {
-        return $mapper->findById($this->checkIdFromGet());
+        if (!isset($this->outsideServiceMapper)) {
+            $this->outsideServiceMapper = new C3op_Resources_OutsideServiceMapper($this->db);
+        }
     }
 
     private function setDateValueToFormField(Zend_Form $form, $fieldName, $value)

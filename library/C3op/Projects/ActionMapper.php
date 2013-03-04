@@ -403,4 +403,20 @@ class C3op_Projects_ActionMapper
 
     }
 
+    public function getAnyOutsideServiceRelatedTo(C3op_Projects_Action $obj)
+    {
+
+        $query = $this->db->prepare('SELECT id FROM resources_outside_services WHERE action = :action;');
+        $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
+        foreach ($resultPDO as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+
+    }
+
 }

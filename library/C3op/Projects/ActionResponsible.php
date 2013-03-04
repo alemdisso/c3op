@@ -15,12 +15,18 @@ class C3op_Projects_ActionResponsible {
 
     public function doesItHasAResponsible()
     {
-        $result = $this->actionMapper->getAnyTeamMemberRelatedTo($this->action);
         $itDoes = false;
 
+        $result = $this->actionMapper->getAnyTeamMemberRelatedTo($this->action);
         if (count($result) > 0) {
             $itDoes = true;
+        } else {
+            $result = $this->actionMapper->getAnyOutsideServiceRelatedTo($this->action);
+            if (count($result) > 0) {
+                $itDoes = true;
+            }
         }
+
 
         return $itDoes;
     }
@@ -58,11 +64,41 @@ class C3op_Projects_ActionResponsible {
               'statusLabel'     => $statusLabel,
             );
         } else {
-            $data = array(
-              'hasResponsible'  => false,
-              'responsibleName' => _("#(unassigned)"),
-              'responsibleId'   => 0,
-            );
+            $result = $this->actionMapper->getAnyOutsideServiceRelatedTo($this->action);
+            if (count($result) > 0) {
+                $id = $result[0];
+
+                $this->initOutsideServiceMapper();
+                $outsideService = $this->outsideServiceMapper->findById($id);
+
+                $institutionId = $outsideService->GetInstitution();
+                $institutionName = _("(#not defined)");
+                if ($institutionId > 0) {
+                    $this->initContactMapper();
+                    $this->initInstitutionMapper();
+                    $institutionService = $this->institutionMapper->findById($institutionId);
+                    $institutionName = $institutionService->GetName();
+                }
+
+                $status = $outsideService->getStatus();
+                $statusTypes = new C3op_Resources_OutsideServiceStatusTypes();
+                $statusLabel = $statusTypes->TitleForType($status);
+
+
+
+                $data = array(
+                'hasResponsible'  => true,
+                'responsibleName' => $institutionName,
+                'responsibleId'   => $institutionId,
+                'statusLabel'     => $statusLabel,
+                );
+            } else {
+                $data = array(
+                'hasResponsible'  => false,
+                'responsibleName' => _("#(unassigned)"),
+                'responsibleId'   => 0,
+                );
+            }
         }
 
         return $data;
@@ -75,10 +111,24 @@ class C3op_Projects_ActionResponsible {
         }
     }
 
+    private function initInstitutionMapper()
+    {
+        if (!isset($this->institutionMapper)) {
+            $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
+        }
+    }
+
     private function initLinkageMapper()
     {
         if (!isset($this->linkageMapper)) {
             $this->linkageMapper = new C3op_Register_LinkageMapper($this->db);
+        }
+    }
+
+    private function initOutsideServiceMapper()
+    {
+        if (!isset($this->outsideServiceMapper)) {
+            $this->outsideServiceMapper = new C3op_Resources_OutsideServiceMapper($this->db);
         }
     }
 
