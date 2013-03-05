@@ -5,7 +5,8 @@ class C3op_Form_ResponsibleCreate extends Zend_Form
     public function init()
     {
         $this->setName('newResponsibleForm')
-            ->setAction('javascript:submitResponsibleForm();')
+            ->setAction('/resources/responsible/create')
+            //->setAction('javascript:submitResponsibleForm();')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
@@ -116,7 +117,7 @@ class C3op_Form_ResponsibleCreate extends Zend_Form
                 $outsideService->SetAction($this->action->GetValue());
                 $outsideService->SetProject($this->project->GetValue());
                 $outsideServiceMapper->insert($outsideService);
-                return $outsideService->GetId();
+                return $outsideService->GetAction();
 
             } else {
 
@@ -135,7 +136,7 @@ class C3op_Form_ResponsibleCreate extends Zend_Form
                 $teamMember->SetAction($this->action->GetValue());
                 $teamMember->SetProject($this->project->GetValue());
                 $teamMemberMapper->insert($teamMember);
-                return $teamMember->GetId();
+                return $teamMember->GetAction();
             }
         }
     }

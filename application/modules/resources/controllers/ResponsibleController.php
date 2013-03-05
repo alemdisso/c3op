@@ -27,28 +27,25 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
         $data = $this->_request->getParams();
 
-        $teamMemberId = $data['id'];
+        $actionId = $data['actionId'];
 
-        if (!isset($this->teamMemberMapper)) {
-            $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
-        }
-        if (!isset($this->contactMapper)) {
-            $this->contactMapper = new C3op_Register_ContactMapper($this->db);
-        }
-        if (!isset($this->linkageMapper)) {
-            $this->linkageMapper = new C3op_Register_LinkageMapper($this->db);
-        }
-        $responsible = $this->teamMemberMapper->findById($teamMemberId);
-        $linkageContact = $this->linkageMapper->findById($responsible->getLinkage());
-        $contactId = $linkageContact->GetContact();
-        $contractedContact = $this->contactMapper->findById($contactId);
-        $contactName = $contractedContact->GetName();
+        $this->initActionMapper();
+        $action = $this->actionMapper->findById($actionId);
 
-        $pageData = array(
-            'linkageId' => $responsible->getLinkage(),
-            'contactName' => $contactName,
-            'projectId' => $responsible->GetProject(),
-        );
+        $obj = new C3op_Projects_ActionResponsible($action, $this->actionMapper, $this->db);
+
+        if ($obj->doesItHasAResponsible()) {
+            $result = $obj->fetch();
+
+            $pageData = array(
+                'responsibleId'   => $result['responsibleId'],
+                'responsibleName' => $result['responsibleName'],
+                'projectId'       => $action->GetProject(),
+            );
+
+        } else {
+            throw new C3op_Projects_ActionException("There should be an assigned responsible but couldn\'t find it");
+        }
 
         $this->view->pageData = $pageData;
 
@@ -56,7 +53,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
     public function createAction()
     {
-        $this->_helper->layout->disableLayout();
+        //$this->_helper->layout->disableLayout();
 
         // cria form
         $form = new C3op_Form_ResponsibleCreate;
@@ -65,13 +62,14 @@ class Resources_ResponsibleController extends Zend_Controller_Action
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
-                $id = $form->process($postData);
+                $actionId = $form->process($postData);
 
-                $this->_helper->viewRenderer->setNoRender(TRUE);
+
+                //$this->_helper->viewRenderer->setNoRender(TRUE);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The team member was created.'));
                 //echo "show de bola...";
-                $this->_redirect('/resources/responsible/assigned/?id=' . $id);
+                $this->_redirect('/resources/responsible/assigned/?actionId=' . $actionId);
             } else {
                 //form error: populate and go back
                 $actionId = $postData['action'];

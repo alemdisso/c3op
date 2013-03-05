@@ -19,7 +19,7 @@ $projectHeader = $pageData['projectHeader'];
 
 $productsList = $pageData['productsList'];
 $actionsList = $pageData['actionsTree'];
-$teamData = $pageData['teamMembersList'];
+$teamMembersList = $pageData['teamMembersList'];
 $servicesData = $pageData['outsideServicesList'];
 $materialData = $pageData['materialSuppliesList'];
 $detailsData = $pageData['detailsData'];
@@ -291,7 +291,7 @@ foreach ($actionsList as $id => $actionData) {
               <!-- ### loop de carga dos recursos humanos alocados ao projeto -->
 <?php
 
-foreach($teamData as $id => $teamMemberInfo) {
+foreach($teamMembersList as $id => $teamMemberInfo) {
 ?>
                 <tr>
                   <td>

@@ -750,6 +750,7 @@ class Projects_ActionController extends Zend_Controller_Action
         //      canRemoveTeamMember
         //      canEditResource
         //      canProvideOutlay
+        $this->initActionMapper();
         $this->initTeamMemberMapper();
 
         if (!isset($this->linkageMapper)) {
@@ -757,10 +758,15 @@ class Projects_ActionController extends Zend_Controller_Action
         }
 
         $teamMembersList = array();
-        $teamMembersIdsList = $this->teamMemberMapper->getAllTeamMembersOnAction($action);
+        //$teamMembersIdsList = $this->teamMemberMapper->getAllTeamMembersOnAction($action);
+        $teamMembersIdsList = $this->actionMapper->getAllUniqueTeamMembersContractedOrPredictedUnderAction($action);
 
         foreach ($teamMembersIdsList as $teamMemberId) {
             $theTeamMember = $this->teamMemberMapper->findById($teamMemberId);
+
+            $teamMemberAction = $this->actionMapper->findById($theTeamMember->getAction());
+            $teamMemberActionTitle = $teamMemberAction->getTitle();
+
             $currencyDisplay = new  C3op_Util_CurrencyDisplay();
             $currencyValue = $currencyDisplay->FormatCurrency($theTeamMember->GetValue());
             $totalValueExistentOutlays = $this->calculateTotalValueExistentOutlays($theTeamMember);
@@ -818,8 +824,8 @@ class Projects_ActionController extends Zend_Controller_Action
                 'linkageId'              => $linkageId,
                 'name'                   => $contactName,
                 'description'            => $descriptionMessage,
-//                'value'                  => $currencyValue,
-                'value'                  => "N/D",
+                'teamMemberActionId'     => $theTeamMember->getAction(),
+                'teamMemberActionTitle'  => $teamMemberActionTitle,
                 'contractingStatusLabel' => $statusLabel,
                 'canContractFlag'        => $canContract,
                 'canDismissFlag'         => $canDismiss,

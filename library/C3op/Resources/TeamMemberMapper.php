@@ -237,20 +237,7 @@ class C3op_Resources_TeamMemberMapper {
     public function getAllUniqueTeamMembersContractedAt(C3op_Projects_Project $obj) {
         $result = array();
 
-
-//SELECT _t.linkage, resources_team_members.id, _t.value
-//
-//FROM  (
-//SELECT  `linkage` , MAX(  `value` )  `value`
-//FROM resources_team_members
-//WHERE linkage >0
-//GROUP BY linkage
-//ORDER BY MAX( value ) DESC
-//) _t JOIN resources_team_members
-//USING (linkage, value) INNER JOIN projects_actions a ON resources_team_members.action = a.id WHERE a.project = 4
-//ORDER BY _t.value DESC
-
-
+       
         foreach ($this->db->query(sprintf('SELECT t.id
             FROM projects_actions a
             INNER JOIN resources_team_members t ON a.id = t.action

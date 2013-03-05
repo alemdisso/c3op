@@ -419,4 +419,42 @@ class C3op_Projects_ActionMapper
 
     }
 
+    public function getAllUniqueTeamMembersContractedOrPredictedUnderAction(C3op_Projects_Action $obj) {
+        $result = array();
+        $below = new C3op_Projects_ActionsBelow($obj, $this);
+        $actionsBelow = $below->retrieve();
+
+        $id = $obj->GetId();
+
+        if (count($actionsBelow) > 0) {
+            $stringActionsBelow = implode(',', $actionsBelow);
+            $stringActionsBelow .= ",$id";
+        } else {
+            $stringActionsBelow = "$id";
+        }
+
+        $queryString = sprintf('SELECT t.id, t.linkage
+                FROM resources_team_members t
+                WHERE t.action IN (%s)
+                AND t.linkage > 0
+                AND (
+                t.status = %d
+                OR t.status = %d
+                OR t.status = %d
+                OR t.status = %d
+                )'
+                , $stringActionsBelow
+                , C3op_Resources_TeamMemberStatusConstants::STATUS_UNDEFINED
+                , C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED
+                , C3op_Resources_TeamMemberStatusConstants::STATUS_ACQUITTED
+                , C3op_Resources_TeamMemberStatusConstants::STATUS_FORESEEN
+            );
+
+        foreach ($this->db->query($queryString) as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
+
 }

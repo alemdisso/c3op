@@ -564,8 +564,10 @@ class Projects_ProjectController extends Zend_Controller_Action
                 'teamMemberId'        => $teamMember->getId(),
                 'title'               => $action->getTitle(),
                 'position'            => $teamMember->getDescription(),
-                'payedValue'          => $actionPayedValue,
-                'totalValue'          => $actionTotalValue,
+//                'payedValue'          => $actionPayedValue,
+//                'totalValue'          => $actionTotalValue,
+                'payedValue'          => 'N/D',
+                'totalValue'          => 'N/D',
                 'actionStatus'        => $this->view->translate($actionStatusLabel),
                 'teamMemberStatus'    => $this->view->translate($teamMemberStatusLabel),
                 'canContractFlag'     => $canContract,
@@ -598,13 +600,16 @@ class Projects_ProjectController extends Zend_Controller_Action
 
 
         $personData = array(
-            'projectId' => $project->getId(),
-            'name' => $contact->getName(),
-            'projectTitle' => $project->getShortTitle(),
-            'payedValue' => $personPayedValue,
-            'contractedValue'  => $personContractedValue,
-            'totalValue' => $personTotalValue,
-            'personActions' => $personActions,
+            'projectId'       => $project->getId(),
+            'name'            => $contact->getName(),
+            'projectTitle'    => $project->getShortTitle(),
+//            'payedValue'      => $personPayedValue,
+//            'contractedValue' => $personContractedValue,
+//            'totalValue' => $personTotalValue,
+            'payedValue'      => 'N/D',
+            'contractedValue' => 'N/D',
+            'totalValue'      => 'N/D',
+            'personActions'   => $personActions,
         );
 
         $pageData = array(
@@ -906,27 +911,6 @@ class Projects_ProjectController extends Zend_Controller_Action
 
             }
    }
-
-    private function outlayAsAParcel(C3op_Finances_Outlay $outlay)
-    {
-        $teamMemberId = $outlay->getTeamMember();
-        if (!isset($this->teamMemberMapper)) {
-            $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
-        }
-        $outlayTeamMember = $this->teamMemberMapper->findById($teamMemberId);
-        $listOutlaysForTeamMember = $this->teamMemberMapper->getAllOutlays($outlayTeamMember);
-        $totalParcels = count($listOutlaysForTeamMember);
-
-        $parcelsCount = 0;
-        foreach($listOutlaysForTeamMember as $parcelId) {
-            $thisParcel = $this->outlayMapper->FindById($parcelId);
-            $parcelsCount++;
-            if ($thisParcel->getId() == $outlay->getId()) {
-                $myParcel = $parcelsCount;
-            }
-        }
-        return "$myParcel/$totalParcels";
-    }
 
    private function fillDataTree($tree)
     {
@@ -1236,7 +1220,5 @@ class Projects_ProjectController extends Zend_Controller_Action
 
 
     }
-
-
-
+    
 }

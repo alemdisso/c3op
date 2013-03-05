@@ -1,7 +1,7 @@
 <?php
   $pageData = $this->pageData;
   $actionHeader = $pageData['actionHeader'];
-  $teamData = $pageData['teamMembersList'];
+  $teamMembersList = $pageData['teamMembersList'];
   $servicesData = $pageData['outsideServicesList'];
   $materialData = $pageData['materialSuppliesList'];
 ?>
@@ -354,8 +354,7 @@ if (!$actionHeader['hasResponsible']) {
             <thead>
               <tr>
                 <th width="220"><?php print($this->translate("#Name")); ?></th>
-                <th width="80"><?php print($this->translate("#Role")); ?></th>
-                <th width="100"><?php print($this->translate("#Value")); ?></th>
+                <th width="180"><?php print($this->translate("#Action")); ?></th>
                 <th width="100"><?php print($this->translate("#Status")); ?></th>
                 <th width="100">&nbsp;</th>
               </tr>
@@ -363,7 +362,7 @@ if (!$actionHeader['hasResponsible']) {
             <tbody>
 
 <?php
-  foreach ($teamData as $id => $teamMemberData) {
+  foreach ($teamMembersList as $id => $teamMemberData) {
 ?>          <!-- ### loop de carga dos recursos humanos alocados a esta ação -->
               <tr>
 <?php
@@ -386,10 +385,7 @@ if (!$actionHeader['hasResponsible']) {
 
 ?>
                 <td>
-                  <?php print($teamMemberData['description']) ?>
-                </td>
-                <td>
-                  <?php print($teamMemberData['value']) ?>
+                  <a href="/projects/action/detail/?id=<?php print($teamMemberData['teamMemberActionId']); ?>"><?php print($teamMemberData['teamMemberActionTitle']); ?></a>
                 </td>
                 <td>
                   <?php print($teamMemberData['contractingStatusLabel']) ?>
