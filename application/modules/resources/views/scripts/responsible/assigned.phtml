@@ -2,11 +2,21 @@
   $pageData = $this->pageData;
 
   $projectId = $pageData['projectId'];
-  $linkageId = $pageData['linkageId'];
-  $contactName = $pageData['contactName'];
-  $personLink = "<a href='/projects/project/person/?id=$projectId&linkage=$linkageId'>$contactName</a>";
-  
+  $responsibleId = $pageData['responsibleId'];
+  $responsibleName = $pageData['responsibleName'];
+
+
+  if ($pageData['responsibleType'] == 'teamMember') {
+      $responsibleLink = "<a href='/projects/project/person/?id=$projectId&linkage=$responsibleId'>$responsibleName</a>";
+  } else {
+      $responsibleLink = "<a href='/register/institution/detail/?id=$responsibleId'>$responsibleName</a>";
+
+  }
+//print("<br>at view<br>");
+//print_r($pageData);
+//die();
+
 ?>
 <?php print($this->translate("#Action was assigned")); ?>
 <br class="clear" />
-<?php print(sprintf($this->translate("#%s was assigned responsible for this action"), $personLink)); ?>
+<?php print(sprintf($this->translate("#%s was assigned responsible for this action"), $responsibleLink)); ?>

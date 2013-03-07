@@ -697,16 +697,6 @@ class Projects_ProjectController extends Zend_Controller_Action
         $this->view->projectInfo = $projectInfo;
     }
 
-    public function successAction()
-    {
-        if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
-            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
-            $this->getResponse()->setHeader('Refresh', '1; URL=/projects');
-        } else {
-            $this->_redirect('/projects');
-        }
-    }
-
     public function unacknowledgedAction()
     {
         $id = $this->checkIdFromGet();
@@ -1220,5 +1210,5 @@ class Projects_ProjectController extends Zend_Controller_Action
 
 
     }
-    
+
 }

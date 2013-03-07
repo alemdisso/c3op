@@ -364,19 +364,6 @@ class Resources_OutsideServiceController extends Zend_Controller_Action
 
     }
 
-   public function successAction()
-    {
-        $this->initOutsideServiceMapper();
-        $outsideService =  $this->initOutsideServiceWithCheckedId($this->outsideServiceMapper);
-        $actionRelated = $outsideService->GetAction();
-        if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
-            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
-            $this->getResponse()->setHeader('Refresh', '1; URL=/projects/action/detail/?id=' . $actionRelated);
-        } else {
-            $this->_redirect('/projects');
-        }
-    }
-
    public function dismissContactAction()
     {
         $this->_helper->layout->disableLayout();

@@ -89,19 +89,6 @@ class Register_LinkageController extends Zend_Controller_Action
         }
     }
 
-    public function successAction()
-    {
-        $mapper = new C3op_Register_ContactMapper();
-        $contact =  $this->initContactWithCheckedId($mapper);
-
-        if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
-            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
-            $this->getResponse()->setHeader('Refresh', '1; URL=/register/contact/detail/?id=' . $contact->getId());
-        } else {
-            $this->_redirect('/register/contact/detail/?id=' . $contact->getId());
-        }
-    }
-
     public function detailAction()
     {
 

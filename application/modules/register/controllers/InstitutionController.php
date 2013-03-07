@@ -117,16 +117,6 @@ class Register_InstitutionController extends Zend_Controller_Action
         }
     }
 
-    public function successAction()
-    {
-        if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
-            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
-            $this->getResponse()->setHeader('Refresh', '1; URL=/register/institution');
-        } else {
-            $this->_redirect('/register');
-        }
-    }
-
     public function detailAction()
     {
         $linkageMapper = new C3op_Register_LinkageMapper($this->db);

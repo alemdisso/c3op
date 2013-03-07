@@ -254,19 +254,6 @@ class Finances_ReceivableController extends Zend_Controller_Action
         }
     }
 
-    public function successAction()
-    {
-        $this->initReceivableMapper();
-        $receivableRelated =  $this->initReceivableWithCheckedId($this->receivableMapper);
-
-        if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
-            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
-            $this->getResponse()->setHeader('Refresh', '1; URL=/finances/receivable/detail/?id=' . $receivableRelated->getId());
-        } else {
-            $this->_redirect('/projects');
-        }
-    }
-
     private function checkIdFromGet()
     {
         $data = $this->_request->getParams();

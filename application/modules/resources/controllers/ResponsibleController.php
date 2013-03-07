@@ -38,10 +38,16 @@ class Resources_ResponsibleController extends Zend_Controller_Action
             $result = $obj->fetch();
 
             $pageData = array(
+                'responsibleType' => $result['responsibleType'],
                 'responsibleId'   => $result['responsibleId'],
                 'responsibleName' => $result['responsibleName'],
                 'projectId'       => $action->GetProject(),
             );
+//print("<br>result<br>");
+//print_r($result);
+//
+//print("<br>pageData<br>");
+//print_r($pageData);
 
         } else {
             throw new C3op_Projects_ActionException("There should be an assigned responsible but couldn\'t find it");
@@ -53,7 +59,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
     public function createAction()
     {
-        //$this->_helper->layout->disableLayout();
+        $this->_helper->layout->disableLayout();
 
         // cria form
         $form = new C3op_Form_ResponsibleCreate;
@@ -64,11 +70,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $actionId = $form->process($postData);
 
-
-                //$this->_helper->viewRenderer->setNoRender(TRUE);
-                $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage($this->view->translate('#The team member was created.'));
-                //echo "show de bola...";
+                $this->_helper->viewRenderer->setNoRender(TRUE);
                 $this->_redirect('/resources/responsible/assigned/?actionId=' . $actionId);
             } else {
                 //form error: populate and go back

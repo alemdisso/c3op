@@ -154,7 +154,7 @@ class Finances_ProjectController extends Zend_Controller_Action
                     $theLinkage = $this->linkageMapper->findById($theTeamMember->getLinkage());
                     $theContact = $this->contactMapper->findById($theLinkage->getContact());
 
-                    $payeeId = $theContact->getId();
+                    $payeeId = $theLinkage->getId();
                     $payeeName = $theContact->getName();
 
                     $status = $theTeamMember->getStatus();

@@ -59,6 +59,7 @@ class C3op_Projects_ActionResponsible {
 
             $data = array(
               'hasResponsible'  => true,
+              'responsibleType' => 'teamMember',
               'responsibleName' => $contactName,
               'responsibleId'   => $linkageId,
               'statusLabel'     => $statusLabel,
@@ -88,6 +89,7 @@ class C3op_Projects_ActionResponsible {
 
                 $data = array(
                 'hasResponsible'  => true,
+                'responsibleType' => 'outsideService',
                 'responsibleName' => $institutionName,
                 'responsibleId'   => $institutionId,
                 'statusLabel'     => $statusLabel,
@@ -95,12 +97,12 @@ class C3op_Projects_ActionResponsible {
             } else {
                 $data = array(
                 'hasResponsible'  => false,
+                'responsibleType' => 'none',
                 'responsibleName' => _("#(unassigned)"),
                 'responsibleId'   => 0,
                 );
             }
         }
-
         return $data;
     }
 

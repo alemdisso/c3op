@@ -10,6 +10,7 @@ class C3op_Resources_TeamMemberContracting {
         if (($teamMember->GetLinkage() > 0)
                 && ($teamMember->GetStatus() == C3op_Resources_TeamMemberStatusConstants::STATUS_FORESEEN)){
             $teamMember->SetStatus(C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED);
+            
             $teamMemberMapper->update($teamMember);
 
             $this->logContracting($action, $teamMember);

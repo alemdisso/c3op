@@ -188,20 +188,6 @@ class Projects_ContractController extends Zend_Controller_Action
         }
     }
 
-    public function successAction()
-    {
-        $this->initContractMapper();
-        $contractRelated =  $this->initContractWithCheckedId($this->contractMapper);
-
-        if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
-            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
-            $this->getResponse()->setHeader('Refresh', '1; URL=/projects/contract/detail/?id=' . $contractRelated->getId());
-        } else {
-            $this->_redirect('/projects');
-        }
-    }
-
-
     private function PopulateProjectFields($projectId, Zend_Form $form)
     {
         $validator = new C3op_Util_ValidId();

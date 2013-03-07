@@ -193,6 +193,13 @@ class Resources_TeamMemberController extends Zend_Controller_Action
                 $this->initActionMapper();
                 $thisAction = $this->actionMapper->findById($thisTeamMember->getAction());
 
+
+                $valueField = $form->getElement('value');
+                $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+                $currencyValue = $currencyDisplay->FormatCurrency($thisTeamMember->GetValue());
+                $valueField->setValue($currencyValue);
+
+
                 $this->setDateValueToFormField($form, 'predictedBeginDate', $thisAction->GetPredictedBeginDate());
                 $this->setDateValueToFormField($form, 'predictedFinishDate', $thisAction->GetPredictedFinishDate());
                 $contactField = $form->getElement('contact');
@@ -310,19 +317,6 @@ class Resources_TeamMemberController extends Zend_Controller_Action
                 'actionTitle' => $theAction->getTitle(),
             );
             $this->view->teamMemberData = $teamMemberData;
-        }
-    }
-
-    public function successAction()
-    {
-        $this->initTeamMemberMapper();
-        $teamMember =  $this->initTeamMemberWithCheckedId($this->teamMemberMapper);
-        $actionRelated = $teamMember->GetAction();
-        if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
-            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
-            $this->getResponse()->setHeader('Refresh', '1; URL=/projects/action/detail/?id=' . $actionRelated);
-        } else {
-            $this->_redirect('/projects');
         }
     }
 

@@ -409,18 +409,6 @@ class Projects_ActionController extends Zend_Controller_Action
         }
     }
 
-
-    public function successAction()
-    {
-        $actionId = $this->checkIdFromGet();
-        if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
-            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
-            $this->getResponse()->setHeader('Refresh', '1; URL=/projects/action/detail/?id=' . $actionId);
-        } else {
-            $this->_redirect('/projects');
-        }
-    }
-
     public function acknowledgeReceiptAction()
     {
         $this->_helper->layout->disableLayout();
