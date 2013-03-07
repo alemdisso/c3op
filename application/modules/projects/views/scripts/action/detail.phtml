@@ -1,7 +1,7 @@
 <?php
   $pageData = $this->pageData;
   $actionHeader = $pageData['actionHeader'];
-  $teamData = $pageData['teamMembersList'];
+  $teamMembersList = $pageData['teamMembersList'];
   $servicesData = $pageData['outsideServicesList'];
   $materialData = $pageData['materialSuppliesList'];
 ?>
@@ -52,9 +52,52 @@ function rejectReceipt(id){
   })
 }
 </script>
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+        $("#responsibleDiv").hide();
+        $("#responsibleButton").show();
+
+    $('#responsibleButton').click(function(){
+        $.ajax({
+            type: 'get',
+            data: 'id=<?php print $actionHeader['id'] ?>',
+            url:'/resources/responsible/create',
+            success: function(successReturn){
+            $('#responsibleFormDiv').html(successReturn);
+            }
+        })
+
+
+         $("#responsibleDiv").slideToggle();
+         $("#responsibleButton").hide();
+    });
+    $('#hideHref').click(function(){
+         $("#responsibleDiv").slideToggle();
+         $("#responsibleButton").show();
+    });
+
+
+
+});
+
+</script>
+
         <div id="MainHeader">
           <h1><?php print($this->translate("#Project")); ?> <a href="/projects/project/detail/?id=<?php print($actionHeader['projectId']) ?>"><?php print($actionHeader['projectTitle']) ?></a></h1>
         </div><!-- MainHeader -->
+
+<?php
+    if ($pageData['messageToShow']) {
+?>
+        <div class="flashMessage">
+            <?php echo $this->translate($pageData['messageToShow']); ?>
+        </div>
+<?php
+    }
+?>
+
         <div class="TituloForm">
           <h2><?php print(sprintf($this->translate("#Details of action %s"), $actionHeader['title'])); ?></h2>
                 <a href="/projects/action/edit/?id=<?php echo $actionHeader['id'] ?>"><?php echo $this->translate("#Edit action") ?></a>
@@ -70,10 +113,10 @@ function rejectReceipt(id){
         <div class="Area">
 
           <div class="three columns alpha Right">
-            <?php print($this->translate("#Responsible:")); ?>
+            <?php print($this->translate("#Supervisor:")); ?>
           </div>
           <div class="six columns">
-            <?php print($actionHeader['responsibleName']); ?>
+            <?php print($this->translate($actionHeader['supervisorName'])); ?>
           </div>
           <div class="two columns Right">
             <?php print($this->translate("#Status")); ?>
@@ -117,59 +160,57 @@ if ($parentId > 0) {
           <div class="three columns alpha Right">
             <?php print($this->translate("#Predicted begin:")); ?>
           </div>
-          <div class="one column">
-            <?php print($actionHeader['predictedBeginDate']); ?>
+          <div class="two column">
+            <?php print($this->translate($actionHeader['predictedBeginDate'])); ?>
           </div>
           <div class="three columns Right">
             <?php print($this->translate("#Predicted finish:")); ?>
           </div>
           <div class="two columns">
-            <?php print($actionHeader['predictedFinishDate']); ?>
+            <?php print($this->translate($actionHeader['predictedFinishDate'])); ?>
           </div>
-          <div class="two columns inset-by-three omega">
-            <?php print($this->translate($actionHeader['milestone'])); ?>
+          <div class="two columns inset-by-two omega">
+<?php
+            if ($actionHeader['isAMilestone']) {
+?>
+            <?php print($this->translate('#Is a milestone')); ?>
+
+<?
+            } else {
+?>
+            <?php print($this->translate('#Is not a milestone')); ?>
+
+<?
+            }
+?>
+
+
           </div>
 
             <div class="three columns alpha Right">
             <?php print($this->translate("#Real begin:")); ?>
           </div>
           <div class="two columns">
-            <?php print($actionHeader['realBeginDate']); ?>
+            <?php print($this->translate($actionHeader['realBeginDate'])); ?>
           </div>
           <div class="two columns Right">
             <?php print($this->translate("#Real finish:")); ?>
           </div>
           <div class="two columns">
-            <?php print($actionHeader['realFinishDate']); ?>
+            <?php print($this->translate($actionHeader['realFinishDate'])); ?>
           </div>
-          <div class="three columns inset-by-two omega">
 
-<?php
-  if ($actionHeader['unacknowledgedStart']) {
-?>
-<!--            <div id='acknowledgeStart-<?php print($actionHeader['id']); ?>'>
-              <a class="full column button full column alpha omega" href="javascript:acknowledgeStart('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Acknowledge start")); ?></a>
-            </div>
--->
-            &nbsp;
-    <?php
-  }
-  if ($actionHeader['receiptToAcceptOrReject']) {
-
-?>
-            &nbsp;
-<?php
-  }
-?>
 <?php
   if ($actionHeader['waitingToReceipt']) {
 ?>
-<!--            <div id="acknowledgeReceipt-<?php print($actionHeader['id']);?>">
+          <div class="three columns inset-by-two omega">
+            <div id="acknowledgeReceipt-<?php print($actionHeader['id']);?>">
               <div class="three columns alpha omega">
                 <a class="button full column alpha omega parent_info" href="javascript:acknowledgeReceipt('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Confirm task realization")); ?></a>
               </div>
             </div>
--->
+          </div>
+
 &nbsp;
 
 <?php
@@ -179,16 +220,14 @@ if ($parentId > 0) {
 <?php
   }
 ?>
-          </div>
 <?php
   if ($actionHeader['receiptToAcceptOrReject']) {
 ?>
-            <!--
           <div class="three columns alpha Right">
             <?php print($this->translate("#Receipt date:")); ?>
           </div>
           <div class="one column">
-            <?php print($actionHeader['receiptDate']); ?>
+            <?php print($this->translate($actionHeader['receiptDate'])); ?>
           </div>
           <div class="six columns inset-by-four">
             <div id="receiptAcknowledgement-<?php print($actionHeader['id']);?>">
@@ -200,7 +239,6 @@ if ($parentId > 0) {
               </div>
             </div>
           </div>
-            -->
             &nbsp;
 <?php
   } else {
@@ -210,31 +248,49 @@ if ($parentId > 0) {
   }
 ?>
 
-          <div class="three columns alpha Right">
-            <?php print($this->translate("#Total contracted value:")); ?>
-          </div>
-          <div class="two columns">
-            <?php print($actionHeader['totalContractedValue']); ?>
-          </div>
 
 <?php
-  if ($actionHeader['notAProduct']) {
-      $productLink = "<a href='/projects/action/detail/?id='" . $actionHeader['relatedProductId'] . "'>" . $actionHeader['relatedProductTitle'] . "</a>";
+  if (($actionHeader['notAProduct'] ) && ($actionHeader['relatedProductId'])) {
+            $productLink = "<a href='/projects/action/detail/?id=" . $actionHeader['relatedProductId'] . "'>" . $actionHeader['relatedProductTitle'] . "</a>";
 ?>
-          <div class="nine columns alpha omega">
-            <?php printf($this->translate("#This action is related to product %s that should be delivered until %s"), $productLink, $actionHeader['productDeliveryDate']); ?>
+          <div class="eight columns offset-by-three">
+            <?php printf($this->translate("#This action is related to product %s that should be delivered until %s"), $productLink, $this->translate($actionHeader['productDeliveryDate'])); ?>
           </div>
 
 <?php
   }
 ?>
+          <br class="clear" />
+          <div class="eight columns offset-by-three">
+              <a anchor="responsible"></a>
+<?php
+if (!$actionHeader['hasResponsible']) {
+?>
 
+            <a id="responsibleButton" class="button two columns alpha omega parent_info" href="#responsible"><?php print($this->translate("#Inform responsible")); ?></a>
+          <div id="responsibleDiv" class="slidingDiv">
+              <h3>   <?php print($this->translate("#Inform responsible")); ?>  </h3>
+              <div id="responsibleFormDiv">&nbsp;</div>
+            <br class="clear"/>
+            <a class="alpha" href="#responsible" id="hideHref"><?php print($this->translate("#Hide form")); ?></a>
 
-
-<!--          <div class="three columns offset-by-three inset-by-eight alpha omega">
-            <a href="/projects/action/edit/?id=<?php print($actionHeader['id']) ?>" class="button three columns alpha omega"><?php print($this->translate("#Edit this action")); ?></a>
           </div>
--->
+<?php
+  } else {
+    $projectId = $actionHeader['projectId'];
+    $linkageId = $actionHeader['responsibleId'];
+    $contactName = $actionHeader['responsibleName'];
+    $personLink = "<a href='/projects/project/person/?id=$projectId&linkage=$linkageId'>$contactName</a>";
+
+
+?>
+<?php print(sprintf($this->translate("#%s was assigned responsible for this action"), $personLink)); ?> (<?php print($this->translate($actionHeader['statusLabel'])); ?>)
+<?php
+
+  }
+?>
+          </div>
+
         </div><!-- .Area -->
 
         <div id="tabs">
@@ -246,56 +302,50 @@ if ($parentId > 0) {
           </ul>
 
           <div id="tabs-subactions">
-            <table id="SubAcoes" class="display dataTable">
-              <thead>
-                <tr>
-                  <th width="200"><?php print($this->translate("#Action")); ?></th>
-                  <th width="100"><?php print($this->translate("#Responsible")); ?></th>
-                  <th width="100"><?php print($this->translate("#Status")); ?></th>
-                  <th width="10">&nbsp;</th>
-                </tr>
-              </thead>
-              <tbody>
-<?php
-  $subordinatedActions = $actionHeader['subordinatedActions'];
-  foreach ($subordinatedActions as $id => $actionData) {
-?>
-                <!-- ### loop de carga das ações subordinadas a esta ação -->
-                <tr>
-                  <td><a href="/projects/action/detail/?id=<?php print($id);?>"><?php print($actionData['title']) ?></a></td>
-                  <td><?php print($actionData['responsibleName']); ?></td>
-                  <td><?php print($this->translate($actionData['status'])); ?></td>
-                      <td>
-                    <a href="#" class="button one column alpha omega anchorclass" rel="submenu1"><?php print($this->translate("#Options")); ?></a>
-                    <div id="submenu1" class="anylinkcss">
-                        <ul>
-                          <li>
-                            <a href="/projects/action/edit/?id=<?php print($id);?>"><?php print($this->translate("#Edit")); ?></a>
-                          </li>
-<?php
-    if ($actionData['canRemoveAction']) {
+            <div class="Area">
+                <h2><?php echo $this->translate("#Action\'s tree") ?></h2>
+                <a href="javascript:$('.treeTable').expandAll();"><?php echo $this->translate("#Expand all") ?></a> | <a href="javascript:$('.treeTable').collapseAll();"><?php echo $this->translate("#Collapse all") ?></a>
+                <table id="tree" border="1">
+                    <thead>
+                            <tr>
+                            <th width="200" align="left"><?php echo $this->translate("#Action") ?></th>
+                            <th width="200" align="left"><?php echo $this->translate("#Supervisor") ?></th>
+                            <th width="100" align="left"><?php echo $this->translate("#Pred. begin date") ?></th>
+                            <th width="100" align="left"><?php echo $this->translate("#Real begin date") ?></th>
+                            <th width="100" align="left"><?php echo $this->translate("#Pred. finish date") ?></th>
+                            <th width="100" align="left"><?php echo $this->translate("#Real finish date") ?></th>
+                            </tr>
+                    </thead>
+                    <tbody>
+    <?php
+    foreach ($actionHeader['subActionsTree'] as $id => $actionData) {
+        $nodeId = "node-" . $id;
+        $childOf = $actionData['subordinatedTo'];
+        if ($childOf != $actionHeader['id']) {
+            $classId = "\"child-of-node-$childOf\"";
+            $classId = 'class = ' . $classId;
+        }
 
-?>
-                          <li>
-                            <a href="/projects/action/remove/?id=<?php print($id);?>"><?php print($this->translate("#Remove")); ?></a>
-                          </li>
-<?php
+    ?>
+                    <tr id="<?php print ($nodeId) ?>" <?php print (($childOf != $actionHeader['id'] ? $classId : '')) ?>>
+                    <td><a href='/projects/action/detail/?id=<?php print($id) ?>'><?php print ($actionData['title']) ?></a></td>
+                    <td><?php print ($this->translate($actionData['responsibleName'])) ?></td>
+                    <td><?php print ($this->translate($actionData['predictedBeginDate'])) ?></td>
+                    <td><?php print ($this->translate($actionData['realBeginDate'])) ?></td>
+                    <td><?php print ($this->translate($actionData['predictedFinishDate'])) ?></td>
+                    <td><?php print ($this->translate($actionData['realFinishDate'])) ?></td>
+                    </tr>
+    <?php
     }
-?>
-
-                        </ul>
-                    </div><!-- #submenu1 -->
-                  </td>
-                </tr>
-              <!-- ### fim do loop de carga das ações subordinadas a esta ação -->
-<?php
-  }
-?>
-              </tbody>
-            </table>
-            <p>
-              <a href="/projects/action/create/?subordinatedTo=<?php print($actionHeader['id']) ?>" class="button three columns alpha omega"><?php print($this->translate("#Create new action")) ?></a>
-            </p>
+    ?>
+            <!-- # Fim do loop -->
+                </tbody>
+                </table>
+                <br />
+                <p>
+                <a href="/projects/action/create/?subordinatedTo=<?php print($actionHeader['id']) ?>" class="button three columns alpha omega"><?php print($this->translate("#Create new action")) ?></a>
+                </p>
+            </div><!-- Area -->
           </div><!-- #tabs-subactions -->
 
           <div id="tabs-team">
@@ -304,8 +354,7 @@ if ($parentId > 0) {
             <thead>
               <tr>
                 <th width="220"><?php print($this->translate("#Name")); ?></th>
-                <th width="80"><?php print($this->translate("#Role")); ?></th>
-                <th width="100"><?php print($this->translate("#Value")); ?></th>
+                <th width="180"><?php print($this->translate("#Action")); ?></th>
                 <th width="100"><?php print($this->translate("#Status")); ?></th>
                 <th width="100">&nbsp;</th>
               </tr>
@@ -313,17 +362,30 @@ if ($parentId > 0) {
             <tbody>
 
 <?php
-  foreach ($teamData as $id => $teamMemberData) {
+  foreach ($teamMembersList as $id => $teamMemberData) {
 ?>          <!-- ### loop de carga dos recursos humanos alocados a esta ação -->
               <tr>
-                <td>
-                  <a href="/projects/team-member/edit/?id=<?php print($id) ?>"><?php print($teamMemberData['name']) ?></a>
+<?php
+    if($teamMemberData['contactId']) {
+?>
+                  <td>
+                  <a href="/projects/project/person/?id=<?php print($actionHeader['projectId']) ?>&linkage=<?php print($teamMemberData['linkageId']) ?>"><?php print($teamMemberData['name']) ?></a>
                 </td>
-                <td>
-                  <a href="/projects/team-member/edit/?id=<?php print($id) ?>"><?php print($teamMemberData['description']) ?></a>
+<?php
+    } else {
+
+?>
+                  <td>
+                  <?php print($teamMemberData['name']) ?>
                 </td>
+    <?php
+
+    }
+
+
+?>
                 <td>
-                  <?php print($teamMemberData['value']) ?>
+                  <a href="/projects/action/detail/?id=<?php print($teamMemberData['teamMemberActionId']); ?>"><?php print($teamMemberData['teamMemberActionTitle']); ?></a>
                 </td>
                 <td>
                   <?php print($teamMemberData['contractingStatusLabel']) ?>
@@ -332,15 +394,32 @@ if ($parentId > 0) {
                   <a href="#" class="button one column alpha omega anchorclass" rel="submenu2"><?php print($this->translate("#Options")); ?></a>
                   <div id="submenu2" class="anylinkcss">
                       <ul>
+<?php
+    if($teamMemberData['canEditResource']) {
+
+?>
                         <li>
-                          <a href="/projects/team-member/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
+                          <a href="/resources/team-member/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
                         </li>
 
 <?php
+    }
+?>
+    <?php
     if ($teamMemberData['canContractFlag']) {
 ?>
                         <li>
-                          <a class="parent_info" href="/projects/team-member/contract/?id=<?php print($id);?>" ><?php print($this->translate("#Confirm team member contracting")); ?></a>
+                          <a class="parent_info" href="/resources/team-member/contract/?id=<?php print($id);?>" ><?php print($this->translate("#Confirm team member contracting")); ?></a>
+                        </li>
+
+<?php
+    }
+?>
+    <?php
+    if ($teamMemberData['canDismissFlag']) {
+?>
+                        <li>
+                          <a class="parent_info" href="/resources/team-member/dismiss/?id=<?php print($id);?>" ><?php print($this->translate("#Dismiss team memb")); ?></a>
                         </li>
 
 <?php
@@ -353,7 +432,7 @@ if ($teamMemberData['canProvideOutlay']) {
 
 
                           <li>
-                            <a href="/projects/outlay/create/?teamMember=<?php echo $id ?>"><?php echo $this->translate("#Provide outlay") ?></a>
+                            <a href="/finances/outlay/create/?teamMember=<?php echo $id ?>"><?php echo $this->translate("#Provide outlay") ?></a>
                           </li>
 
 <?php
@@ -366,12 +445,22 @@ if ($teamMemberData['canRemoveTeamMember']) {
 
 
                           <li>
-                            <a href="/projects/team-member/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
+                            <a href="/resources/team-member/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
                           </li>
 
 <?php
 }
 ?>
+<?php
+if($teamMemberData['contactId'] > 0) {
+?>
+                        <li>
+                          <a href="/register/contact/detail/?id=<?php print($teamMemberData['contactId']) ?>"><?php echo $this->translate("#Contact detail") ?></a>
+                        </li>
+<?php
+}
+?>
+
                       </ul>
                   </div><!-- #submenu1 -->
                 </td>
@@ -383,10 +472,6 @@ if ($teamMemberData['canRemoveTeamMember']) {
 
             </tbody>
           </table>
-
-          <p>
-            <a href="/projects/team-member/create/?actionId=<?php print($actionHeader['id']); ?>" class="button three columns alpha omega"><?php print($this->translate("#Anticipate team member")); ?></a>
-          </p>
 
           </div><!-- #tabs-team -->
 
@@ -410,10 +495,10 @@ if ($teamMemberData['canRemoveTeamMember']) {
 ?>          <!-- ### loop de carga dos recursos humanos alocados a esta ação -->
               <tr>
                 <td>
-                  <a href="/projects/outside-service/edit/?id=<?php print($id) ?>"><?php print($outsideServiceData['name']) ?></a>
+                  <a href="/resources/outside-service/edit/?id=<?php print($id) ?>"><?php print($outsideServiceData['name']) ?></a>
                 </td>
                 <td>
-                  <a href="/projects/outside-service/edit/?id=<?php print($id) ?>"><?php print($outsideServiceData['description']) ?></a>
+                  <a href="/resources/outside-service/edit/?id=<?php print($id) ?>"><?php print($outsideServiceData['description']) ?></a>
                 </td>
                 <td>
                   <?php print($outsideServiceData['value']) ?>
@@ -426,14 +511,14 @@ if ($teamMemberData['canRemoveTeamMember']) {
                   <div id="submenu2" class="anylinkcss">
                       <ul>
                         <li>
-                          <a href="/projects/outside-service/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
+                          <a href="/resources/outside-service/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
                         </li>
 
 <?php
     if ($outsideServiceData['canContractFlag']) {
 ?>
                         <li>
-                          <a class="parent_info" href="/projects/outside-service/contract/?id=<?php print($id);?>" ><?php print($this->translate("#Confirm outside service contracting")); ?></a>
+                          <a class="parent_info" href="/resources/outside-service/contract/?id=<?php print($id);?>" ><?php print($this->translate("#Confirm outside service contracting")); ?></a>
                         </li>
 
 <?php
@@ -446,7 +531,7 @@ if ($outsideServiceData['canProvideOutlay']) {
 
 
                           <li>
-                            <a href="/projects/outlay/create/?outsideService=<?php echo $id ?>"><?php echo $this->translate("#Provide outlay") ?></a>
+                            <a href="/finances/outlay/create/?outsideService=<?php echo $id ?>"><?php echo $this->translate("#Provide outlay") ?></a>
                           </li>
 
 <?php
@@ -459,7 +544,7 @@ if ($outsideServiceData['canRemoveOutsideService']) {
 
 
                           <li>
-                            <a href="/projects/outside-service/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
+                            <a href="/resources/outside-service/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
                           </li>
 
 <?php
@@ -476,10 +561,6 @@ if ($outsideServiceData['canRemoveOutsideService']) {
 
             </tbody>
           </table>
-
-          <p>
-            <a href="/projects/outside-service/create/?actionId=<?php print($actionHeader['id']); ?>" class="button three columns alpha omega"><?php print($this->translate("#Anticipate outside service")); ?></a>
-          </p>
 
           </div><!-- #tabs-services -->
 
@@ -502,10 +583,10 @@ if ($outsideServiceData['canRemoveOutsideService']) {
 ?>          <!-- ### loop de carga dos recursos humanos alocados a esta ação -->
               <tr>
                 <td>
-                  <a href="/projects/material-supply/edit/?id=<?php print($id) ?>"><?php print($materialSupplyData['name']) ?></a>
+                  <a href="/resources/material-supply/edit/?id=<?php print($id) ?>"><?php print($materialSupplyData['name']) ?></a>
                 </td>
                 <td>
-                  <a href="/projects/material-supply/edit/?id=<?php print($id) ?>"><?php print($materialSupplyData['description']) ?></a>
+                  <a href="/resources/material-supply/edit/?id=<?php print($id) ?>"><?php print($materialSupplyData['description']) ?></a>
                 </td>
                 <td>
                   <?php print($materialSupplyData['value']) ?>
@@ -518,14 +599,14 @@ if ($outsideServiceData['canRemoveOutsideService']) {
                   <div id="submenu2" class="anylinkcss">
                       <ul>
                         <li>
-                          <a href="/projects/material-supply/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
+                          <a href="/resources/material-supply/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
                         </li>
 
 <?php
     if ($materialSupplyData['canContractFlag']) {
 ?>
                         <li>
-                          <a class="parent_info" href="/projects/material-supply/contract/?id=<?php print($id);?>" ><?php print($this->translate("#Confirm material supply contracting")); ?></a>
+                          <a class="parent_info" href="/resources/material-supply/contract/?id=<?php print($id);?>" ><?php print($this->translate("#Confirm material supply contracting")); ?></a>
                         </li>
 
 <?php
@@ -538,7 +619,7 @@ if ($materialSupplyData['canProvideOutlay']) {
 
 
                           <li>
-                            <a href="/projects/outlay/create/?materialSupply=<?php echo $id ?>"><?php echo $this->translate("#Provide outlay") ?></a>
+                            <a href="/finances/outlay/create/?materialSupply=<?php echo $id ?>"><?php echo $this->translate("#Provide outlay") ?></a>
                           </li>
 
 <?php
@@ -551,7 +632,7 @@ if ($materialSupplyData['canRemoveMaterialSupply']) {
 
 
                           <li>
-                            <a href="/projects/material-supply/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
+                            <a href="/resources/material-supply/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
                           </li>
 
 <?php
@@ -570,7 +651,7 @@ if ($materialSupplyData['canRemoveMaterialSupply']) {
           </table>
 
           <p>
-            <a href="/projects/material-supply/create/?actionId=<?php print($actionHeader['id']); ?>" class="button three columns alpha omega"><?php print($this->translate("#Anticipate material supply")); ?></a>
+            <a href="/resources/material-supply/create/?actionId=<?php print($actionHeader['id']); ?>" class="button three columns alpha omega"><?php print($this->translate("#Anticipate material supply")); ?></a>
           </p>
 
           </div><!-- #tabs-material -->

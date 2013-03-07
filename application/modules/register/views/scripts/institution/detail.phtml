@@ -6,6 +6,15 @@
         <div id="MainHeader">
           <h1><?php print($institutionInfo['name']) ?></h1>
         </div>
+<?php
+    if ($pageData['messageToShow']) {
+?>
+        <div class="flashMessage">
+            <?php echo $this->translate($pageData['messageToShow']); ?>
+        </div>
+<?php
+    }
+?>
         <div class="Area">
           <h2><?php print($this->translate("#Contacts in this institution")) ?></h2>
           <table class="display dataTable">
@@ -18,7 +27,7 @@
               </tr>
             </thead>
             <tbody>
-              
+
 <?php
 /*
  * iterate list and print title
@@ -48,9 +57,6 @@
             </tbody>
           </table>
         </div><!-- .Area -->
-        <p>
-          <a href="/register/linkage/create/?institution=<?php print($institutionInfo['id']) ?>" class="button three columns alpha omega"><?php print($this->translate("#Add new linkage")) ?></a>
-        </p>
 <?php
   } else { // else exists institutions list
 ?>

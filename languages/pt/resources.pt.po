@@ -1,0 +1,921 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: c3op\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-03-03 15:59-0300\n"
+"PO-Revision-Date: 2013-03-03 15:59-0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: Português\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;translate\n"
+"X-Poedit-Basepath: C:\\xampp\\htdocs\\c3op\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: application\\modules\\resources\n"
+"X-Poedit-SearchPath-1: library\\C3op\\resources\n"
+
+#: application\modules\resources/controllers/MaterialSupplyController.php:38
+msgid "#The material supply was created."
+msgstr "Material criado."
+
+#: application\modules\resources/controllers/MaterialSupplyController.php:93
+#: application\modules\resources/controllers/OutsideServiceController.php:93
+#: application\modules\resources/controllers/ResponsibleController.php:134
+#: application\modules\resources/controllers/TeamMemberController.php:91
+msgid "#The record was successfully updated."
+msgstr "O registro foi atualizado com sucesso."
+
+#: application\modules\resources/controllers/MaterialSupplyController.php:196
+msgid "#The material supply acquisition was registered."
+msgstr "A contratação foi registrada."
+
+#: application\modules\resources/controllers/MaterialSupplyController.php:313
+#: application\modules\resources/controllers/OutsideServiceController.php:310
+#: application\modules\resources/controllers/TeamMemberController.php:287
+msgid "#The record was successfully removed."
+msgstr "O registro foi removido com sucesso."
+
+#: application\modules\resources/controllers/OutsideServiceController.php:38
+msgid "#The outside service was created."
+msgstr "O serviço foi criado."
+
+#: application\modules\resources/controllers/OutsideServiceController.php:192
+msgid "#The outside service is contracted."
+msgstr "Contratação confirmada."
+
+#: application\modules\resources/controllers/ResponsibleController.php:72
+#: application\modules\resources/controllers/TeamMemberController.php:37
+msgid "#The team member was created."
+msgstr "O membro de equipe foi criado."
+
+#: application\modules\resources/controllers/TeamMemberController.php:169
+msgid "#The team member is contracted."
+msgstr "Contratação confirmada."
+
+#: application\modules\resources/controllers/TeamMemberController.php:342
+msgid "#The team member was dismissed."
+msgstr "O distrato foi registrado."
+
+#: library\C3op\resources/MaterialSupplyStatusTypes.php:32
+#: library\C3op\resources/OutsideServiceStatusTypes.php:32
+#: library\C3op\resources/TeamMemberStatusTypes.php:34
+msgid "#Unknown type"
+msgstr "Tipo indefinido"
+
+#: library\C3op\resources/TeamMemberStatusTypes.php:10
+msgid "#Nil"
+msgstr "Nula"
+
+#: library\C3op\resources/TeamMemberStatusTypes.php:11
+msgid "#Undefined"
+msgstr "(indefinido)"
+
+#: library\C3op\resources/TeamMemberStatusTypes.php:12
+msgid "#Foreseen"
+msgstr "Previsto"
+
+#: library\C3op\resources/TeamMemberStatusTypes.php:13
+msgid "#Contracted"
+msgstr "Contratado"
+
+#: library\C3op\resources/TeamMemberStatusTypes.php:14
+msgid "#Acquitted"
+msgstr "Quitado"
+
+#: library\C3op\resources/TeamMemberStatusTypes.php:15
+msgid "#Dismissed"
+msgstr "Dispensado"
+
+#: library\C3op\resources/TeamMemberStatusTypes.php:16
+msgid "#Canceled"
+msgstr "Cancelado"
+
+#: application\modules\resources/views/scripts/material-supply/contract.phtml:5
+#: application\modules\resources/views/scripts/outside-service/contract.phtml:5
+#: application\modules\resources/views/scripts/team-member/contract.phtml:5
+msgid "#Confirm contracting"
+msgstr "Confirmar contratação de"
+
+#: application\modules\resources/views/scripts/material-supply/contract.phtml:7
+#: application\modules\resources/views/scripts/outside-service/contract.phtml:7
+#: application\modules\resources/views/scripts/team-member/contract.phtml:7
+#: application\modules\resources/views/scripts/team-member/dismiss.phtml:7
+msgid "#In action "
+msgstr "na ação"
+
+#: application\modules\resources/views/scripts/material-supply/contract.phtml:8
+#: application\modules\resources/views/scripts/outside-service/contract.phtml:8
+#: application\modules\resources/views/scripts/team-member/contract.phtml:8
+msgid ""
+"#Enter below the contracted dates for the beginning and end of the action"
+msgstr "Informe abaixo as datas contratadas para o início e término da ação"
+
+#: application\modules\resources/views/scripts/material-supply/create.phtml:21
+#: application\modules\resources/views/scripts/outside-service/create.phtml:21
+#: application\modules\resources/views/scripts/team-member/create.phtml:5
+msgid "#Project"
+msgstr "Projeto"
+
+#: application\modules\resources/views/scripts/material-supply/create.phtml:24
+msgid "#New material supply for action"
+msgstr "Novo material para a ação"
+
+#: application\modules\resources/views/scripts/material-supply/edit.phtml:21
+msgid "#Edit material supply"
+msgstr "Editar material"
+
+#: application\modules\resources/views/scripts/material-supply/edit.phtml:24
+#: application\modules\resources/views/scripts/outside-service/edit.phtml:24
+#: application\modules\resources/views/scripts/team-member/edit.phtml:8
+msgid "#Action:"
+msgstr "Ação:"
+
+#: application\modules\resources/views/scripts/material-supply/remove.phtml:5
+msgid "#Remove material supply"
+msgstr "Remover"
+
+#: application\modules\resources/views/scripts/material-supply/remove.phtml:8
+#, php-format
+msgid ""
+"#Do you confirm removal of material supply %s in action %s? This CAN'T be "
+"undone."
+msgstr ""
+"Você confirma a remoção do material %s na ação %s? Isso NÃO pode ser "
+"desfeito."
+
+#: application\modules\resources/views/scripts/material-supply/success.phtml:2
+#: application\modules\resources/views/scripts/outside-service/success.phtml:2
+#: application\modules\resources/views/scripts/team-member/success.phtml:2
+msgid "#Success!"
+msgstr "Sucesso!"
+
+#: application\modules\resources/views/scripts/outside-service/create.phtml:24
+msgid "#New outside service for action"
+msgstr "Novo serviço para a ação"
+
+#: application\modules\resources/views/scripts/outside-service/edit.phtml:21
+msgid "#Edit outside service"
+msgstr "Editar serviço"
+
+#: application\modules\resources/views/scripts/outside-service/remove.phtml:5
+msgid "#Remove outside service"
+msgstr "Remover serviço de terceiros"
+
+#: application\modules\resources/views/scripts/outside-service/remove.phtml:8
+#, php-format
+msgid ""
+"#Do you confirm removal of outside service %s in action %s? This CAN'T be "
+"undone."
+msgstr ""
+"Você confirma a remoção do serviço %s na ação %s? Isso NÃO pode ser desfeito."
+
+#: application\modules\resources/views/scripts/responsible/assigned.phtml:10
+msgid "#Action was assigned"
+msgstr "Ação foi atribuída"
+
+#: application\modules\resources/views/scripts/responsible/assigned.phtml:12
+#, php-format
+msgid "#%s was assigned responsible for this action"
+msgstr "%s é o responsável por essa ação."
+
+#: application\modules\resources/views/scripts/team-member/create.phtml:8
+msgid "#New team member for action"
+msgstr "Novo membro de equipe para a ação"
+
+#: application\modules\resources/views/scripts/team-member/dismiss.phtml:5
+msgid "#Confirm dismissing"
+msgstr "Confirmar distrato"
+
+#: application\modules\resources/views/scripts/team-member/dismiss.phtml:8
+msgid "#Enter below the reason for dismissing"
+msgstr "Informe os motivos do distrato"
+
+#: application\modules\resources/views/scripts/team-member/edit.phtml:5
+msgid "#Edit team member"
+msgstr "Atualizar membro da equipe"
+
+#: application\modules\resources/views/scripts/team-member/outlays.phtml:25
+msgid "#Edit"
+msgstr "Editar"
+
+#: application\modules\resources/views/scripts/team-member/remove.phtml:5
+msgid "#Remove team member"
+msgstr "Remover membro da equipe"
+
+#: application\modules\resources/views/scripts/team-member/remove.phtml:8
+#, php-format
+msgid ""
+"#Do you confirm removal of team member %s in action %s? This CAN'T be undone."
+msgstr ""
+"Você confirma a remoção da função %s na ação %s? Isso NÃO pode ser desfeito."
+
+#~ msgid "#The record was successfully created."
+#~ msgstr "O registro foi criado com sucesso."
+
+#~ msgid "#Create product"
+#~ msgstr "Adicionar produto"
+
+#~ msgid "#Create action subordinated to %s"
+#~ msgstr "Criar ação subordinada a %s"
+
+#~ msgid "#Not defined"
+#~ msgstr "Indefinido"
+
+#~ msgid "#Is a milestone"
+#~ msgstr "É um marco"
+
+#~ msgid "#Is not a milestone"
+#~ msgstr "Não é um marco"
+
+#~ msgid "#(not received)"
+#~ msgstr "(não recebido)"
+
+#~ msgid "#(not started)"
+#~ msgstr "(não iniciada)"
+
+#~ msgid "#It needs a positive integer project id to populate project fields."
+#~ msgstr "It needs a positive integer project id to populate project fields."
+
+#~ msgid ""
+#~ "#It needs a positive integer project id to find other actions from same "
+#~ "project."
+#~ msgstr ""
+#~ "It needs a positive integer project id to find other actions from same "
+#~ "project."
+
+#~ msgid "(#not defined)"
+#~ msgstr "(não definido)"
+
+#~ msgid "#(not registered)"
+#~ msgstr "(não cadastrada)"
+
+#~ msgid "#(not defined)"
+#~ msgstr "(não definido)"
+
+#~ msgid "#New client"
+#~ msgstr "Novo cliente"
+
+#~ msgid "#New responsible"
+#~ msgstr "Novo Responsável"
+
+#~ msgid "#N/A"
+#~ msgstr "N/D"
+
+#~ msgid "#%s until %s"
+#~ msgstr "%s a %s"
+
+#~ msgid "#Undefined dates"
+#~ msgstr "Datas indefinidas"
+
+#~ msgid "#(no delivery)"
+#~ msgstr "(sem entrega)"
+
+#~ msgid "#(not finished)"
+#~ msgstr "(a terminar)"
+
+#~ msgid "#(not a requirement)"
+#~ msgstr "(não é requisito)"
+
+#~ msgid "#Not implemented"
+#~ msgstr "(Não implementado)"
+
+#~ msgid "#(unknown date)"
+#~ msgstr "(data desconhecida)"
+
+#~ msgid "#Planning"
+#~ msgstr "Em Planejamento"
+
+#~ msgid "#In Execution"
+#~ msgstr "Em Execução"
+
+#~ msgid "#Received"
+#~ msgstr "Recebida"
+
+#~ msgid "#Done"
+#~ msgstr "Realizada"
+
+#~ msgid "#Delivered"
+#~ msgstr "Entregue"
+
+#~ msgid "#Complete"
+#~ msgstr "Completa"
+
+#~ msgid "#Aborted"
+#~ msgstr "Abortada"
+
+#~ msgid "#Social policies and improving public spending"
+#~ msgstr "Políticas sociais e melhoria dos gastos públicos"
+
+#~ msgid "#Inequality and poverty"
+#~ msgstr "Desigualdade e pobreza"
+
+#~ msgid "#Labor market, employment and income"
+#~ msgstr "Mercado de trabalho, emprego e rendimento"
+
+#~ msgid "#Local development and microenterprise"
+#~ msgstr "Desenvolvimento local e microempreendimento"
+
+#~ msgid "#Education, human resources and equity"
+#~ msgstr "Educação, recursos humanos e eqüidade"
+
+#~ msgid "#The metropolitan issue"
+#~ msgstr "A questão metropolitana"
+
+#~ msgid "#Corporate social responsibility"
+#~ msgstr "Responsabilidade social corporativa"
+
+#~ msgid "#Agreement"
+#~ msgstr "Convênio"
+
+#~ msgid "#Partnership term"
+#~ msgstr "Termo de parceria"
+
+#~ msgid "#Donation"
+#~ msgstr "Doação"
+
+#~ msgid "#Sponsorship"
+#~ msgstr "Patrocínio"
+
+#~ msgid "#Cooperation agreement"
+#~ msgstr "Acordo de cooperação"
+
+#~ msgid "#contract.nature.Other"
+#~ msgstr "Outras"
+
+#~ msgid "#Inexistente"
+#~ msgstr "Nulo"
+
+#~ msgid "#Prospecting"
+#~ msgstr "Prospecção"
+
+#~ msgid "#project.status.type.Planning"
+#~ msgstr "Planejamento"
+
+#~ msgid "#Proposal"
+#~ msgstr "Proposta"
+
+#~ msgid "#Execution"
+#~ msgstr "Execução"
+
+#~ msgid "#Accountability"
+#~ msgstr "Prestação de contas"
+
+#~ msgid "#Suspended"
+#~ msgstr "Suspenso"
+
+#~ msgid "#Finished"
+#~ msgstr "Finalizado"
+
+#~ msgid "#Receipt accepted"
+#~ msgstr "Entrega aceita"
+
+#~ msgid "#Action received."
+#~ msgstr "Ação entregue"
+
+#~ msgid "#Reject receipt"
+#~ msgstr "Rejeitar tarefa"
+
+#~ msgid "#Accept receipt"
+#~ msgstr "Aceitar tarefa"
+
+#~ msgid "#Start confirmed."
+#~ msgstr "Início confirmado."
+
+#~ msgid "#Confirm task realization"
+#~ msgstr "Confirma entrega"
+
+#~ msgid "#New product"
+#~ msgstr "Novo produto"
+
+#~ msgid "#Details of action %s"
+#~ msgstr "Detalhamento da ação %s"
+
+#~ msgid "#Edit action"
+#~ msgstr "Editar ação"
+
+#~ msgid "#Remove action!"
+#~ msgstr "Remover esta ação!"
+
+#~ msgid "#Responsible:"
+#~ msgstr "Responsável:"
+
+#~ msgid "#Status"
+#~ msgstr "Status"
+
+#~ msgid "#Subordinated to:"
+#~ msgstr "Subordinada a:"
+
+#~ msgid "#None action"
+#~ msgstr "(nenhuma ação)"
+
+#~ msgid "#Description:"
+#~ msgstr "Descrição"
+
+#~ msgid "#Predicted begin:"
+#~ msgstr "Data prevista:"
+
+#~ msgid "#Predicted finish:"
+#~ msgstr "Término previsto:"
+
+#~ msgid "#Real begin:"
+#~ msgstr "Início real:"
+
+#~ msgid "#Real finish:"
+#~ msgstr "Término real:"
+
+#~ msgid "#Acknowledge start"
+#~ msgstr "Confirmar início"
+
+#~ msgid "#Receipt date:"
+#~ msgstr "Recebida em:"
+
+#~ msgid "#Total contracted value:"
+#~ msgstr "Valor total contratado: "
+
+#~ msgid ""
+#~ "#This action is related to product %s that should be delivered until %s"
+#~ msgstr "Essa ação faz parte do produto %s, que deve ser entregue até %s."
+
+#~ msgid "#Edit this action"
+#~ msgstr "Editar esta ação"
+
+#~ msgid "#Subactions"
+#~ msgstr "Sub-ações"
+
+#~ msgid "#Team"
+#~ msgstr "Equipe"
+
+#~ msgid "#Services"
+#~ msgstr "Terceiros"
+
+#~ msgid "#Material"
+#~ msgstr "Serviços e Materiais"
+
+#~ msgid "#Action"
+#~ msgstr "Ação"
+
+#~ msgid "#Responsible"
+#~ msgstr "Responsável"
+
+#~ msgid "#Options"
+#~ msgstr "Opções"
+
+#~ msgid "#Remove"
+#~ msgstr "Remover"
+
+#~ msgid "#Create new action"
+#~ msgstr "Criar nova ação"
+
+#~ msgid "#Name"
+#~ msgstr "Nome"
+
+#~ msgid "#Role"
+#~ msgstr "Papel"
+
+#~ msgid "#Value"
+#~ msgstr "Valor"
+
+#~ msgid "#Provide outlay"
+#~ msgstr "Prever pagamento"
+
+#~ msgid "#Anticipate team member"
+#~ msgstr "Prever membro da equipe"
+
+#~ msgid "#Service"
+#~ msgstr "Serviço"
+
+#~ msgid "#Anticipate outside service"
+#~ msgstr "Prever serviço de terceiros"
+
+#~ msgid "#Organization"
+#~ msgstr "Organização"
+
+#~ msgid "#Confirm material supply contracting"
+#~ msgstr "Confirmar aquisição de material"
+
+#~ msgid "#Anticipate material supply"
+#~ msgstr "Prever aquisição de material"
+
+#~ msgid "#Receipt rejected"
+#~ msgstr "Entrega rejeitada"
+
+#~ msgid "#Remove action"
+#~ msgstr "Remover esta ação!"
+
+#~ msgid "#Do you confirm removal of action %s? This CAN'T be undone."
+#~ msgstr "Você confirma a remoção da ação %s? Isso NÃO pode ser desfeito."
+
+#~ msgid "#Success!!!"
+#~ msgstr "Sucesso!"
+
+#~ msgid "#Details of receivable %s"
+#~ msgstr "Detalhamento do recebimento %s"
+
+#~ msgid "#Predicted receiving:"
+#~ msgstr "Recebimento previsto:"
+
+#~ msgid "#Predicted value:"
+#~ msgstr "Valor previsto:"
+
+#~ msgid "#Date received:"
+#~ msgstr "Data real:"
+
+#~ msgid "#Real Value:"
+#~ msgstr "Valor real:"
+
+#~ msgid "#Products"
+#~ msgstr "Produtos"
+
+#~ msgid "#Product"
+#~ msgstr "Produto"
+
+#~ msgid "#Edit receivable"
+#~ msgstr "Editar recebimento"
+
+#~ msgid "#Projects"
+#~ msgstr "Projetos"
+
+#~ msgid "#Client"
+#~ msgstr "Cliente"
+
+#~ msgid "#Area"
+#~ msgstr "Área"
+
+#~ msgid "#% physical progress"
+#~ msgstr "% físico"
+
+#~ msgid "#% payables"
+#~ msgstr "% pagtos"
+
+#~ msgid "#% receivings"
+#~ msgstr "% receb"
+
+#~ msgid "#Options..."
+#~ msgstr "Opções..."
+
+#~ msgid "#Predict Receiving"
+#~ msgstr "Prever recebimento"
+
+#~ msgid "#Create action"
+#~ msgstr "Criar ação"
+
+#~ msgid "#Project details"
+#~ msgstr "Detalhes do projeto"
+
+#~ msgid "#Amend contract"
+#~ msgstr "Cadastrar aditivo"
+
+#~ msgid "#There is no list of projects."
+#~ msgstr "Não existe uma lista de projetos."
+
+#~ msgid "#Create New Project"
+#~ msgstr "Criar novo projeto"
+
+#~ msgid "#Create outlay"
+#~ msgstr "Prever pagamento"
+
+#~ msgid "#Team member:"
+#~ msgstr "Recurso:"
+
+#~ msgid "#Edit outlay"
+#~ msgstr "Editar pagamento"
+
+#~ msgid "#Notify outlay"
+#~ msgstr "Confirmar pagamento"
+
+#~ msgid "#New amendment"
+#~ msgstr "Criar aditivo"
+
+#~ msgid "#Create project"
+#~ msgstr "Criar projeto"
+
+#~ msgid "#Edit project"
+#~ msgstr "Editar projeto"
+
+#~ msgid "#Client:"
+#~ msgstr "Cliente:"
+
+#~ msgid "#Overhead:"
+#~ msgstr "Overhead"
+
+#~ msgid "#Area activity:"
+#~ msgstr "Área de atividade:"
+
+#~ msgid "#Management fee:"
+#~ msgstr "Taxa de administração"
+
+#~ msgid "#Our responsible:"
+#~ msgstr "Responsável pelo IETS:"
+
+#~ msgid "#Contract value:"
+#~ msgstr "Valor do contrato"
+
+#~ msgid "#Responsible at client:"
+#~ msgstr "Responsável no cliente:"
+
+#~ msgid "#Contract date:"
+#~ msgstr "Data do contrato"
+
+#~ msgid "#Amendment(s)"
+#~ msgstr "Aditivo(s)"
+
+#~ msgid "#Receiving"
+#~ msgstr "Recebimentos"
+
+#~ msgid "#Payments"
+#~ msgstr "Pagamentos"
+
+#~ msgid "#Actions"
+#~ msgstr "Ações"
+
+#~ msgid "#Staff"
+#~ msgstr "Equipe"
+
+#~ msgid "#Details"
+#~ msgstr "Detalhes"
+
+#~ msgid "#Parcel"
+#~ msgstr "Parcela"
+
+#~ msgid "#Predicted date"
+#~ msgstr "Data prevista"
+
+#~ msgid "#Predicted value"
+#~ msgstr "Valor previsto"
+
+#~ msgid "#Real date"
+#~ msgstr "Data real"
+
+#~ msgid "#Real value"
+#~ msgstr "Valor real"
+
+#~ msgid "#Add product"
+#~ msgstr "Adicionar produto"
+
+#~ msgid "#Notify receiving"
+#~ msgstr "Informar recebimento"
+
+#~ msgid "#Predict receiving"
+#~ msgstr "Prever recebimento"
+
+#~ msgid "#Delivery"
+#~ msgstr "Entrega"
+
+#~ msgid "#Requirement For Receiving"
+#~ msgstr "Recebimento"
+
+#~ msgid "#Payee"
+#~ msgstr "Beneficiado"
+
+#~ msgid "#Outlay details"
+#~ msgstr "Detalhes do pagamento"
+
+#~ msgid "#There is no outlays related to this project."
+#~ msgstr "Não há pagamentos associados a esse projeto."
+
+#~ msgid "#Pred. begin date"
+#~ msgstr "Início prev."
+
+#~ msgid "#Real begin date"
+#~ msgstr "Início real"
+
+#~ msgid "#Pred. finish date"
+#~ msgstr "Término prev."
+
+#~ msgid "#Real finish date"
+#~ msgstr "Término real"
+
+#~ msgid "#Function"
+#~ msgstr "Função"
+
+#~ msgid "#Email"
+#~ msgstr "Email"
+
+#~ msgid "#Phone number"
+#~ msgstr "Telefone"
+
+#~ msgid "#Object"
+#~ msgstr "Objeto"
+
+#~ msgid "#Summary"
+#~ msgstr "Sumário"
+
+#~ msgid "#Observation"
+#~ msgstr "Observações"
+
+#~ msgid "#New receivable"
+#~ msgstr "Prever recebimento"
+
+#~ msgid "#Delivery Date:"
+#~ msgstr "Data de Entrega"
+
+#, fuzzy
+#~ msgid "#Anticipate service member"
+#~ msgstr "Prever membro da equipe"
+
+#~ msgid "#Predict outlay"
+#~ msgstr "Prever pagamento"
+
+#~ msgid "#New action"
+#~ msgstr "Nova ação"
+
+#~ msgid "#Contact details"
+#~ msgstr "Detalhes do contato"
+
+#~ msgid "#Project:"
+#~ msgstr "Projeto:"
+
+#~ msgid "#Consisting of:"
+#~ msgstr "Composta por:"
+
+#~ msgid "#Add staff member"
+#~ msgstr "Incluir membro na equipe"
+
+#~ msgid "#(not realized)"
+#~ msgstr "(não realizada)"
+
+#~ msgid "#Accept"
+#~ msgstr "Aceitar"
+
+#~ msgid "#Done date:"
+#~ msgstr "Realizada em:"
+
+#~ msgid "#Product details"
+#~ msgstr "Detalhes do produto"
+
+#~ msgid "#Em Planejamento"
+#~ msgstr "Teste"
+
+#, fuzzy
+#~ msgid "#Invalid contact id"
+#~ msgstr "Editar contato"
+
+#, fuzzy
+#~ msgid "#Invalid phone number"
+#~ msgstr "Acrescentar telefone"
+
+#~ msgid "#Government"
+#~ msgstr "Poder público"
+
+#~ msgid "#Private Entity"
+#~ msgstr "Entidade Privada"
+
+#~ msgid "#Research Institute"
+#~ msgstr "Instituto de pesquisa"
+
+#~ msgid "#General"
+#~ msgstr "Geral"
+
+#~ msgid "#Supplier"
+#~ msgstr "Fornecedor"
+
+#~ msgid "#Email addresses"
+#~ msgstr "Emails"
+
+#~ msgid "#Create %s's email address"
+#~ msgstr "Adicionar email para %s"
+
+#~ msgid "#Service messengers"
+#~ msgstr "Serviços de mensagens"
+
+#~ msgid "#Create %s's service messenger"
+#~ msgstr "Adicionar serviço de %s"
+
+#~ msgid "#Create %s's phone number"
+#~ msgstr "Adicionar telefone de %s"
+
+#~ msgid "#Change %s's email address"
+#~ msgstr "Alterar email de %s"
+
+#~ msgid "#Service messenger"
+#~ msgstr "Serviço de mensagens"
+
+#~ msgid "#Change %s's service messenger"
+#~ msgstr "Alterar endereço de %s"
+
+#~ msgid "#Change phone number of %s"
+#~ msgstr "Alterar telefone de %s"
+
+#~ msgid "#Contact:"
+#~ msgstr "Contato:"
+
+#~ msgid "#Name:"
+#~ msgstr "Nome:"
+
+#~ msgid "#Relationship"
+#~ msgstr "Relação com o IETS"
+
+#~ msgid "#Phone Numbers"
+#~ msgstr "Telefones"
+
+#~ msgid "#Local Number"
+#~ msgstr "Número"
+
+#~ msgid "#Label"
+#~ msgstr "Tipo"
+
+#~ msgid "#Add phone number"
+#~ msgstr "Acrescentar telefone"
+
+#~ msgid "#Address"
+#~ msgstr "Endereço"
+
+#~ msgid "#Type"
+#~ msgstr "Tipo"
+
+#~ msgid "#Add email"
+#~ msgstr "Acrescentar email"
+
+#~ msgid "#Messengers"
+#~ msgstr "Serviços de mensagens"
+
+#~ msgid "#Service.Address"
+#~ msgstr "Conta"
+
+#~ msgid "#Add messenger"
+#~ msgstr "Adicionar serviço"
+
+#~ msgid "#Departament"
+#~ msgstr "Departamento"
+
+#~ msgid "#Create new linkage"
+#~ msgstr "Criar novo vínculo"
+
+#~ msgid "#Create linkage"
+#~ msgstr "Criar novo vínculo"
+
+#~ msgid "#Generic error message"
+#~ msgstr "Ocorreu um erro."
+
+#~ msgid "#Contacts"
+#~ msgstr "Contatos"
+
+#~ msgid "#No registered contacts"
+#~ msgstr "Não há contatos cadastrados"
+
+#~ msgid "#Contacts list was not found"
+#~ msgstr "Não foi encontrada uma lista de contatos"
+
+#~ msgid "#Success creating!"
+#~ msgstr "Sucesso ao adicionar o registro"
+
+#~ msgid "#Success updating!"
+#~ msgstr "Sucesso ao atualizar registro"
+
+#~ msgid "#Register"
+#~ msgstr "Cadastro"
+
+#~ msgid "#Institutions"
+#~ msgstr "Instituições"
+
+#~ msgid "#Contacts in this institution"
+#~ msgstr "Contatos nessa instituição"
+
+#~ msgid "#Add new linkage"
+#~ msgstr "Adicionar vínculo"
+
+#~ msgid "#There is no data about this institution."
+#~ msgstr "Não há informações sobre essa instituição."
+
+#~ msgid "#Edit institution"
+#~ msgstr "Editar instituição"
+
+#~ msgid "#City"
+#~ msgstr "Cidade"
+
+#~ msgid "#institution.index.Relationship"
+#~ msgstr "Relação"
+
+#~ msgid "#No registered institutions."
+#~ msgstr "Não há instituições cadastradas."
+
+#~ msgid "#Institutions list was not found."
+#~ msgstr "Não existe lista de instituições cadastradas."
+
+#~ msgid "#Add new institution"
+#~ msgstr "Criar Nova Instituição"
+
+#~ msgid "Número Local"
+#~ msgstr "Número"
+
+#~ msgid "Rótulo"
+#~ msgstr "Tipo"
+
+#~ msgid "Conta"
+#~ msgstr "Conta"
+
+#~ msgid "name"
+#~ msgstr "Nome"
+
+#~ msgid "My test"
+#~ msgstr "Contato:"
+
+#, fuzzy
+#~ msgid "Relação"
+#~ msgstr "Relação com o IETS"
+
+#, fuzzy
+#~ msgid "Code area"
+#~ msgstr "DDD"

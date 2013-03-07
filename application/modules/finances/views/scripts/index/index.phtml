@@ -1,0 +1,398 @@
+<?php
+  $pageData = $this->pageData;
+
+  $projectsList = $pageData['projectsList'];
+  $payablesList = $pageData['payablesList'];
+  $outlaysList = $pageData['outlaysList'];
+
+?>
+<script type="text/javascript">
+jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+    "date-uk-pre": function ( a ) {
+        var ukDatea = a.split('/');
+        return (ukDatea[2] + ukDatea[1] + ukDatea[0]) * 1;
+    },
+
+    "date-uk-asc": function ( a, b ) {
+        return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+    },
+
+    "date-uk-desc": function ( a, b ) {
+        return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+    }
+} );
+</script>
+
+
+<!--
+<script type="text/javascript">
+$(document).ready(function(){
+
+	$(".receivable a").hover(function() {
+		$(this).next("em").animate({opacity: "show", top: "-75"}, "slow");
+	}, function() {
+		$(this).next("em").animate({opacity: "hide", top: "-85"}, "fast");
+	});
+
+
+});
+</script>
+
+<style type="text/css">
+.receivable em {
+	width: 180px;
+	height: 45px;
+	top: -85px;
+	left: -15px;
+	text-align: center;
+	padding: 20px 12px 10px;
+	font-style: normal;
+	z-index: 2;
+	display: none;
+}
+</style>
+-->
+
+
+    <div id="MainHeader">
+      <h1><?php echo $this->translate("#Finances") ?></h1>
+    </div>
+    <div id="tabs">
+      <ul>
+        <li><a href="#tabs-projects"><?php echo $this->translate("#Projects") ?></a></li>
+        <li><a href="#tabs-outlays"><?php echo $this->translate("#Outlays") ?></a></li>
+        <li><a href="#tabs-payables"><?php echo $this->translate("#Payables") ?></a></li>
+      </ul>
+
+      <div id="tabs-projects">
+        <div class="Area">
+           <h2><?php echo $this->translate("#Projects") ?></h2>
+<?php
+  /*
+   * If exists projects list
+   */
+  if (is_array($projectsList)) {
+?>
+<?php
+    /*
+     * if there is projects in list
+     */
+    if (count($projectsList)) {
+?>
+           <table class="display dataTable">
+              <thead>
+                  <tr>
+                      <th width="200"><?php echo $this->translate("#Project") ?></th>
+                      <th width="80"><?php echo $this->translate("#Client") ?></th>
+                      <th width="120"><?php echo $this->translate("#Area") ?></th>
+                      <th width="100"><?php echo $this->translate("#Status") ?></th>
+                      <th width="50"><?php echo $this->translate("#% physical progress") //%&nbsp;física ?></th>
+                      <th width="50"><?php echo $this->translate("#% payables") //%&nbsp;pagtos ?></th>
+                      <th width="50"><?php echo $this->translate("#% receivings") //%&nbsp;recebtos ?></th>
+                      <th width="1%">&nbsp;</th>
+                  </tr>
+              </thead>
+              <tbody>
+<?php
+      /*
+       * iterate list and print title
+       */
+      foreach ($projectsList as $id => $projectData) {
+?>
+                <tr>
+                  <td><a href="/finances/project/detail/?id=<?php print($id) ?>"><?php print($projectData['projectName']) ?></a></td>
+                  <td><?php print($projectData['clientName']) ?></td>
+                  <td><?php print($this->translate($projectData['areaActivity'])) ?></td>
+                  <td><?php print($this->translate($projectData['status'])) ?></td>
+                  <td><?php print($projectData['physicalProgress']) ?></td>
+                  <td><?php print($projectData['payedPercentage']) ?></td>
+                  <td><?php print($projectData['receivedPercentage']) ?></td>
+                  <td>
+                      <a class="anchorclass button" rel="submenu1"><?php echo $this->translate("#Options...") ?></a>
+                      <div id="submenu1" class="anylinkcss">
+                          <ul>
+                          <li>
+                              <a href="/projects/project/edit/?id=<?php print($id) ?>"><?php echo $this->translate("#Edit") ?></a>
+                          </li>
+                          <li>
+                              <a href="/finances/receivable/create/?project=<?php print($id) ?>"><?php echo $this->translate("#Predict Receiving") ?></a>
+                          </li>
+                          <li>
+                              <a href="/projects/action/create/?project=<?php print($id) ?>"><?php echo $this->translate("#Create action") ?></a>
+                          </li>
+                          <li>
+                              <a href="/finances/project/detail/?id=<?php print($id) ?>"><?php echo $this->translate("#Project details") ?></a>
+                          </li>
+<?php
+if ($projectData['hasContract']) {
+?>
+                          <li>
+                              <a href="/projects/project/amend/?id=<?php print($id) ?>"><?php echo $this->translate("#Amend contract") ?></a>
+                          </li>
+
+<?php
+}
+?>
+                          </ul>
+                      </div><!-- #submenu1 -->
+                  </td>
+                </tr>
+<?php
+      }  // loop iterate list and print titlei
+?>
+          		</tbody>
+          	</table>
+<?php
+    } else { // end else there is projects in list
+?>
+          <div class="Area">
+            <h2>Projetos</h2>
+            <?php print("<p>Não há projetos cadastrados.</p>") ?>
+
+<?php
+    } // end else there is projects in list
+?>
+<?php
+  } else { // else exists projects list
+?>
+            <?php print($this->translate("#There is no list of projects.")) ?>
+<?php
+  } // end exists projects list
+?>
+            <p>
+              <a href="/projects/project/create" class="button three columns alpha omega"><?php echo $this->translate("#Create New Project") ?></a>
+            </p>
+
+          </div><!-- Area -->
+
+        </div><!-- tabs-projects -->
+
+
+
+        <div id="tabs-outlays">
+          <div class="Area">
+            <h2><?php echo $this->translate("#All outlays") ?></h2>
+
+<?php
+/*
+ * if there is outlays in list
+ */
+      if (count($outlaysList)) {
+?>
+
+           <table id="Outlays" class="display dataTable">
+              <thead>
+                <tr>
+                  <th width="150"><?php echo $this->translate("#Project") ?></th>
+                  <th width="200"><?php echo $this->translate("#Action") ?></th>
+                  <th width="250"><?php echo $this->translate("#Payee") ?></th>
+                  <th width="50"><?php echo $this->translate("#Predicted date") ?></th>
+                  <th width="50"><?php echo $this->translate("#Real date") ?></th>
+                  <th width="50"><?php echo $this->translate("#Predicted value") ?></th>
+                  <th width="50"><?php echo $this->translate("#Real value") ?></th>
+                  <th width="1%">&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody>
+<?php
+foreach($outlaysList as $id => $outlayInfo) {
+?>
+                <!-- ### loop de carga das ações que geram pagamentos -->
+                <tr>
+                  <td>
+                    <a href="/finances/project/detail/?id=<?php print($outlayInfo['projectId']) ?>"><?php print($outlayInfo['projectTitle']) ?></a>
+                  </td>
+                  <td>
+                    <a href="/projects/action/detail/?id=<?php print($outlayInfo['actionId']) ?>"><?php print($outlayInfo['actionTitle']) ?></a>
+                  </td>
+                  <td>
+<?php
+if($outlayInfo['payeeId'] > 0) {
+?>
+                    <a href="/register/contact/detail/?id=<?php  print $outlayInfo['payeeId'] ?>"><?php print($outlayInfo['payeeName']) ?></a>
+<?php
+
+} else {
+?>
+<?php print($outlayInfo['payeeName']) ?>
+<?php
+
+}
+?>
+                  </td>
+                  <td>
+                    <?php print($outlayInfo['predictedDate']) ?>
+                  </td>
+                  <td>
+                    <?php print($outlayInfo['realDate']) ?>
+                  </td>
+                  <td class="Right">
+                    <?php print($outlayInfo['predictedValue']) ?>
+                  </td>
+                  <td class="Right">
+                    <?php print($outlayInfo['realValue']) ?>
+                  </td>
+                  <td>
+                    <a href="#" class="anchorclass" rel="submenu1"><?php echo $this->translate("#Options") ?></a>
+                    <div id="submenu1" class="anylinkcss">
+                        <ul>
+                          <li>
+                            <!-- [# LINK PARA A EDIÇÃO DO PAGAMENTO ] -->
+                            <a href="/finances/outlay/edit/?id=<?php print($id) ?>"><?php echo $this->translate("#Edit") ?></a>
+                          </li>
+
+<?php
+
+if ($outlayInfo['canNotifyOutlay']) {
+?>
+
+
+                          <li>
+                            <!-- [# LINK PARA FORM DE CONFIRMAÇÃO DE PAGAMENTO -> VAI ABRIR EM BOX DE DIÁLOGO MODAL ] -->
+                            <a href="/finances/outlay/notify/?id=<?php print($id) ?>"><?php echo $this->translate("#Confirm payment") ?></a>
+                          </li>
+
+<?php
+}
+
+?>
+
+
+                          <li>
+                            <!-- [# LINK PARA PÁGINA DE DETALHAMENTO DO PAGAMENTO ] -->
+                            <a href="/finances/outlay/detail/?id=<?php print($id) ?>"><?php echo $this->translate("#Outlay details") ?></a>
+                          </li>
+                        </ul>
+                    </div><!-- #submenu1 -->
+                  </td>
+                </tr>
+<?php
+}
+?>
+                <!-- ### fim do loop de carga das ações que são produto -->
+
+              </tbody>
+            </table><br />
+
+
+
+<?php
+      } else { // end else there is outlays in list
+?>
+            <p><?php print($this->translate("#There is no registered outlays.")) ?></p>
+
+<?php
+      } // end else there is outlays in list
+?>
+<!-- ### FIM DA INSERÇÃO DO CÓDIGO DE OUTLAYS.PHTML -->
+
+          </div><!-- Area -->
+        </div><!-- tabs-outlays -->
+
+
+
+
+
+        <div id="tabs-payables">
+          <div class="Area">
+            <h2><?php echo $this->translate("#Approved actions to pay") ?></h2>
+
+<!-- ### INSERÇÃO DO CÓDIGO DE PAYABLES.PHTML COM ALTERAÇÕES DE RPORTO -->
+
+<?php
+/*
+ * if there is payables in list
+ */
+      if (count($payablesList)) {
+?>
+           <table id="Payables" class="display dataTable">
+              <thead>
+                <tr>
+                  <th width="200"><?php echo $this->translate("#Project") ?></th>
+                  <th width="250"><?php echo $this->translate("#Action") ?></th>
+                  <th width="200"><?php echo $this->translate("#Payee") ?></th>
+                  <th width="50"><?php echo $this->translate("#Predicted date") ?></th>
+                  <th width="50"><?php echo $this->translate("#Predicted value") ?></th>
+                  <th width="50"><?php echo $this->translate("#Status") ?></th>
+                  <th width="1%">&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody>
+<?php
+foreach($payablesList as $id => $payableInfo) {
+?>
+                <!-- ### loop de carga das ações que geram pagamentos -->
+                <tr>
+                  <td>
+                    <a href="/finances/project/detail/?id=<?php print($payableInfo['projectId']) ?>"><?php print($payableInfo['projectTitle']) ?></a>
+                  </td>
+                  <td>
+                    <a href="/projects/action/detail/?id=<?php print($payableInfo['actionId']) ?>"><?php print($payableInfo['actionTitle']) ?></a>
+                  </td>
+                  <td>
+                    <a href="/projects/project/person/?id=<?php  print $payableInfo['teamMemberId'] ?>&linkage=<?php  print $payableInfo['linkageId'] ?>"><?php print($payableInfo['payeeName']) ?></a>
+                  </td>
+                  <td>
+                    <?php print($payableInfo['predictedDate']) ?>
+                  </td>
+                  <td class="Right">
+                    <?php print($payableInfo['predictedValue']) ?>
+                  </td>
+                  <td class="Right">
+                    <?php print($payableInfo['status']) ?>
+                  </td>
+                  <td>
+                    <a href="#" class="anchorclass" rel="submenu1"><?php echo $this->translate("#Options") ?></a>
+                    <div id="submenu1" class="anylinkcss">
+                        <ul>
+                          <li>
+                            <!-- [# LINK PARA A EDIÇÃO DO PAGAMENTO ] -->
+                            <a href="/finances/outlay/edit/?id=<?php print($id) ?>"><?php echo $this->translate("#Edit") ?></a>
+                          </li>
+
+<?php
+
+if ($payableInfo['canNotifyOutlay']) {
+?>
+
+
+                          <li>
+                            <!-- [# LINK PARA FORM DE CONFIRMAÇÃO DE PAGAMENTO -> VAI ABRIR EM BOX DE DIÁLOGO MODAL ] -->
+                            <a href="/finances/outlay/notify/?id=<?php print($id) ?>"><?php echo $this->translate("#Confirm payment") ?></a>
+                          </li>
+
+<?php
+}
+
+?>
+
+
+                        </ul>
+                    </div><!-- #submenu1 -->
+                  </td>
+                </tr>
+<?php
+}
+?>
+                <!-- ### fim do loop de carga das ações que são produto -->
+
+              </tbody>
+            </table><br />
+
+
+<?php
+      } else { // end else there is payables in list
+?>
+            <p><?php print($this->translate("#There is no outlays related to this project.")) ?></p>
+
+<?php
+      } // end else there is payables in list
+?>
+<!-- ### FIM DA INSERÇÃO DO CÓDIGO DE PAYABLES.PHTML -->
+
+          </div><!-- Area -->
+        </div><!-- tabs-payables -->
+
+
+
+      </div><!-- #tabs -->

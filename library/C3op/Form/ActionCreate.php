@@ -75,8 +75,8 @@ class C3op_Form_ActionCreate extends Zend_Form
 //        $element->addMultiOption(0, _("#(no action)"));
 //        $this->addElement($element);
 
-        $element = new Zend_Form_Element_Select('responsible');
-        $element->setLabel('#Responsible: ')
+        $element = new Zend_Form_Element_Select('supervisor');
+        $element->setLabel('#Supervisor: ')
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
@@ -181,7 +181,7 @@ class C3op_Form_ActionCreate extends Zend_Form
             }
 
             $action->SetSubordinatedTo($this->subordinatedTo->GetValue());
-            $action->SetResponsible($this->responsible->GetValue());
+            $action->setSupervisor($this->supervisor->GetValue());
 
 //            $milestone = $this->milestone->GetValue();
 //            if ($milestone == '1') {

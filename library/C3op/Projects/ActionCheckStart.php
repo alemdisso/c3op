@@ -30,8 +30,17 @@ class C3op_Projects_ActionCheckStart {
     public function start(C3op_Projects_Action $action,
                           C3op_Projects_ActionMapper $actionMapper)
     {
-            $action->SetRealBeginDate(date("Y-m-d"));
-            $action->SetStatus(C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION);
+//            $action->SetRealBeginDate(date("Y-m-d"));
+            $action->SetRealBeginDate($action->getPredictedBeginDate());
+
+            $compare = new C3op_Util_DateCompare();
+
+            if ($compare->isPast($action->getPredictedFinishDate())) {
+                $action->SetStatus(C3op_Projects_ActionStatusConstants::STATUS_COMPLETE);
+                $action->SetRealFinishDate($action->getPredictedFinishDate());
+            } else {
+                $action->SetStatus(C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION);
+            }
             $actionMapper->update($action);
 
             $this->LogAutoStart($action);

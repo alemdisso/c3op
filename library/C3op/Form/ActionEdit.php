@@ -44,7 +44,7 @@ class C3op_Form_ActionEdit extends C3op_Form_ActionCreate
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
-                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'five columns omega')),
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'nine columns omega')),
                     array('Label', array('tag' => 'div', 'tagClass' => 'three columns Right')),
                 ))
                 ->setOptions(array('class' => 'Full alpha omega'))
@@ -52,6 +52,31 @@ class C3op_Form_ActionEdit extends C3op_Form_ActionCreate
         $element->addMultiOption(0, _("#(no action)"));
         $this->addElement($element);
 
+        $element = new Zend_Form_Element_Checkbox('product');
+        $element->setLabel('#This action is a product?')
+                ->setDecorators(array(
+                    'ViewHelper',
+                    'Errors',
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'one column')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                ))
+                ->setOptions(array('checked' => '1', 'unChecked' => '0'))
+                ->setValue('0')
+                ;
+        $this->addElement($element);
+
+        $element = new Zend_Form_Element_Select('requirementForReceiving');
+        $element->setLabel('#Is requirement for receiving: ') //'É requisito para receber: '
+                ->setDecorators(array(
+                    'ViewHelper',
+                    'Errors',
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'four columns')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'four columns alpha Right')),
+                ))
+                ->setOptions(array('class' => 'Full alpha omega'))
+                ->setRegisterInArrayValidator(false);
+        $element->addMultiOption(0, _("#(not a requirement for receiving)")); // (não é requisito para recebimento)
+        $this->addElement($element);
 
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
@@ -85,10 +110,12 @@ class C3op_Form_ActionEdit extends C3op_Form_ActionCreate
             }
             $action->SetDescription($data['description']);
             $action->SetSubordinatedTo($data['subordinatedTo']);
-            $action->SetResponsible($data['responsible']);
+            $action->setSupervisor($data['supervisor']);
+            $action->SetRequirementForReceiving($data['requirementForReceiving']);
 //            $action->SetMilestone($data['milestone']);
 //            $action->SetRequirementForReceiving($data['requirementForReceiving']);
 
+            $action->SetProduct($data['product']);
             $predictedBeginDate = $data['predictedBeginDate'];
             $dateValidator = new C3op_Util_ValidDate();
             if ($dateValidator->isValid($predictedBeginDate)) {

@@ -6,7 +6,7 @@ class C3op_Form_ReceivableCreate extends Zend_Form
 
         // initialize form
         $this->setName('newReceivableForm')
-            ->setAction('/projects/receivable/create')
+            ->setAction('/finances/receivable/create')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
@@ -112,7 +112,7 @@ class C3op_Form_ReceivableCreate extends Zend_Form
         else
         {
             $db = Zend_Registry::get('db');
-            $receivableMapper = new C3op_Projects_ReceivableMapper($db);
+            $receivableMapper = new C3op_Finances_ReceivableMapper($db);
 
             $dateValidator = new C3op_Util_ValidDate();
             $converter = new C3op_Util_DateConverter();
@@ -135,7 +135,7 @@ class C3op_Form_ReceivableCreate extends Zend_Form
             $predictedValueWithDecimalPoint = $converter->getDecimalDotValue($this->predictedValue->GetValue(), new C3op_Util_ValidDecimal());
 
 
-            $receivable = new C3op_Projects_Receivable($this->project->GetValue(),$predictedDateConvertedToMySQL, $predictedValueWithDecimalPoint);
+            $receivable = new C3op_Finances_Receivable($this->project->GetValue(),$predictedDateConvertedToMySQL, $predictedValueWithDecimalPoint);
             $receivable->SetProject((float)$this->project->GetValue());
             $receivable->SetTitle($this->title->GetValue());
             $receivable->SetDescription($this->description->GetValue());

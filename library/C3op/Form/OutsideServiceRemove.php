@@ -8,7 +8,7 @@ class C3op_Form_OutsideServiceRemove extends Zend_Form
 
         // initialize form
         $this->setName('removeOutsideServiceForm')
-            ->setAction('/projects/outside-service/remove')
+            ->setAction('/resources/outside-service/remove')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
@@ -25,7 +25,7 @@ class C3op_Form_OutsideServiceRemove extends Zend_Form
     public function process($data) {
 
         $db = Zend_Registry::get('db');
-        $outsideServiceMapper = new C3op_Projects_OutsideServiceMapper($db);
+        $outsideServiceMapper = new C3op_Resources_OutsideServiceMapper($db);
 
         if ($this->isValid($data) !== true)
         {
@@ -35,7 +35,7 @@ class C3op_Form_OutsideServiceRemove extends Zend_Form
         {
             $id = $data['id'];
             $outsideService = $outsideServiceMapper->findById($id);
-            $outsideServiceRemoval = new C3op_Projects_OutsideServiceRemoval($outsideService, $outsideServiceMapper);
+            $outsideServiceRemoval = new C3op_Resources_OutsideServiceRemoval($outsideService, $outsideServiceMapper);
             $outsideServiceRemoval->remove();
             return $id;
         }

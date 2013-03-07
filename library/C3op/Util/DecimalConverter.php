@@ -60,7 +60,7 @@ class C3op_Util_DecimalConverter
             if ($this->identifyDecimalComma($value)) {
                 return $this->convertDecimalCommaToDecimalDot($value);
             } else {
-                return value;
+                return $value;
             }
         } else {
             throw new C3op_Util_DecimalException("Invalid value");

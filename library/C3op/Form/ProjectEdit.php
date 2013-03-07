@@ -31,6 +31,7 @@ class C3op_Form_ProjectEdit extends C3op_Form_ProjectCreate
              $id = $data['id'];
             $project = $projectMapper->findById($id);
             $project->SetTitle($this->title->GetValue());
+            $project->SetShortTitle($this->shortTitle->GetValue());
             $project->SetClient($this->client->GetValue());
             $project->SetOurResponsible($this->ourResponsible->GetValue());
             $project->SetResponsibleAtClient($this->responsibleAtClient->GetValue());
@@ -112,7 +113,12 @@ class C3op_Form_ProjectEdit extends C3op_Form_ProjectCreate
                 $contract->SetObject($this->object->GetValue());
                 $contract->SetSummary($this->summary->GetValue());
                 $contract->SetObservation($this->observation->GetValue());
-                $contractMapper->insert($contract);
+                if (count($contracts)) {
+                    $contractMapper->update($contract);
+                } else {
+                    $contractMapper->insert($contract);
+                }
+
             }
 
 
@@ -124,7 +130,7 @@ class C3op_Form_ProjectEdit extends C3op_Form_ProjectCreate
         if ($validator->isValid($value)) {
             return $converter->convertDateToMySQLFormat($value);
         } else {
-            return "0000-00-00";
+            return null;
         }
     }
 

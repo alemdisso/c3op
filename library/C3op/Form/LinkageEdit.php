@@ -39,9 +39,9 @@ class C3op_Form_LinkageEdit extends C3op_Form_LinkageCreate
         $element->addMultiOption(0, "#(linkage.institution.choose one...)");
         $this->addElement($element);
 
-        $department = new Zend_Form_Element_Text('position');
+        $element = new Zend_Form_Element_Text('position');
         $validator = new C3op_Register_InstitutionValidName;
-        $department->setLabel(_('#Position:'))
+        $element->setLabel(_('#Position:'))
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -49,15 +49,14 @@ class C3op_Form_LinkageEdit extends C3op_Form_LinkageCreate
                   array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
               ))
             ->setOptions(array('class' => 'Full alpha omega'))
-            ->setRequired(true)
             ->addValidator($validator)
             ->addFilter('StringTrim')
             ;
-        $this->addElement($department);
+        $this->addElement($element);
 
-        $department = new Zend_Form_Element_Text('department');
+        $element = new Zend_Form_Element_Text('department');
         $validator = new C3op_Register_InstitutionValidName;
-        $department->setLabel(_('#Departament:'))
+        $element->setLabel(_('#Departament:'))
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
@@ -65,11 +64,10 @@ class C3op_Form_LinkageEdit extends C3op_Form_LinkageCreate
                   array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
               ))
             ->setOptions(array('class' => 'Full alpha omega'))
-            ->setRequired(true)
             ->addValidator($validator)
             ->addFilter('StringTrim')
             ;
-        $this->addElement($department);
+        $this->addElement($element);
 
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');

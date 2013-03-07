@@ -1,0 +1,22 @@
+<?php
+    $pageData = $this->pageData;
+?>        <div id="MainHeader">
+          <h1><?php print($this->translate("#Project")) ?> <a href="/finances/project/detail/?id=<?php echo $pageData['projectId']; ?>"><?php echo $pageData['projectTitle']; ?></a></h1>
+        </div>
+      <div class="TituloForm">
+        <h2><?php print($this->translate("#Edit outlay")) ?></h2>
+
+        <div class="three columns Right alpha">
+          <?php print($this->translate("#Action:")) ?>
+        </div>
+        <div class="six columns">
+          <a href="/finances/project/detail/?id=<?php echo $pageData['actionId']; ?>"><?php echo $pageData['actionTitle']; ?></a>
+        </div>
+        <div class="one column Right">
+          <?php print($this->translate("#Team member:")) ?>
+        </div>
+        <div class="four columns omega">
+          <a href="/resources/team-member/detail/?id=<?php echo $pageData['teamMemberId']; ?>"><?php echo $pageData['contactName']; ?></a>
+        </div>
+      </div>
+<?php echo $this->form; ?>

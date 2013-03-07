@@ -29,7 +29,7 @@ class C3op_Projects_ActionMapper
     public function insert(C3op_Projects_Action $obj)
     {
 
-        $query = $this->db->prepare("INSERT INTO projects_actions (title, project, done, status, description, subordinated_to, responsible, milestone, requirement_for_receiving) VALUES (:title, :project, :done, :status, :description, :subordinated_to, :responsible, :milestone, :requirement_for_receiving)");
+        $query = $this->db->prepare("INSERT INTO projects_actions (title, project, done, status, description, subordinated_to, supervisor, milestone, product, requirement_for_receiving) VALUES (:title, :project, :done, :status, :description, :subordinated_to, :supervisor, :milestone, :product, :requirement_for_receiving)");
 
         $query->bindValue(':title', $obj->GetTitle(), PDO::PARAM_STR);
         $query->bindValue(':project', $obj->GetProject(), PDO::PARAM_STR);
@@ -37,8 +37,9 @@ class C3op_Projects_ActionMapper
         $query->bindValue(':status', $obj->GetStatus(), PDO::PARAM_STR);
         $query->bindValue(':description', $obj->GetDescription(), PDO::PARAM_STR);
         $query->bindValue(':subordinated_to', $obj->GetSubordinatedTo(), PDO::PARAM_STR);
-        $query->bindValue(':responsible', $obj->GetResponsible(), PDO::PARAM_STR);
+        $query->bindValue(':supervisor', $obj->getSupervisor(), PDO::PARAM_STR);
         $query->bindValue(':milestone', $obj->GetMilestone(), PDO::PARAM_STR);
+        $query->bindValue(':product', $obj->GetProduct(), PDO::PARAM_STR);
         $query->bindValue(':requirement_for_receiving', $obj->GetRequirementForReceiving(), PDO::PARAM_STR);
 
         $query->execute();
@@ -56,7 +57,12 @@ class C3op_Projects_ActionMapper
             throw new C3op_Projects_ActionMapperException('Object has no ID, cannot update.');
         }
 
-        $query = $this->db->prepare("UPDATE projects_actions SET title = :title, project = :project, done = :done, status = :status, description = :description, subordinated_to = :subordinated_to, responsible = :responsible, milestone = :milestone, requirement_for_receiving = :requirement_for_receiving WHERE id = :id;");
+        $query = $this->db->prepare("UPDATE projects_actions
+            SET title = :title, project = :project, done = :done
+            , status = :status, description = :description
+            , subordinated_to = :subordinated_to, supervisor = :supervisor
+            , milestone = :milestone, product = :product, requirement_for_receiving = :requirement_for_receiving
+            WHERE id = :id;");
 
         $query->bindValue(':title', $obj->GetTitle(), PDO::PARAM_STR);
         $query->bindValue(':project', $obj->GetProject(), PDO::PARAM_STR);
@@ -64,8 +70,9 @@ class C3op_Projects_ActionMapper
         $query->bindValue(':status', $obj->GetStatus(), PDO::PARAM_STR);
         $query->bindValue(':description', $obj->GetDescription(), PDO::PARAM_STR);
         $query->bindValue(':subordinated_to', $obj->GetSubordinatedTo(), PDO::PARAM_STR);
-        $query->bindValue(':responsible', $obj->GetResponsible(), PDO::PARAM_STR);
+        $query->bindValue(':supervisor', $obj->getSupervisor(), PDO::PARAM_STR);
         $query->bindValue(':milestone', $obj->GetMilestone(), PDO::PARAM_STR);
+        $query->bindValue(':product', $obj->GetProduct(), PDO::PARAM_STR);
         $query->bindValue(':requirement_for_receiving', $obj->GetRequirementForReceiving(), PDO::PARAM_STR);
         $query->bindValue(':id', $this->identityMap[$obj], PDO::PARAM_STR);
 
@@ -87,7 +94,7 @@ class C3op_Projects_ActionMapper
             }
             $this->identityMap->next();
         }
-        $query = $this->db->prepare('SELECT title, project, done, status, description, subordinated_to, responsible, milestone, requirement_for_receiving FROM projects_actions WHERE id = :id;');
+        $query = $this->db->prepare('SELECT title, project, done, status, description, subordinated_to, supervisor, milestone, product, requirement_for_receiving FROM projects_actions WHERE id = :id;');
         $query->bindValue(':id', $id, PDO::PARAM_STR);
         $query->execute();
         $result = $query->fetch();
@@ -106,14 +113,15 @@ class C3op_Projects_ActionMapper
         $this->setAttributeValue($obj, $result['status'], 'status');
         $this->setAttributeValue($obj, $result['description'], 'description');
         $this->setAttributeValue($obj, $result['subordinated_to'], 'subordinatedTo');
-        $this->setAttributeValue($obj, $result['responsible'], 'responsible');
+        $this->setAttributeValue($obj, $result['supervisor'], 'supervisor');
         $this->setAttributeValue($obj, $result['milestone'], 'milestone');
+        $this->setAttributeValue($obj, $result['product'], 'product');
         $this->setAttributeValue($obj, $result['requirement_for_receiving'], 'requirementForReceiving');
 
         $this->identityMap[$obj] = $id;
 
         $this->fetchDates($obj);
-//        $check = new C3op_Projects_ActionCheckStart($obj, $this);
+        $check = new C3op_Projects_ActionCheckStart($obj, $this);
         return $obj;
 
     }
@@ -141,6 +149,35 @@ class C3op_Projects_ActionMapper
         $query->execute();
         $resultPDO = $query->fetchAll();
 
+        $result = array();
+        foreach ($resultPDO as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
+
+    public function getPossibleSubordination(C3op_Projects_Action $obj)
+    {
+        $below = new C3op_Projects_ActionsBelow($obj, $this);
+        $actionsBelow = $below->retrieve();
+
+        $id = $obj->GetId();
+
+        if (count($actionsBelow) > 0) {
+            $actionsBelow = implode(',', $actionsBelow);
+            $actionsBelow .= ",$id";
+            $queryString = sprintf("SELECT id FROM projects_actions WHERE project = %d AND id NOT IN (%s);<BR>", $obj->getProject(), $actionsBelow);
+        } else {
+            $queryString = sprintf("SELECT id FROM projects_actions WHERE project = %d AND id != %d;<BR>", $obj->getProject(), $id);
+
+        }
+
+//        die();
+
+        $query = $this->db->prepare($queryString);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
         $result = array();
         foreach ($resultPDO as $row) {
             $result[] = $row['id'];
@@ -214,7 +251,7 @@ class C3op_Projects_ActionMapper
         $result = $query->fetch();
 
         if (empty($result)) {
-            $receiptDate = "0000-00-00";
+            $receiptDate = null;
         } else {
             //want only date, not full timestamp
             $dateAndTimeStamp = explode(" ", $result['timestamp']);
@@ -277,9 +314,9 @@ class C3op_Projects_ActionMapper
 
     public function getContractedValueJustForThisAction(C3op_Projects_Action $obj)
     {
-        $query = $this->db->prepare('SELECT SUM(value) as value FROM projects_team_members WHERE action = :action AND status = :status;');
+        $query = $this->db->prepare('SELECT SUM(value) as value FROM resources_team_members WHERE action = :action AND status = :status;');
         $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
-        $query->bindValue(':status', C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
+        $query->bindValue(':status', C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();
 
@@ -336,9 +373,9 @@ class C3op_Projects_ActionMapper
     public function getContractedTeamMembers(C3op_Projects_Action $obj)
     {
 
-        $query = $this->db->prepare('SELECT id FROM projects_team_members WHERE action = :action AND status = :status;');
+        $query = $this->db->prepare('SELECT id FROM resources_team_members WHERE action = :action AND status = :status;');
         $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
-        $query->bindValue(':status', C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
+        $query->bindValue(':status', C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();
 
@@ -353,7 +390,7 @@ class C3op_Projects_ActionMapper
     public function getAnyTeamMemberRelatedTo(C3op_Projects_Action $obj)
     {
 
-        $query = $this->db->prepare('SELECT id FROM projects_team_members WHERE action = :action;');
+        $query = $this->db->prepare('SELECT id FROM resources_team_members WHERE action = :action;');
         $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();
@@ -365,5 +402,59 @@ class C3op_Projects_ActionMapper
         return $result;
 
     }
+
+    public function getAnyOutsideServiceRelatedTo(C3op_Projects_Action $obj)
+    {
+
+        $query = $this->db->prepare('SELECT id FROM resources_outside_services WHERE action = :action;');
+        $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
+        foreach ($resultPDO as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+
+    }
+
+    public function getAllUniqueTeamMembersContractedOrPredictedUnderAction(C3op_Projects_Action $obj) {
+        $result = array();
+        $below = new C3op_Projects_ActionsBelow($obj, $this);
+        $actionsBelow = $below->retrieve();
+
+        $id = $obj->GetId();
+
+        if (count($actionsBelow) > 0) {
+            $stringActionsBelow = implode(',', $actionsBelow);
+            $stringActionsBelow .= ",$id";
+        } else {
+            $stringActionsBelow = "$id";
+        }
+
+        $queryString = sprintf('SELECT t.id, t.linkage
+                FROM resources_team_members t
+                WHERE t.action IN (%s)
+                AND t.linkage > 0
+                AND (
+                t.status = %d
+                OR t.status = %d
+                OR t.status = %d
+                OR t.status = %d
+                )'
+                , $stringActionsBelow
+                , C3op_Resources_TeamMemberStatusConstants::STATUS_UNDEFINED
+                , C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED
+                , C3op_Resources_TeamMemberStatusConstants::STATUS_ACQUITTED
+                , C3op_Resources_TeamMemberStatusConstants::STATUS_FORESEEN
+            );
+
+        foreach ($this->db->query($queryString) as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
 
 }

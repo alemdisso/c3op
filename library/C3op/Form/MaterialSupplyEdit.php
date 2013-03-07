@@ -7,7 +7,7 @@ class C3op_Form_MaterialSupplyEdit extends C3op_Form_MaterialSupplyCreate
 
         // initialize form
         $this->setName('editMaterialSupplyForm')
-            ->setAction('/projects/material-supply/edit')
+            ->setAction('/resources/material-supply/edit')
             ->setMethod('post');
 
         $id = new Zend_Form_Element_Hidden('id');
@@ -23,7 +23,7 @@ class C3op_Form_MaterialSupplyEdit extends C3op_Form_MaterialSupplyCreate
     public function process($data) {
 
         $db = Zend_Registry::get('db');
-        $materialSupplyMapper = new C3op_Projects_MaterialSupplyMapper($db);
+        $materialSupplyMapper = new C3op_Resources_MaterialSupplyMapper($db);
 
         if ($this->isValid($data) !== true) {
             throw new C3op_Form_InstitutionEditException('Invalid data!');

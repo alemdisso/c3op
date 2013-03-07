@@ -50,6 +50,19 @@
   z-index: 1;
 }
 
+.treeTable thead th {
+	padding: 3px 18px 3px 10px;
+	border-bottom: 1px solid #dddddd;
+	border-top: 1px solid #bbbbbb;
+	font-weight: bold;
+	text-align: left;
+}
+
+.treeTable a {
+    color: #933;
+}
+
+
 /* Layout helper taken from jQuery UI. This way I don't have to require the
  * full jQuery UI CSS to be loaded. */
 .ui-helper-hidden { display: none; }

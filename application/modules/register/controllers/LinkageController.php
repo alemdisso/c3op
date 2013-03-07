@@ -36,7 +36,7 @@ class Register_LinkageController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully created.'));
-                $this->_redirect('/register/linkage/success/?contact=' . $postData['contact']);
+                $this->_redirect('/register/contact/detail/?success=1&id=' . $postData['contact']);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -66,7 +66,7 @@ class Register_LinkageController extends Zend_Controller_Action
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/register/linkage/success/?contact=' . $postData['contact']);
+                $this->_redirect('/register/contact/detail/?id=' . $postData['contact']);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -81,24 +81,11 @@ class Register_LinkageController extends Zend_Controller_Action
             $options['contact'] = $contactId;
             $form = new C3op_Form_LinkageEdit($options);
             $this->PopulateContactFields($contactId, $form);
-            $this->PopulateInstitutionsField($form, $thisLinkage->GetInstitution());
+            $this->populateInstitutionsField($form, $thisLinkage->GetInstitution());
             $this->view->form = $form;
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $id);
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'department', $thisLinkage->getDepartment());
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'position', $thisLinkage->getPosition());
-        }
-    }
-
-    public function successAction()
-    {
-        $mapper = new C3op_Register_ContactMapper();
-        $contact =  $this->initContactWithCheckedId($mapper);
-
-        if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
-            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
-            $this->getResponse()->setHeader('Refresh', '1; URL=/register/contact/detail/?id=' . $contact->getId());
-        } else {
-            $this->_redirect('/register/contact/detail/?id=' . $contact->getId());
         }
     }
 
@@ -156,7 +143,7 @@ class Register_LinkageController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/register/linkage/success/?id=' . $id);
+                $this->_redirect('/register/linkage/detail/?success=1&id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -202,7 +189,7 @@ class Register_LinkageController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/register/linkage/success/?id=' . $id);
+                $this->_redirect('/register/linkage/detail/?success=1&id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -273,7 +260,7 @@ class Register_LinkageController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/register/linkage/success/?id=' . $id);
+                $this->_redirect('/register/linkage/detail/?success=1&id=' . $id);
             } else throw new C3op_Register_LinkageException("Invalid data for email.");
         } else {
             $linkageId = $this->checkLinkageFromGet();
@@ -315,7 +302,7 @@ class Register_LinkageController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/register/linkage/success/?id=' . $id);
+                $this->_redirect('/register/linkage/detail/?success=1&id=' . $id);
             } else throw new C3op_Register_LinkageException("Invalid data for email.");
         } else {
             $data = $this->_request->getParams();
@@ -371,13 +358,18 @@ class Register_LinkageController extends Zend_Controller_Action
         // cria form
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
+            $linkageMapper = new C3op_Register_LinkageMapper($db);
+            $linkageToBeRemoved = $linkageMapper->FindById($postData['id']);
+            $contactId = $linkageToBeRemoved->getContact();
+
+
             $form = new C3op_Form_LinkageRemove();
             $this->view->form = $form;
             if ($form->isValid($postData)) {
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully removed.'));
-                $this->_redirect('/register/linkage/success');
+                $this->_redirect('/register/contact/detail/?id='.$contactId);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -438,8 +430,9 @@ class Register_LinkageController extends Zend_Controller_Action
         } else throw new C3op_Register_LinkageException("Linkage needs a positive integer contact id.");
     }
 
-    private function PopulateInstitutionsField(C3op_Form_LinkageCreate $form, $currentInstitution=0)
+    private function populateInstitutionsField(C3op_Form_LinkageCreate $form, $currentInstitution=0)
     {
+
         $institutionField = $form->getElement('institution');
         if (!isset($this->linkageMapper)) {
             $this->linkageMapper = new C3op_Register_LinkageMapper($this->db);
@@ -454,7 +447,7 @@ class Register_LinkageController extends Zend_Controller_Action
             $this->view->linkInstitutionDetail = "/register/institution/detail/?id=" . $currentInstitution;
         }
 
-        $allInstitutions = $this->institutionMapper->getAllIds();
+        $allInstitutions = $this->institutionMapper->getAllIdsOrderedByName();
         while (list($key, $institutionId) = each($allInstitutions)) {
             $eachInstitution = $this->institutionMapper->findById($institutionId);
             $institutionField->addMultiOption($institutionId, $eachInstitution->GetName());

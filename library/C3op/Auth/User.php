@@ -10,8 +10,8 @@ class C3op_Auth_User
     protected $email;
     protected $role;
     protected $status;
-    protected $firstLogin = "0000-00-00";
-    protected $lastLogin = "0000-00-00";
+    protected $firstLogin = null;
+    protected $lastLogin = null;
 
 
     function __construct($id=0) {

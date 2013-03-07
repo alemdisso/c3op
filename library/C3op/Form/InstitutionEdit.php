@@ -43,6 +43,7 @@ class C3op_Form_InstitutionEdit extends C3op_Form_InstitutionCreate
             $institution->SetType($this->type->GetValue());
             $institution->SetRelationshipType($this->relationshipType->GetValue());
             $institutionMapper->update($institution);
+            return $institution->getId();
         }
     }
  }

@@ -436,7 +436,7 @@ class C3op_Register_ContactMapper
         $query = $this->db->prepare(
                 'SELECT a.id
                     FROM projects_actions a
-                    INNER JOIN projects_team_members t ON a.id = t.action
+                    INNER JOIN resources_team_members t ON a.id = t.action
                     INNER JOIN register_linkages l ON l.id = t.linkage
                     WHERE l.contact = :id;'
                 );

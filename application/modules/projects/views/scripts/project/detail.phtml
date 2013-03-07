@@ -17,11 +17,9 @@ $pageData = $this->pageData;
         //
 $projectHeader = $pageData['projectHeader'];
 
-$receivablesList = $pageData['receivablesList'];
 $productsList = $pageData['productsList'];
 $actionsList = $pageData['actionsTree'];
-$outlaysList = $pageData['outlaysList'];
-$teamData = $pageData['teamMembersList'];
+$teamMembersList = $pageData['teamMembersList'];
 $servicesData = $pageData['outsideServicesList'];
 $materialData = $pageData['materialSuppliesList'];
 $detailsData = $pageData['detailsData'];
@@ -44,56 +42,20 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
 } );
 </script>
 
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#Receivings').dataTable( {
-            "aoColumns": [
-                null,
-                { "sSortDataType": "dom-text", "sType": "date-uk" },
-                null,
-                null,
-                null,
-                null,
-            ],
-            "aaSorting": [[ 1, "asc" ]]
-        } );
-    } );
-
-</script>
-
-<!--
-<script type="text/javascript">
-$(document).ready(function(){
-
-	$(".receivable a").hover(function() {
-		$(this).next("em").animate({opacity: "show", top: "-75"}, "slow");
-	}, function() {
-		$(this).next("em").animate({opacity: "hide", top: "-85"}, "fast");
-	});
-
-
-});
-</script>
-
-<style type="text/css">
-.receivable em {
-	width: 180px;
-	height: 45px;
-	top: -85px;
-	left: -15px;
-	text-align: center;
-	padding: 20px 12px 10px;
-	font-style: normal;
-	z-index: 2;
-	display: none;
-}
-</style>
--->
 
 
     <div id="MainHeader">
       <h1><?php echo $this->translate("#Project") ?> <?php print($projectHeader['projectTitle']) ?></h1>
       <a href="/projects/project/edit/?id=<?php echo $projectHeader['id'] ?>"><?php echo $this->translate("#Edit project") ?></a>
+<?php
+    if ($pageData['messageToShow']) {
+?>
+        <div class="flashMessage">
+            <?php echo $this->translate($pageData['messageToShow']); ?>
+        </div>
+<?php
+    }
+?>
 <?php
 if ($projectHeader['hasContract']) {
 ?>
@@ -186,98 +148,13 @@ foreach($amendmentsList as $id => $contractInfo) {
     </div><!-- .Area -->
     <div id="tabs">
       <ul>
-        <li><a href="#tabs-receivables"><?php echo $this->translate("#Receiving") ?></a></li>
         <li><a href="#tabs-products"><?php echo $this->translate("#Products") ?></a></li>
-        <li><a href="#tabs-payments"><?php echo $this->translate("#Payments") ?></a></li>
         <li><a href="#tabs-action"><?php echo $this->translate("#Actions") ?></a></li>
-        <li><a href="#tabs-staff"><?php echo $this->translate("#Staff") ?></a></li>
+        <li><a href="#tabs-team"><?php echo $this->translate("#Staff") ?></a></li>
         <li><a href="#tabs-services"><?php echo $this->translate("#Services") ?></a></li>
         <li><a href="#tabs-material"><?php echo $this->translate("#Material") ?></a></li>
         <li><a href="#tabs-details"><?php echo $this->translate("#Details") ?></a></li>
       </ul>
-
-      <div id="tabs-receivables">
-        <div class="Area">
-           <h2><?php echo $this->translate("#Receiving") ?></h2>
-           <table id="Receivings" class="display ">
-              <thead>
-                <tr>
-                  <th width="300"><?php echo $this->translate("#Parcel") ?></th>
-                  <th width="50"><?php echo $this->translate("#Predicted date") ?></th>
-                  <th width="50"><?php echo $this->translate("#Predicted value") ?></th>
-                  <th width="50"><?php echo $this->translate("#Real date") ?></th>
-                  <th width="50"><?php echo $this->translate("#Real value") ?></th>
-                  <th width="1%">&nbsp;</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- ### loop de carga das ações que são produto -->
-<?php
-foreach($receivablesList as $id => $receivableInfo) {
-?>
-                <tr>
-                  <td>
-                    <a title="<?php print($receivableInfo['receivableDescription']) ?>" href="/projects/receivable/detail/?id=<?php print($id) ?>"><?php print($receivableInfo['receivableTitle']) ?></a>
-                  </td>
-                  <td>
-                    <?php print($receivableInfo['predictedDate']) ?>
-                  </td>
-                  <td>
-                    <?php print($receivableInfo['predictedValue']) ?>
-                  </td>
-                  <td class="Right">
-                    <?php  print($receivableInfo['realDate']) ?>
-                  </td>
-                  <td class="Right">
-                    <?php  print($receivableInfo['realValue'])  ?>
-                  </td>
-                  <td>
-                    <a href="#" class="anchorclass" rel="submenu1"><?php echo $this->translate("#Options") ?></a>
-                    <div id="submenu1" class="anylinkcss">
-                        <ul>
-                          <li>
-                            <!-- [# LINK PARA A EDIÇÃO DO PRODUTO ] -->
-                            <a href="/projects/receivable/edit/?id=<?php echo $id ?>"><?php echo $this->translate("#Edit") ?></a>
-                          </li>
-                          <li>
-                            <!-- [# LINK PARA A EDIÇÃO DO PRODUTO ] -->
-                            <a href="/projects/action/create-product/?requirementForReceiving=<?php echo $id ?>"><?php echo $this->translate("#Add product") ?></a>
-                          </li>
-<?php
-
-if ($receivableInfo['canNotifyReceiving']) {
-?>
-
-
-                          <li>
-                            <!-- [# LINK PARA FORM DE CONFIRMAÇÃO DE RECEBIMENTO -> VAI ABRIR EM BOX DE DIÁLOGO MODAL ] -->
-                            <a href="/projects/receivable/notify/?id=<?php echo $id ?>"><?php echo $this->translate("#Notify receiving") ?></a>
-                          </li>
-
-<?php
-}
-
-?>
-                            </ul>
-                    </div><!-- #submenu1 -->
-                  </td>
-                </tr>
-<?php
-}
-?>
-              </tbody>
-            </table><br />
-
-          </div><!-- Area -->
-    <div class="Area">
-
-      <p>
-        <a href="/projects/receivable/create/?project=<?php echo $projectHeader['id'] ?>" class="button three columns alpha omega"><?php echo $this->translate("#Predict receiving") ?></a>
-      </p>
-
-    </div><!-- .Area -->
-
-        </div><!-- tabs-receivables -->
 
       <div id="tabs-products">
         <div class="Area">
@@ -319,7 +196,7 @@ foreach($productsList as $id => $productInfo) {
     if ((isset($productInfo['receivableId'])) && ($productInfo['receivableId'] > 0)) {
 ?>
                       <div class="receivable">
-                          <a title="<?php print($productInfo['receivableDescription']) ?>" href="/projects/receivable/detail/?id=<?php  print($productInfo['receivableId'])  ?>"><?php  print($productInfo['requirementForReceiving'])  ?></a>
+                          <a title="<?php print($productInfo['receivableDescription']) ?>" href="/finances/receivable/detail/?id=<?php  print($productInfo['receivableId'])  ?>"><?php  print($productInfo['requirementForReceiving'])  ?></a>
                           <!--<em>Essa é a descrição de um recebimento conforme consta no contrato.<br>Inclusive com mais de uma linha.<br></em>-->
                       </div
 <?php
@@ -347,127 +224,11 @@ foreach($productsList as $id => $productInfo) {
 
         </div><!-- tabs-products -->
 
-        <div id="tabs-payments">
-          <div class="Area">
-            <h2><?php echo $this->translate("#Payments") ?></h2>
-
-<!-- ### INSERÇÃO DO CÓDIGO DE PAYABLES.PHTML COM ALTERAÇÕES DE RPORTO -->
-
-<?php
-/*
- * if there is payables in list
- */
-      if (count($outlaysList)) {
-?>
-           <table id="Pagamentos" class="display dataTable">
-              <thead>
-                <tr>
-                  <th width="300"><?php echo $this->translate("#Action") ?></th>
-                  <th width="300"><?php echo $this->translate("#Payee") ?></th>
-                  <th width="50"><?php echo $this->translate("#Predicted date") ?></th>
-                  <th width="50"><?php echo $this->translate("#Real date") ?></th>
-                  <th width="50"><?php echo $this->translate("#Predicted value") ?></th>
-                  <th width="50"><?php echo $this->translate("#Real value") ?></th>
-                  <th width="1%">&nbsp;</th>
-                </tr>
-              </thead>
-              <tbody>
-<?php
-foreach($outlaysList as $id => $outlayInfo) {
-?>
-                <!-- ### loop de carga das ações que geram pagamentos -->
-                <tr>
-                  <td>
-                    <a href="/projects/action/detail/?id=<?php print($outlayInfo['actionId']) ?>"><?php print($outlayInfo['actionTitle']) ?></a>
-                  </td>
-                  <td>
-<?php
-if($outlayInfo['payeeId'] > 0) {
-?>
-                    <a href="/register/contact/detail/?id=<?php  print $outlayInfo['payeeId'] ?>"><?php print($outlayInfo['payeeName']) ?></a>
-<?php
-
-} else {
-?>
-<?php print($outlayInfo['payeeName']) ?>
-<?php
-
-}
-?>
-                  </td>
-                  <td>
-                    <?php print($outlayInfo['predictedDate']) ?>
-                  </td>
-                  <td>
-                    <?php print($outlayInfo['realDate']) ?>
-                  </td>
-                  <td class="Right">
-                    <?php print($outlayInfo['predictedValue']) ?>
-                  </td>
-                  <td class="Right">
-                    <?php print($outlayInfo['realValue']) ?>
-                  </td>
-                  <td>
-                    <a href="#" class="anchorclass" rel="submenu1"><?php echo $this->translate("#Options") ?></a>
-                    <div id="submenu1" class="anylinkcss">
-                        <ul>
-                          <li>
-                            <!-- [# LINK PARA A EDIÇÃO DO PAGAMENTO ] -->
-                            <a href="/projects/outlay/edit/?id=<?php print($id) ?>"><?php echo $this->translate("#Edit") ?></a>
-                          </li>
-
-<?php
-
-if ($outlayInfo['canNotifyOutlay']) {
-?>
-
-
-                          <li>
-                            <!-- [# LINK PARA FORM DE CONFIRMAÇÃO DE PAGAMENTO -> VAI ABRIR EM BOX DE DIÁLOGO MODAL ] -->
-                            <a href="/projects/outlay/notify/?id=<?php print($id) ?>"><?php echo $this->translate("#Confirm payment") ?></a>
-                          </li>
-
-<?php
-}
-
-?>
-
-
-                          <li>
-                            <!-- [# LINK PARA PÁGINA DE DETALHAMENTO DO PAGAMENTO ] -->
-                            <a href="/projects/outlay/detail/?id=<?php print($id) ?>"><?php echo $this->translate("#Outlay details") ?></a>
-                          </li>
-                        </ul>
-                    </div><!-- #submenu1 -->
-                  </td>
-                </tr>
-<?php
-}
-?>
-                <!-- ### fim do loop de carga das ações que são produto -->
-
-              </tbody>
-            </table><br />
-
-
-<?php
-      } else { // end else there is payables in list
-?>
-            <p><?php print($this->translate("#There is no outlays related to this project.")) ?></p>
-
-<?php
-      } // end else there is payables in list
-?>
-<!-- ### FIM DA INSERÇÃO DO CÓDIGO DE PAYABLES.PHTML -->
-
-          </div><!-- Area -->
-        </div><!-- tabs-payments -->
-
-
 
         <div id="tabs-action">
           <div class="Area">
             <h2><?php echo $this->translate("#Actions") ?></h2>
+            <a href="javascript:$('.treeTable').expandAll();"><?php echo $this->translate("#Expand all") ?></a> | <a href="javascript:$('.treeTable').collapseAll();"><?php echo $this->translate("#Collapse all") ?></a>
     <table id="tree" border="1">
     	<thead>
     		<tr>
@@ -505,17 +266,15 @@ foreach ($actionsList as $id => $actionData) {
       </tbody>
     </table>
 <br />
-          </div><!-- Area -->
-    <div class="Area">
       <p>
         <a href="/projects/project/payables/?id=<?php print($projectHeader['id']) ?>" class="button three columns alpha omega">Consultar ações realizadas</a>
         <a href="/projects/action/create/?project=<?php print($projectHeader['id']) ?>" class="button three columns "><?php echo $this->translate("#Create new action") ?></a>
         <a href="/projects/project/unacknowledged/?id=<?php print($projectHeader['id']) ?>" class="button three columns alpha omega">Ações com início a confirmar</a>
       </p>
-    </div><!-- .Area -->
+          </div><!-- Area -->
 
         </div><!-- tabs-action -->
-        <div id="tabs-staff">
+        <div id="tabs-team">
           <div class="Area">
             <h2><?php print($this->translate('#Team')) ?></h2>
             <table id="Equipe" class="display dataTable">
@@ -532,54 +291,47 @@ foreach ($actionsList as $id => $actionData) {
               <!-- ### loop de carga dos recursos humanos alocados ao projeto -->
 <?php
 
-foreach($teamData as $id => $staffInfo) {
+foreach($teamMembersList as $id => $teamMemberInfo) {
 ?>
                 <tr>
                   <td>
 <?php
-if($staffInfo['contactId'] > 0) {
+if($teamMemberInfo['linkageId'] > 0) {
 ?>
-                    <a href="/register/contact/detail/?id=<?php  print $staffInfo['contactId'] ?>"><?php print($staffInfo['staffName']) ?></a>
+                    <a alt="<?php print $teamMemberInfo['linkageInstitutionName']; ?>" href="/projects/project/person/?id=<?php  print $projectHeader['id'] ?>&linkage=<?php  print $teamMemberInfo['linkageId'] ?>"><?php print($teamMemberInfo['staffName']) ?></a>
 <?php
 
-} else {
+} else { // (undefined)
 ?>
-<?php print($staffInfo['staffName']) ?>
+<?php print($teamMemberInfo['staffName']) ?>
 <?php
 
 }
 ?>
                   </td>
                   <td>
-                    <a href="/projects/action/detail/?id=<?php print($staffInfo['actionId']) ?>"><?php print($staffInfo['positionDescription']) ?></a>
+                    <a href="/projects/action/detail/?id=<?php print($teamMemberInfo['actionId']) ?>#tabs-team"><?php print($teamMemberInfo['positionDescription']) ?></a>
                   </td>
                   <td>
-                    <a href="mailto:<?php print($staffInfo['staffEmail']) ?>"><?php print($staffInfo['staffEmail']) ?></a>
+                    <a href="mailto:<?php print($teamMemberInfo['staffEmail']) ?>"><?php print($teamMemberInfo['staffEmail']) ?></a>
                   </td>
                   <td>
-                    <?php print($staffInfo['staffPhoneNumber']) ?>
+                    <?php print($teamMemberInfo['staffPhoneNumber']) ?>
                   </td>
                   <td>
                     <a href="#" class="anchorclass" rel="submenu1"><?php echo $this->translate("#Options") ?></a>
                     <div id="submenu1" class="anylinkcss">
                         <ul>
-                          <li>
-                            <!-- [# LINK PARA A EDIÇÃO DO CONTATO ] -->
-                            <a href="/projects/team-member/edit/?id=<?php print($id) ?>"><?php echo $this->translate("#Edit") ?></a>
-                          </li>
 <?php
-
-if ($staffInfo['canRemoveTeamMember']) {
+if($teamMemberInfo['contactId'] > 0) {
 ?>
-
-
                           <li>
-                            <a href="/projects/team-member/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
+                            <!-- [# LINK PARA A DETALHES DO CONTATO ] -->
+                            <a href="/register/contact/detail/?id=<?php print($teamMemberInfo['contactId']) ?>"><?php echo $this->translate("#Contact detail") ?></a>
                           </li>
-
 <?php
-}
 
+}
 ?>
                         </ul>
                     </div><!-- #submenu1 -->
@@ -592,7 +344,7 @@ if ($staffInfo['canRemoveTeamMember']) {
               </tbody>
             </table><br />
           </div><!-- Area -->
-        </div><!-- tabs-staff -->
+        </div><!-- tabs-team -->
 
 
 
@@ -646,7 +398,7 @@ if($serviceInfo['institutionId'] > 0) {
                         <ul>
                           <li>
                             <!-- [# LINK PARA A EDIÇÃO DO CONTATO ] -->
-                            <a href="/projects/outside-service/edit/?id=<?php print($id) ?>"><?php echo $this->translate("#Edit") ?></a>
+                            <a href="/resources/outside-service/edit/?id=<?php print($id) ?>"><?php echo $this->translate("#Edit") ?></a>
                           </li>
 <?php
 
@@ -655,7 +407,7 @@ if ($serviceInfo['canRemoveOutsideService']) {
 
 
                           <li>
-                            <a href="/projects/outside-service/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
+                            <a href="/resources/outside-service/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
                           </li>
 
 <?php
@@ -696,10 +448,10 @@ if ($serviceInfo['canRemoveOutsideService']) {
 ?>
               <tr>
                 <td>
-                  <a href="/projects/material-supply/edit/?id=<?php print($id) ?>"><?php print($materialSupplyData['name']) ?></a>
+                  <a href="/resources/material-supply/edit/?id=<?php print($id) ?>"><?php print($materialSupplyData['name']) ?></a>
                 </td>
                 <td>
-                  <a href="/projects/material-supply/edit/?id=<?php print($id) ?>"><?php print($materialSupplyData['description']) ?></a>
+                  <a href="/resources/material-supply/edit/?id=<?php print($id) ?>"><?php print($materialSupplyData['description']) ?></a>
                 </td>
                 <td>
                   <?php print($materialSupplyData['value']) ?>
@@ -712,14 +464,14 @@ if ($serviceInfo['canRemoveOutsideService']) {
                   <div id="submenu2" class="anylinkcss">
                       <ul>
                         <li>
-                          <a href="/projects/material-supply/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
+                          <a href="/resources/material-supply/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
                         </li>
 
 <?php
     if ($materialSupplyData['canContractFlag']) {
 ?>
                         <li>
-                          <a class="parent_info" href="/projects/material-supply/contract/?id=<?php print($id);?>" ><?php print($this->translate("#Confirm material supply contracting")); ?></a>
+                          <a class="parent_info" href="/resources/material-supply/contract/?id=<?php print($id);?>" ><?php print($this->translate("#Confirm material supply contracting")); ?></a>
                         </li>
 
 <?php
@@ -732,7 +484,7 @@ if ($materialSupplyData['canProvideOutlay']) {
 
 
                           <li>
-                            <a href="/projects/outlay/create/?materialSupply=<?php echo $id ?>"><?php echo $this->translate("#Provide outlay") ?></a>
+                            <a href="/finances/outlay/create/?materialSupply=<?php echo $id ?>"><?php echo $this->translate("#Provide outlay") ?></a>
                           </li>
 
 <?php
@@ -745,7 +497,7 @@ if ($materialSupplyData['canRemoveMaterialSupply']) {
 
 
                           <li>
-                            <a href="/projects/material-supply/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
+                            <a href="/resources/material-supply/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
                           </li>
 
 <?php

@@ -33,18 +33,28 @@ class Includes_HeaderController extends Zend_Controller_Action
         $controller = $this->getFrontController();
         $moduleName = $controller->getParam('outerModule');
 
-        $navigationTabs = array(
-            'projects' => array(
+        $user = Zend_Registry::get('user');
+
+        $navigationTabs = array();
+
+        $test = new C3op_Access_UserCanSeeFinances($user);
+        if ($test->can()) {
+            $navigationTabs['finances']= array(
+                    'url' => '/finances',
+                    'label' => $this->view->translate('#Finances'),
+                    'active' => ($moduleName == 'finances' ? true : false)
+                );
+        }
+        $navigationTabs['projects']= array(
                 'url' => '/projects',
                 'label' => $this->view->translate('#Projects'),
                 'active' => ($moduleName == 'projects' ? true : false)
-            ),
-            'register' => array(
+            );
+        $navigationTabs['register']= array(
                 'url' => '/register',
                 'label' => $this->view->translate('#Register'),
                 'active' => ($moduleName == 'register' ? true : false)
-            ),
-        );
+            );
 
         $auth = Zend_Auth::getInstance();
 

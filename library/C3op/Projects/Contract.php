@@ -70,7 +70,7 @@ class C3op_Projects_Contract {
         if ($beginDate != "") {
             $dateValidator = new C3op_Util_ValidDate();
 
-            if (($beginDate == "0000-00-00") || ($dateValidator->isValid($beginDate))) {
+            if ((is_null($beginDate)) || ($dateValidator->isValid($beginDate))) {
                 if ($this->beginDate != $beginDate) {
                     $this->beginDate = $beginDate;
                 }
@@ -89,7 +89,7 @@ class C3op_Projects_Contract {
     {
         if ($finishDate != "") {
             $dateValidator = new C3op_Util_ValidDate();
-            if (($finishDate == "0000-00-00") || ($dateValidator->isValid($finishDate))) {
+            if ((is_null($finishDate)) || ($dateValidator->isValid($finishDate))) {
                 if ($this->finishDate != $finishDate) {
                     $this->finishDate = $finishDate;
                 }
@@ -110,7 +110,7 @@ class C3op_Projects_Contract {
 
         $dateValidator = new C3op_Util_ValidDate();
         if ($dateValidator->isValid($signingDate)) {
-            if (($signingDate == "0000-00-00") || ($dateValidator->isValid($signingDate))) {
+            if ((is_null($signingDate)) || ($dateValidator->isValid($signingDate))) {
                 $this->signingDate = $signingDate;
             }
         } else {

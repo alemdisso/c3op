@@ -5,7 +5,7 @@ class C3op_Form_TeamMemberCreate extends Zend_Form
     public function init()
     {
         $this->setName('newTeamMemberForm')
-            ->setAction('/projects/team-member/create')
+            ->setAction('/resources/team-member/create')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
@@ -83,8 +83,8 @@ class C3op_Form_TeamMemberCreate extends Zend_Form
         else
         {
             $db = Zend_Registry::get('db');
-            $teamMemberMapper = new C3op_Projects_TeamMemberMapper($db);
-            $teamMember = new C3op_Projects_TeamMember();
+            $teamMemberMapper = new C3op_Resources_TeamMemberMapper($db);
+            $teamMember = new C3op_Resources_TeamMember();
             $teamMember->SetDescription($this->description->GetValue());
             $teamMember->SetLinkage($this->linkage->GetValue());
 

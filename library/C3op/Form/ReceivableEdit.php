@@ -7,7 +7,7 @@ class C3op_Form_ReceivableEdit extends C3op_Form_ReceivableCreate
 
         // initialize form
         $this->setName('editReceivableForm')
-            ->setAction('/projects/receivable/edit')
+            ->setAction('/finances/receivable/edit')
             ->setMethod('post');
 
         $id = new Zend_Form_Element_Hidden('id');
@@ -23,7 +23,7 @@ class C3op_Form_ReceivableEdit extends C3op_Form_ReceivableCreate
     public function process($data) {
 
         $db = Zend_Registry::get('db');
-        $receivableMapper = new C3op_Projects_ReceivableMapper($db);
+        $receivableMapper = new C3op_Finances_ReceivableMapper($db);
 
         if ($this->isValid($data) !== true) {
             throw new C3op_Form_ReceivableEditException('Invalid data!');

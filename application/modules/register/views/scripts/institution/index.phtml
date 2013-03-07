@@ -38,7 +38,7 @@
       foreach($institutionsList as $id => $institutionData) {
 ?>
               <td>
-                <?php print($institutionData['name']) ?>
+                <a href="/register/institution/detail/?id=<?php print($id) ?>"><?php print($institutionData['name']) ?></a>
               </td>
               <td>
                 <?php print($this->translate($institutionData['type'])) ?>

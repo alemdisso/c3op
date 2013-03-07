@@ -8,8 +8,7 @@ class C3op_Projects_ActionDateChange {
                                    $observation)
     {
 
-        if (($observation != "")
-                && ($action->GetPredictedBeginDate() != $newDate)){
+        if ($action->GetPredictedBeginDate() != $newDate){
 
             $action->SetPredictedBeginDate($newDate);
             $actionMapper->update($action);
@@ -24,8 +23,7 @@ class C3op_Projects_ActionDateChange {
                                    $newDate,
                                    $observation)
     {
-        if (($observation != "")
-                && ($action->GetPredictedFinishDate() != $newDate)){
+        if ($action->GetPredictedFinishDate() != $newDate) {
 
             $action->SetPredictedFinishDate($newDate);
             $actionMapper->update($action);

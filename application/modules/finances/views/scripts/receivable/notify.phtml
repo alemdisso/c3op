@@ -1,0 +1,14 @@
+<?php
+
+$pageData = $this->pageData;
+
+?>
+<div id="MainHeader">
+          <h1>Projeto <a href="/finances/project/detail/?id=<?php echo $pageData['projectId']; ?>"><?php echo $pageData['projectTitle']; ?></a></h1>
+        </div>
+        <div class="TituloForm">
+          <h2><?php print $this->translate("#Notify receiving") ?></h2>
+          <div><?php print $pageData['title'] ?></div>
+          <div><?php print $pageData['receivableDetails'] ?></div>
+        </div>
+<?php echo $this->form; ?>

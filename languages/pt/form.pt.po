@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-08 13:02-0300\n"
-"PO-Revision-Date: 2013-01-08 13:02-0300\n"
+"POT-Creation-Date: 2013-03-03 17:08-0300\n"
+"PO-Revision-Date: 2013-03-03 17:09-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -18,31 +18,31 @@ msgstr ""
 #: library\C3op\Form/ActionCreate.php:25
 #: library\C3op\Form/ContactCreate.php:15
 #: library\C3op\Form/InstitutionCreate.php:14
-#: library\C3op\Form/ProductCreate.php:19
+#: library\C3op\Form/ProductCreate.php:25
 #: library\C3op\Form/ProjectCreate.php:10 library\C3op\Form/UserCreate.php:15
 msgid "#Name:"
 msgstr "Nome:"
 
 #: library\C3op\Form/ActionCreate.php:34
 #: library\C3op\Form/InstitutionCreate.php:15
-#: library\C3op\Form/ProductCreate.php:28
+#: library\C3op\Form/ProductCreate.php:34
 msgid "#Name is required"
 msgstr "Nome é um campo obrigatório."
 
 #: library\C3op\Form/ActionCreate.php:79
-#: library\C3op\Form/ProductCreate.php:73
-msgid "#Responsible: "
-msgstr "Responsável: "
+#: library\C3op\Form/ProductCreate.php:79
+msgid "#Supervisor: "
+msgstr "Supervisor:"
 
 #: library\C3op\Form/ActionCreate.php:88
-#: library\C3op\Form/ProductCreate.php:82
+#: library\C3op\Form/ProductCreate.php:88
 #: library\C3op\Form/ProjectCreate.php:67
 #: library\C3op\Form/ProjectCreate.php:82
 msgid "#(choose a person)"
 msgstr "(escolha uma pessoa)"
 
 #: library\C3op\Form/ActionCreate.php:92
-#: library\C3op\Form/ProductCreate.php:86
+#: library\C3op\Form/ProductCreate.php:92
 #: library\C3op\Form/ReceivableCreate.php:34
 msgid "#Description:"
 msgstr "Descrição: "
@@ -50,7 +50,7 @@ msgstr "Descrição: "
 #: library\C3op\Form/ActionCreate.php:107
 #: library\C3op\Form/MaterialSupplyContract.php:19
 #: library\C3op\Form/OutsideServiceContract.php:19
-#: library\C3op\Form/ProductCreate.php:101
+#: library\C3op\Form/ProductCreate.php:107
 #: library\C3op\Form/ProjectCreate.php:87
 #: library\C3op\Form/TeamMemberContract.php:19
 msgid "#Begin date:"
@@ -59,31 +59,33 @@ msgstr "Data de início: "
 #: library\C3op\Form/ActionCreate.php:121
 #: library\C3op\Form/MaterialSupplyContract.php:33
 #: library\C3op\Form/OutsideServiceContract.php:33
-#: library\C3op\Form/ProductCreate.php:115
+#: library\C3op\Form/ProductCreate.php:121
 #: library\C3op\Form/ProjectCreate.php:101
 #: library\C3op\Form/TeamMemberContract.php:33
 msgid "#Finish date:"
 msgstr "Data de término: "
 
-#: library\C3op\Form/ActionCreate.php:137 library\C3op\Form/ActionEdit.php:58
+#: library\C3op\Form/ActionCreate.php:137 library\C3op\Form/ActionEdit.php:83
 #: library\C3op\Form/ContactCreate.php:80
 #: library\C3op\Form/ContractCreate.php:64
 #: library\C3op\Form/EmailCreate.php:57
 #: library\C3op\Form/InstitutionCreate.php:291
-#: library\C3op\Form/LinkageCreate.php:73 library\C3op\Form/LinkageEdit.php:76
+#: library\C3op\Form/LinkageCreate.php:73 library\C3op\Form/LinkageEdit.php:74
 #: library\C3op\Form/MaterialSupplyContract.php:65
 #: library\C3op\Form/MaterialSupplyCreate.php:113
 #: library\C3op\Form/MessengerCreate.php:58
-#: library\C3op\Form/OutlayCreate.php:79 library\C3op\Form/OutlayNotify.php:58
+#: library\C3op\Form/OutlayCreate.php:86 library\C3op\Form/OutlayNotify.php:58
 #: library\C3op\Form/OutsideServiceContract.php:65
 #: library\C3op\Form/OutsideServiceCreate.php:78
-#: library\C3op\Form/ProductCreate.php:131
-#: library\C3op\Form/ProductEdit.php:58 library\C3op\Form/ProjectAmend.php:50
+#: library\C3op\Form/ProductCreate.php:137
+#: library\C3op\Form/ProductEdit.php:72 library\C3op\Form/ProjectAmend.php:50
 #: library\C3op\Form/ProjectCreate.php:284
 #: library\C3op\Form/ReceivableCreate.php:94
 #: library\C3op\Form/ReceivableNotify.php:72
+#: library\C3op\Form/ResponsibleCreate.php:68
 #: library\C3op\Form/TeamMemberContract.php:65
 #: library\C3op\Form/TeamMemberCreate.php:65
+#: library\C3op\Form/TeamMemberDismiss.php:35
 #: library\C3op\Form/UserCreate.php:101
 msgid "#Submit"
 msgstr "Gravar"
@@ -92,15 +94,27 @@ msgstr "Gravar"
 msgid "#Status:"
 msgstr "Status:"
 
-#: library\C3op\Form/ActionEdit.php:43 library\C3op\Form/ProductCreate.php:60
+#: library\C3op\Form/ActionEdit.php:43 library\C3op\Form/ProductCreate.php:66
 #: library\C3op\Form/ProductEdit.php:43
 msgid "#Subordinated to: "
 msgstr "Subordinada a: "
 
-#: library\C3op\Form/ActionEdit.php:52 library\C3op\Form/ProductCreate.php:69
+#: library\C3op\Form/ActionEdit.php:52 library\C3op\Form/ProductCreate.php:75
 #: library\C3op\Form/ProductEdit.php:52
 msgid "#(no action)"
 msgstr "(nenhuma ação)"
+
+#: library\C3op\Form/ActionEdit.php:56 library\C3op\Form/ProductEdit.php:56
+msgid "#This action is a product?"
+msgstr "Essa ação é um produto?"
+
+#: library\C3op\Form/ActionEdit.php:69 library\C3op\Form/ProductCreate.php:53
+msgid "#Is requirement for receiving: "
+msgstr "É requisito para receber: "
+
+#: library\C3op\Form/ActionEdit.php:78 library\C3op\Form/ProductCreate.php:62
+msgid "#(not a requirement for receiving)"
+msgstr "(não é requisito para recebimento) "
 
 #: library\C3op\Form/ActionRemove.php:21
 #: library\C3op\Form/ContactRemove.php:22
@@ -222,7 +236,7 @@ msgid "#Contract"
 msgstr "Contrato:"
 
 #: library\C3op\Form/ContractCreate.php:34
-#: library\C3op\Form/OutlayCreate.php:45
+#: library\C3op\Form/OutlayCreate.php:52
 #: library\C3op\Form/ReceivableCreate.php:63
 msgid "#Predicted Date"
 msgstr "Data Prevista"
@@ -363,7 +377,7 @@ msgstr "(escolha uma...)"
 msgid "#Position:"
 msgstr "Cargo / Função:"
 
-#: library\C3op\Form/LinkageCreate.php:59 library\C3op\Form/LinkageEdit.php:60
+#: library\C3op\Form/LinkageCreate.php:59 library\C3op\Form/LinkageEdit.php:59
 msgid "#Departament:"
 msgstr "Departamento:"
 
@@ -386,6 +400,7 @@ msgstr "Confirmo: remova!"
 #: library\C3op\Form/MaterialSupplyContract.php:48
 #: library\C3op\Form/OutsideServiceContract.php:48
 #: library\C3op\Form/TeamMemberContract.php:48
+#: library\C3op\Form/TeamMemberDismiss.php:18
 msgid "Observações:"
 msgstr "Observation:"
 
@@ -403,6 +418,7 @@ msgstr "Valor unitário:"
 
 #: library\C3op\Form/MaterialSupplyCreate.php:46
 #: library\C3op\Form/OutsideServiceCreate.php:46
+#: library\C3op\Form/ResponsibleCreate.php:62
 #: library\C3op\Form/TeamMemberCreate.php:46
 msgid "#The value must be a positive number"
 msgstr "O valor precisa ser um número positivo"
@@ -428,6 +444,7 @@ msgstr "Organização:"
 #: library\C3op\Form/MaterialSupplyCreate.php:108
 #: library\C3op\Form/OutsideServiceCreate.php:60
 #: library\C3op\Form/OutsideServiceCreate.php:73
+#: library\C3op\Form/ResponsibleCreate.php:46
 #: library\C3op\Form/TeamMemberCreate.php:60
 msgid "#undefined"
 msgstr "indefinido"
@@ -454,14 +471,7 @@ msgstr "Conta:"
 msgid "#Invalid address"
 msgstr "Invalid address"
 
-#: library\C3op\Form/OutlayCreate.php:30
-#: library\C3op\Form/OutsideServiceCreate.php:35
-#: library\C3op\Form/ProjectCreate.php:116
-#: library\C3op\Form/TeamMemberCreate.php:35
-msgid "#Value:"
-msgstr "Valor:"
-
-#: library\C3op\Form/OutlayCreate.php:61 library\C3op\Form/ProjectAmend.php:20
+#: library\C3op\Form/OutlayCreate.php:68 library\C3op\Form/ProjectAmend.php:20
 #: library\C3op\Form/ProjectCreate.php:269
 msgid "#Observation:"
 msgstr "Observação:"
@@ -481,21 +491,20 @@ msgstr "Valor real"
 msgid "#A valid role description is required"
 msgstr "Por favor informe o papel desse membro do time"
 
+#: library\C3op\Form/OutsideServiceCreate.php:35
+#: library\C3op\Form/ProjectCreate.php:116
+#: library\C3op\Form/ResponsibleCreate.php:51
+#: library\C3op\Form/TeamMemberCreate.php:35
+msgid "#Value:"
+msgstr "Valor:"
+
 #: library\C3op\Form/PhoneNumberCreate.php:76
 msgid "Gravar"
 msgstr "Save"
 
-#: library\C3op\Form/ProductCreate.php:34
+#: library\C3op\Form/ProductCreate.php:40
 msgid "#This action is a milestone?"
 msgstr "Essa ação é um marco do projeto?"
-
-#: library\C3op\Form/ProductCreate.php:47
-msgid "#Is requirement for receiving: "
-msgstr "É requisito para receber: "
-
-#: library\C3op\Form/ProductCreate.php:56
-msgid "#(not a requirement for receiving)"
-msgstr "(não é requisito para recebimento) "
 
 #: library\C3op\Form/ProjectAmend.php:34
 msgid "#Signing Date"
@@ -586,13 +595,26 @@ msgstr "Data de Entrega"
 msgid "#Predicted Value"
 msgstr "Valor Previsto"
 
-#: library\C3op\Form/TeamMemberCreate.php:18
-msgid "#Role:"
-msgstr "Função:"
+#: library\C3op\Form/ResponsibleCreate.php:26
+msgid "#It is a person or an institution?"
+msgstr "Pessoa ou empresa?"
 
+#: library\C3op\Form/ResponsibleCreate.php:33
+msgid "#teamMember"
+msgstr "Pessoa"
+
+#: library\C3op\Form/ResponsibleCreate.php:33
+msgid "#service"
+msgstr "Empresa"
+
+#: library\C3op\Form/ResponsibleCreate.php:37
 #: library\C3op\Form/TeamMemberCreate.php:51
 msgid "#Who:"
 msgstr "Quem:"
+
+#: library\C3op\Form/TeamMemberCreate.php:18
+msgid "#Role:"
+msgstr "Função:"
 
 #: library\C3op\Form/UserCreate.php:31
 msgid "#Role"
@@ -613,6 +635,9 @@ msgstr "Usuário:"
 #: library\C3op\Form/UserLogin.php:51
 msgid "#Login"
 msgstr "Entrar"
+
+#~ msgid "#Responsible: "
+#~ msgstr "Responsável: "
 
 #, fuzzy
 #~ msgid "#Begin date"

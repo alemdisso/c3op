@@ -32,7 +32,7 @@ class Projects_ContractController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/contract/success/?id=' . $id);
+                $this->_redirect('/projects/contract/detail/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -58,6 +58,7 @@ class Projects_ContractController extends Zend_Controller_Action
 
         $contractToBeDetailed =  $this->initContractWithCheckedId($this->contractMapper);
         $projectToBeDetailed = $this->projectMapper->findById($contractToBeDetailed->getProject());
+        $messageToShow = $this->_helper->flashMessenger->getMessages();
 
         //  actionHeader
         //    id
@@ -84,8 +85,8 @@ class Projects_ContractController extends Zend_Controller_Action
             $data = array();
             $data['title'] = $loopAction->getTitle();
 
-            if ($loopAction->getResponsible()) {
-                $theContact = $this->contactMapper->findById($loopAction->getResponsible());
+            if ($loopAction->getSupervisor()) {
+                $theContact = $this->contactMapper->findById($loopAction->getSupervisor());
                 $data['responsibleName'] = $theContact->getName();
             } else {
                 $data['responsibleName'] = $this->view->translate("#Not defined");
@@ -119,12 +120,13 @@ class Projects_ContractController extends Zend_Controller_Action
 
         $contractData = array(
             'id'               => $contractToBeDetailed->getId(),
+            'messageToShow'    => $messageToShow,
             'projectId'        => $projectToBeDetailed->getId(),
             'projectTitle'     => $projectToBeDetailed->getShortTitle(),
             'title'            => $contractToBeDetailed->getTitle(),
             'description'      => $description,
-            'signingDate'    => $signingDate,
-            'amendment'   => $amendment,
+            'signingDate'      => $signingDate,
+            'amendment'        => $amendment,
             'realValue'        => $realValue,
             'realDate'         => $realDate,
             'requiredProducts' => $requiredProductsData,
@@ -153,7 +155,7 @@ class Projects_ContractController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/contract/success/?id=' . $id);
+                $this->_redirect('/projects/contract/detail/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -185,20 +187,6 @@ class Projects_ContractController extends Zend_Controller_Action
 
         }
     }
-
-    public function successAction()
-    {
-        $this->initContractMapper();
-        $contractRelated =  $this->initContractWithCheckedId($this->contractMapper);
-
-        if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
-            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
-            $this->getResponse()->setHeader('Refresh', '1; URL=/projects/contract/detail/?id=' . $contractRelated->getId());
-        } else {
-            $this->_redirect('/projects');
-        }
-    }
-
 
     private function PopulateProjectFields($projectId, Zend_Form $form)
     {
@@ -232,7 +220,7 @@ class Projects_ContractController extends Zend_Controller_Action
     private function initTeamMemberMapper()
     {
         if (!isset($this->teamMemberMapper)) {
-            $this->teamMemberMapper = new C3op_Projects_TeamMemberMapper($this->db);
+            $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
         }
     }
 
@@ -271,14 +259,15 @@ class Projects_ContractController extends Zend_Controller_Action
             $id = $input->id;
             return $id;
         }
-        throw new C3op_Projects_OutlayException("Invalid Action Id from Get");
+        throw new C3op_Finances_OutlayException("Invalid Action Id from Get");
 
     }
 
     private function setDateValueToFormField(Zend_Form $form, $fieldName, $value)
     {
         $field = $form->getElement($fieldName);
-        if ($value != '0000-00-00')  {
+        $validator = new C3op_Util_ValidDate();
+        if ((!is_null($value)) && ($validator->isValid($value))) {
             $field->setValue(C3op_Util_DateDisplay::FormatDateToShow($value));
         } else {
             $field->setValue("");

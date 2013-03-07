@@ -37,7 +37,7 @@ class Projects_ActionController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully created.'));
-                $this->_redirect('/projects/action/success/?id=' . $id);
+                $this->_redirect(sprintf('/projects/action/detail/?id=%d&success=1', $id));
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -73,13 +73,13 @@ class Projects_ActionController extends Zend_Controller_Action
             }
 
             $projectData = $this->populateProjectFields($projectId, $form);
-            $this->populateResponsibleField($form);
+            $this->populateSupervisorField($form);
             //$this->populateRequirementForReceivingField($projectId, $form, $requirementForReceiving);
 
             $subordinatedToField = $form->getElement('subordinatedTo');
             $subordinatedToField->setValue($subordinatedTo);
 
-            //$this->populateSubordinatedActionsField($projectId, $form, 0, $subordinatedTo);
+            //$this->populateSubordinatedToField($projectId, $form, 0, $subordinatedTo);
             $pageData = array(
                 'projectId'    => $projectId,
                 'projectTitle' => $projectData['title'],
@@ -101,7 +101,7 @@ class Projects_ActionController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully created.'));
-                $this->_redirect('/projects/action/success/?id=' . $id);
+                $this->_redirect(sprintf('/projects/action/detail/?id=%d&success=1', $id));
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -119,8 +119,11 @@ class Projects_ActionController extends Zend_Controller_Action
                 $projectId = $data['project'];
             }
 
+            $element = $form->getElement('product');
+            $element->setValue(1);
+
             $projectData = $this->populateProjectFields($projectId, $form);
-            $this->populateResponsibleField($form);
+            $this->populateSupervisorField($form);
             $this->populateRequirementForReceivingField($projectId, $form, $requirementForReceiving);
             $pageData = array(
                 'id'           => $projectId,
@@ -140,7 +143,7 @@ class Projects_ActionController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/action/success/?id=' . $id);
+                $this->_redirect(sprintf('/projects/action/detail/?id=%d&success=1', $id));
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -169,6 +172,9 @@ class Projects_ActionController extends Zend_Controller_Action
 //                $element = $form->getElement('milestone');
 //                $element->setValue($inputAction->getMilestone());
 
+                $element = $form->getElement('product');
+                $element->setValue($inputAction->getProduct());
+
                 $projectData = $this->populateProjectFields($inputAction->getProject(), $form);
                 $projectId = $projectData['id'];
 
@@ -187,12 +193,17 @@ class Projects_ActionController extends Zend_Controller_Action
                     $form->removeElement('status');
                 }
 
-                $this->populateResponsibleField($form, $inputAction->getResponsible());
-//                $this->populateRequirementForReceivingField($projectId, $form, $inputAction->getRequirementForReceiving());
+                $this->populateSupervisorField($form, $inputAction->getSupervisor());
+
+                if ($inputAction->getSubordinatedTo() > 0) {
+                    $form->removeElement('requirementForReceiving');
+                } else {
+                    $this->populateRequirementForReceivingField($projectId, $form, $inputAction->getRequirementForReceiving());
+                }
 //                $subordinatedToField = $form->getElement('subordinatedTo');
 //                $subordinatedToField->setValue($inputAction->getSubordinatedTo());
 
-                $this->populateSubordinatedActionsField($projectId, $form, $id);
+                $this->populateSubordinatedToField($projectId, $form, $id);
             }
 
             $pageData = array(
@@ -213,7 +224,7 @@ class Projects_ActionController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/action/success/?id=' . $id);
+                $this->_redirect(sprintf('/projects/action/detail/?id=%d&success=1', $id));
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -239,6 +250,9 @@ class Projects_ActionController extends Zend_Controller_Action
                 $element = $form->getElement('id');
                 $element->setValue($id);
 
+                $element = $form->getElement('product');
+                $element->setValue($inputAction->getProduct());
+
                 $element = $form->getElement('milestone');
                 $element->setValue($inputAction->getMilestone());
 
@@ -260,12 +274,12 @@ class Projects_ActionController extends Zend_Controller_Action
                     $form->removeElement('status');
                 }
 
-                $this->populateResponsibleField($form, $inputAction->getResponsible());
+                $this->populateSupervisorField($form, $inputAction->getSupervisor());
                 $this->populateRequirementForReceivingField($projectId, $form, $inputAction->getRequirementForReceiving());
 //                $subordinatedToField = $form->getElement('subordinatedTo');
 //                $subordinatedToField->setValue($inputAction->getSubordinatedTo());
 
-//                $this->populateSubordinatedActionsField($projectId, $form, $id);
+                $this->populateSubordinatedToField($projectId, $form, $id);
             }
 
             $pageData = array(
@@ -281,183 +295,23 @@ class Projects_ActionController extends Zend_Controller_Action
     {
         $pageData = array();
 
-        $actionsList = array();
         $this->initActionMapper();
         $this->initProjectMapper();
         $this->initContactMapper();
         $this->initInstitutionMapper();
-        $this->initTeamMemberMapper();
-        $this->initOutsideServiceMapper();
-        $this->initMaterialSupplyMapper();
 
         $actionToBeDetailed =  $this->initActionWithCheckedId($this->actionMapper);
-        $projectToBeDetailed = $this->projectMapper->findById($actionToBeDetailed->getProject());
+//        $projectToBeDetailed = $this->projectMapper->findById($actionToBeDetailed->getProject());
+        $messageToShow = $this->_helper->flashMessenger->getMessages();
 
-        //  actionHeader
-        //    id
-        //    projectId
-        //    projectTitle
-        //    actionTitle
-        //    canRemoveAction
-        //    status
-        //    responsibleId
-        //    responsibleName
-        //    parentActionId
-        //    parentActionTitle
-        //    description
-        //    predictedBeginDate
-        //    predictedFinishDate
-        //    milestone
-        //    realBeginDate
-        //    realFinishDate
-        //    receiptDate
-        //    realizationDate
-        //
-
-        $statusTypes = new C3op_Projects_ActionStatusTypes();
-        $status = $statusTypes->TitleForType($actionToBeDetailed->getStatus());
-        $responsibleId = $actionToBeDetailed->getResponsible();
-        if ($responsibleId > 0) {
-            $responsibleContact = $this->contactMapper->findById($responsibleId);
-            $responsibleName = $responsibleContact->getName();
-        } else {
-            $responsibleName = $this->view->translate("#Not defined");
-        }
-
-        if ($actionToBeDetailed->getSubordinatedTo() > 0) {
-            $parentAction = $this->actionMapper->findById($actionToBeDetailed->getSubordinatedTo());
-            $parentActionTitle = $parentAction->getTitle();
-            $parentActionId = $parentAction->getId();
-        } else {
-            $parentActionTitle = "";
-            $parentActionId = 0;
-        }
-
-        $removal = new C3op_Projects_ActionRemoval($actionToBeDetailed, $this->actionMapper);
-
-        if ($removal->canBeRemoved()) {
-            $canRemoveAction = true;
-        } else {
-            $canRemoveAction = false;
-        }
-
-
-        $subordinatedActionsList = $this->actionMapper->getActionsSubordinatedTo($actionToBeDetailed);
-        $subordinatedActionsData = array();
-
-        foreach($subordinatedActionsList as $loopActionId) {
-
-            $loopAction = $this->actionMapper->findById($loopActionId);
-            $data = array();
-            $data['title'] = $loopAction->getTitle();
-
-            if ($loopAction->getResponsible()) {
-                $theContact = $this->contactMapper->findById($loopAction->getResponsible());
-                $data['responsibleName'] = $theContact->getName();
-            } else {
-                $data['responsibleName'] = $this->view->translate("#Not defined");
-            }
-
-            $data['status'] = $statusTypes->TitleForType($loopAction->getStatus());
-
-            $removal = new C3op_Projects_ActionRemoval($loopAction, $this->actionMapper);
-
-            $data['canRemoveAction'] = $removal->canBeRemoved();
-
-
-            $subordinatedActionsData[$loopActionId] = $data;
-
-        }
-        if ($actionToBeDetailed->getMilestone()) {
-            $milestone = _("#Is a milestone");
-        } else {
-            $milestone = _("#Is not a milestone");
-        }
-
-        $predictedBeginDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getPredictedBeginDate());
-
-        $predictedFinishDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getPredictedFinishDate());
-        $realFinishDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getRealFinishDate());
-
-        $validator = new C3op_Util_ValidDate();
-        if ($validator->isValid($actionToBeDetailed->getReceiptDate($this->actionMapper))) {
-            $receiptDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getReceiptDate($this->actionMapper));
-        } else {
-            $receiptDate = $this->view->translate("#(not received)");
-        }
-
-        $unacknowledgedStart = false;
-        $waitingToReceipt = false;
-        $realBeginDate = $this->view->translate("#(not started)");
-        if ($actionToBeDetailed->hasBegun()) {
-            $realBeginDate = C3op_Util_DateDisplay::FormatDateToShow($actionToBeDetailed->getRealBeginDate());
-            $obj = new C3op_Projects_ActionStartMode($actionToBeDetailed, $this->actionMapper);
-            if ($obj->isUnacknowledged()) {
-                $unacknowledgedStart = true;
-            } else {
-                if ($actionToBeDetailed->waitingToReceipt()) {
-                    $waitingToReceipt = true;
-                }
-            }
-        }
-        $receiptToAcceptOrReject = false;
-        if ($actionToBeDetailed->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_RECEIVED) {
-            $receiptToAcceptOrReject = true;
-        }
-
-        $actionValue = new C3op_Projects_ActionValue($actionToBeDetailed,$this->actionMapper);
-        $currencyDisplay = new  C3op_Util_CurrencyDisplay();
-        $totalContractedValue = $currencyDisplay->FormatCurrency($actionValue->totalValue());
-
-        $finder = new C3op_Projects_ActionRelatedProduct($actionToBeDetailed, $this->actionMapper);
-        $productRelated = $finder->retrieve();
-        $relatedProductId = $productRelated->getId();
-        $relatedProductTitle = $productRelated->getTitle();
-        $dateFinder = new C3op_Projects_ProductDeliveryDate($productRelated, $this->actionMapper);
-        $productDeliveryDate = $dateFinder->retrieve();
-        $productDeliveryDate = C3op_Util_DateDisplay::FormatDateToShow($productDeliveryDate);
-
-
-        $notAProduct = true;
-        if ($productRelated->getId() == $actionToBeDetailed->getId()) {
-            $notAProduct = false;
-        }
-
-
-
-        $actionHeader = array(
-            'id'                      => $actionToBeDetailed->getId(),
-            'projectId'               => $projectToBeDetailed->getId(),
-            'projectTitle'            => $projectToBeDetailed->getShortTitle(),
-            'title'                   => $actionToBeDetailed->getTitle(),
-            'canRemoveAction'         => $canRemoveAction,
-            'status'                  => $status,
-            'responsibleId'           => $responsibleId,
-            'responsibleName'         => $responsibleName,
-            'parentActionId'          => $parentActionId,
-            'parentActionTitle'       => $parentActionTitle,
-            'subordinatedActions'     => $subordinatedActionsData,
-            'description'             => nl2br($actionToBeDetailed->getDescription()),
-            'milestone'               => $milestone,
-            'predictedBeginDate'      => $predictedBeginDate,
-            'predictedFinishDate'     => $predictedFinishDate,
-            'realBeginDate'           => $realBeginDate,
-            'realFinishDate'          => $realFinishDate,
-            'receiptDate'             => $receiptDate,
-            'unacknowledgedStart'     => $unacknowledgedStart,
-            'receiptToAcceptOrReject' => $receiptToAcceptOrReject,
-            'waitingToReceipt'        => $waitingToReceipt,
-            'totalContractedValue'    => $totalContractedValue,
-            'notAProduct'             => $notAProduct,
-            'relatedProductTitle'     => $relatedProductTitle,
-            'relatedProductId'        => $relatedProductId,
-            'productDeliveryDate'     => $productDeliveryDate,
-        );
-
+        $header = new C3op_Projects_ActionHeader($this->db, $actionToBeDetailed, $this->actionMapper);
+        $actionHeader = $header->fetch();
 
         // teamMemberList
         //   * teamMemberInfo
         //      id
+        //      contactId
+        //      linkageId
         //      name
         //      description
         //      value
@@ -495,6 +349,7 @@ class Projects_ActionController extends Zend_Controller_Action
         $materialSuppliesList = $this->getMaterialSuppliesList($actionToBeDetailed);
 
         $pageData = array(
+            'messageToShow'       => $messageToShow,
             'actionHeader'        => $actionHeader,
             'teamMembersList'     => $teamMembersList,
             'outsideServicesList' => $outsideServicesList,
@@ -554,22 +409,15 @@ class Projects_ActionController extends Zend_Controller_Action
         }
     }
 
-
-    public function successAction()
-    {
-        $actionId = $this->checkIdFromGet();
-        if ($this->_helper->getHelper('FlashMessenger')->getMessages()) {
-            $this->view->messages = $this->_helper->getHelper('FlashMessenger')->getMessages();
-            $this->getResponse()->setHeader('Refresh', '1; URL=/projects/action/detail/?id=' . $actionId);
-        } else {
-            $this->_redirect('/projects');
-        }
-    }
-
     public function acknowledgeReceiptAction()
     {
         $this->_helper->layout->disableLayout();
-        //$this->_helper->viewRenderer->setNoRender(TRUE);
+
+        $tester = new C3op_Access_PrivilegeTester("projects", "action", "accept-receipt");
+        if (!$tester->allow()) {
+            $this->_helper->viewRenderer->setNoRender(TRUE);
+        }
+
 
         $this->initActionMapper();
         $actionToBeChanged =  $this->initActionWithCheckedId($this->actionMapper);
@@ -626,6 +474,32 @@ class Projects_ActionController extends Zend_Controller_Action
 
     }
 
+
+    private function checkIfSuccessRedirected()
+    {
+        $data = $this->_request->getParams();
+        $filters = array(
+            'success' => new Zend_Filter_Alnum(),
+        );
+        $validators = array(
+            'success' => array('Digits', new Zend_Validate_GreaterThan(0)),
+        );
+        $input = new Zend_Filter_Input($filters, $validators, $data);
+        if ($input->isValid()) {
+            $success = $input->success;
+            if ($success > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+        throw new C3op_Projects_ActionException("Invalid Action Id from Get");
+
+    }
+
+
     private function initActionWithCheckedId(C3op_Projects_ActionMapper $mapper)
     {
         return $mapper->findById($this->checkIdFromGet());
@@ -655,6 +529,8 @@ class Projects_ActionController extends Zend_Controller_Action
         if ($validator->isValid($projectId)) {
             $projectField = $form->getElement('project');
             $projectField->setValue($projectId);
+//            $projectField = $form->getElement('product');
+//            $projectField->setValue($projectId);
             if (!isset($this->projectMapper)) {
                 $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
             }
@@ -672,18 +548,34 @@ class Projects_ActionController extends Zend_Controller_Action
 
    }
 
-    private function populateSubordinatedActionsField($projectId, Zend_Form $form, $actionId = 0, $parentActionId = 0)
+    private function populateSubordinatedToField($projectId, Zend_Form $form, $actionId = 0, $parentActionId = 0)
     {
         $validator = new C3op_Util_ValidId();
         if ($validator->isValid($projectId)) {
             $subordinatedToField = $form->getElement('subordinatedTo');
+
+            $data = $this->fillSubordinatedToDataFrom($projectId, $actionId);
+
+            while (list($key, $row) = each($data)) {
+                $eachAction = $this->actionMapper->findById($row['id']);
+                $subordinatedToField->addMultiOption($row['id'], $row['title']);
+            }
+
+            $subordinatedToField->setValue($parentActionId);
+
+        } else throw new C3op_Projects_ActionException(_("#It needs a positive integer project id to find other actions from same project."));
+   }
+
+   private function fillPossibleSubordinatedTree($projectId, $actionId=0)
+   {
+        $validator = new C3op_Util_ValidId();
+        if ($validator->isValid($projectId)) {
             $this->initActionMapper();
 
             if ($actionId > 0) {
                 $actionToBePopulated = $this->actionMapper->findById($actionId);
                 $parentActionId = $actionToBePopulated->GetSubordinatedTo();
-                $allOtherActionsInProject = $this->actionMapper->getAllOtherActions($actionToBePopulated);
-
+                $allOtherActionsInProject = $this->actionMapper->getPossibleSubordination($actionToBePopulated);
             } else {
                 if (!isset($this->projectMapper)) {
                     $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
@@ -692,14 +584,16 @@ class Projects_ActionController extends Zend_Controller_Action
                 $allOtherActionsInProject = $this->projectMapper->getAllActions($theProject);
             }
 
+            $jsonX = array();
             while (list($key, $actionId) = each($allOtherActionsInProject)) {
                 $eachAction = $this->actionMapper->findById($actionId);
                 $subordinatedToField->addMultiOption($actionId, $eachAction->GetTitle());
+                $jsonX[] = array($actionId => $eachAction->GetTitle());
             }
 
-            $subordinatedToField->setValue($parentActionId);
 
         } else throw new C3op_Projects_ActionException(_("#It needs a positive integer project id to find other actions from same project."));
+
    }
 
     private function populateRequirementForReceivingField($projectId, Zend_Form $form, $setedReceivableId = 0)
@@ -712,7 +606,7 @@ class Projects_ActionController extends Zend_Controller_Action
             $this->initProjectMapper();
             $this->initReceivableMapper();
             $theProject = $this->projectMapper->findById($projectId);
-            $allReceivables = $this->projectMapper->getAllReceivables($theProject);
+            $allReceivables = $this->receivableMapper->getAllReceivables($theProject);
 
             while (list($key, $receivableId) = each($allReceivables)) {
                 $eachReceivable = $this->receivableMapper->findById($receivableId);
@@ -724,16 +618,16 @@ class Projects_ActionController extends Zend_Controller_Action
         } else throw new C3op_Projects_ActionException("Action needs a positive integer project id to find possible receivables to to be a requirement.");
    }
 
-    private function populateResponsibleField(Zend_Form $form, $currentResponsible = 0)
+    private function populateSupervisorField(Zend_Form $form, $currentSupervisor = 0)
     {
             $this->initContactMapper();
-            $responsibleField = $form->getElement('responsible');
-            $allThatCanBeResponsible = $this->contactMapper->getAllContactThatAreLinkedToAContractant();
-            while (list($key, $contactId) = each($allThatCanBeResponsible)) {
-                $eachPossibleResponsible = $this->contactMapper->findById($contactId);
-                $responsibleField->addMultiOption($contactId, $eachPossibleResponsible->GetName());
+            $supervisorField = $form->getElement('supervisor');
+            $allThatCanBeSupervisor = $this->contactMapper->getAllContactThatAreLinkedToAContractant();
+            while (list($key, $contactId) = each($allThatCanBeSupervisor)) {
+                $eachPossibleSupervisor = $this->contactMapper->findById($contactId);
+                $supervisorField->addMultiOption($contactId, $eachPossibleSupervisor->GetName());
             }
-            $responsibleField->setValue($currentResponsible);
+            $supervisorField->setValue($currentSupervisor);
    }
 
     private function initProjectMapper()
@@ -774,35 +668,35 @@ class Projects_ActionController extends Zend_Controller_Action
     private function initTeamMemberMapper()
     {
         if (!isset($this->teamMemberMapper)) {
-            $this->teamMemberMapper = new C3op_Projects_TeamMemberMapper($this->db);
+            $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
         }
     }
 
     private function initOutsideServiceMapper()
     {
         if (!isset($this->outsideServiceMapper)) {
-            $this->outsideServiceMapper = new C3op_Projects_OutsideServiceMapper($this->db);
+            $this->outsideServiceMapper = new C3op_Resources_OutsideServiceMapper($this->db);
         }
     }
 
     private function initMaterialSupplyMapper()
     {
         if (!isset($this->materialSupplyMapper)) {
-            $this->materialSupplyMapper = new C3op_Projects_MaterialSupplyMapper($this->db);
+            $this->materialSupplyMapper = new C3op_Resources_MaterialSupplyMapper($this->db);
         }
     }
 
     private function initReceivableMapper()
     {
         if (!isset($this->receivableMapper)) {
-            $this->receivableMapper = new C3op_Projects_ReceivableMapper($this->db);
+            $this->receivableMapper = new C3op_Finances_ReceivableMapper($this->db);
         }
     }
 
-    private function calculateTotalValueExistentOutlays(C3op_Projects_TeamMember $h)
+    private function calculateTotalValueExistentOutlays(C3op_Resources_TeamMember $h)
     {
         if (!isset($this->outlayMapper)) {
-            $this->outlayMapper = new C3op_Projects_OutlayMapper($this->db);
+            $this->outlayMapper = new C3op_Finances_OutlayMapper($this->db);
         }
 
         $outlays = $this->outlayMapper->getAllOutlaysForTeamMember($h);
@@ -820,7 +714,8 @@ class Projects_ActionController extends Zend_Controller_Action
     private function setDateValueToFormField(Zend_Form $form, $fieldName, $value)
     {
         $field = $form->getElement($fieldName);
-        if ($value != '0000-00-00')  {
+        $validator = new C3op_Util_ValidDate();
+        if ((!is_null($value)) && ($validator->isValid($value))) {
             $field->setValue(C3op_Util_DateDisplay::FormatDateToShow($value));
         } else {
             $field->setValue("");
@@ -833,23 +728,33 @@ class Projects_ActionController extends Zend_Controller_Action
         // teamMemberList
         //   * teamMemberInfo
         //      id
+        //      contactId
+        //      linkageId
         //      name
         //      description
         //      value
         //      contractingStatusLabel
         //      canContractFlag
         //      canRemoveTeamMember
+        //      canEditResource
         //      canProvideOutlay
+        $this->initActionMapper();
+        $this->initTeamMemberMapper();
 
         if (!isset($this->linkageMapper)) {
             $this->initLinkageMapper();
         }
 
         $teamMembersList = array();
-        $teamMembersIdsList = $this->teamMemberMapper->getAllTeamMembersOnAction($action);
+        //$teamMembersIdsList = $this->teamMemberMapper->getAllTeamMembersOnAction($action);
+        $teamMembersIdsList = $this->actionMapper->getAllUniqueTeamMembersContractedOrPredictedUnderAction($action);
 
         foreach ($teamMembersIdsList as $teamMemberId) {
             $theTeamMember = $this->teamMemberMapper->findById($teamMemberId);
+
+            $teamMemberAction = $this->actionMapper->findById($theTeamMember->getAction());
+            $teamMemberActionTitle = $teamMemberAction->getTitle();
+
             $currencyDisplay = new  C3op_Util_CurrencyDisplay();
             $currencyValue = $currencyDisplay->FormatCurrency($theTeamMember->GetValue());
             $totalValueExistentOutlays = $this->calculateTotalValueExistentOutlays($theTeamMember);
@@ -857,8 +762,8 @@ class Projects_ActionController extends Zend_Controller_Action
             $descriptionMessage = $theTeamMember->GetDescription();
 
             $linkageId = $theTeamMember->GetLinkage();
-            $actionId = $action->GetId();
             $contactName = "(indefinido)";
+            $contactId = 0;
             if ($linkageId > 0) {
                 $this->initContactMapper();
                 $this->initLinkageMapper();
@@ -870,18 +775,20 @@ class Projects_ActionController extends Zend_Controller_Action
 
 
             $status = $theTeamMember->getStatus();
-            $statusTypes = new C3op_Projects_TeamMemberStatusTypes();
-            $statusLabel = $statusTypes->TitleForType($status);
+            $statusTypes = new C3op_Resources_TeamMemberStatusTypes();
+            $statusLabel = $this->view->translate($statusTypes->TitleForType($status));
 
-            if ($status == C3op_Projects_TeamMemberStatusConstants::STATUS_FORESEEN) {
+            if (($theTeamMember->getLinkage() > 0) && ($status == C3op_Resources_TeamMemberStatusConstants::STATUS_FORESEEN)) {
                 $canContract = true;
             } else {
                 $canContract = false;
             }
 
-            if ($status == C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED) {
-                $doesIt = new C3op_Projects_TeamMemberHasCredit($theTeamMember, $this->teamMemberMapper);
-                if ($doesIt->hasCredit()) {
+            $canDismiss = false;
+            if ($status == C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED) {
+                $canDismiss = true;
+                $doesIt = new C3op_Resources_TeamMemberHasCredit($theTeamMember, $this->teamMemberMapper);
+                if ($doesIt->hasCreditToProvide()) {
                     $canProvideOutlay = true;
                 } else {
                     $canProvideOutlay = false;
@@ -889,25 +796,29 @@ class Projects_ActionController extends Zend_Controller_Action
             } else {
                 $canProvideOutlay = false;
             }
-           $removal = new C3op_Projects_TeamMemberRemoval($theTeamMember, $this->teamMemberMapper);
 
+            $removal = new C3op_Resources_TeamMemberRemoval($theTeamMember, $this->teamMemberMapper);
             if ($removal->canBeRemoved()) {
                 $canRemoveTeamMember = true;
+                $canEditResource = true;
             } else {
                 $canRemoveTeamMember = false;
+                $canEditResource = false;
             }
-
-
-
 
             $teamMembersList[$teamMemberId] = array(
                 'id'                     => $teamMemberId,
+                'contactId'              => $contactId,
+                'linkageId'              => $linkageId,
                 'name'                   => $contactName,
                 'description'            => $descriptionMessage,
-                'value'                  => $currencyValue,
+                'teamMemberActionId'     => $theTeamMember->getAction(),
+                'teamMemberActionTitle'  => $teamMemberActionTitle,
                 'contractingStatusLabel' => $statusLabel,
                 'canContractFlag'        => $canContract,
+                'canDismissFlag'         => $canDismiss,
                 'canRemoveTeamMember'    => $canRemoveTeamMember,
+                'canEditResource'        => $canEditResource,
                 'canProvideOutlay'       => $canProvideOutlay,
 
             );
@@ -916,6 +827,29 @@ class Projects_ActionController extends Zend_Controller_Action
         return $teamMembersList;
 
     }
+
+    public  function populateSubordinatedToAction()
+    {
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(TRUE);
+
+        $id = $this->checkIdFromGet();
+        if (!isset($this->actionMapper)) {
+            $this->initActionMapper();
+        }
+        $action = $this->actionMapper->findById($id);
+        $projectId = $action->getProject();
+
+        $data = $this->fillSubordinatedToDataFrom($projectId, $id);
+
+
+        echo json_encode($data);
+
+
+    }
+
+
+
 
      private function getOutsideServicesList(C3op_Projects_Action $action)
     {
@@ -931,6 +865,7 @@ class Projects_ActionController extends Zend_Controller_Action
         //      canRemoveOutsideService
         //      canProvideOutlay
 
+        $this->initOutsideServiceMapper();
         if (!isset($this->linkageMapper)) {
             $this->initLinkageMapper();
         }
@@ -948,7 +883,6 @@ class Projects_ActionController extends Zend_Controller_Action
             $descriptionMessage = $theOutsideService->GetDescription();
 
             $institutionId = $theOutsideService->GetInstitution();
-            $actionId = $action->GetId();
             $institutionName = $this->view->translate("(#not defined)");
             if ($institutionId > 0) {
                 $this->initContactMapper();
@@ -959,17 +893,17 @@ class Projects_ActionController extends Zend_Controller_Action
 
 
             $status = $theOutsideService->getStatus();
-            $statusTypes = new C3op_Projects_OutsideServiceStatusTypes();
-            $statusLabel = $statusTypes->TitleForType($status);
+            $statusTypes = new C3op_Resources_OutsideServiceStatusTypes();
+            $statusLabel = $this->view->translate($statusTypes->TitleForType($status));
 
-            if ($status == C3op_Projects_OutsideServiceStatusConstants::STATUS_FORESEEN) {
+            if ($status == C3op_Resources_OutsideServiceStatusConstants::STATUS_FORESEEN) {
                 $canContract = true;
             } else {
                 $canContract = false;
             }
 
-            if ($status == C3op_Projects_OutsideServiceStatusConstants::STATUS_CONTRACTED) {
-                $doesIt = new C3op_Projects_OutsideServiceHasCredit($theOutsideService, $this->outsideServiceMapper);
+            if ($status == C3op_Resources_OutsideServiceStatusConstants::STATUS_CONTRACTED) {
+                $doesIt = new C3op_Resources_OutsideServiceHasCredit($theOutsideService, $this->outsideServiceMapper);
                 if ($doesIt->hasCredit()) {
                     $canProvideOutlay = true;
                 } else {
@@ -978,7 +912,7 @@ class Projects_ActionController extends Zend_Controller_Action
             } else {
                 $canProvideOutlay = false;
             }
-           $removal = new C3op_Projects_OutsideServiceRemoval($theOutsideService, $this->outsideServiceMapper);
+           $removal = new C3op_Resources_OutsideServiceRemoval($theOutsideService, $this->outsideServiceMapper);
 
             if ($removal->canBeRemoved()) {
                 $canRemoveOutsideService = true;
@@ -991,13 +925,14 @@ class Projects_ActionController extends Zend_Controller_Action
 
             $outsideServicesList[$outsideServiceId] = array(
                 'id'                     => $outsideServiceId,
-                'name'                   => $institutionName,
-                'description'            => $descriptionMessage,
-                'value'                  => $currencyValue,
-                'contractingStatusLabel' => $statusLabel,
-                'canContractFlag'        => $canContract,
-                'canRemoveOutsideService'    => $canRemoveOutsideService,
-                'canProvideOutlay'       => $canProvideOutlay,
+                'name'                    => $institutionName,
+                'description'             => $descriptionMessage,
+                'value'                  => "N/D",
+//                'value'                   => $currencyValue,
+                'contractingStatusLabel'  => $statusLabel,
+                'canContractFlag'         => $canContract,
+                'canRemoveOutsideService' => $canRemoveOutsideService,
+                'canProvideOutlay'        => $canProvideOutlay,
 
             );
         }
@@ -1019,6 +954,7 @@ class Projects_ActionController extends Zend_Controller_Action
         //      canRemoveMaterialSupply
         //      canProvideOutlay
 
+        $this->initMaterialSupplyMapper();
         if (!isset($this->linkageMapper)) {
             $this->initLinkageMapper();
         }
@@ -1036,7 +972,6 @@ class Projects_ActionController extends Zend_Controller_Action
             $descriptionMessage = $theMaterialSupply->GetDescription();
 
             $institutionId = $theMaterialSupply->GetInstitution();
-            $actionId = $action->GetId();
             $institutionName = $this->view->translate("(#not defined)");
             if ($institutionId > 0) {
                 $this->initContactMapper();
@@ -1047,17 +982,17 @@ class Projects_ActionController extends Zend_Controller_Action
 
 
             $status = $theMaterialSupply->getStatus();
-            $statusTypes = new C3op_Projects_MaterialSupplyStatusTypes();
-            $statusLabel = $statusTypes->TitleForType($status);
+            $statusTypes = new C3op_Resources_MaterialSupplyStatusTypes();
+            $statusLabel = $this->view->translate($statusTypes->TitleForType($status));
 
-            if ($status == C3op_Projects_MaterialSupplyStatusConstants::STATUS_FORESEEN) {
+            if ($status == C3op_Resources_MaterialSupplyStatusConstants::STATUS_FORESEEN) {
                 $canContract = true;
             } else {
                 $canContract = false;
             }
 
-            if ($status == C3op_Projects_MaterialSupplyStatusConstants::STATUS_CONTRACTED) {
-                $doesIt = new C3op_Projects_MaterialSupplyHasCredit($theMaterialSupply, $this->materialSupplyMapper);
+            if ($status == C3op_Resources_MaterialSupplyStatusConstants::STATUS_CONTRACTED) {
+                $doesIt = new C3op_Resources_MaterialSupplyHasCredit($theMaterialSupply, $this->materialSupplyMapper);
                 if ($doesIt->hasCredit()) {
                     $canProvideOutlay = true;
                 } else {
@@ -1066,7 +1001,7 @@ class Projects_ActionController extends Zend_Controller_Action
             } else {
                 $canProvideOutlay = false;
             }
-           $removal = new C3op_Projects_MaterialSupplyRemoval($theMaterialSupply, $this->materialSupplyMapper);
+           $removal = new C3op_Resources_MaterialSupplyRemoval($theMaterialSupply, $this->materialSupplyMapper);
 
             if ($removal->canBeRemoved()) {
                 $canRemoveMaterialSupply = true;
@@ -1078,14 +1013,15 @@ class Projects_ActionController extends Zend_Controller_Action
 
 
             $materialSuppliesList[$materialSupplyId] = array(
-                'id'                     => $materialSupplyId,
-                'name'                   => $institutionName,
-                'description'            => $descriptionMessage,
-                'value'                  => $currencyValue,
-                'contractingStatusLabel' => $statusLabel,
-                'canContractFlag'        => $canContract,
-                'canRemoveMaterialSupply'    => $canRemoveMaterialSupply,
-                'canProvideOutlay'       => $canProvideOutlay,
+                'id'                      => $materialSupplyId,
+                'name'                    => $institutionName,
+                'description'             => $descriptionMessage,
+//                'value'                   => $currencyValue,
+                'value'                  => "N/D",
+                'contractingStatusLabel'  => $statusLabel,
+                'canContractFlag'         => $canContract,
+                'canRemoveMaterialSupply' => $canRemoveMaterialSupply,
+                'canProvideOutlay'        => $canProvideOutlay,
 
             );
         }
@@ -1093,5 +1029,35 @@ class Projects_ActionController extends Zend_Controller_Action
         return $materialSuppliesList;
 
     }
+
+
+    private function fillSubordinatedToDataFrom($projectId, $actionId=0)
+    {
+            if (!isset($this->actionMapper)) {
+                $this->initActionMapper();
+            }
+
+            if ($actionId > 0) {
+                $actionToBePopulated = $this->actionMapper->findById($actionId);
+                $parentActionId = $actionToBePopulated->GetSubordinatedTo();
+                $actionsList = $this->actionMapper->getPossibleSubordination($actionToBePopulated);
+            } else {
+                if (!isset($this->projectMapper)) {
+                    $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
+                }
+                $theProject = $this->projectMapper->findById($projectId);
+                $actionsList = $this->projectMapper->getAllActions($theProject);
+            }
+
+            $data = array();
+            foreach ($actionsList as $k => $id) {
+                $loopAction = $this->actionMapper->findById($id);
+                $data[] = array('id' => $id, 'title' => $loopAction->getTitle());
+            }
+
+            return $data;
+
+    }
+
 
 }

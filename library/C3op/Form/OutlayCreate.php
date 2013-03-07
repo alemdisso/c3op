@@ -4,12 +4,19 @@ class C3op_Form_OutlayCreate extends Zend_Form
     public function init()
     {
         $this->setName('newOutlayForm')
-             ->setAction('/projects/outlay/create')
+             ->setAction('/finances/outlay/create')
              ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
              ->setMethod('post');
 
         $element = new Zend_Form_Element_Hidden('teamMember');
         $element->addValidator('Int')
+            ->addFilter('StringTrim');
+        $this->addElement($element);
+        $element->setDecorators(array('ViewHelper'));
+
+        $element = new Zend_Form_Element_Hidden('predictedValue');
+        $validator = new C3op_Util_ValidPositiveDecimal;
+        $element->addValidator($validator)
             ->addFilter('StringTrim');
         $this->addElement($element);
         $element->setDecorators(array('ViewHelper'));
@@ -26,20 +33,20 @@ class C3op_Form_OutlayCreate extends Zend_Form
         $this->addElement($element);
         $element->setDecorators(array('ViewHelper'));
 
-        $element = new Zend_Form_Element_Text('predictedValue');
-        $element->setLabel('#Value:')
-            ->setAttrib('alt','decimal')
-            ->setDecorators(array(
-                'ViewHelper',
-                'Errors',
-                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns')),
-                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
-            ))
-            ->setOptions(array('class' => 'Full alpha omega'))
-            ->addValidator(new C3op_Util_ValidDecimal())
-            ->addFilter('StringTrim')
-                ;
-        $this->addElement($element);
+//        $element = new Zend_Form_Element_Text('predictedValue');
+//        $element->setLabel('#Value:')
+//            ->setAttrib('alt','decimal')
+//            ->setDecorators(array(
+//                'ViewHelper',
+//                'Errors',
+//                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns')),
+//                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+//            ))
+//            ->setOptions(array('class' => 'Full alpha omega'))
+//            ->addValidator(new C3op_Util_ValidDecimal())
+//            ->addFilter('StringTrim')
+//                ;
+//        $this->addElement($element);
 
         $element = new Zend_Form_Element_Text('predictedDate');
         $element->setLabel('#Predicted Date')
@@ -47,10 +54,10 @@ class C3op_Form_OutlayCreate extends Zend_Form
             ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
-                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns inset-by-two omega')),
-                array('Label', array('tag' => 'div', 'tagClass' => 'three columns Right')),
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'nine columns')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
             ))
-            ->setOptions(array('class' => 'Full alpha omega datepicker'))
+            ->setOptions(array('class' => 'alpha omega datepicker'))
             ->addValidator(new C3op_Util_ValidString)
             ->addFilter('StringTrim')
                 ;
@@ -98,9 +105,9 @@ class C3op_Form_OutlayCreate extends Zend_Form
         {
             $db = Zend_Registry::get('db');
 
-            $outlayMapper = new C3op_Projects_OutlayMapper($db);
+            $outlayMapper = new C3op_Finances_OutlayMapper($db);
 
-            $outlay = new C3op_Projects_Outlay($this->teamMember->GetValue());
+            $outlay = new C3op_Finances_Outlay($this->teamMember->GetValue());
             $outlay->SetAction($this->action->GetValue());
             $outlay->SetProject($this->project->GetValue());
 

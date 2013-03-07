@@ -185,22 +185,7 @@ class C3op_Projects_ProjectMapper
 
     public function getAllProducts(C3op_Projects_Project $obj)
     {
-        $query = $this->db->prepare('SELECT id FROM projects_actions WHERE project = :project AND subordinated_to = 0 AND requirement_for_receiving > 0;');
-        $query->bindValue(':project', $obj->getId(), PDO::PARAM_STR);
-        $query->execute();
-        $resultPDO = $query->fetchAll();
-
-        $result = array();
-        foreach ($resultPDO as $row) {
-            $result[] = $row['id'];
-        }
-        return $result;
-
-    }
-
-    public function getAllReceivables(C3op_Projects_Project $obj)
-    {
-        $query = $this->db->prepare('SELECT id FROM projects_receivables WHERE project = :project;');
+        $query = $this->db->prepare('SELECT id FROM projects_actions WHERE project = :project AND product IS TRUE;');
         $query->bindValue(':project', $obj->getId(), PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();
@@ -217,7 +202,12 @@ class C3op_Projects_ProjectMapper
     {
         if ($actionId >= 0) {
 
-            $query = $this->db->prepare('SELECT id FROM projects_actions WHERE project = :project AND (subordinated_to IS NULL OR subordinated_to = :subordinated_to)');
+            $query = $this->db->prepare('SELECT a.id, d.real_finish_date FROM projects_actions a
+                                         JOIN projects_actions_dates d
+                                         ON a.id = d.action
+                                         WHERE a.project = :project
+                                         AND (a.subordinated_to IS NULL OR a.subordinated_to = :subordinated_to)
+                                         ORDER BY d.predicted_begin_date, d.predicted_finish_date, d.real_begin_date, d.real_finish_date');
             $query->bindValue(':project', $obj->getId(), PDO::PARAM_STR);
             $query->bindValue(':subordinated_to', $actionId, PDO::PARAM_STR);
             $query->execute();
@@ -230,30 +220,6 @@ class C3op_Projects_ProjectMapper
 
             return $result;
         } else throw new C3op_Projects_ActionMapperException("invalid action id to find subordinated for");
-    }
-
-    public function getAllMaterialSuppliesContractedOrPredictedAt(C3op_Projects_Project $obj) {
-        $result = array();
-
-        foreach ($this->db->query(sprintf('SELECT s.id
-            FROM projects_actions a
-            INNER JOIN projects_material_supplies s ON a.id = s.action
-            WHERE a.project = %d
-            AND (
-            s.status = %d
-            OR s.status = %d
-            OR s.status = %d
-            OR s.status = %d
-            )'
-            , $obj->getId()
-            , C3op_Projects_MaterialSupplyStatusConstants::STATUS_UNDEFINED
-            , C3op_Projects_MaterialSupplyStatusConstants::STATUS_CONTRACTED
-            , C3op_Projects_MaterialSupplyStatusConstants::STATUS_ACQUITTED
-            , C3op_Projects_MaterialSupplyStatusConstants::STATUS_FORESEEN
-                )) as $row) {
-            $result[] = $row['id'];
-        }
-        return $result;
     }
 
     public function getAllProductsOf(C3op_Projects_Project $p)
@@ -272,9 +238,9 @@ class C3op_Projects_ProjectMapper
         $result = array();
 
         foreach ($this->db->query(sprintf('SELECT o.id, o.predicted_date
-                    FROM projects_outlays o
+                    FROM finances_outlays o
                     INNER JOIN projects_actions a ON a.id = o.action
-                    INNER JOIN projects_team_members t ON t.id = o.team_member
+                    INNER JOIN resources_team_members t ON t.id = o.team_member
                     WHERE o.project = %d AND t.linkage > 0', $p->getId()
                 )) as $row) {
             $result[] = $row['id'];
@@ -286,34 +252,10 @@ class C3op_Projects_ProjectMapper
         $result = array();
 
         foreach ($this->db->query(sprintf('SELECT o.id, o.predicted_date
-                    FROM projects_outlays o
+                    FROM finances_outlays o
                     INNER JOIN projects_actions a ON a.id = o.action
-                    INNER JOIN projects_team_members t ON t.id = o.team_member
+                    INNER JOIN resources_team_members t ON t.id = o.team_member
                     WHERE a.done = 1 AND o.project = %d AND t.linkage > 0 ORDER BY o.predicted_date', $obj->getId()
-                )) as $row) {
-            $result[] = $row['id'];
-        }
-        return $result;
-    }
-
-    public function getAllOutsideServicesContractedOrPredictedAt(C3op_Projects_Project $obj) {
-        $result = array();
-
-        foreach ($this->db->query(sprintf('SELECT s.id
-            FROM projects_actions a
-            INNER JOIN projects_outside_services s ON a.id = s.action
-            WHERE a.project = %d
-            AND (
-            s.status = %d
-            OR s.status = %d
-            OR s.status = %d
-            OR s.status = %d
-            )'
-            , $obj->getId()
-            , C3op_Projects_OutsideServiceStatusConstants::STATUS_UNDEFINED
-            , C3op_Projects_OutsideServiceStatusConstants::STATUS_CONTRACTED
-            , C3op_Projects_OutsideServiceStatusConstants::STATUS_ACQUITTED
-            , C3op_Projects_OutsideServiceStatusConstants::STATUS_FORESEEN
                 )) as $row) {
             $result[] = $row['id'];
         }
@@ -351,53 +293,6 @@ class C3op_Projects_ProjectMapper
             if ($obj->isUnacknowledged()) {
                 $result[] = $row['id'];
             }
-        }
-        return $result;
-    }
-
-    public function getAllTeamMembersContractedAt(C3op_Projects_Project $obj) {
-        $result = array();
-
-        foreach ($this->db->query(sprintf('SELECT t.id
-            FROM projects_actions a
-            INNER JOIN projects_team_members t ON a.id = t.action
-            WHERE t.linkage > 0
-            AND a.project = %d
-            AND (
-            a.status = %d
-            OR a.status = %d
-            )'
-            , $obj->getId()
-            , C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED
-            , C3op_Projects_TeamMemberStatusConstants::STATUS_ACQUITTED
-
-                )) as $row) {
-            $result[] = $row['id'];
-        }
-        return $result;
-    }
-
-    public function getAllTeamMembersContractedOrPredictedAt(C3op_Projects_Project $obj) {
-        $result = array();
-
-        foreach ($this->db->query(sprintf('SELECT t.id
-            FROM projects_actions a
-            INNER JOIN projects_team_members t ON a.id = t.action
-            WHERE a.project = %d
-            AND (
-            t.status = %d
-            OR t.status = %d
-            OR t.status = %d
-            OR t.status = %d
-            )'
-            , $obj->getId()
-            , C3op_Projects_TeamMemberStatusConstants::STATUS_UNDEFINED
-            , C3op_Projects_TeamMemberStatusConstants::STATUS_CONTRACTED
-            , C3op_Projects_TeamMemberStatusConstants::STATUS_ACQUITTED
-            , C3op_Projects_TeamMemberStatusConstants::STATUS_FORESEEN
-
-                )) as $row) {
-            $result[] = $row['id'];
         }
         return $result;
     }

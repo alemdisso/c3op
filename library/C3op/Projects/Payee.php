@@ -32,7 +32,7 @@ class C3op_Projects_Payee
         if (($this->id == 0) && ($id > 0)) {
             $this->id = (int)$id;
         } else {
-            throw new C3op_Projects_OutlayException('It\'s not possible to change a outlay\'s ID');
+            throw new C3op_Finances_OutlayException('It\'s not possible to change a outlay\'s ID');
         }
     } //SetId
 
@@ -83,7 +83,7 @@ class C3op_Projects_Payee
         if ($predictedValue >= 0) {
             $this->predictedValue = (float) $predictedValue;
         } else {
-            throw new C3op_Projects_OutlayException("Value must be a positive number.");
+            throw new C3op_Finances_OutlayException("Value must be a positive number.");
 
         }
     }
@@ -103,7 +103,7 @@ class C3op_Projects_Payee
                 $this->predictedDate = $predictedDate;
             }
         } else {
-            throw new C3op_Projects_OutlayException("This ($predictedDate) is not a valid date of begin.");
+            throw new C3op_Finances_OutlayException("This ($predictedDate) is not a valid date of begin.");
         }
     } //SetPredictedDate
 
@@ -118,7 +118,7 @@ class C3op_Projects_Payee
         if ($realValue >= 0) {
             $this->realValue = (float) $realValue;
         } else {
-            throw new C3op_Projects_OutlayException("Value must be a positive number.");
+            throw new C3op_Finances_OutlayException("Value must be a positive number.");
 
         }
     }
@@ -138,7 +138,7 @@ class C3op_Projects_Payee
                 $this->realDate = $realDate;
             }
         } else {
-            throw new C3op_Projects_OutlayException("This ($realDate) is not a valid date of begin.");
+            throw new C3op_Finances_OutlayException("This ($realDate) is not a valid date of begin.");
         }
     } //SetRealDate
 
@@ -165,7 +165,7 @@ class C3op_Projects_Payee
                 $this->observation = $observation;
             }
         } else {
-            throw new C3op_Projects_OutlayException("This ($observation) is not a valid observation.");
+            throw new C3op_Finances_OutlayException("This ($observation) is not a valid observation.");
         }
     } //SetObservation
 

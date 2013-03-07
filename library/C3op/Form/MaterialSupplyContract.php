@@ -5,7 +5,7 @@ class C3op_Form_MaterialSupplyContract extends Zend_Form
     public function init()
     {
         $this->setName('newMaterialSupplyForm')
-            ->setAction('/projects/material-supply/contract')
+            ->setAction('/resources/material-supply/contract')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
@@ -82,7 +82,7 @@ class C3op_Form_MaterialSupplyContract extends Zend_Form
         else
         {
             $db = Zend_Registry::get('db');
-            $materialSupplyMapper = new C3op_Projects_MaterialSupplyMapper($db);
+            $materialSupplyMapper = new C3op_Resources_MaterialSupplyMapper($db);
             $materialSupply = $materialSupplyMapper->findById($this->id->GetValue());
             $actionMapper = new C3op_Projects_ActionMapper($this->db);
             $itsAction = $actionMapper->findById($materialSupply->GetAction());
@@ -127,7 +127,7 @@ class C3op_Form_MaterialSupplyContract extends Zend_Form
             if ($dateChanged && ($observation == "")) {
                 throw new C3op_Form_MaterialSupplyCreateException('#Date changing must be justified');
             } else {
-                $contracting = new C3op_Projects_MaterialSupplyContracting();
+                $contracting = new C3op_Resources_MaterialSupplyContracting();
                 $contracting->materialSupplyContract($itsAction, $materialSupply, $materialSupplyMapper);
                 if (($observation != "") && ($itsAction->GetPredictedBeginDate() != $newBeginDate)) {
                     C3op_Projects_ActionDateChange::ChangePredictedBeginDate($itsAction, $actionMapper, $newBeginDate, $observation);

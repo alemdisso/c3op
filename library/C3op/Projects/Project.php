@@ -134,8 +134,7 @@ class C3op_Projects_Project
     {
         if ($beginDate != "") {
             $dateValidator = new C3op_Util_ValidDate();
-
-            if (($beginDate == "0000-00-00") || ($dateValidator->isValid($beginDate))) {
+            if ((is_null($beginDate)) || ($dateValidator->isValid($beginDate))) {
                 if ($this->beginDate != $beginDate) {
                     $this->beginDate = $beginDate;
                 }
@@ -155,7 +154,7 @@ class C3op_Projects_Project
         if ($finishDate != "") {
             $dateValidator = new C3op_Util_ValidDate();
 
-            if (($finishDate == "0000-00-00") || ($dateValidator->isValid($finishDate))) {
+            if ((is_null($finishDate)) || ($dateValidator->isValid($finishDate))) {
                 if ($this->finishDate != $finishDate) {
                     $this->finishDate = $finishDate;
                 }

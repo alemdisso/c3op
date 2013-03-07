@@ -5,7 +5,7 @@ class C3op_Form_TeamMemberContract extends Zend_Form
     public function init()
     {
         $this->setName('newTeamMemberForm')
-            ->setAction('/projects/team-member/contract')
+            ->setAction('/resources/team-member/contract')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
@@ -43,6 +43,22 @@ class C3op_Form_TeamMemberContract extends Zend_Form
             ->addFilter('HtmlEntities')
             ->addFilter('StringTrim');
         $this->addElement($predictedFinishDate);
+
+        $element = new Zend_Form_Element_Text('value');
+        $element->setLabel('#Value:')
+                ->setAttrib('alt','decimal')
+                ->setDecorators(array(
+                    'ViewHelper',
+                    'Errors',
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns alpha omega inset-by-seven')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                ))
+                ->setOptions(array('class' => 'Full alpha omega'))
+            ->addValidator(new C3op_Util_ValidPositiveDecimal)
+            ->addFilter('StringTrim')
+            ->addErrorMessage(_('#The value must be a positive number'))
+                ;
+        $this->addElement($element);
 
         $observation = new Zend_Form_Element_Textarea('observation');
         $observation->setLabel('Observações:')
@@ -82,7 +98,7 @@ class C3op_Form_TeamMemberContract extends Zend_Form
         else
         {
             $db = Zend_Registry::get('db');
-            $teamMemberMapper = new C3op_Projects_TeamMemberMapper($db);
+            $teamMemberMapper = new C3op_Resources_TeamMemberMapper($db);
             $teamMember = $teamMemberMapper->findById($this->id->GetValue());
             $actionMapper = new C3op_Projects_ActionMapper($this->db);
             $itsAction = $actionMapper->findById($teamMember->GetAction());
@@ -116,23 +132,46 @@ class C3op_Form_TeamMemberContract extends Zend_Form
             $formerPredictedFinishDate = $itsAction->GetPredictedFinishDate();
 
             $dateChanged = false;
-            if (($dateValidator->isValid($formerPredictedBeginDate)) && ($formerPredictedBeginDate != $newBeginDate)) {
+            if (($dateValidator->isValid($formerPredictedBeginDate)) && (!is_null($formerPredictedBeginDate)) && ($formerPredictedBeginDate != $newBeginDate)) {
                 $dateChanged = true;
             }
-            if (($dateValidator->isValid($formerPredictedFinishDate)) && ($formerPredictedFinishDate != $newFinishDate)) {
+            if (($dateValidator->isValid($formerPredictedFinishDate)) && (!is_null($formerPredictedFinishDate)) && ($formerPredictedFinishDate != $newFinishDate)) {
                 $dateChanged = true;
             }
 
-            $observation = $this->observation->GetValue();
-            if ($dateChanged && ($observation == "")) {
-                throw new C3op_Form_TeamMemberCreateException('#Date changing must be justified');
+            $valueChanged = false;
+            $contractedValue = $this->value->GetValue();
+            $converter = new C3op_Util_DecimalConverter();
+            $validator = new C3op_Util_ValidDecimal();
+            if ($validator->isValid($contractedValue)) {
+                $convertedValue = $converter->getDecimalDotValue($contractedValue, $validator);
             } else {
-                $contracting = new C3op_Projects_TeamMemberContracting();
+                throw new C3op_Form_TeamMemberCreateException('#Invalid value for contracting');
+            }
+
+
+
+
+            if ($convertedValue != $teamMember->getValue()) {
+                $teamMember->setValue($contractedValue);
+                $valueChanged = true;
+            }
+
+            $observation = $this->observation->GetValue();
+            if (($dateChanged || $valueChanged) && ($observation == "")) {
+                if ($dateChanged) {
+                    throw new C3op_Form_TeamMemberCreateException('#Date changing must be justified');
+                }
+                if ($valueChanged) {
+                    throw new C3op_Form_TeamMemberCreateException('#Value changing must be justified');
+                }
+            } else {
+                $contracting = new C3op_Resources_TeamMemberContracting();
                 $contracting->teamMemberContract($itsAction, $teamMember, $teamMemberMapper);
-                if (($observation != "") && ($itsAction->GetPredictedBeginDate() != $newBeginDate)) {
+                if ($itsAction->GetPredictedBeginDate() != $newBeginDate) {
                     C3op_Projects_ActionDateChange::ChangePredictedBeginDate($itsAction, $actionMapper, $newBeginDate, $observation);
                 }
-                if (($observation != "") && ($itsAction->GetPredictedFinishDate() != $newFinishDate)) {
+                if ($itsAction->GetPredictedFinishDate() != $newFinishDate) {
                     C3op_Projects_ActionDateChange::ChangePredictedFinishDate($itsAction, $actionMapper, $newFinishDate, $observation);
                 }
 

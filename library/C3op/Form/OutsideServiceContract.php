@@ -5,7 +5,7 @@ class C3op_Form_OutsideServiceContract extends Zend_Form
     public function init()
     {
         $this->setName('newOutsideServiceForm')
-            ->setAction('/projects/outside-service/contract')
+            ->setAction('/resources/outside-service/contract')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
@@ -82,7 +82,7 @@ class C3op_Form_OutsideServiceContract extends Zend_Form
         else
         {
             $db = Zend_Registry::get('db');
-            $outsideServiceMapper = new C3op_Projects_OutsideServiceMapper($db);
+            $outsideServiceMapper = new C3op_Resources_OutsideServiceMapper($db);
             $outsideService = $outsideServiceMapper->findById($this->id->GetValue());
             $actionMapper = new C3op_Projects_ActionMapper($this->db);
             $itsAction = $actionMapper->findById($outsideService->GetAction());
@@ -127,7 +127,7 @@ class C3op_Form_OutsideServiceContract extends Zend_Form
             if ($dateChanged && ($observation == "")) {
                 throw new C3op_Form_OutsideServiceCreateException('#Date changing must be justified');
             } else {
-                $contracting = new C3op_Projects_OutsideServiceContracting();
+                $contracting = new C3op_Resources_OutsideServiceContracting();
                 $contracting->outsideServiceContract($itsAction, $outsideService, $outsideServiceMapper);
                 if (($observation != "") && ($itsAction->GetPredictedBeginDate() != $newBeginDate)) {
                     C3op_Projects_ActionDateChange::ChangePredictedBeginDate($itsAction, $actionMapper, $newBeginDate, $observation);

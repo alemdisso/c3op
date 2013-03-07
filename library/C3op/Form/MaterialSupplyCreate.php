@@ -5,7 +5,7 @@ class C3op_Form_MaterialSupplyCreate extends Zend_Form
     public function init()
     {
         $this->setName('newMaterialSupplyForm')
-            ->setAction('/projects/material-supply/create')
+            ->setAction('/resources/material-supply/create')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
@@ -131,14 +131,14 @@ class C3op_Form_MaterialSupplyCreate extends Zend_Form
         else
         {
             $db = Zend_Registry::get('db');
-            $materialSupplyMapper = new C3op_Projects_MaterialSupplyMapper($db);
-            $materialSupply = new C3op_Projects_MaterialSupply();
+            $materialSupplyMapper = new C3op_Resources_MaterialSupplyMapper($db);
+            $materialSupply = new C3op_Resources_MaterialSupply();
             $materialSupply->SetDescription($this->description->GetValue());
             $materialSupply->SetInstitution($this->institution->GetValue());
             $materialSupply->SetLinkage($this->linkage->GetValue());
             $materialSupply->SetUnit($this->unit->GetValue());
             if (!$this->institution->GetValue()) {
-                $materialSupply->SetStatus(C3op_Projects_MaterialSupplyStatusConstants::STATUS_UNDEFINED);
+                $materialSupply->SetStatus(C3op_Resources_MaterialSupplyStatusConstants::STATUS_UNDEFINED);
             }
 
 

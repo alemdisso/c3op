@@ -10,13 +10,14 @@ class C3op_Projects_Action {
     protected $description;
     protected $begin;
     protected $subordinatedTo = 0;
-    protected $responsible = 0;
+    protected $supervisor = 0;
     protected $milestone = false;
+    protected $product = false;
     protected $requirementForReceiving = false;
-    protected $predictedBeginDate = "0000-00-00";
-    protected $predictedFinishDate = "0000-00-00";
-    protected $realBeginDate = "0000-00-00";
-    protected $realFinishDate = "0000-00-00";
+    protected $predictedBeginDate = null;
+    protected $predictedFinishDate = null;
+    protected $realBeginDate = null;
+    protected $realFinishDate = null;
     protected $receiptDate = null;
     protected $doneDate = null;
 
@@ -158,6 +159,9 @@ class C3op_Projects_Action {
     public function setSubordinatedTo($subordinatedTo)
     {
         $this->subordinatedTo = $subordinatedTo;
+        if ($subordinatedTo > 0) {
+            $this->setProduct(0);
+        }
     }
 
     public function getSubordinatedTo()
@@ -166,17 +170,17 @@ class C3op_Projects_Action {
     }
 
 
-    public function getResponsible()
+    public function getSupervisor()
     {
-        return $this->responsible;
+        return $this->supervisor;
     }
 
-    public function setResponsible($responsible)
+    public function setSupervisor($supervisor)
     {
-        if ($this->responsible != $responsible) {
+        if ($this->supervisor != $supervisor) {
             $validator = new C3op_Util_ValidPositiveInteger();
-            if ($validator->isValid($responsible)) {
-                $this->responsible = $responsible;
+            if ($validator->isValid($supervisor)) {
+                $this->supervisor = $supervisor;
             }
         }
     }
@@ -193,6 +197,21 @@ class C3op_Projects_Action {
     public function getMilestone()
     {
         return $this->milestone;
+    }
+
+    public function setProduct($product)
+    {
+        if ($product) {
+            $this->product = $product;
+            $this->setSubordinatedTo(0);
+        } else {
+            $this->product = 0;
+        }
+    }
+
+    public function getProduct()
+    {
+        return $this->product;
     }
 
     public function setRequirementForReceiving($requirementForReceiving)
@@ -244,6 +263,8 @@ class C3op_Projects_Action {
             } else {
                 throw new C3op_Projects_ActionException("This ($predictedFinishDate) is not a valid date of finish.");
             }
+        } else {
+            $this->predictedFinishDate = null;
         }
     } //SetPredictedFinishDate
 
@@ -256,7 +277,7 @@ class C3op_Projects_Action {
     {
         if ($realBeginDate != "") {
             $dateValidator = new C3op_Util_ValidDate();
-            if (($realBeginDate == "0000-00-00") || ($dateValidator->isValid($realBeginDate))) {
+            if ((is_null($realBeginDate)) || ($dateValidator->isValid($realBeginDate))) {
                 if ($this->realBeginDate != $realBeginDate) {
                     $this->realBeginDate = $realBeginDate;
                 }
@@ -275,7 +296,7 @@ class C3op_Projects_Action {
     {
         if ($realFinishDate != "") {
             $dateValidator = new C3op_Util_ValidDate();
-            if (($realFinishDate == "0000-00-00") || ($dateValidator->isValid($realFinishDate))) {
+            if ((is_null($realFinishDate)) || ($dateValidator->isValid($realFinishDate))) {
                 if ($this->realFinishDate != $realFinishDate) {
                     $this->realFinishDate = $realFinishDate;
                 }
@@ -291,7 +312,6 @@ class C3op_Projects_Action {
         if (is_null($this->receiptDate)) {
             $actionMapper->FetchLastReceiptDate($this);
         }
-
 
         return $this->receiptDate;
     } //GetReceiptDate

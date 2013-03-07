@@ -1,0 +1,87 @@
+<?php
+  $pageData = $this->pageData;
+?>
+    <!-- Initializing jquery.meio.mask -->
+    <script type="text/javascript" charset="utf-8">
+      $(document).ready(function() {
+        $.mask.masks = $.extend($.mask.masks, {
+        });
+        $('input:text').setMask();
+      });
+
+    $(document).ready(function(){
+
+        $('#linkage-label').hide();
+        $('#linkage').hide();
+        $('#institution-label').hide();
+        $('#institution').hide();
+        $('#value-label').hide();
+        $('#value').hide();
+        $('#submit').hide();
+        $('#responsibleType-service').click(function(){
+            $('#linkage-label').show();
+            $('#linkage').show();
+            $('#institution-label').show();
+            $('#institution').show();
+            $('#value-label').show();
+            $('#value').show();
+            $('#submit').show();
+            })
+
+        $('#responsibleType-teamMember').click(function(){
+            $('#linkage-label').show();
+            $('#linkage').show();
+            $('#institution-label').hide();
+            $('#institution').hide();
+            $('#value-label').show();
+            $('#value').show();
+            $('#submit').show();
+            })
+
+    });
+
+
+    </script>
+
+          <script type="text/javascript">
+            function populateResponsibleAtSupplier() {
+              var id = $('#institution').val();
+
+              $.getJSON('/resources/outside-service/populate-responsible-at-supplier/?id=' + id, function(data) {
+                var html = '';
+                var len = data.length;
+                html += '<option value="0">(escolha uma pessoa)</option>';
+                for (var i = 0; i< len; i++) {
+                  html += '<option value="' + data[i].id + '">' + data[i].title + '</option>';
+                }
+                $('#linkage').empty();
+                $('#linkage').append(html);
+              });
+            }
+          </script>
+
+
+
+
+<script>
+function submitResponsibleForm()
+{
+
+
+$.post("/resources/responsible/create", $("#newResponsibleForm").serialize(), function(successReturn){
+      $('#responsibleDiv').html(successReturn);
+    });
+}
+</script>
+<form id="newResponsibleForm" action="<?php echo $this->escape($this->form->getAction()); ?>" method="<?php echo $this->escape($this->form->getMethod()); ?>">
+<table>
+  <?php echo $this->form->project ?>
+  <?php echo $this->form->action ?>
+  <?php echo $this->form->responsibleType ?>
+  <?php echo $this->form->institution ?>
+  <br class="clear" />
+  <?php echo $this->form->linkage ?>
+  <?php echo $this->form->value ?>
+  <?php echo $this->form->submit ?>
+</table>
+</form>
