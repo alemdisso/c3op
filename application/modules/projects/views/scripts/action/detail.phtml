@@ -481,9 +481,8 @@ if($teamMemberData['contactId'] > 0) {
           <table id="OutsideServices" class="display dataTable">
             <thead>
               <tr>
-                <th width="220"><?php print($this->translate("#Name")); ?></th>
-                <th width="80"><?php print($this->translate("#Service")); ?></th>
-                <th width="100"><?php print($this->translate("#Value")); ?></th>
+                <th width="250"><?php print($this->translate("#Name")); ?></th>
+                <th width="150"><?php print($this->translate("#Action")); ?></th>
                 <th width="100"><?php print($this->translate("#Status")); ?></th>
                 <th width="100">&nbsp;</th>
               </tr>
@@ -498,10 +497,7 @@ if($teamMemberData['contactId'] > 0) {
                   <a href="/resources/outside-service/edit/?id=<?php print($id) ?>"><?php print($outsideServiceData['name']) ?></a>
                 </td>
                 <td>
-                  <a href="/resources/outside-service/edit/?id=<?php print($id) ?>"><?php print($outsideServiceData['description']) ?></a>
-                </td>
-                <td>
-                  <?php print($outsideServiceData['value']) ?>
+                  <a href="/projects/action/detail/?id=<?php print($outsideServiceData['outsideServiceActionId']); ?>"><?php print($outsideServiceData['outsideServiceActionTitle']); ?></a>
                 </td>
                 <td>
                   <?php print($outsideServiceData['contractingStatusLabel']) ?>

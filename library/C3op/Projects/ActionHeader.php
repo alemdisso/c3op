@@ -10,13 +10,7 @@ class C3op_Projects_ActionHeader {
 
     public function __construct($db, C3op_Projects_Action $action, C3op_Projects_ActionMapper $mapper)
     {
-        $this->data = array(
-//            'notAProduct'             => "1",
-//            'relatedProductTitle'     => "um produto",
-//            'relatedProductId'        => "2",
-//            'productDeliveryDate'     => "03-5-2010",
-
-        );
+        $this->data = array();
 
         $this->db = $db;
         $this->action = $action;
@@ -41,8 +35,6 @@ class C3op_Projects_ActionHeader {
         return $this->data;
 
     }
-
-
 
     private function fillActionsFlowData()
     {

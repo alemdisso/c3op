@@ -200,10 +200,11 @@ class Projects_ActionController extends Zend_Controller_Action
                 } else {
                     $this->populateRequirementForReceivingField($projectId, $form, $inputAction->getRequirementForReceiving());
                 }
+
 //                $subordinatedToField = $form->getElement('subordinatedTo');
 //                $subordinatedToField->setValue($inputAction->getSubordinatedTo());
 
-                $this->populateSubordinatedToField($projectId, $form, $id);
+                $this->populateSubordinatedToField($projectId, $form, $id, $inputAction->getSubordinatedTo());
             }
 
             $pageData = array(
@@ -279,7 +280,7 @@ class Projects_ActionController extends Zend_Controller_Action
 //                $subordinatedToField = $form->getElement('subordinatedTo');
 //                $subordinatedToField->setValue($inputAction->getSubordinatedTo());
 
-                $this->populateSubordinatedToField($projectId, $form, $id);
+                $this->populateSubordinatedToField($projectId, $form, $id, $inputAction->getSubordinatedTo());
             }
 
             $pageData = array(
@@ -560,7 +561,6 @@ class Projects_ActionController extends Zend_Controller_Action
                 $eachAction = $this->actionMapper->findById($row['id']);
                 $subordinatedToField->addMultiOption($row['id'], $row['title']);
             }
-
             $subordinatedToField->setValue($parentActionId);
 
         } else throw new C3op_Projects_ActionException(_("#It needs a positive integer project id to find other actions from same project."));
@@ -755,12 +755,6 @@ class Projects_ActionController extends Zend_Controller_Action
             $teamMemberAction = $this->actionMapper->findById($theTeamMember->getAction());
             $teamMemberActionTitle = $teamMemberAction->getTitle();
 
-            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
-            $currencyValue = $currencyDisplay->FormatCurrency($theTeamMember->GetValue());
-            $totalValueExistentOutlays = $this->calculateTotalValueExistentOutlays($theTeamMember);
-
-            $descriptionMessage = $theTeamMember->GetDescription();
-
             $linkageId = $theTeamMember->GetLinkage();
             $contactName = "(indefinido)";
             $contactId = 0;
@@ -875,12 +869,9 @@ class Projects_ActionController extends Zend_Controller_Action
 
         foreach ($outsideServicesIdsList as $outsideServiceId) {
             $theOutsideService = $this->outsideServiceMapper->findById($outsideServiceId);
-            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
-            $currencyValue = $currencyDisplay->FormatCurrency($theOutsideService->GetValue());
-            //$totalValueExistentOutlays = $this->calculateTotalValueExistentOutlays($theOutsideService);
-            $totalValueExistentOutlays = "???";
 
-            $descriptionMessage = $theOutsideService->GetDescription();
+            $outsideServiceAction = $this->actionMapper->findById($theOutsideService->getAction());
+            $outsideServiceActionTitle = $outsideServiceAction->getTitle();
 
             $institutionId = $theOutsideService->GetInstitution();
             $institutionName = $this->view->translate("(#not defined)");
@@ -926,9 +917,8 @@ class Projects_ActionController extends Zend_Controller_Action
             $outsideServicesList[$outsideServiceId] = array(
                 'id'                     => $outsideServiceId,
                 'name'                    => $institutionName,
-                'description'             => $descriptionMessage,
-                'value'                  => "N/D",
-//                'value'                   => $currencyValue,
+                'outsideServiceActionId'     => $theOutsideService->getAction(),
+                'outsideServiceActionTitle'  => $outsideServiceActionTitle,
                 'contractingStatusLabel'  => $statusLabel,
                 'canContractFlag'         => $canContract,
                 'canRemoveOutsideService' => $canRemoveOutsideService,
