@@ -805,7 +805,6 @@ class Projects_ActionController extends Zend_Controller_Action
                 'contactId'              => $contactId,
                 'linkageId'              => $linkageId,
                 'name'                   => $contactName,
-                'description'            => $descriptionMessage,
                 'teamMemberActionId'     => $theTeamMember->getAction(),
                 'teamMemberActionTitle'  => $teamMemberActionTitle,
                 'contractingStatusLabel' => $statusLabel,
