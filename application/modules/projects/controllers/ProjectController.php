@@ -206,7 +206,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         //      linkageId
         //      contactId
         //      linkageInstitutionName
-        //      positionDescription
+        //      actionTitle
         //      staffEmail
         //      staffPhoneNumber
 
@@ -247,7 +247,6 @@ class Projects_ProjectController extends Zend_Controller_Action
                     $theTeamMember = $valuestPosition;
                 }
 
-                $positionDescription = $theTeamMember->getDescription();
                 $theLinkage = $this->linkageMapper->findById($theTeamMember->getLinkage());
                 $theContact = $this->contactMapper->findById($theLinkage->getContact());
                 $theInstitution = $this->institutionMapper->findById($theLinkage->getInstitution());
@@ -288,7 +287,7 @@ class Projects_ProjectController extends Zend_Controller_Action
                     'linkageId'              => $linkageId,
                     'linkageInstitutionName' => $linkageInstitutionName,
                     'actionId'               => $theTeamMember->getAction(),
-                    'positionDescription'    => $positionDescription,
+                    'actionTitle'            => $actionTitle,
                     'staffName'              => $staffName,
                     'staffPhoneNumber'       => $phoneNumberString,
                     'staffEmail'             => $emailString,

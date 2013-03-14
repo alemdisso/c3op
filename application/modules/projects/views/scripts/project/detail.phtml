@@ -281,7 +281,7 @@ foreach ($actionsList as $id => $actionData) {
               <thead>
                 <tr>
                   <th width="220"><?php echo $this->translate("#Name") ?></th>
-                  <th width="80"><?php echo $this->translate("#Function") ?></th>
+                  <th width="80"><?php echo $this->translate("#Action") ?></th>
                   <th width="100"><?php echo $this->translate("#Email") ?></th>
                   <th width="100"><?php echo $this->translate("#Phone number") ?></th>
                   <th width="100">&nbsp;</th>
@@ -310,7 +310,7 @@ if($teamMemberInfo['linkageId'] > 0) {
 ?>
                   </td>
                   <td>
-                    <a href="/projects/action/detail/?id=<?php print($teamMemberInfo['actionId']) ?>#tabs-team"><?php print($teamMemberInfo['positionDescription']) ?></a>
+                    <a href="/projects/action/detail/?id=<?php print($teamMemberInfo['actionId']) ?>#tabs-team"><?php print($teamMemberInfo['actionTitle']) ?></a>
                   </td>
                   <td>
                     <a href="mailto:<?php print($teamMemberInfo['staffEmail']) ?>"><?php print($teamMemberInfo['staffEmail']) ?></a>
