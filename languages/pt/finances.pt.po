@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-28 10:27-0300\n"
-"PO-Revision-Date: 2013-02-28 10:27-0300\n"
+"POT-Creation-Date: 2013-03-14 16:48-0300\n"
+"PO-Revision-Date: 2013-03-14 16:48-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -43,12 +43,12 @@ msgstr "O registro foi atualizado com sucesso."
 msgid "#The record was successfully removed."
 msgstr "O registro foi removido com sucesso."
 
-#: application\modules\finances/controllers/ActionController.php:561
+#: application\modules\finances/controllers/ActionController.php:550
 msgid "#It needs a positive integer project id to populate project fields."
 msgstr "It needs a positive integer project id to populate project fields."
 
-#: application\modules\finances/controllers/ActionController.php:580
-#: application\modules\finances/controllers/ActionController.php:609
+#: application\modules\finances/controllers/ActionController.php:569
+#: application\modules\finances/controllers/ActionController.php:598
 msgid ""
 "#It needs a positive integer project id to find other actions from same "
 "project."
@@ -56,8 +56,8 @@ msgstr ""
 "It needs a positive integer project id to find other actions from same "
 "project."
 
-#: application\modules\finances/controllers/ActionController.php:893
-#: application\modules\finances/controllers/ActionController.php:981
+#: application\modules\finances/controllers/ActionController.php:882
+#: application\modules\finances/controllers/ActionController.php:970
 #: application\modules\finances/controllers/ProjectController.php:624
 msgid "(#not defined)"
 msgstr "(não definido)"
@@ -119,10 +119,10 @@ msgstr "Começou em %s, prevista para terminar em %s"
 msgid "#Predicted to begin in %s, and to finish until %s"
 msgstr "Prevista para começar em  %s e terminar em %s"
 
-#: application\modules\finances/controllers/OutlayController.php:282
+#: application\modules\finances/controllers/OutlayController.php:283
 #, php-format
-msgid "#Paying %s predicted for %s"
-msgstr "Pagamento de %s, previsto para %s"
+msgid "#Paying to %s, %s predicted for %s"
+msgstr "Pagamento para %s, no valor de %s, previsto para %s"
 
 #: application\modules\finances/controllers/ProjectController.php:97
 #: application\modules\finances/controllers/ReceivableController.php:118
@@ -148,7 +148,7 @@ msgstr "De %s a %s"
 msgid "#(not registered)"
 msgstr "(não cadastrada)"
 
-#: application\modules\finances/controllers/ReceivableController.php:340
+#: application\modules\finances/controllers/ReceivableController.php:327
 #, php-format
 msgid "#Receiving %s predicted for %s"
 msgstr "Recebimento de %s, previsto para %s"

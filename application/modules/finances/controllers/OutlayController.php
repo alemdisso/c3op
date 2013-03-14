@@ -49,9 +49,7 @@ class Finances_OutlayController  extends Zend_Controller_Action
             $data = $this->_request->getParams();
             if (isset($data['teamMember'])) {
                 $teamMemberId = $data['teamMember'];
-                if (!isset($this->teamMemberMapper)) {
-                    $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
-                }
+                $this->initTeamMemberMapper();
                 $outlayTeamMember = $this->teamMemberMapper->findById($teamMemberId);
                 $this->populateHiddenFieldsAssociatedToTeamMember($outlayTeamMember, $form);
                 $teamMemberData = $this->fetchTeamMemberData($outlayTeamMember);
@@ -96,9 +94,7 @@ class Finances_OutlayController  extends Zend_Controller_Action
                     $this->initOutlayMapper();
                 }
                 $thisOutlay = $this->outlayMapper->findById($id);
-                if (!isset($this->teamMemberMapper)) {
-                    $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
-                }
+                $this->initTeamMemberMapper();
 
                 $outlayTeamMember = $this->teamMemberMapper->findById($thisOutlay->GetTeamMember());
 
@@ -275,16 +271,33 @@ class Finances_OutlayController  extends Zend_Controller_Action
         $validator = new C3op_Util_ValidId();
         if ($validator->isValid($projectId)) {
             $this->initProjectMapper();
-            $thisProject = $this->projectMapper->findById($projectId);
+            $theProject = $this->projectMapper->findById($projectId);
             $currencyDisplay = new  C3op_Util_CurrencyDisplay();
             $predictedValue = $currencyDisplay->FormatCurrency($outlay->getPredictedValue());
             $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($outlay->getPredictedDate());
-            $outlayDetails = sprintf ($this->view->translate("#Paying %s predicted for %s"), $predictedValue, $predictedDate);
+
+            $this->initTeamMemberMapper();
+            $theTeamMember = $this->teamMemberMapper->findById($outlay->GetTeamMember());
+            $payeeName = "(indefinido)";
+            $payeeId = 0;
+            $linkageId = $theTeamMember->GetLinkage();
+            if ($linkageId > 0) {
+                $this->initContactMapper();
+                $this->initLinkageMapper();
+                $linkageContact = $this->linkageMapper->findById($linkageId);
+                $payeeId = $linkageContact->GetContact();
+                $contractedContact = $this->contactMapper->findById($payeeId);
+                $payeeName = $contractedContact->GetName();
+            }
+
+
+
+            $outlayDetails = sprintf ($this->view->translate("#Paying to %s, %s predicted for %s"), $payeeName, $predictedValue, $predictedDate);
 
             $data = array(
-                'projectTitle'      => $thisProject->GetShortTitle(),
+                'projectTitle'      => $theProject->GetShortTitle(),
                 'projectId'         => $projectId,
-                'outlayDetails' => $outlayDetails,
+                'outlayDetails'     => $outlayDetails,
             );
 
             return $data;
@@ -327,6 +340,13 @@ class Finances_OutlayController  extends Zend_Controller_Action
     {
         if (!isset($this->projectMapper)) {
             $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
+        }
+    }
+
+    private function initTeamMemberMapper()
+    {
+        if (!isset($this->teamMemberMapper)) {
+            $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
         }
     }
 
