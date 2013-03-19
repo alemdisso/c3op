@@ -1,0 +1,36 @@
+<?php
+  $pageData = $this->pageData;
+?>
+    <!-- Initializing jquery.meio.mask -->
+    <script type="text/javascript" charset="utf-8">
+      $(document).ready(function() {
+        $.mask.masks = $.extend($.mask.masks, {
+        });
+        $('input:text').setMask();
+      });
+
+
+
+    </script>
+
+
+
+
+<script>
+function submitBudgetForm()
+{
+
+
+$.post("/projects/action/budget-create", $("#newBudgetForm").serialize(), function(successReturn){
+      $('#budgetDiv').html(successReturn);
+    });
+}
+</script>
+<form id="newBudgetForm" action="<?php echo $this->escape($this->form->getAction()); ?>" method="<?php echo $this->escape($this->form->getMethod()); ?>">
+<table>
+  <?php echo $this->form->project ?>
+  <?php echo $this->form->action ?>
+  <?php echo $this->form->budgetForecast ?>
+  <?php echo $this->form->submit ?>
+</table>
+</form>

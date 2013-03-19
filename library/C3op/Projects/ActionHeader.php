@@ -30,6 +30,7 @@ class C3op_Projects_ActionHeader {
         if ($financesData) {
             $this->fillValueData();
         }
+        $this->fillBudgetData();
         $this->fillProductRelatedData();
 
         return $this->data;
@@ -70,6 +71,21 @@ class C3op_Projects_ActionHeader {
         $this->data['receiptToAcceptOrReject'] = $receiptToAcceptOrReject;
         $this->data['waitingToReceipt'] = $waitingToReceipt;
 
+
+    }
+
+    private function fillBudgetData()
+    {
+
+        $budgetForecast = $this->action->getBudgetForecast();
+        if ($budgetForecast > 0) {
+            $this->data['hasBudget'] = true;
+            $this->data['budgetForecast'] = $budgetForecast;
+        } else {
+            $this->data['hasBudget'] = false;
+            $this->data['budgetForecast'] = 0;
+
+        }
 
     }
 
@@ -307,6 +323,7 @@ class C3op_Projects_ActionHeader {
         $actionValue = new C3op_Projects_ActionValue($this->action,$this->mapper);
         $currencyDisplay = new  C3op_Util_CurrencyDisplay();
         $this->data['totalContractedValue'] = $currencyDisplay->FormatCurrency($actionValue->totalValue());
+        $this->data['hasBudget'] = false;
     }
 
 

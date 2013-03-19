@@ -25,6 +25,90 @@ class Projects_ActionController extends Zend_Controller_Action
         $this->db = Zend_Registry::get('db');
     }
 
+    public function budgetCreateAction()
+    {
+        $this->_helper->layout->disableLayout();
+
+        // cria form
+        $form = new C3op_Form_BudgetCreate;
+        $this->view->form = $form;
+
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            if ($form->isValid($postData)) {
+                $actionId = $form->process($postData);
+
+                $this->_helper->viewRenderer->setNoRender(TRUE);
+                $this->_redirect('/projects/action/budget-forecast/?actionId=' . $actionId);
+            } else {
+                //form error: populate and go back
+                $actionId = $postData['action'];
+                $result = $this->givenActionIdGetActionAndProjectObjects($actionId);
+                $parentAction = $result['actionObj'];
+                $projectAction = $result['projectObj'];
+
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
+        } else {
+            $data = $this->_request->getParams();
+
+            $actionId = $data['id'];
+
+            if (!isset($this->actionMapper)) {
+                $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
+            }
+            if (!isset($this->projectMapper)) {
+                $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
+            }
+            $parentAction = $this->actionMapper->findById($actionId);
+            $projectId = $parentAction->getProject();
+            $projectAction = $this->projectMapper->findById($projectId);
+
+            $budgetForecast = $parentAction->getBudgetForecast();
+
+            $actionField = $form->getElement('action');
+            $actionField->setValue($actionId);
+            $projectField = $form->getElement('project');
+            $projectField->setValue($projectId);
+            $budgetField = $form->getElement('budgetForecast');
+            $budgetField->setValue($budgetForecast);
+
+        }
+
+        $pageData = array(
+            'actionId' => $actionId,
+            'actionTitle' => $parentAction->GetTitle(),
+            'projectId' => $parentAction->GetProject(),
+            'projectTitle' => $projectAction->GetShortTitle(),
+        );
+
+        $this->view->pageData = $pageData;
+
+    }
+
+    public function budgetForecastAction()
+    {
+        $this->_helper->layout->disableLayout();
+
+        $data = $this->_request->getParams();
+
+        $actionId = $data['actionId'];
+
+        $this->initActionMapper();
+        $action = $this->actionMapper->findById($actionId);
+
+
+        $pageData = array(
+            'budgetForecast' => $action->getBudgetForecast(),
+        );
+
+        $this->view->pageData = $pageData;
+
+    }
+
+
+
     public function createAction()
     {
         // cria form
@@ -1016,6 +1100,30 @@ class Projects_ActionController extends Zend_Controller_Action
         }
 
         return $materialSuppliesList;
+
+    }
+
+    private function givenActionIdGetActionAndProjectObjects($actionId)
+    {
+        if (!isset($this->actionMapper)) {
+            $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
+        }
+        if (!isset($this->projectMapper)) {
+            $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
+        }
+        $parentAction = $this->actionMapper->findById($actionId);
+        $projectId = $parentAction->getProject();
+        $projectAction = $this->projectMapper->findById($projectId);
+
+        $data = array(
+                    'actionId' => $actionId,
+                    'actionObj' => $actionObj,
+                    'projectId' => $projectId,
+                    'actionId' => $projectAction,
+                );
+
+        return $data;
+
 
     }
 

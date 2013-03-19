@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-14 16:48-0300\n"
-"PO-Revision-Date: 2013-03-14 16:48-0300\n"
+"POT-Creation-Date: 2013-03-19 16:37-0300\n"
+"PO-Revision-Date: 2013-03-19 16:38-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -32,7 +32,7 @@ msgstr "Criar ação subordinada a %s"
 
 #: application\modules\finances/controllers/ActionController.php:145
 #: application\modules\finances/controllers/ActionController.php:226
-#: application\modules\finances/controllers/OutlayController.php:77
+#: application\modules\finances/controllers/OutlayController.php:75
 #: application\modules\finances/controllers/ReceivableController.php:34
 #: application\modules\finances/controllers/ReceivableController.php:176
 #: application\modules\finances/controllers/ReceivableController.php:225
@@ -43,12 +43,12 @@ msgstr "O registro foi atualizado com sucesso."
 msgid "#The record was successfully removed."
 msgstr "O registro foi removido com sucesso."
 
-#: application\modules\finances/controllers/ActionController.php:550
+#: application\modules\finances/controllers/ActionController.php:524
 msgid "#It needs a positive integer project id to populate project fields."
 msgstr "It needs a positive integer project id to populate project fields."
 
-#: application\modules\finances/controllers/ActionController.php:569
-#: application\modules\finances/controllers/ActionController.php:598
+#: application\modules\finances/controllers/ActionController.php:543
+#: application\modules\finances/controllers/ActionController.php:572
 msgid ""
 "#It needs a positive integer project id to find other actions from same "
 "project."
@@ -56,15 +56,15 @@ msgstr ""
 "It needs a positive integer project id to find other actions from same "
 "project."
 
-#: application\modules\finances/controllers/ActionController.php:882
-#: application\modules\finances/controllers/ActionController.php:970
+#: application\modules\finances/controllers/ActionController.php:856
+#: application\modules\finances/controllers/ActionController.php:944
 #: application\modules\finances/controllers/ProjectController.php:624
 msgid "(#not defined)"
 msgstr "(não definido)"
 
 #: application\modules\finances/controllers/IndexController.php:51
 #: application\modules\finances/controllers/IndexController.php:275
-#: application\modules\finances/controllers/OutlayController.php:206
+#: application\modules\finances/controllers/OutlayController.php:202
 #: application\modules\finances/controllers/ProjectController.php:713
 msgid "#(not defined)"
 msgstr "(não definido)"
@@ -87,7 +87,7 @@ msgid "#(undefined)"
 msgstr "(indefinido)"
 
 #: application\modules\finances/controllers/IndexController.php:328
-#: application\modules\finances/controllers/OutlayController.php:251
+#: application\modules\finances/controllers/OutlayController.php:247
 #: application\modules\finances/controllers/ProjectController.php:754
 msgid "#Undefined dates"
 msgstr "Datas indefinidas"
@@ -100,26 +100,26 @@ msgstr "Deve haver alguém para ser pago."
 msgid "#The outlay was successfully created."
 msgstr "O pagamento foi criado com sucesso."
 
-#: application\modules\finances/controllers/OutlayController.php:135
+#: application\modules\finances/controllers/OutlayController.php:131
 msgid "#The payment was successfully notified."
 msgstr "O pagamento foi confirmado."
 
-#: application\modules\finances/controllers/OutlayController.php:241
+#: application\modules\finances/controllers/OutlayController.php:237
 #, php-format
 msgid "#From %s until %s"
 msgstr "De %s a %s"
 
-#: application\modules\finances/controllers/OutlayController.php:245
+#: application\modules\finances/controllers/OutlayController.php:241
 #, php-format
 msgid "#Began in %s, predicted to finish until %s"
 msgstr "Começou em %s, prevista para terminar em %s"
 
-#: application\modules\finances/controllers/OutlayController.php:249
+#: application\modules\finances/controllers/OutlayController.php:245
 #, php-format
 msgid "#Predicted to begin in %s, and to finish until %s"
 msgstr "Prevista para começar em  %s e terminar em %s"
 
-#: application\modules\finances/controllers/OutlayController.php:283
+#: application\modules\finances/controllers/OutlayController.php:295
 #, php-format
 msgid "#Paying to %s, %s predicted for %s"
 msgstr "Pagamento para %s, no valor de %s, previsto para %s"

@@ -14,6 +14,7 @@ class C3op_Projects_Action {
     protected $milestone = false;
     protected $product = false;
     protected $requirementForReceiving = false;
+    protected $budgetForecast = 0;
     protected $predictedBeginDate = null;
     protected $predictedFinishDate = null;
     protected $realBeginDate = null;
@@ -347,5 +348,21 @@ class C3op_Projects_Action {
             return false;
         }
     }
+
+    public function getBudgetForecast() {
+        return $this->budgetForecast;
+    } //getBudgetForecast
+
+    public function setBudgetForecast($budgetForecast) {
+        $validator = new C3op_Util_ValidPositiveDecimal();
+        if ($validator->isValid($budgetForecast)) {
+            $this->budgetForecast = $budgetForecast;
+        } else {
+            $this->budgetForecast = "";
+        }
+    } //setBudgetForecast
+
+
+
 
 }

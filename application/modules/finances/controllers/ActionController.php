@@ -477,32 +477,6 @@ class Projects_ActionController extends Zend_Controller_Action
 
     }
 
-
-    private function checkIfSuccessRedirected()
-    {
-        $data = $this->_request->getParams();
-        $filters = array(
-            'success' => new Zend_Filter_Alnum(),
-        );
-        $validators = array(
-            'success' => array('Digits', new Zend_Validate_GreaterThan(0)),
-        );
-        $input = new Zend_Filter_Input($filters, $validators, $data);
-        if ($input->isValid()) {
-            $success = $input->success;
-            if ($success > 0) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-        throw new C3op_Projects_ActionException("Invalid Action Id from Get");
-
-    }
-
-
     private function initActionWithCheckedId(C3op_Projects_ActionMapper $mapper)
     {
         return $mapper->findById($this->checkIdFromGet());

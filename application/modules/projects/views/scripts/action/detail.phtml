@@ -84,6 +84,40 @@ $(document).ready(function(){
 
 </script>
 
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+        $("#budgetDiv").hide();
+        $("#budgetButton").show();
+
+    $('#budgetButton').click(function(){
+        $.ajax({
+            type: 'get',
+            data: 'id=<?php print $actionHeader['id'] ?>',
+            url:'/projects/action/budget-create',
+            success: function(successReturn){
+            $('#budgetFormDiv').html(successReturn);
+            }
+        })
+
+        $("#labelBudgetDiv").hide();
+
+         $("#budgetDiv").slideToggle();
+         $("#budgetButton").hide();
+    });
+    $('#hideHref').click(function(){
+         $("#budgetDiv").slideToggle();
+         $("#labelBudgetDiv").show();
+         $("#budgetButton").show();
+    });
+
+
+
+});
+
+</script>
+
         <div id="MainHeader">
           <h1><?php print($this->translate("#Project")); ?> <a href="/projects/project/detail/?id=<?php print($actionHeader['projectId']) ?>"><?php print($actionHeader['projectTitle']) ?></a></h1>
         </div><!-- MainHeader -->
@@ -289,6 +323,36 @@ if (!$actionHeader['hasResponsible']) {
 
   }
 ?>
+          </div>
+
+          <br class="clear" />
+          <div class="eight columns offset-by-three">
+              <a anchor="budget"></a>
+<?php
+$labelBudgetButton = $this->translate("#Provide budget");
+if (isset($actionHeader['hasBudget'])) {
+
+    if ($actionHeader['hasBudget']) {
+        $labelBudgetButton = $this->translate("#Edit budget");
+?>
+
+          <div id="labelBudgetDiv" class="slidingDiv">
+              <?php print(sprintf($this->translate("#This action has a provided budget of %s"), $actionHeader['budgetForecast'])); ?>
+          </div>
+          <br class="clear" />
+<?php
+
+        }
+    }
+?>
+            <a id="budgetButton" class="button two columns alpha omega parent_info" href="#budget"><?php print($labelBudgetButton); ?></a>
+          <div id="budgetDiv" class="slidingDiv">
+              <h3>   <?php print($this->translate("#Inform budget")); ?>  </h3>
+              <div id="budgetFormDiv">&nbsp;</div>
+            <br class="clear"/>
+            <a class="alpha" href="#budget" id="hideHref"><?php print($this->translate("#Hide form")); ?></a>
+
+          </div>
           </div>
 
         </div><!-- .Area -->

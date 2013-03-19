@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-03 17:08-0300\n"
-"PO-Revision-Date: 2013-03-03 17:09-0300\n"
+"POT-Creation-Date: 2013-03-19 16:37-0300\n"
+"PO-Revision-Date: 2013-03-19 16:37-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -66,6 +66,7 @@ msgid "#Finish date:"
 msgstr "Data de término: "
 
 #: library\C3op\Form/ActionCreate.php:137 library\C3op\Form/ActionEdit.php:83
+#: library\C3op\Form/BudgetCreate.php:42
 #: library\C3op\Form/ContactCreate.php:80
 #: library\C3op\Form/ContractCreate.php:64
 #: library\C3op\Form/EmailCreate.php:57
@@ -82,8 +83,8 @@ msgstr "Data de término: "
 #: library\C3op\Form/ProjectCreate.php:284
 #: library\C3op\Form/ReceivableCreate.php:94
 #: library\C3op\Form/ReceivableNotify.php:72
-#: library\C3op\Form/ResponsibleCreate.php:68
-#: library\C3op\Form/TeamMemberContract.php:65
+#: library\C3op\Form/ResponsibleCreate.php:80
+#: library\C3op\Form/TeamMemberContract.php:81
 #: library\C3op\Form/TeamMemberCreate.php:65
 #: library\C3op\Form/TeamMemberDismiss.php:35
 #: library\C3op\Form/UserCreate.php:101
@@ -157,6 +158,24 @@ msgstr "Não remover"
 #: library\C3op\Form/UserLogin.php:68
 msgid "#Invalid data!"
 msgstr "Dados inválidos!"
+
+#: library\C3op\Form/BudgetCreate.php:25
+#: library\C3op\Form/OutsideServiceCreate.php:35
+#: library\C3op\Form/ProjectCreate.php:116
+#: library\C3op\Form/ResponsibleCreate.php:63
+#: library\C3op\Form/TeamMemberContract.php:48
+#: library\C3op\Form/TeamMemberCreate.php:35
+msgid "#Value:"
+msgstr "Valor:"
+
+#: library\C3op\Form/BudgetCreate.php:36
+#: library\C3op\Form/MaterialSupplyCreate.php:46
+#: library\C3op\Form/OutsideServiceCreate.php:46
+#: library\C3op\Form/ResponsibleCreate.php:74
+#: library\C3op\Form/TeamMemberContract.php:59
+#: library\C3op\Form/TeamMemberCreate.php:46
+msgid "#The value must be a positive number"
+msgstr "O valor precisa ser um número positivo"
 
 #: library\C3op\Form/ContactCreate.php:24
 msgid "#Invalid name"
@@ -399,7 +418,7 @@ msgstr "Confirmo: remova!"
 
 #: library\C3op\Form/MaterialSupplyContract.php:48
 #: library\C3op\Form/OutsideServiceContract.php:48
-#: library\C3op\Form/TeamMemberContract.php:48
+#: library\C3op\Form/TeamMemberContract.php:64
 #: library\C3op\Form/TeamMemberDismiss.php:18
 msgid "Observações:"
 msgstr "Observation:"
@@ -416,13 +435,6 @@ msgstr "Descreva qual material"
 msgid "#Unit value:"
 msgstr "Valor unitário:"
 
-#: library\C3op\Form/MaterialSupplyCreate.php:46
-#: library\C3op\Form/OutsideServiceCreate.php:46
-#: library\C3op\Form/ResponsibleCreate.php:62
-#: library\C3op\Form/TeamMemberCreate.php:46
-msgid "#The value must be a positive number"
-msgstr "O valor precisa ser um número positivo"
-
 #: library\C3op\Form/MaterialSupplyCreate.php:52
 msgid "#Quantity:"
 msgstr "Quantidade:"
@@ -437,6 +449,7 @@ msgstr "Unidade:"
 
 #: library\C3op\Form/MaterialSupplyCreate.php:86
 #: library\C3op\Form/OutsideServiceCreate.php:51
+#: library\C3op\Form/ResponsibleCreate.php:37
 msgid "#Company:"
 msgstr "Organização:"
 
@@ -445,6 +458,7 @@ msgstr "Organização:"
 #: library\C3op\Form/OutsideServiceCreate.php:60
 #: library\C3op\Form/OutsideServiceCreate.php:73
 #: library\C3op\Form/ResponsibleCreate.php:46
+#: library\C3op\Form/ResponsibleCreate.php:59
 #: library\C3op\Form/TeamMemberCreate.php:60
 msgid "#undefined"
 msgstr "indefinido"
@@ -490,13 +504,6 @@ msgstr "Valor real"
 #: library\C3op\Form/TeamMemberCreate.php:28
 msgid "#A valid role description is required"
 msgstr "Por favor informe o papel desse membro do time"
-
-#: library\C3op\Form/OutsideServiceCreate.php:35
-#: library\C3op\Form/ProjectCreate.php:116
-#: library\C3op\Form/ResponsibleCreate.php:51
-#: library\C3op\Form/TeamMemberCreate.php:35
-msgid "#Value:"
-msgstr "Valor:"
 
 #: library\C3op\Form/PhoneNumberCreate.php:76
 msgid "Gravar"
@@ -607,7 +614,7 @@ msgstr "Pessoa"
 msgid "#service"
 msgstr "Empresa"
 
-#: library\C3op\Form/ResponsibleCreate.php:37
+#: library\C3op\Form/ResponsibleCreate.php:50
 #: library\C3op\Form/TeamMemberCreate.php:51
 msgid "#Who:"
 msgstr "Quem:"

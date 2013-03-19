@@ -29,7 +29,11 @@ class C3op_Projects_ActionMapper
     public function insert(C3op_Projects_Action $obj)
     {
 
-        $query = $this->db->prepare("INSERT INTO projects_actions (title, project, done, status, description, subordinated_to, supervisor, milestone, product, requirement_for_receiving) VALUES (:title, :project, :done, :status, :description, :subordinated_to, :supervisor, :milestone, :product, :requirement_for_receiving)");
+        $query = $this->db->prepare("INSERT INTO projects_actions (title, project,
+            done, status, description, subordinated_to, supervisor, milestone,
+            product, requirement_for_receiving, budget_forecast)
+            VALUES (:title, :project, :done, :status, :description, :subordinated_to,
+            :supervisor, :milestone, :product, :requirement_for_receiving, :budget_forecast)");
 
         $query->bindValue(':title', $obj->GetTitle(), PDO::PARAM_STR);
         $query->bindValue(':project', $obj->GetProject(), PDO::PARAM_STR);
@@ -41,6 +45,7 @@ class C3op_Projects_ActionMapper
         $query->bindValue(':milestone', $obj->GetMilestone(), PDO::PARAM_STR);
         $query->bindValue(':product', $obj->GetProduct(), PDO::PARAM_STR);
         $query->bindValue(':requirement_for_receiving', $obj->GetRequirementForReceiving(), PDO::PARAM_STR);
+        $query->bindValue(':budget_forecast', $obj->getBudgetForecast(), PDO::PARAM_STR);
 
         $query->execute();
 
@@ -62,6 +67,7 @@ class C3op_Projects_ActionMapper
             , status = :status, description = :description
             , subordinated_to = :subordinated_to, supervisor = :supervisor
             , milestone = :milestone, product = :product, requirement_for_receiving = :requirement_for_receiving
+            , budget_forecast = :budget_forecast
             WHERE id = :id;");
 
         $query->bindValue(':title', $obj->GetTitle(), PDO::PARAM_STR);
@@ -75,6 +81,7 @@ class C3op_Projects_ActionMapper
         $query->bindValue(':product', $obj->GetProduct(), PDO::PARAM_STR);
         $query->bindValue(':requirement_for_receiving', $obj->GetRequirementForReceiving(), PDO::PARAM_STR);
         $query->bindValue(':id', $this->identityMap[$obj], PDO::PARAM_STR);
+        $query->bindValue(':budget_forecast', $obj->getBudgetForecast(), PDO::PARAM_STR);
 
         try {
             $query->execute();
@@ -94,7 +101,12 @@ class C3op_Projects_ActionMapper
             }
             $this->identityMap->next();
         }
-        $query = $this->db->prepare('SELECT title, project, done, status, description, subordinated_to, supervisor, milestone, product, requirement_for_receiving FROM projects_actions WHERE id = :id;');
+        $query = $this->db->prepare('SELECT title, project, done, status,
+            description, subordinated_to, supervisor, milestone, product,
+            requirement_for_receiving, budget_forecast
+            FROM projects_actions
+            WHERE id = :id;');
+
         $query->bindValue(':id', $id, PDO::PARAM_STR);
         $query->execute();
         $result = $query->fetch();
@@ -117,6 +129,7 @@ class C3op_Projects_ActionMapper
         $this->setAttributeValue($obj, $result['milestone'], 'milestone');
         $this->setAttributeValue($obj, $result['product'], 'product');
         $this->setAttributeValue($obj, $result['requirement_for_receiving'], 'requirementForReceiving');
+        $this->setAttributeValue($obj, $result['budget_forecast'], 'budgetForecast');
 
         $this->identityMap[$obj] = $id;
 

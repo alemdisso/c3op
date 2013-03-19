@@ -74,6 +74,8 @@ public function __construct() {
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.action', 'populate-subordinated-to');
     $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR,   'c3op:projects.action', 'reject-receipt');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.action', 'remove');
+    $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR,   'c3op:projects.action', 'budget-create');
+    $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR,   'c3op:projects.action', 'budget-forecast');
 
     $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:resources.responsible');
     $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:resources.responsible', 'create');
