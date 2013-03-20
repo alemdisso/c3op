@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-03 15:59-0300\n"
-"PO-Revision-Date: 2013-03-03 15:59-0300\n"
+"POT-Creation-Date: 2013-03-20 08:33-0300\n"
+"PO-Revision-Date: 2013-03-20 08:34-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -22,7 +22,7 @@ msgstr "Material criado."
 
 #: application\modules\resources/controllers/MaterialSupplyController.php:93
 #: application\modules\resources/controllers/OutsideServiceController.php:93
-#: application\modules\resources/controllers/ResponsibleController.php:134
+#: application\modules\resources/controllers/ResponsibleController.php:152
 #: application\modules\resources/controllers/TeamMemberController.php:91
 msgid "#The record was successfully updated."
 msgstr "O registro foi atualizado com sucesso."
@@ -32,8 +32,8 @@ msgid "#The material supply acquisition was registered."
 msgstr "A contratação foi registrada."
 
 #: application\modules\resources/controllers/MaterialSupplyController.php:313
-#: application\modules\resources/controllers/OutsideServiceController.php:310
-#: application\modules\resources/controllers/TeamMemberController.php:287
+#: application\modules\resources/controllers/OutsideServiceController.php:308
+#: application\modules\resources/controllers/TeamMemberController.php:294
 msgid "#The record was successfully removed."
 msgstr "O registro foi removido com sucesso."
 
@@ -45,7 +45,6 @@ msgstr "O serviço foi criado."
 msgid "#The outside service is contracted."
 msgstr "Contratação confirmada."
 
-#: application\modules\resources/controllers/ResponsibleController.php:72
 #: application\modules\resources/controllers/TeamMemberController.php:37
 msgid "#The team member was created."
 msgstr "O membro de equipe foi criado."
@@ -54,7 +53,7 @@ msgstr "O membro de equipe foi criado."
 msgid "#The team member is contracted."
 msgstr "Contratação confirmada."
 
-#: application\modules\resources/controllers/TeamMemberController.php:342
+#: application\modules\resources/controllers/TeamMemberController.php:336
 msgid "#The team member was dismissed."
 msgstr "O distrato foi registrado."
 
@@ -171,14 +170,14 @@ msgid ""
 msgstr ""
 "Você confirma a remoção do serviço %s na ação %s? Isso NÃO pode ser desfeito."
 
-#: application\modules\resources/views/scripts/responsible/assigned.phtml:10
+#: application\modules\resources/views/scripts/responsible/assigned.phtml:20
 msgid "#Action was assigned"
 msgstr "Ação foi atribuída"
 
-#: application\modules\resources/views/scripts/responsible/assigned.phtml:12
+#: application\modules\resources/views/scripts/responsible/assigned.phtml:22
 #, php-format
 msgid "#%s was assigned responsible for this action"
-msgstr "%s é o responsável por essa ação."
+msgstr "%s é responsável por essa ação."
 
 #: application\modules\resources/views/scripts/team-member/create.phtml:8
 msgid "#New team member for action"

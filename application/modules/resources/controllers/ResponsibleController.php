@@ -101,6 +101,8 @@ class Resources_ResponsibleController extends Zend_Controller_Action
             $actionField->setValue($actionId);
             $projectField = $form->getElement('project');
             $projectField->setValue($projectId);
+            $valueField = $form->getElement('value');
+            $valueField->setValue($parentAction->getBudgetForecast());
             $linkageField = $form->getElement('linkage');
             if (!isset($this->contactMapper)) {
                 $this->contactMapper = new C3op_Register_ContactMapper($this->db);
