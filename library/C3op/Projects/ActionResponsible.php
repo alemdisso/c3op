@@ -4,7 +4,7 @@ class C3op_Projects_ActionResponsible {
 
     private $action;
     private $actionMapper;
-    private $teamMemberMapper;
+    private $responsibleMapper;
 
     public function __construct(C3op_Projects_Action $action, C3op_Projects_ActionMapper $actionMapper, $db)
     {
@@ -17,91 +17,63 @@ class C3op_Projects_ActionResponsible {
     {
         $itDoes = false;
 
-        $result = $this->actionMapper->getAnyTeamMemberRelatedTo($this->action);
+        $result = $this->actionMapper->getResponsibleBy($this->action);
         if (count($result) > 0) {
             $itDoes = true;
-        } else {
-            $result = $this->actionMapper->getAnyOutsideServiceRelatedTo($this->action);
-            if (count($result) > 0) {
-                $itDoes = true;
-            }
         }
-
 
         return $itDoes;
     }
 
     public function fetch()
     {
-        $result = $this->actionMapper->getAnyTeamMemberRelatedTo($this->action);
+        $result = $this->actionMapper->getResponsibleBy($this->action);
         if (count($result) > 0) {
             $id = $result[0];
 
-            $this->initTeamMemberMapper();
-            $teamMember = $this->teamMemberMapper->findById($id);
-            $linkageId = $teamMember->GetLinkage();
+            $this->initResponsibleMapper();
+            $responsible = $this->responsibleMapper->findById($id);
             $contactName = _("#(undefined)");
-            $contactId = 0;
-            if ($linkageId > 0) {
+            $contactId = $responsible->GetContact();;
+            if ($contactId > 0) {
                 $this->initContactMapper();
-                $this->initLinkageMapper();
-                $linkageContact = $this->linkageMapper->findById($linkageId);
-                $contactId = $linkageContact->GetContact();
-                $contractedContact = $this->contactMapper->findById($contactId);
-                $contactName = $contractedContact->GetName();
+                $responsibleContact = $this->contactMapper->findById($contactId);
+                $contactName = $responsibleContact->GetName();
             }
 
-            $status = $teamMember->getStatus();
-            $statusTypes = new C3op_Resources_TeamMemberStatusTypes();
+            $institutionName = _("#(undefined)");
+            $institutionId = $responsible->GetInstitution();;
+            if ($institutionId > 0) {
+                $this->initInstitutionMapper();
+                $responsibleInstitution = $this->institutionMapper->findById($institutionId);
+                $institutionName = $responsibleInstitution->GetName();
+            }
+
+            $type = $responsible->getType();
+
+            $status = $responsible->getStatus();
+            $statusTypes = new C3op_Resources_ResponsibleStatusTypes();
             $statusLabel = $statusTypes->TitleForType($status);
-
-
-
             $data = array(
               'hasResponsible'  => true,
-              'responsibleType' => 'teamMember',
-              'responsibleName' => $contactName,
-              'responsibleId'   => $linkageId,
+              'responsibleType' => $type,
+              'contactName'     => $contactName,
+              'contactId'       => $contactId,
+              'institutionName' => $institutionName,
+              'institutionId'   => $institutionId,
               'statusLabel'     => $statusLabel,
             );
         } else {
-            $result = $this->actionMapper->getAnyOutsideServiceRelatedTo($this->action);
-            if (count($result) > 0) {
-                $id = $result[0];
-
-                $this->initOutsideServiceMapper();
-                $outsideService = $this->outsideServiceMapper->findById($id);
-
-                $institutionId = $outsideService->GetInstitution();
-                $institutionName = _("(#not defined)");
-                if ($institutionId > 0) {
-                    $this->initContactMapper();
-                    $this->initInstitutionMapper();
-                    $institutionService = $this->institutionMapper->findById($institutionId);
-                    $institutionName = $institutionService->GetName();
-                }
-
-                $status = $outsideService->getStatus();
-                $statusTypes = new C3op_Resources_OutsideServiceStatusTypes();
-                $statusLabel = $statusTypes->TitleForType($status);
-
-
-
-                $data = array(
-                'hasResponsible'  => true,
-                'responsibleType' => 'outsideService',
-                'responsibleName' => $institutionName,
-                'responsibleId'   => $institutionId,
-                'statusLabel'     => $statusLabel,
-                );
-            } else {
-                $data = array(
-                'hasResponsible'  => false,
-                'responsibleType' => 'none',
-                'responsibleName' => _("#(unassigned)"),
-                'responsibleId'   => 0,
-                );
-            }
+            $data = array(
+            'hasResponsible'  => false,
+            'contactName'     => _("#(unassigned)"),
+            'contactId'       => 0,
+            'institutionName' => _("#(unassigned)"),
+            'institutionId'   => 0,
+            'responsibleType' => 0,
+            'responsibleName' => _("#(unassigned)"),
+            'responsibleId'   => 0,
+            );
         }
         return $data;
     }
@@ -120,24 +92,11 @@ class C3op_Projects_ActionResponsible {
         }
     }
 
-    private function initLinkageMapper()
-    {
-        if (!isset($this->linkageMapper)) {
-            $this->linkageMapper = new C3op_Register_LinkageMapper($this->db);
-        }
-    }
 
-    private function initOutsideServiceMapper()
+    private function initResponsibleMapper()
     {
-        if (!isset($this->outsideServiceMapper)) {
-            $this->outsideServiceMapper = new C3op_Resources_OutsideServiceMapper($this->db);
-        }
-    }
-
-    private function initTeamMemberMapper()
-    {
-        if (!isset($this->teamMemberMapper)) {
-            $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
+        if (!isset($this->responsibleMapper)) {
+            $this->responsibleMapper = new C3op_Resources_ResponsibleMapper($this->db);
         }
     }
 

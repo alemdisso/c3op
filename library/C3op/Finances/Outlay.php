@@ -6,7 +6,7 @@ class C3op_Finances_Outlay
     protected $id;
     protected $project;
     protected $action;
-    protected $teamMember;
+    protected $responsible;
     protected $predictedDate;
     protected $predictedValue;
     protected $realDate;
@@ -14,9 +14,9 @@ class C3op_Finances_Outlay
     protected $recurrent;
     protected $observation;
 
-    function __construct($teamMember, $id=0) {
+    function __construct($responsible, $id=0) {
         $this->id = (int)$id;
-        $this->teamMember = $teamMember;
+        $this->responsible = $responsible;
     }
 
     public function GetId() {
@@ -58,14 +58,14 @@ class C3op_Finances_Outlay
         $this->action = $action;
     }
 
-    public function GetTeamMember()
+    public function GetResponsible()
     {
-        return $this->teamMember;
+        return $this->responsible;
     }
 
-    public function SetTeamMember($teamMember)
+    public function SetResponsible($responsible)
     {
-        $this->teamMember = $teamMember;
+        $this->responsible = $responsible;
     }
 
     public function GetPredictedValue()

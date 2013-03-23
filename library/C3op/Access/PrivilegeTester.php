@@ -6,9 +6,9 @@ class C3op_Access_PrivilegeTester
     private $acl;
     private $allow;
 
-    public function __construct($module, $controller, $action) {
-        $this->user = Zend_Registry::get('user');
-        $this->acl = Zend_Registry::get('acl');
+    public function __construct($user, $acl, $module, $controller, $action) {
+        $this->user = $user;
+        $this->acl = $acl;
 
         if (!empty($this->user)) {
             $role = $this->user->GetRole();

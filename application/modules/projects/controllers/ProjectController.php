@@ -11,6 +11,7 @@ class Projects_ProjectController extends Zend_Controller_Action
     private $linkageMapper;
     private $outlayMapper;
     private $receivableMapper;
+    private $responsibleMapper;
     private $teamMemberMapper;
     private $outsideServiceMapper;
     private $materialSupplyMapper;
@@ -448,10 +449,10 @@ class Projects_ProjectController extends Zend_Controller_Action
         $this->view->pageData = $pageData;
     }
 
-    public function personAction()
+    public function engagementAction()
     {
-        if (!isset($this->linkageMapper)) {
-            $this->initLinkageMapper();
+        if (!isset($this->responsibleMapper)) {
+            $this->initResponsibleMapper();
         }
         if (!isset($this->teamMemberMapper)) {
             $this->initTeamMemberMapper();
@@ -467,44 +468,43 @@ class Projects_ProjectController extends Zend_Controller_Action
         }
 
         $project = $this->initProjectWithCheckedId($this->projectMapper);
-        $linkage = $this->initLinkageWithCheckedLinkageId($this->linkageMapper);
-        $contact = $this->contactMapper->findById($linkage->getContact());
+        $contact = $this->initContactWithCheckedContactId($this->contactMapper);
 
-        $actionsEngaged = $this->teamMemberMapper->getAllActionsEngaging($linkage, $project);
+        $actionsEngaged = $this->responsibleMapper->getAllActionsEngaging($contact, $project);
 
-        $personActions = array();
-        $personPayedValue = 0;
-        $personTotalValue = 0;
-        $personContractedValue = 0;
+        $engagedActions = array();
+        $alreadyPayedValue = 0;
+        $totalProvidedValue = 0;
+        $totalContractedValue = 0;
         $currencyDisplay = new  C3op_Util_CurrencyDisplay();
 
         foreach ($actionsEngaged as $id => $data) {
             $action = $this->actionMapper->findById($id);
-            $teamMember = $this->teamMemberMapper->findById($data['teamMember']);
+            $responsible = $this->responsibleMapper->findById($data['responsible']);
 
-            if ($teamMember->getValue() > 0) {
-                $personTotalValue += $teamMember->getValue();
+            if ($responsible->getValue() > 0) {
+                $totalProvidedValue += $responsible->getValue();
                 $contractingStatus = new C3op_Projects_ActionContracting($action, $this->actionMapper);
                 if ($contractingStatus->isContracted()) {
-                    $personContractedValue += $teamMember->getValue();
+                    $totalContractedValue += $responsible->getValue();
 
                 }
-                $actionTotalValue = $currencyDisplay->FormatCurrency($teamMember->getValue());
+                $actionTotalValue = $currencyDisplay->FormatCurrency($responsible->getValue());
             } else {
                 $actionTotalValue = $this->view->translate("#(not defined)");
             }
 
-            $actionPayedValue = $this->outlayMapper->totalPayedValueForTeamMember($teamMember);
+            $actionPayedValue = $this->outlayMapper->totalPayedValueForResponsible($responsible);
             if ($actionPayedValue > 0) {
-                $personPayedValue += $actionPayedValue;
+                $alreadyPayedValue += $actionPayedValue;
                 $actionPayedValue = $currencyDisplay->FormatCurrency($actionPayedValue);
             } else {
                 $actionPayedValue = $currencyDisplay->FormatCurrency(0);
             }
 
-            $actionPayedValue = $this->outlayMapper->totalPayedValueForTeamMember($teamMember);
+            $actionPayedValue = $this->outlayMapper->totalPayedValueForResponsible($responsible);
             if ($actionPayedValue > 0) {
-                $personPayedValue += $actionPayedValue;
+                $alreadyPayedValue += $actionPayedValue;
                 $actionPayedValue = $currencyDisplay->FormatCurrency($actionPayedValue);
             } else {
                 $actionPayedValue = $currencyDisplay->FormatCurrency(0);
@@ -514,10 +514,14 @@ class Projects_ProjectController extends Zend_Controller_Action
             $rawActionStatus = $action->getStatus();
             $actionStatusLabel = $statusTypes->TitleForType($rawActionStatus);
 
-            $rawTeamMemberStatus = $teamMember->getStatus();
-            $statusTypes = new C3op_Resources_TeamMemberStatusTypes();
-            $teamMemberStatusLabel = $statusTypes->TitleForType($rawTeamMemberStatus);
-            if (($teamMember->getLinkage() > 0) && ($rawTeamMemberStatus == C3op_Resources_TeamMemberStatusConstants::STATUS_FORESEEN)) {
+            $rawResponsibleStatus = $responsible->getStatus();
+            $statusTypes = new C3op_Resources_ResponsibleStatusTypes();
+            $responsibleStatusLabel = $statusTypes->TitleForType($rawResponsibleStatus);
+            if (((($responsible->getType() == C3op_Resources_ResponsibleTypeConstants::TYPE_OUTSIDE_SERVICE)
+                    && ($responsible->getInstitution() > 0))
+                    || (($responsible->getType() == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER)
+                    && ($responsible->getContact() > 0)))
+                 && ($rawResponsibleStatus == C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN)) {
                 $canContract = true;
             } else {
                 $canContract = false;
@@ -526,15 +530,15 @@ class Projects_ProjectController extends Zend_Controller_Action
             $outlayId = 0;
             $canNotifyOutlay = false;
             $canProvideOutlay = false;
-            if ($rawTeamMemberStatus == C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED) {
-                $doesIt = new C3op_Resources_TeamMemberHasCredit($teamMember, $this->teamMemberMapper);
+            if ($rawResponsibleStatus == C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED) {
+                $doesIt = new C3op_Resources_ResponsibleHasCredit($responsible, $this->responsibleMapper);
                 if ($doesIt->hasCreditToProvide()) {
                     $canProvideOutlay = true;
                 } else {
                     $canProvideOutlay = false;
                 }
                 if ($doesIt->hasCreditToPay()) {
-                    $result = $this->teamMemberMapper->getNextOutlayToPayTo($teamMember);
+                    $result = $this->responsibleMapper->getNextOutlayToPayTo($responsible);
                     if ($result !== null) {
                         $canNotifyOutlay = true;
                         $outlayId = $result['id'];
@@ -549,58 +553,59 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $canProvideOutlay = false;
             }
 
-            $removal = new C3op_Resources_TeamMemberRemoval($teamMember, $this->teamMemberMapper);
+            $removal = new C3op_Resources_ResponsibleRemoval($responsible, $this->responsibleMapper);
             if ($removal->canBeRemoved()) {
                 $canEditResource = true;
-                $canRemoveTeamMember = true;
+                $canRemoveResponsible = true;
             } else {
                 $canEditResource = false;
-                $canRemoveTeamMember = false;
+                $canRemoveResponsible = false;
             }
 
 
-            $personActions[$id] = array(
-                'teamMemberId'        => $teamMember->getId(),
+            $engagedActions[$id] = array(
+                'responsibleId'        => $responsible->getId(),
                 'title'               => $action->getTitle(),
-                'position'            => $teamMember->getDescription(),
+                'position'            => "??? out of use ???",
 //                'payedValue'          => $actionPayedValue,
 //                'totalValue'          => $actionTotalValue,
                 'payedValue'          => 'N/D',
                 'totalValue'          => 'N/D',
                 'actionStatus'        => $this->view->translate($actionStatusLabel),
-                'teamMemberStatus'    => $this->view->translate($teamMemberStatusLabel),
+                'responsibleStatus'    => $this->view->translate($responsibleStatusLabel),
                 'canContractFlag'     => $canContract,
                 'canProvideOutlay'    => $canProvideOutlay,
                 'canNotifyOutlay'     => $canNotifyOutlay,
                 'canEditResource'     => $canEditResource,
-                'canRemoveTeamMember' => $canRemoveTeamMember,
+                'canRemoveResponsible' => $canRemoveResponsible,
                 'outlayId'            => $outlayId,
             );
         }
 
-        if ($personTotalValue > 0) {
-            $personTotalValue = $currencyDisplay->FormatCurrency($personTotalValue);
+        if ($totalProvidedValue > 0) {
+            $totalProvidedValue = $currencyDisplay->FormatCurrency($totalProvidedValue);
         } else {
-            $personTotalValue = $this->view->translate("#(not defined)");
+            $totalProvidedValue = $this->view->translate("#(not defined)");
         }
 
-        if ($personPayedValue > 0) {
-            $personPayedValue = $currencyDisplay->FormatCurrency($personPayedValue);
+        if ($alreadyPayedValue > 0) {
+            $alreadyPayedValue = $currencyDisplay->FormatCurrency($alreadyPayedValue);
         } else {
-            $personPayedValue = $currencyDisplay->FormatCurrency(0);
+            $alreadyPayedValue = $currencyDisplay->FormatCurrency(0);
         }
 
-        if ($personContractedValue > 0) {
-            $personContractedValue = $currencyDisplay->FormatCurrency($personContractedValue);
+        if ($totalContractedValue > 0) {
+            $totalContractedValue = $currencyDisplay->FormatCurrency($totalContractedValue);
         } else {
-            $personContractedValue = $this->view->translate("#(not defined)");
+            $totalContractedValue = $this->view->translate("#(not defined)");
         }
 
 
 
-        $personData = array(
+        $pageData = array(
             'projectId'       => $project->getId(),
             'name'            => $contact->getName(),
+            'contactId'       => $contact->getId(),
             'projectTitle'    => $project->getShortTitle(),
 //            'payedValue'      => $personPayedValue,
 //            'contractedValue' => $personContractedValue,
@@ -608,12 +613,9 @@ class Projects_ProjectController extends Zend_Controller_Action
             'payedValue'      => 'N/D',
             'contractedValue' => 'N/D',
             'totalValue'      => 'N/D',
-            'personActions'   => $personActions,
+            'engagedActions'   => $engagedActions,
         );
 
-        $pageData = array(
-            'personData' => $personData,
-        );
         $this->view->pageData = $pageData;
 
     }
@@ -768,6 +770,11 @@ class Projects_ProjectController extends Zend_Controller_Action
          $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
     }
 
+    private function initResponsibleMapper()
+    {
+         $this->responsibleMapper = new C3op_Resources_ResponsibleMapper($this->db);
+    }
+
     private function initInstitutionMapper()
     {
          $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
@@ -788,9 +795,9 @@ class Projects_ProjectController extends Zend_Controller_Action
         return $mapper->findById($this->checkIdFromGet());
     }
 
-    private function initLinkageWithCheckedLinkageId(C3op_Register_LinkageMapper $mapper)
+    private function initContactWithCheckedContactId(C3op_Register_ContactMapper $mapper)
     {
-        return $mapper->findById($this->checkLinkageFromGet());
+        return $mapper->findById($this->checkContactFromGet());
     }
 
     private function checkIdFromGet()
@@ -811,19 +818,19 @@ class Projects_ProjectController extends Zend_Controller_Action
 
     }
 
-    private function checkLinkageFromGet()
+    private function checkContactFromGet()
     {
         $data = $this->_request->getParams();
         $filters = array(
-            'linkage' => new Zend_Filter_Alnum(),
+            'contact' => new Zend_Filter_Alnum(),
         );
         $validators = array(
-            'linkage' => array('Digits', new Zend_Validate_GreaterThan(0)),
+            'contact' => array('Digits', new Zend_Validate_GreaterThan(0)),
         );
         $input = new Zend_Filter_Input($filters, $validators, $data);
         if ($input->isValid()) {
-            $linkage = $input->linkage;
-            return $linkage;
+            $contact = $input->contact;
+            return $contact;
         }
         throw new C3op_Projects_ProjectException("Invalid Project Id from Get");
 

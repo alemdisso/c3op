@@ -47,9 +47,12 @@ class C3op_Projects_ActionHeader {
             $canRemoveAction = false;
         }
 
+        $user = Zend_Registry::get('user');
+        $acl = Zend_Registry::get('acl');
+
         $receiptToAcceptOrReject = false;
         if ($this->action->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_RECEIVED) {
-            $tester = new C3op_Access_PrivilegeTester("projects", "action", "accept-receipt");
+            $tester = new C3op_Access_PrivilegeTester($user, $acl, "projects", "action", "accept-receipt");
             if ($tester->allow()) {
                 $receiptToAcceptOrReject = true;
             }
@@ -57,7 +60,7 @@ class C3op_Projects_ActionHeader {
 
         $waitingToReceipt = false;
         if ($this->action->hasBegun()) {
-            $tester = new C3op_Access_PrivilegeTester("projects", "action", "acknowledge-receipt");
+            $tester = new C3op_Access_PrivilegeTester($user, $acl, "projects", "action", "acknowledge-receipt");
             if ($tester->allow()) {
                 if ($this->action->waitingToReceipt()) {
                     $waitingToReceipt = true;
@@ -76,6 +79,17 @@ class C3op_Projects_ActionHeader {
 
     private function fillBudgetData()
     {
+
+        $user = Zend_Registry::get('user');
+        $acl = Zend_Registry::get('acl');
+
+        $canEditBudget = false;
+        $tester = new C3op_Access_PrivilegeTester($user, $acl, "projects", "action", "budget-cretae");
+        if ($tester->allow()) {
+            $canEditBudget = true;
+        }
+        $this->data['canEditBudget'] = $canEditBudget;
+
 
         $budgetForecast = $this->action->getBudgetForecast();
         if ($budgetForecast > 0) {
@@ -240,13 +254,13 @@ class C3op_Projects_ActionHeader {
         if ($responsible->doesItHasAResponsible()) {
             $data = $responsible->fetch();
             $this->data['hasResponsible'] = true;
-            $this->data['responsibleId'] = $data['responsibleId'];
-            $this->data['responsibleName'] = $data['responsibleName'];
+            $this->data['contactId'] = $data['contactId'];
+            $this->data['contactName'] = $data['contactName'];
             $this->data['statusLabel'] = $data['statusLabel'];
         } else {
             $this->data['hasResponsible'] = false;
-            $this->data['responsibleId'] = 0;
-            $this->data['responsibleName'] = _('#(unassigned)');
+            $this->data['contactId'] = 0;
+            $this->data['contactName'] = _('#(unassigned)');
             $this->data['statusLabel'] = _('#(unknown)');
 
         }
@@ -258,7 +272,7 @@ class C3op_Projects_ActionHeader {
        // actionInfo
        //   title
        //   subordinatedTo
-       //   responsibleName
+       //   contactName
        //   predictedBeginDate
        //   realBeginDate
        //   predictedFinishDate
@@ -273,9 +287,9 @@ class C3op_Projects_ActionHeader {
 
             if ($loopAction->getSupervisor()) {
                 $theContact = $this->contactMapper->findById($loopAction->getSupervisor());
-                $data['responsibleName'] = $theContact->getName();
+                $data['contactName'] = $theContact->getName();
             } else {
-                $data['responsibleName'] = "#Not defined";
+                $data['contactName'] = "#Not defined";
             }
 
             $this->fillDatesData($loopAction, $data);

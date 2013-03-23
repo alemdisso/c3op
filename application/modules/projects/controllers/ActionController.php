@@ -498,7 +498,10 @@ class Projects_ActionController extends Zend_Controller_Action
     {
         $this->_helper->layout->disableLayout();
 
-        $tester = new C3op_Access_PrivilegeTester("projects", "action", "accept-receipt");
+        $user = Zend_Registry::get('user');
+        $acl = Zend_Registry::get('acl');
+
+        $tester = new C3op_Access_PrivilegeTester($user, $acl, "projects", "action", "accept-receipt");
         if (!$tester->allow()) {
             $this->_helper->viewRenderer->setNoRender(TRUE);
         }

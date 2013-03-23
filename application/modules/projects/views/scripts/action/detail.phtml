@@ -305,25 +305,35 @@ if (!$actionHeader['hasResponsible']) {
           <div id="responsibleDiv" class="slidingDiv">
               <h3>   <?php print($this->translate("#Inform responsible")); ?>  </h3>
               <div id="responsibleFormDiv">&nbsp;</div>
+
             <br class="clear"/>
             <a class="alpha" href="#responsible" id="hideHref"><?php print($this->translate("#Hide form")); ?></a>
-
           </div>
 <?php
   } else {
     $projectId = $actionHeader['projectId'];
-    $linkageId = $actionHeader['responsibleId'];
-    $contactName = $actionHeader['responsibleName'];
-    $personLink = "<a href='/projects/project/person/?id=$projectId&linkage=$linkageId'>$contactName</a>";
+    $contactName = $actionHeader['contactName'];
+    $personLink = "<a href='#' class ='anchorclass' rel ='submenuResponsible'>$contactName</a>";
 
 
 ?>
 <?php print(sprintf($this->translate("#%s was assigned responsible for this action"), $personLink)); ?> (<?php print($this->translate($actionHeader['statusLabel'])); ?>)
+                  <div id="submenuResponsible" class="anylinkcss">
+                      <ul>
+                          <li><a href="/projects/project/engagement/?id=<?php print $actionHeader['projectId'] ?>&contact=<?php print $actionHeader['contactId'] ?>">Participação no projeto</a>
+                          </li>
+                      </ul>
+                  </div>
+
 <?php
 
   }
 ?>
           </div>
+<?php
+if ($actionHeader['canEditBudget']) {
+
+?>
 
           <br class="clear" />
           <div class="eight columns offset-by-three">
@@ -354,6 +364,10 @@ if (isset($actionHeader['hasBudget'])) {
 
           </div>
           </div>
+<?php
+
+    }
+?>
 
         </div><!-- .Area -->
 
@@ -433,7 +447,7 @@ if (isset($actionHeader['hasBudget'])) {
     if($teamMemberData['contactId']) {
 ?>
                   <td>
-                  <a href="/projects/project/person/?id=<?php print($actionHeader['projectId']) ?>&linkage=<?php print($teamMemberData['linkageId']) ?>"><?php print($teamMemberData['name']) ?></a>
+                  <a href="/projects/project/engagement/?id=<?php print($actionHeader['projectId']) ?>&linkage=<?php print($teamMemberData['linkageId']) ?>"><?php print($teamMemberData['name']) ?></a>
                 </td>
 <?php
     } else {

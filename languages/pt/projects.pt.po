@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-19 16:50-0300\n"
-"PO-Revision-Date: 2013-03-19 16:50-0300\n"
+"PO-Revision-Date: 2013-03-21 14:54-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -432,7 +432,7 @@ msgstr "Esconder"
 #: application\modules\projects/views/scripts/action/detail.phtml:320
 #, php-format
 msgid "#%s was assigned responsible for this action"
-msgstr "%s é o(a) responsável por essa ação."
+msgstr "%s é responsável por essa ação."
 
 #: application\modules\projects/views/scripts/action/detail.phtml:331
 msgid "#Provide budget"

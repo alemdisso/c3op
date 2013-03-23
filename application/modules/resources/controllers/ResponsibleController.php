@@ -39,8 +39,8 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
             $pageData = array(
                 'responsibleType' => $result['responsibleType'],
-                'responsibleId'   => $result['responsibleId'],
-                'responsibleName' => $result['responsibleName'],
+                'contactId'       => $result['contactId'],
+                'contactName'     => $result['contactName'],
                 'projectId'       => $action->GetProject(),
             );
 //print("<br>result<br>");
@@ -59,7 +59,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
     public function createAction()
     {
-        $this->_helper->layout->disableLayout();
+        //$this->_helper->layout->disableLayout();
 
         // cria form
         $form = new C3op_Form_ResponsibleCreate;

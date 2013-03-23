@@ -2,14 +2,14 @@
   $pageData = $this->pageData;
 
   $projectId = $pageData['projectId'];
-  $responsibleId = $pageData['responsibleId'];
-  $responsibleName = $pageData['responsibleName'];
+  $contactId = $pageData['contactId'];
+  $contactName = $pageData['contactName'];
 
 
   if ($pageData['responsibleType'] == 'teamMember') {
-      $responsibleLink = "<a href='/projects/project/person/?id=$projectId&linkage=$responsibleId'>$responsibleName</a>";
+      $responsibleLink = "<a href='/projects/project/engagement/?id=$projectId&contact=$contactId'>$contactName</a>";
   } else {
-      $responsibleLink = "<a href='/register/institution/detail/?id=$responsibleId'>$responsibleName</a>";
+      $responsibleLink = "<a href='/register/institution/detail/?id=$contactId'>$contactName</a>";
 
   }
 //print("<br>at view<br>");

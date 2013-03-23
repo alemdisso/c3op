@@ -25,7 +25,7 @@ class C3op_Finances_OutlayMapper
         $data = array(
             'project' => $new->GetProject(),
             'action' => $new->GetAction(),
-            'team_member' => $new->GetTeamMember(),
+            'responsible' => $new->GetResponsible(),
             'predicted_value' => $new->GetPredictedValue(),
             'predicted_date' => $new->GetPredictedDate(),
             'real_value' => $new->GetRealValue(),
@@ -47,10 +47,10 @@ class C3op_Finances_OutlayMapper
 
         $this->db->exec(
             sprintf(
-                'UPDATE finances_outlays SET project = %d, action = %d, team_member = %d, predicted_value = %.2f, predicted_date = \'%s\', real_value = %.2f, real_date = \'%s\', recurrent = %d, observation = \'%s\' WHERE id = %d;',
+                'UPDATE finances_outlays SET project = %d, action = %d, responsible = %d, predicted_value = %.2f, predicted_date = \'%s\', real_value = %.2f, real_date = \'%s\', recurrent = %d, observation = \'%s\' WHERE id = %d;',
                 $o->GetProject(),
                 $o->GetAction(),
-                $o->GetTeamMember(),
+                $o->GetResponsible(),
                 $o->GetPredictedValue(),
                 $o->GetPredictedDate(),
                 $o->GetRealValue(),
@@ -75,14 +75,14 @@ class C3op_Finances_OutlayMapper
 
         $result = $this->db->fetchRow(
             sprintf(
-                'SELECT  project, action, team_member, predicted_value, predicted_date, real_value, real_date, recurrent, observation FROM finances_outlays WHERE id = %d;',
+                'SELECT  project, action, responsible, predicted_value, predicted_date, real_value, real_date, recurrent, observation FROM finances_outlays WHERE id = %d;',
                 $id
             )
         );
         if (empty($result)) {
             throw new C3op_Finances_OutlayMapperException(sprintf('There is no outlay with id #%d.', $id));
         }
-        $r = new C3op_Finances_Outlay($result['team_member'], $id);
+        $r = new C3op_Finances_Outlay($result['responsible'], $id);
         $this->setAttributeValue($r, $id, 'id');
         $this->setAttributeValue($r, $result['project'], 'project');
         $this->setAttributeValue($r, $result['action'], 'action');
@@ -120,23 +120,23 @@ class C3op_Finances_OutlayMapper
         $attribute->setValue($a, $fieldValue);
     }
 
-     public function getAllOutlaysForTeamMember(C3op_Resources_TeamMember $h) {
+     public function getAllOutlaysForResponsible(C3op_Resources_Responsible $h) {
         $result = array();
             foreach ($this->db->query(
-                    sprintf('SELECT id FROM finances_outlays WHERE team_member = %d;', $h->GetId())) as $row) {
+                    sprintf('SELECT id FROM finances_outlays WHERE responsible = %d;', $h->GetId())) as $row) {
             $result[] = $row['id'];
         }
         return $result;
     }
 
-     public function totalPayedValueForTeamMember(C3op_Resources_TeamMember $obj) {
+     public function totalPayedValueForResponsible(C3op_Resources_Responsible $obj) {
 
 
         $query = $this->db->prepare('SELECT SUM(real_value) as value
             FROM finances_outlays
-            WHERE team_member = :teamMember
+            WHERE responsible = :responsible
             AND (real_date IS NOT NULL);');
-        $query->bindValue(':teamMember', $obj->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':responsible', $obj->GetId(), PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();
 
@@ -175,7 +175,7 @@ public function fetchAllOutlaysThatCanBePayed()
             FROM finances_outlays o JOIN
             projects_actions a ON o.action = a.id
             WHERE (a.status = 400 OR a.status = 500 OR a.status = 600)
-            AND (o.team_member > 0 AND o.predicted_value > 0 AND o.real_value IS NULL AND o.real_date IS NULL)
+            AND (o.responsible > 0 AND o.predicted_value > 0 AND o.real_value IS NULL AND o.real_date IS NULL)
             ORDER BY o.predicted_date ASC;') as $row) {
             $result[] = $row['id'];
     }

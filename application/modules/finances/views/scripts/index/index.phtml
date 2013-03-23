@@ -330,7 +330,7 @@ foreach($payablesList as $id => $payableInfo) {
                     <a href="/projects/action/detail/?id=<?php print($payableInfo['actionId']) ?>"><?php print($payableInfo['actionTitle']) ?></a>
                   </td>
                   <td>
-                    <a href="/projects/project/person/?id=<?php  print $payableInfo['projectId'] ?>&linkage=<?php  print $payableInfo['linkageId'] ?>"><?php print($payableInfo['payeeName']) ?></a>
+                    <a href="/projects/project/engagement/?id=<?php  print $payableInfo['projectId'] ?>&linkage=<?php  print $payableInfo['linkageId'] ?>"><?php print($payableInfo['payeeName']) ?></a>
                   </td>
                   <td>
                     <?php print($payableInfo['predictedDate']) ?>

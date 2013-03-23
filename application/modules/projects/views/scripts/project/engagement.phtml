@@ -1,14 +1,13 @@
 <?php
   $pageData = $this->pageData;
-  $personData = $pageData['personData'];
 ?>
 
         <div id="MainHeader">
-          <h1><?php print($this->translate("#Project")); ?> <a href="/projects/project/detail/?id=<?php print($personData['projectId']) ?>"><?php print($personData['projectTitle']) ?></a></h1>
+          <h1><?php print($this->translate("#Project")); ?> <a href="/projects/project/detail/?id=<?php print($pageData['projectId']) ?>"><?php print($pageData['projectTitle']) ?></a></h1>
         </div><!-- MainHeader -->
         <div class="TituloForm">
-          <h2><?php print(sprintf($this->translate("#%s's participation in the project"), $personData['name'])); ?></h2>
-
+          <h2><?php print(sprintf($this->translate("#%s's participation in the project"), $pageData['name'])); ?></h2>
+            <a href="/register/contact/detail/?id=<?php echo $pageData['contactId'] ?>"><?php echo $this->translate("#Contact detail") ?></a>
         </div>
         <div class="Area">
 
@@ -16,19 +15,19 @@
             <?php print($this->translate("#Predicted:")); ?>
           </div>
           <div class="two columns">
-            <?php print($personData['totalValue']); ?>
+            <?php print($pageData['totalValue']); ?>
           </div>
           <div class="two columns alpha Right">
             <?php print($this->translate("#Contracted:")); ?>
           </div>
           <div class="two columns">
-            <?php print($personData['contractedValue']); ?>
+            <?php print($pageData['contractedValue']); ?>
           </div>
           <div class="two columns alpha Right">
             <?php print($this->translate("#Payed:")); ?>
           </div>
           <div class="two columns">
-            <?php print($personData['payedValue']); ?>
+            <?php print($pageData['payedValue']); ?>
           </div>
         </div>
 
@@ -52,15 +51,15 @@
               </thead>
               <tbody>
 <?php
-  $personActions = $personData['personActions'];
-  foreach ($personActions as $id => $actionData) {
+  $engagedActions = $pageData['engagedActions'];
+  foreach ($engagedActions as $id => $actionData) {
 ?>
                 <!-- ### loop de carga das ações subordinadas a esta ação -->
                 <tr>
                   <td><a href="/projects/action/detail/?id=<?php print($id);?>"><?php print($actionData['title']) ?></a></td>
                   <td><?php print($actionData['actionStatus']); ?></td>
                   <td><?php print($actionData['totalValue']); ?></td>
-                  <td><?php print($this->translate($actionData['teamMemberStatus'])); ?></td>
+                  <td><?php print($this->translate($actionData['responsibleStatus'])); ?></td>
                       <td>
                     <a href="#" class="button one column alpha omega anchorclass" rel="submenu1"><?php print($this->translate("#Options")); ?></a>
                     <div id="submenu1" class="anylinkcss">
@@ -72,7 +71,7 @@ if ($actionData['canProvideOutlay']) {
 
 
                           <li>
-                            <a href="/finances/outlay/create/?teamMember=<?php echo $actionData['teamMemberId'] ?>"><?php echo $this->translate("#Provide outlay") ?></a>
+                            <a href="/finances/outlay/create/?responsible=<?php echo $actionData['responsibleId'] ?>"><?php echo $this->translate("#Provide outlay") ?></a>
                           </li>
 
 <?php
@@ -95,7 +94,7 @@ if ($actionData['canNotifyOutlay']) {
     if ($actionData['canContractFlag']) {
 ?>
                         <li>
-                          <a class="parent_info" href="/resources/team-member/contract/?id=<?php print($actionData['teamMemberId']);?>" ><?php print($this->translate("#Confirm team member contracting")); ?></a>
+                          <a class="parent_info" href="/resources/responsible/contract/?id=<?php print($actionData['responsibleId']);?>" ><?php print($this->translate("#Confirm team member contracting")); ?></a>
                         </li>
 
 <?php
@@ -107,7 +106,7 @@ if ($actionData['canNotifyOutlay']) {
 
 ?>
                         <li>
-                          <a href="/resources/team-member/edit/?id=<?php print($actionData['teamMemberId']) ?>"><?php print($this->translate("#Edit")); ?></a>
+                          <a href="/resources/responsible/edit/?id=<?php print($actionData['responsibleId']) ?>"><?php print($this->translate("#Edit")); ?></a>
                         </li>
 
 <?php
@@ -116,12 +115,12 @@ if ($actionData['canNotifyOutlay']) {
 
 <?php
 
-if ($actionData['canRemoveTeamMember']) {
+if ($actionData['canRemoveResponsible']) {
 ?>
 
 
                           <li>
-                            <a href="/resources/team-member/remove/?id=<?php echo $actionData['teamMemberId'] ?>"><?php echo $this->translate("#Remove") ?></a>
+                            <a href="/resources/responsible/remove/?id=<?php echo $actionData['responsibleId'] ?>"><?php echo $this->translate("#Remove") ?></a>
                           </li>
 
 <?php

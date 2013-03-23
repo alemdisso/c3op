@@ -298,7 +298,7 @@ foreach($teamMembersList as $id => $teamMemberInfo) {
 <?php
 if($teamMemberInfo['linkageId'] > 0) {
 ?>
-                    <a alt="<?php print $teamMemberInfo['linkageInstitutionName']; ?>" href="/projects/project/person/?id=<?php  print $projectHeader['id'] ?>&linkage=<?php  print $teamMemberInfo['linkageId'] ?>"><?php print($teamMemberInfo['staffName']) ?></a>
+                    <a alt="<?php print $teamMemberInfo['linkageInstitutionName']; ?>" href="/projects/project/engagement/?id=<?php  print $projectHeader['id'] ?>&linkage=<?php  print $teamMemberInfo['linkageId'] ?>"><?php print($teamMemberInfo['staffName']) ?></a>
 <?php
 
 } else { // (undefined)

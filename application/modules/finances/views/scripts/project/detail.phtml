@@ -342,7 +342,7 @@ foreach($outlaysList as $id => $outlayInfo) {
 <?php
 if($outlayInfo['payeeId'] > 0) {
 ?>
-                    <a href="/projects/project/person/?id=<?php echo $projectHeader['id'] ?>&linkage=<?php  print $outlayInfo['payeeId'] ?>"><?php print($outlayInfo['payeeName']) ?></a>
+                    <a href="/projects/project/engagement/?id=<?php echo $projectHeader['id'] ?>&linkage=<?php  print $outlayInfo['payeeId'] ?>"><?php print($outlayInfo['payeeName']) ?></a>
 <?php
 
 } else {

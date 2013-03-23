@@ -5,7 +5,8 @@ class C3op_Form_ResponsibleCreate extends Zend_Form
     public function init()
     {
         $this->setName('newResponsibleForm')
-            ->setAction('javascript:submitResponsibleForm();')
+            ->setAction('/resources/responsible/create')
+            //->setAction('javascript:submitResponsibleForm();')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
@@ -97,45 +98,52 @@ class C3op_Form_ResponsibleCreate extends Zend_Form
         }
         else
         {
+
             $db = Zend_Registry::get('db');
             $type = $this->responsibleType->getValue();
 
+            $responsibleMapper = new C3op_Resources_ResponsibleMapper($db);
+            $responsible = new C3op_Resources_Responsible();
             if ($type == 'service') {
-                $outsideServiceMapper = new C3op_Resources_OutsideServiceMapper($db);
-                $outsideService = new C3op_Resources_OutsideService();
-                $outsideService->SetDescription("?!?action description?!?");
-                $outsideService->SetInstitution($this->institution->GetValue());
-                $outsideService->SetLinkage($this->linkage->GetValue());
+                $responsible->SetInstitution($this->institution->GetValue());
+                $responsible->SetContact($this->linkage->GetValue());
 
                 $converter = new C3op_Util_DecimalConverter();
                 $validator = new C3op_Util_ValidDecimal();
                 if ($validator->isValid($this->value->GetValue())) {
-                    $outsideService->SetValue($converter->getDecimalDotValue($this->value->GetValue(), $validator));
+                    $responsible->SetValue($converter->getDecimalDotValue($this->value->GetValue(), $validator));
                 }
 
-                $outsideService->SetAction($this->action->GetValue());
-                $outsideService->SetProject($this->project->GetValue());
-                $outsideServiceMapper->insert($outsideService);
-                return $outsideService->GetAction();
+                $responsible->SetType(C3op_Resources_ResponsibleTypeConstants::TYPE_OUTSIDE_SERVICE);
+                $responsible->SetAction($this->action->GetValue());
+                $responsible->SetProject($this->project->GetValue());
+                $responsibleMapper->insert($responsible);
+                return $responsible->GetAction();
 
             } else {
 
 
-                $teamMemberMapper = new C3op_Resources_TeamMemberMapper($db);
-                $teamMember = new C3op_Resources_TeamMember();
-                $teamMember->SetDescription("?!?action description?!?");
-                $teamMember->SetLinkage($this->linkage->GetValue());
+                $linkageId = $this->linkage->GetValue();
+                $linkageMapper = new C3op_Register_LinkageMapper($this->db);
+                $linkageContact = $linkageMapper->findById($linkageId);
+                $contactId = $linkageContact->GetContact();
+                $institutionId = $linkageContact->GetInstitution();
+                $responsible->SetInstitution($institutionId);
+                $responsible->SetContact($contactId);
+
+                $responsible->SetType(C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER);
 
                 $converter = new C3op_Util_DecimalConverter();
                 $validator = new C3op_Util_ValidDecimal();
                 if ($validator->isValid($this->value->GetValue())) {
-                    $teamMember->SetValue($converter->getDecimalDotValue($this->value->GetValue(), $validator));
+                    $responsible->SetValue($converter->getDecimalDotValue($this->value->GetValue(), $validator));
                 }
 
-                $teamMember->SetAction($this->action->GetValue());
-                $teamMember->SetProject($this->project->GetValue());
-                $teamMemberMapper->insert($teamMember);
-                return $teamMember->GetAction();
+                $responsible->SetAction($this->action->GetValue());
+                $responsible->SetProject($this->project->GetValue());
+
+                $responsibleMapper->insert($responsible);
+                return $responsible->GetAction();
             }
         }
     }
