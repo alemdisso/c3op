@@ -56,13 +56,13 @@ function rejectReceipt(id){
 
 $(document).ready(function(){
 
-        $("#responsibleDiv").hide();
-        $("#responsibleButton").show();
+    $("#responsibleDiv").hide();
+    $("#responsibleButton").show();
 
     $('#responsibleButton').click(function(){
         $.ajax({
             type: 'get',
-            data: 'id=<?php print $actionHeader['id'] ?>',
+            data: 'actionId=<?php print $actionHeader['id'] ?>',
             url:'/resources/responsible/create',
             success: function(successReturn){
             $('#responsibleFormDiv').html(successReturn);
@@ -80,7 +80,23 @@ $(document).ready(function(){
 
 
 
+
+
 });
+
+    function callResponsibleEdit(id){
+        $.ajax({
+            type: 'get',
+            data: 'id=' + id,
+            url:'/resources/responsible/edit',
+            success: function(successReturn){
+            $('#responsibleFormDiv').html(successReturn);
+            }
+        })
+
+         $("#responsibleDiv").slideToggle();
+         $("#responsibleButton").hide();
+    }
 
 </script>
 
@@ -302,15 +318,11 @@ if (!$actionHeader['hasResponsible']) {
 ?>
 
             <a id="responsibleButton" class="button two columns alpha omega parent_info" href="#responsible"><?php print($this->translate("#Inform responsible")); ?></a>
-          <div id="responsibleDiv" class="slidingDiv">
-              <h3>   <?php print($this->translate("#Inform responsible")); ?>  </h3>
-              <div id="responsibleFormDiv">&nbsp;</div>
-
-            <br class="clear"/>
-            <a class="alpha" href="#responsible" id="hideHref"><?php print($this->translate("#Hide form")); ?></a>
-          </div>
 <?php
-  } else {
+}
+?>
+<?php
+if ($actionHeader['hasResponsible']) {
     $projectId = $actionHeader['projectId'];
     $contactName = $actionHeader['contactName'];
     $personLink = "<a href='#' class ='anchorclass' rel ='submenuResponsible'>$contactName</a>";
@@ -320,7 +332,11 @@ if (!$actionHeader['hasResponsible']) {
 <?php print(sprintf($this->translate("#%s was assigned responsible for this action"), $personLink)); ?> (<?php print($this->translate($actionHeader['statusLabel'])); ?>)
                   <div id="submenuResponsible" class="anylinkcss">
                       <ul>
-                          <li><a href="/projects/project/engagement/?id=<?php print $actionHeader['projectId'] ?>&contact=<?php print $actionHeader['contactId'] ?>">Participação no projeto</a>
+                          <li>
+                              <a href="/projects/project/engagement/?id=<?php print $actionHeader['projectId'] ?>&contact=<?php print $actionHeader['contactId'] ?>"><?php print($this->translate("#Engagement in the project")); ?></a>
+                          </li>
+                          <li>
+                              <a href="javascript:callResponsibleEdit(<?php print $actionHeader['responsibleId'] ?>)"><?php print($this->translate("#Edit responsible")); ?></a>
                           </li>
                       </ul>
                   </div>
@@ -329,6 +345,13 @@ if (!$actionHeader['hasResponsible']) {
 
   }
 ?>
+          <div id="responsibleDiv" class="slidingDiv">
+              <h3>   <?php print($this->translate("#Inform responsible")); ?>  </h3>
+              <div id="responsibleFormDiv">&nbsp;</div>
+
+            <br class="clear"/>
+            <a class="alpha" href="#responsible" id="hideHref"><?php print($this->translate("#Hide form")); ?></a>
+          </div>
           </div>
 <?php
 if ($actionHeader['canEditBudget']) {
@@ -387,7 +410,7 @@ if (isset($actionHeader['hasBudget'])) {
                     <thead>
                             <tr>
                             <th width="200" align="left"><?php echo $this->translate("#Action") ?></th>
-                            <th width="200" align="left"><?php echo $this->translate("#Supervisor") ?></th>
+                            <th width="200" align="left"><?php echo $this->translate("#Responsible") ?></th>
                             <th width="100" align="left"><?php echo $this->translate("#Pred. begin date") ?></th>
                             <th width="100" align="left"><?php echo $this->translate("#Real begin date") ?></th>
                             <th width="100" align="left"><?php echo $this->translate("#Pred. finish date") ?></th>
@@ -407,7 +430,17 @@ if (isset($actionHeader['hasBudget'])) {
     ?>
                     <tr id="<?php print ($nodeId) ?>" <?php print (($childOf != $actionHeader['id'] ? $classId : '')) ?>>
                     <td><a href='/projects/action/detail/?id=<?php print($id) ?>'><?php print ($actionData['title']) ?></a></td>
-                    <td><?php print ($this->translate($actionData['responsibleName'])) ?></td>
+<?php
+if ($actionData['contactId'] > 0) {
+?>
+                    <td><a href ='/projects/project/engagement/?id=<?php print($actionHeader['projectId']) ?>&contact=<?php print($actionData['contactId']) ?>'><?php print ($this->translate($actionData['contactName'])) ?></a></td>
+<?php
+} else {
+?>
+                    <td><?php print ($this->translate($actionData['contactName'])) ?></td>
+<?php
+}
+?>
                     <td><?php print ($this->translate($actionData['predictedBeginDate'])) ?></td>
                     <td><?php print ($this->translate($actionData['realBeginDate'])) ?></td>
                     <td><?php print ($this->translate($actionData['predictedFinishDate'])) ?></td>

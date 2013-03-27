@@ -104,6 +104,21 @@ class C3op_Register_LinkageMapper
 
     }
 
+    public function findByContactAndInstitution($contact, $institution) {
+        $result = $this->db->fetchRow(
+            sprintf(
+                'SELECT id FROM register_linkages WHERE contact = %d AND institution = %d ;',
+                $contact,
+                $institution
+            )
+        );
+        if (empty($result)) {
+            //throw new C3op_Register_LinkageMapperException(sprintf('There is no linkage for this contact $s and institution %s.', $contact, $institution));
+            return null;
+        }
+        return $this->findById($result['id']);
+    }
+
     public function findByPhoneId($phoneId) {
         $result = $this->db->fetchRow(
             sprintf(
@@ -112,7 +127,8 @@ class C3op_Register_LinkageMapper
             )
         );
         if (empty($result)) {
-            throw new C3op_Register_LinkageMapperException(sprintf('There is no linkage with a phone with this phone id #%d.', $phoneId));
+            return null;
+            //throw new C3op_Register_LinkageMapperException(sprintf('There is no linkage with a phone with this phone id #%d.', $phoneId));
         }
         return $this->findById($result['linkage']);
     }
@@ -287,7 +303,7 @@ class C3op_Register_LinkageMapper
 
     }
 
-    
+
 
 
 }

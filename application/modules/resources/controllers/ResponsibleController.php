@@ -5,6 +5,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
     private $teamMemberMapper;
     private $actionMapper;
     private $contactMapper;
+    private $institutionMapper;
     private $linkageMapper;
     private $db;
 
@@ -59,7 +60,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
     public function createAction()
     {
-        //$this->_helper->layout->disableLayout();
+        $this->_helper->layout->disableLayout();
 
         // cria form
         $form = new C3op_Form_ResponsibleCreate;
@@ -85,7 +86,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
         } else {
             $data = $this->_request->getParams();
 
-            $actionId = $data['id'];
+            $actionId = $data['actionId'];
 
             if (!isset($this->actionMapper)) {
                 $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
@@ -111,7 +112,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
             while (list($key, $linkageData) = each($allLinkedContacts)) {
                 $linkageLabel = $linkageData['name'] . " ({$linkageData['short_name']})";
-                $linkageField->addMultiOption($linkageData['linkage'], $linkageLabel);
+                $linkageField->addMultiOption($linkageData['contact'], $linkageLabel);
             }
 
             $institutionField = $form->getElement('institution');
@@ -140,17 +141,18 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
     public function editAction()
     {
-        $form = new C3op_Form_TeamMemberEdit;
+        $this->_helper->layout->disableLayout();
+        $form = new C3op_Form_ResponsibleEdit;
         $this->view->form = $form;
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
-                $this->initTeamMemberMapper();
-                $teamMember =  $this->teamMemberMapper->findById($id);
+                $this->initResponsibleMapper();
+                $responsible =  $this->responsibleMapper->findById($id);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/action/detail/?id=' . $teamMember->GetAction());
+                $this->_redirect('/projects/action/detail/?id=' . $responsible->GetAction());
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -167,36 +169,51 @@ class Resources_ResponsibleController extends Zend_Controller_Action
             $input = new Zend_Filter_Input($filters, $validators, $data);
             if ($input->isValid()) {
                 $id = $input->id;
-                if (!isset($this->teamMemberMapper)) {
-                    $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
+                if (!isset($this->responsibleMapper)) {
+                    $this->responsibleMapper = new C3op_Resources_ResponsibleMapper($this->db);
                 }
-                $thisTeamMember = $this->teamMemberMapper->findById($id);
-                $descriptionField = $form->getElement('description');
-                $descriptionField->setValue($thisTeamMember->getDescription());
-                $linkageField = $form->getElement('linkage');
-                $linkageField->setValue($thisTeamMember->getLinkage());
+                $thisResponsible = $this->responsibleMapper->findById($id);
                 $idField = $form->getElement('id');
                 $idField->setValue($id);
                 $valueField = $form->getElement('value');
-                $valueField->setValue($thisTeamMember->getValue());
+                $valueField->setValue($thisResponsible->getValue());
+
+                $typeField = $form->getElement('responsibleType');
+                $responsibleType = $thisResponsible->getType();
+                if ($responsibleType == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER) {
+                    $typeField->setValue("teamMember");
+                    $linkage = $this->linkageMapper->findByContactAndInstitution($thisResponsible->getContact(), $thisResponsible->getInstitution());
+                    $linkageField = $form->getElement('linkage');
+                    if (!isset($this->contactMapper)) {
+                        $this->contactMapper = new C3op_Register_ContactMapper($this->db);
+                    }
+                    $allLinkedContacts = $this->contactMapper->getAllContactsThatAreLinkedToAnyInstitution();
+
+                    while (list($key, $linkageData) = each($allLinkedContacts)) {
+                        $linkageLabel = $linkageData['name'] . " ({$linkageData['short_name']})";
+                        $linkageField->addMultiOption($linkageData['linkage'], $linkageLabel);
+                    }
+                    if ($linkage) {
+                        $linkageField->setValue($linkage->getId());
+                    }
+
+                } else {
+                    $typeField->setValue("service");
+
+                }
+
                 $actionField = $form->getElement('action');
-                $actionField->setValue($thisTeamMember->getAction());
+                $actionField->setValue($thisResponsible->getAction());
+                $projectField = $form->getElement('project');
+                $projectField->setValue($thisResponsible->getProject());
                 if (!isset($this->actionMapper)) {
                     $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
                 }
-                $parentAction = $this->actionMapper->findById($thisTeamMember->getAction());
+                $parentAction = $this->actionMapper->findById($thisResponsible->getAction());
 
-                $linkageField = $form->getElement('linkage');
-                if (!isset($this->contactMapper)) {
-                    $this->contactMapper = new C3op_Register_ContactMapper($this->db);
+                if (!isset($this->linkageMapper)) {
+                    $this->linkageMapper = new C3op_Register_LinkageMapper($this->db);
                 }
-                $allLinkedContacts = $this->contactMapper->getAllContactsThatAreLinkedToAnyInstitution();
-
-                while (list($key, $linkageData) = each($allLinkedContacts)) {
-                    $linkageLabel = $linkageData['name'] . " ({$linkageData['short_name']})";
-                    $linkageField->addMultiOption($linkageData['linkage'], $linkageLabel);
-                }
-                $linkageField->setValue($thisTeamMember->getLinkage());
 
                 if (!isset($this->projectMapper)) {
                     $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
@@ -204,7 +221,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
                 $projectAction = $this->projectMapper->findById($parentAction->getProject());
 
                 $pageData = array(
-                    'actionId' => $thisTeamMember->GetAction(),
+                    'actionId' => $thisResponsible->GetAction(),
                     'actionTitle' => $parentAction->GetTitle(),
                     'projectId' => $parentAction->GetProject(),
                     'projectTitle' => $projectAction->GetShortTitle(),
@@ -215,10 +232,36 @@ class Resources_ResponsibleController extends Zend_Controller_Action
         }
     }
 
-    private function initTeamMemberWithCheckedId(C3op_Resources_TeamMemberMapper $mapper)
+     public  function populateContactsFieldAction()
     {
-        return $mapper->findById($this->checkIdFromGet());
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(TRUE);
+
+        $id = $this->checkIdFromGet();
+        if (!isset($this->institutionMapper)) {
+            $this->initInstitutionMapper();
+        }
+        if (!isset($this->linkageMapper)) {
+            $this->initLinkageMapper();
+        }
+
+        if (!isset($this->contactMapper)) {
+            $this->initContactMapper();
+        }
+
+        $linkagessList = $this->institutionMapper->getAllLinkagesAtAnInstitution($id);
+        $data = array();
+        foreach ($linkagessList as $k => $id) {
+            $loopLinkage = $this->linkageMapper->findById($id);
+            $loopContact = $this->contactMapper->findById($loopLinkage->getContact());
+            $data[] = array('id' => $loopContact->getId(), 'title' => $loopContact->getName());
+        }
+
+        echo json_encode($data);
+
+
     }
+
 
     private function checkIdFromGet()
     {
@@ -281,9 +324,14 @@ class Resources_ResponsibleController extends Zend_Controller_Action
          $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
     }
 
-    private function initContactMapper()
+     private function initContactMapper()
     {
          $this->contactMapper = new C3op_Register_ContactMapper($this->db);
+    }
+
+    private function initInstitutionMapper()
+    {
+         $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
     }
 
     private function initLinkageMapper()
@@ -291,7 +339,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
          $this->linkageMapper = new C3op_Register_LinkageMapper($this->db);
     }
 
-    private function givenActionIdGetActionAndProjectObjects($actionId)
+   private function givenActionIdGetActionAndProjectObjects($actionId)
     {
         if (!isset($this->actionMapper)) {
             $this->actionMapper = new C3op_Projects_ActionMapper($this->db);

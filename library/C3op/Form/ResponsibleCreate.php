@@ -5,8 +5,8 @@ class C3op_Form_ResponsibleCreate extends Zend_Form
     public function init()
     {
         $this->setName('newResponsibleForm')
-            ->setAction('/resources/responsible/create')
-            //->setAction('javascript:submitResponsibleForm();')
+            //->setAction('/resources/responsible/create')
+            ->setAction('javascript:submitResponsibleForm();')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 

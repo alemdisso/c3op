@@ -6,7 +6,7 @@
   $contactName = $pageData['contactName'];
 
 
-  if ($pageData['responsibleType'] == 'teamMember') {
+  if ($pageData['responsibleType'] == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER) {
       $responsibleLink = "<a href='/projects/project/engagement/?id=$projectId&contact=$contactId'>$contactName</a>";
   } else {
       $responsibleLink = "<a href='/register/institution/detail/?id=$contactId'>$contactName</a>";

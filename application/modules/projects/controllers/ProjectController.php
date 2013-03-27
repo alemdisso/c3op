@@ -934,6 +934,25 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $data['responsibleName'] = $this->view->translate("#Not defined");
             }
 
+            $responsible = new C3op_Projects_ActionResponsible($loopAction, $this->actionMapper, $this->db);
+
+            if ($responsible->doesItHasAResponsible()) {
+                $responsibleData = $responsible->fetch();
+                $data['hasResponsible'] = true;
+                $data['contactId'] = $responsibleData['contactId'];
+                $data['contactName'] = $responsibleData['contactName'];
+                $data['statusLabel'] = $responsibleData['statusLabel'];
+            } else {
+                $data['hasResponsible'] = false;
+                $data['contactId'] = 0;
+                $data['contactName'] = _('#(unassigned)');
+                $data['statusLabel'] = _('#(unknown)');
+
+            }
+
+
+
+
             $data['predictedBeginDate'] = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getPredictedBeginDate());
             $data['realBeginDate'] = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getRealBeginDate());
             $data['predictedFinishDate'] = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getPredictedFinishDate());

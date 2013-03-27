@@ -254,11 +254,13 @@ class C3op_Projects_ActionHeader {
         if ($responsible->doesItHasAResponsible()) {
             $data = $responsible->fetch();
             $this->data['hasResponsible'] = true;
+            $this->data['responsibleId'] = $data['responsibleId'];
             $this->data['contactId'] = $data['contactId'];
             $this->data['contactName'] = $data['contactName'];
             $this->data['statusLabel'] = $data['statusLabel'];
         } else {
             $this->data['hasResponsible'] = false;
+            $this->data['responsibleId'] = 0;
             $this->data['contactId'] = 0;
             $this->data['contactName'] = _('#(unassigned)');
             $this->data['statusLabel'] = _('#(unknown)');
@@ -285,12 +287,30 @@ class C3op_Projects_ActionHeader {
             $data['title'] = $loopAction->getTitle();
             $data['subordinatedTo'] = $loopAction->getSubordinatedTo();
 
-            if ($loopAction->getSupervisor()) {
-                $theContact = $this->contactMapper->findById($loopAction->getSupervisor());
-                $data['contactName'] = $theContact->getName();
+            $responsible = new C3op_Projects_ActionResponsible($loopAction, $this->mapper, $this->db);
+
+            if ($responsible->doesItHasAResponsible()) {
+                $responsibleData = $responsible->fetch();
+                $data['hasResponsible'] = true;
+                $data['contactId'] = $responsibleData['contactId'];
+                $data['contactName'] = $responsibleData['contactName'];
+                $data['statusLabel'] = $responsibleData['statusLabel'];
             } else {
-                $data['contactName'] = "#Not defined";
+                $data['hasResponsible'] = false;
+                $data['contactId'] = 0;
+                $data['contactName'] = _('#(unassigned)');
+                $data['statusLabel'] = _('#(unknown)');
+
             }
+
+
+
+//            if ($loopAction->getSupervisor()) {
+//                $theContact = $this->contactMapper->findById($loopAction->getSupervisor());
+//                $data['contactName'] = $theContact->getName();
+//            } else {
+//                $data['contactName'] = "#Not defined";
+//            }
 
             $this->fillDatesData($loopAction, $data);
 

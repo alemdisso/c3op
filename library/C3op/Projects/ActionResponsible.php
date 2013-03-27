@@ -57,6 +57,7 @@ class C3op_Projects_ActionResponsible {
             $data = array(
               'hasResponsible'  => true,
               'responsibleType' => $type,
+              'responsibleId'   => $responsible->getId(),
               'contactName'     => $contactName,
               'contactId'       => $contactId,
               'institutionName' => $institutionName,
