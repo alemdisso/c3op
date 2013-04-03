@@ -37,10 +37,18 @@ class C3op_Form_ResponsibleEdit extends C3op_Form_ResponsibleCreate
 
             $type = $this->responsibleType->getValue();
             if ($type == 'service') {
-                $responsible->SetInstitution($this->institution->GetValue());
+
+                $institutionId = $this->institution->GetValue();
+
+                if ($institutionId > 0) {
+                    $responsible->SetInstitution($this->institution->GetValue());
+                } else {
+                    $responsibleMapper->delete($responsible);
+                    return 0;
+                }
                 $linkageId = $this->linkage->GetValue();
-                $linkageMapper = new C3op_Register_LinkageMapper($this->db);
                 if ($linkageId) {
+                    $linkageMapper = new C3op_Register_LinkageMapper($this->db);
                     $linkageContact = $linkageMapper->findById($linkageId);
                     $contactId = $linkageContact->GetContact();
                 } else {
@@ -60,10 +68,16 @@ class C3op_Form_ResponsibleEdit extends C3op_Form_ResponsibleCreate
 
 
                 $linkageId = $this->linkage->GetValue();
-                $linkageMapper = new C3op_Register_LinkageMapper($this->db);
-                $linkageContact = $linkageMapper->findById($linkageId);
-                $contactId = $linkageContact->GetContact();
-                $institutionId = $linkageContact->GetInstitution();
+                if ($linkageId > 0) {
+                    $linkageMapper = new C3op_Register_LinkageMapper($this->db);
+                    $linkageContact = $linkageMapper->findById($linkageId);
+                    $contactId = $linkageContact->GetContact();
+                    $institutionId = $linkageContact->GetInstitution();
+                } else {
+                    $responsibleMapper->delete($responsible);
+                    return 0;
+                }
+
                 $responsible->SetInstitution($institutionId);
                 $responsible->SetContact($contactId);
 

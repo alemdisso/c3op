@@ -3,13 +3,13 @@
 
   $projectId = $pageData['projectId'];
   $contactId = $pageData['contactId'];
-  $contactName = $pageData['contactName'];
+  $responsibleLabel = $pageData['responsibleLabel'];
 
 
   if ($pageData['responsibleType'] == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER) {
-      $responsibleLink = "<a href='/projects/project/engagement/?id=$projectId&contact=$contactId'>$contactName</a>";
+      $responsibleLink = "<a href='/projects/project/engagement/?id=$projectId&contact=$contactId'>$responsibleLabel</a>";
   } else {
-      $responsibleLink = "<a href='/register/institution/detail/?id=$contactId'>$contactName</a>";
+      $responsibleLink = "<a href='/register/institution/detail/?id=$contactId'>$responsibleLabel</a>";
 
   }
 //print("<br>at view<br>");

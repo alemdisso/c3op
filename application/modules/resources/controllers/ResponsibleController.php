@@ -45,17 +45,13 @@ class Resources_ResponsibleController extends Zend_Controller_Action
             $result = $obj->fetch();
 
             $pageData = array(
-                'responsibleType' => $result['responsibleType'],
-                'contactId'       => $result['contactId'],
-                'contactName'     => $result['contactName'],
-                'projectId'       => $action->GetProject(),
+                'responsibleType'  => $result['responsibleType'],
+                'responsibleId'    => $result['responsibleId'],
+                'contactId'        => $result['contactId'],
+                'contactName'      => $result['contactName'],
+                'responsibleLabel' => $result['responsibleLabel'],
+                'projectId'        => $action->GetProject(),
             );
-//print("<br>result<br>");
-//print_r($result);
-//
-//print("<br>pageData<br>");
-//print_r($pageData);
-
         } else {
             throw new C3op_Projects_ActionException("There should be an assigned responsible but couldn\'t find it");
         }
@@ -66,7 +62,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
     public function createAction()
     {
-        //$this->_helper->layout->disableLayout();
+        $this->_helper->layout->disableLayout();
 
         // cria form
         $form = new C3op_Form_ResponsibleCreate;
@@ -75,10 +71,12 @@ class Resources_ResponsibleController extends Zend_Controller_Action
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
-                $actionId = $form->process($postData);
+                $id = $form->process($postData);
+
+
 
                 $this->_helper->viewRenderer->setNoRender(TRUE);
-                $this->_redirect('/resources/responsible/assigned/?actionId=' . $actionId);
+                $this->_redirect('/resources/responsible/assigned/?id=' . $id);
             } else {
                 //form error: populate and go back
                 $actionId = $postData['action'];
@@ -154,11 +152,18 @@ class Resources_ResponsibleController extends Zend_Controller_Action
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
-                $this->initResponsibleMapper();
-                $responsible =  $this->responsibleMapper->findById($id);
-                $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/action/detail/?id=' . $responsible->GetAction());
+                if ($id > 0) {
+                    $this->initResponsibleMapper();
+                    $responsible =  $this->responsibleMapper->findById($id);
+                    $this->_helper->getHelper('FlashMessenger')
+                        ->addMessage($this->view->translate('#The record was successfully updated.'));
+                    $this->_redirect('/projects/action/detail/?id=' . $responsible->GetAction());
+                } else {
+                    $this->_helper->getHelper('FlashMessenger')
+                        ->addMessage($this->view->translate('#The record was successfully updated.'));
+                    $this->_redirect('/projects/action/detail/?id=' . $postData['action']);
+
+                }
             } else {
                 //form error: populate and go back
                 $form->populate($postData);

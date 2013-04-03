@@ -21,6 +21,7 @@
         $('#responsibleType-service').click(function(){
             $('#linkage-label').show();
             $('#linkage').show();
+            $('#linkage').prop('disabled', true);
             $('#institution-label').show();
             $('#institution').show();
             $('#value-label').show();
@@ -47,16 +48,25 @@
             function populateResponsibleAtSupplier() {
               var id = $('#institution').val();
 
-              $.getJSON('/resources/responsible/populate-contacts-field/?id=' + id, function(data) {
-                var html = '';
-                var len = data.length;
-                html += '<option value="0">(<?php print($this->translate("#choose someone")); ?>)</option>';
-                for (var i = 0; i< len; i++) {
-                  html += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
-                }
-                $('#linkage').empty();
-                $('#linkage').append(html);
-              });
+              if (id > 0) {
+                $.getJSON('/resources/responsible/populate-contacts-field/?id=' + id, function(data) {
+                    var html = '';
+                    var len = data.length;
+                    html += '<option value="0">(<?php print($this->translate("#choose someone")); ?>)</option>';
+                    for (var i = 0; i< len; i++) {
+                    html += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                    }
+                    $('#linkage').prop('disabled', false);
+                    $('#linkage').empty();
+                    $('#linkage').append(html);
+                });
+              } else {
+                    $('#linkage').prop('disabled', true);
+                    $('#linkage').empty();
+
+              }
+
+
             }
           </script>
 

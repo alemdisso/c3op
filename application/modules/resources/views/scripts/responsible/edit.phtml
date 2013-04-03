@@ -53,6 +53,8 @@
 
             function typeHasChangedToService() {
                 populateInstitutionsField();
+                $('#linkage').hide();
+                $('#linkage').prop('disabled', true);
 //                var linkage = $('#linkage').val();
 //                populateResponsibleAtSupplier();
 //                $('#linkage').val(linkage);
@@ -61,7 +63,7 @@
 
             function populateInstitutionsField() {
                 var institution = $('#institution').val();
-                alert("UIIII " + institution);
+
                 $.getJSON('/resources/responsible/populate-institutions-field', function(data) {
                     var html = '';
                     var len = data.length;
@@ -83,16 +85,21 @@
             function populateResponsibleAtSupplier() {
               var id = $('#institution').val();
 
-              $.getJSON('/resources/responsible/populate-contacts-field/?id=' + id, function(data) {
-                var html = '';
-                var len = data.length;
-                html += '<option value="0">(escolha uma pessoa)</option>';
-                for (var i = 0; i< len; i++) {
-                  html += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
-                }
-                $('#linkage').empty();
-                $('#linkage').append(html);
-              });
+              if (id > 0) {
+                $.getJSON('/resources/responsible/populate-contacts-field/?id=' + id, function(data) {
+                    var html = '';
+                    var len = data.length;
+                    html += '<option value="0">(escolha uma pessoa)</option>';
+                    for (var i = 0; i< len; i++) {
+                    html += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                    }
+                    $('#linkage').empty();
+                    $('#linkage').append(html);
+                });
+              } else {
+                    $('#linkage').prop('disabled', true);
+                    $('#linkage').empty();
+              }
             }
           </script>
 
