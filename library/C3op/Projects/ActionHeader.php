@@ -84,7 +84,7 @@ class C3op_Projects_ActionHeader {
         $acl = Zend_Registry::get('acl');
 
         $canEditBudget = false;
-        $tester = new C3op_Access_PrivilegeTester($user, $acl, "projects", "action", "budget-cretae");
+        $tester = new C3op_Access_PrivilegeTester($user, $acl, "projects", "action", "budget-create");
         if ($tester->allow()) {
             $canEditBudget = true;
         }
