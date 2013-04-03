@@ -50,9 +50,9 @@
               $.getJSON('/resources/responsible/populate-contacts-field/?id=' + id, function(data) {
                 var html = '';
                 var len = data.length;
-                html += '<option value="0">(escolha uma pessoa)</option>';
+                html += '<option value="0">(<?php print($this->translate("#choose someone")); ?>)</option>';
                 for (var i = 0; i< len; i++) {
-                  html += '<option value="' + data[i].id + '">' + data[i].title + '</option>';
+                  html += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
                 }
                 $('#linkage').empty();
                 $('#linkage').append(html);

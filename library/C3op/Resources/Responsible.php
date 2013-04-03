@@ -29,7 +29,7 @@ class C3op_Resources_Responsible {
         if (($this->id == 0) && ($id > 0)) {
             $this->id = (int)$id;
         } else {
-            throw new C3op_Resources_ResponsibleException('It\'s not possible to change a Human Resource\'s ID');
+            throw new C3op_Resources_ResponsibleException('It\'s not possible to change a Responsible\'s ID');
         }
     } //setId
 
@@ -41,7 +41,7 @@ class C3op_Resources_Responsible {
         if (($this->project == 0) && ($project > 0)) {
             $this->project = (int)$project;
         } else {
-            throw new C3op_Resources_ResponsibleException('It\'s not possible to change a Human Resource\'s project');
+            throw new C3op_Resources_ResponsibleException('It\'s not possible to change a Responsible\'s project');
         }
     } //setId
 

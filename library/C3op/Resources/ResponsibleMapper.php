@@ -81,7 +81,7 @@ class C3op_Resources_ResponsibleMapper {
         $result = $query->fetch();
 
         if (empty($result)) {
-            throw new C3op_Resources_ResponsibleMapperException(sprintf('There is no Human Resource with id #%d.', $id));
+            throw new C3op_Resources_ResponsibleMapperException(sprintf('There is no Responsible with id #%d.', $id));
         }
         $obj = new C3op_Resources_Responsible();
 

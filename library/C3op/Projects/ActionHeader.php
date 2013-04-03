@@ -254,13 +254,16 @@ class C3op_Projects_ActionHeader {
         if ($responsible->doesItHasAResponsible()) {
             $data = $responsible->fetch();
             $this->data['hasResponsible'] = true;
+            $this->data['responsibleType'] = $data['responsibleType'];
             $this->data['responsibleId'] = $data['responsibleId'];
             $this->data['contactId'] = $data['contactId'];
             $this->data['contactName'] = $data['contactName'];
             $this->data['statusLabel'] = $data['statusLabel'];
+            $this->data['responsibleLabel'] = $data['responsibleLabel'];
         } else {
             $this->data['hasResponsible'] = false;
             $this->data['responsibleId'] = 0;
+            $this->data['responsibleType'] = 0;
             $this->data['contactId'] = 0;
             $this->data['contactName'] = _('#(unassigned)');
             $this->data['statusLabel'] = _('#(unknown)');
@@ -293,7 +296,8 @@ class C3op_Projects_ActionHeader {
                 $responsibleData = $responsible->fetch();
                 $data['hasResponsible'] = true;
                 $data['contactId'] = $responsibleData['contactId'];
-                $data['contactName'] = $responsibleData['contactName'];
+                $data['institutionId'] = $responsibleData['institutionId'];
+                $data['responsibleLabel'] = $responsibleData['responsibleLabel'];
                 $data['statusLabel'] = $responsibleData['statusLabel'];
             } else {
                 $data['hasResponsible'] = false;

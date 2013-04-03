@@ -240,8 +240,8 @@ class C3op_Projects_ProjectMapper
         foreach ($this->db->query(sprintf('SELECT o.id, o.predicted_date
                     FROM finances_outlays o
                     INNER JOIN projects_actions a ON a.id = o.action
-                    INNER JOIN resources_team_members t ON t.id = o.team_member
-                    WHERE o.project = %d AND t.linkage > 0', $p->getId()
+                    INNER JOIN resources_responsibles r ON r.id = o.responsible
+                    WHERE o.project = %d AND (r.contact > 0 OR r.institution > 0)', $p->getId()
                 )) as $row) {
             $result[] = $row['id'];
         }
@@ -254,8 +254,9 @@ class C3op_Projects_ProjectMapper
         foreach ($this->db->query(sprintf('SELECT o.id, o.predicted_date
                     FROM finances_outlays o
                     INNER JOIN projects_actions a ON a.id = o.action
-                    INNER JOIN resources_team_members t ON t.id = o.team_member
-                    WHERE a.done = 1 AND o.project = %d AND t.linkage > 0 ORDER BY o.predicted_date', $obj->getId()
+                    INNER JOIN resources_responsibles r ON r.id = o.responsible
+                    WHERE a.done = 1 AND o.project = %d AND (r.contact > 0 OR r.institution > 0)
+                    ORDER BY o.predicted_date', $obj->getId()
                 )) as $row) {
             $result[] = $row['id'];
         }

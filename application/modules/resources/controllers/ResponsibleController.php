@@ -2,7 +2,7 @@
 
 class Resources_ResponsibleController extends Zend_Controller_Action
 {
-    private $teamMemberMapper;
+    private $responsibleMapper;
     private $actionMapper;
     private $contactMapper;
     private $institutionMapper;
@@ -198,6 +198,55 @@ class Resources_ResponsibleController extends Zend_Controller_Action
                     }
 
                 } else {
+
+                    $institutionField = $form->getElement('institution');
+                    if (!isset($this->institutionMapper)) {
+                        $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
+                    }
+                    $allInstitutions = $this->institutionMapper->getAllServiceSuppliers();
+                    while (list($key, $institutionData) = each($allInstitutions)) {
+                        $institutionLabel = $institutionData['short_name'];
+                        $institutionField->addMultiOption($institutionData['id'], $institutionLabel);
+                    }
+                    $institutionField->setValue($thisResponsible->getInstitution());
+
+
+                    $linkageField = $form->getElement('linkage');
+                    if ($thisResponsible->getInstitution() > 0) {
+                        if (!isset($this->contactMapper)) {
+                            $this->initContactMapper();
+                        }
+
+                        $contactsList = $this->institutionMapper->getAllContactsThatAreLinkedToAnInstitution($thisResponsible->getInstitution());
+                        foreach ($contactsList as $key => $contactData) {
+                            $contactId = $contactData['contactId'];
+                            $linkageId = $contactData['linkageId'];
+                            $loopContact = $this->contactMapper->findById($contactId);
+                            $name = $loopContact->getName();
+                            $linkageField->addMultiOption($linkageId, $name);
+                        }
+
+                        if ($thisResponsible->getInstitution() > 0) {
+                            if (!isset($this->linkageMapper)) {
+                                $this->initLinkageMapper();
+                            }
+                            $linkage = $this->linkageMapper->findByContactAndInstitution($thisResponsible->getContact(), $thisResponsible->getInstitution());
+                            $linkageId = $linkage->getId();
+                        } else {
+                            $linkageId = 0;
+
+                        }
+
+
+
+                        $linkageField->setValue($linkageId);
+                    } else {
+                        $linkageField->setValue(0);
+
+                    }
+
+
+
                     $typeField->setValue("service");
 
                 }
@@ -254,7 +303,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
         foreach ($linkagessList as $k => $id) {
             $loopLinkage = $this->linkageMapper->findById($id);
             $loopContact = $this->contactMapper->findById($loopLinkage->getContact());
-            $data[] = array('id' => $loopContact->getId(), 'title' => $loopContact->getName());
+            $data[] = array('id' => $loopLinkage->getId(), 'name' => $loopContact->getName());
         }
 
         echo json_encode($data);
@@ -319,9 +368,9 @@ class Resources_ResponsibleController extends Zend_Controller_Action
          $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
     }
 
-   private function initTeamMemberMapper()
+   private function initResponsibleMapper()
     {
-         $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
+         $this->responsibleMapper = new C3op_Resources_ResponsibleMapper($this->db);
     }
 
      private function initContactMapper()

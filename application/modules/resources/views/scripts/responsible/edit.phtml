@@ -21,7 +21,7 @@
                 var len = data.length;
                 html += '<option value="0">(escolha uma pessoa)</option>';
                 for (var i = 0; i< len; i++) {
-                  html += '<option value="' + data[i].id + '">' + data[i].title + '</option>';
+                  html += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
                 }
                 $('#linkage').empty();
                 $('#linkage').append(html);
@@ -44,6 +44,7 @@ $.post("/resources/responsible/create", $("#newResponsibleForm").serialize(), fu
 </script>
 <form id="newResponsibleForm" action="<?php echo $this->escape($this->form->getAction()); ?>" method="<?php echo $this->escape($this->form->getMethod()); ?>">
 <table>
+  <?php echo $this->form->id ?>
   <?php echo $this->form->project ?>
   <?php echo $this->form->action ?>
   <?php echo $this->form->responsibleType ?>

@@ -324,17 +324,23 @@ if (!$actionHeader['hasResponsible']) {
 <?php
 if ($actionHeader['hasResponsible']) {
     $projectId = $actionHeader['projectId'];
-    $contactName = $actionHeader['contactName'];
+    $contactName = $actionHeader['responsibleLabel'];
     $personLink = "<a href='#' class ='anchorclass' rel ='submenuResponsible'>$contactName</a>";
-
 
 ?>
 <?php print(sprintf($this->translate("#%s was assigned responsible for this action"), $personLink)); ?> (<?php print($this->translate($actionHeader['statusLabel'])); ?>)
                   <div id="submenuResponsible" class="anylinkcss">
                       <ul>
+<?php
+        if ($actionHeader['responsibleType'] == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER) {
+
+?>
                           <li>
                               <a href="/projects/project/engagement/?id=<?php print $actionHeader['projectId'] ?>&contact=<?php print $actionHeader['contactId'] ?>"><?php print($this->translate("#Engagement in the project")); ?></a>
                           </li>
+<?php
+        }
+?>
                           <li>
                               <a href="javascript:callResponsibleEdit(<?php print $actionHeader['responsibleId'] ?>)"><?php print($this->translate("#Edit responsible")); ?></a>
                           </li>
@@ -409,12 +415,12 @@ if (isset($actionHeader['hasBudget'])) {
                 <table id="tree" border="1">
                     <thead>
                             <tr>
-                            <th width="200" align="left"><?php echo $this->translate("#Action") ?></th>
-                            <th width="200" align="left"><?php echo $this->translate("#Responsible") ?></th>
-                            <th width="100" align="left"><?php echo $this->translate("#Pred. begin date") ?></th>
-                            <th width="100" align="left"><?php echo $this->translate("#Real begin date") ?></th>
-                            <th width="100" align="left"><?php echo $this->translate("#Pred. finish date") ?></th>
-                            <th width="100" align="left"><?php echo $this->translate("#Real finish date") ?></th>
+                            <th width="232" align="left"><?php echo $this->translate("#Action") ?></th>
+                            <th width="232" align="left"><?php echo $this->translate("#Responsible") ?></th>
+                            <th width="84" align="left"><?php echo $this->translate("#Pred. begin date") ?></th>
+                            <th width="84" align="left"><?php echo $this->translate("#Real begin date") ?></th>
+                            <th width="84" align="left"><?php echo $this->translate("#Pred. finish date") ?></th>
+                            <th width="84" align="left"><?php echo $this->translate("#Real finish date") ?></th>
                             </tr>
                     </thead>
                     <tbody>
@@ -431,13 +437,14 @@ if (isset($actionHeader['hasBudget'])) {
                     <tr id="<?php print ($nodeId) ?>" <?php print (($childOf != $actionHeader['id'] ? $classId : '')) ?>>
                     <td><a href='/projects/action/detail/?id=<?php print($id) ?>'><?php print ($actionData['title']) ?></a></td>
 <?php
-if ($actionData['contactId'] > 0) {
+if (($actionHeader['responsibleType'] == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER)
+    && ($actionData['contactId'] > 0)) {
 ?>
-                    <td><a href ='/projects/project/engagement/?id=<?php print($actionHeader['projectId']) ?>&contact=<?php print($actionData['contactId']) ?>'><?php print ($this->translate($actionData['contactName'])) ?></a></td>
+                    <td><a href ='/projects/project/engagement/?id=<?php print($actionHeader['projectId']) ?>&contact=<?php print($actionData['contactId']) ?>'><?php print ($this->translate($actionData['responsibleLabel'])) ?></a></td>
 <?php
 } else {
 ?>
-                    <td><?php print ($this->translate($actionData['contactName'])) ?></td>
+                    <td><?php print ($this->translate($actionData['responsibleLabel'])) ?></td>
 <?php
 }
 ?>

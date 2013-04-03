@@ -138,7 +138,7 @@ class Resources_MaterialSupplyController extends Zend_Controller_Action
                     $contactsList = $this->institutionMapper->getAllContactsThatAreLinkedToAnInstitution($thisMaterialSupply->getInstitution());
 
                     foreach ($contactsList as $key => $contactData) {
-                        $loopContact = $this->contactMapper->findById($contactData['id']);
+                        $loopContact = $this->contactMapper->findById($contactData['contactId']);
                         $name = $loopContact->getName();
                         $linkageField->addMultiOption($id, $name);
                     }
@@ -354,7 +354,8 @@ class Resources_MaterialSupplyController extends Zend_Controller_Action
 
         $contactsList = $this->institutionMapper->getAllContactsThatAreLinkedToAnInstitution($id);
         $data = array();
-        foreach ($contactsList as $k => $id) {
+        foreach ($contactsList as $contactData) {
+            $id = $contactData['contactId'];
             $loopContact = $this->contactMapper->findById($id);
             $data[] = array('id' => $id, 'title' => $loopContact->getName());
         }

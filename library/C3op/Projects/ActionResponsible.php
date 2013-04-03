@@ -51,29 +51,38 @@ class C3op_Projects_ActionResponsible {
 
             $type = $responsible->getType();
 
+            if ($type == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER) {
+                $responsibleLabel = $contactName;
+
+            } else {
+                $responsibleLabel = "$institutionName";
+
+            }
+
             $status = $responsible->getStatus();
             $statusTypes = new C3op_Resources_ResponsibleStatusTypes();
             $statusLabel = $statusTypes->TitleForType($status);
             $data = array(
-              'hasResponsible'  => true,
-              'responsibleType' => $type,
-              'responsibleId'   => $responsible->getId(),
-              'contactName'     => $contactName,
-              'contactId'       => $contactId,
-              'institutionName' => $institutionName,
-              'institutionId'   => $institutionId,
-              'statusLabel'     => $statusLabel,
+              'hasResponsible'   => true,
+              'responsibleType'  => $type,
+              'responsibleId'    => $responsible->getId(),
+              'responsibleLabel' => $responsibleLabel,
+              'contactName'      => $contactName,
+              'contactId'        => $contactId,
+              'institutionName'  => $institutionName,
+              'institutionId'    => $institutionId,
+              'statusLabel'      => $statusLabel,
             );
         } else {
             $data = array(
-            'hasResponsible'  => false,
-            'contactName'     => _("#(unassigned)"),
-            'contactId'       => 0,
-            'institutionName' => _("#(unassigned)"),
-            'institutionId'   => 0,
-            'responsibleType' => 0,
-            'responsibleName' => _("#(unassigned)"),
-            'responsibleId'   => 0,
+            'hasResponsible'   => false,
+            'contactName'      => _("#(unassigned)"),
+            'contactId'        => 0,
+            'institutionName'  => _("#(unassigned)"),
+            'institutionId'    => 0,
+            'responsibleType'  => 0,
+            'responsibleLabel' => _("#(unassigned)"),
+            'responsibleId'    => 0,
             );
         }
         return $data;

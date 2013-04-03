@@ -106,7 +106,13 @@ class C3op_Form_ResponsibleCreate extends Zend_Form
             $responsible = new C3op_Resources_Responsible();
             if ($type == 'service') {
                 $responsible->SetInstitution($this->institution->GetValue());
-                $responsible->SetContact($this->linkage->GetValue());
+
+                $linkageId = $this->linkage->GetValue();
+                $linkageMapper = new C3op_Register_LinkageMapper($this->db);
+                $linkageContact = $linkageMapper->findById($linkageId);
+                $contactId = $linkageContact->GetContact();
+
+                $responsible->SetContact($contactId);
 
                 $converter = new C3op_Util_DecimalConverter();
                 $validator = new C3op_Util_ValidDecimal();
@@ -118,7 +124,7 @@ class C3op_Form_ResponsibleCreate extends Zend_Form
                 $responsible->SetAction($this->action->GetValue());
                 $responsible->SetProject($this->project->GetValue());
                 $responsibleMapper->insert($responsible);
-                return $responsible->GetAction();
+                return $responsible->GetId();
 
             } else {
 
@@ -143,7 +149,7 @@ class C3op_Form_ResponsibleCreate extends Zend_Form
                 $responsible->SetProject($this->project->GetValue());
 
                 $responsibleMapper->insert($responsible);
-                return $responsible->GetAction();
+                return $responsible->GetId();
             }
         }
     }

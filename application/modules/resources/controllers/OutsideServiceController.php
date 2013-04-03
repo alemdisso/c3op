@@ -138,7 +138,7 @@ class Resources_OutsideServiceController extends Zend_Controller_Action
                     $contactsList = $this->institutionMapper->getAllContactsThatAreLinkedToAnInstitution($thisOutsideService->getInstitution());
 
                     foreach ($contactsList as $key => $contactData) {
-                        $loopContact = $this->contactMapper->findById($contactData['id']);
+                        $loopContact = $this->contactMapper->findById($contactData['contactId']);
                         $name = $loopContact->getName();
                         $linkageField->addMultiOption($id, $name);
                     }

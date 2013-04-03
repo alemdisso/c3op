@@ -897,7 +897,8 @@ class Projects_ProjectController extends Zend_Controller_Action
                 }
 
                 $allThatCanBeResponsibleAtClient = $this->institutionMapper->getAllContactsThatAreLinkedToAnInstitution($institutionId);
-                while (list($key, $contactId) = each($allThatCanBeResponsibleAtClient)) {
+                while (list($key, $contactData) = each($allThatCanBeResponsibleAtClient)) {
+                    $contactId = $contactData['contactId'];
                     $eachPossibleResponsible = $this->contactMapper->findById($contactId);
                     $element->addMultiOption($contactId, $eachPossibleResponsible->getName());
                 }
@@ -1112,9 +1113,10 @@ class Projects_ProjectController extends Zend_Controller_Action
 
             $contactsList = $this->institutionMapper->getAllContactsThatAreLinkedToAnInstitution($institutionId);
             $data = array();
-            foreach ($contactsList as $k => $id) {
-                $loopContact = $this->contactMapper->findById($id);
-                $data[] = array('id' => $id, 'title' => $loopContact->getName());
+            foreach ($contactsList as $contactData) {
+                $contactId = $contactData['contactId'];
+                $loopContact = $this->contactMapper->findById($contactId);
+                $data[] = array('id' => $contactId, 'title' => $loopContact->getName());
             }
 
             return $data;
