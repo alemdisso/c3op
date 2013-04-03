@@ -28,10 +28,16 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
         $data = $this->_request->getParams();
 
-        $actionId = $data['actionId'];
+        $id = $data['id'];
+
+
+        $this->initResponsibleMapper();
+        $responsible = $this->responsibleMapper->findById($id);
+
+
 
         $this->initActionMapper();
-        $action = $this->actionMapper->findById($actionId);
+        $action = $this->actionMapper->findById($responsible->getAction());
 
         $obj = new C3op_Projects_ActionResponsible($action, $this->actionMapper, $this->db);
 
@@ -60,7 +66,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
     public function createAction()
     {
-        $this->_helper->layout->disableLayout();
+        //$this->_helper->layout->disableLayout();
 
         // cria form
         $form = new C3op_Form_ResponsibleCreate;
@@ -112,7 +118,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
             while (list($key, $linkageData) = each($allLinkedContacts)) {
                 $linkageLabel = $linkageData['name'] . " ({$linkageData['short_name']})";
-                $linkageField->addMultiOption($linkageData['contact'], $linkageLabel);
+                $linkageField->addMultiOption($linkageData['linkage'], $linkageLabel);
             }
 
             $institutionField = $form->getElement('institution');
@@ -182,6 +188,9 @@ class Resources_ResponsibleController extends Zend_Controller_Action
                 $responsibleType = $thisResponsible->getType();
                 if ($responsibleType == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER) {
                     $typeField->setValue("teamMember");
+                    if (!isset($this->linkageMapper)) {
+                        $this->linkageMapper = new C3op_Register_LinkageMapper($this->db);
+                    }
                     $linkage = $this->linkageMapper->findByContactAndInstitution($thisResponsible->getContact(), $thisResponsible->getInstitution());
                     $linkageField = $form->getElement('linkage');
                     if (!isset($this->contactMapper)) {
@@ -195,6 +204,16 @@ class Resources_ResponsibleController extends Zend_Controller_Action
                     }
                     if ($linkage) {
                         $linkageField->setValue($linkage->getId());
+                        $institutionField = $form->getElement('institution');
+                        if ($linkage->getInstitution() > 0) {
+                            if (!isset($this->institutionMapper)) {
+                                $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
+                            }
+                            $linkageInstitution = $this->institutionMapper->findById($linkage->getInstitution());
+                            $institutionField->addMultiOption($linkage->getInstitution(), $linkageInstitution->getShortName());
+                            $institutionField->SetValue($linkage->getInstitution());
+                        }
+
                     }
 
                 } else {
@@ -230,8 +249,12 @@ class Resources_ResponsibleController extends Zend_Controller_Action
                             if (!isset($this->linkageMapper)) {
                                 $this->initLinkageMapper();
                             }
-                            $linkage = $this->linkageMapper->findByContactAndInstitution($thisResponsible->getContact(), $thisResponsible->getInstitution());
-                            $linkageId = $linkage->getId();
+                            if ($thisResponsible->getContact() > 0) {
+                                $linkage = $this->linkageMapper->findByContactAndInstitution($thisResponsible->getContact(), $thisResponsible->getInstitution());
+                                $linkageId = $linkage->getId();
+                            } else {
+                                $linkageId = 0;
+                            }
                         } else {
                             $linkageId = 0;
 
@@ -281,7 +304,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
         }
     }
 
-     public  function populateContactsFieldAction()
+     public function populateContactsFieldAction()
     {
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(TRUE);
@@ -297,13 +320,58 @@ class Resources_ResponsibleController extends Zend_Controller_Action
         if (!isset($this->contactMapper)) {
             $this->initContactMapper();
         }
+        if ($id > 0) {
+            $linkagesList = $this->institutionMapper->getAllLinkagesAtAnInstitution($id);
+            $selectedInstitution = $this->institutionMapper->findById($id);
 
-        $linkagessList = $this->institutionMapper->getAllLinkagesAtAnInstitution($id);
+        } else {
+            $linkagesList = $this->contactMapper->getAllContactsThatAreLinkedToAnyInstitution();
+
+        }
         $data = array();
-        foreach ($linkagessList as $k => $id) {
-            $loopLinkage = $this->linkageMapper->findById($id);
+        foreach ($linkagesList as $k => $linkageData) {
+            $loopLinkage = $this->linkageMapper->findById($linkageData['linkage']);
             $loopContact = $this->contactMapper->findById($loopLinkage->getContact());
-            $data[] = array('id' => $loopLinkage->getId(), 'name' => $loopContact->getName());
+            if ($id == 0) {
+                $loopInstitution = $this->institutionMapper->findById($loopLinkage->getInstitution());
+                $institutionName = $loopInstitution->getShortName();
+                $linkageLabel = $loopContact->getName() . " ($institutionName)";
+            } else {
+                $linkageLabel = $loopContact->getName();
+            }
+            $data[] = array('id' => $loopLinkage->getId(), 'name' => $linkageLabel);
+        }
+
+        echo json_encode($data);
+
+
+    }
+
+     public function populateInstitutionsFieldAction()
+    {
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(TRUE);
+
+        if (!isset($this->institutionMapper)) {
+            $this->initInstitutionMapper();
+        }
+        if (!isset($this->linkageMapper)) {
+            $this->initLinkageMapper();
+        }
+
+        if (!isset($this->contactMapper)) {
+            $this->initContactMapper();
+        }
+
+
+        if (!isset($this->institutionMapper)) {
+            $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
+        }
+        $allInstitutions = $this->institutionMapper->getAllServiceSuppliers();
+
+        $data = array();
+        while (list($key, $institutionData) = each($allInstitutions)) {
+            $data[] = array('id' => $institutionData['id'], 'name' => $institutionData['short_name']);
         }
 
         echo json_encode($data);
@@ -319,7 +387,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
             'id' => new Zend_Filter_Alnum(),
         );
         $validators = array(
-            'id' => array('Digits', new Zend_Validate_GreaterThan(0)),
+            'id' => array('Digits', new C3op_Util_ValidPositiveInteger),
         );
         $input = new Zend_Filter_Input($filters, $validators, $data);
         if ($input->isValid()) {
@@ -412,22 +480,6 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
     }
 
-
-    private function initActionWithCheckedId(C3op_Projects_ActionMapper $mapper)
-    {
-        return $mapper->findById($this->checkIdFromGet());
-    }
-
-    private function setDateValueToFormField(Zend_Form $form, $fieldName, $value)
-    {
-        $field = $form->getElement($fieldName);
-        $validator = new C3op_Util_ValidDate();
-        if ((!is_null($value)) && ($validator->isValid($value))) {
-            $field->setValue(C3op_Util_DateDisplay::FormatDateToShow($value));
-        } else {
-            $field->setValue("");
-        }
-    }
 
 
 }

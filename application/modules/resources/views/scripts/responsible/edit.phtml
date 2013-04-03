@@ -9,10 +9,77 @@
         $('input:text').setMask();
       });
 
+      $(document).ready(function() {
+            var type = $('input[name=responsibleType]:checked').val();
+
+            if (type == 'teamMember') {
+                $('#institution-label').hide();
+                $('#institution').hide();
+            }
+
+      });
 
     </script>
 
           <script type="text/javascript">
+            function typeHasChanged() {
+                var type = $('input[name=responsibleType]:checked').val();
+
+                var linkage = $('#linkage').val();
+
+                if (type == 'teamMember') {
+
+                    $.getJSON('/resources/responsible/populate-contacts-field/?id=0', function(data) {
+                        var html = '';
+                        var len = data.length;
+                        html += '<option value="0">(escolha uma pessoa)</option>';
+                        for (var i = 0; i< len; i++) {
+                        html += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                        }
+                        $('#institution-label').hide();
+                        $('#institution').hide();
+                        $('#linkage').empty();
+                        $('#linkage').append(html);
+                        $('#linkage').val(linkage);
+
+                    });
+
+
+
+                } else {
+                    typeHasChangedToService();
+                }
+            }
+
+            function typeHasChangedToService() {
+                populateInstitutionsField();
+//                var linkage = $('#linkage').val();
+//                populateResponsibleAtSupplier();
+//                $('#linkage').val(linkage);
+
+            }
+
+            function populateInstitutionsField() {
+                var institution = $('#institution').val();
+                alert("UIIII " + institution);
+                $.getJSON('/resources/responsible/populate-institutions-field', function(data) {
+                    var html = '';
+                    var len = data.length;
+                    html += '<option value="0">(escolha uma pessoa)</option>';
+                    for (var i = 0; i< len; i++) {
+                    html += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                    }
+                    $('#institution').empty();
+                    $('#institution').append(html);
+                    $('#institution').val(institution);
+
+                });
+                $('#institution-label').show();
+                $('#institution').show();
+
+
+            }
+
             function populateResponsibleAtSupplier() {
               var id = $('#institution').val();
 

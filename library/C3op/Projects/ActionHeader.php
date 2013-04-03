@@ -304,6 +304,7 @@ class C3op_Projects_ActionHeader {
                 $data['contactId'] = 0;
                 $data['contactName'] = _('#(unassigned)');
                 $data['statusLabel'] = _('#(unknown)');
+                $data['responsibleLabel'] = _('#(unassigned)');
 
             }
 

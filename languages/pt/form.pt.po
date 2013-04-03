@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-19 16:37-0300\n"
-"PO-Revision-Date: 2013-03-19 16:37-0300\n"
+"POT-Creation-Date: 2013-04-03 14:30-0300\n"
+"PO-Revision-Date: 2013-04-03 14:30-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -83,7 +83,7 @@ msgstr "Data de término: "
 #: library\C3op\Form/ProjectCreate.php:284
 #: library\C3op\Form/ReceivableCreate.php:94
 #: library\C3op\Form/ReceivableNotify.php:72
-#: library\C3op\Form/ResponsibleCreate.php:80
+#: library\C3op\Form/ResponsibleCreate.php:81
 #: library\C3op\Form/TeamMemberContract.php:81
 #: library\C3op\Form/TeamMemberCreate.php:65
 #: library\C3op\Form/TeamMemberDismiss.php:35
@@ -162,7 +162,7 @@ msgstr "Dados inválidos!"
 #: library\C3op\Form/BudgetCreate.php:25
 #: library\C3op\Form/OutsideServiceCreate.php:35
 #: library\C3op\Form/ProjectCreate.php:116
-#: library\C3op\Form/ResponsibleCreate.php:63
+#: library\C3op\Form/ResponsibleCreate.php:64
 #: library\C3op\Form/TeamMemberContract.php:48
 #: library\C3op\Form/TeamMemberCreate.php:35
 msgid "#Value:"
@@ -171,7 +171,7 @@ msgstr "Valor:"
 #: library\C3op\Form/BudgetCreate.php:36
 #: library\C3op\Form/MaterialSupplyCreate.php:46
 #: library\C3op\Form/OutsideServiceCreate.php:46
-#: library\C3op\Form/ResponsibleCreate.php:74
+#: library\C3op\Form/ResponsibleCreate.php:75
 #: library\C3op\Form/TeamMemberContract.php:59
 #: library\C3op\Form/TeamMemberCreate.php:46
 msgid "#The value must be a positive number"
@@ -449,7 +449,7 @@ msgstr "Unidade:"
 
 #: library\C3op\Form/MaterialSupplyCreate.php:86
 #: library\C3op\Form/OutsideServiceCreate.php:51
-#: library\C3op\Form/ResponsibleCreate.php:37
+#: library\C3op\Form/ResponsibleCreate.php:38
 msgid "#Company:"
 msgstr "Organização:"
 
@@ -457,8 +457,7 @@ msgstr "Organização:"
 #: library\C3op\Form/MaterialSupplyCreate.php:108
 #: library\C3op\Form/OutsideServiceCreate.php:60
 #: library\C3op\Form/OutsideServiceCreate.php:73
-#: library\C3op\Form/ResponsibleCreate.php:46
-#: library\C3op\Form/ResponsibleCreate.php:59
+#: library\C3op\Form/ResponsibleCreate.php:60
 #: library\C3op\Form/TeamMemberCreate.php:60
 msgid "#undefined"
 msgstr "indefinido"
@@ -602,19 +601,23 @@ msgstr "Data de Entrega"
 msgid "#Predicted Value"
 msgstr "Valor Previsto"
 
-#: library\C3op\Form/ResponsibleCreate.php:26
+#: library\C3op\Form/ResponsibleCreate.php:27
 msgid "#It is a person or an institution?"
 msgstr "Pessoa ou empresa?"
 
-#: library\C3op\Form/ResponsibleCreate.php:33
+#: library\C3op\Form/ResponsibleCreate.php:34
 msgid "#teamMember"
 msgstr "Pessoa"
 
-#: library\C3op\Form/ResponsibleCreate.php:33
+#: library\C3op\Form/ResponsibleCreate.php:34
 msgid "#service"
 msgstr "Empresa"
 
-#: library\C3op\Form/ResponsibleCreate.php:50
+#: library\C3op\Form/ResponsibleCreate.php:47
+msgid "#undefined institution"
+msgstr "instituição não definida"
+
+#: library\C3op\Form/ResponsibleCreate.php:51
 #: library\C3op\Form/TeamMemberCreate.php:51
 msgid "#Who:"
 msgstr "Quem:"

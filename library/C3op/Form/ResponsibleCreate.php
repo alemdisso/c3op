@@ -5,8 +5,8 @@ class C3op_Form_ResponsibleCreate extends Zend_Form
     public function init()
     {
         $this->setName('newResponsibleForm')
-            //->setAction('/resources/responsible/create')
-            ->setAction('javascript:submitResponsibleForm();')
+            ->setAction('/resources/responsible/create')
+            //->setAction('javascript:submitResponsibleForm();')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
@@ -44,7 +44,7 @@ class C3op_Form_ResponsibleCreate extends Zend_Form
                 ))
                 ->setOptions(array('class' => 'Full alpha omega'))
                 ->setRegisterInArrayValidator(false);
-        $element->addMultiOption(0, _("#undefined"));
+        $element->addMultiOption(0, _("#undefined institution"));
         $this->addElement($element);
 
         $element = new Zend_Form_Element_Select('linkage');

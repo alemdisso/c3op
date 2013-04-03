@@ -16,6 +16,10 @@ class C3op_Form_ResponsibleEdit extends C3op_Form_ResponsibleCreate
             ->addFilter('StringTrim');
         $this->addElement($id);
 
+        $typeField = $this->getElement('responsibleType');
+        $typeField->SetOptions(array('onChange' => 'javascript:typeHasChanged()'));
+
+
 
 
     }
@@ -36,8 +40,12 @@ class C3op_Form_ResponsibleEdit extends C3op_Form_ResponsibleCreate
                 $responsible->SetInstitution($this->institution->GetValue());
                 $linkageId = $this->linkage->GetValue();
                 $linkageMapper = new C3op_Register_LinkageMapper($this->db);
-                $linkageContact = $linkageMapper->findById($linkageId);
-                $contactId = $linkageContact->GetContact();
+                if ($linkageId) {
+                    $linkageContact = $linkageMapper->findById($linkageId);
+                    $contactId = $linkageContact->GetContact();
+                } else {
+                    $contactId = 0;
+                }
                 $responsible->SetContact($contactId);
 
                 $converter = new C3op_Util_DecimalConverter();

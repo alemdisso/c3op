@@ -245,11 +245,11 @@ class C3op_Register_InstitutionMapper
 
         if (is_numeric($institutionId) && ($institutionId >0)) {
             $result = array();
-            foreach ($this->db->query('SELECT DISTINCTROW l.id
+            foreach ($this->db->query('SELECT DISTINCTROW l.id as linkage, l.contact as contact
                         FROM register_linkages l
                         WHERE l.contact > 0 AND l.institution =' . $institutionId
                         ) as $row) {
-                $result[] = $row['id'];
+                $result[] = $row;
             }
             return $result;
         } else {

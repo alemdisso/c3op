@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-20 08:33-0300\n"
-"PO-Revision-Date: 2013-03-20 08:34-0300\n"
+"POT-Creation-Date: 2013-04-03 14:28-0300\n"
+"PO-Revision-Date: 2013-04-03 14:29-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -22,7 +22,7 @@ msgstr "Material criado."
 
 #: application\modules\resources/controllers/MaterialSupplyController.php:93
 #: application\modules\resources/controllers/OutsideServiceController.php:93
-#: application\modules\resources/controllers/ResponsibleController.php:152
+#: application\modules\resources/controllers/ResponsibleController.php:160
 #: application\modules\resources/controllers/TeamMemberController.php:91
 msgid "#The record was successfully updated."
 msgstr "O registro foi atualizado com sucesso."
@@ -59,37 +59,55 @@ msgstr "O distrato foi registrado."
 
 #: library\C3op\resources/MaterialSupplyStatusTypes.php:32
 #: library\C3op\resources/OutsideServiceStatusTypes.php:32
+#: library\C3op\resources/ResponsibleStatusTypes.php:34
+#: library\C3op\resources/ResponsibleTypeTypes.php:26
 #: library\C3op\resources/TeamMemberStatusTypes.php:34
 msgid "#Unknown type"
 msgstr "Tipo indefinido"
 
+#: library\C3op\resources/ResponsibleStatusTypes.php:10
+#: library\C3op\resources/ResponsibleTypeTypes.php:10
 #: library\C3op\resources/TeamMemberStatusTypes.php:10
 msgid "#Nil"
 msgstr "Nula"
 
+#: library\C3op\resources/ResponsibleStatusTypes.php:11
 #: library\C3op\resources/TeamMemberStatusTypes.php:11
 msgid "#Undefined"
 msgstr "(indefinido)"
 
+#: library\C3op\resources/ResponsibleStatusTypes.php:12
 #: library\C3op\resources/TeamMemberStatusTypes.php:12
 msgid "#Foreseen"
 msgstr "Previsto"
 
+#: library\C3op\resources/ResponsibleStatusTypes.php:13
 #: library\C3op\resources/TeamMemberStatusTypes.php:13
 msgid "#Contracted"
 msgstr "Contratado"
 
+#: library\C3op\resources/ResponsibleStatusTypes.php:14
 #: library\C3op\resources/TeamMemberStatusTypes.php:14
 msgid "#Acquitted"
 msgstr "Quitado"
 
+#: library\C3op\resources/ResponsibleStatusTypes.php:15
 #: library\C3op\resources/TeamMemberStatusTypes.php:15
 msgid "#Dismissed"
 msgstr "Dispensado"
 
+#: library\C3op\resources/ResponsibleStatusTypes.php:16
 #: library\C3op\resources/TeamMemberStatusTypes.php:16
 msgid "#Canceled"
 msgstr "Cancelado"
+
+#: library\C3op\resources/ResponsibleTypeTypes.php:11
+msgid "#Team member"
+msgstr "Membro da equipe"
+
+#: library\C3op\resources/ResponsibleTypeTypes.php:12
+msgid "#Outside service"
+msgstr "Serviço externo"
 
 #: application\modules\resources/views/scripts/material-supply/contract.phtml:5
 #: application\modules\resources/views/scripts/outside-service/contract.phtml:5
@@ -178,6 +196,10 @@ msgstr "Ação foi atribuída"
 #, php-format
 msgid "#%s was assigned responsible for this action"
 msgstr "%s é responsável por essa ação."
+
+#: application\modules\resources/views/scripts/responsible/create.phtml:53
+msgid "#choose someone"
+msgstr "escolha uma pessoa"
 
 #: application\modules\resources/views/scripts/team-member/create.phtml:8
 msgid "#New team member for action"
@@ -574,9 +596,6 @@ msgstr ""
 
 #~ msgid "#Create outlay"
 #~ msgstr "Prever pagamento"
-
-#~ msgid "#Team member:"
-#~ msgstr "Recurso:"
 
 #~ msgid "#Edit outlay"
 #~ msgstr "Editar pagamento"
