@@ -137,6 +137,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
             'actionTitle' => $parentAction->GetTitle(),
             'projectId' => $parentAction->GetProject(),
             'projectTitle' => $projectAction->GetShortTitle(),
+            'canSeeFinances' => false,
         );
 
         $this->view->pageData = $pageData;
@@ -298,10 +299,11 @@ class Resources_ResponsibleController extends Zend_Controller_Action
                 $projectAction = $this->projectMapper->findById($parentAction->getProject());
 
                 $pageData = array(
-                    'actionId' => $thisResponsible->GetAction(),
-                    'actionTitle' => $parentAction->GetTitle(),
-                    'projectId' => $parentAction->GetProject(),
-                    'projectTitle' => $projectAction->GetShortTitle(),
+                    'actionId'       => $thisResponsible->GetAction(),
+                    'actionTitle'    => $parentAction->GetTitle(),
+                    'projectId'      => $parentAction->GetProject(),
+                    'projectTitle'   => $projectAction->GetShortTitle(),
+                    'canSeeFinances' => false,
                 );
 
                 $this->view->pageData = $pageData;

@@ -125,7 +125,13 @@ $.post("/resources/responsible/create", $("#newResponsibleForm").serialize(), fu
   <?php echo $this->form->institution ?>
   <br class="clear" />
   <?php echo $this->form->linkage ?>
-  <?php echo $this->form->value ?>
+  <?php
+  if ($this->pageData['canSeeFinances']) {
+    echo $this->form->value;
+
+  }
+
+  ?>
   <?php echo $this->form->submit ?>
 </table>
 </form>

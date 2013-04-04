@@ -15,17 +15,22 @@
         $('#linkage').hide();
         $('#institution-label').hide();
         $('#institution').hide();
-        $('#value-label').hide();
-        $('#value').hide();
+        if ($("#value").length > 0){
+            $('#value-label').hide();
+            $('#value').hide();
+        }
         $('#submit').hide();
+
         $('#responsibleType-service').click(function(){
             $('#linkage-label').show();
             $('#linkage').show();
             $('#linkage').prop('disabled', true);
             $('#institution-label').show();
             $('#institution').show();
-            $('#value-label').show();
-            $('#value').show();
+            if ($("#value").length > 0){
+                $('#value-label').show();
+                $('#value').show();
+            }
             $('#submit').show();
             })
 
@@ -34,8 +39,10 @@
             $('#linkage').show();
             $('#institution-label').hide();
             $('#institution').hide();
-            $('#value-label').show();
-            $('#value').show();
+            if ($("#value").length > 0){
+                $('#value-label').show();
+                $('#value').show();
+            }
             $('#submit').show();
             })
 
@@ -91,7 +98,13 @@ $.post("/resources/responsible/create", $("#newResponsibleForm").serialize(), fu
   <?php echo $this->form->institution ?>
   <br class="clear" />
   <?php echo $this->form->linkage ?>
-  <?php echo $this->form->value ?>
+  <?php
+  if ($this->pageData['canSeeFinances']) {
+    echo $this->form->value;
+
+  }
+
+  ?>
   <?php echo $this->form->submit ?>
 </table>
 </form>
