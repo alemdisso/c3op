@@ -80,6 +80,10 @@ public function __construct() {
     $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:resources.responsible');
     $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:resources.responsible', 'create');
     $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:resources.responsible', 'assigned');
+    $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:resources.responsible', 'contract');
+    $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:resources.responsible', 'dismiss');
+    $this->deny(C3op_Access_RolesConstants::ROLE_CONTROLLER,     'c3op:resources.responsible', 'contract');
+    $this->deny(C3op_Access_RolesConstants::ROLE_CONTROLLER,     'c3op:resources.responsible', 'dismiss');
 
     $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:resources.team-member');
     $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:resources.team-member', 'create');

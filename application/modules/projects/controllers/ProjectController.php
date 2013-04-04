@@ -514,15 +514,23 @@ class Projects_ProjectController extends Zend_Controller_Action
             $rawActionStatus = $action->getStatus();
             $actionStatusLabel = $statusTypes->TitleForType($rawActionStatus);
 
+            $user = Zend_Registry::get('user');
+            $acl = Zend_Registry::get('acl');
+
+            $tester = new C3op_Access_PrivilegeTester($user, $acl, "resources", "responsible", "contract");
             $rawResponsibleStatus = $responsible->getStatus();
             $statusTypes = new C3op_Resources_ResponsibleStatusTypes();
             $responsibleStatusLabel = $statusTypes->TitleForType($rawResponsibleStatus);
-            if (((($responsible->getType() == C3op_Resources_ResponsibleTypeConstants::TYPE_OUTSIDE_SERVICE)
-                    && ($responsible->getInstitution() > 0))
-                    || (($responsible->getType() == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER)
-                    && ($responsible->getContact() > 0)))
-                 && ($rawResponsibleStatus == C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN)) {
-                $canContract = true;
+            if ($tester->allow()) {
+                if (((($responsible->getType() == C3op_Resources_ResponsibleTypeConstants::TYPE_OUTSIDE_SERVICE)
+                        && ($responsible->getInstitution() > 0))
+                        || (($responsible->getType() == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER)
+                        && ($responsible->getContact() > 0)))
+                    && ($rawResponsibleStatus == C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN)) {
+                    $canContract = true;
+                } else {
+                    $canContract = false;
+                }
             } else {
                 $canContract = false;
             }

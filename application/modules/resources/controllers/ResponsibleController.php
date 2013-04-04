@@ -60,6 +60,77 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
     }
 
+    public function contractAction()
+    {
+        $form = new C3op_Form_ResponsibleContract;
+        $headerData = array();
+        $this->view->form = $form;
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            if ($form->isValid($postData)) {
+                $id = $form->process($postData);
+                $this->initResponsibleMapper();
+                $responsible =  $this->responsibleMapper->findById($id);
+                $this->_helper->getHelper('FlashMessenger')
+                    ->addMessage($this->view->translate('#The team member is contracted.'));
+                $this->_redirect('/projects/action/detail/?id=' . $responsible->GetAction());
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
+        } else {
+            $data = $this->_request->getParams();
+            $filters = array(
+                'id' => new Zend_Filter_Alnum(),
+            );
+            $validators = array(
+                'id' => new C3op_Util_ValidId(),
+            );
+            $input = new Zend_Filter_Input($filters, $validators, $data);
+            if ($input->isValid()) {
+
+                $id = $input->id;
+                $this->initResponsibleMapper();
+                $thisResponsible = $this->responsibleMapper->findById($id);
+
+                $idField = $form->getElement('id');
+                $idField->setValue($id);
+                $this->initActionMapper();
+                $thisAction = $this->actionMapper->findById($thisResponsible->getAction());
+
+
+                $valueField = $form->getElement('value');
+                $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+                $currencyValue = $currencyDisplay->FormatCurrency($thisResponsible->GetValue());
+                $valueField->setValue($currencyValue);
+
+
+                $this->setDateValueToFormField($form, 'predictedBeginDate', $thisAction->GetPredictedBeginDate());
+                $this->setDateValueToFormField($form, 'predictedFinishDate', $thisAction->GetPredictedFinishDate());
+                $contactField = $form->getElement('contact');
+                $this->initContactMapper();
+                $this->initLinkageMapper();
+
+                $allContacts = $this->contactMapper->getAllIds();
+                $contact = $this->contactMapper->findById($thisResponsible->getContact());
+                $contactName = $contact->GetName();
+
+                $actionTitle = $thisAction->GetTitle();
+
+               $headerData = array(
+                   'responsibleName' => $contactName,
+                   'actionTitle'    => $actionTitle,
+               ) ;
+
+            }
+
+        }
+        $this->view->headerData = $headerData;
+    }
+
+
+
     public function createAction()
     {
         $this->_helper->layout->disableLayout();
@@ -143,6 +214,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
         $this->view->pageData = $pageData;
 
     }
+
 
     public function editAction()
     {
@@ -485,6 +557,17 @@ class Resources_ResponsibleController extends Zend_Controller_Action
         return $data;
 
 
+    }
+
+    private function setDateValueToFormField(Zend_Form $form, $fieldName, $value)
+    {
+        $field = $form->getElement($fieldName);
+        $validator = new C3op_Util_ValidDate();
+        if ((!is_null($value)) && ($validator->isValid($value))) {
+            $field->setValue(C3op_Util_DateDisplay::FormatDateToShow($value));
+        } else {
+            $field->setValue("");
+        }
     }
 
 
