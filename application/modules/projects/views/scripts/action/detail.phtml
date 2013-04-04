@@ -1,7 +1,7 @@
 <?php
   $pageData = $this->pageData;
   $actionHeader = $pageData['actionHeader'];
-  $teamMembersList = $pageData['teamMembersList'];
+  $responsiblesList = $pageData['responsiblesList'];
   $servicesData = $pageData['outsideServicesList'];
   $materialData = $pageData['materialSuppliesList'];
 ?>
@@ -468,7 +468,7 @@ if (($actionHeader['responsibleType'] == C3op_Resources_ResponsibleTypeConstants
 
           <div id="tabs-team">
 
-          <table id="TeamMembers" class="display dataTable">
+          <table id="Responsibles" class="display dataTable">
             <thead>
               <tr>
                 <th width="220"><?php print($this->translate("#Name")); ?></th>
@@ -480,21 +480,21 @@ if (($actionHeader['responsibleType'] == C3op_Resources_ResponsibleTypeConstants
             <tbody>
 
 <?php
-  foreach ($teamMembersList as $id => $teamMemberData) {
+  foreach ($responsiblesList as $id => $responsibleData) {
 ?>          <!-- ### loop de carga dos recursos humanos alocados a esta ação -->
               <tr>
 <?php
-    if($teamMemberData['contactId']) {
+    if($responsibleData['contactId']) {
 ?>
                   <td>
-                  <a href="/projects/project/engagement/?id=<?php print($actionHeader['projectId']) ?>&linkage=<?php print($teamMemberData['linkageId']) ?>"><?php print($teamMemberData['name']) ?></a>
+                  <a href="/projects/project/engagement/?id=<?php print($actionHeader['projectId']) ?>&contact=<?php print($responsibleData['contactId']) ?>"><?php print($responsibleData['name']) ?></a>
                 </td>
 <?php
     } else {
 
 ?>
                   <td>
-                  <?php print($teamMemberData['name']) ?>
+                  <?php print($responsibleData['name']) ?>
                 </td>
     <?php
 
@@ -503,17 +503,17 @@ if (($actionHeader['responsibleType'] == C3op_Resources_ResponsibleTypeConstants
 
 ?>
                 <td>
-                  <a href="/projects/action/detail/?id=<?php print($teamMemberData['teamMemberActionId']); ?>"><?php print($teamMemberData['teamMemberActionTitle']); ?></a>
+                  <a href="/projects/action/detail/?id=<?php print($responsibleData['responsibleActionId']); ?>"><?php print($responsibleData['responsibleActionTitle']); ?></a>
                 </td>
                 <td>
-                  <?php print($teamMemberData['contractingStatusLabel']) ?>
+                  <?php print($responsibleData['contractingStatusLabel']) ?>
                 </td>
                 <td>
                   <a href="#" class="button one column alpha omega anchorclass" rel="submenu2"><?php print($this->translate("#Options")); ?></a>
                   <div id="submenu2" class="anylinkcss">
                       <ul>
 <?php
-    if($teamMemberData['canEditResource']) {
+    if($responsibleData['canEditResource']) {
 
 ?>
                         <li>
@@ -524,7 +524,7 @@ if (($actionHeader['responsibleType'] == C3op_Resources_ResponsibleTypeConstants
     }
 ?>
     <?php
-    if ($teamMemberData['canContractFlag']) {
+    if ($responsibleData['canContractFlag']) {
 ?>
                         <li>
                           <a class="parent_info" href="/resources/team-member/contract/?id=<?php print($id);?>" ><?php print($this->translate("#Confirm team member contracting")); ?></a>
@@ -534,7 +534,7 @@ if (($actionHeader['responsibleType'] == C3op_Resources_ResponsibleTypeConstants
     }
 ?>
     <?php
-    if ($teamMemberData['canDismissFlag']) {
+    if ($responsibleData['canDismissFlag']) {
 ?>
                         <li>
                           <a class="parent_info" href="/resources/team-member/dismiss/?id=<?php print($id);?>" ><?php print($this->translate("#Dismiss team memb")); ?></a>
@@ -545,12 +545,12 @@ if (($actionHeader['responsibleType'] == C3op_Resources_ResponsibleTypeConstants
 ?>
 <?php
 
-if ($teamMemberData['canProvideOutlay']) {
+if ($responsibleData['canProvideOutlay']) {
 ?>
 
 
                           <li>
-                            <a href="/finances/outlay/create/?teamMember=<?php echo $id ?>"><?php echo $this->translate("#Provide outlay") ?></a>
+                            <a href="/finances/outlay/create/?responsible=<?php echo $id ?>"><?php echo $this->translate("#Provide outlay") ?></a>
                           </li>
 
 <?php
@@ -558,7 +558,7 @@ if ($teamMemberData['canProvideOutlay']) {
 ?>
 <?php
 
-if ($teamMemberData['canRemoveTeamMember']) {
+if ($responsibleData['canRemoveResponsible']) {
 ?>
 
 
@@ -570,10 +570,10 @@ if ($teamMemberData['canRemoveTeamMember']) {
 }
 ?>
 <?php
-if($teamMemberData['contactId'] > 0) {
+if($responsibleData['contactId'] > 0) {
 ?>
                         <li>
-                          <a href="/register/contact/detail/?id=<?php print($teamMemberData['contactId']) ?>"><?php echo $this->translate("#Contact detail") ?></a>
+                          <a href="/register/contact/detail/?id=<?php print($responsibleData['contactId']) ?>"><?php echo $this->translate("#Contact detail") ?></a>
                         </li>
 <?php
 }

@@ -31,7 +31,7 @@ class C3op_Form_OutlayEdit extends C3op_Form_OutlayCreate
             $outlay = $outlayMapper->findById($id);
             $outlay->SetAction($data['action']);
             $outlay->SetProject($data['project']);
-            $outlay->SetTeamMember($data['teamMember']);
+            $outlay->SetResponsible($data['responsible']);
             $converter = new C3op_Util_DecimalConverter();
             $outlay->SetPredictedValue($converter->getDecimalDotValue($data['predictedValue'], new C3op_Util_ValidDecimal()));
             $outlay->SetPredictedDate($this->prepareDateValueToSet($data['predictedDate'], new C3op_Util_ValidDate(), new C3op_Util_DateConverter()));

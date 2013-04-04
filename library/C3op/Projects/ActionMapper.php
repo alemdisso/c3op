@@ -327,9 +327,9 @@ class C3op_Projects_ActionMapper
 
     public function getContractedValueJustForThisAction(C3op_Projects_Action $obj)
     {
-        $query = $this->db->prepare('SELECT SUM(value) as value FROM resources_team_members WHERE action = :action AND status = :status;');
+        $query = $this->db->prepare('SELECT SUM(value) as value FROM resources_responsibles WHERE action = :action AND status = :status;');
         $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
-        $query->bindValue(':status', C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
+        $query->bindValue(':status', C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();
 
@@ -383,12 +383,12 @@ class C3op_Projects_ActionMapper
 
     }
 
-    public function getContractedTeamMembers(C3op_Projects_Action $obj)
+    public function getContractedResponsibles(C3op_Projects_Action $obj)
     {
 
-        $query = $this->db->prepare('SELECT id FROM resources_team_members WHERE action = :action AND status = :status;');
+        $query = $this->db->prepare('SELECT id FROM resources_responsibles WHERE action = :action AND status = :status;');
         $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
-        $query->bindValue(':status', C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
+        $query->bindValue(':status', C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();
 
@@ -400,10 +400,10 @@ class C3op_Projects_ActionMapper
 
     }
 
-    public function getAnyTeamMemberRelatedTo(C3op_Projects_Action $obj)
+    public function getAnyResponsibleRelatedTo(C3op_Projects_Action $obj)
     {
 
-        $query = $this->db->prepare('SELECT id FROM resources_team_members WHERE action = :action;');
+        $query = $this->db->prepare('SELECT id FROM resources_responsibles WHERE action = :action;');
         $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();
@@ -448,7 +448,7 @@ class C3op_Projects_ActionMapper
 
     }
 
-    public function getAllUniqueTeamMembersContractedOrPredictedUnderAction(C3op_Projects_Action $obj) {
+    public function getAllUniqueResponsiblesContractedOrPredictedUnderAction(C3op_Projects_Action $obj) {
         $result = array();
         $below = new C3op_Projects_ActionsBelow($obj, $this);
         $actionsBelow = $below->retrieve();
@@ -462,21 +462,27 @@ class C3op_Projects_ActionMapper
             $stringActionsBelow = "$id";
         }
 
-        $queryString = sprintf('SELECT t.id, t.linkage
-                FROM resources_team_members t
-                WHERE t.action IN (%s)
-                AND t.linkage > 0
+        $queryString = sprintf('SELECT r.id
+                FROM resources_responsibles r
+                WHERE r.action IN (%s)
                 AND (
-                t.status = %d
-                OR t.status = %d
-                OR t.status = %d
-                OR t.status = %d
+                    ((r.contact > 0) AND (r.type = %d))
+                    OR
+                    ((r.institution > 0) AND (r.type = %d))
+                    )
+                AND (
+                r.status = %d
+                OR r.status = %d
+                OR r.status = %d
+                OR r.status = %d
                 )'
                 , $stringActionsBelow
-                , C3op_Resources_TeamMemberStatusConstants::STATUS_UNDEFINED
-                , C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED
-                , C3op_Resources_TeamMemberStatusConstants::STATUS_ACQUITTED
-                , C3op_Resources_TeamMemberStatusConstants::STATUS_FORESEEN
+                , C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER
+                , C3op_Resources_ResponsibleTypeConstants::TYPE_OUTSIDE_SERVICE
+                , C3op_Resources_ResponsibleStatusConstants::STATUS_UNDEFINED
+                , C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED
+                , C3op_Resources_ResponsibleStatusConstants::STATUS_ACQUITTED
+                , C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN
             );
 
         foreach ($this->db->query($queryString) as $row) {
