@@ -11,3 +11,9 @@ public/index.php
 /tests/log/**/*
 /nbproject/
 /temp/
+/application/default_production_Bootstrap.php
+/application/staging_Bootstrap.php
+/application/_staging_Bootstrap.php
+/application/configs/staging_application.ini
+/application/configs/_staging_application.ini
+/application/configs/default_production_application.ini
