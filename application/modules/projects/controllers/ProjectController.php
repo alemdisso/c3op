@@ -12,7 +12,6 @@ class Projects_ProjectController extends Zend_Controller_Action
     private $outlayMapper;
     private $receivableMapper;
     private $responsibleMapper;
-    private $teamMemberMapper;
     private $outsideServiceMapper;
     private $materialSupplyMapper;
     private $treeData;
@@ -200,7 +199,7 @@ class Projects_ProjectController extends Zend_Controller_Action
                 );
         }
 
-        // teamMembersList
+        // responsiblesList
         //   * id =>
         //      staffName
         //      actionId
@@ -211,23 +210,23 @@ class Projects_ProjectController extends Zend_Controller_Action
         //      staffEmail
         //      staffPhoneNumber
 
-        $teamMembersList = array();
-        if (!isset($this->teamMemberMapper)) {
-            $this->initTeamMemberMapper();
+        $responsiblesList = array();
+        if (!isset($this->responsibleMapper)) {
+            $this->initResponsibleMapper();
         }
-        $projectTeam = $this->teamMemberMapper->getAllUniqueTeamMembersContractedOrPredictedAt($projectToBeDetailed);
+        $projectTeam = $this->responsibleMapper->getAllUniqueResponsiblesContractedOrPredictedAt($projectToBeDetailed);
         if (!isset($this->linkageMapper)) {
             $this->initLinkageMapper();
         }
 
-        $rolesArray = $this->teamMemberMapper->getAllUnassignedPositionsAt($projectToBeDetailed);
-        foreach ($rolesArray as $id) {
-            $projectTeam[] = $id;
-        }
+//        $rolesArray = $this->projectMapper->getAllUnassignedPositionsAt($projectToBeDetailed);
+//        foreach ($rolesArray as $id) {
+//            $projectTeam[] = $id;
+//        }
 
 
         foreach ($projectTeam as $id) {
-            $theTeamMember = $this->teamMemberMapper->findById($id);
+            $theResponsible = $this->responsibleMapper->findById($id);
 
 
 
@@ -238,17 +237,17 @@ class Projects_ProjectController extends Zend_Controller_Action
             $emailString = $this->view->translate("#---");
             $phoneNumberString = $this->view->translate("#---");
 
-            $linkageId = $theTeamMember->getLinkage();
+            $linkageId = $theResponsible->getLinkage();
             if ($linkageId > 0) {
 
 
-                $valuestPosition = $this->teamMemberMapper->findMainPositionForAPerson($theTeamMember);
+                $valuestPosition = $this->responsibleMapper->findMainPositionForAPerson($theResponsible);
 
-                if ($valuestPosition->getId() != $theTeamMember->getId()) {
-                    $theTeamMember = $valuestPosition;
+                if ($valuestPosition->getId() != $theResponsible->getId()) {
+                    $theResponsible = $valuestPosition;
                 }
 
-                $theLinkage = $this->linkageMapper->findById($theTeamMember->getLinkage());
+                $theLinkage = $this->linkageMapper->findById($theResponsible->getLinkage());
                 $theContact = $this->contactMapper->findById($theLinkage->getContact());
                 $theInstitution = $this->institutionMapper->findById($theLinkage->getInstitution());
 
@@ -270,29 +269,29 @@ class Projects_ProjectController extends Zend_Controller_Action
 
 
 
-            $actionId = $theTeamMember->getAction();
+            $actionId = $theResponsible->getAction();
             $theAction = $this->actionMapper->findById($actionId);
             $actionTitle = $theAction->getTitle();
-            $removal = new C3op_Resources_TeamMemberRemoval($theTeamMember, $this->teamMemberMapper);
+            $removal = new C3op_Resources_ResponsibleRemoval($theResponsible, $this->responsibleMapper);
 
             if ($removal->canBeRemoved()) {
-                $canRemoveTeamMember = true;
+                $canRemoveResponsible = true;
             } else {
-                $canRemoveTeamMember = false;
+                $canRemoveResponsible = false;
             }
 
 
 
-            $teamMembersList[$id] = array(
+            $responsiblesList[$id] = array(
                     'contactId'              => $staffId,
                     'linkageId'              => $linkageId,
                     'linkageInstitutionName' => $linkageInstitutionName,
-                    'actionId'               => $theTeamMember->getAction(),
+                    'actionId'               => $theResponsible->getAction(),
                     'actionTitle'            => $actionTitle,
                     'staffName'              => $staffName,
                     'staffPhoneNumber'       => $phoneNumberString,
                     'staffEmail'             => $emailString,
-                    'canRemoveTeamMember'    => $canRemoveTeamMember,
+                    'canRemoveResponsible'    => $canRemoveResponsible,
                 );
         }
 
@@ -393,7 +392,7 @@ class Projects_ProjectController extends Zend_Controller_Action
             'messageToShow'        => $messageToShow,
             'productsList'         => $productsList,
             'actionsTree'          => $actionTreeList,
-            'teamMembersList'      => $teamMembersList,
+            'responsiblesList'      => $responsiblesList,
             'outsideServicesList'  => $outsideServicesList,
             'materialSuppliesList' => $materialSuppliesList,
             'detailsData'          => $detailsData,
@@ -454,8 +453,8 @@ class Projects_ProjectController extends Zend_Controller_Action
         if (!isset($this->responsibleMapper)) {
             $this->initResponsibleMapper();
         }
-        if (!isset($this->teamMemberMapper)) {
-            $this->initTeamMemberMapper();
+        if (!isset($this->responsibleMapper)) {
+            $this->initResponsibleMapper();
         }
         if (!isset($this->actionMapper)) {
             $this->initActionMapper();
@@ -763,11 +762,6 @@ class Projects_ProjectController extends Zend_Controller_Action
         if (!isset($this->receivableMapper)) {
             $this->receivableMapper = new C3op_Finances_ReceivableMapper($this->db);
         }
-    }
-
-    private function initTeamMemberMapper()
-    {
-         $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
     }
 
     private function initResponsibleMapper()

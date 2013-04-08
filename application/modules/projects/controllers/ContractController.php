@@ -54,7 +54,7 @@ class Projects_ContractController extends Zend_Controller_Action
         $this->initContractMapper();
         $this->initProjectMapper();
         $this->initContactMapper();
-        $this->initTeamMemberMapper();
+        $this->initResponsibleMapper();
 
         $contractToBeDetailed =  $this->initContractWithCheckedId($this->contractMapper);
         $projectToBeDetailed = $this->projectMapper->findById($contractToBeDetailed->getProject());
@@ -217,10 +217,10 @@ class Projects_ContractController extends Zend_Controller_Action
         }
     }
 
-    private function initTeamMemberMapper()
+    private function initResponsibleMapper()
     {
-        if (!isset($this->teamMemberMapper)) {
-            $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
+        if (!isset($this->responsibleMapper)) {
+            $this->responsibleMapper = new C3op_Resources_ResponsibleMapper($this->db);
         }
     }
 

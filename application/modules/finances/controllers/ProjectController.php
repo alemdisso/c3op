@@ -11,7 +11,7 @@ class Finances_ProjectController extends Zend_Controller_Action
     private $linkageMapper;
     private $outlayMapper;
     private $receivableMapper;
-    private $teamMemberMapper;
+    private $responsibleMapper;
     private $outsideServiceMapper;
     private $materialSupplyMapper;
     private $treeData;
@@ -130,8 +130,8 @@ class Finances_ProjectController extends Zend_Controller_Action
         if (!isset($this->outlayMapper)) {
             $this->initOutlayMapper();
         }
-        if (!isset($this->teamMemberMapper)) {
-            $this->initTeamMemberMapper();
+        if (!isset($this->responsibleMapper)) {
+            $this->initResponsibleMapper();
         }
         if (!isset($this->linkageMapper)) {
             $this->initLinkageMapper();
@@ -147,19 +147,19 @@ class Finances_ProjectController extends Zend_Controller_Action
             $actionTitle = $theAction->getTitle();
             $payeeName = $this->view->translate("#Not defined");
             $payeeId = 0;
-            if ($theOutlay->getTeamMember() > 0) {
-                $theTeamMember = $this->teamMemberMapper->findById($theOutlay->getTeamMember());
-                if ($theTeamMember->getLinkage() > 0) {
+            if ($theOutlay->getResponsible() > 0) {
+                $theResponsible = $this->responsibleMapper->findById($theOutlay->getResponsible());
+                if ($theResponsible->getLinkage() > 0) {
 
-                    $theLinkage = $this->linkageMapper->findById($theTeamMember->getLinkage());
+                    $theLinkage = $this->linkageMapper->findById($theResponsible->getLinkage());
                     $theContact = $this->contactMapper->findById($theLinkage->getContact());
 
                     $payeeId = $theLinkage->getId();
                     $payeeName = $theContact->getName();
 
-                    $status = $theTeamMember->getStatus();
-                    if ($status == C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED) {
-                        $doesIt = new C3op_Resources_TeamMemberHasCredit($theTeamMember, $this->teamMemberMapper);
+                    $status = $theResponsible->getStatus();
+                    if ($status == C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED) {
+                        $doesIt = new C3op_Resources_ResponsibleHasCredit($theResponsible, $this->responsibleMapper);
                         if ($doesIt->hasCreditToPay()) {
                             $canNotifyOutlay = true;
                         } else {
@@ -334,9 +334,9 @@ class Finances_ProjectController extends Zend_Controller_Action
         }
     }
 
-    private function initTeamMemberMapper()
+    private function initResponsibleMapper()
     {
-         $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
+         $this->responsibleMapper = new C3op_Resources_ResponsibleMapper($this->db);
     }
 
     private function initInstitutionMapper()

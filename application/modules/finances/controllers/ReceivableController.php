@@ -61,7 +61,7 @@ class Finances_ReceivableController extends Zend_Controller_Action
         $this->initReceivableMapper();
         $this->initProjectMapper();
         $this->initContactMapper();
-        $this->initTeamMemberMapper();
+        $this->initResponsibleMapper();
 
         $receivableToBeDetailed =  $this->initReceivableWithCheckedId($this->receivableMapper);
         $projectToBeDetailed = $this->projectMapper->findById($receivableToBeDetailed->getProject());
@@ -306,10 +306,10 @@ class Finances_ReceivableController extends Zend_Controller_Action
         return $mapper->findById($this->checkIdFromGet());
     }
 
-    private function initTeamMemberMapper()
+    private function initResponsibleMapper()
     {
-        if (!isset($this->teamMemberMapper)) {
-            $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
+        if (!isset($this->responsibleMapper)) {
+            $this->responsibleMapper = new C3op_Resources_ResponsibleMapper($this->db);
         }
     }
 

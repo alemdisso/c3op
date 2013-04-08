@@ -247,17 +247,16 @@ class C3op_Resources_ResponsibleMapper {
     public function getAllUniqueResponsiblesContractedOrPredictedAt(C3op_Projects_Project $obj) {
         $result = array();
 
-
         foreach ($this->db->query(sprintf('SELECT r.id
             FROM projects_actions a
-            INNER JOIN resources_responsibles t ON a.id = r.action
+            INNER JOIN resources_responsibles r ON a.id = r.action
             WHERE a.project = %d
-            AND r.linkage > 0
+            AND (r.contact > 0 OR r.institution > 0)
             AND (
             r.status = %d
             OR r.status = %d
             OR r.status = %d
-            ) GROUP BY CONCAT(r.institution, \'|\', r.contact'
+            ) GROUP BY CONCAT(r.institution, \'|\', r.contact)'
             , $obj->getId()
             , C3op_Resources_ResponsibleStatusConstants::STATUS_UNDEFINED
             , C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED
