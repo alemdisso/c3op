@@ -17,7 +17,7 @@ if ($pageData['type'] == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMB
 } else if ($pageData['type'] == C3op_Resources_ResponsibleTypeConstants::TYPE_OUTSIDE_SERVICE) {
 ?>
           <h2><?php print(sprintf($this->translate("#%s's participation in the project"), $pageData['institutionName'])); ?></h2>
-            <a href="/register/institution/detail/?id=<?php echo $pageData['contactId'] ?>"><?php echo $this->translate("#Institution detail") ?></a>
+            <a href="/register/institution/detail/?id=<?php echo $pageData['institutionId'] ?>"><?php echo $this->translate("#Institution detail") ?></a>
 <?php
 }
 ?>

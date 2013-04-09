@@ -260,6 +260,9 @@ class C3op_Projects_ActionHeader {
             $this->data['responsibleId'] = $data['responsibleId'];
             $this->data['contactId'] = $data['contactId'];
             $this->data['contactName'] = $data['contactName'];
+            $this->data['institutionId'] = $data['institutionId'];
+            $this->data['institutionName'] = $data['institutionName'];
+            $this->data['contactName'] = $data['contactName'];
             $this->data['statusLabel'] = $data['statusLabel'];
             $this->data['responsibleLabel'] = $data['responsibleLabel'];
         } else {
