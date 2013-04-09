@@ -254,6 +254,8 @@ class C3op_Projects_ActionHeader {
         if ($responsible->doesItHasAResponsible()) {
             $data = $responsible->fetch();
             $this->data['hasResponsible'] = true;
+            $this->data['canContract'] = $data['canContract'];
+            $this->data['canDismiss'] = $data['canDismiss'];
             $this->data['responsibleType'] = $data['responsibleType'];
             $this->data['responsibleId'] = $data['responsibleId'];
             $this->data['contactId'] = $data['contactId'];
@@ -262,6 +264,7 @@ class C3op_Projects_ActionHeader {
             $this->data['responsibleLabel'] = $data['responsibleLabel'];
         } else {
             $this->data['hasResponsible'] = false;
+            $this->data['canContract'] = false;
             $this->data['responsibleId'] = 0;
             $this->data['responsibleType'] = 0;
             $this->data['contactId'] = 0;
@@ -269,7 +272,6 @@ class C3op_Projects_ActionHeader {
             $this->data['statusLabel'] = _('#(unknown)');
 
         }
-
     }
 
    private function fillSubActionsTreeData($tree)

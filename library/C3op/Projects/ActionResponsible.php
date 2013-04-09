@@ -62,8 +62,42 @@ class C3op_Projects_ActionResponsible {
             $status = $responsible->getStatus();
             $statusTypes = new C3op_Resources_ResponsibleStatusTypes();
             $statusLabel = $statusTypes->TitleForType($status);
+
+            $canContract = false;
+            if (((($responsible->getType() == C3op_Resources_ResponsibleTypeConstants::TYPE_OUTSIDE_SERVICE)
+                    && ($responsible->getInstitution() > 0))
+                    || (($responsible->getType() == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER)
+                    && ($responsible->getContact() > 0)))
+                 && ($status == C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN)) {
+
+                $user = Zend_Registry::get('user');
+                $acl = Zend_Registry::get('acl');
+                $tester = new C3op_Access_PrivilegeTester($user, $acl, "resources", "responsible", "contract");
+                if ($tester->allow()) {
+                    $canContract = true;
+                }
+            }
+
+            $canDismiss = false;
+            if ($status == C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED) {
+                $canDismiss = true;
+//                $doesIt = new C3op_Resources_ResponsibleHasCredit($theResponsible, $this->responsibleMapper);
+//                if ($doesIt->hasCreditToProvide()) {
+//                    $canProvideOutlay = true;
+//                } else {
+//                    $canProvideOutlay = false;
+//                }
+//            } else {
+//                $canProvideOutlay = false;
+            }
+
+
+
+
             $data = array(
               'hasResponsible'   => true,
+              'canContract'      => $canContract,
+              'canDismiss'       => $canDismiss,
               'responsibleType'  => $type,
               'responsibleId'    => $responsible->getId(),
               'responsibleLabel' => $responsibleLabel,

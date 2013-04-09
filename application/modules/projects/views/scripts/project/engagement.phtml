@@ -6,8 +6,21 @@
           <h1><?php print($this->translate("#Project")); ?> <a href="/projects/project/detail/?id=<?php print($pageData['projectId']) ?>"><?php print($pageData['projectTitle']) ?></a></h1>
         </div><!-- MainHeader -->
         <div class="TituloForm">
-          <h2><?php print(sprintf($this->translate("#%s's participation in the project"), $pageData['name'])); ?></h2>
+
+<?php
+if ($pageData['type'] == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER) {
+
+?>
+          <h2><?php print(sprintf($this->translate("#%s's participation in the project"), $pageData['contactName'])); ?></h2>
             <a href="/register/contact/detail/?id=<?php echo $pageData['contactId'] ?>"><?php echo $this->translate("#Contact detail") ?></a>
+<?php
+} else if ($pageData['type'] == C3op_Resources_ResponsibleTypeConstants::TYPE_OUTSIDE_SERVICE) {
+?>
+          <h2><?php print(sprintf($this->translate("#%s's participation in the project"), $pageData['institutionName'])); ?></h2>
+            <a href="/register/institution/detail/?id=<?php echo $pageData['contactId'] ?>"><?php echo $this->translate("#Institution detail") ?></a>
+<?php
+}
+?>
         </div>
         <div class="Area">
 

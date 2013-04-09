@@ -378,6 +378,70 @@ class Resources_ResponsibleController extends Zend_Controller_Action
         }
     }
 
+    public function dismissAction()
+    {
+        $form = new C3op_Form_ResponsibleDismiss;
+        $headerData = array();
+        $this->view->form = $form;
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            if ($form->isValid($postData)) {
+                $id = $form->process($postData);
+                $this->initResponsibleMapper();
+                $responsible =  $this->responsibleMapper->findById($id);
+                $this->_helper->getHelper('FlashMessenger')
+                    ->addMessage($this->view->translate('#The team member was dismissed.'));
+                $this->_redirect('/projects/action/detail/?id=' . $responsible->GetAction());
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
+        } else {
+            $data = $this->_request->getParams();
+            $filters = array(
+                'id' => new Zend_Filter_Alnum(),
+            );
+            $validators = array(
+                'id' => new C3op_Util_ValidId(),
+            );
+            $input = new Zend_Filter_Input($filters, $validators, $data);
+            if ($input->isValid()) {
+
+                $id = $input->id;
+                $this->initResponsibleMapper();
+                $thisResponsible = $this->responsibleMapper->findById($id);
+
+                if ($thisResponsible->getStatus() != C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED) {
+
+                    throw new C3op_Projects_ProjectException("Can\' dismiss a team member that is not contracted.");
+
+                }
+
+                $idField = $form->getElement('id');
+                $idField->setValue($id);
+                $this->initActionMapper();
+                $thisAction = $this->actionMapper->findById($thisResponsible->getAction());
+
+                $this->initContactMapper();
+
+                $contact = $this->contactMapper->findById($thisResponsible->getContact());
+                $contactName = $contact->GetName();
+
+                $actionTitle = $thisAction->GetTitle();
+                $headerData = array(
+                   'responsibleName' => $contactName,
+                   'actionTitle'    => $actionTitle,
+                ) ;
+
+            }
+
+        }
+        $this->view->headerData = $headerData;
+    }
+
+
+
      public function populateContactsFieldAction()
     {
         $this->_helper->layout->disableLayout();

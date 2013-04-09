@@ -341,6 +341,29 @@ if ($actionHeader['hasResponsible']) {
 <?php
         }
 ?>
+<?php
+    if ($actionHeader['canContract']) {
+
+?>
+                        <li>
+                          <a class="parent_info" href="/resources/responsible/contract/?id=<?php print($actionHeader['responsibleId']);?>" ><?php print($this->translate("#Confirm responsible contracting")); ?></a>
+                        </li>
+
+<?php
+    }
+?>
+<?php
+    if ($actionHeader['canDismiss']) {
+
+?>
+                        <li>
+                          <a class="parent_info" href="/resources/responsible/dismiss/?id=<?php print($actionHeader['responsibleId']);?>" ><?php print($this->translate("#Confirm responsible dismissing")); ?></a>
+                        </li>
+
+<?php
+    }
+?>
+
                           <li>
                               <a href="javascript:callResponsibleEdit(<?php print $actionHeader['responsibleId'] ?>)"><?php print($this->translate("#Edit responsible")); ?></a>
                           </li>
@@ -512,6 +535,7 @@ if (($actionHeader['responsibleType'] == C3op_Resources_ResponsibleTypeConstants
                   <a href="#" class="button one column alpha omega anchorclass" rel="submenu2"><?php print($this->translate("#Options")); ?></a>
                   <div id="submenu2" class="anylinkcss">
                       <ul>
+
 <?php
     if($responsibleData['canEditResource']) {
 

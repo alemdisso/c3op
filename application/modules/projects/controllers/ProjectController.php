@@ -237,8 +237,8 @@ class Projects_ProjectController extends Zend_Controller_Action
             $emailString = $this->view->translate("#---");
             $phoneNumberString = $this->view->translate("#---");
 
-            $linkageId = $theResponsible->getLinkage();
-            if ($linkageId > 0) {
+            $contactId = $theResponsible->getContact();
+            if ($contactId > 0) {
 
 
                 $valuestPosition = $this->responsibleMapper->findMainPositionForAPerson($theResponsible);
@@ -247,13 +247,15 @@ class Projects_ProjectController extends Zend_Controller_Action
                     $theResponsible = $valuestPosition;
                 }
 
-                $theLinkage = $this->linkageMapper->findById($theResponsible->getLinkage());
-                $theContact = $this->contactMapper->findById($theLinkage->getContact());
-                $theInstitution = $this->institutionMapper->findById($theLinkage->getInstitution());
+                $theContact = $this->contactMapper->findById($theResponsible->getContact());
+                $theInstitution = $this->institutionMapper->findById($theResponsible->getInstitution());
 
                 $staffId = $theContact->getId();
                 $staffName = $theContact->getName();
                 $linkageInstitutionName = $theInstitution->getShortName();
+
+                $theLinkage = $this->linkageMapper->findByContactAndInstitution($theResponsible->getContact(), $theResponsible->getInstitution());
+
                 $data = $theLinkage->getEmails();
                 if (count($data)) {
                     $staffEmail = reset($data);
@@ -284,7 +286,7 @@ class Projects_ProjectController extends Zend_Controller_Action
 
             $responsiblesList[$id] = array(
                     'contactId'              => $staffId,
-                    'linkageId'              => $linkageId,
+                    'linkageId'              => $theLinkage->getId(),
                     'linkageInstitutionName' => $linkageInstitutionName,
                     'actionId'               => $theResponsible->getAction(),
                     'actionTitle'            => $actionTitle,
@@ -462,14 +464,30 @@ class Projects_ProjectController extends Zend_Controller_Action
         if (!isset($this->contactMapper)) {
             $this->initContactMapper();
         }
+        if (!isset($this->institutionMapper)) {
+            $this->initInstitutionMapper();
+        }
         if (!isset($this->outlayMapper)) {
             $this->initOutlayMapper();
         }
 
         $project = $this->initProjectWithCheckedId($this->projectMapper);
-        $contact = $this->initContactWithCheckedContactId($this->contactMapper);
+        $contactId = $this->checkContactFromGet();
+        $contactName = $this->view->translate("#(undefined)");
+        if ($contactId > 0) {
+            $contact = $this->initContactWithCheckedContactId($this->contactMapper);
+            $contactName = $contact->getName();
+            $engagedType = C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER;
+        }
+        $institutionId = $this->checkInstitutionFromGet();
+        $institutionName = $this->view->translate("#(undefined)");
+        if ($institutionId > 0) {
+            $institution = $this->initInstitutionWithCheckedInstitutionId($this->institutionMapper);
+            $institutionName = $institution->getShortName();
+            $engagedType = C3op_Resources_ResponsibleTypeConstants::TYPE_OUTSIDE_SERVICE;
+        }
 
-        $actionsEngaged = $this->responsibleMapper->getAllActionsEngaging($contact, $project);
+        $actionsEngaged = $this->responsibleMapper->getAllActionsEngaging($project, $contactId, $institutionId);
 
         $engagedActions = array();
         $alreadyPayedValue = 0;
@@ -603,8 +621,11 @@ class Projects_ProjectController extends Zend_Controller_Action
 
         $pageData = array(
             'projectId'       => $project->getId(),
-            'name'            => $contact->getName(),
-            'contactId'       => $contact->getId(),
+            'type'            => $engagedType,
+            'contactName'     => $contactName,
+            'contactId'       => $contactId,
+            'institutionName' => $institutionName,
+            'institutionId'   => $institutionId,
             'projectTitle'    => $project->getShortTitle(),
 //            'payedValue'      => $personPayedValue,
 //            'contractedValue' => $personContractedValue,
@@ -794,6 +815,11 @@ class Projects_ProjectController extends Zend_Controller_Action
         return $mapper->findById($this->checkContactFromGet());
     }
 
+    private function initInstitutionWithCheckedInstitutionId(C3op_Register_InstitutionMapper $mapper)
+    {
+        return $mapper->findById($this->checkInstitutionFromGet());
+    }
+
     private function checkIdFromGet()
     {
         $data = $this->_request->getParams();
@@ -825,6 +851,24 @@ class Projects_ProjectController extends Zend_Controller_Action
         if ($input->isValid()) {
             $contact = $input->contact;
             return $contact;
+        }
+        throw new C3op_Projects_ProjectException("Invalid Project Id from Get");
+
+    }
+
+    private function checkInstitutionFromGet()
+    {
+        $data = $this->_request->getParams();
+        $filters = array(
+            'institution' => new Zend_Filter_Alnum(),
+        );
+        $validators = array(
+            'institution' => array('Digits', new Zend_Validate_GreaterThan(0)),
+        );
+        $input = new Zend_Filter_Input($filters, $validators, $data);
+        if ($input->isValid()) {
+            $institution = $input->institution;
+            return $institution;
         }
         throw new C3op_Projects_ProjectException("Invalid Project Id from Get");
 
