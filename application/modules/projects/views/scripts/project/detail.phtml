@@ -19,7 +19,7 @@ $projectHeader = $pageData['projectHeader'];
 
 $productsList = $pageData['productsList'];
 $actionsList = $pageData['actionsTree'];
-$teamMembersList = $pageData['teamMembersList'];
+$responsiblesList = $pageData['responsiblesList'];
 $servicesData = $pageData['outsideServicesList'];
 $materialData = $pageData['materialSuppliesList'];
 $detailsData = $pageData['detailsData'];
@@ -301,43 +301,43 @@ if ($actionData['contactId'] > 0) {
               <!-- ### loop de carga dos recursos humanos alocados ao projeto -->
 <?php
 
-foreach($teamMembersList as $id => $teamMemberInfo) {
+foreach($responsiblesList as $id => $responsibleInfo) {
 ?>
                 <tr>
                   <td>
 <?php
-if($teamMemberInfo['linkageId'] > 0) {
+if($responsibleInfo['contactId'] > 0) {
 ?>
-                    <a alt="<?php print $teamMemberInfo['linkageInstitutionName']; ?>" href="/projects/project/engagement/?id=<?php  print $projectHeader['id'] ?>&linkage=<?php  print $teamMemberInfo['linkageId'] ?>"><?php print($teamMemberInfo['staffName']) ?></a>
+                    <a alt="<?php print $responsibleInfo['linkageInstitutionName']; ?>" href="/projects/project/engagement/?id=<?php  print $projectHeader['id'] ?>&contact=<?php  print $responsibleInfo['contactId'] ?>"><?php print($responsibleInfo['staffName']) ?></a>
 <?php
 
 } else { // (undefined)
 ?>
-<?php print($teamMemberInfo['staffName']) ?>
+<?php print($responsibleInfo['staffName']) ?>
 <?php
 
 }
 ?>
                   </td>
                   <td>
-                    <a href="/projects/action/detail/?id=<?php print($teamMemberInfo['actionId']) ?>#tabs-team"><?php print($teamMemberInfo['actionTitle']) ?></a>
+                    <a href="/projects/action/detail/?id=<?php print($responsibleInfo['actionId']) ?>#tabs-team"><?php print($responsibleInfo['actionTitle']) ?></a>
                   </td>
                   <td>
-                    <a href="mailto:<?php print($teamMemberInfo['staffEmail']) ?>"><?php print($teamMemberInfo['staffEmail']) ?></a>
+                    <a href="mailto:<?php print($responsibleInfo['staffEmail']) ?>"><?php print($responsibleInfo['staffEmail']) ?></a>
                   </td>
                   <td>
-                    <?php print($teamMemberInfo['staffPhoneNumber']) ?>
+                    <?php print($responsibleInfo['staffPhoneNumber']) ?>
                   </td>
                   <td>
                     <a href="#" class="anchorclass" rel="submenu1"><?php echo $this->translate("#Options") ?></a>
                     <div id="submenu1" class="anylinkcss">
                         <ul>
 <?php
-if($teamMemberInfo['contactId'] > 0) {
+if($responsibleInfo['contactId'] > 0) {
 ?>
                           <li>
                             <!-- [# LINK PARA A DETALHES DO CONTATO ] -->
-                            <a href="/register/contact/detail/?id=<?php print($teamMemberInfo['contactId']) ?>"><?php echo $this->translate("#Contact detail") ?></a>
+                            <a href="/register/contact/detail/?id=<?php print($responsibleInfo['contactId']) ?>"><?php echo $this->translate("#Contact detail") ?></a>
                           </li>
 <?php
 

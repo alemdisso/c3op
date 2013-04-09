@@ -132,17 +132,22 @@ class C3op_Resources_ResponsibleMapper {
         $attribute->setValue($i, $fieldValue);
     }
 
-    public function getAllActionsEngaging(C3op_Register_Contact $obj, C3op_Projects_Project $project)
+    public function getAllActionsEngaging(C3op_Projects_Project $project, $contact=0, $institution=0)
     {
         $query = $this->db->prepare('SELECT a.id as id, r.id as responsibleId
                     FROM projects_actions a
                     LEFT JOIN resources_responsibles r ON a.id = r.action
                     LEFT JOIN register_contacts t ON r.contact = r.id
-                    WHERE a.project = :project AND r.contact = :contact
+                    WHERE a.project = :project
+                    AND ((r.contact = :contact AND r.type = :team_member)
+                      OR (r.institution = :institution AND r.type = :outside_service))
                     AND (r.status = :foreseen OR r.status = :contracted OR r.status = :acquitted);');
         $query->bindValue(':project', $project->GetId(), PDO::PARAM_STR);
-        $query->bindValue(':contact', $obj->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':contact', $contact, PDO::PARAM_STR);
+        $query->bindValue(':institution', $institution, PDO::PARAM_STR);
         $query->bindValue(':foreseen', C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN, PDO::PARAM_STR);
+        $query->bindValue(':team_member', C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER, PDO::PARAM_STR);
+        $query->bindValue(':outside_service', C3op_Resources_ResponsibleTypeConstants::TYPE_OUTSIDE_SERVICE, PDO::PARAM_STR);
         $query->bindValue(':contracted', C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
         $query->bindValue(':acquitted', C3op_Resources_ResponsibleStatusConstants::STATUS_ACQUITTED, PDO::PARAM_STR);
         $query->execute();
@@ -247,17 +252,16 @@ class C3op_Resources_ResponsibleMapper {
     public function getAllUniqueResponsiblesContractedOrPredictedAt(C3op_Projects_Project $obj) {
         $result = array();
 
-
         foreach ($this->db->query(sprintf('SELECT r.id
             FROM projects_actions a
-            INNER JOIN resources_responsibles t ON a.id = r.action
+            INNER JOIN resources_responsibles r ON a.id = r.action
             WHERE a.project = %d
-            AND r.linkage > 0
+            AND (r.contact > 0 OR r.institution > 0)
             AND (
             r.status = %d
             OR r.status = %d
             OR r.status = %d
-            ) GROUP BY CONCAT(r.institution, \'|\', r.contact'
+            ) GROUP BY CONCAT(r.institution, \'|\', r.contact)'
             , $obj->getId()
             , C3op_Resources_ResponsibleStatusConstants::STATUS_UNDEFINED
             , C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED
@@ -273,15 +277,13 @@ class C3op_Resources_ResponsibleMapper {
     public function findMainPositionForAPerson(C3op_Resources_Responsible $obj) {
         foreach ($this->db->query(sprintf('SELECT r.id
             FROM resources_responsibles r
-            INNER JOIN register_contacts t ON r.contact = t.id
-            INNER JOIN register_linkages l ON t.linkage = l.id
-            WHERE r.linkage = %d AND r.project = %d
+            WHERE r.contact = %d AND r.project = %d
             AND (
             r.status = %d
             OR r.status = %d
             OR r.status = %d
             ) ORDER BY value DESC LIMIT 1'
-            , $obj->getLinkage()
+            , $obj->getContact()
             , $obj->getProject()
             , C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED
             , C3op_Resources_ResponsibleStatusConstants::STATUS_ACQUITTED

@@ -8,7 +8,7 @@ class C3op_Form_OutlayCreate extends Zend_Form
              ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
              ->setMethod('post');
 
-        $element = new Zend_Form_Element_Hidden('teamMember');
+        $element = new Zend_Form_Element_Hidden('responsible');
         $element->addValidator('Int')
             ->addFilter('StringTrim');
         $this->addElement($element);
@@ -107,7 +107,7 @@ class C3op_Form_OutlayCreate extends Zend_Form
 
             $outlayMapper = new C3op_Finances_OutlayMapper($db);
 
-            $outlay = new C3op_Finances_Outlay($this->teamMember->GetValue());
+            $outlay = new C3op_Finances_Outlay($this->responsible->GetValue());
             $outlay->SetAction($this->action->GetValue());
             $outlay->SetProject($this->project->GetValue());
 

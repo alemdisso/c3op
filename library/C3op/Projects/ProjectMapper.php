@@ -298,6 +298,28 @@ class C3op_Projects_ProjectMapper
         return $result;
     }
 
+     public function getAllUnassignedPositionsAt(C3op_Projects_Project $obj) {
+        $result = array();
+
+        foreach ($this->db->query(sprintf('SELECT a.id
+            FROM projects_actions a
+            WHERE a.project = %d
+            AND (
+            a.status = %d
+            OR a.status = %d
+            )'
+            , $obj->getId()
+            , C3op_Resources_TeamMemberStatusConstants::STATUS_UNDEFINED
+            , C3op_Resources_TeamMemberStatusConstants::STATUS_FORESEEN
+
+                )) as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
+
+
     public function getAllAmendments(C3op_Projects_Project $obj)
     {
         $query = $this->db->prepare('SELECT id FROM projects_contracts WHERE project = :project AND amendment = true;');

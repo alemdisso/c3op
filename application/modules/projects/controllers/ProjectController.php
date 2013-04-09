@@ -12,7 +12,6 @@ class Projects_ProjectController extends Zend_Controller_Action
     private $outlayMapper;
     private $receivableMapper;
     private $responsibleMapper;
-    private $teamMemberMapper;
     private $outsideServiceMapper;
     private $materialSupplyMapper;
     private $treeData;
@@ -200,7 +199,7 @@ class Projects_ProjectController extends Zend_Controller_Action
                 );
         }
 
-        // teamMembersList
+        // responsiblesList
         //   * id =>
         //      staffName
         //      actionId
@@ -211,23 +210,23 @@ class Projects_ProjectController extends Zend_Controller_Action
         //      staffEmail
         //      staffPhoneNumber
 
-        $teamMembersList = array();
-        if (!isset($this->teamMemberMapper)) {
-            $this->initTeamMemberMapper();
+        $responsiblesList = array();
+        if (!isset($this->responsibleMapper)) {
+            $this->initResponsibleMapper();
         }
-        $projectTeam = $this->teamMemberMapper->getAllUniqueTeamMembersContractedOrPredictedAt($projectToBeDetailed);
+        $projectTeam = $this->responsibleMapper->getAllUniqueResponsiblesContractedOrPredictedAt($projectToBeDetailed);
         if (!isset($this->linkageMapper)) {
             $this->initLinkageMapper();
         }
 
-        $rolesArray = $this->teamMemberMapper->getAllUnassignedPositionsAt($projectToBeDetailed);
-        foreach ($rolesArray as $id) {
-            $projectTeam[] = $id;
-        }
+//        $rolesArray = $this->projectMapper->getAllUnassignedPositionsAt($projectToBeDetailed);
+//        foreach ($rolesArray as $id) {
+//            $projectTeam[] = $id;
+//        }
 
 
         foreach ($projectTeam as $id) {
-            $theTeamMember = $this->teamMemberMapper->findById($id);
+            $theResponsible = $this->responsibleMapper->findById($id);
 
 
 
@@ -238,23 +237,25 @@ class Projects_ProjectController extends Zend_Controller_Action
             $emailString = $this->view->translate("#---");
             $phoneNumberString = $this->view->translate("#---");
 
-            $linkageId = $theTeamMember->getLinkage();
-            if ($linkageId > 0) {
+            $contactId = $theResponsible->getContact();
+            if ($contactId > 0) {
 
 
-                $valuestPosition = $this->teamMemberMapper->findMainPositionForAPerson($theTeamMember);
+                $valuestPosition = $this->responsibleMapper->findMainPositionForAPerson($theResponsible);
 
-                if ($valuestPosition->getId() != $theTeamMember->getId()) {
-                    $theTeamMember = $valuestPosition;
+                if ($valuestPosition->getId() != $theResponsible->getId()) {
+                    $theResponsible = $valuestPosition;
                 }
 
-                $theLinkage = $this->linkageMapper->findById($theTeamMember->getLinkage());
-                $theContact = $this->contactMapper->findById($theLinkage->getContact());
-                $theInstitution = $this->institutionMapper->findById($theLinkage->getInstitution());
+                $theContact = $this->contactMapper->findById($theResponsible->getContact());
+                $theInstitution = $this->institutionMapper->findById($theResponsible->getInstitution());
 
                 $staffId = $theContact->getId();
                 $staffName = $theContact->getName();
                 $linkageInstitutionName = $theInstitution->getShortName();
+
+                $theLinkage = $this->linkageMapper->findByContactAndInstitution($theResponsible->getContact(), $theResponsible->getInstitution());
+
                 $data = $theLinkage->getEmails();
                 if (count($data)) {
                     $staffEmail = reset($data);
@@ -270,29 +271,29 @@ class Projects_ProjectController extends Zend_Controller_Action
 
 
 
-            $actionId = $theTeamMember->getAction();
+            $actionId = $theResponsible->getAction();
             $theAction = $this->actionMapper->findById($actionId);
             $actionTitle = $theAction->getTitle();
-            $removal = new C3op_Resources_TeamMemberRemoval($theTeamMember, $this->teamMemberMapper);
+            $removal = new C3op_Resources_ResponsibleRemoval($theResponsible, $this->responsibleMapper);
 
             if ($removal->canBeRemoved()) {
-                $canRemoveTeamMember = true;
+                $canRemoveResponsible = true;
             } else {
-                $canRemoveTeamMember = false;
+                $canRemoveResponsible = false;
             }
 
 
 
-            $teamMembersList[$id] = array(
+            $responsiblesList[$id] = array(
                     'contactId'              => $staffId,
-                    'linkageId'              => $linkageId,
+                    'linkageId'              => $theLinkage->getId(),
                     'linkageInstitutionName' => $linkageInstitutionName,
-                    'actionId'               => $theTeamMember->getAction(),
+                    'actionId'               => $theResponsible->getAction(),
                     'actionTitle'            => $actionTitle,
                     'staffName'              => $staffName,
                     'staffPhoneNumber'       => $phoneNumberString,
                     'staffEmail'             => $emailString,
-                    'canRemoveTeamMember'    => $canRemoveTeamMember,
+                    'canRemoveResponsible'    => $canRemoveResponsible,
                 );
         }
 
@@ -393,7 +394,7 @@ class Projects_ProjectController extends Zend_Controller_Action
             'messageToShow'        => $messageToShow,
             'productsList'         => $productsList,
             'actionsTree'          => $actionTreeList,
-            'teamMembersList'      => $teamMembersList,
+            'responsiblesList'      => $responsiblesList,
             'outsideServicesList'  => $outsideServicesList,
             'materialSuppliesList' => $materialSuppliesList,
             'detailsData'          => $detailsData,
@@ -454,8 +455,8 @@ class Projects_ProjectController extends Zend_Controller_Action
         if (!isset($this->responsibleMapper)) {
             $this->initResponsibleMapper();
         }
-        if (!isset($this->teamMemberMapper)) {
-            $this->initTeamMemberMapper();
+        if (!isset($this->responsibleMapper)) {
+            $this->initResponsibleMapper();
         }
         if (!isset($this->actionMapper)) {
             $this->initActionMapper();
@@ -463,14 +464,30 @@ class Projects_ProjectController extends Zend_Controller_Action
         if (!isset($this->contactMapper)) {
             $this->initContactMapper();
         }
+        if (!isset($this->institutionMapper)) {
+            $this->initInstitutionMapper();
+        }
         if (!isset($this->outlayMapper)) {
             $this->initOutlayMapper();
         }
 
         $project = $this->initProjectWithCheckedId($this->projectMapper);
-        $contact = $this->initContactWithCheckedContactId($this->contactMapper);
+        $contactId = $this->checkContactFromGet();
+        $contactName = $this->view->translate("#(undefined)");
+        if ($contactId > 0) {
+            $contact = $this->initContactWithCheckedContactId($this->contactMapper);
+            $contactName = $contact->getName();
+            $engagedType = C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER;
+        }
+        $institutionId = $this->checkInstitutionFromGet();
+        $institutionName = $this->view->translate("#(undefined)");
+        if ($institutionId > 0) {
+            $institution = $this->initInstitutionWithCheckedInstitutionId($this->institutionMapper);
+            $institutionName = $institution->getShortName();
+            $engagedType = C3op_Resources_ResponsibleTypeConstants::TYPE_OUTSIDE_SERVICE;
+        }
 
-        $actionsEngaged = $this->responsibleMapper->getAllActionsEngaging($contact, $project);
+        $actionsEngaged = $this->responsibleMapper->getAllActionsEngaging($project, $contactId, $institutionId);
 
         $engagedActions = array();
         $alreadyPayedValue = 0;
@@ -612,8 +629,11 @@ class Projects_ProjectController extends Zend_Controller_Action
 
         $pageData = array(
             'projectId'       => $project->getId(),
-            'name'            => $contact->getName(),
-            'contactId'       => $contact->getId(),
+            'type'            => $engagedType,
+            'contactName'     => $contactName,
+            'contactId'       => $contactId,
+            'institutionName' => $institutionName,
+            'institutionId'   => $institutionId,
             'projectTitle'    => $project->getShortTitle(),
 //            'payedValue'      => $personPayedValue,
 //            'contractedValue' => $personContractedValue,
@@ -773,11 +793,6 @@ class Projects_ProjectController extends Zend_Controller_Action
         }
     }
 
-    private function initTeamMemberMapper()
-    {
-         $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
-    }
-
     private function initResponsibleMapper()
     {
          $this->responsibleMapper = new C3op_Resources_ResponsibleMapper($this->db);
@@ -806,6 +821,11 @@ class Projects_ProjectController extends Zend_Controller_Action
     private function initContactWithCheckedContactId(C3op_Register_ContactMapper $mapper)
     {
         return $mapper->findById($this->checkContactFromGet());
+    }
+
+    private function initInstitutionWithCheckedInstitutionId(C3op_Register_InstitutionMapper $mapper)
+    {
+        return $mapper->findById($this->checkInstitutionFromGet());
     }
 
     private function checkIdFromGet()
@@ -839,6 +859,24 @@ class Projects_ProjectController extends Zend_Controller_Action
         if ($input->isValid()) {
             $contact = $input->contact;
             return $contact;
+        }
+        throw new C3op_Projects_ProjectException("Invalid Project Id from Get");
+
+    }
+
+    private function checkInstitutionFromGet()
+    {
+        $data = $this->_request->getParams();
+        $filters = array(
+            'institution' => new Zend_Filter_Alnum(),
+        );
+        $validators = array(
+            'institution' => array('Digits', new Zend_Validate_GreaterThan(0)),
+        );
+        $input = new Zend_Filter_Input($filters, $validators, $data);
+        if ($input->isValid()) {
+            $institution = $input->institution;
+            return $institution;
         }
         throw new C3op_Projects_ProjectException("Invalid Project Id from Get");
 

@@ -3,7 +3,7 @@
 class Projects_ActionController extends Zend_Controller_Action
 {
     private $actionMapper;
-    private $teamMemberMapper;
+    private $responsibleMapper;
     private $outsideServiceMapper;
     private $projectMapper;
     private $receivableMapper;
@@ -309,8 +309,8 @@ class Projects_ActionController extends Zend_Controller_Action
         $actionHeader = $header->fetch();
 
 
-        // teamMemberList
-        //   * teamMemberInfo
+        // responsibleList
+        //   * responsibleInfo
         //      id
         //      contactId
         //      linkageId
@@ -319,10 +319,10 @@ class Projects_ActionController extends Zend_Controller_Action
         //      value
         //      contractingStatusLabel
         //      canContractFlag
-        //      canRemoveTeamMember
+        //      canRemoveResponsible
         //      canProvideOutlay
 
-        $teamMembersList = $this->getTeamMembersList($actionToBeDetailed);
+        $responsiblesList = $this->getResponsiblesList($actionToBeDetailed);
 
         // outsideServiceList
         //   * outsideServiceInfo
@@ -353,7 +353,7 @@ class Projects_ActionController extends Zend_Controller_Action
         $pageData = array(
             'messageToShow'       => $messageToShow,
             'actionHeader'        => $actionHeader,
-            'teamMembersList'     => $teamMembersList,
+            'responsiblesList'     => $responsiblesList,
             'outsideServicesList' => $outsideServicesList,
             'materialSuppliesList' => $materialSuppliesList,
         );
@@ -645,10 +645,10 @@ class Projects_ActionController extends Zend_Controller_Action
         }
     }
 
-    private function initTeamMemberMapper()
+    private function initResponsibleMapper()
     {
-        if (!isset($this->teamMemberMapper)) {
-            $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
+        if (!isset($this->responsibleMapper)) {
+            $this->responsibleMapper = new C3op_Resources_ResponsibleMapper($this->db);
         }
     }
 
@@ -673,13 +673,13 @@ class Projects_ActionController extends Zend_Controller_Action
         }
     }
 
-    private function calculateTotalValueExistentOutlays(C3op_Resources_TeamMember $h)
+    private function calculateTotalValueExistentOutlays(C3op_Resources_Responsible $h)
     {
         if (!isset($this->outlayMapper)) {
             $this->outlayMapper = new C3op_Finances_OutlayMapper($this->db);
         }
 
-        $outlays = $this->outlayMapper->getAllOutlaysForTeamMember($h);
+        $outlays = $this->outlayMapper->getAllOutlaysForResponsible($h);
 
         $totalValue = 0;
         foreach ($outlays as $outlayId) {
@@ -702,11 +702,11 @@ class Projects_ActionController extends Zend_Controller_Action
         }
     }
 
-     private function getTeamMembersList(C3op_Projects_Action $action)
+     private function getResponsiblesList(C3op_Projects_Action $action)
     {
 
-        // teamMemberList
-        //   * teamMemberInfo
+        // responsibleList
+        //   * responsibleInfo
         //      id
         //      contactId
         //      linkageId
@@ -715,27 +715,27 @@ class Projects_ActionController extends Zend_Controller_Action
         //      value
         //      contractingStatusLabel
         //      canContractFlag
-        //      canRemoveTeamMember
+        //      canRemoveResponsible
         //      canEditResource
         //      canProvideOutlay
-        $this->initTeamMemberMapper();
+        $this->initResponsibleMapper();
 
         if (!isset($this->linkageMapper)) {
             $this->initLinkageMapper();
         }
 
-        $teamMembersList = array();
-        $teamMembersIdsList = $this->teamMemberMapper->getAllTeamMembersOnAction($action);
+        $responsiblesList = array();
+        $responsiblesIdsList = $this->responsibleMapper->getAllResponsiblesOnAction($action);
 
-        foreach ($teamMembersIdsList as $teamMemberId) {
-            $theTeamMember = $this->teamMemberMapper->findById($teamMemberId);
+        foreach ($responsiblesIdsList as $responsibleId) {
+            $theResponsible = $this->responsibleMapper->findById($responsibleId);
             $currencyDisplay = new  C3op_Util_CurrencyDisplay();
-            $currencyValue = $currencyDisplay->FormatCurrency($theTeamMember->GetValue());
-            $totalValueExistentOutlays = $this->calculateTotalValueExistentOutlays($theTeamMember);
+            $currencyValue = $currencyDisplay->FormatCurrency($theResponsible->GetValue());
+            $totalValueExistentOutlays = $this->calculateTotalValueExistentOutlays($theResponsible);
 
-            $descriptionMessage = $theTeamMember->GetDescription();
+            $descriptionMessage = $theResponsible->GetDescription();
 
-            $linkageId = $theTeamMember->GetLinkage();
+            $linkageId = $theResponsible->GetLinkage();
             $contactName = "(indefinido)";
             $contactId = 0;
             if ($linkageId > 0) {
@@ -748,20 +748,20 @@ class Projects_ActionController extends Zend_Controller_Action
             }
 
 
-            $status = $theTeamMember->getStatus();
-            $statusTypes = new C3op_Resources_TeamMemberStatusTypes();
+            $status = $theResponsible->getStatus();
+            $statusTypes = new C3op_Resources_ResponsibleStatusTypes();
             $statusLabel = $this->view->translate($statusTypes->TitleForType($status));
 
-            if (($theTeamMember->getLinkage() > 0) && ($status == C3op_Resources_TeamMemberStatusConstants::STATUS_FORESEEN)) {
+            if (($theResponsible->getLinkage() > 0) && ($status == C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN)) {
                 $canContract = true;
             } else {
                 $canContract = false;
             }
 
             $canDismiss = false;
-            if ($status == C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED) {
+            if ($status == C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED) {
                 $canDismiss = true;
-                $doesIt = new C3op_Resources_TeamMemberHasCredit($theTeamMember, $this->teamMemberMapper);
+                $doesIt = new C3op_Resources_ResponsibleHasCredit($theResponsible, $this->responsibleMapper);
                 if ($doesIt->hasCreditToProvide()) {
                     $canProvideOutlay = true;
                 } else {
@@ -771,17 +771,17 @@ class Projects_ActionController extends Zend_Controller_Action
                 $canProvideOutlay = false;
             }
 
-            $removal = new C3op_Resources_TeamMemberRemoval($theTeamMember, $this->teamMemberMapper);
+            $removal = new C3op_Resources_ResponsibleRemoval($theResponsible, $this->responsibleMapper);
             if ($removal->canBeRemoved()) {
-                $canRemoveTeamMember = true;
+                $canRemoveResponsible = true;
                 $canEditResource = true;
             } else {
-                $canRemoveTeamMember = false;
+                $canRemoveResponsible = false;
                 $canEditResource = false;
             }
 
-            $teamMembersList[$teamMemberId] = array(
-                'id'                     => $teamMemberId,
+            $responsiblesList[$responsibleId] = array(
+                'id'                     => $responsibleId,
                 'contactId'              => $contactId,
                 'linkageId'              => $linkageId,
                 'name'                   => $contactName,
@@ -790,14 +790,14 @@ class Projects_ActionController extends Zend_Controller_Action
                 'contractingStatusLabel' => $statusLabel,
                 'canContractFlag'        => $canContract,
                 'canDismissFlag'         => $canDismiss,
-                'canRemoveTeamMember'    => $canRemoveTeamMember,
+                'canRemoveResponsible'    => $canRemoveResponsible,
                 'canEditResource'        => $canEditResource,
                 'canProvideOutlay'       => $canProvideOutlay,
 
             );
         }
 
-        return $teamMembersList;
+        return $responsiblesList;
 
     }
 

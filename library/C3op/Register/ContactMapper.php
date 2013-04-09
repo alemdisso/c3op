@@ -430,15 +430,14 @@ class C3op_Register_ContactMapper
 
     }
 
-     public function getAllActionsWithAContactAsTeamMember(C3op_Register_Contact $obj) {
+     public function getAllActionsWithAContactAsResponsible(C3op_Register_Contact $obj) {
 
 
         $query = $this->db->prepare(
                 'SELECT a.id
                     FROM projects_actions a
-                    INNER JOIN resources_team_members t ON a.id = t.action
-                    INNER JOIN register_linkages l ON l.id = t.linkage
-                    WHERE l.contact = :id;'
+                    INNER JOIN resources_responsibles r ON a.id = r.action
+                    WHERE r.contact = :id;'
                 );
         $query->bindValue(':id', $obj->GetId(), PDO::PARAM_STR);
         $query->execute();

@@ -9,7 +9,7 @@ class Finances_IndexController extends Zend_Controller_Action
     private $linkageMapper;
     private $outlayMapper;
     private $projectMapper;
-    private $teamMemberMapper;
+    private $responsibleMapper;
 
     public function init()
     {
@@ -146,8 +146,8 @@ class Finances_IndexController extends Zend_Controller_Action
     private function fetchOutlayData(C3op_Finances_Outlay $outlay)
     {
 
-        if (!isset($this->teamMemberMapper)) {
-            $this->initTeamMemberMapper();
+        if (!isset($this->responsibleMapper)) {
+            $this->initResponsibleMapper();
         }
         if (!isset($this->linkageMapper)) {
             $this->initLinkageMapper();
@@ -158,9 +158,7 @@ class Finances_IndexController extends Zend_Controller_Action
         if (!isset($this->actionMapper)) {
             $this->initActionMapper();
         }
-        if (!isset($this->projectMapper)) {
-            $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
-        }
+
 
         $outlayData = array();
 
@@ -176,25 +174,25 @@ class Finances_IndexController extends Zend_Controller_Action
 
         $payeeName = $this->view->translate("#Not defined");
         $payeeId = 0;
-        if ($outlay->getTeamMember() > 0) {
-            $teamMemberId = $outlay->getTeamMember();
-            $theTeamMember = $this->teamMemberMapper->findById($teamMemberId);
+        if ($outlay->getResponsible() > 0) {
+            $responsibleId = $outlay->getResponsible();
+            $theResponsible = $this->responsibleMapper->findById($responsibleId);
 
             $linkageId = null;
 
 
-            if ($theTeamMember->getLinkage() > 0) {
+            if ($theResponsible->getLinkage() > 0) {
 
-                $theLinkage = $this->linkageMapper->findById($theTeamMember->getLinkage());
+                $theLinkage = $this->linkageMapper->findById($theResponsible->getLinkage());
                 $theContact = $this->contactMapper->findById($theLinkage->getContact());
 
                 $payeeId = $theContact->getId();
                 $payeeName = $theContact->getName();
-                $linkageId = $theTeamMember->getLinkage();
+                $linkageId = $theResponsible->getLinkage();
 
-                $status = $theTeamMember->getStatus();
-                if ($status == C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED) {
-                    $doesIt = new C3op_Resources_TeamMemberHasCredit($theTeamMember, $this->teamMemberMapper);
+                $status = $theResponsible->getStatus();
+                if ($status == C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED) {
+                    $doesIt = new C3op_Resources_ResponsibleHasCredit($theResponsible, $this->responsibleMapper);
                     if ($doesIt->hasCreditToPay()) {
                         $canNotifyOutlay = true;
                     } else {
@@ -233,7 +231,7 @@ class Finances_IndexController extends Zend_Controller_Action
             'actionTitle'     => $actionTitle,
             'actionId'        => $actionId,
             'linkageId'       => $linkageId,
-            'teamMemberId'    => $teamMemberId,
+            'responsibleId'    => $responsibleId,
             'projectTitle'    => $projectTitle,
             'projectId'       => $projectId,
             'predictedDate'   => $predictedDate,
@@ -250,8 +248,8 @@ class Finances_IndexController extends Zend_Controller_Action
     private function fetchPayableData(C3op_Finances_Outlay $outlay)
     {
 
-        if (!isset($this->teamMemberMapper)) {
-            $this->initTeamMemberMapper();
+        if (!isset($this->responsibleMapper)) {
+            $this->initResponsibleMapper();
         }
         if (!isset($this->linkageMapper)) {
             $this->initLinkageMapper();
@@ -262,33 +260,31 @@ class Finances_IndexController extends Zend_Controller_Action
         if (!isset($this->actionMapper)) {
             $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
         }
-        if (!isset($this->projectMapper)) {
-            $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
-        }
+
 
         $outlayData = array();
 
-        if ($outlay->GetTeamMember() > 0) {
+        if ($outlay->GetResponsible() > 0) {
 
-            $teamMember = $this->teamMemberMapper->findById($outlay->GetTeamMember() );
+            $responsible = $this->responsibleMapper->findById($outlay->GetResponsible() );
 
             $payeeName = $this->view->translate("#(not defined)");
-            $teamMemberId = null;
+            $responsibleId = null;
             $linkageId = null;
 
-            if ($teamMember->getLinkage() > 0) {
-                $teamMemberLinkage = $this->linkageMapper->findById($teamMember->getLinkage());
-                $teamMemberContact = $this->contactMapper->findById($teamMemberLinkage->getContact());
-                $payeeName = $teamMemberContact->GetName();
-                $teamMemberId = $teamMember->Getid();
-                $linkageId = $teamMember->getLinkage();
+            if ($responsible->getLinkage() > 0) {
+                $responsibleLinkage = $this->linkageMapper->findById($responsible->getLinkage());
+                $responsibleContact = $this->contactMapper->findById($responsibleLinkage->getContact());
+                $payeeName = $responsibleContact->GetName();
+                $responsibleId = $responsible->Getid();
+                $linkageId = $responsible->getLinkage();
             }
 
-            $teamMemberAction = $this->actionMapper->findById($teamMember->GetAction());
-            $actionTitle = $teamMemberAction->GetTitle();
-            $actionId = $teamMemberAction->GetId();
+            $responsibleAction = $this->actionMapper->findById($responsible->GetAction());
+            $actionTitle = $responsibleAction->GetTitle();
+            $actionId = $responsibleAction->GetId();
 
-            $thisProject = $this->projectMapper->findById($teamMemberAction->GetProject());
+            $thisProject = $this->projectMapper->findById($responsibleAction->GetProject());
             $projectTitle = $thisProject->GetShortTitle();
             $projectId = $thisProject->GetId();
 
@@ -299,16 +295,16 @@ class Finances_IndexController extends Zend_Controller_Action
                 $predictedValue = "0.00";
             }
             $predictedValue = $currencyDisplay->FormatCurrency($predictedValue);
-            $totalValue = $currencyDisplay->FormatCurrency($teamMember->getValue());
+            $totalValue = $currencyDisplay->FormatCurrency($responsible->getValue());
 
-            $actionStatus = $teamMemberAction->getStatus();
+            $actionStatus = $responsibleAction->getStatus();
             $statusTypes = new C3op_Projects_ActionStatusTypes();
             $actionStatusLabel = $this->view->translate($statusTypes->TitleForType($actionStatus));
 
 
-            $status = $teamMember->getStatus();
-            if ($status == C3op_Resources_TeamMemberStatusConstants::STATUS_CONTRACTED) {
-                $doesIt = new C3op_Resources_TeamMemberHasCredit($teamMember, $this->teamMemberMapper);
+            $status = $responsible->getStatus();
+            if ($status == C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED) {
+                $doesIt = new C3op_Resources_ResponsibleHasCredit($responsible, $this->responsibleMapper);
                 if ($doesIt->hasCreditToPay()) {
                     $canNotifyOutlay = true;
                 } else {
@@ -322,19 +318,19 @@ class Finances_IndexController extends Zend_Controller_Action
 
 
             $validator = new C3op_Util_ValidDate();
-            if ($validator->isValid($teamMemberAction->getPredictedBeginDate())) {
-                $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($teamMemberAction->getPredictedBeginDate());
+            if ($validator->isValid($responsibleAction->getPredictedBeginDate())) {
+                $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($responsibleAction->getPredictedBeginDate());
             } else{
                 $predictedDate = $this->view->translate("#Undefined dates");
             }
 
             $outlayData = array(
                 'payeeName'       => $payeeName,
-                'payeeId'         => $teamMemberId,
+                'payeeId'         => $responsibleId,
                 'actionTitle'     => $actionTitle,
                 'actionId'        => $actionId,
                 'linkageId'       => $linkageId,
-                'teamMemberId'    => $teamMemberId,
+                'responsibleId'    => $responsibleId,
                 'projectTitle'    => $projectTitle,
                 'projectId'       => $projectId,
                 'predictedValue'  => $predictedValue,
@@ -376,17 +372,12 @@ class Finances_IndexController extends Zend_Controller_Action
     }
 
 
-    private function initProjectMapper()
-    {
-        if (!isset($this->projectMapper)) {
-            $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
-        }
-    }
 
-    private function initTeamMemberMapper()
+  
+    private function initResponsibleMapper()
     {
-        if (!isset($this->teamMemberMapper)) {
-            $this->teamMemberMapper = new C3op_Resources_TeamMemberMapper($this->db);
+        if (!isset($this->responsibleMapper)) {
+            $this->responsibleMapper = new C3op_Resources_ResponsibleMapper($this->db);
         }
     }
 

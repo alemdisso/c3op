@@ -13,7 +13,7 @@ class C3op_Register_ContactRemoval {
 
     public function canBeRemoved()
     {
-        if ($this->contactWasATeamMember()) {
+        if ($this->contactWasAResponsible()) {
             return false;
         } else {
             return true;
@@ -44,9 +44,9 @@ class C3op_Register_ContactRemoval {
 
     }
 
-    private function contactWasATeamMember()
+    private function contactWasAResponsible()
     {
-        $result = $this->contactMapper->getAllActionsWithAContactAsTeamMember($this->contact);
+        $result = $this->contactMapper->getAllActionsWithAContactAsResponsible($this->contact);
         if ((is_array($result)) && (count($result) > 0)) {
             return true;
         }
