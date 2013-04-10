@@ -147,15 +147,30 @@ class Finances_ProjectController extends Zend_Controller_Action
             $actionTitle = $theAction->getTitle();
             $payeeName = $this->view->translate("#Not defined");
             $payeeId = 0;
+
             if ($theOutlay->getResponsible() > 0) {
-                $theResponsible = $this->responsibleMapper->findById($theOutlay->getResponsible());
-                if ($theResponsible->getLinkage() > 0) {
+                $theResponsible = $this->responsibleMapper->findById($theOutlay->GetResponsible() );
 
-                    $theLinkage = $this->linkageMapper->findById($theResponsible->getLinkage());
-                    $theContact = $this->contactMapper->findById($theLinkage->getContact());
+                $responsibleId = null;
+                $responsibleType = $theResponsible->getType();
 
-                    $payeeId = $theLinkage->getId();
-                    $payeeName = $theContact->getName();
+                if (($responsibleType == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER)
+                    && ($theResponsible->getContact() > 0)) {
+                    $responsibleContact = $this->contactMapper->findById($theResponsible->getContact());
+                    $payeeName = $responsibleContact->getName();
+                    $responsibleId = $theResponsible->getId();
+                    $payeeId = $theResponsible->getContact();
+                }
+
+                if (($responsibleType == C3op_Resources_ResponsibleTypeConstants::TYPE_OUTSIDE_SERVICE)
+                    && ($theResponsible->getInstitution() > 0)) {
+                    $responsibleInstitution = $this->institutionMapper->findById($theResponsible->getInstitution());
+                    $payeeName = $responsibleInstitution->getShortName();
+                    $responsibleId = $theResponsible->getId();
+                    $payeeId = $theResponsible->getInstitution();
+                }
+
+                if ($payeeId > 0) {
 
                     $status = $theResponsible->getStatus();
                     if ($status == C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED) {

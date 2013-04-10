@@ -173,22 +173,36 @@ class Finances_IndexController extends Zend_Controller_Action
 
 
         $payeeName = $this->view->translate("#Not defined");
-        $payeeId = 0;
+        $payeeId = null;
         if ($outlay->getResponsible() > 0) {
             $responsibleId = $outlay->getResponsible();
             $theResponsible = $this->responsibleMapper->findById($responsibleId);
 
-            $linkageId = null;
+
+            $contactId = null;
+            $institutionId = null;
+
+            if (($theResponsible->getType() == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER)
+                 && ($theResponsible->getContact() > 0)) {
+                $responsibleContact = $this->contactMapper->findById($theResponsible->getContact());
+                $payeeName = $responsibleContact->getName();
+                $payeeId = $responsibleContact->getId();
+                $payeeName = $responsibleContact->getName();
+                $responsibleId = $theResponsible->getId();
+            }
+
+            if (($theResponsible->getType() == C3op_Resources_ResponsibleTypeConstants::TYPE_OUTSIDE_SERVICE)
+                 && ($theResponsible->getInstitution() > 0)) {
+                $responsibleInstitution = $this->institutionMapper->findById($theResponsible->getInstitution());
+                $payeeName = $responsibleInstitution->getShortName();
+                $responsibleId = $theResponsible->getId();
+                $payeeId = $theResponsible->getInstitution();
+            }
 
 
-            if ($theResponsible->getLinkage() > 0) {
 
-                $theLinkage = $this->linkageMapper->findById($theResponsible->getLinkage());
-                $theContact = $this->contactMapper->findById($theLinkage->getContact());
+            if ($payeeId) {
 
-                $payeeId = $theContact->getId();
-                $payeeName = $theContact->getName();
-                $linkageId = $theResponsible->getLinkage();
 
                 $status = $theResponsible->getStatus();
                 if ($status == C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED) {
@@ -230,8 +244,7 @@ class Finances_IndexController extends Zend_Controller_Action
             'payeeId'         => $payeeId,
             'actionTitle'     => $actionTitle,
             'actionId'        => $actionId,
-            'linkageId'       => $linkageId,
-            'responsibleId'    => $responsibleId,
+            'responsibleId'   => $responsibleId,
             'projectTitle'    => $projectTitle,
             'projectId'       => $projectId,
             'predictedDate'   => $predictedDate,
@@ -270,14 +283,25 @@ class Finances_IndexController extends Zend_Controller_Action
 
             $payeeName = $this->view->translate("#(not defined)");
             $responsibleId = null;
-            $linkageId = null;
+            $contactId = null;
+            $institutionId = null;
 
-            if ($responsible->getLinkage() > 0) {
-                $responsibleLinkage = $this->linkageMapper->findById($responsible->getLinkage());
-                $responsibleContact = $this->contactMapper->findById($responsibleLinkage->getContact());
-                $payeeName = $responsibleContact->GetName();
-                $responsibleId = $responsible->Getid();
-                $linkageId = $responsible->getLinkage();
+            $responsibleType = $responsible->getType();
+
+            if (($responsibleType == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER)
+                 && ($responsible->getContact() > 0)) {
+                $responsibleContact = $this->contactMapper->findById($responsible->getContact());
+                $payeeName = $responsibleContact->getName();
+                $responsibleId = $responsible->getId();
+                $contactId = $responsible->getContact();
+            }
+
+            if (($responsibleType == C3op_Resources_ResponsibleTypeConstants::TYPE_OUTSIDE_SERVICE)
+                 && ($responsible->getInstitution() > 0)) {
+                $responsibleInstitution = $this->institutionMapper->findById($responsible->getInstitution());
+                $payeeName = $responsibleInstitution->getShortName();
+                $responsibleId = $responsible->getId();
+                $institutionId = $responsible->getInstitution();
             }
 
             $responsibleAction = $this->actionMapper->findById($responsible->GetAction());
@@ -327,10 +351,12 @@ class Finances_IndexController extends Zend_Controller_Action
             $outlayData = array(
                 'payeeName'       => $payeeName,
                 'payeeId'         => $responsibleId,
+                'institutionId'   => $institutionId,
+                'contactId'       => $contactId,
                 'actionTitle'     => $actionTitle,
                 'actionId'        => $actionId,
-                'linkageId'       => $linkageId,
-                'responsibleId'    => $responsibleId,
+                'responsibleId'   => $responsibleId,
+                'responsibleType' => $responsibleType,
                 'projectTitle'    => $projectTitle,
                 'projectId'       => $projectId,
                 'predictedValue'  => $predictedValue,
@@ -373,7 +399,7 @@ class Finances_IndexController extends Zend_Controller_Action
 
 
 
-  
+
     private function initResponsibleMapper()
     {
         if (!isset($this->responsibleMapper)) {

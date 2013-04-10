@@ -329,9 +329,22 @@ foreach($payablesList as $id => $payableInfo) {
                   <td>
                     <a href="/projects/action/detail/?id=<?php print($payableInfo['actionId']) ?>"><?php print($payableInfo['actionTitle']) ?></a>
                   </td>
+
+<?php
+        if ($payableInfo['responsibleType'] == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER) {
+?>
                   <td>
-                    <a href="/projects/project/engagement/?id=<?php  print $payableInfo['projectId'] ?>&linkage=<?php  print $payableInfo['linkageId'] ?>"><?php print($payableInfo['payeeName']) ?></a>
+                    <a href="/projects/project/engagement/?id=<?php  print $payableInfo['projectId'] ?>&contact=<?php  print $payableInfo['contactId'] ?>"><?php print($payableInfo['payeeName']) ?></a>
                   </td>
+<?php
+        } else {
+?>
+                  <td>
+                    <a href="/projects/project/engagement/?id=<?php  print $payableInfo['projectId'] ?>&institution=<?php  print $payableInfo['institutionId'] ?>"><?php print($payableInfo['payeeName']) ?></a>
+                  </td>
+<?php
+        }
+?>
                   <td>
                     <?php print($payableInfo['predictedDate']) ?>
                   </td>
