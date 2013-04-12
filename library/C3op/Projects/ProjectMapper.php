@@ -198,6 +198,22 @@ class C3op_Projects_ProjectMapper
 
     }
 
+    public function getAllActiveProjects() {
+        $query = $this->db->prepare(sprintf('SELECT id FROM projects_projects WHERE status = %d OR status = %d;'
+                , C3op_Projects_ProjectStatusConstants::STATUS_EXECUTION
+                , C3op_Projects_ProjectStatusConstants::STATUS_EXECUTION));
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
+        foreach ($resultPDO as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
+
+
     public function getAllActionsSubordinatedTo(C3op_Projects_Project $obj, $actionId=0)
     {
         if ($actionId >= 0) {

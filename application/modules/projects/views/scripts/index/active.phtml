@@ -19,15 +19,15 @@
     if (count($projectsList)) {
 ?>
         <div class="Area">
-           <table class="display dataTable">
+           <table class="">
               <thead>
                   <tr>
-                      <th width="200"><?php echo $this->translate("#Project") ?></th>
-                      <th width="100"><?php echo $this->translate("#Client") ?></th>
-                      <th width="100"><?php echo $this->translate("#Delivery date") ?></th>
-                      <th width="100"><?php echo $this->translate("#Value") ?></th>
+                      <th width="150"><?php echo $this->translate("#Project") ?></th>
                       <th width="150"><?php echo $this->translate("#Product") ?></th>
-                      <th width="1%">&nbsp;</th>
+                      <th width="100"><?php echo $this->translate("#Delivery date") ?></th>
+                      <th width="150"><?php echo $this->translate("#Days From Delivery") ?></th>
+                      <th width="100"><?php echo $this->translate("#Value") ?></th>
+                      <th width="100"><?php echo $this->translate("#Client") ?></th>
                   </tr>
               </thead>
               <tbody>
@@ -48,10 +48,11 @@
 ?>
                 <tr>
                   <td><a href="/projects/project/detail/?id=<?php $projectId ?>"><?php print($projectName) ?></a></td>
-                  <td><?php print($projectData['clientName']) ?></td>
-                  <td><?php print($deliveryDate) ?> (<?php print($differenceInDays) ?>)</td>
-                  <td><?php print($receivableValue) ?></td>
                   <td><?php print($productData['productName']) ?></td>
+                  <td><?php print($deliveryDate) ?></td>
+                  <td><?php print($differenceInDays) ?></td>
+                  <td><?php print($receivableValue) ?></td>
+                  <td><?php print($clientName) ?></td>
                   <td>
                       <a class="anchorclass button" rel="submenu1"><?php echo $this->translate("#Options...") ?></a>
                       <div id="submenu1" class="anylinkcss">
@@ -64,9 +65,9 @@
                   </td>
                 </tr>
 <?php
-                $deliveryDate = "--/--/----";
+                $deliveryDate = "&nbsp;";
                 $differenceInDays = "&nbsp;";
-                $receivableValue = "-.--";
+                $receivableValue = "&nbsp;";
                 $projectName = "&nbsp;";
                 $clientName = "&nbsp;";
             }
@@ -93,7 +94,4 @@
 <?php
   } // end exists projects list
 ?>
-            <p>
-              <a href="/projects/project/create" class="button three columns alpha omega"><?php echo $this->translate("#Create New Project") ?></a>
-            </p>
           </div><!-- Area -->
