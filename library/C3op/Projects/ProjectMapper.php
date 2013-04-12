@@ -201,7 +201,7 @@ class C3op_Projects_ProjectMapper
     public function getAllActiveProjects() {
         $query = $this->db->prepare(sprintf('SELECT id FROM projects_projects WHERE status = %d OR status = %d;'
                 , C3op_Projects_ProjectStatusConstants::STATUS_EXECUTION
-                , C3op_Projects_ProjectStatusConstants::STATUS_EXECUTION));
+                , C3op_Projects_ProjectStatusConstants::STATUS_ACCOUNTABILITY));
         $query->execute();
         $resultPDO = $query->fetchAll();
 

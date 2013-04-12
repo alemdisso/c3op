@@ -57,7 +57,7 @@
         $classId = "child-of-node-$projectNodeId";
         $receivableNodeId = "receivable-$receivableId";
         $receivableCounter++;
-        $parcelLabel = sprintf($this->translate("#Parcel %d"), $receivableCounter);
+        $parcelLabel = $receivableData['receivableTitle'];
 ?>
                     <tr id="node-<?php print ($receivableNodeId) ?>" class="<?php print ($classId) ?>">
                     <td><?php print($parcelLabel) ?></td>

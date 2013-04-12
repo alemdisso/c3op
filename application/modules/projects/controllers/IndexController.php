@@ -4,7 +4,9 @@ class Projects_IndexController extends Zend_Controller_Action
 {
     private $db;
     private $projectMapper;
+    private $actionMapper;
     private $institutionMapper;
+    private $receivableMapper;
 
     public function init()
     {
@@ -225,102 +227,102 @@ class Projects_IndexController extends Zend_Controller_Action
 
     public function activeTreeAction() {
 
-       $receivables1 = array();
-       $receivables1[0] = array(
-           'deliveryDate'     => '10/04/2013',
-           'receivableValue'  => 'R$ 20.000,00',
-           'differenceInDays' => '(2)',
-           'productsList'     => array(
-                    '1' => array(
-                        'productName' => 'um produto',
-                    ),
-                    '2' => array(
-                        'productName' => 'outro produto',
-                    ),
-                    '3' => array(
-                        'productName' => 'mais um produto',
-                    ),
+//       $receivables1 = array();
+//       $receivables1[0] = array(
+//           'deliveryDate'     => '10/04/2013',
+//           'receivableValue'  => 'R$ 20.000,00',
+//           'differenceInDays' => '(2)',
+//           'productsList'     => array(
+//                    '1' => array(
+//                        'productName' => 'um produto',
+//                    ),
+//                    '2' => array(
+//                        'productName' => 'outro produto',
+//                    ),
+//                    '3' => array(
+//                        'productName' => 'mais um produto',
+//                    ),
+//
+//                ),
+//           );
+//
+//       $receivables1[1] = array(
+//           'deliveryDate'     => '06/04/2013',
+//           'receivableValue'  => 'R$ 120.000,00',
+//           'differenceInDays' => '(-2)',
+//           'productsList'     => array(
+//                    '6' => array(
+//                        'productName' => 'esse é outro',
+//                    ),
+//                    '8' => array(
+//                        'productName' => 'e mais um',
+//                    ),
+//                    '10' => array(
+//                        'productName' => 'camisa 10 da gávea',
+//                    ),
+//
+//                ),
+//           );
+//
+//       $receivables2 = array();
+//       $receivables2[0] = array(
+//           'deliveryDate'     => '12/12/2013',
+//           'receivableValue'  => 'R$ 22.000,00',
+//           'differenceInDays' => '(22)',
+//           'productsList'     => array(
+//                    '1' => array(
+//                        'productName' => 'um produto',
+//                    ),
+//                    '2' => array(
+//                        'productName' => 'outro produto',
+//                    ),
+//                    '3' => array(
+//                        'productName' => 'mais um produto',
+//                    ),
+//
+//                ),
+//           );
+//
+//       $receivables2[1] = array(
+//           'deliveryDate'     => '26/04/2013',
+//           'receivableValue'  => 'R$ 200.000,00',
+//           'differenceInDays' => '(-12)',
+//           'productsList'     => array(
+//                    '6' => array(
+//                        'productName' => 'esse é outro',
+//                    ),
+//                    '8' => array(
+//                        'productName' => 'e mais um',
+//                    ),
+//                    '10' => array(
+//                        'productName' => 'camisa 10 da gávea',
+//                    ),
+//
+//                ),
+//           );
+//
+//
+//
+//        $projectsList = array(
+//            '1' => array(
+//                'projectName'       => 'Nome do projeto',
+//                'clientName'       => 'Nome do cliente',
+//                'receivablesList' => $receivables1,
+//
+//            ),
+//            '2' => array(
+//                'projectName'       => 'Outro projeto',
+//                'clientName'       => 'Outro cliente',
+//                'receivablesList' => $receivables2,
+//
+//            ),
+//
+//        );
 
-                ),
-           );
-
-       $receivables1[1] = array(
-           'deliveryDate'     => '06/04/2013',
-           'receivableValue'  => 'R$ 120.000,00',
-           'differenceInDays' => '(-2)',
-           'productsList'     => array(
-                    '6' => array(
-                        'productName' => 'esse é outro',
-                    ),
-                    '8' => array(
-                        'productName' => 'e mais um',
-                    ),
-                    '10' => array(
-                        'productName' => 'camisa 10 da gávea',
-                    ),
-
-                ),
-           );
-
-       $receivables2 = array();
-       $receivables2[0] = array(
-           'deliveryDate'     => '12/12/2013',
-           'receivableValue'  => 'R$ 22.000,00',
-           'differenceInDays' => '(22)',
-           'productsList'     => array(
-                    '1' => array(
-                        'productName' => 'um produto',
-                    ),
-                    '2' => array(
-                        'productName' => 'outro produto',
-                    ),
-                    '3' => array(
-                        'productName' => 'mais um produto',
-                    ),
-
-                ),
-           );
-
-       $receivables2[1] = array(
-           'deliveryDate'     => '26/04/2013',
-           'receivableValue'  => 'R$ 200.000,00',
-           'differenceInDays' => '(-12)',
-           'productsList'     => array(
-                    '6' => array(
-                        'productName' => 'esse é outro',
-                    ),
-                    '8' => array(
-                        'productName' => 'e mais um',
-                    ),
-                    '10' => array(
-                        'productName' => 'camisa 10 da gávea',
-                    ),
-
-                ),
-           );
-
-
-
-        $projectsList = array(
-            '1' => array(
-                'projectName'       => 'Nome do projeto',
-                'clientName'       => 'Nome do cliente',
-                'receivablesList' => $receivables1,
-
-            ),
-            '2' => array(
-                'projectName'       => 'Outro projeto',
-                'clientName'       => 'Outro cliente',
-                'receivablesList' => $receivables2,
-
-            ),
-
-        );
-
-
+        $projectData = $this->fillProjectsData();
 
         $this->view->pageData = array(
-            'projectsList' => $projectsList,
+            'projectsList' => $projectData,
 
         );
 
@@ -328,6 +330,13 @@ class Projects_IndexController extends Zend_Controller_Action
     }
 
     private function fillProjectsData() {
+
+
+        $this->initInstitutionMapper();
+        $this->initContactMapper();
+        $this->initReceivableMapper();
+        $this->initActionMapper();
+
 
         $projects = $this->projectMapper->getAllActiveProjects();
         $data = array();
@@ -344,6 +353,7 @@ class Projects_IndexController extends Zend_Controller_Action
 
             $projectReceivables = $this->receivableMapper->getAllReceivables($thisProject);
             $receivablesData = array();
+
             foreach ($projectReceivables as $receivableId) {
 
                 $theReceivable = $this->receivableMapper->findById($receivableId);
@@ -351,24 +361,57 @@ class Projects_IndexController extends Zend_Controller_Action
 
 
                 $validator = new C3op_Util_ValidDate();
-                if ($validator->isValid($theReceivable->getDeliveryDate())) {
-                    $deliveryDate = C3op_Util_DateDisplay::FormatDateToShow($theReceivable->getDeliveryDate());
+                $deliveryDate = $theReceivable->getDeliveryDate();
+                if ($validator->isValid($deliveryDate)) {
+
+                    $now = time(); // or your date as well
+
+                    $datediff = $now - strtotime($deliveryDate);
+                    $differenceInDays = floor($datediff/(60*60*24));
+
+                    $formatedDeliveryDate = C3op_Util_DateDisplay::FormatDateToShow($theReceivable->getDeliveryDate());
                 } else {
-                    $deliveryDate = null;
+                    $formatedDeliveryDate = null;
+                    $differenceInDays = "0";
                 }
 
 
                 $currencyDisplay = new  C3op_Util_CurrencyDisplay();
 
                 $predictedValue = $currencyDisplay->FormatCurrency($theReceivable->getPredictedValue());
-                $realValue = $currencyDisplay->FormatCurrency($theReceivable->getRealValue());
 
-                
+                $requiredProducts = $this->receivableMapper->getAllProducts($theReceivable);
+                $requiredProductsData = array();
+                $statusTypes = new C3op_Projects_ActionStatusTypes();
+
+                foreach($requiredProducts as $productId) {
+
+                    $loopProduct = $this->actionMapper->findById($productId);
+                    $productData = array();
+                    $productData['productName'] = $loopProduct->getTitle();
+
+                    if ($loopProduct->getSupervisor()) {
+                        $theContact = $this->contactMapper->findById($loopProduct->getSupervisor());
+                        $productData['responsibleName'] = $theContact->getName();
+                    } else {
+                        $productData['responsibleName'] = $this->view->translate("#Not defined");
+                    }
+
+                    $productData['status'] = $statusTypes->TitleForType($loopProduct->getStatus());
+
+                    $requiredProductsData[$productId] = $productData;
+
+                }
+
+
+
 
                 $receivableData = array(
-                    'deliveryDate'     => $deliveryDate,
+                    'deliveryDate'     => $formatedDeliveryDate,
                     'receivableValue'  => $predictedValue,
-                    'differenceInDays' => '(-12)',
+                    'receivableTitle'  => $receivableTitle,
+                    'differenceInDays' => "($differenceInDays)",
+                    'productsList'    => $requiredProductsData,
 
                 );
                 $receivablesData[$receivableId] = $receivableData;
@@ -386,7 +429,33 @@ class Projects_IndexController extends Zend_Controller_Action
 
         }
 
+        return $data;
 
+
+    }
+
+    private function initActionMapper()
+    {
+        if (!isset($this->actionMapper)) {
+            $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
+        }
+    }
+
+   private function initContactMapper()
+    {
+         $this->contactMapper = new C3op_Register_ContactMapper($this->db);
+    }
+
+   private function initInstitutionMapper()
+    {
+         $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
+    }
+
+    private function initReceivableMapper()
+    {
+        if (!isset($this->receivableMapper)) {
+            $this->receivableMapper = new C3op_Finances_ReceivableMapper($this->db);
+        }
     }
 
 
