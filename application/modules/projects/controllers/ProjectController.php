@@ -850,7 +850,7 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $this->contactMapper = new C3op_Register_ContactMapper($this->db);
             }
             $ourResponsibleField = $form->getElement('ourResponsible');
-            $allThatCanBeOurResponsible = $this->contactMapper->getAllContactThatAreLinkedToAContractant();
+            $allThatCanBeOurResponsible = $this->contactMapper->getAllContactThatAreLinkedToAContractant("name");
             while (list($key, $contactId) = each($allThatCanBeOurResponsible)) {
                 $eachPossibleResponsible = $this->contactMapper->findById($contactId);
                 $ourResponsibleField->addMultiOption($contactId, $eachPossibleResponsible->getName());

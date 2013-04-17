@@ -204,13 +204,18 @@ class C3op_Register_ContactMapper
 
     }
 
-    public function getAllContactThatAreLinkedToAContractant() {
+    public function getAllContactThatAreLinkedToAContractant($orderBy = "") {
 
-        $query = $this->db->prepare('SELECT c.id
+
+        if ($orderBy != "") {
+            $orderBy = "ORDER BY $orderBy";
+        }
+
+        $query = $this->db->prepare("SELECT c.id, c.name as name
                     FROM register_contacts c
                     INNER JOIN register_linkages l ON c.id = l.contact
                     INNER JOIN register_institutions i ON l.institution = i.id
-                    WHERE i.relationship_type = :relationship_type;');
+                    WHERE i.relationship_type = :relationship_type $orderBy;");
         $query->bindValue(':relationship_type', C3op_Register_InstitutionRelationshipConstants::RELATIONSHIP_CONTRACTING, PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();

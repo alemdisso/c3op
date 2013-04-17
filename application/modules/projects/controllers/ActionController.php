@@ -709,7 +709,7 @@ class Projects_ActionController extends Zend_Controller_Action
     {
             $this->initContactMapper();
             $supervisorField = $form->getElement('supervisor');
-            $allThatCanBeSupervisor = $this->contactMapper->getAllContactThatAreLinkedToAContractant();
+            $allThatCanBeSupervisor = $this->contactMapper->getAllContactThatAreLinkedToAContractant("name");
             while (list($key, $contactId) = each($allThatCanBeSupervisor)) {
                 $eachPossibleSupervisor = $this->contactMapper->findById($contactId);
                 $supervisorField->addMultiOption($contactId, $eachPossibleSupervisor->GetName());

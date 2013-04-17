@@ -602,7 +602,7 @@ class Projects_ActionController extends Zend_Controller_Action
     {
             $this->initContactMapper();
             $responsibleField = $form->getElement('responsible');
-            $allThatCanBeResponsible = $this->contactMapper->getAllContactThatAreLinkedToAContractant();
+            $allThatCanBeResponsible = $this->contactMapper->getAllContactThatAreLinkedToAContractant("name");
             while (list($key, $contactId) = each($allThatCanBeResponsible)) {
                 $eachPossibleResponsible = $this->contactMapper->findById($contactId);
                 $responsibleField->addMultiOption($contactId, $eachPossibleResponsible->GetName());
