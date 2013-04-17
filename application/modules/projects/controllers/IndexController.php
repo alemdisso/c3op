@@ -123,102 +123,11 @@ class Projects_IndexController extends Zend_Controller_Action
 
     public function activeAction() {
 
-       $receivables1 = array();
-       $receivables1[0] = array(
-           'deliveryDate'     => '10/04/2013',
-           'receivableValue'  => 'R$ 20.000,00',
-           'differenceInDays' => '(2)',
-           'productsList'     => array(
-                    '1' => array(
-                        'productName' => 'um produto',
-                    ),
-                    '2' => array(
-                        'productName' => 'outro produto',
-                    ),
-                    '3' => array(
-                        'productName' => 'mais um produto',
-                    ),
 
-                ),
-           );
-
-       $receivables1[1] = array(
-           'deliveryDate'     => '06/04/2013',
-           'receivableValue'  => 'R$ 120.000,00',
-           'differenceInDays' => '(-2)',
-           'productsList'     => array(
-                    '6' => array(
-                        'productName' => 'esse é outro',
-                    ),
-                    '8' => array(
-                        'productName' => 'e mais um',
-                    ),
-                    '10' => array(
-                        'productName' => 'camisa 10 da gávea',
-                    ),
-
-                ),
-           );
-
-       $receivables2 = array();
-       $receivables2[0] = array(
-           'deliveryDate'     => '12/12/2013',
-           'receivableValue'  => 'R$ 22.000,00',
-           'differenceInDays' => '(22)',
-           'productsList'     => array(
-                    '1' => array(
-                        'productName' => 'um produto',
-                    ),
-                    '2' => array(
-                        'productName' => 'outro produto',
-                    ),
-                    '3' => array(
-                        'productName' => 'mais um produto',
-                    ),
-
-                ),
-           );
-
-       $receivables2[1] = array(
-           'deliveryDate'     => '26/04/2013',
-           'receivableValue'  => 'R$ 200.000,00',
-           'differenceInDays' => '(-12)',
-           'productsList'     => array(
-                    '6' => array(
-                        'productName' => 'esse é outro',
-                    ),
-                    '8' => array(
-                        'productName' => 'e mais um',
-                    ),
-                    '10' => array(
-                        'productName' => 'camisa 10 da gávea',
-                    ),
-
-                ),
-           );
-
-
-
-        $projectsList = array(
-            '1' => array(
-                'projectName'       => 'Nome do projeto',
-                'clientName'       => 'Nome do cliente',
-                'receivablesList' => $receivables1,
-
-            ),
-            '2' => array(
-                'projectName'       => 'Outro projeto',
-                'clientName'       => 'Outro cliente',
-                'receivablesList' => $receivables2,
-
-            ),
-
-        );
-
-
+        $projectData = $this->fillProjectsData();
 
         $this->view->pageData = array(
-            'projectsList' => $projectsList,
+            'projectsList' => $projectData,
 
         );
 
@@ -227,97 +136,6 @@ class Projects_IndexController extends Zend_Controller_Action
 
     public function activeTreeAction() {
 
-//       $receivables1 = array();
-//       $receivables1[0] = array(
-//           'deliveryDate'     => '10/04/2013',
-//           'receivableValue'  => 'R$ 20.000,00',
-//           'differenceInDays' => '(2)',
-//           'productsList'     => array(
-//                    '1' => array(
-//                        'productName' => 'um produto',
-//                    ),
-//                    '2' => array(
-//                        'productName' => 'outro produto',
-//                    ),
-//                    '3' => array(
-//                        'productName' => 'mais um produto',
-//                    ),
-//
-//                ),
-//           );
-//
-//       $receivables1[1] = array(
-//           'deliveryDate'     => '06/04/2013',
-//           'receivableValue'  => 'R$ 120.000,00',
-//           'differenceInDays' => '(-2)',
-//           'productsList'     => array(
-//                    '6' => array(
-//                        'productName' => 'esse é outro',
-//                    ),
-//                    '8' => array(
-//                        'productName' => 'e mais um',
-//                    ),
-//                    '10' => array(
-//                        'productName' => 'camisa 10 da gávea',
-//                    ),
-//
-//                ),
-//           );
-//
-//       $receivables2 = array();
-//       $receivables2[0] = array(
-//           'deliveryDate'     => '12/12/2013',
-//           'receivableValue'  => 'R$ 22.000,00',
-//           'differenceInDays' => '(22)',
-//           'productsList'     => array(
-//                    '1' => array(
-//                        'productName' => 'um produto',
-//                    ),
-//                    '2' => array(
-//                        'productName' => 'outro produto',
-//                    ),
-//                    '3' => array(
-//                        'productName' => 'mais um produto',
-//                    ),
-//
-//                ),
-//           );
-//
-//       $receivables2[1] = array(
-//           'deliveryDate'     => '26/04/2013',
-//           'receivableValue'  => 'R$ 200.000,00',
-//           'differenceInDays' => '(-12)',
-//           'productsList'     => array(
-//                    '6' => array(
-//                        'productName' => 'esse é outro',
-//                    ),
-//                    '8' => array(
-//                        'productName' => 'e mais um',
-//                    ),
-//                    '10' => array(
-//                        'productName' => 'camisa 10 da gávea',
-//                    ),
-//
-//                ),
-//           );
-//
-//
-//
-//        $projectsList = array(
-//            '1' => array(
-//                'projectName'       => 'Nome do projeto',
-//                'clientName'       => 'Nome do cliente',
-//                'receivablesList' => $receivables1,
-//
-//            ),
-//            '2' => array(
-//                'projectName'       => 'Outro projeto',
-//                'clientName'       => 'Outro cliente',
-//                'receivablesList' => $receivables2,
-//
-//            ),
-//
-//        );
 
         $projectData = $this->fillProjectsData();
 
@@ -419,7 +237,7 @@ class Projects_IndexController extends Zend_Controller_Action
 
             }
             $projectData = array(
-                'projectName'       => $thisProject->getTitle(),
+                'projectName'       => $thisProject->getShortTitle(),
                 'clientName'       => $clientName,
                 'receivablesList' => $receivablesData,
 
