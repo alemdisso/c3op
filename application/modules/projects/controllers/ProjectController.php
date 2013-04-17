@@ -297,77 +297,6 @@ class Projects_ProjectController extends Zend_Controller_Action
                 );
         }
 
-        // outsideServicesList
-        //   * id =>
-        //      institutionName
-        //      actionId
-        //      institutionId
-        //      serviceDescription
-        //      institutionEmail
-        //      institutionPhoneNumber
-
-        if (!isset($this->outsideServiceMapper)) {
-            $this->initOutsideServiceMapper();
-        }
-        $outsideServicesList = array();
-        $projectTeam = $this->outsideServiceMapper->getAllOutsideServicesContractedOrPredictedAt($projectToBeDetailed);
-        if (!isset($this->linkageMapper)) {
-            $this->initLinkageMapper();
-        }
-
-        foreach ($projectTeam as $id) {
-            $theOutsideService = $this->outsideServiceMapper->findById($id);
-            $actionId = $theOutsideService->getAction();
-            $theAction = $this->actionMapper->findById($actionId);
-            $actionTitle = $theAction->getTitle();
-//            $institutionName = $this->view->translate("#Not defined");
-//            $institutionId = 0;
-//            $institutionEmail = $this->view->translate("#Not defined");
-//            $institutionPhoneNumber = $this->view->translate("#Not defined");
-//            if ($theOutsideService->getLinkage() > 0) {
-//                $theLinkage = $this->linkageMapper->findById($theOutsideService->getLinkage());
-//                $theContact = $this->contactMapper->findById($theLinkage->getContact());
-//                $institutionId = $theContact->getId();
-//                $institutionName = $theContact->getName();
-//                $institutionEmail = $this->view->translate("#Not implemented");
-//                $institutionPhoneNumber = $this->view->translate("#Not implemented");
-//            }
-
-            $institutionEmail = $this->view->translate("#Not implemented");
-            $institutionPhoneNumber = $this->view->translate("#Not implemented");
-            $institutionName = $this->view->translate("#Not defined");
-            $institutionId = $theOutsideService->GetInstitution();
-            $institutionName = $this->view->translate("(#not defined)");
-            if ($institutionId > 0) {
-                $this->initContactMapper();
-                $this->initInstitutionMapper();
-                $institutionService = $this->institutionMapper->findById($institutionId);
-                $institutionName = $institutionService->GetName();
-            }
-
-
-
-            $removal = new C3op_Resources_OutsideServiceRemoval($theOutsideService, $this->outsideServiceMapper);
-
-            if ($removal->canBeRemoved()) {
-                $canRemoveOutsideService = true;
-            } else {
-                $canRemoveOutsideService = false;
-            }
-
-
-            $serviceDescription = $theOutsideService->getDescription();
-
-            $outsideServicesList[$id] = array(
-                    'institutionId'           => $institutionId,
-                    'actionId'                => $theOutsideService->getAction(),
-                    'serviceDescription'      => $serviceDescription,
-                    'institutionName'         => $institutionName,
-                    'institutionPhoneNumber'  => $institutionPhoneNumber,
-                    'institutionEmail'        => $institutionEmail,
-                    'canRemoveOutsideService' => $canRemoveOutsideService,
-                );
-        }
 
         $materialSuppliesList = $this->getMaterialSuppliesList($projectToBeDetailed);
 
@@ -395,7 +324,6 @@ class Projects_ProjectController extends Zend_Controller_Action
             'productsList'         => $productsList,
             'actionsTree'          => $actionTreeList,
             'responsiblesList'      => $responsiblesList,
-            'outsideServicesList'  => $outsideServicesList,
             'materialSuppliesList' => $materialSuppliesList,
             'detailsData'          => $detailsData,
 

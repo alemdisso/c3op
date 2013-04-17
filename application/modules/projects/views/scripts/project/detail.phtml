@@ -20,7 +20,6 @@ $projectHeader = $pageData['projectHeader'];
 $productsList = $pageData['productsList'];
 $actionsList = $pageData['actionsTree'];
 $responsiblesList = $pageData['responsiblesList'];
-$servicesData = $pageData['outsideServicesList'];
 $materialData = $pageData['materialSuppliesList'];
 $detailsData = $pageData['detailsData'];
 ?>
@@ -150,8 +149,6 @@ foreach($amendmentsList as $id => $contractInfo) {
       <ul>
         <li><a href="#tabs-products"><?php echo $this->translate("#Products") ?></a></li>
         <li><a href="#tabs-action"><?php echo $this->translate("#Actions") ?></a></li>
-        <li><a href="#tabs-team"><?php echo $this->translate("#Staff") ?></a></li>
-        <li><a href="#tabs-services"><?php echo $this->translate("#Services") ?></a></li>
         <li><a href="#tabs-material"><?php echo $this->translate("#Material") ?></a></li>
         <li><a href="#tabs-details"><?php echo $this->translate("#Details") ?></a></li>
       </ul>
@@ -284,160 +281,6 @@ if ($actionData['contactId'] > 0) {
           </div><!-- Area -->
 
         </div><!-- tabs-action -->
-        <div id="tabs-team">
-          <div class="Area">
-            <h2><?php print($this->translate('#Team')) ?></h2>
-            <table id="Equipe" class="display dataTable">
-              <thead>
-                <tr>
-                  <th width="220"><?php echo $this->translate("#Name") ?></th>
-                  <th width="80"><?php echo $this->translate("#Action") ?></th>
-                  <th width="100"><?php echo $this->translate("#Email") ?></th>
-                  <th width="100"><?php echo $this->translate("#Phone number") ?></th>
-                  <th width="100">&nbsp;</th>
-                </tr>
-              </thead>
-              <tbody>
-              <!-- ### loop de carga dos recursos humanos alocados ao projeto -->
-<?php
-
-foreach($responsiblesList as $id => $responsibleInfo) {
-?>
-                <tr>
-                  <td>
-<?php
-if($responsibleInfo['contactId'] > 0) {
-?>
-                    <a alt="<?php print $responsibleInfo['linkageInstitutionName']; ?>" href="/projects/project/engagement/?id=<?php  print $projectHeader['id'] ?>&contact=<?php  print $responsibleInfo['contactId'] ?>"><?php print($responsibleInfo['staffName']) ?></a>
-<?php
-
-} else { // (undefined)
-?>
-<?php print($responsibleInfo['staffName']) ?>
-<?php
-
-}
-?>
-                  </td>
-                  <td>
-                    <a href="/projects/action/detail/?id=<?php print($responsibleInfo['actionId']) ?>#tabs-team"><?php print($responsibleInfo['actionTitle']) ?></a>
-                  </td>
-                  <td>
-                    <a href="mailto:<?php print($responsibleInfo['staffEmail']) ?>"><?php print($responsibleInfo['staffEmail']) ?></a>
-                  </td>
-                  <td>
-                    <?php print($responsibleInfo['staffPhoneNumber']) ?>
-                  </td>
-                  <td>
-                    <a href="#" class="anchorclass" rel="submenu1"><?php echo $this->translate("#Options") ?></a>
-                    <div id="submenu1" class="anylinkcss">
-                        <ul>
-<?php
-if($responsibleInfo['contactId'] > 0) {
-?>
-                          <li>
-                            <!-- [# LINK PARA A DETALHES DO CONTATO ] -->
-                            <a href="/register/contact/detail/?id=<?php print($responsibleInfo['contactId']) ?>"><?php echo $this->translate("#Contact detail") ?></a>
-                          </li>
-<?php
-
-}
-?>
-                        </ul>
-                    </div><!-- #submenu1 -->
-                  </td>
-                </tr>
-<?php
-}
-?>
-              <!-- ### loop de carga dos recursos humanos alocados ao projeto -->
-              </tbody>
-            </table><br />
-          </div><!-- Area -->
-        </div><!-- tabs-team -->
-
-
-
-        <div id="tabs-services">
-          <div class="Area">
-            <h2><?php print($this->translate('#Services')) ?></h2>
-            <table id="Equipe" class="display dataTable">
-              <thead>
-                <tr>
-                  <th width="220"><?php echo $this->translate("#Organization") ?></th>
-                  <th width="80"><?php echo $this->translate("#Service") ?></th>
-                  <th width="100"><?php echo $this->translate("#Email") ?></th>
-                  <th width="100"><?php echo $this->translate("#Phone number") ?></th>
-                  <th width="100">&nbsp;</th>
-                </tr>
-              </thead>
-              <tbody>
-              <!-- ### loop de carga dos recursos humanos alocados ao projeto -->
-<?php
-
-foreach($servicesData as $id => $serviceInfo) {
-?>
-                <tr>
-                  <td>
-<?php
-if($serviceInfo['institutionId'] > 0) {
-?>
-                    <a href="/register/institution/detail/?id=<?php  print $serviceInfo['institutionId'] ?>"><?php print($serviceInfo['institutionName']) ?></a>
-<?php
-
-} else {
-?>
-<?php print($serviceInfo['institutionName']) ?>
-<?php
-
-}
-?>
-                  </td>
-                  <td>
-                    <a href="/projects/action/detail/?id=<?php print($serviceInfo['actionId']) ?>"><?php print($serviceInfo['serviceDescription']) ?></a>
-                  </td>
-                  <td>
-                    <a href="mailto:<?php print($serviceInfo['institutionEmail']) ?>"><?php print($serviceInfo['institutionEmail']) ?></a>
-                  </td>
-                  <td>
-                    <?php print($serviceInfo['institutionPhoneNumber']) ?>
-                  </td>
-                  <td>
-                    <a href="#" class="anchorclass" rel="submenu1"><?php echo $this->translate("#Options") ?></a>
-                    <div id="submenu1" class="anylinkcss">
-                        <ul>
-                          <li>
-                            <!-- [# LINK PARA A EDIÇÃO DO CONTATO ] -->
-                            <a href="/resources/outside-service/edit/?id=<?php print($id) ?>"><?php echo $this->translate("#Edit") ?></a>
-                          </li>
-<?php
-
-if ($serviceInfo['canRemoveOutsideService']) {
-?>
-
-
-                          <li>
-                            <a href="/resources/outside-service/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
-                          </li>
-
-<?php
-}
-
-?>
-                        </ul>
-                    </div><!-- #submenu1 -->
-                  </td>
-                </tr>
-<?php
-}
-?>
-              <!-- ### loop de carga dos recursos humanos alocados ao projeto -->
-              </tbody>
-            </table><br />
-          </div><!-- Area -->
-        </div><!-- tabs-services -->
-
-
 
         <div id="tabs-material">
           <div class="Area">

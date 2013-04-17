@@ -261,6 +261,7 @@ class C3op_Resources_ResponsibleMapper {
             r.status = %d
             OR r.status = %d
             OR r.status = %d
+            OR r.status = %d
             ) GROUP BY CONCAT(r.institution, \'|\', r.contact)'
             , $obj->getId()
             , C3op_Resources_ResponsibleStatusConstants::STATUS_UNDEFINED

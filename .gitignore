@@ -17,3 +17,4 @@ public/index.php
 /application/configs/staging_application.ini
 /application/configs/_staging_application.ini
 /application/configs/default_production_application.ini
+/application/modules/projects/views/scripts/project/full-detail.phtml
