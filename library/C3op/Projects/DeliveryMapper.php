@@ -87,9 +87,9 @@ class C3op_Projects_DeliveryMapper
         }
         $project = $result['project'];
 
-        $obj = new C3op_Projects_Delivery($result['receivable'], $result['predicted_date'], $id);
+        $obj = new C3op_Projects_Delivery($result['receivable'], $result['project'], $result['predicted_date'], $id);
         $this->setAttributeValue($obj, $id, 'id');
-        $this->setAttributeValue($obj, $result['project'], 'project');
+        //$this->setAttributeValue($obj, $result['project'], 'project');
         $this->setAttributeValue($obj, $result['real_date'], 'realDate');
 
         $this->identityMap[$obj] = $id;
@@ -130,6 +130,27 @@ class C3op_Projects_DeliveryMapper
             $result[] = $row['id'];
         }
         return $result;
+    }
+
+    public function findNextDeliveryAtProject($projectId)
+    {
+
+        $query = $this->db->prepare('SELECT id FROM projects_deliveries WHERE project = :project
+                    AND real_date IS NULL ORDER BY predicted_date LIMIT 1;');
+        $query->bindValue(':project', $projectId, PDO::PARAM_STR);
+        $query->execute();
+
+        $result = $query->fetch();
+
+        if (empty($result)) {
+            return null;
+        }
+        $id = $result['id'];
+
+        $obj = $this->findById($id);
+
+        return $obj;
+
     }
 
 

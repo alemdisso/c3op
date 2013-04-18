@@ -541,39 +541,6 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
     }
 
-    private function populateContactsField($teamMemberId, C3op_Form_TeamMemberCreate $form, $contactId = 0)
-    {
-        $validator = new C3op_Util_ValidId();
-        $parentActionId = 0;
-        if ($validator->isValid($teamMemberId)) {
-            $subordinatedToField = $form->getElement('subordinatedTo');
-            if (!isset($this->actionMapper)) {
-                $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
-            }
-
-            if ($contactId > 0) {
-                $thisAction = $this->actionMapper->findById($contactId);
-                $parentActionId = $thisAction->GetSubordinatedTo();
-                $allOtherActionsInProject = $this->actionMapper->getAllOtherActions($thisAction);
-
-            } else {
-                if (!isset($this->projectMapper)) {
-                    $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
-                }
-                $thisProject = $this->projectMapper->findById($teamMemberId);
-                $allOtherActionsInProject = $this->projectMapper->getAllActions($thisProject);
-            }
-
-            while (list($key, $contactId) = each($allOtherActionsInProject)) {
-                $eachAction = $this->actionMapper->findById($contactId);
-                $subordinatedToField->addMultiOption($contactId, $eachAction->GetTitle());
-            }
-
-            $subordinatedToField->setValue($parentActionId);
-
-        } else throw new C3op_Projects_ActionException("Action needs a positive integer project id to find other actions.");
-   }
-
     private function initActionMapper()
     {
          $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
