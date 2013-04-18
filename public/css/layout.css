@@ -179,6 +179,13 @@
 
 }
 
+.LateDeliveryDifferenceInDays {
+  color: #FF0000;
+  font-weight: bold;
+  font-size: 120%;
+
+}
+
 .MoreInfo {
   float: right;
   right: 0px;

@@ -52,12 +52,17 @@
     foreach ($receivablesList as $receivableId => $receivableData) {
         $deliveryDate = $receivableData['deliveryDate'];
         $differenceInDays = $receivableData['differenceInDays'];
+        if ($receivableData['deliveryDue']) {
+            $differenceInDays = "<span class='LateDeliveryDifferenceInDays'>$differenceInDays</span>";
+        }
+
         $receivableValue = $receivableData['receivableValue'];
         $productsList = $receivableData['productsList'];
         $classId = "child-of-node-$projectNodeId";
         $receivableNodeId = "receivable-$receivableId";
         $receivableCounter++;
         $parcelLabel = $receivableData['receivableTitle'];
+
 ?>
                     <tr id="node-<?php print ($receivableNodeId) ?>" class="<?php print ($classId) ?>">
                     <td><?php print($parcelLabel) ?></td>

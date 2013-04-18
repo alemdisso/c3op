@@ -180,6 +180,7 @@ class Projects_IndexController extends Zend_Controller_Action
 
                 $validator = new C3op_Util_ValidDate();
                 $deliveryDate = $theReceivable->getDeliveryDate();
+                $deliveryDue = false;
                 if ($validator->isValid($deliveryDate)) {
 
                     $now = time(); // or your date as well
@@ -187,9 +188,13 @@ class Projects_IndexController extends Zend_Controller_Action
                     $datediff = strtotime($deliveryDate) - $now;
                     $differenceInDays = floor($datediff/(60*60*24));
 
+                    if ($differenceInDays < 0) {
+                        $deliveryDue = true;
+                    }
+
                     $formatedDeliveryDate = C3op_Util_DateDisplay::FormatDateToShow($theReceivable->getDeliveryDate());
                 } else {
-                    $formatedDeliveryDate = null;
+                    $formatedDeliveryDate = $this->view->translate("#(undefined)");
                     $differenceInDays = "0";
                 }
 
@@ -226,10 +231,11 @@ class Projects_IndexController extends Zend_Controller_Action
 
                 $receivableData = array(
                     'deliveryDate'     => $formatedDeliveryDate,
+                    'deliveryDue'      => $deliveryDue,
                     'receivableValue'  => $predictedValue,
                     'receivableTitle'  => $receivableTitle,
                     'differenceInDays' => "($differenceInDays)",
-                    'productsList'    => $requiredProductsData,
+                    'productsList'     => $requiredProductsData,
 
                 );
                 $receivablesData[$receivableId] = $receivableData;
