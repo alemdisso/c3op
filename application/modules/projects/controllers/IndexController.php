@@ -184,7 +184,7 @@ class Projects_IndexController extends Zend_Controller_Action
 
                     $now = time(); // or your date as well
 
-                    $datediff = $now - strtotime($deliveryDate);
+                    $datediff = strtotime($deliveryDate) - $now;
                     $differenceInDays = floor($datediff/(60*60*24));
 
                     $formatedDeliveryDate = C3op_Util_DateDisplay::FormatDateToShow($theReceivable->getDeliveryDate());

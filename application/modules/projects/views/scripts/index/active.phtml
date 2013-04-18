@@ -44,15 +44,36 @@
             $differenceInDays = $receivableData['differenceInDays'];
             $receivableValue = $receivableData['receivableValue'];
             $productsList = $receivableData['productsList'];
-            foreach ($productsList as $productId => $productData) {
+            $parcelLabel = $receivableData['receivableTitle'];
 ?>
                 <tr>
                   <td><a href="/projects/project/detail/?id=<?php $projectId ?>"><?php print($projectName) ?></a></td>
-                  <td><?php print($productData['productName']) ?></td>
+                  <td><?php print($parcelLabel) ?></td>
                   <td><?php print($deliveryDate) ?></td>
                   <td><?php print($differenceInDays) ?></td>
                   <td><?php print($receivableValue) ?></td>
                   <td><?php print($clientName) ?></td>
+                  <td>
+                      <a class="anchorclass button" rel="submenu1"><?php echo $this->translate("#Options...") ?></a>
+                      <div id="submenu1" class="anylinkcss">
+                          <ul>
+                          <li>
+                              <a href="/finances/receivable/detail/?id=<?php print($receivableId) ?>"><?php echo $this->translate("#Detail") ?></a>
+                          </li>
+                          </ul>
+                      </div><!-- #submenu1 -->
+                  </td>
+                </tr>
+<?php
+                  foreach ($productsList as $productId => $productData) {
+?>
+                <tr>
+                  <td><a href="/projects/project/detail/?id=<?php $projectId ?>"><?php print($projectName) ?></a></td>
+                  <td class="ProductAtTree"><?php print($productData['productName']) ?></td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
                   <td>
                       <a class="anchorclass button" rel="submenu1"><?php echo $this->translate("#Options...") ?></a>
                       <div id="submenu1" class="anylinkcss">
@@ -65,12 +86,12 @@
                   </td>
                 </tr>
 <?php
-                $deliveryDate = "&nbsp;";
-                $differenceInDays = "&nbsp;";
-                $receivableValue = "&nbsp;";
-                $projectName = "&nbsp;";
-                $clientName = "&nbsp;";
             }
+            $deliveryDate = "&nbsp;";
+            $differenceInDays = "&nbsp;";
+            $receivableValue = "&nbsp;";
+            $projectName = "&nbsp;";
+            $clientName = "&nbsp;";
 
           }
       }  // loop iterate list and print titlei
