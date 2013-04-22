@@ -25,9 +25,11 @@
                 <table id="tree" border="1">
                     <thead>
                             <tr>
-                            <th width="150"><?php echo $this->translate("#Project") ?></th>
+                            <th width="200"><?php echo $this->translate("#Project") ?></th>
+                            <th width="50"><?php echo $this->translate("#Status") ?></th>
                             <th width="100"><?php echo $this->translate("#Client") ?></th>
-                            <th width="100"><?php echo $this->translate("#Delivery date") ?></th>
+                            <th width="120"><?php echo $this->translate("#Delivery date") ?></th>
+                            <th width="30"><?php echo $this->translate("#Days") ?></th>
                             <th width="100"><?php echo $this->translate("#Value") ?></th>
                             </tr>
                     </thead>
@@ -46,12 +48,15 @@
           $nextDifferenceInDays = "[$nextDifferenceInDays]";
 
           $nextDeliveryDate =  $projectData['deliveryDate'];
+          $nextDeliveryValue =  $projectData['deliveryValue'];
 ?>
                     <tr id="node-<?php print ($projectNodeId) ?>">
                     <td><a href='/projects/project/detail/?id=<?php print($projectId) ?>'><?php print ($projectName) ?></a></td>
-                    <td><?php print($clientName) ?></td>
-                    <td><?php print($nextDeliveryDate) ?>&nbsp;<?php print($nextDifferenceInDays) ?></td>
                     <td>&nbsp;</td>
+                    <td><?php print($clientName) ?></td>
+                    <td><?php print($nextDeliveryDate) ?></td>
+                    <td><?php print($nextDifferenceInDays) ?></td>
+                    <td><?php print($nextDeliveryValue) ?></td>
                     </tr>
 
 <?php
@@ -72,9 +77,23 @@
 
 ?>
                     <tr id="node-<?php print ($receivableNodeId) ?>" class="<?php print ($classId) ?>">
+<?php
+        if ($pageData['canSeeFinances']) {
+
+
+?>
+                    <td><a href="/finances/receivable/detail/?id=<?php print($receivableId) ?>"><?php print($parcelLabel) ?></a></td>
+<?php
+        } else {
+?>
                     <td><?php print($parcelLabel) ?></td>
+<?php
+        }
+?>
                     <td>&nbsp;</td>
-                    <td><?php print($deliveryDate) ?>&nbsp;<?php print($differenceInDays) ?></td>
+                    <td>&nbsp;</td>
+                    <td><?php print($deliveryDate) ?></td>
+                    <td><?php print($differenceInDays) ?></td>
                     <td><?php print($receivableValue) ?></td>
                     </tr>
 
@@ -85,6 +104,8 @@
     ?>
                     <tr id="node-<?php print ($productNodeId) ?>" class="<?php print ($classId) ?>">
                     <td class="ProductAtTree"><a href="/projects/action/detail/?id=<?php print($productId) ?>"><?php print($productData['productName']) ?></a></td>
+                    <td><?php print $this->translate($productData['status']); ?></td>
+                    <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>

@@ -100,8 +100,8 @@ class C3op_Finances_ReceivableMapper
         $this->setAttributeValue($obj, $result['real_date'], 'realDate');
         $this->setAttributeValue($obj, $result['real_value'], 'realValue');
 
-        $deliveryData = $this->fetchFirstDeliveryDate($obj);
-        $this->setAttributeValue($obj, $deliveryData, 'deliveryDate');
+        $deliveryDate = $this->fetchFirstDeliveryDate($obj);
+        $this->setAttributeValue($obj, $deliveryDate, 'deliveryDate');
 
         $this->identityMap[$obj] = $id;
 
@@ -169,7 +169,7 @@ class C3op_Finances_ReceivableMapper
     private function fetchFirstDeliveryDate(C3op_Finances_Receivable $obj)
     {
 
-        $query = $this->db->prepare('SELECT predicted_date FROM projects_deliveries WHERE receivable = :receivable AND (real_date IS NULL) ORDER BY predicted_date LIMIT 1;');
+        $query = $this->db->prepare('SELECT predicted_date FROM projects_deliveries WHERE receivable = :receivable ORDER BY predicted_date LIMIT 1;');
         $query->bindValue(':receivable', $obj->GetId(), PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();

@@ -92,8 +92,31 @@ class C3op_Projects_DeliveryMapper
         //$this->setAttributeValue($obj, $result['project'], 'project');
         $this->setAttributeValue($obj, $result['real_date'], 'realDate');
 
+        $receivableValue = $this->fetchReceivablePredictedValue($obj);
+        $this->setAttributeValue($obj, $receivableValue, 'receivablePredictedValue');
+
+
         $this->identityMap[$obj] = $id;
 
+        return $obj;
+
+    }
+
+    public function findByReceivableId($receivableId)
+    {
+
+        $query = $this->db->prepare('SELECT id FROM projects_deliveries WHERE receivable = :receivable;');
+        $query->bindValue(':receivable', $receivableId, PDO::PARAM_STR);
+        $query->execute();
+
+        $result = $query->fetch();
+
+        if (empty($result)) {
+            throw new C3op_Projects_DeliveryMapperException(sprintf('There is no delivery for receivable #%d.', $receivableId));
+        }
+        $id = $result['id'];
+
+        $obj = $this->findById($id);
         return $obj;
 
     }
@@ -135,8 +158,10 @@ class C3op_Projects_DeliveryMapper
     public function findNextDeliveryAtProject($projectId)
     {
 
-        $query = $this->db->prepare('SELECT id FROM projects_deliveries WHERE project = :project
-                    AND real_date IS NULL ORDER BY predicted_date LIMIT 1;');
+        $query = $this->db->prepare('SELECT d.id FROM projects_deliveries d
+            INNER JOIN finances_receivables r ON d.receivable = r.id
+            WHERE d.project = :project
+                    AND r.real_date IS NULL ORDER BY d.predicted_date LIMIT 1;');
         $query->bindValue(':project', $projectId, PDO::PARAM_STR);
         $query->execute();
 
@@ -152,6 +177,27 @@ class C3op_Projects_DeliveryMapper
         return $obj;
 
     }
+
+
+
+    private function fetchReceivablePredictedValue(C3op_Projects_Delivery $obj)
+    {
+
+        $query = $this->db->prepare('SELECT predicted_value FROM finances_receivables WHERE id = :receivable AND (real_date IS NULL) ORDER BY predicted_date LIMIT 1;');
+        $query->bindValue(':receivable', $obj->GetReceivable(), PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+        $result = array();
+        foreach ($resultPDO as $row) {
+            $result[] = $row['predicted_value'];
+            return $result[0];
+        }
+
+        return null;
+
+
+    }
+
 
 
 }

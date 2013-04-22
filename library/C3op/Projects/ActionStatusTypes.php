@@ -7,14 +7,14 @@ class C3op_Projects_ActionStatusTypes {
 
     public function __construct() {
         $this->status = array(
-            C3op_Projects_ActionStatusConstants::STATUS_NIL => _("#Nil"),
-            C3op_Projects_ActionStatusConstants::STATUS_PLAN => _("#Planning"),
+            C3op_Projects_ActionStatusConstants::STATUS_NIL          => _("#Nil"),
+            C3op_Projects_ActionStatusConstants::STATUS_PLAN         => _("#Planning"),
             C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION => _("#In Execution"),
-            C3op_Projects_ActionStatusConstants::STATUS_RECEIVED => _("#Received"),
-            C3op_Projects_ActionStatusConstants::STATUS_DONE => _("#Done"),
-            C3op_Projects_ActionStatusConstants::STATUS_DELIVERED => _("#Delivered"),
-            C3op_Projects_ActionStatusConstants::STATUS_COMPLETE => _("#Complete"),
-            C3op_Projects_ActionStatusConstants::STATUS_ABORTED => _("#Aborted"),
+            C3op_Projects_ActionStatusConstants::STATUS_RECEIVED     => _("#Received"),
+            C3op_Projects_ActionStatusConstants::STATUS_DONE         => _("#Done"),
+            C3op_Projects_ActionStatusConstants::STATUS_DELIVERED    => _("#Delivered"),
+            C3op_Projects_ActionStatusConstants::STATUS_COMPLETE     => _("#Complete"),
+            C3op_Projects_ActionStatusConstants::STATUS_ABORTED      => _("#Aborted"),
         );
     }
 

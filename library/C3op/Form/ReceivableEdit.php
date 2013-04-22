@@ -52,8 +52,6 @@ class C3op_Form_ReceivableEdit extends C3op_Form_ReceivableCreate
                 $predictedDateConvertedToMySQL = $dateForMysql;
             }
 
-
-
             $receivable->SetPredictedDate($predictedDateConvertedToMySQL);
             $converter = new C3op_Util_DecimalConverter();
             $receivable->SetPredictedValue($converter->getDecimalDotValue($data['predictedValue'], new C3op_Util_ValidDecimal()));
@@ -63,13 +61,5 @@ class C3op_Form_ReceivableEdit extends C3op_Form_ReceivableCreate
         }
     }
 
-    private function prepareDateValueToSet($value, C3op_Util_ValidDate $validator, C3op_Util_DateConverter $converter)
-    {
-        if ($validator->isValid($value)) {
-            return $converter->convertDateToMySQLFormat($value);
-        } else {
-            return "";
-        }
-    }
 
 }
