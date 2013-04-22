@@ -223,9 +223,11 @@ class C3op_Projects_ActionMapper
 
     private function insertDates(C3op_Projects_Action $obj)
     {
-        $query = $this->db->prepare("INSERT INTO projects_actions_dates (action, predicted_begin_date, predicted_finish_date, real_begin_date, real_finish_date) VALUES (:action, :predicted_begin_date, :predicted_finish_date, :real_begin_date, :real_finish_date)");
+        $query = $this->db->prepare("INSERT INTO projects_actions_dates (action, baseline_begin_date, baseline_finish_date, predicted_begin_date, predicted_finish_date, real_begin_date, real_finish_date) VALUES (:action, :predicted_begin_date, :predicted_finish_date, :real_begin_date, :real_finish_date)");
 
         $query->bindValue(':action', $obj->getId(), PDO::PARAM_STR);
+        $query->bindValue(':baseline_begin_date', $obj->GetBaselineBeginDate(), PDO::PARAM_STR);
+        $query->bindValue(':baseline_finish_date', $obj->GetBaselineFinishDate(), PDO::PARAM_STR);
         $query->bindValue(':predicted_begin_date', $obj->GetPredictedBeginDate(), PDO::PARAM_STR);
         $query->bindValue(':predicted_finish_date', $obj->GetPredictedFinishDate(), PDO::PARAM_STR);
         $query->bindValue(':real_begin_date', $obj->GetRealBeginDate(), PDO::PARAM_STR);
@@ -238,7 +240,7 @@ class C3op_Projects_ActionMapper
     private function fetchDates(C3op_Projects_Action $obj)
     {
 
-        $query = $this->db->prepare('SELECT predicted_begin_date, predicted_finish_date, real_begin_date, real_finish_date FROM projects_actions_dates WHERE action = :id;');
+        $query = $this->db->prepare('SELECT baseline_begin_date, baseline_finish_date, predicted_begin_date, predicted_finish_date, real_begin_date, real_finish_date FROM projects_actions_dates WHERE action = :id;');
         $query->bindValue(':id', $obj->GetId(), PDO::PARAM_STR);
         $query->execute();
         $result = $query->fetch();
@@ -248,6 +250,8 @@ class C3op_Projects_ActionMapper
             $this->fetchDates($obj);
             return;
         }
+        $this->setAttributeValue($obj, $result['baseline_begin_date'], 'baselineBeginDate');
+        $this->setAttributeValue($obj, $result['baseline_finish_date'], 'baselineFinishDate');
         $this->setAttributeValue($obj, $result['predicted_begin_date'], 'predictedBeginDate');
         $this->setAttributeValue($obj, $result['predicted_finish_date'], 'predictedFinishDate');
         $this->setAttributeValue($obj, $result['real_begin_date'], 'realBeginDate');
@@ -363,12 +367,16 @@ class C3op_Projects_ActionMapper
     private function updateDates(C3op_Projects_Action $obj)
     {
         $query = $this->db->prepare('UPDATE projects_actions_dates
-            SET predicted_begin_date = :predicted_begin_date
+            SET baseline_begin_date = :baseline_begin_date
+            , baseline_finish_date = :baseline_finish_date
+            , predicted_begin_date = :predicted_begin_date
             , predicted_finish_date = :predicted_finish_date
             , real_begin_date = :real_begin_date
             , real_finish_date = :real_finish_date
             WHERE action = :action;');
 
+        $query->bindValue(':baseline_begin_date', $obj->GetBaselineBeginDate(), PDO::PARAM_STR);
+        $query->bindValue(':baseline_finish_date', $obj->GetBaselineFinishDate(), PDO::PARAM_STR);
         $query->bindValue(':predicted_begin_date', $obj->GetPredictedBeginDate(), PDO::PARAM_STR);
         $query->bindValue(':predicted_finish_date', $obj->GetPredictedFinishDate(), PDO::PARAM_STR);
         $query->bindValue(':real_begin_date', $obj->GetRealBeginDate(), PDO::PARAM_STR);

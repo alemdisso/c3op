@@ -116,6 +116,23 @@ class C3op_Form_ActionEdit extends C3op_Form_ActionCreate
 //            $action->SetRequirementForReceiving($data['requirementForReceiving']);
 
             $action->SetProduct($data['product']);
+
+            $baselineBeginDate = $data['baselineBeginDate'];
+            $dateValidator = new C3op_Util_ValidDate();
+            if ($dateValidator->isValid($baselineBeginDate)) {
+                $converter = new C3op_Util_DateConverter();
+                $dateForMysql = $converter->convertDateToMySQLFormat($baselineBeginDate);
+                $action->SetBaselineBeginDate($dateForMysql);
+            }
+
+            $baselineFinishDate = $data['baselineFinishDate'];
+            $dateValidator = new C3op_Util_ValidDate();
+            if ($dateValidator->isValid($baselineFinishDate)){
+                $converter = new C3op_Util_DateConverter();
+                $dateForMysql = $converter->convertDateToMySQLFormat($baselineFinishDate);
+                $action->SetBaselineFinishDate($dateForMysql);
+            }
+
             $predictedBeginDate = $data['predictedBeginDate'];
             $dateValidator = new C3op_Util_ValidDate();
             if ($dateValidator->isValid($predictedBeginDate)) {
@@ -130,6 +147,22 @@ class C3op_Form_ActionEdit extends C3op_Form_ActionCreate
                 $converter = new C3op_Util_DateConverter();
                 $dateForMysql = $converter->convertDateToMySQLFormat($predictedFinishDate);
                 $action->SetPredictedFinishDate($dateForMysql);
+            }
+
+            $realBeginDate = $data['realBeginDate'];
+            $dateValidator = new C3op_Util_ValidDate();
+            if ($dateValidator->isValid($realBeginDate)) {
+                $converter = new C3op_Util_DateConverter();
+                $dateForMysql = $converter->convertDateToMySQLFormat($realBeginDate);
+                $action->SetRealBeginDate($dateForMysql);
+            }
+
+            $realFinishDate = $data['realFinishDate'];
+            $dateValidator = new C3op_Util_ValidDate();
+            if ($dateValidator->isValid($realFinishDate)){
+                $converter = new C3op_Util_DateConverter();
+                $dateForMysql = $converter->convertDateToMySQLFormat($realFinishDate);
+                $action->SetRealFinishDate($dateForMysql);
             }
 
             $actionMapper->update($action);

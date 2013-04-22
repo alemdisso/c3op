@@ -102,6 +102,36 @@ class C3op_Form_ActionCreate extends Zend_Form
             ->addFilter('StringTrim');
         $this->addElement($element);
 
+        $element = new Zend_Form_Element_Text('baselineBeginDate');
+        $dateValidator = new C3op_Util_ValidDate();
+        $element->setLabel('#Baseline Begin date:')
+            ->setDecorators(array(
+                'ViewHelper',
+                'Errors',
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+            ))
+            ->setOptions(array('class' => 'Full alpha omega datepicker'))
+            ->setRequired(false)
+            ->addValidator($dateValidator)
+            ->addFilter('StringTrim');
+        $this->addElement($element);
+
+        $element = new Zend_Form_Element_Text('baselineFinishDate');
+        $element->setLabel('#BaselineFinish date:')
+            ->setDecorators(array(
+                'ViewHelper',
+                'Errors',
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns inset-by-three omega')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
+            ))
+            ->setOptions(array('class' => 'Full alpha omega datepicker'))
+            ->setRequired(false)
+            ->addValidator('date')
+            ->addFilter('HtmlEntities')
+            ->addFilter('StringTrim');
+        $this->addElement($element);
+
         $element = new Zend_Form_Element_Text('predictedBeginDate');
         $dateValidator = new C3op_Util_ValidDate();
         $element->setLabel('#Begin date:')
@@ -119,6 +149,36 @@ class C3op_Form_ActionCreate extends Zend_Form
 
         $element = new Zend_Form_Element_Text('predictedFinishDate');
         $element->setLabel('#Finish date:')
+            ->setDecorators(array(
+                'ViewHelper',
+                'Errors',
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns inset-by-three omega')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
+            ))
+            ->setOptions(array('class' => 'Full alpha omega datepicker'))
+            ->setRequired(false)
+            ->addValidator('date')
+            ->addFilter('HtmlEntities')
+            ->addFilter('StringTrim');
+        $this->addElement($element);
+
+        $element = new Zend_Form_Element_Text('realBeginDate');
+        $dateValidator = new C3op_Util_ValidDate();
+        $element->setLabel('#Real Begin date:')
+            ->setDecorators(array(
+                'ViewHelper',
+                'Errors',
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+            ))
+            ->setOptions(array('class' => 'Full alpha omega datepicker'))
+            ->setRequired(false)
+            ->addValidator($dateValidator)
+            ->addFilter('StringTrim');
+        $this->addElement($element);
+
+        $element = new Zend_Form_Element_Text('realFinishDate');
+        $element->setLabel('#Real Finish date:')
             ->setDecorators(array(
                 'ViewHelper',
                 'Errors',

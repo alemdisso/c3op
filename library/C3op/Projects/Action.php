@@ -15,6 +15,8 @@ class C3op_Projects_Action {
     protected $product = false;
     protected $requirementForReceiving = false;
     protected $budgetForecast = 0;
+    protected $baselineBeginDate = null;
+    protected $baselineFinishDate = null;
     protected $predictedBeginDate = null;
     protected $predictedFinishDate = null;
     protected $realBeginDate = null;
@@ -228,6 +230,46 @@ class C3op_Projects_Action {
     {
         return $this->requirementForReceiving;
     }
+
+    public function getBaselineBeginDate()
+    {
+        return $this->baselineBeginDate;
+    } //GetBaselineBeginDate
+
+    public function setBaselineBeginDate($baselineBeginDate)
+    {
+        if ($baselineBeginDate != "") {
+            $dateValidator = new C3op_Util_ValidDate();
+            if ($dateValidator->isValid($baselineBeginDate)) {
+                if ($this->baselineBeginDate != $baselineBeginDate) {
+                    $this->baselineBeginDate = $baselineBeginDate;
+                }
+            } else {
+                throw new C3op_Projects_ActionException("This ($baselineBeginDate) is not a valid date of begin.");
+            }
+        }
+    } //SetBaselineBeginDate
+
+    public function getBaselineFinishDate()
+    {
+        return $this->baselineFinishDate;
+    } //GetBaselineFinishDate
+
+    public function setBaselineFinishDate($baselineFinishDate)
+    {
+        if ($baselineFinishDate != "") {
+            $dateValidator = new C3op_Util_ValidDate();
+            if ($dateValidator->isValid($baselineFinishDate)) {
+                if ($this->baselineFinishDate != $baselineFinishDate) {
+                    $this->baselineFinishDate = $baselineFinishDate;
+                }
+            } else {
+                throw new C3op_Projects_ActionException("This ($baselineFinishDate) is not a valid date of finish.");
+            }
+        } else {
+            $this->baselineFinishDate = null;
+        }
+    } //SetBaselineFinishDate
 
     public function getPredictedBeginDate()
     {

@@ -265,8 +265,12 @@ class Projects_ActionController extends Zend_Controller_Action
                 $element = $form->getElement('description');
                 $element->setValue($inputAction->getDescription());
 
+                $this->setDateValueToFormField($form, 'baselineBeginDate', $inputAction->getBaselineBeginDate());
+                $this->setDateValueToFormField($form, 'baselineFinishDate', $inputAction->getBaselineFinishDate());
                 $this->setDateValueToFormField($form, 'predictedBeginDate', $inputAction->getPredictedBeginDate());
                 $this->setDateValueToFormField($form, 'predictedFinishDate', $inputAction->getPredictedFinishDate());
+                $this->setDateValueToFormField($form, 'realBeginDate', $inputAction->getRealBeginDate());
+                $this->setDateValueToFormField($form, 'realFinishDate', $inputAction->getRealFinishDate());
 
                 $user = Zend_Registry::get('user');
                 $role = $user->GetRole();
