@@ -223,7 +223,7 @@ class C3op_Projects_ActionMapper
 
     private function insertDates(C3op_Projects_Action $obj)
     {
-        $query = $this->db->prepare("INSERT INTO projects_actions_dates (action, baseline_begin_date, baseline_finish_date, predicted_begin_date, predicted_finish_date, real_begin_date, real_finish_date) VALUES (:action, :predicted_begin_date, :predicted_finish_date, :real_begin_date, :real_finish_date)");
+        $query = $this->db->prepare("INSERT INTO projects_actions_dates (action, baseline_begin_date, baseline_finish_date, predicted_begin_date, predicted_finish_date, real_begin_date, real_finish_date) VALUES (:action, :baseline_begin_date, :baseline_finish_date, :predicted_begin_date, :predicted_finish_date, :real_begin_date, :real_finish_date)");
 
         $query->bindValue(':action', $obj->getId(), PDO::PARAM_STR);
         $query->bindValue(':baseline_begin_date', $obj->GetBaselineBeginDate(), PDO::PARAM_STR);
