@@ -266,7 +266,7 @@ class Projects_IndexController extends Zend_Controller_Action
                 } else {
                     $deliveryDue = false;
                     $formatedDeliveryDate = $this->view->translate("#(delivered)");
-                    
+
                 }
 
 
@@ -305,7 +305,7 @@ class Projects_IndexController extends Zend_Controller_Action
                     'deliveryDue'      => $deliveryDue,
                     'receivableValue'  => $predictedValue,
                     'receivableTitle'  => $receivableTitle,
-                    'differenceInDays' => "($differenceInDays)",
+                    'differenceInDays' => "$differenceInDays",
                     'productsList'     => $requiredProductsData,
 
                 );

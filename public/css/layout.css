@@ -186,6 +186,13 @@
 
 }
 
+.AheadDeliveryDifferenceInDays {
+  color: #009900;
+  font-weight: bold;
+  font-size: 103%;
+
+}
+
 .MoreInfo {
   float: right;
   right: 0px;
