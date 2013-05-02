@@ -184,6 +184,11 @@ class Projects_IndexController extends Zend_Controller_Action
         foreach ($projects as $projectId) {
             $thisProject = $this->projectMapper->findById($projectId);
 
+            $obj = new C3op_Projects_ProjectStatusTypes();
+            $projectStatus = $obj->TitleForType($thisProject->getStatus());
+
+
+
             $clientName = $this->view->translate('#(not defined)');
             if ($thisProject->getClient() > 0) {
                 $thisClient = $this->institutionMapper->findById($thisProject->getClient());
@@ -197,17 +202,17 @@ class Projects_IndexController extends Zend_Controller_Action
             if ($nextDeliveryObj) {
 
                 $validator = new C3op_Util_ValidDate();
-                $deliveryDate = $nextDeliveryObj->getPredictedDate();
+                $contractualDeliveryDate = $nextDeliveryObj->getPredictedDate();
                 $nextDeliveryDue = false;
 
                 $currencyDisplay = new  C3op_Util_CurrencyDisplay();
                 $nextDeliveryValue = $currencyDisplay->FormatCurrency($nextDeliveryObj->GetReceivablePredictedValue());
 
-                if ($validator->isValid($deliveryDate)) {
+                if ($validator->isValid($contractualDeliveryDate)) {
 
                     $now = time(); // or your date as well
 
-                    $datediff = strtotime($deliveryDate) - $now;
+                    $datediff = strtotime($contractualDeliveryDate) - $now;
                     $nextDifferenceInDays = floor($datediff/(60*60*24));
 
                     if ($nextDifferenceInDays < 0) {
@@ -236,37 +241,32 @@ class Projects_IndexController extends Zend_Controller_Action
                 $theReceivable = $this->receivableMapper->findById($receivableId);
                 $receivableTitle = $theReceivable->getTitle();
 
+                $contractualDeliveryDate = $theReceivable->getDeliveryDate();
+                if ($validator->isValid($contractualDeliveryDate)) {
+                    $formatedContractualDeliveryDate = C3op_Util_DateDisplay::FormatDateToShow($contractualDeliveryDate);
+                } else {
+                    $formatedContractualDeliveryDate = $this->view->translate("#(undefined date)");
+                }
 
-
+                $actualDeliveryDate = "";
                 $tester = new C3op_Projects_DeliveryMade($theReceivable, $this->deliveryMapper);
+                $formatedActualDeliveryDate = $this->view->translate("#(not delivered)");
                 if (!$tester->wasDelivered()) {
-
-
                     $validator = new C3op_Util_ValidDate();
-                    $deliveryDate = $theReceivable->getDeliveryDate();
-                    $deliveryDue = false;
-                    if ($validator->isValid($deliveryDate)) {
-
+                    $deliveryDue = true;
+                    if ($validator->isValid($contractualDeliveryDate)) {
                         $now = time(); // or your date as well
-
-
-
-                        $datediff = strtotime($deliveryDate) - $now;
+                        $datediff = strtotime($contractualDeliveryDate) - $now;
                         $differenceInDays = floor($datediff/(60*60*24));
-
-                        if ($differenceInDays < 0) {
-                            $deliveryDue = true;
+                        if ($differenceInDays >= 0) {
+                            $deliveryDue = false;
                         }
-
-                        $formatedDeliveryDate = C3op_Util_DateDisplay::FormatDateToShow($theReceivable->getDeliveryDate());
                     } else {
-                        $formatedDeliveryDate = $this->view->translate("#(undefined date)");
                         $differenceInDays = "0";
                     }
                 } else {
-                    $deliveryDue = false;
-                    $formatedDeliveryDate = $this->view->translate("#(delivered)");
-
+                    $actualDeliveryDate = $theReceivable->getRealDate();
+                    $formatedActualDeliveryDate = C3op_Util_DateDisplay::FormatDateToShow($actualDeliveryDate);
                 }
 
 
@@ -283,6 +283,43 @@ class Projects_IndexController extends Zend_Controller_Action
                     $loopProduct = $this->actionMapper->findById($productId);
                     $productData = array();
                     $productData['productName'] = $loopProduct->getTitle();
+
+                    $predictedFinishDate = $loopProduct->getPredictedFinishDate();
+                    if ($validator->isValid($predictedFinishDate)) {
+                        $formatedPredictedDate = C3op_Util_DateDisplay::FormatDateToShow($predictedFinishDate);
+                    } else {
+                        $formatedPredictedDate = $this->view->translate("#(undefined date)");
+                    }
+
+                    $realFinishDate = "";
+                    $formatedRealDate = $this->view->translate("#(not done)");
+                    $tester = new C3op_Projects_ActionDone($loopProduct);
+                    if (!$tester->isDone()) {
+                        $validator = new C3op_Util_ValidDate();
+                        $deliveryDue = true;
+                        if ($validator->isValid($predictedFinishDate)) {
+                            $now = time(); // or your date as well
+                            $datediff = strtotime($predictedFinishDate) - $now;
+                            $differenceInDays = floor($datediff/(60*60*24));
+                            if ($differenceInDays >= 0) {
+                                $deliveryDue = false;
+                            }
+                        } else {
+                            $differenceInDays = "0";
+                        }
+                    } else {
+                        $realFinishDate = $loopProduct->getRealFinishDate();
+                        $formatedRealDate = C3op_Util_DateDisplay::FormatDateToShow($realFinishDate);
+                    }
+
+                    $productData['realFinishDate'] = $formatedRealDate;
+                    $productData['predictedFinishDate'] = $formatedPredictedDate;
+                    $productData['differenceInDays'] = $differenceInDays;
+                    $productData['deliveryDue'] = $deliveryDue;
+
+
+
+
 
                     if ($loopProduct->getSupervisor()) {
                         $theContact = $this->contactMapper->findById($loopProduct->getSupervisor());
@@ -301,12 +338,13 @@ class Projects_IndexController extends Zend_Controller_Action
 
 
                 $receivableData = array(
-                    'deliveryDate'     => $formatedDeliveryDate,
-                    'deliveryDue'      => $deliveryDue,
-                    'receivableValue'  => $predictedValue,
-                    'receivableTitle'  => $receivableTitle,
-                    'differenceInDays' => "$differenceInDays",
-                    'productsList'     => $requiredProductsData,
+                    'contractualDeliveryDate' => $formatedContractualDeliveryDate,
+                    'actualDeliveryDate'      => $formatedActualDeliveryDate,
+                    'deliveryDue'             => $deliveryDue,
+                    'receivableValue'         => $predictedValue,
+                    'receivableTitle'         => $receivableTitle,
+                    'differenceInDays'        => "$differenceInDays",
+                    'productsList'            => $requiredProductsData,
 
                 );
                 $receivablesData[$receivableId] = $receivableData;
@@ -315,6 +353,7 @@ class Projects_IndexController extends Zend_Controller_Action
             }
             $projectData = array(
                 'projectName'      => $thisProject->getShortTitle(),
+                'status'           => $projectStatus,
                 'clientName'       => $clientName,
                 'differenceInDays' => $nextDifferenceInDays,
                 'deliveryValue'    => $nextDeliveryValue,

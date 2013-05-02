@@ -3,7 +3,6 @@
 class C3op_Projects_ActionDone {
 
     private $action;
-    private $actionMapper;
 
     public function __construct(C3op_Projects_Action $action)
     {

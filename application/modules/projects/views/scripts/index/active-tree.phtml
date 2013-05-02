@@ -27,10 +27,11 @@
                             <tr>
                             <th width="200"><?php echo $this->translate("#Project") ?></th>
                             <th width="50"><?php echo $this->translate("#Status") ?></th>
-                            <th width="100"><?php echo $this->translate("#Client") ?></th>
-                            <th width="120"><?php echo $this->translate("#Delivery date") ?></th>
-                            <th width="30"><?php echo $this->translate("#Days") ?></th>
-                            <th width="100"><?php echo $this->translate("#Value") ?></th>
+<!--                            <th width="100"><?php echo $this->translate("#Client") ?></th>-->
+                            <th width="16" class="Right"><?php echo $this->translate("#Days") ?></th>
+                            <th width="120"><?php echo $this->translate("#Contractual date") ?></th>
+                            <th width="120"><?php echo $this->translate("#Actual date") ?></th>
+                            <th width="120"><?php echo $this->translate("#Value") ?></th>
                             </tr>
                     </thead>
                     <tbody>
@@ -38,6 +39,7 @@
 
       foreach ($projectsList as $projectId => $projectData) {
           $projectName = $projectData['projectName'];
+          $projectStatus = $this->translate($projectData['status']);
           $clientName = $projectData['clientName'];
           $receivablesList = $projectData['receivablesList'];
           $projectNodeId = "project-" . $projectId;
@@ -50,22 +52,25 @@
           }
           $nextDifferenceInDays = "$nextDifferenceInDays";
 
-          $nextDeliveryDate =  $projectData['deliveryDate'];
+          $contractualDeliveryDate =  $projectData['deliveryDate'];
+          $actualDeliveryDate = $contractualDeliveryDate;
           $nextDeliveryValue =  $projectData['deliveryValue'];
 ?>
                     <tr id="node-<?php print ($projectNodeId) ?>">
                     <td><a href='/projects/project/detail/?id=<?php print($projectId) ?>'><?php print ($projectName) ?></a></td>
-                    <td>&nbsp;</td>
-                    <td><?php print($clientName) ?></td>
-                    <td><?php print($nextDeliveryDate) ?></td>
-                    <td><?php print($nextDifferenceInDays) ?></td>
+                    <td><?php print($projectStatus) ?></td>
+<!--                    <td><?php print($clientName) ?></td>-->
+                    <td class="Right"><?php print($nextDifferenceInDays) ?></td>
+                    <td><?php print($contractualDeliveryDate) ?></td>
+                    <td><?php print($actualDeliveryDate) ?></td>
                     <td><?php print($nextDeliveryValue) ?></td>
                     </tr>
 
 <?php
     $receivableCounter = 0;
     foreach ($receivablesList as $receivableId => $receivableData) {
-        $deliveryDate = $receivableData['deliveryDate'];
+        $contractualDate = $receivableData['contractualDeliveryDate'];
+        $realFinishDate = $receivableData['actualDeliveryDate'];
         $differenceInDays = $receivableData['differenceInDays'];
         if ($receivableData['deliveryDue']) {
             $differenceInDays = "<span class='LateDeliveryDifferenceInDays'>$differenceInDays</span>";
@@ -96,9 +101,10 @@
         }
 ?>
                     <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td><?php print($deliveryDate) ?></td>
-                    <td><?php print($differenceInDays) ?></td>
+<!--                    <td>&nbsp;</td>-->
+                    <td class="Right"><?php print($differenceInDays) ?></td>
+                    <td><?php print($contractualDate) ?></td>
+                    <td><?php print($realFinishDate) ?></td>
                     <td><?php print($receivableValue) ?></td>
                     </tr>
 
@@ -106,13 +112,23 @@
             foreach ($productsList as $productId => $productData) {
                 $productNodeId = "product-" . $productId;
                 $classId = "child-of-node-$receivableNodeId";
+                $predictedFinishDate = $productData['predictedFinishDate'];
+                $realFinishDate = $productData['realFinishDate'];
+                $differenceInDays = $productData['differenceInDays'];
+                if ($productData['deliveryDue']) {
+                    $differenceInDays = "<span class='LateDeliveryDifferenceInDays'>$differenceInDays</span>";
+                } else {
+                    $differenceInDays = "<span class='AheadDeliveryDifferenceInDays'>$differenceInDays</span>";
+                }
+
     ?>
                     <tr id="node-<?php print ($productNodeId) ?>" class="<?php print ($classId) ?>">
                     <td class="ProductAtTree"><a href="/projects/action/detail/?id=<?php print($productId) ?>"><?php print($productData['productName']) ?></a></td>
                     <td><?php print $this->translate($productData['status']); ?></td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
+<!--                    <td>&nbsp;</td>-->
+                    <td class="Right"><?php print($differenceInDays) ?></td>
+                    <td><?php print($predictedFinishDate) ?></td>
+                    <td><?php print($realFinishDate) ?></td>
                     <td>&nbsp;</td>
                     </tr>
     <?php
