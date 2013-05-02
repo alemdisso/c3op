@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-04-11 22:58-0300\n"
-"PO-Revision-Date: 2013-04-11 22:58-0300\n"
+"PO-Revision-Date: 2013-04-26 16:49-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -329,12 +329,12 @@ msgstr "Confirma entrega"
 
 #: application\modules\projects/views/scripts/action/budget-forecast.phtml:5
 msgid "#Budget was forecast"
-msgstr "O custo foi previsto"
+msgstr "O orçamento foi previsto"
 
 #: application\modules\projects/views/scripts/action/budget-forecast.phtml:7
 #, php-format
 msgid "#%s was provided for this action"
-msgstr "Foi previsto um custo de %s para essa ação."
+msgstr "Foi previsto um orçamento de %s para essa ação."
 
 #: application\modules\projects/views/scripts/action/create-product.phtml:2
 #: application\modules\projects/views/scripts/action/create.phtml:2
@@ -467,7 +467,7 @@ msgstr "Prever custo"
 
 #: application\modules\projects/views/scripts/action/detail.phtml:398
 msgid "#Edit budget"
-msgstr "Editar custo"
+msgstr "Editar orçamento"
 
 #: application\modules\projects/views/scripts/action/detail.phtml:402
 #, php-format
@@ -476,7 +476,7 @@ msgstr "Essa ação tem um custo previsto de %s"
 
 #: application\modules\projects/views/scripts/action/detail.phtml:412
 msgid "#Inform budget"
-msgstr "Definir custo"
+msgstr "Definir orçamento"
 
 #: application\modules\projects/views/scripts/action/detail.phtml:428
 msgid "#Subactions"
