@@ -99,7 +99,7 @@ class C3op_Finances_Receivable {
     {
 
         $dateValidator = new C3op_Util_ValidDate();
-        if ($dateValidator->isValid($predictedDate)) {
+        if (($dateValidator->isValid($predictedDate)) || (is_null($predictedDate))) {
             if ($this->predictedDate != $predictedDate) {
                 $this->predictedDate = $predictedDate;
             }

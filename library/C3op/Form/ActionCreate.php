@@ -36,45 +36,6 @@ class C3op_Form_ActionCreate extends Zend_Form
                 ->addFilter('StringTrim');
         $this->addElement($element);
 
-//        $element = new Zend_Form_Element_Checkbox('milestone');
-//        $element->setLabel('#This action is a milestone?') //'Essa ação é um marco do projeto?'
-//                ->setDecorators(array(
-//                    'ViewHelper',
-//                    'Errors',
-//                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'one column inset-by-ten omega')),
-//                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
-//                ))
-//                ->setOptions(array('checked' => '1', 'unChecked' => '0'))
-//                ->setValue('0')
-//                ;
-//        $this->addElement($element);
-//
-//        $element = new Zend_Form_Element_Select('requirementForReceiving');
-//        $element->setLabel('#Is requirement for receiving: ') //'É requisito para receber: '
-//                ->setDecorators(array(
-//                    'ViewHelper',
-//                    'Errors',
-//                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'four columns')),
-//                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
-//                ))
-//                ->setOptions(array('class' => 'Full alpha omega'))
-//                ->setRegisterInArrayValidator(false);
-//        $element->addMultiOption(0, _("#(not a requirement for receiving)")); // (não é requisito para recebimento)
-//        $this->addElement($element);
-//
-//        $element = new Zend_Form_Element_Select('subordinatedTo');
-//        $element->setLabel('#Subordinated to: ') //Subordinada a:
-//                ->setDecorators(array(
-//                    'ViewHelper',
-//                    'Errors',
-//                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'five columns omega')),
-//                    array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
-//                ))
-//                ->setOptions(array('class' => 'Full alpha omega'))
-//                ->setRegisterInArrayValidator(false);
-//        $element->addMultiOption(0, _("#(no action)"));
-//        $this->addElement($element);
-
         $element = new Zend_Form_Element_Select('supervisor');
         $element->setLabel('#Supervisor: ')
                 ->setDecorators(array(
@@ -134,7 +95,7 @@ class C3op_Form_ActionCreate extends Zend_Form
 
         $element = new Zend_Form_Element_Text('predictedBeginDate');
         $dateValidator = new C3op_Util_ValidDate();
-        $element->setLabel('#Begin date:')
+        $element->setLabel('#Predicted to begin:')
             ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
@@ -148,7 +109,7 @@ class C3op_Form_ActionCreate extends Zend_Form
         $this->addElement($element);
 
         $element = new Zend_Form_Element_Text('predictedFinishDate');
-        $element->setLabel('#Finish date:')
+        $element->setLabel('#Predicted to finish:')
             ->setDecorators(array(
                 'ViewHelper',
                 'Errors',

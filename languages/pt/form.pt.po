@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-03 14:30-0300\n"
-"PO-Revision-Date: 2013-04-03 14:30-0300\n"
+"POT-Creation-Date: 2013-05-03 08:52-0300\n"
+"PO-Revision-Date: 2013-05-03 08:53-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -48,24 +48,42 @@ msgid "#Description:"
 msgstr "Descrição: "
 
 #: library\C3op\Form/ActionCreate.php:107
+msgid "#Baseline Begin date:"
+msgstr "Início planejado: "
+
+#: library\C3op\Form/ActionCreate.php:121
+msgid "#BaselineFinish date:"
+msgstr "Término planejado: "
+
+#: library\C3op\Form/ActionCreate.php:137
 #: library\C3op\Form/MaterialSupplyContract.php:19
 #: library\C3op\Form/OutsideServiceContract.php:19
 #: library\C3op\Form/ProductCreate.php:107
 #: library\C3op\Form/ProjectCreate.php:87
+#: library\C3op\Form/ResponsibleContract.php:19
 #: library\C3op\Form/TeamMemberContract.php:19
 msgid "#Begin date:"
 msgstr "Data de início: "
 
-#: library\C3op\Form/ActionCreate.php:121
+#: library\C3op\Form/ActionCreate.php:151
 #: library\C3op\Form/MaterialSupplyContract.php:33
 #: library\C3op\Form/OutsideServiceContract.php:33
 #: library\C3op\Form/ProductCreate.php:121
 #: library\C3op\Form/ProjectCreate.php:101
+#: library\C3op\Form/ResponsibleContract.php:33
 #: library\C3op\Form/TeamMemberContract.php:33
 msgid "#Finish date:"
 msgstr "Data de término: "
 
-#: library\C3op\Form/ActionCreate.php:137 library\C3op\Form/ActionEdit.php:83
+#: library\C3op\Form/ActionCreate.php:167
+msgid "#Real Begin date:"
+msgstr "Início real: "
+
+#: library\C3op\Form/ActionCreate.php:181
+msgid "#Real Finish date:"
+msgstr "Término Real: "
+
+#: library\C3op\Form/ActionCreate.php:197 library\C3op\Form/ActionEdit.php:83
 #: library\C3op\Form/BudgetCreate.php:42
 #: library\C3op\Form/ContactCreate.php:80
 #: library\C3op\Form/ContractCreate.php:64
@@ -83,7 +101,9 @@ msgstr "Data de término: "
 #: library\C3op\Form/ProjectCreate.php:284
 #: library\C3op\Form/ReceivableCreate.php:94
 #: library\C3op\Form/ReceivableNotify.php:72
+#: library\C3op\Form/ResponsibleContract.php:81
 #: library\C3op\Form/ResponsibleCreate.php:81
+#: library\C3op\Form/ResponsibleDismiss.php:35
 #: library\C3op\Form/TeamMemberContract.php:81
 #: library\C3op\Form/TeamMemberCreate.php:65
 #: library\C3op\Form/TeamMemberDismiss.php:35
@@ -162,6 +182,7 @@ msgstr "Dados inválidos!"
 #: library\C3op\Form/BudgetCreate.php:25
 #: library\C3op\Form/OutsideServiceCreate.php:35
 #: library\C3op\Form/ProjectCreate.php:116
+#: library\C3op\Form/ResponsibleContract.php:48
 #: library\C3op\Form/ResponsibleCreate.php:64
 #: library\C3op\Form/TeamMemberContract.php:48
 #: library\C3op\Form/TeamMemberCreate.php:35
@@ -171,6 +192,7 @@ msgstr "Valor:"
 #: library\C3op\Form/BudgetCreate.php:36
 #: library\C3op\Form/MaterialSupplyCreate.php:46
 #: library\C3op\Form/OutsideServiceCreate.php:46
+#: library\C3op\Form/ResponsibleContract.php:59
 #: library\C3op\Form/ResponsibleCreate.php:75
 #: library\C3op\Form/TeamMemberContract.php:59
 #: library\C3op\Form/TeamMemberCreate.php:46
@@ -418,6 +440,8 @@ msgstr "Confirmo: remova!"
 
 #: library\C3op\Form/MaterialSupplyContract.php:48
 #: library\C3op\Form/OutsideServiceContract.php:48
+#: library\C3op\Form/ResponsibleContract.php:64
+#: library\C3op\Form/ResponsibleDismiss.php:18
 #: library\C3op\Form/TeamMemberContract.php:64
 #: library\C3op\Form/TeamMemberDismiss.php:18
 msgid "Observações:"

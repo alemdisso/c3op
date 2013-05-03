@@ -50,6 +50,9 @@ class C3op_Form_ReceivableEdit extends C3op_Form_ReceivableCreate
             {
                 $dateForMysql = $converter->convertDateToMySQLFormat($predictedDate);
                 $predictedDateConvertedToMySQL = $dateForMysql;
+            } else {
+                $predictedDateConvertedToMySQL = null;
+                
             }
 
             $receivable->SetPredictedDate($predictedDateConvertedToMySQL);

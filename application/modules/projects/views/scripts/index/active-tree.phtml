@@ -53,7 +53,6 @@
           $nextDifferenceInDays = "$nextDifferenceInDays";
 
           $contractualDeliveryDate =  $projectData['deliveryDate'];
-          $actualDeliveryDate = $contractualDeliveryDate;
           $nextDeliveryValue =  $projectData['deliveryValue'];
 ?>
                     <tr id="node-<?php print ($projectNodeId) ?>">
@@ -62,7 +61,7 @@
 <!--                    <td><?php print($clientName) ?></td>-->
                     <td class="Right"><?php print($nextDifferenceInDays) ?></td>
                     <td><?php print($contractualDeliveryDate) ?></td>
-                    <td><?php print($actualDeliveryDate) ?></td>
+                    <td>&nbsp;</td>
                     <td><?php print($nextDeliveryValue) ?></td>
                     </tr>
 
