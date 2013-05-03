@@ -149,7 +149,18 @@ $(document).ready(function(){
 ?>
 
         <div class="TituloForm">
+<?php
+  if ($actionHeader['notAProduct'] ) {
+?>
           <h2><?php print(sprintf($this->translate("#Details of action %s"), $actionHeader['title'])); ?></h2>
+
+<?php
+  } else {
+?>
+          <h2><?php print(sprintf($this->translate("#Details of product %s"), $actionHeader['title'])); ?></h2>
+<?php
+  }
+?>
                 <a href="/projects/action/edit/?id=<?php echo $actionHeader['id'] ?>"><?php echo $this->translate("#Edit action") ?></a>
 <?php
     if ($actionHeader['canRemoveAction']) {
@@ -298,7 +309,20 @@ if ($parentId > 0) {
   }
 ?>
 
-
+<?php
+  if ($actionHeader['readyToDelivery']) {
+?>
+          <div class="six columns inset-by-four">
+            <div id="receiptAcknowledgement-<?php print($actionHeader['id']);?>">
+              <div class="four columns alpha offset-by-three">
+                <a class="button full column alpha omega parent_info" href="/projects/action/delivery-notify/?id='<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Notify product delivery")); ?></a>
+              </div>
+            </div>
+          </div>
+            &nbsp;
+<?php
+  }
+?>
 <?php
   if (($actionHeader['notAProduct'] ) && ($actionHeader['relatedProductId'])) {
             $productLink = "<a href='/projects/action/detail/?id=" . $actionHeader['relatedProductId'] . "'>" . $actionHeader['relatedProductTitle'] . "</a>";

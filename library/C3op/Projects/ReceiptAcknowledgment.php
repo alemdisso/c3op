@@ -4,7 +4,7 @@ class C3op_Projects_ReceiptAcknowledgment {
 
     public function AcknowledgeReceipt(C3op_Projects_Action $action, C3op_Projects_ActionMapper $mapper)
     {
-        if (!$action->GetDone()) {
+        if ($action->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION) {
             $action->SetStatus(C3op_Projects_ActionStatusConstants::STATUS_RECEIVED);
             $mapper->update($action);
         }

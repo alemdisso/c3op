@@ -69,10 +69,19 @@ class C3op_Projects_ActionHeader {
 
         }
 
+        $readyToDelivery = false;
+        if ($this->action->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_DONE) {
+            $tester = new C3op_Access_PrivilegeTester($user, $acl, "projects", "action", "delivery-notify");
+            if ($tester->allow()) {
+                $readyToDelivery = true;
+            }
+        }
+
 
         $this->data['canRemoveAction'] = $canRemoveAction;
         $this->data['receiptToAcceptOrReject'] = $receiptToAcceptOrReject;
         $this->data['waitingToReceipt'] = $waitingToReceipt;
+        $this->data['readyToDelivery'] = $readyToDelivery;
 
 
     }
@@ -195,7 +204,7 @@ class C3op_Projects_ActionHeader {
 
 
 //die("{$relatedProductId} == {$this->action->getId()}");
-        if ($productRelated->getId() == $this->action->getId()) {
+        if ($productRelated == $this->action) {
             $this->data['notAProduct'] = false;
             $this->data['relatedProductTitle'] = "#(no product)";
             $this->data['productDeliveryDate'] = "#(no product to deliver)";

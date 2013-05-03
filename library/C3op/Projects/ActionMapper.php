@@ -30,14 +30,13 @@ class C3op_Projects_ActionMapper
     {
 
         $query = $this->db->prepare("INSERT INTO projects_actions (title, project,
-            done, status, description, subordinated_to, supervisor, milestone,
+            status, description, subordinated_to, supervisor, milestone,
             product, requirement_for_receiving, budget_forecast)
-            VALUES (:title, :project, :done, :status, :description, :subordinated_to,
+            VALUES (:title, :project, :status, :description, :subordinated_to,
             :supervisor, :milestone, :product, :requirement_for_receiving, :budget_forecast)");
 
         $query->bindValue(':title', $obj->GetTitle(), PDO::PARAM_STR);
         $query->bindValue(':project', $obj->GetProject(), PDO::PARAM_STR);
-        $query->bindValue(':done', $obj->GetDone(), PDO::PARAM_STR);
         $query->bindValue(':status', $obj->GetStatus(), PDO::PARAM_STR);
         $query->bindValue(':description', $obj->GetDescription(), PDO::PARAM_STR);
         $query->bindValue(':subordinated_to', $obj->GetSubordinatedTo(), PDO::PARAM_STR);
@@ -63,7 +62,7 @@ class C3op_Projects_ActionMapper
         }
 
         $query = $this->db->prepare("UPDATE projects_actions
-            SET title = :title, project = :project, done = :done
+            SET title = :title, project = :project
             , status = :status, description = :description
             , subordinated_to = :subordinated_to, supervisor = :supervisor
             , milestone = :milestone, product = :product, requirement_for_receiving = :requirement_for_receiving
@@ -72,7 +71,6 @@ class C3op_Projects_ActionMapper
 
         $query->bindValue(':title', $obj->GetTitle(), PDO::PARAM_STR);
         $query->bindValue(':project', $obj->GetProject(), PDO::PARAM_STR);
-        $query->bindValue(':done', $obj->GetDone(), PDO::PARAM_STR);
         $query->bindValue(':status', $obj->GetStatus(), PDO::PARAM_STR);
         $query->bindValue(':description', $obj->GetDescription(), PDO::PARAM_STR);
         $query->bindValue(':subordinated_to', $obj->GetSubordinatedTo(), PDO::PARAM_STR);
@@ -101,7 +99,7 @@ class C3op_Projects_ActionMapper
             }
             $this->identityMap->next();
         }
-        $query = $this->db->prepare('SELECT title, project, done, status,
+        $query = $this->db->prepare('SELECT title, project, status,
             description, subordinated_to, supervisor, milestone, product,
             requirement_for_receiving, budget_forecast
             FROM projects_actions
@@ -121,7 +119,6 @@ class C3op_Projects_ActionMapper
         $this->setAttributeValue($obj, $id, 'id');
         $this->setAttributeValue($obj, $result['title'], 'title');
         $this->setAttributeValue($obj, $result['project'], 'project');
-        $this->setAttributeValue($obj, $result['done'], 'done');
         $this->setAttributeValue($obj, $result['status'], 'status');
         $this->setAttributeValue($obj, $result['description'], 'description');
         $this->setAttributeValue($obj, $result['subordinated_to'], 'subordinatedTo');

@@ -566,30 +566,49 @@ class Projects_ActionController extends Zend_Controller_Action
 
     }
 
-
-    private function checkIfSuccessRedirected()
+    public function deliveryNotifyAction()
     {
-        $data = $this->_request->getParams();
-        $filters = array(
-            'success' => new Zend_Filter_Alnum(),
-        );
-        $validators = array(
-            'success' => array('Digits', new Zend_Validate_GreaterThan(0)),
-        );
-        $input = new Zend_Filter_Input($filters, $validators, $data);
-        if ($input->isValid()) {
-            $success = $input->success;
-            if ($success > 0) {
-                return true;
+        // cria form
+        $form = new C3op_Form_ProductDeliveryNotify;
+        $this->view->form = $form;
+
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            if ($form->isValid($postData)) {
+                $id = $form->process($postData);
+                $this->_helper->getHelper('FlashMessenger')
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                $this->_redirect('/projects/action/detail/?id=' . $id);
             } else {
-                return false;
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
             }
         } else {
-            return false;
-        }
-        throw new C3op_Projects_ActionException("Invalid Action Id from Get");
+            $data = $this->_request->getParams();
+            $filters = array(
+                'id' => new Zend_Filter_Alnum(),
+            );
+            $validators = array(
+                'id' => new C3op_Util_ValidId(),
+            );
+            $input = new Zend_Filter_Input($filters, $validators, $data);
 
+            if ($input->isValid()) {
+                $this->initActionMapper();
+                $productToBeNotified =  $this->initActionWithCheckedId($this->actionMapper);
+                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $productToBeNotified->getId());
+//                $this->setDateValueToFormField($form, 'realDate', $thisAction->GetRealDate());
+//                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'realValue', $thisAction->GetRealValue());
+                $projectId = $productToBeNotified->GetProject();
+                $data = $this->getActionData($productToBeNotified);
+                $this->populateProjectFields($projectId, $form);
+                $this->view->pageData = $data;
+            }
+
+        }
     }
+
 
 
     private function initActionWithCheckedId(C3op_Projects_ActionMapper $mapper)
@@ -655,36 +674,6 @@ class Projects_ActionController extends Zend_Controller_Action
             $subordinatedToField->setValue($parentActionId);
 
         } else throw new C3op_Projects_ActionException(_("#It needs a positive integer project id to find other actions from same project."));
-   }
-
-   private function fillPossibleSubordinatedTree($projectId, $actionId=0)
-   {
-        $validator = new C3op_Util_ValidId();
-        if ($validator->isValid($projectId)) {
-            $this->initActionMapper();
-
-            if ($actionId > 0) {
-                $actionToBePopulated = $this->actionMapper->findById($actionId);
-                $parentActionId = $actionToBePopulated->GetSubordinatedTo();
-                $allOtherActionsInProject = $this->actionMapper->getPossibleSubordination($actionToBePopulated);
-            } else {
-                if (!isset($this->projectMapper)) {
-                    $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
-                }
-                $theProject = $this->projectMapper->findById($projectId);
-                $allOtherActionsInProject = $this->projectMapper->getAllActions($theProject);
-            }
-
-            $jsonX = array();
-            while (list($key, $actionId) = each($allOtherActionsInProject)) {
-                $eachAction = $this->actionMapper->findById($actionId);
-                $subordinatedToField->addMultiOption($actionId, $eachAction->GetTitle());
-                $jsonX[] = array($actionId => $eachAction->GetTitle());
-            }
-
-
-        } else throw new C3op_Projects_ActionException(_("#It needs a positive integer project id to find other actions from same project."));
-
    }
 
     private function populateRequirementForReceivingField($projectId, Zend_Form $form, $setedReceivableId = 0)
@@ -1158,6 +1147,31 @@ class Projects_ActionController extends Zend_Controller_Action
             return $data;
 
     }
+
+    private function getActionData(C3op_Projects_Action $action)
+    {
+        $projectId = $action->getProject();
+
+        $validator = new C3op_Util_ValidId();
+        if ($validator->isValid($projectId)) {
+            $this->initProjectMapper();
+            $thisProject = $this->projectMapper->findById($projectId);
+            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+            $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($action->getPredictedFinishDate());
+            $actionDetails = sprintf ($this->view->translate("#Finish predicted for %s"), $predictedDate);
+
+            $data = array(
+                'title'             => $action->getTitle(),
+                'projectTitle'      => $thisProject->GetShortTitle(),
+                'projectId'         => $projectId,
+                'actionDetails'     => $actionDetails,
+            );
+
+            return $data;
+        } else throw new C3op_Finances_ActionException("Action needs a positive integer project id.");
+
+    }
+
 
 
 }

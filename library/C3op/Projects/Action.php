@@ -76,20 +76,6 @@ class C3op_Projects_Action {
         $this->project = $project;
     }
 
-    public function setDone($done)
-    {
-        if ($done) {
-            $this->done = $done;
-        } else {
-            $this->done = 0;
-        }
-    }
-
-    public function getDone()
-    {
-        return $this->done;
-    }
-
     public function getStatus()
     {
         return $this->status;
