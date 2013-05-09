@@ -5,6 +5,7 @@
 ?>
         <div id="MainHeader">
           <h1><?php echo $this->translate("#Active Projects") ?></h1>
+          <a href="/projects/index/all-projects"><?php print $this->translate("#All projects") ?></a>
         </div>
         <div class="Area">
 <?php
@@ -20,7 +21,6 @@
     if (count($projectsList)) {
 ?>
 
-                <h2><?php echo $this->translate("#Active projects") ?></h2>
                 <a href="javascript:$('.treeTable').expandAll();"><?php echo $this->translate("#Expand all") ?></a> | <a href="javascript:$('.treeTable').collapseAll();"><?php echo $this->translate("#Collapse all") ?></a>
                 <table id="tree" border="1">
                     <thead>
@@ -101,8 +101,8 @@
 ?>
                     <td>&nbsp;</td>
 <!--                    <td>&nbsp;</td>-->
-                    <td class="Right"><?php print($differenceInDays) ?></td>
-                    <td><?php print($contractualDate) ?></td>
+                    <td class="Right"><strong><?php print($differenceInDays) ?></strong></td>
+                    <td><strong><?php print($contractualDate) ?></strong></td>
                     <td><?php print($realFinishDate) ?></td>
                     <td><?php print($receivableValue) ?></td>
                     </tr>
