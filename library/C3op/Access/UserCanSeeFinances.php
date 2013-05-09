@@ -13,8 +13,8 @@ class C3op_Access_UserCanSeeFinances
 
     public function can()
     {
-
         $role = $this->user->GetRole();
+
         if (($role == C3op_Access_RolesConstants::ROLE_SYSADMIN)
                 || ($role == C3op_Access_RolesConstants::ROLE_DIRECTOR)
                 || ($role == C3op_Access_RolesConstants::ROLE_COORDINATOR)

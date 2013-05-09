@@ -1,11 +1,12 @@
 <?php
   $pageData = $this->pageData;
   $projectsList = $pageData['projectsList'];
+
 ?>
         <div id="MainHeader">
-          <h1><?php echo $this->translate("#Projects") ?></h1>
-          <a href="/projects/index/active-tree"><?php print $this->translate("#Active projects") ?></a>
+          <h1><?php echo $this->translate("#Active Projects") ?></h1>
         </div>
+        <div class="Area">
 <?php
   /*
    * If exists projects list
@@ -18,88 +19,133 @@
      */
     if (count($projectsList)) {
 ?>
-        <div class="Area">
-           <table class="display dataTable">
-              <thead>
-                  <tr>
-                      <th width="200"><?php echo $this->translate("#Project") ?></th>
-                      <th width="80"><?php echo $this->translate("#Client") ?></th>
-                      <th width="120"><?php echo $this->translate("#Area") ?></th>
-                      <th width="100"><?php echo $this->translate("#Status") ?></th>
-                      <th width="50"><?php echo $this->translate("#% physical progress") //%&nbsp;física ?></th>
-                      <th width="50"><?php echo $this->translate("#% payables") //%&nbsp;pagtos ?></th>
-                      <th width="50"><?php echo $this->translate("#% receivings") //%&nbsp;recebtos ?></th>
-                      <th width="1%">&nbsp;</th>
-                  </tr>
-              </thead>
-              <tbody>
-<?php
-      /*
-       * iterate list and print title
-       */
-      foreach ($projectsList as $id => $projectData) {
+
+                <h2><?php echo $this->translate("#Active projects") ?></h2>
+                <a href="javascript:$('.treeTable').expandAll();"><?php echo $this->translate("#Expand all") ?></a> | <a href="javascript:$('.treeTable').collapseAll();"><?php echo $this->translate("#Collapse all") ?></a>
+                <table id="tree" border="1">
+                    <thead>
+                            <tr>
+                            <th width="200"><?php echo $this->translate("#Project") ?></th>
+                            <th width="80"><?php echo $this->translate("#Status") ?></th>
+<!--                            <th width="100"><?php echo $this->translate("#Client") ?></th>-->
+                            <th width="16" class="Right"><?php echo $this->translate("#Days") ?></th>
+                            <th width="120"><?php echo $this->translate("#Contractual date") ?></th>
+                            <th width="120"><?php echo $this->translate("#Actual date") ?></th>
+                            <th width="120"><?php echo $this->translate("#Value") ?></th>
+                            </tr>
+                    </thead>
+                    <tbody>
+    <?php
+
+      foreach ($projectsList as $projectId => $projectData) {
+          $projectName = $projectData['projectName'];
+          $projectStatus = $this->translate($projectData['status']);
+          $clientName = $projectData['clientName'];
+          $receivablesList = $projectData['receivablesList'];
+          $projectNodeId = "project-" . $projectId;
+          $nextDifferenceInDays = $projectData['differenceInDays'];
+          if ($projectData['deliveryDue']) {
+              $nextDifferenceInDays = "<span class='LateDeliveryDifferenceInDays'>$nextDifferenceInDays</span>";
+          } else {
+              $nextDifferenceInDays = "<span class='AheadDeliveryDifferenceInDays'>$nextDifferenceInDays</span>";
+
+          }
+          $nextDifferenceInDays = "$nextDifferenceInDays";
+
+          $contractualDeliveryDate =  $projectData['deliveryDate'];
+          $nextDeliveryValue =  $projectData['deliveryValue'];
 ?>
-                <tr>
-                  <td><a href="/projects/project/detail/?id=<?php print($id) ?>"><?php print($projectData['projectName']) ?></a></td>
-                  <td><?php print($projectData['clientName']) ?></td>
-                  <td><?php print($this->translate($projectData['areaActivity'])) ?></td>
-                  <td><?php print($this->translate($projectData['status'])) ?></td>
-                  <td><?php print($projectData['physicalProgress']) ?></td>
-                  <td><?php print($projectData['payedPercentage']) ?></td>
-                  <td><?php print($projectData['receivedPercentage']) ?></td>
-                  <td>
-                      <a class="anchorclass button" rel="submenu1"><?php echo $this->translate("#Options...") ?></a>
-                      <div id="submenu1" class="anylinkcss">
-                          <ul>
-                          <li>
-                              <a href="/projects/project/edit/?id=<?php print($id) ?>"><?php echo $this->translate("#Edit") ?></a>
-                          </li>
-                          <li>
-                              <a href="/finances/receivable/create/?project=<?php print($id) ?>"><?php echo $this->translate("#Predict Receiving") ?></a>
-                          </li>
-                          <li>
-                              <a href="/projects/action/create/?project=<?php print($id) ?>"><?php echo $this->translate("#Create action") ?></a>
-                          </li>
-                          <li>
-                              <a href="/projects/project/detail/?id=<?php print($id) ?>"><?php echo $this->translate("#Project details") ?></a>
-                          </li>
-<?php
-if ($projectData['hasContract']) {
-?>
-                          <li>
-                              <a href="/projects/project/amend/?id=<?php print($id) ?>"><?php echo $this->translate("#Amend contract") ?></a>
-                          </li>
+                    <tr id="node-<?php print ($projectNodeId) ?>">
+                    <td><a href='/projects/project/detail/?id=<?php print($projectId) ?>'><?php print ($projectName) ?></a></td>
+                    <td><?php print($projectStatus) ?></td>
+<!--                    <td><?php print($clientName) ?></td>-->
+                    <td class="Right"><?php print($nextDifferenceInDays) ?></td>
+                    <td><?php print($contractualDeliveryDate) ?></td>
+                    <td>&nbsp;</td>
+                    <td><?php print($nextDeliveryValue) ?></td>
+                    </tr>
 
 <?php
-}
+    $receivableCounter = 0;
+    foreach ($receivablesList as $receivableId => $receivableData) {
+        $contractualDate = $receivableData['contractualDeliveryDate'];
+        $realFinishDate = $receivableData['actualDeliveryDate'];
+        $differenceInDays = $receivableData['differenceInDays'];
+        if ($receivableData['deliveryDue']) {
+            $differenceInDays = "<span class='LateDeliveryDifferenceInDays'>$differenceInDays</span>";
+        } else {
+            $differenceInDays = "<span class='AheadDeliveryDifferenceInDays'>$differenceInDays</span>";
+        }
+
+        $receivableValue = $receivableData['receivableValue'];
+        $productsList = $receivableData['productsList'];
+        $classId = "child-of-node-$projectNodeId";
+        $receivableNodeId = "receivable-$receivableId";
+        $receivableCounter++;
+        $parcelLabel = $receivableData['receivableTitle'];
+
 ?>
-                          </ul>
-                      </div><!-- #submenu1 -->
-                  </td>
-                </tr>
+                    <tr id="node-<?php print ($receivableNodeId) ?>" class="<?php print ($classId) ?>">
 <?php
-      }  // loop iterate list and print titlei
+        if ($pageData['canSeeFinances']) {
+
+
 ?>
-          		</tbody>
-          	</table>
+                    <td class="BiggerLine"><a href="/finances/receivable/detail/?id=<?php print($receivableId) ?>"><?php print($parcelLabel) ?></a></td>
 <?php
-    } else { // end else there is projects in list
+        } else {
 ?>
-          <div class="Area">
-            <h2>Projetos</h2>
-            <?php print("<p>Não há projetos cadastrados.</p>") ?>
+                    <td class="BiggerLine"><?php print($parcelLabel) ?></td>
+<?php
+        }
+?>
+                    <td>&nbsp;</td>
+<!--                    <td>&nbsp;</td>-->
+                    <td class="Right"><?php print($differenceInDays) ?></td>
+                    <td><?php print($contractualDate) ?></td>
+                    <td><?php print($realFinishDate) ?></td>
+                    <td><?php print($receivableValue) ?></td>
+                    </tr>
 
 <?php
-    } // end else there is projects in list
-?>
+            foreach ($productsList as $productId => $productData) {
+                $productNodeId = "product-" . $productId;
+                $classId = "child-of-node-$receivableNodeId";
+                $predictedFinishDate = $productData['predictedFinishDate'];
+                $realFinishDate = $productData['realFinishDate'];
+                $differenceInDays = $productData['differenceInDays'];
+                if ($productData['deliveryDue']) {
+                    $differenceInDays = "<span class='LateDeliveryDifferenceInDays'>$differenceInDays</span>";
+                } else {
+                    $differenceInDays = "<span class='AheadDeliveryDifferenceInDays'>$differenceInDays</span>";
+                }
+
+    ?>
+                    <tr id="node-<?php print ($productNodeId) ?>" class="<?php print ($classId) ?>">
+                    <td class="ProductAtTree"><a href="/projects/action/detail/?id=<?php print($productId) ?>"><?php print($productData['productName']) ?></a></td>
+                    <td><?php print $this->translate($productData['status']); ?></td>
+<!--                    <td>&nbsp;</td>-->
+                    <td class="Right"><?php print($differenceInDays) ?></td>
+                    <td><?php print($predictedFinishDate) ?></td>
+                    <td><?php print($realFinishDate) ?></td>
+                    <td>&nbsp;</td>
+                    </tr>
+    <?php
+            }
+        }
+      }
+    ?>
+            <!-- # Fim do loop -->
+                </tbody>
+                </table>
+                <br />
+
 <?php
+    }
   } else { // else exists projects list
 ?>
             <?php print($this->translate("#There is no list of projects.")) ?>
 <?php
   } // end exists projects list
 ?>
-            <p>
-              <a href="/projects/project/create" class="button three columns alpha omega"><?php echo $this->translate("#Create New Project") ?></a>
-            </p>
           </div><!-- Area -->

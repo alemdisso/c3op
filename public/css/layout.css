@@ -174,7 +174,6 @@
 
 .ProductAtTree {
   color: #c01f1f;
-  font-weight: bold;
   padding-left:16px;
 
 }
@@ -192,6 +191,12 @@
   font-weight: bold;
   font-size: 103%;
   padding-right: 8px;
+
+}
+
+.BiggerLine {
+  font-weight: bold;
+  font-size: 110%;
 
 }
 

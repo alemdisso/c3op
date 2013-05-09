@@ -22,7 +22,7 @@ class Projects_IndexController extends Zend_Controller_Action
 
    }
 
-    public function indexAction()
+    public function allProjectsAction()
     {
 
         // projectsList
@@ -143,14 +143,14 @@ class Projects_IndexController extends Zend_Controller_Action
 
     }
 
-    public function activeTreeAction() {
+    public function indexAction() {
 
         $user = Zend_Registry::get('user');
         $test = new C3op_Access_UserCanSeeFinances($user);
         if ($test->can()) {
             $canSeeFinances = true;
         } else {
-            $canSeeFinances = true;
+            $canSeeFinances = false;
         }
 
 
@@ -242,6 +242,7 @@ class Projects_IndexController extends Zend_Controller_Action
                 $receivableTitle = $theReceivable->getTitle();
 
                 $contractualDeliveryDate = $theReceivable->getDeliveryDate();
+                $validator = new C3op_Util_ValidDate();
                 if ($validator->isValid($contractualDeliveryDate)) {
                     $formatedContractualDeliveryDate = C3op_Util_DateDisplay::FormatDateToShow($contractualDeliveryDate);
                 } else {
