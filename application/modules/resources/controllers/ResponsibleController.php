@@ -129,9 +129,10 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
 
                $headerData = array(
+                   'actionId'        => $thisAction->getId(),
                    'responsibleName' => $contactName,
                    'providedBudget'  => $providedBudget,
-                   'actionTitle'    => $actionTitle,
+                   'actionTitle'     => $actionTitle,
                ) ;
 
             }
