@@ -100,11 +100,6 @@ class Resources_ResponsibleController extends Zend_Controller_Action
                 $thisAction = $this->actionMapper->findById($thisResponsible->getAction());
 
 
-                $valueField = $form->getElement('value');
-                $currencyDisplay = new  C3op_Util_CurrencyDisplay();
-                $currencyValue = $currencyDisplay->FormatCurrency($thisResponsible->GetValue());
-                $valueField->setValue($currencyValue);
-
 
                 $this->setDateValueToFormField($form, 'predictedBeginDate', $thisAction->GetPredictedBeginDate());
                 $this->setDateValueToFormField($form, 'predictedFinishDate', $thisAction->GetPredictedFinishDate());
@@ -118,8 +113,24 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
                 $actionTitle = $thisAction->GetTitle();
 
+                $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+                $actionBudgetValue = $thisAction->GetBudgetForecast();
+                $currencyValue = $currencyDisplay->FormatCurrency($actionBudgetValue);
+                $providedBudget = sprintf($this->view->translate("#A %s budget was provided"), $currencyValue);
+
+                $valueField = $form->getElement('value');
+                $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+                $actionValue = $thisResponsible->GetValue();
+                if ($actionValue == 0) {
+                    $actionValue = $actionBudgetValue;
+                }
+                $currencyValue = $currencyDisplay->FormatCurrency($actionValue);
+                $valueField->setValue($currencyValue);
+
+
                $headerData = array(
                    'responsibleName' => $contactName,
+                   'providedBudget'  => $providedBudget,
                    'actionTitle'    => $actionTitle,
                ) ;
 

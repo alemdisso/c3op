@@ -50,7 +50,7 @@ class C3op_Form_ResponsibleContract extends Zend_Form
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
-                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns alpha omega inset-by-seven')),
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns alpha omega inset-by-eight')),
                     array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
                 ))
                 ->setOptions(array('class' => 'Full alpha omega'))
@@ -59,6 +59,7 @@ class C3op_Form_ResponsibleContract extends Zend_Form
             ->addErrorMessage(_('#The value must be a positive number'))
                 ;
         $this->addElement($element);
+
 
         $observation = new Zend_Form_Element_Textarea('observation');
         $observation->setLabel('Observações:')

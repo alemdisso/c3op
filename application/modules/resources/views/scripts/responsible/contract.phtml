@@ -8,4 +8,14 @@ $headerData = $this->headerData;
 </div><p><?php print($this->translate('#Enter below the contracted dates for the beginning and end of the action')); ?></p>
 </div>
 
-<?php echo $this->form; ?>
+<form id="form" action="<?php echo $this->escape($this->form->getAction()); ?>" method="<?php echo $this->escape($this->form->getMethod()); ?>">
+<table>
+  <?php echo $this->form->id ?>
+  <?php echo $this->form->predictedBeginDate ?>
+  <?php echo $this->form->predictedFinishDate ?>
+  <div class="offset-by-three alpha ">  <?php echo $headerData["providedBudget"] ?></div>
+  <?php echo $this->form->value ?>
+  <?php echo $this->form->observation ?>
+  <?php echo $this->form->submit ?>
+</table>
+</form>

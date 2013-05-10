@@ -103,6 +103,9 @@ class C3op_Projects_ActionHeader {
         $budgetForecast = $this->action->getBudgetForecast();
         if ($budgetForecast > 0) {
             $this->data['hasBudget'] = true;
+            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+            $budgetForecast = $currencyDisplay->FormatCurrency($budgetForecast);
+
             $this->data['budgetForecast'] = $budgetForecast;
         } else {
             $this->data['hasBudget'] = false;

@@ -65,7 +65,8 @@ class Projects_ActionController extends Zend_Controller_Action
             $projectId = $parentAction->getProject();
             $projectAction = $this->projectMapper->findById($projectId);
 
-            $budgetForecast = $parentAction->getBudgetForecast();
+            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+            $budgetForecast = $currencyDisplay->FormatCurrency($parentAction->getBudgetForecast());
 
             $actionField = $form->getElement('action');
             $actionField->setValue($actionId);
@@ -98,9 +99,12 @@ class Projects_ActionController extends Zend_Controller_Action
         $this->initActionMapper();
         $action = $this->actionMapper->findById($actionId);
 
+        $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+        $budgetForecast = $currencyDisplay->FormatCurrency($action->getBudgetForecast());
+
 
         $pageData = array(
-            'budgetForecast' => $action->getBudgetForecast(),
+            'budgetForecast' => $budgetForecast,
         );
 
         $this->view->pageData = $pageData;
