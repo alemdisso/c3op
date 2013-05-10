@@ -159,11 +159,12 @@ class C3op_Form_ActionEdit extends C3op_Form_ActionCreate
 
             $realFinishDate = $data['realFinishDate'];
             $dateValidator = new C3op_Util_ValidDate();
-            if ($dateValidator->isValid($realFinishDate)){
+            $dateForMysql = null;
+            if ($dateValidator->isValid($realFinishDate)) {
                 $converter = new C3op_Util_DateConverter();
                 $dateForMysql = $converter->convertDateToMySQLFormat($realFinishDate);
-                $action->SetRealFinishDate($dateForMysql);
             }
+            $action->SetRealFinishDate($dateForMysql);
 
             $actionMapper->update($action);
             return $id;

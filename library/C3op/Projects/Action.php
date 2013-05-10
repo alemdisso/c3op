@@ -323,15 +323,16 @@ class C3op_Projects_Action {
 
     public function setRealFinishDate($realFinishDate)
     {
-        if ($realFinishDate != "") {
-            $dateValidator = new C3op_Util_ValidDate();
-            if ((is_null($realFinishDate)) || ($dateValidator->isValid($realFinishDate))) {
-                if ($this->realFinishDate != $realFinishDate) {
-                    $this->realFinishDate = $realFinishDate;
-                }
-            } else {
-                throw new C3op_Projects_ActionException("This ($realFinishDate) is not a valid date of finish.");
+        if ($realFinishDate == "") {
+            $realFinishDate = null;
+        }
+        $dateValidator = new C3op_Util_ValidDate();
+        if ((is_null($realFinishDate)) || ($dateValidator->isValid($realFinishDate))) {
+            if ($this->realFinishDate != $realFinishDate) {
+                $this->realFinishDate = $realFinishDate;
             }
+        } else {
+            throw new C3op_Projects_ActionException("This ($realFinishDate) is not a valid date of finish.");
         }
     } //SetRealFinishDate
 

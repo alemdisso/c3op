@@ -288,7 +288,7 @@ class Projects_ActionController extends Zend_Controller_Action
                 $this->populateSupervisorField($form, $inputAction->getSupervisor());
 
                 if ($inputAction->getSubordinatedTo() > 0) {
-                    $form->removeElement('requirementForReceiving');
+                    //$form->removeElement('requirementForReceiving');
                 } else {
                     $this->populateRequirementForReceivingField($projectId, $form, $inputAction->getRequirementForReceiving());
                 }
