@@ -9,6 +9,15 @@ class Projects_IndexController extends Zend_Controller_Action
     private $receivableMapper;
     private $deliveryMapper;
 
+    public function preDispatch()
+    {
+        try {
+            $checker = new C3op_Access_PrivilegeChecker();
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
     public function init()
     {
 
@@ -129,7 +138,7 @@ class Projects_IndexController extends Zend_Controller_Action
         if ($test->can()) {
             $canSeeFinances = true;
         } else {
-            $canSeeFinances = true;
+            $canSeeFinances = false;
         }
 
         $projectData = $this->fillProjectsData();
@@ -151,6 +160,7 @@ class Projects_IndexController extends Zend_Controller_Action
             $canSeeFinances = true;
         } else {
             $canSeeFinances = false;
+            
         }
 
 

@@ -30,6 +30,7 @@ public function __construct() {
     $this->add(new Zend_Acl_Resource('c3op:finances.outlay'));
     $this->add(new Zend_Acl_Resource('c3op:finances.receivable'));
     $this->add(new Zend_Acl_Resource('c3op:projects'));
+    $this->add(new Zend_Acl_Resource('c3op:projects.index'));
     $this->add(new Zend_Acl_Resource('c3op:projects.action'));
     $this->add(new Zend_Acl_Resource('c3op:projects.contract'));
     $this->add(new Zend_Acl_Resource('c3op:projects.project'));
@@ -63,6 +64,8 @@ public function __construct() {
     $this->allow(C3op_Access_RolesConstants::ROLE_DIRECTOR,      'c3op:finances.receivable');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:finances.receivable');
 
+    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.index', 'index');
+    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.index', 'all-projects');
     $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR,   'c3op:projects.action', 'accept-receipt');
     $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:projects.action', 'acknowledge-receipt');
     $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:projects.action', 'acknowledge-start');

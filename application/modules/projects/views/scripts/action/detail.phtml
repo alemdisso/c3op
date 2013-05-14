@@ -73,7 +73,7 @@ $(document).ready(function(){
          $("#responsibleDiv").slideToggle();
          $("#responsibleButton").hide();
     });
-    $('#hideHref').click(function(){
+    $('#hideResponsibleHref').click(function(){
          $("#responsibleDiv").slideToggle();
          $("#responsibleButton").show();
     });
@@ -122,10 +122,44 @@ $(document).ready(function(){
          $("#budgetDiv").slideToggle();
          $("#budgetButton").hide();
     });
-    $('#hideHref').click(function(){
+    $('#hideBudgetHref').click(function(){
          $("#budgetDiv").slideToggle();
          $("#labelBudgetDiv").show();
          $("#budgetButton").show();
+    });
+
+
+
+});
+
+</script>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+        $("#editDeliveryDateDiv").hide();
+        $("#editDeliveryDateButton").show();
+
+    $('#editDeliveryDateButton').click(function(){
+        $.ajax({
+            type: 'get',
+            data: 'id=<?php print $actionHeader['id'] ?>',
+            url:'/projects/action/edit-delivery-date',
+            success: function(successReturn){
+            $('#budgetFormDiv').html(successReturn);
+            }
+        })
+
+        $("#labelDeliveryDateDiv").hide();
+
+         $("#editDeliveryDateDiv").slideToggle();
+         $("#editDeliveryDateButton").hide();
+    });
+    $('#hideDeliveryHref').click(function(){
+         $("#editDeliveryDateDiv").slideToggle();
+         $("#labelDeliveryDateDiv").show();
+         $("#editDeliveryDateButton").show();
     });
 
 
@@ -284,11 +318,14 @@ if ($parentId > 0) {
 <?php
   if ($actionHeader['receiptToAcceptOrReject']) {
 ?>
-          <div class="three columns alpha Right">
+          <div class="two columns alpha Right">
             <?php print($this->translate("#Receipt date:")); ?>
           </div>
           <div class="one column">
             <?php print($this->translate($actionHeader['receiptDate'])); ?>
+          </div>
+          <div class="two columns">
+            <a id="hideDeliveryHref" href="#"><?php print($this->translate("#Fix date")); ?></a>
           </div>
           <div class="six columns inset-by-four">
             <div id="receiptAcknowledgement-<?php print($actionHeader['id']);?>">
@@ -310,7 +347,7 @@ if ($parentId > 0) {
 ?>
 
 <?php
-  if ($actionHeader['readyToDelivery']) {
+  if ((!$actionHeader['notAProduct'] ) && ($actionHeader['readyToDelivery'])) {
 ?>
           <div class="six columns inset-by-four">
             <div id="receiptAcknowledgement-<?php print($actionHeader['id']);?>">
@@ -403,7 +440,7 @@ if ($actionHeader['hasResponsible']) {
               <div id="responsibleFormDiv">&nbsp;</div>
 
             <br class="clear"/>
-            <a class="alpha" href="#responsible" id="hideHref"><?php print($this->translate("#Hide form")); ?></a>
+            <a class="alpha" href="#responsible" id="hideResponsibleHref"><?php print($this->translate("#Hide form")); ?></a>
           </div>
           </div>
 <?php
@@ -436,7 +473,7 @@ if (isset($actionHeader['hasBudget'])) {
               <h3>   <?php print($this->translate("#Inform budget")); ?>  </h3>
               <div id="budgetFormDiv">&nbsp;</div>
             <br class="clear"/>
-            <a class="alpha" href="#budget" id="hideHref"><?php print($this->translate("#Hide form")); ?></a>
+            <a class="alpha" href="#budget" id="hideBudgetHref"><?php print($this->translate("#Hide form")); ?></a>
 
           </div>
           </div>
