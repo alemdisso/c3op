@@ -19,9 +19,9 @@ class C3op_Form_ActionEdit extends C3op_Form_ActionCreate
         $this->removeElement('submit');
         $this->removeElement('subordinatedTo');
 
-        $user = Zend_Registry::get('user');
-        $role = $user->GetRole();
-        if ($role == C3op_Access_RolesConstants::ROLE_SYSADMIN) {
+//        $user = Zend_Registry::get('user');
+//        $role = $user->GetRole();
+//        if ($role == C3op_Access_RolesConstants::ROLE_SYSADMIN) {
             $element = new Zend_Form_Element_Select('status');
             $element->setLabel('#Status:')
                     ->setDecorators(array(
@@ -37,7 +37,7 @@ class C3op_Form_ActionEdit extends C3op_Form_ActionCreate
                 $element->addMultiOption($key, _($title));
             }
             $this->addElement($element);
-        }
+//        }
 
         $element = new Zend_Form_Element_Select('subordinatedTo');
         $element->setLabel('#Subordinated to: ') //Subordinada a:

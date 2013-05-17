@@ -395,14 +395,16 @@ class Projects_ActionController extends Zend_Controller_Action
                 $this->setDateValueToFormField($form, 'realBeginDate', $inputAction->getRealBeginDate());
                 $this->setDateValueToFormField($form, 'realFinishDate', $inputAction->getRealFinishDate());
 
-                $user = Zend_Registry::get('user');
-                $role = $user->GetRole();
-                if ($role == C3op_Access_RolesConstants::ROLE_SYSADMIN) {
-                    $element = $form->getElement('status');
-                    $element->setValue($inputAction->getStatus());
-                } else {
-                    $form->removeElement('status');
-                }
+                $element = $form->getElement('status');
+                $element->setValue($inputAction->getStatus());
+//                $user = Zend_Registry::get('user');
+//                $role = $user->GetRole();
+//                if ($role == C3op_Access_RolesConstants::ROLE_SYSADMIN) {
+//                    $element = $form->getElement('status');
+//                    $element->setValue($inputAction->getStatus());
+//                } else {
+//                    $form->removeElement('status');
+//                }
 
                 $this->populateSupervisorField($form, $inputAction->getSupervisor());
 

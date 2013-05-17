@@ -110,7 +110,7 @@ class C3op_Form_ChangeStartDate extends Zend_Form
             $timePredictedDate = strtotime($predictedDate);
             $timeNewStartDate = strtotime($newStartDate);
 
-            if ($compare->isFuture($timeNewStartDate)) {
+            if ($compare->isFuture($newStartDate)) {
                 $cancelment = new C3op_Projects_ActionCancelStart($action);
                 $actionMapper->deleteLastAutomaticStartEvent($action);
                 $dateChanger->ChangePredictedBeginDate($newStartDate, $observation);
