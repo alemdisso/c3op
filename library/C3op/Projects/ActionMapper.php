@@ -528,6 +528,21 @@ class C3op_Projects_ActionMapper
         return $result;
     }
 
+   public function updateLastReceiptDate(C3op_Projects_Action $obj, $newTimestamp)
+    {
+
+       $action = $obj->getId();
+               $type = C3op_Projects_ActionEventConstants::EVENT_ACKNOWLEDGE_RECEIPT;
+        $query = $this->db->prepare('UPDATE projects_actions_events SET timestamp = :timestamp WHERE action = :action AND type = :type ORDER BY timestamp DESC LIMIT 1;');
+        $query->bindValue(':timestamp', $newTimestamp, PDO::PARAM_STR);
+        $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':type', C3op_Projects_ActionEventConstants::EVENT_ACKNOWLEDGE_RECEIPT, PDO::PARAM_STR);
+        $query->execute();
+
+        $this->setAttributeValue($obj, $newTimestamp, 'receiptDate');
+
+    }
+
 
 
 }

@@ -309,7 +309,7 @@ if ($parentId > 0) {
             <?php print($this->translate($actionHeader['receiptDate'])); ?>
           </div>
           <div class="two columns">
-            <a id="hideDeliveryHref" href="#"><?php print($this->translate("#Fix date")); ?></a>
+            <a id="hideDeliveryHref" href="/projects/action/change-receipt/?id=<?php print($actionHeader['id']); ?>"><?php print($this->translate("#Fix date")); ?></a>
           </div>
           <div class="six columns inset-by-four">
             <div id="receiptAcknowledgement-<?php print($actionHeader['id']);?>">

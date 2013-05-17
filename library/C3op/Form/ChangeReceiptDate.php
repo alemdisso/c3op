@@ -1,11 +1,11 @@
 <?php
-class C3op_Form_ChangeStartDate extends Zend_Form
+class C3op_Form_ChangeReceiptDate extends Zend_Form
 {
 
     public function init()
     {
-        $this->setName('changeStartDateForm')
-            ->setAction('/projects/action/change-start')
+        $this->setName('changeReceiptDateForm')
+            ->setAction('/projects/action/change-receipt')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
@@ -21,24 +21,9 @@ class C3op_Form_ChangeStartDate extends Zend_Form
         $this->addElement($element);
         $element->setDecorators(array('ViewHelper'));
 
-        $element = new Zend_Form_Element_Text('newStartDate');
+        $element = new Zend_Form_Element_Text('newReceiptDate');
         $dateValidator = new C3op_Util_ValidDate();
-        $element->setLabel('#Begin date:')
-            ->setDecorators(array(
-                'ViewHelper',
-                'Errors',
-                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns inset-by-six')),
-                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
-            ))
-            ->setOptions(array('class' => 'Full alpha omega datepicker'))
-            ->setRequired(true)
-            ->addValidator($dateValidator)
-            ->addFilter('StringTrim');
-        $this->addElement($element);
-
-        $element = new Zend_Form_Element_Text('newFinishDate');
-        $dateValidator = new C3op_Util_ValidDate();
-        $element->setLabel('#Finish date:')
+        $element->setLabel('#Receipt date:')
             ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
@@ -97,39 +82,25 @@ class C3op_Form_ChangeStartDate extends Zend_Form
 
             $dateValidator = new C3op_Util_ValidDate();
 
-            $newStartDate = $this->newStartDate->GetValue();
-            if ($dateValidator->isValid($newStartDate)) {
+            $newReceiptDate = $this->newReceiptDate->GetValue();
+            if ($dateValidator->isValid($newReceiptDate)) {
                 $converter = new C3op_Util_DateConverter();
-                $newStartDate = $converter->convertDateToMySQLFormat($newStartDate);
+                $newReceiptDate = $converter->convertDateToMySQLFormat($newReceiptDate);
             }
 
             $dateChanger = new C3op_Projects_ActionDateChange($action, $actionMapper);
 
             $compare = new C3op_Util_DateCompare();
-            $predictedDate = $action->getPredictedBeginDate();
-            $timePredictedDate = strtotime($predictedDate);
-            $timeNewStartDate = strtotime($newStartDate);
+            $timeNewReceiptDate = strtotime($newReceiptDate);
 
-            if ($compare->isFuture($timeNewStartDate)) {
-                $cancelment = new C3op_Projects_ActionCancelStart($action);
-                $actionMapper->deleteLastAutomaticStartEvent($action);
-                $dateChanger->ChangePredictedBeginDate($newStartDate, $observation);
-                $dateChanger->ChangeRealBeginDate(null, $observation);
-                $action->setStatus(C3op_Projects_ActionStatusConstants::STATUS_PLAN);
-                $actionMapper->update($action);
+            if ($compare->isPast($timeNewReceiptDate)) {
+
+                //altera data de recebimento
+                $acknowledgment = new C3op_Projects_ReceiptAcknowledgment();
+                $acknowledgment->changeReceiptDate($action, $actionMapper, $newReceiptDate, $observation);
+
             } else {
-                $acknowledgment = new C3op_Projects_ActionAcknowledgeStart($action);
-                $dateChanger->ChangeRealBeginDate($newStartDate, $observation);
             }
-
-            $newFinishDate = $this->newFinishDate->GetValue();
-            if ($dateValidator->isValid($newFinishDate)) {
-                $converter = new C3op_Util_DateConverter();
-                $newFinishDate = $converter->convertDateToMySQLFormat($newFinishDate);
-                $dateChanger->ChangePredictedFinishDate($newFinishDate, $observation);
-            }
-
-
 
             return $action->GetId();
 
