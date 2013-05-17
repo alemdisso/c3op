@@ -155,6 +155,9 @@ class C3op_Form_ActionEdit extends C3op_Form_ActionCreate
                 $converter = new C3op_Util_DateConverter();
                 $dateForMysql = $converter->convertDateToMySQLFormat($realBeginDate);
                 $action->SetRealBeginDate($dateForMysql);
+            } else {
+                $action->SetRealBeginDate(null);
+
             }
 
             $realFinishDate = $data['realFinishDate'];

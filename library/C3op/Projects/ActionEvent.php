@@ -63,6 +63,8 @@ class C3op_Projects_ActionEvent {
             case C3op_Projects_ActionEventConstants::EVENT_BEGIN_EXECUTION:
             case C3op_Projects_ActionEventConstants::EVENT_BEGIN_AUTOMATICALLY:
             case C3op_Projects_ActionEventConstants::EVENT_BEGIN_ACKNOWLEDGMENT:
+            case C3op_Projects_ActionEventConstants::EVENT_BEGIN_DATE_CHANGE:
+            case C3op_Projects_ActionEventConstants::EVENT_BEGIN_CANCEL_AUTO_START:
             case C3op_Projects_ActionEventConstants::EVENT_ACKNOWLEDGE_RECEIPT:
             case C3op_Projects_ActionEventConstants::EVENT_CONFIRM_REALIZATION:
             case C3op_Projects_ActionEventConstants::EVENT_REGISTER_DELIVERY:

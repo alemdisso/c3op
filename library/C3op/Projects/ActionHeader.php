@@ -50,6 +50,15 @@ class C3op_Projects_ActionHeader {
         $user = Zend_Registry::get('user');
         $acl = Zend_Registry::get('acl');
 
+
+        $unacknowledgedStart = false;
+        if ($this->action->hasBegun()) {
+            $obj = new C3op_Projects_ActionStartMode($this->action, $this->mapper);
+            if ($obj->isUnacknowledged()) {
+                $unacknowledgedStart = true;
+            }
+        }
+
         $receiptToAcceptOrReject = false;
         if ($this->action->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_RECEIVED) {
             $tester = new C3op_Access_PrivilegeTester($user, $acl, "projects", "action", "accept-receipt");
@@ -79,6 +88,7 @@ class C3op_Projects_ActionHeader {
 
 
         $this->data['canRemoveAction'] = $canRemoveAction;
+        $this->data['unacknowledgedStart'] = $unacknowledgedStart;
         $this->data['receiptToAcceptOrReject'] = $receiptToAcceptOrReject;
         $this->data['waitingToReceipt'] = $waitingToReceipt;
         $this->data['readyToDelivery'] = $readyToDelivery;

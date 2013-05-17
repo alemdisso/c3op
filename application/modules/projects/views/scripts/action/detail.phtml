@@ -15,6 +15,7 @@ function acknowledgeStart(id){
     url:'/projects/action/acknowledge-start',
     success: function(successReturn){
       $('#acknowledgeStart-'+id).html(successReturn);
+      $('#changeStartButton').hide();
     }
   })
 }
@@ -134,39 +135,6 @@ $(document).ready(function(){
 
 </script>
 
-<script type="text/javascript">
-
-$(document).ready(function(){
-
-        $("#editDeliveryDateDiv").hide();
-        $("#editDeliveryDateButton").show();
-
-    $('#editDeliveryDateButton').click(function(){
-        $.ajax({
-            type: 'get',
-            data: 'id=<?php print $actionHeader['id'] ?>',
-            url:'/projects/action/edit-delivery-date',
-            success: function(successReturn){
-            $('#budgetFormDiv').html(successReturn);
-            }
-        })
-
-        $("#labelDeliveryDateDiv").hide();
-
-         $("#editDeliveryDateDiv").slideToggle();
-         $("#editDeliveryDateButton").hide();
-    });
-    $('#hideDeliveryHref').click(function(){
-         $("#editDeliveryDateDiv").slideToggle();
-         $("#labelDeliveryDateDiv").show();
-         $("#editDeliveryDateButton").show();
-    });
-
-
-
-});
-
-</script>
 
         <div id="MainHeader">
           <h1><?php print($this->translate("#Project")); ?> <a href="/projects/project/detail/?id=<?php print($actionHeader['projectId']) ?>"><?php print($actionHeader['projectTitle']) ?></a></h1>
@@ -312,6 +280,22 @@ if ($parentId > 0) {
   } else {
 ?>
             &nbsp;
+<?php
+  }
+?>
+<?php
+  if ($actionHeader['unacknowledgedStart']) {
+?>
+              <a anchor="start"></a>
+            <br clear="all" />
+          <div class="seven columns offset-by-three" >
+            <div id='acknowledgeStart-<?php print($actionHeader['id']); ?>'>
+              <a class="two columns button alpha" href="javascript:acknowledgeStart('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Acknowledge start")); ?></a>
+            </div>
+            <div id='changeStartButton'>
+              <a class="two columns offset-by-one button alpha" href="/projects/action/change-start/?id=<?php print($actionHeader['id']); ?>"><?php print($this->translate("#Change start date")); ?></a>
+            </div>
+          </div>
 <?php
   }
 ?>

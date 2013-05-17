@@ -131,7 +131,7 @@ class C3op_Projects_ActionMapper
         $this->identityMap[$obj] = $id;
 
         $this->fetchDates($obj);
-        //$check = new C3op_Projects_ActionCheckStart($obj, $this);
+        $check = new C3op_Projects_ActionCheckStart($obj, $this);
         return $obj;
 
     }
@@ -323,6 +323,34 @@ class C3op_Projects_ActionMapper
             $acknowledgeDate = $result['timestamp'];
         }
         return ($acknowledgeDate);
+
+    }
+
+   public function getLastCancelStartDate(C3op_Projects_Action $obj)
+    {
+        $query = $this->db->prepare('SELECT timestamp FROM projects_actions_events WHERE action = :action AND type = :type ORDER BY timestamp DESC LIMIT 1;');
+        $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':type', C3op_Projects_ActionEventConstants::EVENT_BEGIN_CANCEL_AUTO_START, PDO::PARAM_STR);
+        $query->execute();
+        $result = $query->fetch();
+
+        if (empty($result)) {
+            $acknowledgeDate = null;
+        } else {
+            $acknowledgeDate = $result['timestamp'];
+        }
+        return ($acknowledgeDate);
+
+    }
+
+   public function deleteLastAutomaticStartEvent(C3op_Projects_Action $obj)
+    {
+        $query = $this->db->prepare('DELETE FROM projects_actions_events WHERE action = :action AND type = :type ORDER BY timestamp DESC LIMIT 1;');
+        $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':type', C3op_Projects_ActionEventConstants::EVENT_BEGIN_CANCEL_AUTO_START, PDO::PARAM_STR);
+        $query->execute();
+
+        return (null);
 
     }
 

@@ -62,7 +62,7 @@ class C3op_Form_ResponsibleContract extends Zend_Form
 
 
         $observation = new Zend_Form_Element_Textarea('observation');
-        $observation->setLabel('Observações:')
+        $observation->setLabel('#Observation:')
             ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
@@ -170,10 +170,12 @@ class C3op_Form_ResponsibleContract extends Zend_Form
                 $contracting = new C3op_Resources_ResponsibleContracting();
                 $contracting->responsibleContract($itsAction, $responsible, $responsibleMapper);
                 if ($itsAction->GetPredictedBeginDate() != $newBeginDate) {
-                    C3op_Projects_ActionDateChange::ChangePredictedBeginDate($itsAction, $actionMapper, $newBeginDate, $observation);
+                    $dataChanger = new C3op_Projects_ActionDateChange($itsAction, $actionMapper);
+                    $dataChanger->ChangePredictedBeginDate($newBeginDate, $observation);
                 }
                 if ($itsAction->GetPredictedFinishDate() != $newFinishDate) {
-                    C3op_Projects_ActionDateChange::ChangePredictedFinishDate($itsAction, $actionMapper, $newFinishDate, $observation);
+                    $dataChanger = new C3op_Projects_ActionDateChange($itsAction, $actionMapper);
+                    $dataChanger->ChangePredictedFinishDate($newBeginDate, $observation);
                 }
 
                 $actionMapper->update($itsAction);

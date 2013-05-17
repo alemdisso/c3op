@@ -160,7 +160,7 @@ class Projects_IndexController extends Zend_Controller_Action
             $canSeeFinances = true;
         } else {
             $canSeeFinances = false;
-            
+
         }
 
 
@@ -220,10 +220,9 @@ class Projects_IndexController extends Zend_Controller_Action
 
                 if ($validator->isValid($contractualDeliveryDate)) {
 
+                    $dateDiff = new C3op_Util_DatesDifferenceInDays();
                     $now = time(); // or your date as well
-
-                    $datediff = strtotime($contractualDeliveryDate) - $now;
-                    $nextDifferenceInDays = floor($datediff/(60*60*24));
+                    $nextDifferenceInDays = $dateDiff->differenceInDays(strtotime($contractualDeliveryDate), $now);
 
                     if ($nextDifferenceInDays < 0) {
                         $nextDeliveryDue = true;
@@ -309,9 +308,9 @@ class Projects_IndexController extends Zend_Controller_Action
                         $validator = new C3op_Util_ValidDate();
                         $deliveryDue = true;
                         if ($validator->isValid($predictedFinishDate)) {
+                            $dateDiff = new C3op_Util_DatesDifferenceInDays();
                             $now = time(); // or your date as well
-                            $datediff = strtotime($predictedFinishDate) - $now;
-                            $differenceInDays = floor($datediff/(60*60*24));
+                            $differenceInDays = $dateDiff->differenceInDays(strtotime($predictedFinishDate), $now);
                             if ($differenceInDays >= 0) {
                                 $deliveryDue = false;
                             }
@@ -321,6 +320,7 @@ class Projects_IndexController extends Zend_Controller_Action
                     } else {
                         $realFinishDate = $loopProduct->getRealFinishDate();
                         $formatedRealDate = C3op_Util_DateDisplay::FormatDateToShow($realFinishDate);
+                        $differenceInDays = "0";
                     }
 
                     $productData['realFinishDate'] = $formatedRealDate;

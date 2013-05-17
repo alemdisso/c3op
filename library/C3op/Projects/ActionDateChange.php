@@ -2,52 +2,79 @@
 
 class C3op_Projects_ActionDateChange {
 
-    public static function ChangePredictedBeginDate(C3op_Projects_Action $action,
-                                   C3op_Projects_ActionMapper $actionMapper,
-                                   $newDate,
-                                   $observation)
+    private $action;
+    private $mapper;
+
+    public function __construct(C3op_Projects_Action $action, C3op_Projects_ActionMapper $mapper)
+    {
+        $this->action = $action;
+        $this->mapper = $mapper;
+    }
+
+    public function ChangePredictedBeginDate($newDate, $observation)
     {
 
-        if ($action->GetPredictedBeginDate() != $newDate){
+        if ($this->action->GetPredictedBeginDate() != $newDate){
 
-            $action->SetPredictedBeginDate($newDate);
-            $actionMapper->update($action);
+            $this->action->SetPredictedBeginDate($newDate);
+            $this->mapper->update($this->action);
 
-            self::LogPredictedBeginDateChanging($action, $observation);
+            $this->LogPredictedBeginDateChanging($observation);
         }
 
     }
 
-    public static function ChangePredictedFinishDate(C3op_Projects_Action $action,
-                                   C3op_Projects_ActionMapper $actionMapper,
-                                   $newDate,
-                                   $observation)
+    public function ChangeRealBeginDate($newDate, $observation)
     {
-        if ($action->GetPredictedFinishDate() != $newDate) {
 
-            $action->SetPredictedFinishDate($newDate);
-            $actionMapper->update($action);
+        if ($this->action->GetRealBeginDate() != $newDate){
 
-            self::LogPredictedFinishDateChanging($action, $observation);
+            $this->action->SetRealBeginDate($newDate);
+            $this->mapper->update($this->action);
+
+            $this->LogRealBeginDateChanging($observation);
         }
 
     }
 
-    private function LogPredictedBeginDateChanging(C3op_Projects_Action $action, $observation)
+    public  function ChangePredictedFinishDate($newDate, $observation)
+    {
+        if ($this->action->GetPredictedFinishDate() != $newDate) {
+
+            $this->action->SetPredictedFinishDate($newDate);
+            $this->mapper->update($this->action);
+
+            $this->LogPredictedFinishDateChanging($observation);
+        }
+
+    }
+
+    private function LogPredictedBeginDateChanging($observation)
+    {
+        $this->LogADateChanging(C3op_Projects_ActionEventConstants::EVENT_PLANNED_BEGIN_DATE_CHANGE, $observation);
+    }
+
+    private function LogRealBeginDateChanging($observation)
+    {
+        $this->LogADateChanging(C3op_Projects_ActionEventConstants::EVENT_BEGIN_DATE_CHANGE, $observation);
+    }
+
+    private function LogPredictedFinishDateChanging($observation)
+    {
+        $this->LogADateChanging(C3op_Projects_ActionEventConstants::EVENT_PLANNED_FINISH_DATE_CHANGE, $observation);
+    }
+
+    private function LogADateChanging($event, $observation)
     {
         $logger = new C3op_Projects_EventLogger();
-        $logger->LogActionEvent($action,
-                C3op_Projects_ActionEventConstants::EVENT_PLANNED_BEGIN_DATE_CHANGE,
+        $logger->LogActionEvent($this->action,
+                $event,
                 $observation);
     }
 
-    private function LogPredictedFinishDateChanging(C3op_Projects_Action $action, $observation)
-    {
-        $logger = new C3op_Projects_EventLogger();
-        $logger->LogActionEvent($action,
-                C3op_Projects_ActionEventConstants::EVENT_PLANNED_FINISH_DATE_CHANGE,
-                $observation);
-    }
+
+
+
 }
 
 

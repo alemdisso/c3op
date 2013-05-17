@@ -1,0 +1,20 @@
+<?php
+$pageData = $this->pageData;
+?>
+<div id="MainHeader">
+<h1><?php print($this->translate("#Inform new start date")); ?> </h1>
+<div class="TituloForm">
+<p><?php print($this->translate('#Enter below the real date of beginning and justify it')); ?></p>
+</div>
+</div>
+
+<form id="form" action="<?php echo $this->escape($this->form->getAction()); ?>" method="<?php echo $this->escape($this->form->getMethod()); ?>">
+<table>
+    <?php echo $this->form->id ?>
+    <?php echo $this->form->newStartDate ?>
+    <?php echo $this->form->newFinishDate ?>
+  <?php echo $this->form->observation ?>
+  <?php echo $this->form->submit ?>
+</table>
+</form>
+

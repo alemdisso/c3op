@@ -304,15 +304,13 @@ class C3op_Projects_Action {
 
     public function setRealBeginDate($realBeginDate)
     {
-        if ($realBeginDate != "") {
-            $dateValidator = new C3op_Util_ValidDate();
-            if ((is_null($realBeginDate)) || ($dateValidator->isValid($realBeginDate))) {
-                if ($this->realBeginDate != $realBeginDate) {
-                    $this->realBeginDate = $realBeginDate;
-                }
-            } else {
-                throw new C3op_Projects_ActionException("This ($realBeginDate) is not a valid date of begin.");
+        $dateValidator = new C3op_Util_ValidDate();
+        if ((is_null($realBeginDate)) || ($dateValidator->isValid($realBeginDate))) {
+            if ($this->realBeginDate != $realBeginDate) {
+                $this->realBeginDate = $realBeginDate;
             }
+        } else {
+            throw new C3op_Projects_ActionException("This ($realBeginDate) is not a valid date of begin.");
         }
     } //SetRealBeginDate
 

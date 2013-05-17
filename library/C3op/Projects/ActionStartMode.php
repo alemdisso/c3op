@@ -16,10 +16,14 @@ class C3op_Projects_ActionStartMode {
         $lastAutoStart = $this->actionMapper->GetLastAutoStartDate($this->action);
         if (!is_null($lastAutoStart)) {
             $lastAcknowledgment = $this->actionMapper->GetLastAcknowledgeStartDate($this->action);
-            if (is_null($lastAcknowledgment)) {
+            $lastCancel = $this->actionMapper->GetLastCancelStartDate($this->action);
+            if ((is_null($lastAcknowledgment)) && (is_null($lastCancel))) {
                 return true;
             } else {
-                if ($lastAcknowledgment < $lastAutoStart) {
+                if (!(is_null($lastAcknowledgment)) && ($lastAcknowledgment < $lastAutoStart)) {
+                    return true;
+                }
+                if (!(is_null($lastCancel)) && ($lastCancel < $lastAutoStart)) {
                     return true;
                 }
             }

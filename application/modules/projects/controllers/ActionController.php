@@ -113,6 +113,67 @@ class Projects_ActionController extends Zend_Controller_Action
 
 
 
+    public function changeStartAction()
+    {
+        //$this->_helper->layout->disableLayout();
+
+        // cria form
+        $form = new C3op_Form_ChangeStartDate;
+        $this->view->form = $form;
+
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            if ($form->isValid($postData)) {
+                $actionId = $form->process($postData);
+
+                $this->_helper->viewRenderer->setNoRender(TRUE);
+                $this->_redirect('/projects/action/detail/?id=' . $actionId);
+            } else {
+                //form error: populate and go back
+                $actionId = $postData['id'];
+                $result = $this->givenActionIdGetActionAndProjectObjects($actionId);
+                $parentAction = $result['actionObj'];
+                $projectAction = $result['projectObj'];
+
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
+        } else {
+            $data = $this->_request->getParams();
+
+            $actionId = $data['id'];
+
+            if (!isset($this->actionMapper)) {
+                $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
+            }
+            if (!isset($this->projectMapper)) {
+                $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
+            }
+            $parentAction = $this->actionMapper->findById($actionId);
+            $projectId = $parentAction->getProject();
+            $projectAction = $this->projectMapper->findById($projectId);
+
+
+            $actionField = $form->getElement('id');
+            $actionField->setValue($actionId);
+
+            $this->setDateValueToFormField($form, 'newStartDate', $parentAction->GetPredictedBeginDate());
+            $this->setDateValueToFormField($form, 'newFinishDate', $parentAction->GetPredictedFinishDate());
+
+        }
+
+        $pageData = array(
+            'actionId' => $actionId,
+            'actionTitle' => $parentAction->GetTitle(),
+            'projectId' => $parentAction->GetProject(),
+            'projectTitle' => $projectAction->GetShortTitle(),
+            'predictedBeginDate' => C3op_Util_DateDisplay::FormatDateToShow($parentAction->GetPredictedBeginDate()),
+        );
+
+        $this->view->pageData = $pageData;
+
+    }
+
     public function createAction()
     {
         // cria form
