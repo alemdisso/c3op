@@ -443,14 +443,14 @@ class Register_LinkageController extends Zend_Controller_Action
         }
         if ($currentInstitution > 0) {
             $linkageInstitution = $this->institutionMapper->findById($currentInstitution);
-            $this->view->institutionName = $linkageInstitution->GetName();
+            $this->view->institutionName = $linkageInstitution->GetShortName();
             $this->view->linkInstitutionDetail = "/register/institution/detail/?id=" . $currentInstitution;
         }
 
-        $allInstitutions = $this->institutionMapper->getAllIdsOrderedByName();
+        $allInstitutions = $this->institutionMapper->getAllIdsOrderedByShortName();
         while (list($key, $institutionId) = each($allInstitutions)) {
             $eachInstitution = $this->institutionMapper->findById($institutionId);
-            $institutionField->addMultiOption($institutionId, $eachInstitution->GetName());
+            $institutionField->addMultiOption($institutionId, $eachInstitution->GetShortName());
         }
         $institutionField->setValue($currentInstitution);
    }
