@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-03 14:28-0300\n"
-"PO-Revision-Date: 2013-04-03 14:29-0300\n"
+"POT-Creation-Date: 2013-05-17 09:08-0300\n"
+"PO-Revision-Date: 2013-05-17 09:09-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -22,7 +22,8 @@ msgstr "Material criado."
 
 #: application\modules\resources/controllers/MaterialSupplyController.php:93
 #: application\modules\resources/controllers/OutsideServiceController.php:93
-#: application\modules\resources/controllers/ResponsibleController.php:160
+#: application\modules\resources/controllers/ResponsibleController.php:244
+#: application\modules\resources/controllers/ResponsibleController.php:248
 #: application\modules\resources/controllers/TeamMemberController.php:91
 msgid "#The record was successfully updated."
 msgstr "O registro foi atualizado com sucesso."
@@ -45,17 +46,24 @@ msgstr "O serviço foi criado."
 msgid "#The outside service is contracted."
 msgstr "Contratação confirmada."
 
-#: application\modules\resources/controllers/TeamMemberController.php:37
-msgid "#The team member was created."
-msgstr "O membro de equipe foi criado."
-
+#: application\modules\resources/controllers/ResponsibleController.php:75
 #: application\modules\resources/controllers/TeamMemberController.php:169
 msgid "#The team member is contracted."
 msgstr "Contratação confirmada."
 
+#: application\modules\resources/controllers/ResponsibleController.php:119
+#, php-format
+msgid "#A %s budget was provided"
+msgstr "Foi prevista uma verba de %s."
+
+#: application\modules\resources/controllers/ResponsibleController.php:410
 #: application\modules\resources/controllers/TeamMemberController.php:336
 msgid "#The team member was dismissed."
 msgstr "O distrato foi registrado."
+
+#: application\modules\resources/controllers/TeamMemberController.php:37
+msgid "#The team member was created."
+msgstr "O membro de equipe foi criado."
 
 #: library\C3op\resources/MaterialSupplyStatusTypes.php:32
 #: library\C3op\resources/OutsideServiceStatusTypes.php:32
@@ -111,12 +119,15 @@ msgstr "Serviço externo"
 
 #: application\modules\resources/views/scripts/material-supply/contract.phtml:5
 #: application\modules\resources/views/scripts/outside-service/contract.phtml:5
+#: application\modules\resources/views/scripts/responsible/contract.phtml:5
 #: application\modules\resources/views/scripts/team-member/contract.phtml:5
 msgid "#Confirm contracting"
 msgstr "Confirmar contratação de"
 
 #: application\modules\resources/views/scripts/material-supply/contract.phtml:7
 #: application\modules\resources/views/scripts/outside-service/contract.phtml:7
+#: application\modules\resources/views/scripts/responsible/contract.phtml:7
+#: application\modules\resources/views/scripts/responsible/dismiss.phtml:7
 #: application\modules\resources/views/scripts/team-member/contract.phtml:7
 #: application\modules\resources/views/scripts/team-member/dismiss.phtml:7
 msgid "#In action "
@@ -124,6 +135,7 @@ msgstr "na ação"
 
 #: application\modules\resources/views/scripts/material-supply/contract.phtml:8
 #: application\modules\resources/views/scripts/outside-service/contract.phtml:8
+#: application\modules\resources/views/scripts/responsible/contract.phtml:8
 #: application\modules\resources/views/scripts/team-member/contract.phtml:8
 msgid ""
 "#Enter below the contracted dates for the beginning and end of the action"
@@ -197,21 +209,23 @@ msgstr "Ação foi atribuída"
 msgid "#%s was assigned responsible for this action"
 msgstr "%s é responsável por essa ação."
 
-#: application\modules\resources/views/scripts/responsible/create.phtml:53
+#: application\modules\resources/views/scripts/responsible/create.phtml:62
 msgid "#choose someone"
 msgstr "escolha uma pessoa"
 
-#: application\modules\resources/views/scripts/team-member/create.phtml:8
-msgid "#New team member for action"
-msgstr "Novo membro de equipe para a ação"
-
+#: application\modules\resources/views/scripts/responsible/dismiss.phtml:5
 #: application\modules\resources/views/scripts/team-member/dismiss.phtml:5
 msgid "#Confirm dismissing"
 msgstr "Confirmar distrato"
 
+#: application\modules\resources/views/scripts/responsible/dismiss.phtml:8
 #: application\modules\resources/views/scripts/team-member/dismiss.phtml:8
 msgid "#Enter below the reason for dismissing"
 msgstr "Informe os motivos do distrato"
+
+#: application\modules\resources/views/scripts/team-member/create.phtml:8
+msgid "#New team member for action"
+msgstr "Novo membro de equipe para a ação"
 
 #: application\modules\resources/views/scripts/team-member/edit.phtml:5
 msgid "#Edit team member"
