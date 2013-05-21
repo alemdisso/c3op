@@ -52,12 +52,19 @@ class C3op_Projects_ActionHeader {
 
 
         $unacknowledgedStart = false;
+        $userCanAcknowledge = false;
         if ($this->action->hasBegun()) {
             $obj = new C3op_Projects_ActionStartMode($this->action, $this->mapper);
             if ($obj->isUnacknowledged()) {
                 $unacknowledgedStart = true;
+                $tester = new C3op_Access_PrivilegeTester($user, $acl, "projects", "action", "acknowledge-start");
+                if ($tester->allow()) {
+                    $userCanAcknowledge = true;
+                }
             }
         }
+
+
 
         $receiptToAcceptOrReject = false;
         if ($this->action->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_RECEIVED) {
@@ -88,7 +95,7 @@ class C3op_Projects_ActionHeader {
 
 
         $this->data['canRemoveAction'] = $canRemoveAction;
-        $this->data['unacknowledgedStart'] = $unacknowledgedStart;
+        $this->data['canAcknowledge'] = $userCanAcknowledge;
         $this->data['receiptToAcceptOrReject'] = $receiptToAcceptOrReject;
         $this->data['waitingToReceipt'] = $waitingToReceipt;
         $this->data['readyToDelivery'] = $readyToDelivery;

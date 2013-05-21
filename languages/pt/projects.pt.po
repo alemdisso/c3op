@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-17 09:07-0300\n"
-"PO-Revision-Date: 2013-05-17 09:08-0300\n"
+"POT-Creation-Date: 2013-05-21 16:24-0300\n"
+"PO-Revision-Date: 2013-05-21 16:24-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -16,23 +16,23 @@ msgstr ""
 "X-Poedit-SearchPath-0: application\\modules\\projects\n"
 "X-Poedit-SearchPath-1: library\\C3op\\projects\n"
 
-#: application\modules\projects/controllers/ActionController.php:188
-#: application\modules\projects/controllers/ActionController.php:252
+#: application\modules\projects/controllers/ActionController.php:246
+#: application\modules\projects/controllers/ActionController.php:310
 msgid "#The record was successfully created."
 msgstr "O registro foi criado com sucesso."
 
-#: application\modules\projects/controllers/ActionController.php:217
+#: application\modules\projects/controllers/ActionController.php:275
 msgid "#Create product"
 msgstr "Adicionar produto"
 
-#: application\modules\projects/controllers/ActionController.php:221
+#: application\modules\projects/controllers/ActionController.php:279
 #, php-format
 msgid "#Create action subordinated to %s"
 msgstr "Criar ação subordinada a %s"
 
-#: application\modules\projects/controllers/ActionController.php:294
-#: application\modules\projects/controllers/ActionController.php:380
-#: application\modules\projects/controllers/ActionController.php:645
+#: application\modules\projects/controllers/ActionController.php:352
+#: application\modules\projects/controllers/ActionController.php:440
+#: application\modules\projects/controllers/ActionController.php:705
 #: application\modules\projects/controllers/ContractController.php:34
 #: application\modules\projects/controllers/ContractController.php:157
 #: application\modules\projects/controllers/ProjectController.php:48
@@ -40,15 +40,15 @@ msgstr "Criar ação subordinada a %s"
 msgid "#The record was successfully updated."
 msgstr "O registro foi atualizado com sucesso."
 
-#: application\modules\projects/controllers/ActionController.php:541
+#: application\modules\projects/controllers/ActionController.php:601
 msgid "#The record was successfully removed."
 msgstr "O registro foi removido com sucesso."
 
-#: application\modules\projects/controllers/ActionController.php:723
+#: application\modules\projects/controllers/ActionController.php:783
 msgid "#It needs a positive integer project id to populate project fields."
 msgstr "It needs a positive integer project id to populate project fields."
 
-#: application\modules\projects/controllers/ActionController.php:741
+#: application\modules\projects/controllers/ActionController.php:801
 msgid ""
 "#It needs a positive integer project id to find other actions from same "
 "project."
@@ -56,16 +56,16 @@ msgstr ""
 "It needs a positive integer project id to find other actions from same "
 "project."
 
-#: application\modules\projects/controllers/ActionController.php:1017
-#: application\modules\projects/controllers/ActionController.php:1105
+#: application\modules\projects/controllers/ActionController.php:1077
+#: application\modules\projects/controllers/ActionController.php:1165
 #: application\modules\projects/controllers/ProjectController.php:1021
 msgid "(#not defined)"
 msgstr "(não definido)"
 
-#: application\modules\projects/controllers/ActionController.php:1226
+#: application\modules\projects/controllers/ActionController.php:1287
 #, php-format
-msgid "#Finish predicted for %s"
-msgstr "Término previsto para %s"
+msgid "#Predicted finish: %s Real Finish: %s"
+msgstr "Término previsto: %s<br>Término real: %s"
 
 #: application\modules\projects/controllers/ContractController.php:92
 #: application\modules\projects/controllers/IndexController.php:339
@@ -150,9 +150,9 @@ msgid "#(undefined)"
 msgstr "(indefinido)"
 
 #: application\modules\projects/controllers/ProjectController.php:923
-#: library\C3op\projects/ActionHeader.php:296
-#: library\C3op\projects/ActionHeader.php:332
-#: library\C3op\projects/ActionHeader.php:334
+#: library\C3op\projects/ActionHeader.php:303
+#: library\C3op\projects/ActionHeader.php:339
+#: library\C3op\projects/ActionHeader.php:341
 #: library\C3op\projects/ActionResponsible.php:118
 #: library\C3op\projects/ActionResponsible.php:120
 #: library\C3op\projects/ActionResponsible.php:123
@@ -160,8 +160,8 @@ msgid "#(unassigned)"
 msgstr "(não atribuído)"
 
 #: application\modules\projects/controllers/ProjectController.php:924
-#: library\C3op\projects/ActionHeader.php:297
-#: library\C3op\projects/ActionHeader.php:333
+#: library\C3op\projects/ActionHeader.php:304
+#: library\C3op\projects/ActionHeader.php:340
 msgid "#(unknown)"
 msgstr "(desconhecido)"
 
@@ -187,7 +187,7 @@ msgstr "Datas indefinidas"
 msgid "#Unknown type"
 msgstr "Tipo indefinido"
 
-#: library\C3op\projects/ActionHeader.php:153
+#: library\C3op\projects/ActionHeader.php:160
 msgid "#(not started)"
 msgstr "(não iniciada)"
 
@@ -351,10 +351,12 @@ msgstr "A verba foi prevista"
 msgid "#%s was provided for this action"
 msgstr "Foi prevista uma verba de %s para essa ação."
 
+#: application\modules\projects/views/scripts/action/change-receipt.phtml:5
 #: application\modules\projects/views/scripts/action/change-start.phtml:5
 msgid "#Inform new start date"
 msgstr "Informe as datas atualizadas"
 
+#: application\modules\projects/views/scripts/action/change-receipt.phtml:7
 #: application\modules\projects/views/scripts/action/change-start.phtml:7
 msgid "#Enter below the real date of beginning and justify it"
 msgstr "Justifique a alteração das datas"
@@ -1031,6 +1033,9 @@ msgstr "Email"
 #: application\modules\projects/views/scripts/project/full-detail.phtml:370
 msgid "#Phone number"
 msgstr "Telefone"
+
+#~ msgid "#Finish predicted for %s"
+#~ msgstr "Término previsto para %s"
 
 #~ msgid "#Not implemented"
 #~ msgstr "(Não implementado)"

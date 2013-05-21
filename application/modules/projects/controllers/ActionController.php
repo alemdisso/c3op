@@ -1283,7 +1283,8 @@ class Projects_ActionController extends Zend_Controller_Action
             $thisProject = $this->projectMapper->findById($projectId);
             $currencyDisplay = new  C3op_Util_CurrencyDisplay();
             $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($action->getPredictedFinishDate());
-            $actionDetails = sprintf ($this->view->translate("#Finish predicted for %s"), $predictedDate);
+            $realDate = C3op_Util_DateDisplay::FormatDateToShow($action->getRealFinishDate());
+            $actionDetails = sprintf ($this->view->translate("#Predicted finish: %s Real Finish: %s"), $predictedDate, $realDate);
 
             $data = array(
                 'title'             => $action->getTitle(),

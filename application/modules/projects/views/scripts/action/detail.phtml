@@ -284,7 +284,7 @@ if ($parentId > 0) {
   }
 ?>
 <?php
-  if ($actionHeader['unacknowledgedStart']) {
+  if ($actionHeader['canAcknowledge']) {
 ?>
               <a anchor="start"></a>
             <br clear="all" />
@@ -336,7 +336,7 @@ if ($parentId > 0) {
           <div class="six columns inset-by-four">
             <div id="receiptAcknowledgement-<?php print($actionHeader['id']);?>">
               <div class="four columns alpha offset-by-three">
-                <a class="button full column alpha omega parent_info" href="/projects/action/delivery-notify/?id='<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Notify product delivery")); ?></a>
+                <a class="button full column alpha omega parent_info" href="/projects/action/delivery-notify/?id=<?php print($actionHeader['id']); ?>"><?php print($this->translate("#Notify product delivery")); ?></a>
               </div>
             </div>
           </div>
