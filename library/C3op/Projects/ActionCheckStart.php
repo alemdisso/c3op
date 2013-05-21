@@ -35,11 +35,10 @@ class C3op_Projects_ActionCheckStart {
 
             $compare = new C3op_Util_DateCompare();
 
+            $action->SetStatus(C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION);
             if ($compare->isPast($action->getPredictedFinishDate())) {
-                $action->SetStatus(C3op_Projects_ActionStatusConstants::STATUS_COMPLETE);
-                $action->SetRealFinishDate($action->getPredictedFinishDate());
-            } else {
-                $action->SetStatus(C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION);
+                //$action->SetStatus(C3op_Projects_ActionStatusConstants::STATUS_COMPLETE);
+                //$action->SetRealFinishDate($action->getPredictedFinishDate());
             }
             $actionMapper->update($action);
 
