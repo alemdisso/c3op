@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-03 08:53-0300\n"
-"PO-Revision-Date: 2013-05-03 09:12-0300\n"
+"POT-Creation-Date: 2013-05-21 17:03-0300\n"
+"PO-Revision-Date: 2013-05-21 17:04-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -262,10 +262,9 @@ msgstr "Beneficiado"
 
 #: application\modules\finances/views/scripts/index/index.phtml:189
 #: application\modules\finances/views/scripts/index/index.phtml:314
-#: application\modules\finances/views/scripts/project/detail.phtml:232
 #: application\modules\finances/views/scripts/project/detail.phtml:325
-msgid "#Predicted date"
-msgstr "Data prevista"
+msgid "#Payment Predicted date"
+msgstr "Pagamento previsto"
 
 #: application\modules\finances/views/scripts/index/index.phtml:190
 #: application\modules\finances/views/scripts/project/detail.phtml:234
@@ -405,6 +404,10 @@ msgstr "Pagamentos"
 #: application\modules\finances/views/scripts/project/detail.phtml:231
 msgid "#Parcel"
 msgstr "Parcela"
+
+#: application\modules\finances/views/scripts/project/detail.phtml:232
+msgid "#Receiving Predicted date"
+msgstr "Recebimento previsto"
 
 #: application\modules\finances/views/scripts/project/detail.phtml:270
 msgid "#Add product"

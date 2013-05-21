@@ -22,6 +22,22 @@ class C3op_Form_ProductDeliveryNotify extends Zend_Form
         $this->addElement($element);
         $element->setDecorators(array('ViewHelper'));
 
+        $observation = new Zend_Form_Element_Textarea('observation');
+        $observation->setLabel('#Observation:')
+            ->setDecorators(array(
+                'ViewHelper',
+                'Errors',
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+            ))
+            ->setOptions(array('class' => 'Full alpha omega'))
+            ->setAttrib('cols','8')
+            ->setAttrib('rows','5')
+            ->setRequired(false)
+            //->addFilter('HtmlEntities')
+            ->addFilter('StringTrim');
+        $this->addElement($observation);
+
 //        $element = new Zend_Form_Element_Text('title');
 //        $element->setLabel('#Delivery')
 //                ->setDecorators(array(
@@ -80,6 +96,13 @@ class C3op_Form_ProductDeliveryNotify extends Zend_Form
 
 
             $realDate = $this->realDate->GetValue();
+
+            $dateChanged = false;
+            if (($dateValidator->isValid($realDate)) && (!is_null($formerPredictedBeginDate)) && ($formerPredictedBeginDate != $newBeginDate)) {
+                $dateChanged = true;
+            }
+      
+
             $dateValidator = new C3op_Util_ValidDate();
             if ($dateValidator->isValid($realDate))
             {
@@ -87,12 +110,23 @@ class C3op_Form_ProductDeliveryNotify extends Zend_Form
                 $dateForMysql = $converter->convertDateToMySQLFormat($realDate);
                 $realDateConvertedToMySQL = $dateForMysql;
             }
+            $observation = $this->observation->GetValue();
 
 
-            $action = $actionMapper->findById($id);
-            $notification = new C3op_Projects_DeliveryNotification();
-            $notification->NotifyDelivery($action, $actionMapper);
-            return ($id);
+            $observation = $this->observation->GetValue();
+            if (($dateChanged || $valueChanged) && ($observation == "")) {
+                if ($dateChanged) {
+                    throw new C3op_Form_ResponsibleCreateException('#Date changing must be justified');
+                }
+                if ($valueChanged) {
+                    throw new C3op_Form_ResponsibleCreateException('#Value changing must be justified');
+                }
+            } else {
+                $action = $actionMapper->findById($id);
+                $notification = new C3op_Projects_DeliveryNotification();
+                $notification->NotifyDelivery($action, $actionMapper);
+                return ($id);
+            }
         }
     }
 

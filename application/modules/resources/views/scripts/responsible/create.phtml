@@ -22,6 +22,7 @@
         $('#submit').hide();
 
         $('#responsibleType-service').click(function(){
+            populateResponsibleAtSupplier();
             $('#linkage-label').show();
             $('#linkage').show();
             $('#linkage').prop('disabled', true);
@@ -35,6 +36,8 @@
             })
 
         $('#responsibleType-teamMember').click(function(){
+            initLinkages();
+            $('#linkage').prop('disabled', false);
             $('#linkage-label').show();
             $('#linkage').show();
             $('#institution-label').hide();
@@ -75,6 +78,24 @@
 
 
             }
+
+            function initLinkages() {
+                $.getJSON('/resources/responsible/populate-contacts-field/?id=0', function(data) {
+                    var html = '';
+                    var len = data.length;
+                    html += '<option value="0">(<?php print($this->translate("#choose someone")); ?>)</option>';
+                    for (var i = 0; i< len; i++) {
+                    html += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                    }
+                    $('#linkage').prop('disabled', false);
+                    $('#linkage').empty();
+                    $('#linkage').append(html);
+                });
+
+
+            }
+
+
           </script>
 
 

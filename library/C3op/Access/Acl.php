@@ -61,6 +61,7 @@ public function __construct() {
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:finances.receivable', 'notify');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:finances.receivable', 'detail');
     $this->deny(C3op_Access_RolesConstants::ROLE_CONTROLLER,     'c3op:finances.receivable');
+    $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR,   'c3op:finances.receivable');
     $this->allow(C3op_Access_RolesConstants::ROLE_DIRECTOR,      'c3op:finances.receivable');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:finances.receivable');
 

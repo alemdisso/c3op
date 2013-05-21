@@ -475,6 +475,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
         if (!isset($this->contactMapper)) {
             $this->initContactMapper();
         }
+        
         if ($id > 0) {
             $linkagesList = $this->institutionMapper->getAllLinkagesAtAnInstitution($id);
             $selectedInstitution = $this->institutionMapper->findById($id);
