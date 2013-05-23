@@ -93,38 +93,34 @@ class C3op_Form_ProductDeliveryNotify extends Zend_Form
             $db = Zend_Registry::get('db');
             $actionMapper = new C3op_Projects_ActionMapper($db);
             $id = $data['id'];
+            $action = $actionMapper->findById($id);
 
+            $actionFinishDate = $action->getRealFinishDate();
 
-            $realDate = $this->realDate->GetValue();
-
-            $dateChanged = false;
-            if (($dateValidator->isValid($realDate)) && (!is_null($formerPredictedBeginDate)) && ($formerPredictedBeginDate != $newBeginDate)) {
-                $dateChanged = true;
-            }
-      
+            $productDeliveryDate = $this->realDate->GetValue();
 
             $dateValidator = new C3op_Util_ValidDate();
-            if ($dateValidator->isValid($realDate))
+
+            $dateChanged = false;
+            if (($dateValidator->isValid($productDeliveryDate)) && (!is_null($productDeliveryDate)) && ($productDeliveryDate != $actionFinishDate)) {
+                $dateChanged = true;
+            }
+
+
+            if ($dateValidator->isValid($productDeliveryDate))
             {
                 $converter = new C3op_Util_DateConverter();
-                $dateForMysql = $converter->convertDateToMySQLFormat($realDate);
+                $dateForMysql = $converter->convertDateToMySQLFormat($productDeliveryDate);
                 $realDateConvertedToMySQL = $dateForMysql;
             }
-            $observation = $this->observation->GetValue();
 
 
             $observation = $this->observation->GetValue();
-            if (($dateChanged || $valueChanged) && ($observation == "")) {
-                if ($dateChanged) {
-                    throw new C3op_Form_ResponsibleCreateException('#Date changing must be justified');
-                }
-                if ($valueChanged) {
-                    throw new C3op_Form_ResponsibleCreateException('#Value changing must be justified');
-                }
+            if (($dateChanged) && ($observation == "")) {
+                throw new C3op_Form_ResponsibleCreateException('#Date changing must be justified');
             } else {
-                $action = $actionMapper->findById($id);
                 $notification = new C3op_Projects_DeliveryNotification();
-                $notification->NotifyDelivery($action, $actionMapper);
+                $notification->NotifyDelivery($action, $actionMapper, $observation);
                 return ($id);
             }
         }
