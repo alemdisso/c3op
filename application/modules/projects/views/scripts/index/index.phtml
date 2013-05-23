@@ -83,6 +83,7 @@
         $receivableNodeId = "receivable-$receivableId";
         $receivableCounter++;
         $parcelLabel = $receivableData['receivableTitle'];
+        $receivableStatus = $receivableData['receivableStatus'];
 
 ?>
                     <tr id="node-<?php print ($receivableNodeId) ?>" class="<?php print ($classId) ?>">
@@ -99,7 +100,7 @@
 <?php
         }
 ?>
-                    <td>&nbsp;</td>
+                    <td><?php print($receivableStatus) ?></td>
 <!--                    <td>&nbsp;</td>-->
                     <td class="Right"><strong><?php print($differenceInDays) ?></strong></td>
                     <td><strong><?php print($contractualDate) ?></strong></td>

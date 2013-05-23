@@ -244,6 +244,7 @@ class Projects_IndexController extends Zend_Controller_Action
 
             $projectReceivables = $this->receivableMapper->getAllReceivables($thisProject);
             $receivablesData = array();
+            $receivableStatus = C3op_Finances_ReceivableStatusConstants::STATUS_NOT_DELIVERED;
 
             foreach ($projectReceivables as $receivableId) {
 
@@ -288,6 +289,9 @@ class Projects_IndexController extends Zend_Controller_Action
                 $requiredProductsData = array();
                 $statusTypes = new C3op_Projects_ActionStatusTypes();
 
+                $allProductsDelivered = true;
+                $noneProductsDelivered = true;
+                $someProductDelivered = false;
                 foreach($requiredProducts as $productId) {
 
                     $loopProduct = $this->actionMapper->findById($productId);
@@ -300,6 +304,15 @@ class Projects_IndexController extends Zend_Controller_Action
                     } else {
                         $formatedPredictedDate = $this->view->translate("#(undefined date)");
                     }
+
+                    $productStatus = $loopProduct->getStatus();
+                    if ($productStatus == C3op_Projects_ActionStatusConstants::STATUS_DELIVERED) {
+                        $noneProductsDelivered = false;
+                        $someProductDelivered = true;
+                    } else {
+                        $allProductsDelivered = false;
+                    }
+
 
                     $realFinishDate = "";
                     $formatedRealDate = $this->view->translate("#(not done)");
@@ -329,9 +342,6 @@ class Projects_IndexController extends Zend_Controller_Action
                     $productData['deliveryDue'] = $deliveryDue;
 
 
-
-
-
                     if ($loopProduct->getSupervisor()) {
                         $theContact = $this->contactMapper->findById($loopProduct->getSupervisor());
                         $productData['responsibleName'] = $theContact->getName();
@@ -345,6 +355,16 @@ class Projects_IndexController extends Zend_Controller_Action
 
                 }
 
+                if ($noneProductsDelivered) {
+                    $receivableStatus = C3op_Finances_ReceivableStatusConstants::STATUS_NOT_DELIVERED;
+                } else if ($allProductsDelivered) {
+                    $receivableStatus = C3op_Finances_ReceivableStatusConstants::STATUS_DELIVERED;
+                }  else if ($someProductDelivered) {
+                    $receivableStatus = C3op_Finances_ReceivableStatusConstants::STATUS_PARTIAL;
+                }
+                $obj = new C3op_Finances_ReceivableStatusTypes();
+                $receivableStatus = $this->view->translate($obj->TitleForType($receivableStatus));
+
 
 
 
@@ -356,6 +376,7 @@ class Projects_IndexController extends Zend_Controller_Action
                     'receivableTitle'         => $receivableTitle,
                     'differenceInDays'        => "$differenceInDays",
                     'productsList'            => $requiredProductsData,
+                    'receivableStatus'        => $receivableStatus,
 
                 );
                 $receivablesData[$receivableId] = $receivableData;
