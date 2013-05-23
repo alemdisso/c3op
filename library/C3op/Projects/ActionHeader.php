@@ -227,7 +227,7 @@ class C3op_Projects_ActionHeader {
         if ($productRelated == $this->action) {
             $this->data['notAProduct'] = false;
             $this->data['relatedProductTitle'] = "#(no product)";
-            $this->data['productDeliveryDate'] = "#(no product to deliver)";
+            $this->data['productDeliveryDate'] = $productDeliveryDate;
             $this->data['relatedProductId'] = "0";
 
         } else {

@@ -353,6 +353,13 @@ if ($parentId > 0) {
           </div>
 
 <?php
+  } else {
+?>
+          <div class="eight columns offset-by-three">
+            <?php printf($this->translate("#This product should be delivered until %s"), $this->translate($actionHeader['productDeliveryDate'])); ?>
+          </div>
+
+<?php
   }
 ?>
           <br class="clear" />
