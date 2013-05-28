@@ -76,10 +76,13 @@ class C3op_Projects_ActionHeader {
 
         $waitingToReceipt = false;
         if ($this->action->hasBegun()) {
-            $tester = new C3op_Access_PrivilegeTester($user, $acl, "projects", "action", "acknowledge-receipt");
-            if ($tester->allow()) {
-                if ($this->action->waitingToReceipt()) {
-                    $waitingToReceipt = true;
+            $obj = new C3op_Projects_ActionStartMode($this->action, $this->mapper);
+            if (!$obj->isUnacknowledged()) {
+                $tester = new C3op_Access_PrivilegeTester($user, $acl, "projects", "action", "acknowledge-receipt");
+                if ($tester->allow()) {
+                    if ($this->action->waitingToReceipt()) {
+                        $waitingToReceipt = true;
+                    }
                 }
             }
 
