@@ -175,7 +175,7 @@ class C3op_Form_ResponsibleContract extends Zend_Form
                 }
                 if ($itsAction->GetPredictedFinishDate() != $newFinishDate) {
                     $dataChanger = new C3op_Projects_ActionDateChange($itsAction, $actionMapper);
-                    $dataChanger->ChangePredictedFinishDate($newBeginDate, $observation);
+                    $dataChanger->ChangePredictedFinishDate($newFinishDate, $observation);
                 }
 
                 $actionMapper->update($itsAction);
@@ -184,18 +184,5 @@ class C3op_Form_ResponsibleContract extends Zend_Form
             }
         }
     }
-
-    private function addElementText($fieldName, $label, $validator, $fieldSize)
-    {
-        $elementText = new Zend_Form_Element_Text($fieldName);
-        $elementText->setLabel($label)
-            ->setOptions(array('size' => "$fieldSize"))
-            ->addValidator($validator)
-            ->addFilter('StringTrim')
-                ;
-        $this->addElement($elementText);
-
-    }
-
 
 }

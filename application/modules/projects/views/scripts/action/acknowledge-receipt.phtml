@@ -3,8 +3,9 @@
 ?>
 
 <?php print($this->translate("#Action received.")); ?>
-
-<div class="six columns inset-by-four">
+<div class="two columns omega">
+<a id="hideDeliveryHref" href="/projects/action/change-receipt/?id=<?php print($actionHeader['id']); ?>"><?php print($this->translate("#Fix date")); ?></a>
+</div>
 <div id="receiptAcknowledgement-<?php print($actionHeader['id']);?>">
     <div class="three columns alpha">
     <a class="button full column alpha omega parent_info" href="javascript:rejectReceipt('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Reject receipt")); ?></a>
@@ -12,5 +13,4 @@
     <div class="three columns omega">
     <a class="button full column alpha omega parent_info" href="javascript:acceptReceipt('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Accept receipt")); ?></a>
     </div>
-</div>
 </div>
