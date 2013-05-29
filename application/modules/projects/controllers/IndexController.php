@@ -31,7 +31,7 @@ class Projects_IndexController extends Zend_Controller_Action
 
    }
 
-    public function allProjectsAction()
+    private function fillAllProjectsAction()
     {
 
         // projectsList
@@ -85,47 +85,13 @@ class Projects_IndexController extends Zend_Controller_Action
                 'hasContract'       => $hasContract,
             );
 
-            /* temp */
-
-//            $doesIt = new C3op_Projects_ProjectSeemsToBeInExecution($thisProject);
-//            if ($doesIt->seemsToBeInExecution()) {
-//                $thisProject->setStatus(C3op_Projects_ProjectStatusConstants::STATUS_EXECUTION);
-//                $this->projectMapper->update($thisProject);
-//            } else {
-//                $doesIt = new C3op_Projects_ProjectSeemsToBeFinished($thisProject);
-//                if ($doesIt->seemsToBeFinished()) {
-//                    $thisProject->setStatus(C3op_Projects_ProjectStatusConstants::STATUS_FINISHED);
-//                    $this->projectMapper->update($thisProject);
-//                } else {
-//                    $thisProject->setStatus(C3op_Projects_ProjectStatusConstants::STATUS_PLANNING);
-//                    $this->projectMapper->update($thisProject);
-//                }
-//            }
-//
-//            if ($hasContract) {
-////                $projectsList[$id]['projectName'] = $thisProject->GetShortTitle() . "!!!";
-//            } else {
-//                $doesIt = new C3op_Projects_ProjectSeemsToBeContracted($thisProject);
-//                if ($doesIt->seemsToBeContracted()) {
-//                    $this->projectMapper->createContract($thisProject);
-//                } else {
-////                    $projectsList[$id]['projectName'] = $thisProject->GetShortTitle() . "!?!";
-//                }
-//            }
-
-
 
             }
 
 
-        $pageData = array(
-                'projectsList' => $projectsList
-            );
+        $data = $projectsList;
 
-        $this->view->pageData = $pageData;
-        $this->view->projectsList = $projectsList;
-
-        $this->view->createProjectLink = "/projects/project/create";
+        return $data;
 
 
     }
@@ -152,7 +118,7 @@ class Projects_IndexController extends Zend_Controller_Action
 
     }
 
-    public function indexAction() {
+    public function justActiveAction() {
 
         $user = Zend_Registry::get('user');
         $test = new C3op_Access_UserCanSeeFinances($user);
@@ -169,6 +135,34 @@ class Projects_IndexController extends Zend_Controller_Action
         $this->view->pageData = array(
             'canSeeFinances'   => $canSeeFinances,
             'projectsList' => $projectData,
+
+        );
+
+
+    }
+
+    public function indexAction() {
+
+        $user = Zend_Registry::get('user');
+        $test = new C3op_Access_UserCanSeeFinances($user);
+        if ($test->can()) {
+            $canSeeFinances = true;
+        } else {
+            $canSeeFinances = false;
+
+        }
+
+
+        $projectData = $this->fillProjectsData();
+        $receiptsData = $this->fillReceiptsData();
+        //$receiptsData = array();
+        $allProjects = $this->fillAllProjectsAction();
+
+        $this->view->pageData = array(
+            'canSeeFinances'   => $canSeeFinances,
+            'projectsList' => $projectData,
+            'receiptsList' => $receiptsData,
+            'allProjectsList' => $allProjects,
 
         );
 
@@ -401,6 +395,35 @@ class Projects_IndexController extends Zend_Controller_Action
 
         return $data;
 
+
+    }
+
+    private function fillReceiptsData()
+    {
+        $this->initActionMapper();
+
+        $receivedActions = $this->actionMapper->getAllReceivedActions();
+        $data = array();
+
+        foreach ($receivedActions as $actionId) {
+            $loopAction = $this->actionMapper->findById($actionId);
+            $actionTitle = $loopAction->GetTitle();
+            $loopProject = $this->projectMapper->findById($loopAction->getProject());
+
+            $data[$actionId] = array(
+                'projectId'       => $loopProject->getId(),
+                'projectTitle'    => $loopProject->getShortTitle(),
+                'actionId'       => $actionId,
+                'actionTitle'    => $actionTitle,
+                'responsibleId' => "007",
+                'responsibleName' => "um nome",
+                'receiptDate' => "21/01/2013",
+                'predictedFinishDate' => "22/02/2013",
+                'deliveryDate' => "28/02/2013",
+            );
+        }
+
+        return $data;
 
     }
 

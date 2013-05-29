@@ -167,6 +167,21 @@ class C3op_Projects_ActionMapper
     }
 
 
+    public function getAllReceivedActions()
+    {
+        $query = $this->db->prepare('SELECT id FROM projects_actions WHERE status = :received;');
+        $query->bindValue(':received', C3op_Projects_ActionStatusConstants::STATUS_RECEIVED, PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
+        foreach ($resultPDO as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
+
     public function getPossibleSubordination(C3op_Projects_Action $obj)
     {
         $below = new C3op_Projects_ActionsBelow($obj, $this);
