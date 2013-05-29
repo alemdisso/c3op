@@ -244,14 +244,14 @@ foreach($receiptsList as $id => $receiptInfo) {
                   </td>
                   <td>
 <?php
-if($receiptInfo['responsibleId'] > 0) {
+if($receiptInfo['contactId'] > 0) {
 ?>
-                    <a href="/projects/project/engaged/?id=<?php  print $receiptInfo['projectId'] ?>&contact=<?php  print $receiptInfo['responsibleId'] ?>"><?php print($receiptInfo['responsibleName']) ?></a>
+                    <a href="/projects/project/engagement/?id=<?php  print $receiptInfo['projectId'] ?>&contact=<?php  print $receiptInfo['contactId'] ?>"><?php print($receiptInfo['contactName']) ?></a>
 <?php
 
 } else {
 ?>
-<?php print($receiptInfo['responsibleName']) ?>
+<?php print($receiptInfo['contactName']) ?>
 <?php
 
 }

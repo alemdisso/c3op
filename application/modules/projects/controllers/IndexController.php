@@ -410,13 +410,25 @@ class Projects_IndexController extends Zend_Controller_Action
             $actionTitle = $loopAction->GetTitle();
             $loopProject = $this->projectMapper->findById($loopAction->getProject());
 
+            $responsible = new C3op_Projects_ActionResponsible($loopAction, $this->actionMapper, $this->db);
+            if ($responsible->doesItHasAResponsible()) {
+                $responsibleData = $responsible->fetch();
+            } else {
+                $responsibleData = array(
+                    'contactId' => '0',
+                    'contactName' => _('#(unassigned)'),
+                    );
+
+            }
+
+
             $data[$actionId] = array(
                 'projectId'       => $loopProject->getId(),
                 'projectTitle'    => $loopProject->getShortTitle(),
                 'actionId'       => $actionId,
                 'actionTitle'    => $actionTitle,
-                'responsibleId' => "007",
-                'responsibleName' => "um nome",
+                'contactId' => $responsibleData['contactId'],
+                'contactName' => $responsibleData['contactName'],
                 'receiptDate' => "21/01/2013",
                 'predictedFinishDate' => "22/02/2013",
                 'deliveryDate' => "28/02/2013",
