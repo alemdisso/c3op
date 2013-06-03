@@ -4,7 +4,6 @@ class Projects_ActionController extends Zend_Controller_Action
 {
     private $actionMapper;
     private $responsibleMapper;
-    private $outsideServiceMapper;
     private $projectMapper;
     private $receivableMapper;
     private $contactMapper;
@@ -536,19 +535,6 @@ class Projects_ActionController extends Zend_Controller_Action
 
         $responsiblesList = $this->getResponsiblesList($actionToBeDetailed);
 
-        // outsideServiceList
-        //   * outsideServiceInfo
-        //      id
-        //      name
-        //      description
-        //      value
-        //      contractingStatusLabel
-        //      canContractFlag
-        //      canRemoveOutsideService
-        //      canProvideOutlay
-
-        $outsideServicesList = $this->getOutsideServicesList($actionToBeDetailed);
-
         // materialSupplyList
         //   * materialSupplyInfo
         //      id
@@ -566,7 +552,6 @@ class Projects_ActionController extends Zend_Controller_Action
             'messageToShow'       => $messageToShow,
             'actionHeader'        => $actionHeader,
             'responsiblesList'     => $responsiblesList,
-            'outsideServicesList' => $outsideServicesList,
             'materialSuppliesList' => $materialSuppliesList,
         );
 
@@ -877,13 +862,6 @@ class Projects_ActionController extends Zend_Controller_Action
         }
     }
 
-    private function initOutsideServiceMapper()
-    {
-        if (!isset($this->outsideServiceMapper)) {
-            $this->outsideServiceMapper = new C3op_Resources_OutsideServiceMapper($this->db);
-        }
-    }
-
     private function initMaterialSupplyMapper()
     {
         if (!isset($this->materialSupplyMapper)) {
@@ -1025,92 +1003,6 @@ class Projects_ActionController extends Zend_Controller_Action
 
 
 
-
-     private function getOutsideServicesList(C3op_Projects_Action $action)
-    {
-
-        // outsideServiceList
-        //   * outsideServiceInfo
-        //      id
-        //      name
-        //      description
-        //      value
-        //      contractingStatusLabel
-        //      canContractFlag
-        //      canRemoveOutsideService
-        //      canProvideOutlay
-
-        $this->initOutsideServiceMapper();
-        if (!isset($this->linkageMapper)) {
-            $this->initLinkageMapper();
-        }
-
-        $outsideServicesList = array();
-        $outsideServicesIdsList = $this->outsideServiceMapper->getAllOutsideServicesOnAction($action);
-
-        foreach ($outsideServicesIdsList as $outsideServiceId) {
-            $theOutsideService = $this->outsideServiceMapper->findById($outsideServiceId);
-
-            $outsideServiceAction = $this->actionMapper->findById($theOutsideService->getAction());
-            $outsideServiceActionTitle = $outsideServiceAction->getTitle();
-
-            $institutionId = $theOutsideService->GetInstitution();
-            $institutionName = $this->view->translate("(#not defined)");
-            if ($institutionId > 0) {
-                $this->initContactMapper();
-                $this->initInstitutionMapper();
-                $institutionService = $this->institutionMapper->findById($institutionId);
-                $institutionName = $institutionService->GetName();
-            }
-
-
-            $status = $theOutsideService->getStatus();
-            $statusTypes = new C3op_Resources_OutsideServiceStatusTypes();
-            $statusLabel = $this->view->translate($statusTypes->TitleForType($status));
-
-            if ($status == C3op_Resources_OutsideServiceStatusConstants::STATUS_FORESEEN) {
-                $canContract = true;
-            } else {
-                $canContract = false;
-            }
-
-            if ($status == C3op_Resources_OutsideServiceStatusConstants::STATUS_CONTRACTED) {
-                $doesIt = new C3op_Resources_OutsideServiceHasCredit($theOutsideService, $this->outsideServiceMapper);
-                if ($doesIt->hasCredit()) {
-                    $canProvideOutlay = true;
-                } else {
-                    $canProvideOutlay = false;
-                }
-            } else {
-                $canProvideOutlay = false;
-            }
-           $removal = new C3op_Resources_OutsideServiceRemoval($theOutsideService, $this->outsideServiceMapper);
-
-            if ($removal->canBeRemoved()) {
-                $canRemoveOutsideService = true;
-            } else {
-                $canRemoveOutsideService = false;
-            }
-
-
-
-
-            $outsideServicesList[$outsideServiceId] = array(
-                'id'                     => $outsideServiceId,
-                'name'                    => $institutionName,
-                'outsideServiceActionId'     => $theOutsideService->getAction(),
-                'outsideServiceActionTitle'  => $outsideServiceActionTitle,
-                'contractingStatusLabel'  => $statusLabel,
-                'canContractFlag'         => $canContract,
-                'canRemoveOutsideService' => $canRemoveOutsideService,
-                'canProvideOutlay'        => $canProvideOutlay,
-
-            );
-        }
-
-        return $outsideServicesList;
-
-    }
 
      private function getMaterialSuppliesList(C3op_Projects_Action $action)
     {

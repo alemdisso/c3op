@@ -12,7 +12,6 @@ class Finances_ProjectController extends Zend_Controller_Action
     private $outlayMapper;
     private $receivableMapper;
     private $responsibleMapper;
-    private $outsideServiceMapper;
     private $materialSupplyMapper;
     private $treeData;
 
@@ -330,11 +329,6 @@ class Finances_ProjectController extends Zend_Controller_Action
         if (!isset($this->outlayMapper)) {
             $this->outlayMapper = new C3op_Finances_OutlayMapper($this->db);
         }
-    }
-
-    private function initOutsideServiceMapper()
-    {
-         $this->outsideServiceMapper = new C3op_Resources_OutsideServiceMapper($this->db);
     }
 
     private function initMaterialSupplyMapper()
