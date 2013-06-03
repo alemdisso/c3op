@@ -666,7 +666,7 @@ class Projects_ActionController extends Zend_Controller_Action
    public function rejectReceiptAction()
     {
         $this->_helper->layout->disableLayout();
-        $this->_helper->viewRenderer->setNoRender(TRUE);
+        //$this->_helper->viewRenderer->setNoRender(TRUE);
 
         $this->initActionMapper();
         $actionToBeChanged =  $this->initActionWithCheckedId($this->actionMapper);

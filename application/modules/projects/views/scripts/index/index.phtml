@@ -219,6 +219,34 @@ $(document).ready(function(){
 ?>
 
            <table id="Receipts" class="display dataTable">
+
+<script type="text/javascript">
+
+
+function acceptReceipt(id){
+  $.ajax({
+    type: 'get',
+    data: 'id=' + id,
+    url:'/projects/action/accept-receipt',
+    success: function(successReturn){
+      $('#receiptAcknowledgement-'+id).html(successReturn);
+    }
+  })
+}
+
+function rejectReceipt(id){
+  $.ajax({
+    type: 'get',
+    data: 'id=' + id,
+    url:'/projects/action/reject-receipt',
+    success: function(successReturn){
+      $('#receiptAcknowledgement-'+id).html(successReturn);
+    }
+  })
+}
+</script>
+
+
               <thead>
                 <tr>
                   <th width="120"><?php echo $this->translate("#Project") ?></th>
@@ -271,11 +299,19 @@ if($receiptInfo['contactId'] > 0) {
                     <?php print($receiptInfo['deliveryDate']) ?>
                   </td>
                   <td>
+                <div id="receiptAcknowledgement-<?php print($receiptInfo['actionId']);?>">
                     <a href="#" class="anchorclass" rel="submenu1"><?php echo $this->translate("#Options") ?></a>
                     <div id="submenu1" class="anylinkcss">
                         <ul>
+                        <li>
+                          <a href="javascript:acceptReceipt('<?php print($receiptInfo['actionId']); ?>');"><?php print($this->translate("#Accept receipt")); ?></a>
+                        </li>
+                        <li>
+                          <a href="javascript:rejectReceipt('<?php print($receiptInfo['actionId']); ?>');"><?php print($this->translate("#Reject receipt")); ?></a>
+                        </li>
                         </ul>
                     </div><!-- #submenu1 -->
+                </div>
                   </td>
                 </tr>
 <?php
