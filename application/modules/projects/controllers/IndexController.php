@@ -421,17 +421,44 @@ class Projects_IndexController extends Zend_Controller_Action
 
             }
 
+            $validator = new C3op_Util_ValidDate();
+            $rawReceiptDate = $loopAction->getReceiptDate($this->actionMapper);
+            if ($validator->isValid($rawReceiptDate)) {
+                $receiptDate = C3op_Util_DateDisplay::FormatDateToShow($rawReceiptDate);
+            } else {
+                $receiptDate = "#(not received)";
+            }
+
+
+            if ($validator->isValid($loopAction->getPredictedFinishDate())) {
+                $predictedFinishDate = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getPredictedFinishDate());
+            } else {
+                $predictedFinishDate = "#(not received)";
+            }
+
+
+            $finder = new C3op_Projects_ActionRelatedProduct($loopAction, $this->actionMapper);
+            $productData = $finder->fetchProductData();
+            foreach ($productData as $k => $val) {
+                $productData[$k] = $val;
+            }
+
+
+
+
 
             $data[$actionId] = array(
-                'projectId'       => $loopProject->getId(),
-                'projectTitle'    => $loopProject->getShortTitle(),
-                'actionId'       => $actionId,
-                'actionTitle'    => $actionTitle,
-                'contactId' => $responsibleData['contactId'],
-                'contactName' => $responsibleData['contactName'],
-                'receiptDate' => "21/01/2013",
-                'predictedFinishDate' => "22/02/2013",
-                'deliveryDate' => "28/02/2013",
+                'projectId'           => $loopProject->getId(),
+                'projectTitle'        => $loopProject->getShortTitle(),
+                'actionId'            => $actionId,
+                'actionTitle'         => $actionTitle,
+                'contactId'           => $responsibleData['contactId'],
+                'contactName'         => $responsibleData['contactName'],
+                'receiptDate'         => $receiptDate,
+                'predictedFinishDate' => $predictedFinishDate,
+                'deliveryDate'        => $productData['productDeliveryDate'],
+                'relatedProductTitle' => $productData['relatedProductTitle'],
+                'relatedProductId'    => $productData['relatedProductId'],
             );
         }
 

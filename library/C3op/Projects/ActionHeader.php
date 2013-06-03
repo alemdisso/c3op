@@ -213,36 +213,10 @@ class C3op_Projects_ActionHeader {
     private function fillProductRelatedData()
     {
         $finder = new C3op_Projects_ActionRelatedProduct($this->action, $this->mapper);
-        $productRelated = $finder->retrieve();
-        $relatedProductId = $productRelated->getId();
-        $relatedProductTitle = $productRelated->getTitle();
-        $dateFinder = new C3op_Finances_ProductDeliveryDate($productRelated, $this->mapper);
-        $productDeliveryDate = $dateFinder->retrieve();
-        $validator = new C3op_Util_ValidDate();
-        if ($validator->isValid($productDeliveryDate)) {
-            $productDeliveryDate = C3op_Util_DateDisplay::FormatDateToShow($productDeliveryDate);
-        } else {
-            $productDeliveryDate = "#(not defined)";
+        $data = $finder->fetchProductData();
+        foreach ($data as $k => $val) {
+            $this->data[$k] = $val;
         }
-
-
-//die("{$relatedProductId} == {$this->action->getId()}");
-        if ($productRelated == $this->action) {
-            $this->data['notAProduct'] = false;
-            $this->data['relatedProductTitle'] = "#(no product)";
-            $this->data['productDeliveryDate'] = $productDeliveryDate;
-            $this->data['relatedProductId'] = "0";
-
-        } else {
-            $this->data['notAProduct'] = true;
-            $this->data['relatedProductTitle'] = $relatedProductTitle;
-            $this->data['productDeliveryDate'] = $productDeliveryDate;
-            $this->data['relatedProductId'] = $productRelated->getId();
-
-        }
-
-
-
 
     }
 
