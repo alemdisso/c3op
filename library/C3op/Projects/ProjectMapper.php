@@ -325,8 +325,8 @@ class C3op_Projects_ProjectMapper
             OR a.status = %d
             )'
             , $obj->getId()
-            , C3op_Resources_TeamMemberStatusConstants::STATUS_UNDEFINED
-            , C3op_Resources_TeamMemberStatusConstants::STATUS_FORESEEN
+            , C3op_Resources_ResponsibleStatusConstants::STATUS_UNDEFINED
+            , C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN
 
                 )) as $row) {
             $result[] = $row['id'];
