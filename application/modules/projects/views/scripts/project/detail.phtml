@@ -229,12 +229,13 @@ foreach($productsList as $id => $productInfo) {
     <table id="tree" border="1">
     	<thead>
     		<tr>
-    			<th width="200" align="left"><?php echo $this->translate("#Action") ?></th>
-    			<th width="200" align="left"><?php echo $this->translate("#Responsible") ?></th>
-    			<th width="100" align="left"><?php echo $this->translate("#Pred. begin date") ?></th>
-    			<th width="100" align="left"><?php echo $this->translate("#Real begin date") ?></th>
-    			<th width="100" align="left"><?php echo $this->translate("#Pred. finish date") ?></th>
-    			<th width="100" align="left"><?php echo $this->translate("#Real finish date") ?></th>
+    			<th width="160" align="left"><?php echo $this->translate("#Action") ?></th>
+    			<th width="160" align="left"><?php echo $this->translate("#Responsible") ?></th>
+                        <th width="90" align="left"><?php echo $this->translate("#Status") ?></th>
+    			<th width="90" align="left"><?php echo $this->translate("#Pred. begin date") ?></th>
+    			<th width="90" align="left"><?php echo $this->translate("#Real begin date") ?></th>
+    			<th width="90" align="left"><?php echo $this->translate("#Pred. finish date") ?></th>
+    			<th width="90" align="left"><?php echo $this->translate("#Real finish date") ?></th>
     		</tr>
     	</thead>
     	<tbody>
@@ -261,6 +262,7 @@ if ($actionData['contactId'] > 0) {
 <?php
 }
 ?>
+          <td><?php print ($this->translate($actionData['statusLabel'])) ?></td>
           <td><?php print ($actionData['predictedBeginDate']) ?></td>
           <td><?php print ($actionData['realBeginDate']) ?></td>
           <td><?php print ($actionData['predictedFinishDate']) ?></td>

@@ -902,6 +902,12 @@ class Projects_ProjectController extends Zend_Controller_Action
             $data['title'] = $loopAction->getTitle();
             $data['subordinatedTo'] = $loopAction->getSubordinatedTo();
 
+            $actionStatus = $loopAction->getStatus();
+            $statusTypes = new C3op_Projects_ActionStatusTypes();
+            $actionStatusLabel = $statusTypes->TitleForType($actionStatus);
+            $data['statusLabel'] = $actionStatusLabel;
+
+
             if ($loopAction->getSupervisor()) {
                 $theContact = $this->contactMapper->findById($loopAction->getSupervisor());
                 $data['responsibleName'] = $theContact->getName();
@@ -916,12 +922,12 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $data['hasResponsible'] = true;
                 $data['contactId'] = $responsibleData['contactId'];
                 $data['contactName'] = $responsibleData['contactName'];
-                $data['statusLabel'] = $responsibleData['statusLabel'];
+                $data['responsibleStatusLabel'] = $responsibleData['statusLabel'];
             } else {
                 $data['hasResponsible'] = false;
                 $data['contactId'] = 0;
                 $data['contactName'] = _('#(unassigned)');
-                $data['statusLabel'] = _('#(unknown)');
+                $data['responsibleStatusLabel'] = _('#(unknown)');
 
             }
 

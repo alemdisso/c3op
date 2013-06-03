@@ -955,43 +955,23 @@ class Projects_ActionController extends Zend_Controller_Action
 
         foreach ($responsiblesIdsList as $responsibleId) {
             $theResponsible = $this->responsibleMapper->findById($responsibleId);
-
             $responsibleAction = $this->actionMapper->findById($theResponsible->getAction());
+
+            $responsible = new C3op_Projects_ActionResponsible($responsibleAction, $this->actionMapper, $this->db);
+
+            $responsibleData = $responsible->fetch();
+
             $responsibleActionTitle = $responsibleAction->getTitle();
 
-            $contactId = $theResponsible->GetContact();
-            $contactName = "(indefinido)";
-            if ($contactId > 0) {
-                $this->initContactMapper();
-                $this->initLinkageMapper();
-                $contractedContact = $this->contactMapper->findById($contactId);
-                $contactName = $contractedContact->GetName();
-            }
-
+            $contactId = $responsibleData['contactId'];
+            $contactName = $responsibleData['contactName'];
+            $institutionId = $responsibleData['institutionId'];
+            $statusLabel = $this->view->translate($responsibleData['statusLabel']);
+            $canContract = $responsibleData['canContract'];
+            $canDismiss = $responsibleData['canDismiss'];
+            $canProvideOutlay = $responsibleData['canProvideOutlay'];
 
             $status = $theResponsible->getStatus();
-            $statusTypes = new C3op_Resources_ResponsibleStatusTypes();
-            $statusLabel = $this->view->translate($statusTypes->TitleForType($status));
-
-            if ((($theResponsible->getContact() > 0) || ($theResponsible->getInstitution() > 0))
-                    && ($status == C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN)) {
-                $canContract = true;
-            } else {
-                $canContract = false;
-            }
-
-            $canDismiss = false;
-            if ($status == C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED) {
-                $canDismiss = true;
-                $doesIt = new C3op_Resources_ResponsibleHasCredit($theResponsible, $this->responsibleMapper);
-                if ($doesIt->hasCreditToProvide()) {
-                    $canProvideOutlay = true;
-                } else {
-                    $canProvideOutlay = false;
-                }
-            } else {
-                $canProvideOutlay = false;
-            }
 
             $removal = new C3op_Resources_ResponsibleRemoval($theResponsible, $this->responsibleMapper);
             if ($removal->canBeRemoved()) {
@@ -1005,13 +985,14 @@ class Projects_ActionController extends Zend_Controller_Action
             $responsiblesList[$responsibleId] = array(
                 'id'                     => $responsibleId,
                 'contactId'              => $contactId,
+                'institutionId'          => $institutionId,
                 'name'                   => $contactName,
-                'responsibleActionId'     => $theResponsible->getAction(),
-                'responsibleActionTitle'  => $responsibleActionTitle,
+                'responsibleActionId'    => $theResponsible->getAction(),
+                'responsibleActionTitle' => $responsibleActionTitle,
                 'contractingStatusLabel' => $statusLabel,
                 'canContractFlag'        => $canContract,
                 'canDismissFlag'         => $canDismiss,
-                'canRemoveResponsible'    => $canRemoveResponsible,
+                'canRemoveResponsible'   => $canRemoveResponsible,
                 'canEditResource'        => $canEditResource,
                 'canProvideOutlay'       => $canProvideOutlay,
 

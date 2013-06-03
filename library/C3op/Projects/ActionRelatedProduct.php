@@ -53,7 +53,7 @@ class C3op_Projects_ActionRelatedProduct {
         $data = array();
         if ($productRelated == $this->action) {
             $data['notAProduct'] = false;
-            $data['relatedProductTitle'] = "#(no product)";
+            $data['relatedProductTitle'] = $productRelated->getTitle();;
             $data['productDeliveryDate'] = $productDeliveryDate;
             $data['relatedProductId'] = "0";
 

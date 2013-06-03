@@ -490,8 +490,9 @@ if (isset($actionHeader['hasBudget'])) {
                 <table id="tree" border="1">
                     <thead>
                             <tr>
-                            <th width="232" align="left"><?php echo $this->translate("#Action") ?></th>
-                            <th width="232" align="left"><?php echo $this->translate("#Responsible") ?></th>
+                            <th width="160" align="left"><?php echo $this->translate("#Action") ?></th>
+                            <th width="160" align="left"><?php echo $this->translate("#Responsible") ?></th>
+                            <th width="84" align="left"><?php echo $this->translate("#Status") ?></th>
                             <th width="84" align="left"><?php echo $this->translate("#Pred. begin date") ?></th>
                             <th width="84" align="left"><?php echo $this->translate("#Real begin date") ?></th>
                             <th width="84" align="left"><?php echo $this->translate("#Pred. finish date") ?></th>
@@ -523,6 +524,7 @@ if (($actionHeader['responsibleType'] == C3op_Resources_ResponsibleTypeConstants
 <?php
 }
 ?>
+                    <td><?php print ($this->translate($actionData['statusLabel'])) ?></td>
                     <td><?php print ($this->translate($actionData['predictedBeginDate'])) ?></td>
                     <td><?php print ($this->translate($actionData['realBeginDate'])) ?></td>
                     <td><?php print ($this->translate($actionData['predictedFinishDate'])) ?></td>
@@ -569,6 +571,7 @@ if (($actionHeader['responsibleType'] == C3op_Resources_ResponsibleTypeConstants
 
 ?>
                   <td>
+                  <a href="/projects/project/engagement/?id=<?php print($actionHeader['projectId']) ?>&institution=<?php print($responsibleData['institutionId']) ?>"><?php print($responsibleData['name']) ?></a>
                   <?php print($responsibleData['name']) ?>
                 </td>
     <?php

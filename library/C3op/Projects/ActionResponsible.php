@@ -79,6 +79,7 @@ class C3op_Projects_ActionResponsible {
             }
 
             $canDismiss = false;
+            $canProvideOutlay = false;
             if ($status == C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED) {
                 $user = Zend_Registry::get('user');
                 $acl = Zend_Registry::get('acl');
@@ -86,14 +87,10 @@ class C3op_Projects_ActionResponsible {
                 if ($tester->allow()) {
                     $canDismiss = true;
                 }
-//                $doesIt = new C3op_Resources_ResponsibleHasCredit($theResponsible, $this->responsibleMapper);
-//                if ($doesIt->hasCreditToProvide()) {
-//                    $canProvideOutlay = true;
-//                } else {
-//                    $canProvideOutlay = false;
-//                }
-//            } else {
-//                $canProvideOutlay = false;
+                $doesIt = new C3op_Resources_ResponsibleHasCredit($responsible, $this->responsibleMapper);
+                if ($doesIt->hasCreditToProvide()) {
+                    $canProvideOutlay = true;
+                }
             }
 
 
@@ -103,6 +100,7 @@ class C3op_Projects_ActionResponsible {
               'hasResponsible'   => true,
               'canContract'      => $canContract,
               'canDismiss'       => $canDismiss,
+              'canProvideOutlay' => $canProvideOutlay,
               'responsibleType'  => $type,
               'responsibleId'    => $responsible->getId(),
               'responsibleLabel' => $responsibleLabel,

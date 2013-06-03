@@ -292,6 +292,7 @@ class C3op_Projects_ActionHeader {
        //   realBeginDate
        //   predictedFinishDate
        //   realFinishDate
+       //   statusLabel
        //
 
         foreach ($tree as $id => $subTree) {
@@ -299,6 +300,11 @@ class C3op_Projects_ActionHeader {
             $data = array();
             $data['title'] = $loopAction->getTitle();
             $data['subordinatedTo'] = $loopAction->getSubordinatedTo();
+
+            $actionStatus = $loopAction->getStatus();
+            $statusTypes = new C3op_Projects_ActionStatusTypes();
+            $actionStatusLabel = $statusTypes->TitleForType($actionStatus);
+            $data['statusLabel'] = $actionStatusLabel;
 
             $responsible = new C3op_Projects_ActionResponsible($loopAction, $this->mapper, $this->db);
 
@@ -308,12 +314,12 @@ class C3op_Projects_ActionHeader {
                 $data['contactId'] = $responsibleData['contactId'];
                 $data['institutionId'] = $responsibleData['institutionId'];
                 $data['responsibleLabel'] = $responsibleData['responsibleLabel'];
-                $data['statusLabel'] = $responsibleData['statusLabel'];
+                $data['responsibleStatusLabel'] = $responsibleData['statusLabel'];
             } else {
                 $data['hasResponsible'] = false;
                 $data['contactId'] = 0;
                 $data['contactName'] = _('#(unassigned)');
-                $data['statusLabel'] = _('#(unknown)');
+                $data['responsibleStatusLabel'] = _('#(unknown)');
                 $data['responsibleLabel'] = _('#(unassigned)');
 
             }
