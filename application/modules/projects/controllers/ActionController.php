@@ -848,12 +848,6 @@ class Projects_ActionController extends Zend_Controller_Action
         }
     }
 
-    private function initLinkageMapper()
-    {
-        if (!isset($this->linkageMapper)) {
-            $this->linkageMapper = new C3op_Register_LinkageMapper($this->db);
-        }
-    }
 
     private function initResponsibleMapper()
     {
@@ -922,10 +916,6 @@ class Projects_ActionController extends Zend_Controller_Action
         //      canProvideOutlay
         $this->initActionMapper();
         $this->initResponsibleMapper();
-
-        if (!isset($this->linkageMapper)) {
-            $this->initLinkageMapper();
-        }
 
         $responsiblesList = array();
         //$responsiblesIdsList = $this->responsibleMapper->getAllResponsiblesOnAction($action);
@@ -1018,9 +1008,6 @@ class Projects_ActionController extends Zend_Controller_Action
         //      canProvideOutlay
 
         $this->initMaterialSupplyMapper();
-        if (!isset($this->linkageMapper)) {
-            $this->initLinkageMapper();
-        }
 
         $materialSuppliesList = array();
         $materialSuppliesIdsList = $this->materialSupplyMapper->getAllMaterialSuppliesOnAction($action);

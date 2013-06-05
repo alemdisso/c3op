@@ -93,9 +93,6 @@ class C3op_Projects_ActionResponsible {
                 }
             }
 
-
-
-
             $data = array(
               'hasResponsible'   => true,
               'canContract'      => $canContract,

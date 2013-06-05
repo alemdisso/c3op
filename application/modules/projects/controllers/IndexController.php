@@ -215,7 +215,7 @@ class Projects_IndexController extends Zend_Controller_Action
                 if ($validator->isValid($contractualDeliveryDate)) {
 
                     $dateDiff = new C3op_Util_DatesDifferenceInDays();
-                    $now = time(); // or your date as well
+                    $now = time();
                     $nextDifferenceInDays = $dateDiff->differenceInDays(strtotime($contractualDeliveryDate), $now);
 
                     if ($nextDifferenceInDays < 0) {

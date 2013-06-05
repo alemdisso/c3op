@@ -12,7 +12,6 @@ class Projects_ProjectController extends Zend_Controller_Action
     private $outlayMapper;
     private $receivableMapper;
     private $responsibleMapper;
-    private $outsideServiceMapper;
     private $materialSupplyMapper;
     private $treeData;
 
@@ -214,7 +213,8 @@ class Projects_ProjectController extends Zend_Controller_Action
         if (!isset($this->responsibleMapper)) {
             $this->initResponsibleMapper();
         }
-        $projectTeam = $this->responsibleMapper->getAllUniqueResponsiblesContractedOrPredictedAt($projectToBeDetailed);
+//        $projectTeam = $this->responsibleMapper->getAllUniqueResponsiblesContractedOrPredictedAt($projectToBeDetailed);
+        $projectTeam = $this->responsibleMapper->getAllResponsiblesContractedOrPredictedAt($projectToBeDetailed);
         if (!isset($this->linkageMapper)) {
             $this->initLinkageMapper();
         }
@@ -226,75 +226,67 @@ class Projects_ProjectController extends Zend_Controller_Action
 
 
         foreach ($projectTeam as $id) {
-            $theResponsible = $this->responsibleMapper->findById($id);
+            $loopResponsible = $this->responsibleMapper->findById($id);
+            $loopAction = $this->actionMapper->findById($loopResponsible->getAction());
+            $responsibleForAction = new C3op_Projects_ActionResponsible($loopAction, $this->actionMapper, $this->db);
+            $responsibleData = $responsibleForAction->fetch();
+
+            $loopActionTitle = $loopAction->getTitle();
+
+            $completion = new C3op_Projects_ActionCompletion($loopAction);
+
+            $differenceInDays = $completion->daysDifference();
+            $finishDate = $completion->finishDate();
+
+            $statusTypes = new C3op_Projects_ActionStatusTypes();
+            $rawActionStatus = $loopAction->getStatus();
+            $actionStatusLabel = $this->view->translate($statusTypes->TitleForType($rawActionStatus));
 
 
 
 
-            // init labels
-            $staffName = $this->view->translate("#To be defined");
-            $staffId = 0;
-            $emailString = $this->view->translate("#---");
-            $phoneNumberString = $this->view->translate("#---");
-
-            $contactId = $theResponsible->getContact();
-            if ($contactId > 0) {
-
-
-                $valuestPosition = $this->responsibleMapper->findMainPositionForAPerson($theResponsible);
-
-                if ($valuestPosition->getId() != $theResponsible->getId()) {
-                    $theResponsible = $valuestPosition;
-                }
-
-                $theContact = $this->contactMapper->findById($theResponsible->getContact());
-                $theInstitution = $this->institutionMapper->findById($theResponsible->getInstitution());
-
-                $staffId = $theContact->getId();
-                $staffName = $theContact->getName();
-                $linkageInstitutionName = $theInstitution->getShortName();
-
-                $theLinkage = $this->linkageMapper->findByContactAndInstitution($theResponsible->getContact(), $theResponsible->getInstitution());
-
-                $data = $theLinkage->getEmails();
-                if (count($data)) {
-                    $staffEmail = reset($data);
-                    $emailString = $staffEmail->getAddress();
-                }
-                $data = $theLinkage->getPhoneNumbers();
-                if (count($data)) {
-                    $staffPhoneNumber = reset($data);
-                    $phoneNumberString = "({$staffPhoneNumber->getAreaCode()}) {$staffPhoneNumber->getLocalNumber()}";
-                }
-
+            $contactId = $responsibleData['contactId'];
+            $contactName = $responsibleData['contactName'];
+            $institutionId = $responsibleData['institutionId'];
+            $statusLabel = $this->view->translate($responsibleData['statusLabel']);
+            $canContract = $responsibleData['canContract'];
+            if ($canContract) {
+                $contactName = "$contactName ($statusLabel)";
             }
+            $canDismiss = $responsibleData['canDismiss'];
+            $canProvideOutlay = $responsibleData['canProvideOutlay'];
 
+            $status = $loopResponsible->getStatus();
 
-
-            $actionId = $theResponsible->getAction();
-            $theAction = $this->actionMapper->findById($actionId);
-            $actionTitle = $theAction->getTitle();
-            $removal = new C3op_Resources_ResponsibleRemoval($theResponsible, $this->responsibleMapper);
-
+            $removal = new C3op_Resources_ResponsibleRemoval($loopResponsible, $this->responsibleMapper);
             if ($removal->canBeRemoved()) {
                 $canRemoveResponsible = true;
+                $canEditResource = true;
             } else {
                 $canRemoveResponsible = false;
+                $canEditResource = false;
             }
 
-
-
             $responsiblesList[$id] = array(
-                    'contactId'              => $staffId,
-                    'linkageId'              => $theLinkage->getId(),
-                    'linkageInstitutionName' => $linkageInstitutionName,
-                    'actionId'               => $theResponsible->getAction(),
-                    'actionTitle'            => $actionTitle,
-                    'staffName'              => $staffName,
-                    'staffPhoneNumber'       => $phoneNumberString,
-                    'staffEmail'             => $emailString,
-                    'canRemoveResponsible'    => $canRemoveResponsible,
-                );
+                'id'                     => $id,
+                'contactId'              => $contactId,
+                'institutionId'          => $institutionId,
+                'name'                   => $contactName,
+                'responsibleActionId'    => $loopResponsible->getAction(),
+                'responsibleActionTitle' => $loopActionTitle,
+                'actionStatusLabel'      => $actionStatusLabel,
+                'contractingStatusLabel' => $statusLabel,
+                'finishDate'             => $finishDate,
+                'differenceInDays'       => $differenceInDays,
+                'canContractFlag'        => $canContract,
+                'canDismissFlag'         => $canDismiss,
+                'canRemoveResponsible'   => $canRemoveResponsible,
+                'canEditResource'        => $canEditResource,
+                'canProvideOutlay'       => $canProvideOutlay,
+
+
+            );
+
         }
 
 
@@ -702,11 +694,6 @@ class Projects_ProjectController extends Zend_Controller_Action
         if (!isset($this->outlayMapper)) {
             $this->outlayMapper = new C3op_Finances_OutlayMapper($this->db);
         }
-    }
-
-    private function initOutsideServiceMapper()
-    {
-         $this->outsideServiceMapper = new C3op_Resources_OutsideServiceMapper($this->db);
     }
 
     private function initMaterialSupplyMapper()
@@ -1215,6 +1202,71 @@ class Projects_ProjectController extends Zend_Controller_Action
         return $projectHeader;
 
 
+
+    }
+
+     private function getResponsibleData(C3op_Resources_Responsible $responsible)
+    {
+        //   responsibleData
+        //      id
+        //      contactId
+        //      linkageId
+        //      name
+        //      description
+        //      value
+        //      contractingStatusLabel
+        //      canContractFlag
+        //      canRemoveResponsible
+        //      canEditResource
+        //      canProvideOutlay
+        $this->initActionMapper();
+        $this->initResponsibleMapper();
+
+        $responsible = $this->responsibleMapper->findById($responsibleId);
+        $responsibleAction = $this->actionMapper->findById($responsible->getAction());
+
+        $fetcher = new C3op_Projects_ActionResponsible($responsibleAction, $this->actionMapper, $this->db);
+
+        $responsibleData = $fetcher->fetch();
+
+        $responsibleActionTitle = $responsibleAction->getTitle();
+
+        $contactId = $responsibleData['contactId'];
+        $contactName = $responsibleData['contactName'];
+        $institutionId = $responsibleData['institutionId'];
+        $statusLabel = $this->view->translate($responsibleData['statusLabel']);
+        $canContract = $responsibleData['canContract'];
+        $canDismiss = $responsibleData['canDismiss'];
+        $canProvideOutlay = $responsibleData['canProvideOutlay'];
+
+        $status = $responsible->getStatus();
+
+        $removal = new C3op_Resources_ResponsibleRemoval($responsible, $this->responsibleMapper);
+        if ($removal->canBeRemoved()) {
+            $canRemoveResponsible = true;
+            $canEditResource = true;
+        } else {
+            $canRemoveResponsible = false;
+            $canEditResource = false;
+        }
+
+        $responsiblesList[$responsibleId] = array(
+            'id'                     => $responsibleId,
+            'contactId'              => $contactId,
+            'institutionId'          => $institutionId,
+            'name'                   => $contactName,
+            'responsibleActionId'    => $responsible->getAction(),
+            'responsibleActionTitle' => $responsibleActionTitle,
+            'contractingStatusLabel' => $statusLabel,
+            'canContractFlag'        => $canContract,
+            'canDismissFlag'         => $canDismiss,
+            'canRemoveResponsible'   => $canRemoveResponsible,
+            'canEditResource'        => $canEditResource,
+            'canProvideOutlay'       => $canProvideOutlay,
+
+        );
+
+        return $responsiblesList;
 
     }
 
