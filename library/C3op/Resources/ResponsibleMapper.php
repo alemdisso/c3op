@@ -161,6 +161,38 @@ class C3op_Resources_ResponsibleMapper {
         }
         return $result;
     }
+
+    public function getAllActionsEngagingInActiveProjects($contact=0, $institution=0)
+    {
+        $query = $this->db->prepare('SELECT a.id as id, r.id as responsibleId
+                    FROM projects_projects p
+                    INNER JOIN projects_actions a ON p.id = a.project
+                    LEFT JOIN resources_responsibles r ON a.id = r.action
+                    LEFT JOIN register_contacts t ON r.contact = r.id
+                    WHERE (p.status = :execution)
+                    AND ((r.contact = :contact AND r.type = :team_member)
+                      OR (r.institution = :institution AND r.type = :outside_service))
+                    AND (r.status = :foreseen OR r.status = :contracted OR r.status = :acquitted);');
+        $query->bindValue(':execution', C3op_Projects_ProjectStatusConstants::STATUS_EXECUTION, PDO::PARAM_STR);
+        $query->bindValue(':contact', $contact, PDO::PARAM_STR);
+        $query->bindValue(':institution', $institution, PDO::PARAM_STR);
+        $query->bindValue(':foreseen', C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN, PDO::PARAM_STR);
+        $query->bindValue(':team_member', C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER, PDO::PARAM_STR);
+        $query->bindValue(':outside_service', C3op_Resources_ResponsibleTypeConstants::TYPE_OUTSIDE_SERVICE, PDO::PARAM_STR);
+        $query->bindValue(':contracted', C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
+        $query->bindValue(':acquitted', C3op_Resources_ResponsibleStatusConstants::STATUS_ACQUITTED, PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
+        foreach ($resultPDO as $row) {
+            $result[$row['id']] = array(
+                'responsible' => $row['responsibleId'],
+            );
+        }
+        return $result;
+    }
+
     public function getAllOutlays(C3op_Resources_Responsible $obj)
     {
         $result = array();
@@ -251,6 +283,56 @@ class C3op_Resources_ResponsibleMapper {
 
     public function getAllUniqueResponsiblesContractedOrPredictedAt(C3op_Projects_Project $obj) {
         $result = array();
+
+        foreach ($this->db->query(sprintf('SELECT r.id
+            FROM projects_actions a
+            INNER JOIN resources_responsibles r ON a.id = r.action
+            WHERE a.project = %d
+            AND (r.contact > 0 OR r.institution > 0)
+            AND (
+            r.status = %d
+            OR r.status = %d
+            OR r.status = %d
+            OR r.status = %d
+            ) GROUP BY CONCAT(r.institution, \'|\', r.contact)'
+            , $obj->getId()
+            , C3op_Resources_ResponsibleStatusConstants::STATUS_UNDEFINED
+            , C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED
+            , C3op_Resources_ResponsibleStatusConstants::STATUS_ACQUITTED
+            , C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN
+
+                )) as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
+    public function getAllUniqueResponsiblesContractedOrPredictedAtActiveProjects() {
+
+       $query = $this->db->prepare('SELECT r.id as id
+                    FROM projects_projects p
+                    INNER JOIN projects_actions a ON p.id = a.project
+                    LEFT JOIN resources_responsibles r ON a.id = r.action
+                    LEFT JOIN register_contacts t ON r.contact = r.id
+                    WHERE (p.status = :execution)
+                    AND (r.status = :foreseen OR r.status = :contracted OR r.status = :acquitted)
+                    GROUP BY CONCAT(r.institution, \'|\', r.contact);');
+        $query->bindValue(':execution', C3op_Projects_ProjectStatusConstants::STATUS_EXECUTION, PDO::PARAM_STR);
+        $query->bindValue(':foreseen', C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN, PDO::PARAM_STR);
+        $query->bindValue(':contracted', C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
+        $query->bindValue(':acquitted', C3op_Resources_ResponsibleStatusConstants::STATUS_ACQUITTED, PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
+        foreach ($resultPDO as $row) {
+            $result[] = $row['id'];
+
+        }
+        return $result;
+
+
+
 
         foreach ($this->db->query(sprintf('SELECT r.id
             FROM projects_actions a

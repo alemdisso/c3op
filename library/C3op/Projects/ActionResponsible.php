@@ -5,6 +5,7 @@ class C3op_Projects_ActionResponsible {
     private $action;
     private $actionMapper;
     private $responsibleMapper;
+    private $db;
 
     public function __construct(C3op_Projects_Action $action, C3op_Projects_ActionMapper $actionMapper, $db)
     {

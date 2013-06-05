@@ -157,12 +157,14 @@ class Projects_IndexController extends Zend_Controller_Action
         $receiptsData = $this->fillReceiptsData();
         //$receiptsData = array();
         $allProjects = $this->fillAllProjectsAction();
+        $allResources = $this->fillAllResourcesData();
 
         $this->view->pageData = array(
             'canSeeFinances'   => $canSeeFinances,
             'projectsList' => $projectData,
             'receiptsList' => $receiptsData,
             'allProjectsList' => $allProjects,
+            'responsiblesList' => $allResources,
 
         );
 
@@ -398,6 +400,208 @@ class Projects_IndexController extends Zend_Controller_Action
 
     }
 
+
+    public function engagementAction()
+    {
+        if (!isset($this->responsibleMapper)) {
+            $this->initResponsibleMapper();
+        }
+        if (!isset($this->responsibleMapper)) {
+            $this->initResponsibleMapper();
+        }
+        if (!isset($this->actionMapper)) {
+            $this->initActionMapper();
+        }
+        if (!isset($this->contactMapper)) {
+            $this->initContactMapper();
+        }
+        if (!isset($this->institutionMapper)) {
+            $this->initInstitutionMapper();
+        }
+        if (!isset($this->outlayMapper)) {
+            $this->initOutlayMapper();
+        }
+
+//        $project = $this->initProjectWithCheckedId($this->projectMapper);
+        $contactId = $this->checkContactFromGet();
+        $contactName = $this->view->translate("#(undefined)");
+        if ($contactId > 0) {
+            $contact = $this->initContactWithCheckedContactId($this->contactMapper);
+            $contactName = $contact->getName();
+            $engagedType = C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER;
+        }
+        $institutionId = $this->checkInstitutionFromGet();
+        $institutionName = $this->view->translate("#(undefined)");
+        if ($institutionId > 0) {
+            $institution = $this->initInstitutionWithCheckedInstitutionId($this->institutionMapper);
+            $institutionName = $institution->getShortName();
+            $engagedType = C3op_Resources_ResponsibleTypeConstants::TYPE_OUTSIDE_SERVICE;
+        }
+
+        $actionsEngaged = $this->responsibleMapper->getAllActionsEngagingInActiveProjects($contactId, $institutionId);
+
+        $engagedActions = array();
+        $alreadyPayedValue = 0;
+        $totalProvidedValue = 0;
+        $totalContractedValue = 0;
+        $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+
+        foreach ($actionsEngaged as $id => $data) {
+            $action = $this->actionMapper->findById($id);
+            $responsible = $this->responsibleMapper->findById($data['responsible']);
+            $loopProject = $this->projectMapper->findById($action->getProject());
+
+            if ($responsible->getValue() > 0) {
+                $totalProvidedValue += $responsible->getValue();
+                $contractingStatus = new C3op_Projects_ActionContracting($action, $this->actionMapper);
+                if ($contractingStatus->isContracted()) {
+                    $totalContractedValue += $responsible->getValue();
+
+                }
+                $actionTotalValue = $currencyDisplay->FormatCurrency($responsible->getValue());
+            } else {
+                $actionTotalValue = $this->view->translate("#(not defined)");
+            }
+
+            $actionPayedValue = $this->outlayMapper->totalPayedValueForResponsible($responsible);
+            if ($actionPayedValue > 0) {
+                $alreadyPayedValue += $actionPayedValue;
+                $actionPayedValue = $currencyDisplay->FormatCurrency($actionPayedValue);
+            } else {
+                $actionPayedValue = $currencyDisplay->FormatCurrency(0);
+            }
+
+            $actionPayedValue = $this->outlayMapper->totalPayedValueForResponsible($responsible);
+            if ($actionPayedValue > 0) {
+                $alreadyPayedValue += $actionPayedValue;
+                $actionPayedValue = $currencyDisplay->FormatCurrency($actionPayedValue);
+            } else {
+                $actionPayedValue = $currencyDisplay->FormatCurrency(0);
+            }
+
+            $statusTypes = new C3op_Projects_ActionStatusTypes();
+            $rawActionStatus = $action->getStatus();
+            $actionStatusLabel = $statusTypes->TitleForType($rawActionStatus);
+
+            $user = Zend_Registry::get('user');
+            $acl = Zend_Registry::get('acl');
+
+            $tester = new C3op_Access_PrivilegeTester($user, $acl, "resources", "responsible", "contract");
+            $rawResponsibleStatus = $responsible->getStatus();
+            $statusTypes = new C3op_Resources_ResponsibleStatusTypes();
+            $responsibleStatusLabel = $statusTypes->TitleForType($rawResponsibleStatus);
+            if ($tester->allow()) {
+                if (((($responsible->getType() == C3op_Resources_ResponsibleTypeConstants::TYPE_OUTSIDE_SERVICE)
+                        && ($responsible->getInstitution() > 0))
+                        || (($responsible->getType() == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER)
+                        && ($responsible->getContact() > 0)))
+                    && ($rawResponsibleStatus == C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN)) {
+                    $canContract = true;
+                } else {
+                    $canContract = false;
+                }
+            } else {
+                $canContract = false;
+            }
+
+            $outlayId = 0;
+            $canNotifyOutlay = false;
+            $canProvideOutlay = false;
+            if ($rawResponsibleStatus == C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED) {
+                $doesIt = new C3op_Resources_ResponsibleHasCredit($responsible, $this->responsibleMapper);
+                if ($doesIt->hasCreditToProvide()) {
+                    $canProvideOutlay = true;
+                } else {
+                    $canProvideOutlay = false;
+                }
+                if ($doesIt->hasCreditToPay()) {
+                    $result = $this->responsibleMapper->getNextOutlayToPayTo($responsible);
+                    if ($result !== null) {
+                        $canNotifyOutlay = true;
+                        $outlayId = $result['id'];
+                    } else {
+                        $canNotifyOutlay = false;
+
+                    }
+                } else {
+                    $canNotifyOutlay = false;
+                }
+            } else {
+                $canProvideOutlay = false;
+            }
+
+            $removal = new C3op_Resources_ResponsibleRemoval($responsible, $this->responsibleMapper);
+            if ($removal->canBeRemoved()) {
+                $canEditResource = true;
+                $canRemoveResponsible = true;
+            } else {
+                $canEditResource = false;
+                $canRemoveResponsible = false;
+            }
+
+
+            $engagedActions[$id] = array(
+                'projectId'            => $action->getProject(),
+                'projectTitle'         => $loopProject->getShortTitle(),
+                'responsibleId'        => $responsible->getId(),
+                'title'                => $action->getTitle(),
+                'position'             => "??? out of use ???",
+//                'payedValue'          => $actionPayedValue,
+//                'totalValue'          => $actionTotalValue,
+                'payedValue'           => 'N/D',
+                'totalValue'           => 'N/D',
+                'actionStatus'         => $this->view->translate($actionStatusLabel),
+                'responsibleStatus'    => $this->view->translate($responsibleStatusLabel),
+                'canContractFlag'      => $canContract,
+                'canProvideOutlay'     => $canProvideOutlay,
+                'canNotifyOutlay'      => $canNotifyOutlay,
+                'canEditResource'      => $canEditResource,
+                'canRemoveResponsible' => $canRemoveResponsible,
+                'outlayId'             => $outlayId,
+            );
+        }
+
+        if ($totalProvidedValue > 0) {
+            $totalProvidedValue = $currencyDisplay->FormatCurrency($totalProvidedValue);
+        } else {
+            $totalProvidedValue = $this->view->translate("#(not defined)");
+        }
+
+        if ($alreadyPayedValue > 0) {
+            $alreadyPayedValue = $currencyDisplay->FormatCurrency($alreadyPayedValue);
+        } else {
+            $alreadyPayedValue = $currencyDisplay->FormatCurrency(0);
+        }
+
+        if ($totalContractedValue > 0) {
+            $totalContractedValue = $currencyDisplay->FormatCurrency($totalContractedValue);
+        } else {
+            $totalContractedValue = $this->view->translate("#(not defined)");
+        }
+
+
+
+        $pageData = array(
+            'type'            => $engagedType,
+            'contactName'     => $contactName,
+            'contactId'       => $contactId,
+            'institutionName' => $institutionName,
+            'institutionId'   => $institutionId,
+//            'payedValue'      => $personPayedValue,
+//            'contractedValue' => $personContractedValue,
+//            'totalValue' => $personTotalValue,
+            'payedValue'      => 'N/D',
+            'contractedValue' => 'N/D',
+            'totalValue'      => 'N/D',
+            'engagedActions'   => $engagedActions,
+        );
+
+        $this->view->pageData = $pageData;
+
+    }
+
+
+
     private function fillReceiptsData()
     {
         $this->initActionMapper();
@@ -461,8 +665,63 @@ class Projects_IndexController extends Zend_Controller_Action
                 'relatedProductId'    => $productData['relatedProductId'],
             );
         }
+        return $data;
+
+    }
+
+    private function fillAllResourcesData()
+    {
+        $this->initResponsibleMapper();
+
+        $responsiblesList = $this->responsibleMapper->getAllUniqueResponsiblesContractedOrPredictedAtActiveProjects();
+        $data = array();
+        foreach ($responsiblesList as $id) {
+            $loopResponsible = $this->responsibleMapper->findById($id);
+            $institutionId = 0;
+            $finder = new C3op_Resources_ResponsibleContactInfo($loopResponsible, $this->responsibleMapper, $this->db);
+            $contactLabel = $finder->contactName();
+            $contactId = $loopResponsible->getContact();
+
+            if ($loopResponsible->getType() == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER) {
+                $responsibleLabel = $contactLabel;
+                $personal = true;
+            } else {
+                $finder = new C3op_Resources_ResponsibleInstitutionInfo($loopResponsible, $this->responsibleMapper, $this->db);
+                $responsibleLabel = $finder->institutionShortName();
+                $institutionId = $loopResponsible->getInstitution();
+                if ($contactId > 0) {
+                    $responsibleLabel = "$responsibleLabel ($contactLabel)";
+                }
+                $personal = false;
+            }
+
+            $data[$id] = array(
+                'contactId' => $contactId,
+                'institutionId' => $institutionId,
+                'name' => $responsibleLabel,
+                'personal' => $personal,
+            );
+        }
 
         return $data;
+
+    }
+
+    private function checkContactFromGet()
+    {
+        $data = $this->_request->getParams();
+        $filters = array(
+            'contact' => new Zend_Filter_Alnum(),
+        );
+        $validators = array(
+            'contact' => array('Digits', new Zend_Validate_GreaterThan(0)),
+        );
+        $input = new Zend_Filter_Input($filters, $validators, $data);
+        if ($input->isValid()) {
+            $contact = $input->contact;
+            return $contact;
+        }
+        throw new C3op_Projects_ProjectException("Invalid Project Id from Get");
 
     }
 
@@ -473,9 +732,26 @@ class Projects_IndexController extends Zend_Controller_Action
         }
     }
 
+    private function initContactWithCheckedContactId(C3op_Register_ContactMapper $mapper)
+    {
+        return $mapper->findById($this->checkContactFromGet());
+    }
+
    private function initContactMapper()
     {
          $this->contactMapper = new C3op_Register_ContactMapper($this->db);
+    }
+
+    private function initOutlayMapper()
+    {
+        if (!isset($this->outlayMapper)) {
+            $this->outlayMapper = new C3op_Finances_OutlayMapper($this->db);
+        }
+    }
+
+    private function initResponsibleMapper()
+    {
+         $this->responsibleMapper = new C3op_Resources_ResponsibleMapper($this->db);
     }
 
    private function initInstitutionMapper()
@@ -495,6 +771,30 @@ class Projects_IndexController extends Zend_Controller_Action
         if (!isset($this->deliveryMapper)) {
             $this->deliveryMapper = new C3op_Projects_DeliveryMapper($this->db);
         }
+    }
+
+
+    private function checkInstitutionFromGet()
+    {
+        $data = $this->_request->getParams();
+        $filters = array(
+            'institution' => new Zend_Filter_Alnum(),
+        );
+        $validators = array(
+            'institution' => array('Digits', new Zend_Validate_GreaterThan(0)),
+        );
+        $input = new Zend_Filter_Input($filters, $validators, $data);
+        if ($input->isValid()) {
+            $institution = $input->institution;
+            return $institution;
+        }
+        throw new C3op_Projects_ProjectException("Invalid Project Id from Get");
+
+    }
+
+    private function initInstitutionWithCheckedInstitutionId(C3op_Register_InstitutionMapper $mapper)
+    {
+        return $mapper->findById($this->checkInstitutionFromGet());
     }
 
 

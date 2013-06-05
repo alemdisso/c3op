@@ -1,0 +1,131 @@
+<?php
+  $pageData = $this->pageData;
+?>
+
+        <div id="MainHeader">
+<?php
+if ($pageData['type'] == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER) {
+
+?>
+          <h1><?php print(sprintf($this->translate("#%s's participation in active projects"), $pageData['contactName'])); ?></h1>
+<?php
+} else if ($pageData['type'] == C3op_Resources_ResponsibleTypeConstants::TYPE_OUTSIDE_SERVICE) {
+?>
+          <h1><?php print(sprintf($this->translate("#%s's participation in active projects"), $pageData['institutionName'])); ?></h1>
+<?php
+}
+?>
+        </div><!-- MainHeader -->
+        <div class="TituloForm">
+
+        </div>
+
+        <div id="tabs">
+          <ul>
+            <li><a href="#tabs-actions"><?php echo $this->translate("#Actions") ?></a></li>
+          </ul>
+
+          <div id="tabs-actions">
+            <table id="SubActions" class="display dataTable">
+              <thead>
+                <tr>
+                  <th width="150"><?php print($this->translate("#Project")); ?></th>
+                  <th width="120"><?php print($this->translate("#Action")); ?></th>
+                  <th width="80"><?php print($this->translate("#Action Status")); ?></th>
+                  <th width="80"><?php print($this->translate("#Status")); ?></th>
+                  <th width="10">&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody>
+<?php
+  $engagedActions = $pageData['engagedActions'];
+  foreach ($engagedActions as $id => $actionData) {
+?>
+                <!-- ### loop de carga das ações subordinadas a esta ação -->
+                <tr>
+                  <td><a href="/projects/project/detail/?id=<?php print($actionData['projectId']);?>"><?php print($actionData['projectTitle']) ?></a></td>
+                  <td><a href="/projects/action/detail/?id=<?php print($id);?>"><?php print($actionData['title']) ?></a></td>
+                  <td><?php print($actionData['actionStatus']); ?></td>
+                  <td><?php print($this->translate($actionData['responsibleStatus'])); ?></td>
+                      <td>
+                    <a href="#" class="button one column alpha omega anchorclass" rel="submenu1"><?php print($this->translate("#Options")); ?></a>
+                    <div id="submenu1" class="anylinkcss">
+                        <ul>
+<?php
+
+if ($actionData['canProvideOutlay']) {
+?>
+
+
+                          <li>
+                            <a href="/finances/outlay/create/?responsible=<?php echo $actionData['responsibleId'] ?>"><?php echo $this->translate("#Provide outlay") ?></a>
+                          </li>
+
+<?php
+}
+?>
+<?php
+
+if ($actionData['canNotifyOutlay']) {
+?>
+
+
+                          <li>
+                            <a href="/finances/outlay/notify/?id=<?php echo $actionData['outlayId'] ?>"><?php echo $this->translate("#Notify outlay") ?></a>
+                          </li>
+
+<?php
+}
+?>
+    <?php
+    if ($actionData['canContractFlag']) {
+?>
+                        <li>
+                          <a class="parent_info" href="/resources/responsible/contract/?id=<?php print($actionData['responsibleId']);?>" ><?php print($this->translate("#Confirm responsible contracting")); ?></a>
+                        </li>
+
+<?php
+    }
+?>
+
+<?php
+    if($actionData['canEditResource']) {
+
+?>
+                        <li>
+                          <a href="/resources/responsible/edit/?id=<?php print($actionData['responsibleId']) ?>"><?php print($this->translate("#Edit")); ?></a>
+                        </li>
+
+<?php
+    }
+?>
+
+<?php
+
+if ($actionData['canRemoveResponsible']) {
+?>
+
+
+                          <li>
+                            <a href="/resources/responsible/remove/?id=<?php echo $actionData['responsibleId'] ?>"><?php echo $this->translate("#Remove") ?></a>
+                          </li>
+
+<?php
+}
+?>
+
+                        </ul>
+                    </div><!-- #submenu1 -->
+                  </td>
+                </tr>
+              <!-- ### fim do loop de carga das ações subordinadas a esta ação -->
+<?php
+  }
+?>
+              </tbody>
+            </table>
+          </div><!-- #tabs-actions -->
+
+
+        </div><!-- #tabs -->
+        <!-- ### Será preciso montar a tabela de recursos materias, idêntica à de recursos humanos, assim que forem tratados pelo sistema -->
