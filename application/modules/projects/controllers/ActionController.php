@@ -922,8 +922,8 @@ class Projects_ActionController extends Zend_Controller_Action
         $responsiblesIdsList = $this->actionMapper->getAllUniqueResponsiblesContractedOrPredictedUnderAction($action);
 
         foreach ($responsiblesIdsList as $responsibleId) {
-            $theResponsible = $this->responsibleMapper->findById($responsibleId);
-            $responsibleAction = $this->actionMapper->findById($theResponsible->getAction());
+            $loopResponsible = $this->responsibleMapper->findById($responsibleId);
+            $responsibleAction = $this->actionMapper->findById($loopResponsible->getAction());
 
             $responsible = new C3op_Projects_ActionResponsible($responsibleAction, $this->actionMapper, $this->db);
 
@@ -931,17 +931,41 @@ class Projects_ActionController extends Zend_Controller_Action
 
             $responsibleActionTitle = $responsibleAction->getTitle();
 
-            $contactId = $responsibleData['contactId'];
-            $contactName = $responsibleData['contactName'];
-            $institutionId = $responsibleData['institutionId'];
+
+
+
+
+            $institutionId = 0;
+            $finder = new C3op_Resources_ResponsibleContactInfo($loopResponsible, $this->responsibleMapper, $this->db);
+            $contactLabel = $finder->contactName();
+            $contactId = $loopResponsible->getContact();
+
+            if ($loopResponsible->getType() == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER) {
+                $responsibleLabel = $contactLabel;
+                $personal = true;
+            } else {
+                $finder = new C3op_Resources_ResponsibleInstitutionInfo($loopResponsible, $this->responsibleMapper, $this->db);
+                $responsibleLabel = $finder->institutionShortName();
+                $institutionId = $loopResponsible->getInstitution();
+                if ($contactId > 0) {
+                    $responsibleLabel = "$responsibleLabel ($contactLabel)";
+                }
+                $personal = false;
+            }
+
+
+
+
+
+
             $statusLabel = $this->view->translate($responsibleData['statusLabel']);
             $canContract = $responsibleData['canContract'];
             $canDismiss = $responsibleData['canDismiss'];
             $canProvideOutlay = $responsibleData['canProvideOutlay'];
 
-            $status = $theResponsible->getStatus();
+            $status = $loopResponsible->getStatus();
 
-            $removal = new C3op_Resources_ResponsibleRemoval($theResponsible, $this->responsibleMapper);
+            $removal = new C3op_Resources_ResponsibleRemoval($loopResponsible, $this->responsibleMapper);
             if ($removal->canBeRemoved()) {
                 $canRemoveResponsible = true;
                 $canEditResource = true;
@@ -954,8 +978,9 @@ class Projects_ActionController extends Zend_Controller_Action
                 'id'                     => $responsibleId,
                 'contactId'              => $contactId,
                 'institutionId'          => $institutionId,
-                'name'                   => $contactName,
-                'responsibleActionId'    => $theResponsible->getAction(),
+                'name'                   => $responsibleLabel,
+                'personal'               => $personal,
+                'responsibleActionId'    => $loopResponsible->getAction(),
                 'responsibleActionTitle' => $responsibleActionTitle,
                 'contractingStatusLabel' => $statusLabel,
                 'canContractFlag'        => $canContract,

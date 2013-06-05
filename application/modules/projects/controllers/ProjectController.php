@@ -242,12 +242,24 @@ class Projects_ProjectController extends Zend_Controller_Action
             $rawActionStatus = $loopAction->getStatus();
             $actionStatusLabel = $this->view->translate($statusTypes->TitleForType($rawActionStatus));
 
+            $institutionId = 0;
+            $finder = new C3op_Resources_ResponsibleContactInfo($loopResponsible, $this->responsibleMapper, $this->db);
+            $contactLabel = $finder->contactName();
+            $contactId = $loopResponsible->getContact();
 
+            if ($loopResponsible->getType() == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER) {
+                $responsibleLabel = $contactLabel;
+                $personal = true;
+            } else {
+                $finder = new C3op_Resources_ResponsibleInstitutionInfo($loopResponsible, $this->responsibleMapper, $this->db);
+                $responsibleLabel = $finder->institutionShortName();
+                $institutionId = $loopResponsible->getInstitution();
+                if ($contactId > 0) {
+                    $responsibleLabel = "$responsibleLabel ($contactLabel)";
+                }
+                $personal = false;
+            }
 
-
-            $contactId = $responsibleData['contactId'];
-            $contactName = $responsibleData['contactName'];
-            $institutionId = $responsibleData['institutionId'];
             $statusLabel = $this->view->translate($responsibleData['statusLabel']);
             $canContract = $responsibleData['canContract'];
             if ($canContract) {
@@ -269,9 +281,10 @@ class Projects_ProjectController extends Zend_Controller_Action
 
             $responsiblesList[$id] = array(
                 'id'                     => $id,
+                'personal'               => $personal,
                 'contactId'              => $contactId,
                 'institutionId'          => $institutionId,
-                'name'                   => $contactName,
+                'name'                   => $responsibleLabel,
                 'responsibleActionId'    => $loopResponsible->getAction(),
                 'responsibleActionTitle' => $loopActionTitle,
                 'actionStatusLabel'      => $actionStatusLabel,

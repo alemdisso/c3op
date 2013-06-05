@@ -149,7 +149,7 @@ foreach($amendmentsList as $id => $contractInfo) {
       <ul>
         <li><a href="#tabs-products"><?php echo $this->translate("#Products") ?></a></li>
         <li><a href="#tabs-action"><?php echo $this->translate("#Actions") ?></a></li>
-        <li><a href="#tabs-team"><?php echo $this->translate("#Team") ?></a></li>
+        <li><a href="#tabs-responsibles"><?php echo $this->translate("#Team") ?></a></li>
         <li><a href="#tabs-material"><?php echo $this->translate("#Material") ?></a></li>
         <li><a href="#tabs-details"><?php echo $this->translate("#Details") ?></a></li>
       </ul>
@@ -285,7 +285,7 @@ if ($actionData['contactId'] > 0) {
 
         </div><!-- tabs-action -->
 
-          <div id="tabs-team">
+          <div id="tabs-responsibles">
 
           <table id="Responsibles" class="display dataTable">
             <thead>
@@ -305,7 +305,7 @@ if ($actionData['contactId'] > 0) {
 ?>          <!-- ### loop de carga dos recursos humanos alocados a esta ação -->
               <tr>
 <?php
-    if($responsibleData['contactId']) {
+    if($responsibleData['personal']) {
 ?>
                   <td>
                   <a href="/projects/project/engagement/?id=<?php print($projectHeader['id']) ?>&contact=<?php print($responsibleData['contactId']) ?>"><?php print($responsibleData['name']) ?></a>
@@ -316,7 +316,6 @@ if ($actionData['contactId'] > 0) {
 ?>
                   <td>
                   <a href="/projects/project/engagement/?id=<?php print($projectHeader['id']) ?>&institution=<?php print($responsibleData['institutionId']) ?>"><?php print($responsibleData['name']) ?></a>
-                  <?php print($responsibleData['name']) ?>
                 </td>
     <?php
 
@@ -421,7 +420,7 @@ if($responsibleData['contactId'] > 0) {
             </tbody>
           </table>
 
-          </div><!-- #tabs-team -->
+          </div><!-- #tabs-responsibles -->
 
 
         <div id="tabs-material">

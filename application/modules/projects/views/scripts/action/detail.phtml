@@ -383,6 +383,7 @@ if ($actionHeader['hasResponsible']) {
                   <div id="submenuResponsible" class="anylinkcss">
                       <ul>
 <?php
+
         if ($actionHeader['responsibleType'] == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER) {
 
 ?>
@@ -559,7 +560,7 @@ if (($actionHeader['responsibleType'] == C3op_Resources_ResponsibleTypeConstants
 ?>          <!-- ### loop de carga dos recursos humanos alocados a esta ação -->
               <tr>
 <?php
-    if($responsibleData['contactId']) {
+    if($responsibleData['personal']) {
 ?>
                   <td>
                   <a href="/projects/project/engagement/?id=<?php print($actionHeader['projectId']) ?>&contact=<?php print($responsibleData['contactId']) ?>"><?php print($responsibleData['name']) ?></a>
@@ -570,7 +571,6 @@ if (($actionHeader['responsibleType'] == C3op_Resources_ResponsibleTypeConstants
 ?>
                   <td>
                   <a href="/projects/project/engagement/?id=<?php print($actionHeader['projectId']) ?>&institution=<?php print($responsibleData['institutionId']) ?>"><?php print($responsibleData['name']) ?></a>
-                  <?php print($responsibleData['name']) ?>
                 </td>
     <?php
 
