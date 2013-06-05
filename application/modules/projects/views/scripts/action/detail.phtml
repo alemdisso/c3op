@@ -594,7 +594,7 @@ if (($actionHeader['responsibleType'] == C3op_Resources_ResponsibleTypeConstants
 
 ?>
                         <li>
-                          <a href="/resources/team-member/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
+                          <a href="/resources/responsible/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
                         </li>
 
 <?php
@@ -604,7 +604,7 @@ if (($actionHeader['responsibleType'] == C3op_Resources_ResponsibleTypeConstants
     if ($responsibleData['canContractFlag']) {
 ?>
                         <li>
-                          <a class="parent_info" href="/resources/team-member/contract/?id=<?php print($id);?>" ><?php print($this->translate("#Confirm team member contracting")); ?></a>
+                          <a class="parent_info" href="/resources/responsible/contract/?id=<?php print($id);?>" ><?php print($this->translate("#Confirm team member contracting")); ?></a>
                         </li>
 
 <?php
@@ -614,7 +614,7 @@ if (($actionHeader['responsibleType'] == C3op_Resources_ResponsibleTypeConstants
     if ($responsibleData['canDismissFlag']) {
 ?>
                         <li>
-                          <a class="parent_info" href="/resources/team-member/dismiss/?id=<?php print($id);?>" ><?php print($this->translate("#Dismiss team memb")); ?></a>
+                          <a class="parent_info" href="/resources/responsible/dismiss/?id=<?php print($id);?>" ><?php print($this->translate("#Dismiss team memb")); ?></a>
                         </li>
 
 <?php
@@ -640,7 +640,7 @@ if ($responsibleData['canRemoveResponsible']) {
 
 
                           <li>
-                            <a href="/resources/team-member/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
+                            <a href="/resources/responsible/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
                           </li>
 
 <?php

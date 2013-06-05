@@ -286,139 +286,141 @@ if ($actionData['contactId'] > 0) {
         </div><!-- tabs-action -->
 
           <div id="tabs-responsibles">
+          <div class="Area">
 
-          <table id="Responsibles" class="display dataTable">
-            <thead>
-              <tr>
-                <th width="150"><?php print($this->translate("#Name")); ?></th>
-                <th width="120"><?php print($this->translate("#Action")); ?></th>
-                <th width="100"><?php print($this->translate("#Status")); ?></th>
-                <th width="100"><?php print($this->translate("#Finish")); ?></th>
-                <th width="30"><?php print($this->translate("#Days")); ?></th>
-                <th width="100">&nbsp;</th>
-              </tr>
-            </thead>
-            <tbody>
+            <table id="Responsibles" class="display dataTable">
+                <thead>
+                <tr>
+                    <th width="150"><?php print($this->translate("#Name")); ?></th>
+                    <th width="120"><?php print($this->translate("#Action")); ?></th>
+                    <th width="100"><?php print($this->translate("#Status")); ?></th>
+                    <th width="100"><?php print($this->translate("#Finish")); ?></th>
+                    <th width="30"><?php print($this->translate("#Days")); ?></th>
+                    <th width="100">&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody>
 
-<?php
-  foreach ($responsiblesList as $id => $responsibleData) {
-?>          <!-- ### loop de carga dos recursos humanos alocados a esta ação -->
-              <tr>
-<?php
-    if($responsibleData['personal']) {
-?>
-                  <td>
-                  <a href="/projects/project/engagement/?id=<?php print($projectHeader['id']) ?>&contact=<?php print($responsibleData['contactId']) ?>"><?php print($responsibleData['name']) ?></a>
-                </td>
-<?php
-    } else {
+    <?php
+    foreach ($responsiblesList as $id => $responsibleData) {
+    ?>          <!-- ### loop de carga dos recursos humanos alocados a esta ação -->
+                <tr>
+    <?php
+        if($responsibleData['personal']) {
+    ?>
+                    <td>
+                    <a href="/projects/project/engagement/?id=<?php print($projectHeader['id']) ?>&contact=<?php print($responsibleData['contactId']) ?>"><?php print($responsibleData['name']) ?></a>
+                    </td>
+    <?php
+        } else {
 
-?>
-                  <td>
-                  <a href="/projects/project/engagement/?id=<?php print($projectHeader['id']) ?>&institution=<?php print($responsibleData['institutionId']) ?>"><?php print($responsibleData['name']) ?></a>
-                </td>
+    ?>
+                    <td>
+                    <a href="/projects/project/engagement/?id=<?php print($projectHeader['id']) ?>&institution=<?php print($responsibleData['institutionId']) ?>"><?php print($responsibleData['name']) ?></a>
+                    </td>
+        <?php
+
+        }
+
+
+    ?>
+                    <td>
+                    <a href="/projects/action/detail/?id=<?php print($responsibleData['responsibleActionId']); ?>"><?php print($responsibleData['responsibleActionTitle']); ?></a>
+                    </td>
+                    <td>
+                    <?php print($responsibleData['actionStatusLabel']) ?>
+                    </td>
+                    <td>
+                        <?php print($responsibleData['finishDate']) ?>
+                    </td>
+                    <td>
+                        <?php print($responsibleData['differenceInDays']) ?>
+                    </td>
+
+                    <td>
+                    <a href="#" class="button one column alpha omega anchorclass" rel="submenu2"><?php print($this->translate("#Options")); ?></a>
+                    <div id="submenu2" class="anylinkcss">
+                        <ul>
+
+    <?php
+        if($responsibleData['canEditResource']) {
+
+    ?>
+                            <li>
+                            <a href="/resources/responsible/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
+                            </li>
+
+    <?php
+        }
+    ?>
+        <?php
+        if ($responsibleData['canContractFlag']) {
+    ?>
+                            <li>
+                            <a class="parent_info" href="/resources/responsible/contract/?id=<?php print($id);?>" ><?php print($this->translate("#Confirm team member contracting")); ?></a>
+                            </li>
+
+    <?php
+        }
+    ?>
+        <?php
+        if ($responsibleData['canDismissFlag']) {
+    ?>
+                            <li>
+                            <a class="parent_info" href="/resources/responsible/dismiss/?id=<?php print($id);?>" ><?php print($this->translate("#Dismiss team memb")); ?></a>
+                            </li>
+
+    <?php
+        }
+    ?>
     <?php
 
-    }
+    if ($responsibleData['canProvideOutlay']) {
+    ?>
 
 
-?>
-                <td>
-                  <a href="/projects/action/detail/?id=<?php print($responsibleData['responsibleActionId']); ?>"><?php print($responsibleData['responsibleActionTitle']); ?></a>
-                </td>
-                <td>
-                  <?php print($responsibleData['actionStatusLabel']) ?>
-                </td>
-                <td>
-                    <?php print($responsibleData['finishDate']) ?>
-                </td>
-                <td>
-                    <?php print($responsibleData['differenceInDays']) ?>
-                </td>
+                            <li>
+                                <a href="/finances/outlay/create/?responsible=<?php echo $id ?>"><?php echo $this->translate("#Provide outlay") ?></a>
+                            </li>
 
-                <td>
-                  <a href="#" class="button one column alpha omega anchorclass" rel="submenu2"><?php print($this->translate("#Options")); ?></a>
-                  <div id="submenu2" class="anylinkcss">
-                      <ul>
-
-<?php
-    if($responsibleData['canEditResource']) {
-
-?>
-                        <li>
-                          <a href="/resources/team-member/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
-                        </li>
-
-<?php
-    }
-?>
     <?php
-    if ($responsibleData['canContractFlag']) {
-?>
-                        <li>
-                          <a class="parent_info" href="/resources/team-member/contract/?id=<?php print($id);?>" ><?php print($this->translate("#Confirm team member contracting")); ?></a>
-                        </li>
-
-<?php
     }
-?>
+    ?>
     <?php
-    if ($responsibleData['canDismissFlag']) {
-?>
-                        <li>
-                          <a class="parent_info" href="/resources/team-member/dismiss/?id=<?php print($id);?>" ><?php print($this->translate("#Dismiss team memb")); ?></a>
-                        </li>
 
-<?php
+    if ($responsibleData['canRemoveResponsible']) {
+    ?>
+
+
+                            <li>
+                                <a href="/resources/responsible/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
+                            </li>
+
+    <?php
     }
-?>
-<?php
+    ?>
+    <?php
+    if($responsibleData['contactId'] > 0) {
+    ?>
+                            <li>
+                            <a href="/register/contact/detail/?id=<?php print($responsibleData['contactId']) ?>"><?php echo $this->translate("#Contact detail") ?></a>
+                            </li>
+    <?php
+    }
+    ?>
 
-if ($responsibleData['canProvideOutlay']) {
-?>
+                        </ul>
+                    </div><!-- #submenu1 -->
+                    </td>
+                </tr>
+                <!-- ### fim do loop de carga dos recursos humanos alocados a esta ação -->
+    <?php
+    }
+    ?>
 
-
-                          <li>
-                            <a href="/finances/outlay/create/?responsible=<?php echo $id ?>"><?php echo $this->translate("#Provide outlay") ?></a>
-                          </li>
-
-<?php
-}
-?>
-<?php
-
-if ($responsibleData['canRemoveResponsible']) {
-?>
-
-
-                          <li>
-                            <a href="/resources/team-member/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
-                          </li>
-
-<?php
-}
-?>
-<?php
-if($responsibleData['contactId'] > 0) {
-?>
-                        <li>
-                          <a href="/register/contact/detail/?id=<?php print($responsibleData['contactId']) ?>"><?php echo $this->translate("#Contact detail") ?></a>
-                        </li>
-<?php
-}
-?>
-
-                      </ul>
-                  </div><!-- #submenu1 -->
-                </td>
-              </tr>
-              <!-- ### fim do loop de carga dos recursos humanos alocados a esta ação -->
-<?php
-  }
-?>
-
-            </tbody>
-          </table>
+                </tbody>
+            </table>
+          </div><!-- Area -->
 
           </div><!-- #tabs-responsibles -->
 

@@ -182,6 +182,24 @@ class C3op_Projects_ActionMapper
     }
 
 
+    public function getAllDelayedActions()
+    {
+        $query = $this->db->prepare('SELECT a.id FROM projects_actions a
+                    LEFT JOIN projects_actions_dates d ON a.id = d.action
+                    WHERE a.status = :execution
+                    AND d.predicted_finish_date < CURDATE();');
+        $query->bindValue(':execution', C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION, PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
+        foreach ($resultPDO as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
+
     public function getPossibleSubordination(C3op_Projects_Action $obj)
     {
         $below = new C3op_Projects_ActionsBelow($obj, $this);

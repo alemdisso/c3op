@@ -5,6 +5,8 @@
   $receiptsList = $pageData['receiptsList'];
   $allProjectsList = $pageData['allProjectsList'];
   $responsiblesList = $pageData['responsiblesList'];
+  $delayedList = $pageData['delayedList'];
+
 
 ?>
 <script type="text/javascript">
@@ -64,6 +66,7 @@ $(document).ready(function(){
         <li><a href="#tabs-receipts"><?php echo $this->translate("#Receipts") ?></a></li>
         <li><a href="#tabs-all"><?php echo $this->translate("#All Projects") ?></a></li>
         <li><a href="#tabs-resources"><?php echo $this->translate("#All Resources") ?></a></li>
+        <li><a href="#tabs-delayed"><?php echo $this->translate("#Delayed Actions") ?></a></li>
       </ul>
 
       <div id="tabs-projects">
@@ -448,67 +451,172 @@ if ($projectData['hasContract']) {
 
 
           <div id="tabs-resources">
+            <div class="Area">
 
-          <table id="Responsibles" class="display dataTable">
+            <table id="Responsibles" class="display dataTable">
+                <thead>
+                    <tr>
+                        <th width="250"><?php echo $this->translate("#Name") ?></th>
+                        <th width="200"><?php echo $this->translate("#Projects") ?></th>
+                        <th width="200"><?php echo $this->translate("#Next Actions") ?></th>
+                        <th width="1%">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+    <?php
+    foreach ($responsiblesList as $id => $responsibleData) {
+    ?>          <!-- ### loop de carga dos recursos humanos alocados a esta ação -->
+                <tr>
+    <?php
+        if($responsibleData['personal']) {
+    ?>
+                    <td>
+                    <a href="/projects/index/engagement/?contact=<?php print($responsibleData['contactId']) ?>"><?php print($responsibleData['name']) ?></a>
+                    </td>
+    <?php
+        } else {
+
+    ?>
+                    <td>
+                    <a href="/projects/index/engagement/?institution=<?php print($responsibleData['institutionId']) ?>"><?php print($responsibleData['name']) ?></a>
+                    </td>
+        <?php
+
+        }
+
+
+    ?>
+                    <td>
+                        &nbsp;
+                    </td>
+                    <td>
+                    &nbsp;
+                    </td>
+
+                    <td>
+                    <a href="#" class="button one column alpha omega anchorclass" rel="submenu2"><?php print($this->translate("#Options")); ?></a>
+                    <div id="submenu2" class="anylinkcss">
+                        <ul>
+
+
+                        </ul>
+                    </div><!-- #submenu1 -->
+                    </td>
+                </tr>
+                <!-- ### fim do loop de carga dos recursos humanos alocados a esta ação -->
+    <?php
+    }
+    ?>
+
+
+                </tbody>
+            </table>
+          </div><!-- Area -->
+
+          </div><!-- #tabs-resources -->
+
+
+
+
+        <div id="tabs-delayed">
+          <div class="Area">
+            <h2><?php echo $this->translate("#Delayed actions") ?></h2>
+
+<?php
+/*
+ * if there is delayed in list
+ */
+      if (count($delayedList)) {
+?>
+
+           <table id="Delayed" class="display dataTable">
               <thead>
-                  <tr>
-                      <th width="250"><?php echo $this->translate("#Name") ?></th>
-                      <th width="200"><?php echo $this->translate("#Projects") ?></th>
-                      <th width="200"><?php echo $this->translate("#Next Actions") ?></th>
-                      <th width="1%">&nbsp;</th>
-                  </tr>
+                <tr>
+                  <th width="120"><?php echo $this->translate("#Project") ?></th>
+                  <th width="120"><?php echo $this->translate("#Product") ?></th>
+                  <th width="150"><?php echo $this->translate("#Action") ?></th>
+                  <th width="140"><?php echo $this->translate("#Responsible") ?></th>
+                  <th width="50"><?php echo $this->translate("#Predicted finish date") ?></th>
+                  <th width="50"><?php echo $this->translate("#Limit for deliver") ?></th>
+                  <th width="1%">&nbsp;</th>
+                </tr>
               </thead>
               <tbody>
 <?php
-  foreach ($responsiblesList as $id => $responsibleData) {
-?>          <!-- ### loop de carga dos recursos humanos alocados a esta ação -->
-              <tr>
-<?php
-    if($responsibleData['personal']) {
+foreach($delayedList as $id => $delayedInfo) {
 ?>
+                <tr>
                   <td>
-                  <a href="/projects/index/engagement/?contact=<?php print($responsibleData['contactId']) ?>"><?php print($responsibleData['name']) ?></a>
-                </td>
+                    <a href="/projects/project/detail/?id=<?php print($delayedInfo['projectId']) ?>"><?php print($delayedInfo['projectTitle']) ?></a>
+                  </td>
+                  <td>
+                    <a href="/projects/action/detail/?id=<?php print($delayedInfo['relatedProductId']) ?>"><?php print($delayedInfo['relatedProductTitle']) ?></a>
+                  </td>
+                  <td>
+                    <a href="/projects/action/detail/?id=<?php print($delayedInfo['actionId']) ?>"><?php print($delayedInfo['actionTitle']) ?></a>
+                  </td>
+                  <td>
 <?php
-    } else {
+if($delayedInfo['personal']) {
+    if($delayedInfo['contactId'] > 0) {
+?>
+                    <a href="/projects/index/engagement/?contact=<?php  print $delayedInfo['contactId'] ?>"><?php print($delayedInfo['name']) ?></a>
+<?php
 
+    } else {
 ?>
-                  <td>
-                  <a href="/projects/index/engagement/?institution=<?php print($responsibleData['institutionId']) ?>"><?php print($responsibleData['name']) ?></a>
-                </td>
+<?php print($delayedInfo['name']) ?>
+
     <?php
 
     }
-
-
+} else {
 ?>
-                <td>
-                    &nbsp;
-                </td>
-                <td>
-                  &nbsp;
-                </td>
-
-                <td>
-                  <a href="#" class="button one column alpha omega anchorclass" rel="submenu2"><?php print($this->translate("#Options")); ?></a>
-                  <div id="submenu2" class="anylinkcss">
-                      <ul>
-
-
-                      </ul>
-                  </div><!-- #submenu1 -->
-                </td>
-              </tr>
-              <!-- ### fim do loop de carga dos recursos humanos alocados a esta ação -->
+                    <a href="/projects/index/engagement/?institution=<?php  print $delayedInfo['institutionId'] ?>"><?php print($delayedInfo['name']) ?></a>
 <?php
-  }
+
+}
 ?>
+                  </td>
+                  <td>
+                    <?php print($delayedInfo['predictedFinishDate']) ?>
+                  </td>
+                  <td>
+                    <?php print($delayedInfo['deliveryDate']) ?>
+                  </td>
+                  <td>
+                <div id="delayedAcknowledgement-<?php print($delayedInfo['actionId']);?>">
+                    <a href="#" class="anchorclass" rel="submenu1"><?php echo $this->translate("#Options") ?></a>
+                    <div id="submenu1" class="anylinkcss">
+                        <ul>
+                        </ul>
+                    </div><!-- #submenu1 -->
+                </div>
+                  </td>
+                </tr>
+<?php
+}
+?>
+                <!-- ### fim do loop de carga das ações que são produto -->
+
+              </tbody>
+            </table><br />
 
 
-            </tbody>
-          </table>
 
-          </div><!-- #tabs-resources -->
+<?php
+      } else { // end else there is delayed in list
+?>
+            <p><?php print($this->translate("#There is no registered delayed.")) ?></p>
+
+<?php
+      } // end else there is delayed in list
+?>
+          </div><!-- Area -->
+        </div><!-- tabs-delayed -->
+
+
+
 
 
 
