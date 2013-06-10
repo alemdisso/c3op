@@ -18,3 +18,5 @@ public/index.php
 /application/configs/_staging_application.ini
 /application/configs/default_production_application.ini
 /application/modules/projects/views/scripts/project/full-detail.phtml
+/application/en_browser_prod_Bootstrap.php
+/application/en_browser_Bootstrap.php

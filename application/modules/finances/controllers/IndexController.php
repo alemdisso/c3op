@@ -187,7 +187,6 @@ class Finances_IndexController extends Zend_Controller_Action
                 $responsibleContact = $this->contactMapper->findById($theResponsible->getContact());
                 $payeeName = $responsibleContact->getName();
                 $payeeId = $responsibleContact->getId();
-                $payeeName = $responsibleContact->getName();
                 $responsibleId = $theResponsible->getId();
             }
 

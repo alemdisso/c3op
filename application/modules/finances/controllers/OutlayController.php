@@ -4,7 +4,7 @@ class Finances_OutlayController  extends Zend_Controller_Action
 {
     private $actionMapper;
     private $contactMapper;
-    private $linkageMapper;
+    private $institutionMapper;
     private $outlayMapper;
     private $projectMapper;
     private $responsibleMapper;
@@ -184,8 +184,8 @@ class Finances_OutlayController  extends Zend_Controller_Action
         if (!isset($this->outlayMapper)) {
             $this->initOutlayMapper();
         }
-        if (!isset($this->linkageMapper)) {
-            $this->initLinkageMapper();
+        if (!isset($this->institutionMapper)) {
+            $this->initInstitutionMapper();
         }
         if (!isset($this->contactMapper)) {
             $this->initContactMapper();
@@ -276,19 +276,42 @@ class Finances_OutlayController  extends Zend_Controller_Action
             $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($outlay->getPredictedDate());
 
             $this->initResponsibleMapper();
-            $theResponsible = $this->responsibleMapper->findById($outlay->GetResponsible());
-            $payeeName = "(indefinido)";
-            $payeeId = 0;
-            $linkageId = $theResponsible->GetLinkage();
-            if ($linkageId > 0) {
+            $responsibleId = $outlay->getResponsible();
+            $theResponsible = $this->responsibleMapper->findById($responsibleId);
+            $payeeName = $this->view->translate("#Not defined");
+
+//            $linkageId = $theResponsible->GetLinkage();
+//            if ($linkageId > 0) {
+//                $this->initContactMapper();
+//                $this->initLinkageMapper();
+//                $linkageContact = $this->linkageMapper->findById($linkageId);
+//                $payeeId = $linkageContact->GetContact();
+//                $contractedContact = $this->contactMapper->findById($payeeId);
+//                $payeeName = $contractedContact->GetName();
+//            }
+//
+
+            $payeeId = null;
+            $contactId = null;
+            $institutionId = null;
+
+            if (($theResponsible->getType() == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER)
+                 && ($theResponsible->getContact() > 0)) {
                 $this->initContactMapper();
-                $this->initLinkageMapper();
-                $linkageContact = $this->linkageMapper->findById($linkageId);
-                $payeeId = $linkageContact->GetContact();
-                $contractedContact = $this->contactMapper->findById($payeeId);
-                $payeeName = $contractedContact->GetName();
+                $responsibleContact = $this->contactMapper->findById($theResponsible->getContact());
+                $payeeName = $responsibleContact->getName();
+                $payeeId = $responsibleContact->getId();
+                $responsibleId = $theResponsible->getId();
             }
 
+            if (($theResponsible->getType() == C3op_Resources_ResponsibleTypeConstants::TYPE_OUTSIDE_SERVICE)
+                 && ($theResponsible->getInstitution() > 0)) {
+                $this->initInstitutionMapper();
+                $responsibleInstitution = $this->institutionMapper->findById($theResponsible->getInstitution());
+                $payeeName = $responsibleInstitution->getShortName();
+                $responsibleId = $theResponsible->getId();
+                $payeeId = $theResponsible->getInstitution();
+            }
 
 
             $outlayDetails = sprintf ($this->view->translate("#Paying to %s, %s predicted for %s"), $payeeName, $predictedValue, $predictedDate);
@@ -317,9 +340,9 @@ class Finances_OutlayController  extends Zend_Controller_Action
          $this->contactMapper = new C3op_Register_ContactMapper($this->db);
     }
 
-    private function initLinkageMapper()
+    private function initInstitutionMapper()
     {
-         $this->linkageMapper = new C3op_Register_LinkageMapper($this->db);
+         $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
     }
 
 
