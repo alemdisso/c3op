@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-05 20:12-0300\n"
-"PO-Revision-Date: 2013-06-05 20:12-0300\n"
+"PO-Revision-Date: 2013-06-10 14:23-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -494,7 +494,7 @@ msgstr "Essa ação faz parte do produto %s, que deve ser entregue até %s."
 #: application\modules\projects/views/scripts/action/detail.phtml:358
 #, php-format
 msgid "#This product should be delivered until %s"
-msgstr "Essa produto deve ser entregue até %s."
+msgstr "Esse produto deve ser entregue até %s."
 
 #: application\modules\projects/views/scripts/action/detail.phtml:371
 #: application\modules\projects/views/scripts/action/detail.phtml:430

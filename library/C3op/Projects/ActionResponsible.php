@@ -79,6 +79,16 @@ class C3op_Projects_ActionResponsible {
                 }
             }
 
+            $user = Zend_Registry::get('user');
+            $acl = Zend_Registry::get('acl');
+
+            $canDefineResponsible = false;
+            $tester = new C3op_Access_PrivilegeTester($user, $acl, "resources", "responsible", "create");
+            if ($tester->allow()) {
+                $canDefineResponsible = true;
+            }
+
+
             $canDismiss = false;
             $canProvideOutlay = false;
             if ($status == C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED) {
@@ -95,18 +105,19 @@ class C3op_Projects_ActionResponsible {
             }
 
             $data = array(
-              'hasResponsible'   => true,
-              'canContract'      => $canContract,
-              'canDismiss'       => $canDismiss,
-              'canProvideOutlay' => $canProvideOutlay,
-              'responsibleType'  => $type,
-              'responsibleId'    => $responsible->getId(),
-              'responsibleLabel' => $responsibleLabel,
-              'contactName'      => $contactName,
-              'contactId'        => $contactId,
-              'institutionName'  => $institutionName,
-              'institutionId'    => $institutionId,
-              'statusLabel'      => $statusLabel,
+              'hasResponsible'       => true,
+              'canContract'          => $canContract,
+              'canDefineResponsible' => $canDefineResponsible,
+              'canDismiss'           => $canDismiss,
+              'canProvideOutlay'     => $canProvideOutlay,
+              'responsibleType'      => $type,
+              'responsibleId'        => $responsible->getId(),
+              'responsibleLabel'     => $responsibleLabel,
+              'contactName'          => $contactName,
+              'contactId'            => $contactId,
+              'institutionName'      => $institutionName,
+              'institutionId'        => $institutionId,
+              'statusLabel'          => $statusLabel,
             );
         } else {
             $data = array(

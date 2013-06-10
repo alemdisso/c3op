@@ -260,6 +260,7 @@ class C3op_Projects_ActionHeader {
         if ($responsible->doesItHasAResponsible()) {
             $data = $responsible->fetch();
             $this->data['hasResponsible'] = true;
+            $this->data['canDefineResponsible'] = $data['canDefineResponsible'];
             $this->data['canContract'] = $data['canContract'];
             $this->data['canDismiss'] = $data['canDismiss'];
             $this->data['responsibleType'] = $data['responsibleType'];
@@ -272,6 +273,7 @@ class C3op_Projects_ActionHeader {
             $this->data['responsibleLabel'] = $data['responsibleLabel'];
         } else {
             $this->data['hasResponsible'] = false;
+            $this->data['canDefineResponsible'] = false;
             $this->data['canContract'] = false;
             $this->data['responsibleId'] = 0;
             $this->data['responsibleType'] = 0;

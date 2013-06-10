@@ -52,6 +52,8 @@ function rejectReceipt(id){
   })
 }
 </script>
+
+
 <script type="text/javascript">
 
 $(document).ready(function(){
@@ -365,7 +367,7 @@ if ($parentId > 0) {
           <div class="eight columns offset-by-three">
               <a anchor="responsible"></a>
 <?php
-if (!$actionHeader['hasResponsible']) {
+if ((!$actionHeader['hasResponsible']) && ($actionHeader['canDefineResponsible'])) {
 ?>
 
             <a id="responsibleButton" class="button two columns alpha omega parent_info" href="#responsible"><?php print($this->translate("#Inform responsible")); ?></a>
@@ -389,6 +391,13 @@ if ($actionHeader['hasResponsible']) {
 ?>
                           <li>
                               <a href="/projects/project/engagement/?id=<?php print $actionHeader['projectId'] ?>&contact=<?php print $actionHeader['contactId'] ?>"><?php print($this->translate("#Engagement in the project")); ?></a>
+                          </li>
+<?php
+        } else {
+
+?>
+                          <li>
+                              <a href="/projects/project/engagement/?id=<?php print $actionHeader['projectId'] ?>&institution=<?php print $actionHeader['institutionId'] ?>"><?php print($this->translate("#Engagement in the project")); ?></a>
                           </li>
 <?php
         }
@@ -459,7 +468,7 @@ if (isset($actionHeader['hasBudget'])) {
         }
     }
 ?>
-            <a id="budgetButton" class="button two columns alpha omega parent_info" href="#budget"><?php print($labelBudgetButton); ?></a>
+            <a id="budgetButton" class="" href="#budget"><?php print($labelBudgetButton); ?></a>
           <div id="budgetDiv" class="slidingDiv">
               <h3>   <?php print($this->translate("#Inform budget")); ?>  </h3>
               <div id="budgetFormDiv">&nbsp;</div>
