@@ -907,7 +907,6 @@ class Projects_ProjectController extends Zend_Controller_Action
             $actionStatusLabel = $statusTypes->TitleForType($actionStatus);
             $data['statusLabel'] = $actionStatusLabel;
 
-
             if ($loopAction->getSupervisor()) {
                 $theContact = $this->contactMapper->findById($loopAction->getSupervisor());
                 $data['responsibleName'] = $theContact->getName();
@@ -915,19 +914,23 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $data['responsibleName'] = $this->view->translate("#Not defined");
             }
 
-            $responsible = new C3op_Projects_ActionResponsible($loopAction, $this->actionMapper, $this->db);
 
+
+            $responsible = new C3op_Projects_ActionResponsible($loopAction, $this->actionMapper, $this->db);
             if ($responsible->doesItHasAResponsible()) {
                 $responsibleData = $responsible->fetch();
                 $data['hasResponsible'] = true;
                 $data['contactId'] = $responsibleData['contactId'];
-                $data['contactName'] = $responsibleData['contactName'];
+                $data['institutionId'] = $responsibleData['institutionId'];
+                $data['responsibleLabel'] = $responsibleData['responsibleLabel'];
                 $data['responsibleStatusLabel'] = $responsibleData['statusLabel'];
+                $data['responsibleType'] = $responsibleData['responsibleType'];
             } else {
                 $data['hasResponsible'] = false;
                 $data['contactId'] = 0;
                 $data['contactName'] = _('#(unassigned)');
                 $data['responsibleStatusLabel'] = _('#(unknown)');
+                $data['responsibleLabel'] = _('#(unassigned)');
 
             }
 

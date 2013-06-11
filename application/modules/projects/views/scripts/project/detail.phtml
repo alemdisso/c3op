@@ -253,13 +253,19 @@ foreach ($actionsList as $id => $actionData) {
         <tr id="<?php print ($nodeId) ?>" <?php print (($childOf > 0 ? $classId : '')) ?>>
           <td><a href='/projects/action/detail/?id=<?php print($id) ?>'><?php print ($actionData['title']) ?></a></td>
 <?php
-if ($actionData['contactId'] > 0) {
+if ($actionData['hasResponsible'] > 0) {
+    if ($actionData['responsibleType'] == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER) {
 ?>
-                    <td><a href ='/projects/project/engagement/?id=<?php print($projectHeader['id']) ?>&contact=<?php print($actionData['contactId']) ?>'><?php print ($this->translate($actionData['contactName'])) ?></a></td>
+                    <td><a href ='/projects/project/engagement/?id=<?php print($projectHeader['id']) ?>&contact=<?php print($actionData['contactId']) ?>'><?php print ($this->translate($actionData['responsibleLabel'])) ?></a></td>
 <?php
+    } else {
+?>
+                    <td><a href ='/projects/project/engagement/?id=<?php print($projectHeader['id']) ?>&institution=<?php print($actionData['institutionId']) ?>'><?php print ($this->translate($actionData['responsibleLabel'])) ?></a></td>
+<?php
+    }
 } else {
 ?>
-                    <td><?php print ($this->translate($actionData['contactName'])) ?></td>
+                    <td><?php print ($this->translate($actionData['responsibleLabel'])) ?></td>
 <?php
 }
 ?>

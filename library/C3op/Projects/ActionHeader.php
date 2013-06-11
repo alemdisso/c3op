@@ -328,19 +328,7 @@ class C3op_Projects_ActionHeader {
 
 
 
-//            if ($loopAction->getSupervisor()) {
-//                $theContact = $this->contactMapper->findById($loopAction->getSupervisor());
-//                $data['contactName'] = $theContact->getName();
-//            } else {
-//                $data['contactName'] = "#Not defined";
-//            }
-
             $this->fillDatesData($loopAction, $data);
-
-//            $data['predictedBeginDate'] = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getPredictedBeginDate());
-//            $data['realBeginDate'] = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getRealBeginDate());
-//            $data['predictedFinishDate'] = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getPredictedFinishDate());
-//            $data['realFinishDate'] = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getRealFinishDate());
 
             $this->data['subActionsTree'][$id] = $data;
             $this->fillSubActionsTreeData($subTree);

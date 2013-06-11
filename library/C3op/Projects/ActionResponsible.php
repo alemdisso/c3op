@@ -47,7 +47,7 @@ class C3op_Projects_ActionResponsible {
             if ($institutionId > 0) {
                 $this->initInstitutionMapper();
                 $responsibleInstitution = $this->institutionMapper->findById($institutionId);
-                $institutionName = $responsibleInstitution->GetName();
+                $institutionName = $responsibleInstitution->GetShortName();
             }
 
             $type = $responsible->getType();
