@@ -93,22 +93,6 @@ public function __construct() {
     $this->deny(C3op_Access_RolesConstants::ROLE_CONTROLLER,     'c3op:resources.responsible', 'contract');
     $this->deny(C3op_Access_RolesConstants::ROLE_CONTROLLER,     'c3op:resources.responsible', 'dismiss');
 
-    $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:resources.team-member');
-    $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:resources.team-member', 'create');
-    $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:resources.team-member', 'contract');
-    $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:resources.team-member', 'dismiss-contact');
-    $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:resources.team-member', 'edit');
-    $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:resources.team-member', 'contract');
-    $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:resources.team-member', 'dismiss');
-    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:resources.team-member', 'outlays');
-
-    $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:resources.outside-service');
-    $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:resources.outside-service', 'create');
-    $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:resources.outside-service', 'contract');
-    $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:resources.outside-service', 'dismiss-service');
-    $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:resources.outside-service', 'contract');
-    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:resources.outside-service', 'outlays');
-
     $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:resources.material-supply');
     $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:resources.material-supply', 'create');
     $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:resources.material-supply', 'contract');

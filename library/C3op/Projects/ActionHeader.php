@@ -257,10 +257,18 @@ class C3op_Projects_ActionHeader {
     {
         $responsible = new C3op_Projects_ActionResponsible($this->action, $this->mapper, $this->db);
 
+        $user = Zend_Registry::get('user');
+        $acl = Zend_Registry::get('acl');
+        $canDefineResponsible = false;
+        $tester = new C3op_Access_PrivilegeTester($user, $acl, "resources", "responsible", "create");
+        if ($tester->allow()) {
+            $canDefineResponsible = true;
+        }
+
+        $this->data['canDefineResponsible'] = $canDefineResponsible;
         if ($responsible->doesItHasAResponsible()) {
             $data = $responsible->fetch();
             $this->data['hasResponsible'] = true;
-            $this->data['canDefineResponsible'] = $data['canDefineResponsible'];
             $this->data['canContract'] = $data['canContract'];
             $this->data['canDismiss'] = $data['canDismiss'];
             $this->data['responsibleType'] = $data['responsibleType'];
@@ -273,7 +281,6 @@ class C3op_Projects_ActionHeader {
             $this->data['responsibleLabel'] = $data['responsibleLabel'];
         } else {
             $this->data['hasResponsible'] = false;
-            $this->data['canDefineResponsible'] = false;
             $this->data['canContract'] = false;
             $this->data['responsibleId'] = 0;
             $this->data['responsibleType'] = 0;
@@ -313,12 +320,14 @@ class C3op_Projects_ActionHeader {
             if ($responsible->doesItHasAResponsible()) {
                 $responsibleData = $responsible->fetch();
                 $data['hasResponsible'] = true;
+                $data['responsibleType'] = $responsibleData['responsibleType'];
                 $data['contactId'] = $responsibleData['contactId'];
                 $data['institutionId'] = $responsibleData['institutionId'];
                 $data['responsibleLabel'] = $responsibleData['responsibleLabel'];
                 $data['responsibleStatusLabel'] = $responsibleData['statusLabel'];
             } else {
                 $data['hasResponsible'] = false;
+                $data['responsibleType'] = null;
                 $data['contactId'] = 0;
                 $data['contactName'] = _('#(unassigned)');
                 $data['responsibleStatusLabel'] = _('#(unknown)');

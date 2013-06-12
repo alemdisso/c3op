@@ -145,7 +145,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
     public function createAction()
     {
-        //$this->_helper->layout->disableLayout();
+        $this->_helper->layout->disableLayout();
 
         // cria form
         $form = new C3op_Form_ResponsibleCreate;

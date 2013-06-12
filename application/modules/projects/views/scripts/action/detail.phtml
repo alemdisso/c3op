@@ -521,11 +521,16 @@ if (isset($actionHeader['hasBudget'])) {
                     <tr id="<?php print ($nodeId) ?>" <?php print (($childOf != $actionHeader['id'] ? $classId : '')) ?>>
                     <td><a href='/projects/action/detail/?id=<?php print($id) ?>'><?php print ($actionData['title']) ?></a></td>
 <?php
-if (($actionHeader['responsibleType'] == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER)
-    && ($actionData['contactId'] > 0)) {
+        if ($actionData['hasResponsible'] > 0) {
+            if ($actionData['responsibleType'] == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER) {
 ?>
                     <td><a href ='/projects/project/engagement/?id=<?php print($actionHeader['projectId']) ?>&contact=<?php print($actionData['contactId']) ?>'><?php print ($this->translate($actionData['responsibleLabel'])) ?></a></td>
 <?php
+    } else {
+?>
+                    <td><a href ='/projects/project/engagement/?id=<?php print($actionHeader['projectId']) ?>&institution=<?php print($actionData['institutionId']) ?>'><?php print ($this->translate($actionData['responsibleLabel'])) ?></a></td>
+<?php
+    }
 } else {
 ?>
                     <td><?php print ($this->translate($actionData['responsibleLabel'])) ?></td>
@@ -552,7 +557,7 @@ if (($actionHeader['responsibleType'] == C3op_Resources_ResponsibleTypeConstants
           </div><!-- #tabs-subactions -->
 
           <div id="tabs-team">
-
+            <div class="Area">
           <table id="Responsibles" class="display dataTable">
             <thead>
               <tr>
@@ -677,23 +682,24 @@ if($responsibleData['contactId'] > 0) {
             </tbody>
           </table>
 
+            </div><!-- Area -->
           </div><!-- #tabs-team -->
 
 
 
           <div id="tabs-material">
-
-          <table id="MaterialSupplies" class="display dataTable">
-            <thead>
-              <tr>
-                <th width="220"><?php print($this->translate("#Organization")); ?></th>
-                <th width="80"><?php print($this->translate("#Service")); ?></th>
-                <th width="100"><?php print($this->translate("#Value")); ?></th>
-                <th width="100"><?php print($this->translate("#Status")); ?></th>
-                <th width="100">&nbsp;</th>
-              </tr>
-            </thead>
-            <tbody>
+            <div class="Area">
+                <table id="MaterialSupplies" class="display dataTable">
+                    <thead>
+                    <tr>
+                        <th width="220"><?php print($this->translate("#Organization")); ?></th>
+                        <th width="80"><?php print($this->translate("#Service")); ?></th>
+                        <th width="100"><?php print($this->translate("#Value")); ?></th>
+                        <th width="100"><?php print($this->translate("#Status")); ?></th>
+                        <th width="100">&nbsp;</th>
+                    </tr>
+                    </thead>
+                    <tbody>
 
 <?php
   foreach ($materialData as $id => $materialSupplyData) {
@@ -770,6 +776,7 @@ if ($materialSupplyData['canRemoveMaterialSupply']) {
           <p>
             <a href="/resources/material-supply/create/?actionId=<?php print($actionHeader['id']); ?>" class="button three columns alpha omega"><?php print($this->translate("#Anticipate material supply")); ?></a>
           </p>
+            </div><!-- Area -->
 
           </div><!-- #tabs-material -->
 

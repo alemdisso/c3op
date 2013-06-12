@@ -939,6 +939,8 @@ class Projects_ActionController extends Zend_Controller_Action
             $finder = new C3op_Resources_ResponsibleContactInfo($loopResponsible, $this->responsibleMapper, $this->db);
             $contactLabel = $finder->contactName();
             $contactId = $loopResponsible->getContact();
+            $responsibleType = $loopResponsible->getType();
+
 
             if ($loopResponsible->getType() == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER) {
                 $responsibleLabel = $contactLabel;
@@ -979,6 +981,7 @@ class Projects_ActionController extends Zend_Controller_Action
                 'contactId'              => $contactId,
                 'institutionId'          => $institutionId,
                 'name'                   => $responsibleLabel,
+                'responsibleType'        => $responsibleType,
                 'personal'               => $personal,
                 'responsibleActionId'    => $loopResponsible->getAction(),
                 'responsibleActionTitle' => $responsibleActionTitle,

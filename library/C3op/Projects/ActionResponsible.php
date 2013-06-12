@@ -82,12 +82,6 @@ class C3op_Projects_ActionResponsible {
             $user = Zend_Registry::get('user');
             $acl = Zend_Registry::get('acl');
 
-            $canDefineResponsible = false;
-            $tester = new C3op_Access_PrivilegeTester($user, $acl, "resources", "responsible", "create");
-            if ($tester->allow()) {
-                $canDefineResponsible = true;
-            }
-
 
             $canDismiss = false;
             $canProvideOutlay = false;
@@ -107,7 +101,6 @@ class C3op_Projects_ActionResponsible {
             $data = array(
               'hasResponsible'       => true,
               'canContract'          => $canContract,
-              'canDefineResponsible' => $canDefineResponsible,
               'canDismiss'           => $canDismiss,
               'canProvideOutlay'     => $canProvideOutlay,
               'responsibleType'      => $type,
