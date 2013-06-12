@@ -50,7 +50,7 @@ class C3op_Form_ReceivableCreate extends Zend_Form
             ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
-                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns')),
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns')),
                 array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
             ))
             ->setOptions(array('class' => 'Full alpha omega datepicker'))
@@ -60,13 +60,13 @@ class C3op_Form_ReceivableCreate extends Zend_Form
         $this->addElement($element);
 
         $element = new Zend_Form_Element_Text('predictedDate');
-        $element->setLabel('#Predicted Date')
+        $element->setLabel('#receivable.form.Predicted Date')
             ->setAttrib('alt','date')
             ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
                 array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns')),
-                array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns Right')),
             ))
             ->setOptions(array('class' => 'Full alpha omega datepicker'))
             ->addValidator(new C3op_Util_ValidString)
