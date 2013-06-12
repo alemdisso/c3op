@@ -15,4 +15,27 @@ class C3op_Projects_ActionValue {
     {
         return $this->actionMapper->getContractedValueForActionTree($this->action);
     }
+
+    public function individualBudgetValue()
+    {
+        return $this->action->getBudgetForecast();
+    }
+
+    public function individualContractedValue()
+    {
+        return $this->actionMapper->getContractedValueJustForThisAction($this->action);
+
+    }
+    public function individualCurrentValue()
+    {
+        $contracted = $this->individualContractedValue();
+        if ($contracted > 0) {
+            return $contracted;
+        } else {
+            return $this->individualBudgetValue();
+        }
+
+    }
+
+
 }

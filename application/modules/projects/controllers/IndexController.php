@@ -732,7 +732,17 @@ class Projects_IndexController extends Zend_Controller_Action
             if ($validator->isValid($loopAction->getPredictedFinishDate())) {
                 $predictedFinishDate = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getPredictedFinishDate());
             } else {
-                $predictedFinishDate = "#(not received)";
+                $predictedFinishDate = "#(not defined)";
+            }
+
+            if ($validator->isValid($loopAction->getBaselineFinishDate())) {
+                $dateDiff = new C3op_Util_DatesDifferenceInDays();
+                $now = time();
+                $daysOfDelay = $dateDiff->differenceInDays(strtotime($loopAction->getBaselineFinishDate()), $now);
+                $baselineFinishDate = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getBaselineFinishDate());
+            } else {
+                $baselineFinishDate = $this->view->translate("#(not defined)");
+                $daysOfDelay = $this->view->translate("#??");
             }
 
 
@@ -742,6 +752,9 @@ class Projects_IndexController extends Zend_Controller_Action
                 $productData[$k] = $val;
             }
 
+            $actionValueObj = new C3op_Projects_ActionValue($loopAction,$this->actionMapper);
+            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+            $actionValue = $currencyDisplay->FormatCurrency($actionValueObj->individualCurrentValue());
 
 
 
@@ -755,7 +768,9 @@ class Projects_IndexController extends Zend_Controller_Action
                 'institutionId'       => $institutionId,
                 'personal'            => $personal,
                 'name'                => $responsibleData['responsibleLabel'],
-                'receiptDate'         => $receiptDate,
+                'value'               => $actionValue,
+                'daysOfDelay'         => $daysOfDelay,
+                'baselineFinishDate'  => $baselineFinishDate,
                 'predictedFinishDate' => $predictedFinishDate,
                 'deliveryDate'        => $productData['productDeliveryDate'],
                 'relatedProductTitle' => $productData['relatedProductTitle'],
