@@ -536,7 +536,15 @@ if ($projectData['hasContract']) {
 <!--                  <th width="110"><?php echo $this->translate("#Product") ?></th>-->
                   <th width="140"><?php echo $this->translate("#Action") ?></th>
                   <th width="100"><?php echo $this->translate("#Responsible") ?></th>
+<?php
+        if ($pageData['canSeeFinances']) {
+
+
+?>
                   <th width="50"><?php echo $this->translate("#Action value") ?></th>
+<?php
+        }
+?>
                   <th width="60"><?php echo $this->translate("#Predicted finish date") ?></th>
                   <th width="60"><?php echo $this->translate("#Baseline finish date") ?></th>
                   <th width="20"><?php echo $this->translate("#Days of delay") ?></th>
@@ -581,9 +589,16 @@ if($delayedInfo['personal']) {
 }
 ?>
                   </td>
-                  <td>
+<?php
+        if ($pageData['canSeeFinances']) {
+
+
+?>                  <td>
                     <?php print($delayedInfo['value']) ?>
                   </td>
+<?php
+        }
+?>
                   <td>
                     <?php print($delayedInfo['predictedFinishDate']) ?>
                   </td>
@@ -591,7 +606,7 @@ if($delayedInfo['personal']) {
                     <?php print($delayedInfo['baselineFinishDate']) ?>
                   </td>
                   <td>
-                    <?php print($delayedInfo['daysOfDelay']) ?>
+                    <span class='LateDeliveryDifferenceInDays'><?php print($delayedInfo['daysOfDelay']) ?></span>
                   </td>
                 </tr>
 <?php
