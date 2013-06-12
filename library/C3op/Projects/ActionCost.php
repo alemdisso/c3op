@@ -1,6 +1,6 @@
 <?php
 
-class C3op_Projects_ActionValue {
+class C3op_Projects_ActionCost {
 
     private $action;
     private $actionMapper;
@@ -26,6 +26,7 @@ class C3op_Projects_ActionValue {
         return $this->actionMapper->getContractedValueJustForThisAction($this->action);
 
     }
+
     public function individualCurrentValue()
     {
         $contracted = $this->individualContractedValue();

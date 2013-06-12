@@ -22,9 +22,10 @@ class C3op_Resources_MaterialSupplyMapper {
 
 
         $query = $this->db->prepare("INSERT INTO resources_material_supplies (
-            action, description, institution, linkage, quantity, unit, unit_value, total_value, status) VALUES (:action, :description, :institution, :linkage, :quantity, :unit, :unitValue, :totalValue, :status)");
+            action, project, description, institution, linkage, quantity, unit, unit_value, total_value, status) VALUES (:action, :project, :description, :institution, :linkage, :quantity, :unit, :unitValue, :totalValue, :status)");
 
         $query->bindValue(':action', $new->GetAction(), PDO::PARAM_INT);
+        $query->bindValue(':project', $new->GetProject(), PDO::PARAM_INT);
         $query->bindValue(':description', $new->GetDescription(), PDO::PARAM_STR);
         $query->bindValue(':institution', $new->getInstitution(), PDO::PARAM_INT);
         $query->bindValue(':linkage', $new->getLinkage(), PDO::PARAM_INT);
@@ -46,9 +47,10 @@ class C3op_Resources_MaterialSupplyMapper {
             throw new C3op_Resources_MaterialSupplyMapperException('Object has no ID, cannot update.');
         }
 
-        $query = $this->db->prepare("UPDATE resources_material_supplies SET action = :action, description = :description, institution = :institution, linkage = :linkage, quantity = :quantity, unit = :unit, unit_value = :unitValue, total_value = :totalValue, status = :status WHERE id = :id;");
+        $query = $this->db->prepare("UPDATE resources_material_supplies SET action = :action, project = :project, description = :description, institution = :institution, linkage = :linkage, quantity = :quantity, unit = :unit, unit_value = :unitValue, total_value = :totalValue, status = :status WHERE id = :id;");
 
         $query->bindValue(':action', $obj->GetAction(), PDO::PARAM_STR);
+        $query->bindValue(':project', $obj->GetProject(), PDO::PARAM_STR);
         $query->bindValue(':description', $obj->GetDescription(), PDO::PARAM_STR);
         $query->bindValue(':institution', $obj->getInstitution(), PDO::PARAM_STR);
         $query->bindValue(':linkage', $obj->getLinkage(), PDO::PARAM_STR);
@@ -76,7 +78,7 @@ class C3op_Resources_MaterialSupplyMapper {
             $this->identityMap->next();
         }
 
-        $query = $this->db->prepare('SELECT action, description, institution, linkage, quantity, unit, unit_value, total_value, status FROM resources_material_supplies WHERE id = :id;');
+        $query = $this->db->prepare('SELECT action, project, description, institution, linkage, quantity, unit, unit_value, total_value, status FROM resources_material_supplies WHERE id = :id;');
         $query->bindValue(':id', $id, PDO::PARAM_STR);
         $query->execute();
         $result = $query->fetch();
@@ -88,6 +90,7 @@ class C3op_Resources_MaterialSupplyMapper {
 
         $this->setAttributeValue($obj, $id, 'id');
         $this->setAttributeValue($obj, $result['action'], 'action');
+        $this->setAttributeValue($obj, $result['project'], 'project');
         $this->setAttributeValue($obj, $result['description'], 'description');
         $this->setAttributeValue($obj, $result['institution'], 'institution');
         $this->setAttributeValue($obj, $result['linkage'], 'linkage');
@@ -199,6 +202,27 @@ class C3op_Resources_MaterialSupplyMapper {
             $result[] = $row['id'];
         }
         return $result;
+    }
+
+    public function getMaterialSuppliesValueJustForThisAction(C3op_Projects_Action $obj)
+    {
+        $query = $this->db->prepare('SELECT SUM(total_value) as value FROM resources_material_supplies WHERE action = :action AND (
+            status = :foreseen OR status = :contracted OR status = :acquited);');
+        $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':foreseen', C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN, PDO::PARAM_STR);
+        $query->bindValue(':contracted', C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
+        $query->bindValue(':acquited', C3op_Resources_ResponsibleStatusConstants::STATUS_ACQUITTED, PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        foreach ($resultPDO as $row) {
+            if (!is_null($row['value'])) {
+                return $row['value'];
+            } else {
+                return 0;
+            }
+        }
+        return 0;
     }
 
 

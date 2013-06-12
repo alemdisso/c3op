@@ -409,44 +409,44 @@ class Finances_ProjectController extends Zend_Controller_Action
 
     }
 
-   private function fillDataTree($tree)
-    {
-       // actionInfo
-       //   title
-       //   subordinatedTo
-       //   responsibleName
-       //   predictedBeginDate
-       //   realBeginDate
-       //   predictedFinishDate
-       //   realFinishDate
-       //
-
-       $this->initActionMapper();
-        foreach ($tree as $id => $subTree) {
-            $loopAction = $this->actionMapper->findById($id);
-            $data = array();
-            $data['title'] = $loopAction->getTitle();
-            $data['subordinatedTo'] = $loopAction->getSubordinatedTo();
-
-            if ($loopAction->getSupervisor()) {
-                $theContact = $this->contactMapper->findById($loopAction->getSupervisor());
-                $data['responsibleName'] = $theContact->getName();
-            } else {
-                $data['responsibleName'] = $this->view->translate("#Not defined");
-            }
-
-            $data['predictedBeginDate'] = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getPredictedBeginDate());
-            $data['realBeginDate'] = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getRealBeginDate());
-            $data['predictedFinishDate'] = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getPredictedFinishDate());
-            $data['realFinishDate'] = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getRealFinishDate());
-
-            $this->treeData[$id] = $data;
-
-            $this->fillDataTree($subTree);
-        }
-    }
-
-
+//   private function fillDataTree($tree)
+//    {
+//       // actionInfo
+//       //   title
+//       //   subordinatedTo
+//       //   responsibleName
+//       //   predictedBeginDate
+//       //   realBeginDate
+//       //   predictedFinishDate
+//       //   realFinishDate
+//       //
+//
+//       $this->initActionMapper();
+//        foreach ($tree as $id => $subTree) {
+//            $loopAction = $this->actionMapper->findById($id);
+//            $data = array();
+//            $data['title'] = $loopAction->getTitle();
+//            $data['subordinatedTo'] = $loopAction->getSubordinatedTo();
+//
+//            if ($loopAction->getSupervisor()) {
+//                $theContact = $this->contactMapper->findById($loopAction->getSupervisor());
+//                $data['responsibleName'] = $theContact->getName();
+//            } else {
+//                $data['responsibleName'] = $this->view->translate("#Not defined");
+//            }
+//
+//            $data['predictedBeginDate'] = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getPredictedBeginDate());
+//            $data['realBeginDate'] = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getRealBeginDate());
+//            $data['predictedFinishDate'] = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getPredictedFinishDate());
+//            $data['realFinishDate'] = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getRealFinishDate());
+//
+//            $this->treeData[$id] = $data;
+//
+//            $this->fillDataTree($subTree);
+//        }
+//    }
+//
+//
  public function payablesAction()
     {
         $id = $this->checkIdFromGet();

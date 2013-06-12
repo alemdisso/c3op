@@ -32,58 +32,89 @@ class Finances_IndexController extends Zend_Controller_Action
         //      projectName
         //      projectId
         //      clientName
-        //      areaActivity
         //      status
-        //      physicalProgress
-        //      payedPercentage
-        //      receivedPercentage
+        //      projectValue
+        //      totalPaymentValues
+        //      balance
 
 
 
+        $this->initActionMapper();
 
         $list = $this->projectMapper->getAllIds();
         $projectsList = array();
         reset ($list);
         $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
         foreach ($list as $id) {
-            $thisProject = $this->projectMapper->findById($id);
+            $loopProject = $this->projectMapper->findById($id);
 
             $clientName = $this->view->translate('#(not defined)');
-            if ($thisProject->getClient() > 0) {
-                $thisClient = $this->institutionMapper->findById($thisProject->getClient());
+            if ($loopProject->getClient() > 0) {
+                $thisClient = $this->institutionMapper->findById($loopProject->getClient());
                 $clientName = $thisClient->GetShortName();
             }
 
-            $obj = new C3op_Projects_AreaActivityTypes();
-            $areaActivity = $obj->TitleForType($thisProject->getAreaActivity());
-
             $obj = new C3op_Projects_ProjectStatusTypes();
-            $status = $obj->TitleForType($thisProject->getStatus());
+            $status = $obj->TitleForType($loopProject->getStatus());
 
-            $actionsCount = count($this->projectMapper->GetAllActions($thisProject));
-
-            $contracts = $this->projectMapper->getAllContracts($thisProject);
+//            $actionsCount = count($this->projectMapper->GetAllActions($thisProject));
+//
+            $contracts = $this->projectMapper->getAllContracts($loopProject);
             if (count($contracts)) {
                 $hasContract = true;
             } else {
                 $hasContract = false;
             }
 
-           $this->receivableMapper = new C3op_Finances_ReceivableMapper($this->db);
-           $obj = new C3op_Finances_ProjectFinancialProgress($thisProject, $this->receivableMapper);
-           $receivedPercentage = $obj->progress();
+            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+            $projectValue = $loopProject->getValue();
+            $formatedProjectValue = $currencyDisplay->FormatCurrency($projectValue);
+
+            $allActionsInProject = $this->projectMapper->GetAllActions($loopProject);
+            $totalProjectCost = 0.0;
+
+
+            $materialSupplierMapper = new C3op_Resources_MaterialSupplyMapper($this->db);
+            foreach ($allActionsInProject as $actionId) {
+                $loopAction = $this->actionMapper->findById($actionId);
+                $actionValueObj = new C3op_Projects_ActionCost($loopAction,$this->actionMapper);
+                $currentActionValue = $actionValueObj->individualCurrentValue();
+                $materialCost = $materialSupplierMapper->getMaterialSuppliesValueJustForThisAction($loopAction);
+                $totalProjectCost += $currentActionValue;
+                $totalProjectCost += $materialCost;
+            }
+
+
+
+            $formatedTotalCost = $currencyDisplay->FormatCurrency($totalProjectCost);
+
+            $balanceValue = $projectValue - $totalProjectCost;
+            if ($balanceValue < 0.0) {
+                $negativeBalance = true;
+            } else {
+                $negativeBalance = false;
+            }
+
+            $formatedBalanceValue = $currencyDisplay->FormatCurrency($balanceValue);
+
+
+
+//
+//           $this->receivableMapper = new C3op_Finances_ReceivableMapper($this->db);
+//           $obj = new C3op_Finances_ProjectFinancialProgress($thisProject, $this->receivableMapper);
+//           $receivedPercentage = $obj->progress();
 
 
 
             $projectsList[$id] = array(
-                'projectName'        => $thisProject->GetShortTitle(),
+                'projectName'        => $loopProject->GetShortTitle(),
                 'clientName'         => $clientName,
-                'areaActivity'       => $areaActivity,
                 'status'             => $status,
-                'physicalProgress'   => '[#12%]',
-                'payedPercentage'    => '[#10%]',
-                'receivedPercentage' => $receivedPercentage,
-                'hasContract'       => $hasContract,
+                'projectValue'       => $formatedProjectValue,
+                'totalPaymentValues' => $formatedTotalCost,
+                'balance'            => $formatedBalanceValue,
+                'negativeBalance'    => $negativeBalance,
+                'hasContract'        => $hasContract,
             );
 
 

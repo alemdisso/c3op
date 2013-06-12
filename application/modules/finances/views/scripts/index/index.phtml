@@ -82,13 +82,12 @@ $(document).ready(function(){
            <table class="display dataTable">
               <thead>
                   <tr>
-                      <th width="200"><?php echo $this->translate("#Project") ?></th>
-                      <th width="80"><?php echo $this->translate("#Client") ?></th>
-                      <th width="120"><?php echo $this->translate("#Area") ?></th>
-                      <th width="100"><?php echo $this->translate("#Status") ?></th>
-                      <th width="50"><?php echo $this->translate("#% physical progress") //%&nbsp;física ?></th>
-                      <th width="50"><?php echo $this->translate("#% payables") //%&nbsp;pagtos ?></th>
-                      <th width="50"><?php echo $this->translate("#% receivings") //%&nbsp;recebtos ?></th>
+                      <th width="180"><?php echo $this->translate("#Project") ?></th>
+                      <th width="120"><?php echo $this->translate("#Client") ?></th>
+                      <th width="80"><?php echo $this->translate("#Status") ?></th>
+                      <th width="60"><?php echo $this->translate("#Value") ?></th>
+                      <th width="60"><?php echo $this->translate("#Total payments") //%&nbsp;física ?></th>
+                      <th width="60"><?php echo $this->translate("#Balance") //%&nbsp;pagtos ?></th>
                       <th width="1%">&nbsp;</th>
                   </tr>
               </thead>
@@ -97,16 +96,22 @@ $(document).ready(function(){
       /*
        * iterate list and print title
        */
-      foreach ($projectsList as $id => $projectData) {
+        foreach ($projectsList as $id => $projectData) {
+            $balance = $projectData['balance'];
+            if ($projectData['negativeBalance']) {
+                $balanceString = "<span class='LateDeliveryDifferenceInDays'>$balance</span>";
+            } else {
+                $balanceString = "<span class='AheadDeliveryDifferenceInDays'>$balance</span>";
+            }
+
 ?>
                 <tr>
                   <td><a href="/finances/project/detail/?id=<?php print($id) ?>"><?php print($projectData['projectName']) ?></a></td>
                   <td><?php print($projectData['clientName']) ?></td>
-                  <td><?php print($this->translate($projectData['areaActivity'])) ?></td>
                   <td><?php print($this->translate($projectData['status'])) ?></td>
-                  <td><?php print($projectData['physicalProgress']) ?></td>
-                  <td><?php print($projectData['payedPercentage']) ?></td>
-                  <td><?php print($projectData['receivedPercentage']) ?></td>
+                  <td class="Right"><?php print($projectData['projectValue']) ?></td>
+                  <td class="Right"><?php print($projectData['totalPaymentValues']) ?></td>
+                  <td class="Right"><?php print($balanceString) ?></td>
                   <td>
                       <a class="anchorclass button" rel="submenu1"><?php echo $this->translate("#Options...") ?></a>
                       <div id="submenu1" class="anylinkcss">

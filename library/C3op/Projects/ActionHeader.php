@@ -374,7 +374,7 @@ class C3op_Projects_ActionHeader {
 
     private function fillValueData()
     {
-        $actionValue = new C3op_Projects_ActionValue($this->action,$this->mapper);
+        $actionValue = new C3op_Projects_ActionCost($this->action,$this->mapper);
         $currencyDisplay = new  C3op_Util_CurrencyDisplay();
         $this->data['totalContractedValue'] = $currencyDisplay->FormatCurrency($actionValue->totalValue());
         $this->data['hasBudget'] = false;

@@ -4,6 +4,7 @@ class C3op_Resources_MaterialSupply {
 
     protected $id;
     protected $action;
+    protected $project;
     protected $description;
     protected $institution;
     protected $linkage;
@@ -15,7 +16,8 @@ class C3op_Resources_MaterialSupply {
 
     function __construct($id=0) {
         $this->id = (int)$id;
-        $this->action = "";
+        $this->action = 0;
+        $this->project = 0;
         $this->description = "";
         $this->institution = 0;
         $this->linkage = 0;
@@ -53,6 +55,22 @@ class C3op_Resources_MaterialSupply {
         }
 
     } //setAction
+
+    public function getProject() {
+        return $this->project;
+    } //getProject
+
+    public function setProject($project) {
+        $validator = new C3op_Util_ValidPositiveInteger();
+        if ($validator->isValid($project)) {
+            if ($this->project != $project) {
+                $this->project = $project;
+            }
+        } else {
+            throw new C3op_Resources_MaterialSupplyException("This ($project) is not a valid project.");
+        }
+
+    } //setProject
 
     public function getDescription() {
         return $this->description;

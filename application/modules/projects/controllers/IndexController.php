@@ -752,7 +752,7 @@ class Projects_IndexController extends Zend_Controller_Action
                 $productData[$k] = $val;
             }
 
-            $actionValueObj = new C3op_Projects_ActionValue($loopAction,$this->actionMapper);
+            $actionValueObj = new C3op_Projects_ActionCost($loopAction,$this->actionMapper);
             $currencyDisplay = new  C3op_Util_CurrencyDisplay();
             $actionValue = $currencyDisplay->FormatCurrency($actionValueObj->individualCurrentValue());
 

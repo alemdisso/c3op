@@ -156,6 +156,11 @@ class C3op_Form_MaterialSupplyCreate extends Zend_Form
             }
 
             $materialSupply->SetAction($this->action->GetValue());
+            $actionMapper = new C3op_Projects_ActionMapper($db);
+            $parentAction = $actionMapper->findById($this->action->GetValue());
+            $materialSupply->SetProject($parentAction->GetProject());
+
+
             $materialSupplyMapper->insert($materialSupply);
             return $materialSupply->GetId();
         }
