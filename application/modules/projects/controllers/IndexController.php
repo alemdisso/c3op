@@ -685,6 +685,7 @@ class Projects_IndexController extends Zend_Controller_Action
             $responsibleFinder = new C3op_Projects_ActionResponsible($loopAction, $this->actionMapper, $this->db);
             $institutionId = 0;
             $contactId = 0;
+            $personal = false;
             if ($responsibleFinder->doesItHasAResponsible()) {
                 $responsibleData = $responsibleFinder->fetch();
                 $loopResponsible = $this->responsibleMapper->findById($responsibleData['responsibleId']);
@@ -747,14 +748,22 @@ class Projects_IndexController extends Zend_Controller_Action
 
 
             $finder = new C3op_Projects_ActionRelatedProduct($loopAction, $this->actionMapper);
+            $productObj = $finder->retrieve();
             $productData = $finder->fetchProductData();
             foreach ($productData as $k => $val) {
                 $productData[$k] = $val;
             }
 
+            $finder = new C3op_Finances_ProductReceivableValue($productObj, $this->actionMapper);
+            $receivableRawValue = $finder->retrieve($this->receivableMapper);
+            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+            $receivableValue = $currencyDisplay->FormatCurrency($receivableRawValue);
+
             $actionValueObj = new C3op_Projects_ActionCost($loopAction,$this->actionMapper);
             $currencyDisplay = new  C3op_Util_CurrencyDisplay();
-            $actionValue = $currencyDisplay->FormatCurrency($actionValueObj->individualCurrentValue());
+            $actionsBelow = new C3op_Projects_ActionsBelow($loopAction,$this->actionMapper);
+            $rawValue = $actionValueObj->totalActionTreeCost($actionsBelow, new C3op_Resources_MaterialSupplyMapper);
+            $actionValue = $currencyDisplay->FormatCurrency($rawValue);
 
 
 
@@ -765,6 +774,7 @@ class Projects_IndexController extends Zend_Controller_Action
                 'actionId'            => $actionId,
                 'actionTitle'         => $actionTitle,
                 'contactId'           => $contactId,
+                'receivableValue'     => $receivableValue,
                 'institutionId'       => $institutionId,
                 'personal'            => $personal,
                 'name'                => $responsibleData['responsibleLabel'],

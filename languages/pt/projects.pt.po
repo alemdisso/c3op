@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-12 10:42-0300\n"
-"PO-Revision-Date: 2013-06-12 10:42-0300\n"
+"POT-Creation-Date: 2013-06-14 14:59-0300\n"
+"PO-Revision-Date: 2013-06-14 15:00-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -982,7 +982,7 @@ msgid "#Receipt date"
 msgstr "Entrada"
 
 #: application\modules\projects/views/scripts/index/index.phtml:262
-#: application\modules\projects/views/scripts/index/index.phtml:540
+#: application\modules\projects/views/scripts/index/index.phtml:548
 msgid "#Predicted finish date"
 msgstr "Previsto"
 
@@ -1002,19 +1002,19 @@ msgstr "Próximas Ações"
 msgid "#Delayed actions"
 msgstr "Ações em atraso"
 
-#: application\modules\projects/views/scripts/index/index.phtml:539
-msgid "#Action value"
-msgstr "Valor"
+#: application\modules\projects/views/scripts/index/index.phtml:544
+msgid "#Action cost"
+msgstr "Custo"
 
-#: application\modules\projects/views/scripts/index/index.phtml:541
+#: application\modules\projects/views/scripts/index/index.phtml:549
 msgid "#Baseline finish date"
 msgstr "Planejado"
 
-#: application\modules\projects/views/scripts/index/index.phtml:542
+#: application\modules\projects/views/scripts/index/index.phtml:550
 msgid "#Days of delay"
 msgstr "Dias"
 
-#: application\modules\projects/views/scripts/index/index.phtml:610
+#: application\modules\projects/views/scripts/index/index.phtml:625
 msgid "#There is no registered delayed."
 msgstr "Não existem ações atrasadas."
 
@@ -1159,6 +1159,12 @@ msgstr "Email"
 #: application\modules\projects/views/scripts/project/full-detail.phtml:294
 msgid "#Phone number"
 msgstr "Telefone"
+
+#~ msgid "#Cost"
+#~ msgstr "Custo"
+
+#~ msgid "#Action value"
+#~ msgstr "Valor"
 
 #~ msgid "#To be defined"
 #~ msgstr "(A definir)"

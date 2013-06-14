@@ -41,7 +41,7 @@ class Finances_IndexController extends Zend_Controller_Action
 
         $this->initActionMapper();
 
-        $list = $this->projectMapper->getAllIds();
+        $list = $this->projectMapper->getAllActiveProjects();
         $projectsList = array();
         reset ($list);
         $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
