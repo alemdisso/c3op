@@ -212,6 +212,25 @@ class C3op_Projects_ProjectMapper
         return $result;
     }
 
+    public function getAllProjects() {
+        $query = $this->db->prepare(sprintf('SELECT id FROM projects_projects WHERE status = %d OR status = %d OR status = %d OR status = %d OR status = %d OR status = %d OR status = %d;'
+                , C3op_Projects_ProjectStatusConstants::STATUS_PLANNING
+                , C3op_Projects_ProjectStatusConstants::STATUS_PROPOSAL
+                , C3op_Projects_ProjectStatusConstants::STATUS_EXECUTION
+                , C3op_Projects_ProjectStatusConstants::STATUS_CANCELED
+                , C3op_Projects_ProjectStatusConstants::STATUS_SUSPENDED
+                , C3op_Projects_ProjectStatusConstants::STATUS_FINISHED
+                , C3op_Projects_ProjectStatusConstants::STATUS_ACCOUNTABILITY));
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
+        foreach ($resultPDO as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
 
 
     public function getAllActionsSubordinatedTo(C3op_Projects_Project $obj, $actionId=0)

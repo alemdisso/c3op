@@ -45,7 +45,7 @@ class Projects_IndexController extends Zend_Controller_Action
         //      payedPercentage
         //      receivedPercentage
 
-        $list = $this->projectMapper->getAllIds();
+        $list = $this->projectMapper->getAllProjects();
         $projectsList = array();
         reset ($list);
         $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
@@ -172,7 +172,7 @@ class Projects_IndexController extends Zend_Controller_Action
 
     }
 
-    private function fillProjectsData() {
+    private function fillProjectsData($all = false) {
 
 
         $this->initInstitutionMapper();
@@ -182,7 +182,11 @@ class Projects_IndexController extends Zend_Controller_Action
         $this->initActionMapper();
 
 
-        $projects = $this->projectMapper->getAllActiveProjects();
+        if ($all) {
+            $projects = $this->projectMapper->getAllProjects();
+        } else {
+            $projects = $this->projectMapper->getAllActiveProjects();
+        }
         $data = array();
 
 
