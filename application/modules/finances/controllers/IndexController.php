@@ -43,87 +43,10 @@ class Finances_IndexController extends Zend_Controller_Action
 
         $this->initActionMapper();
 
-//        $list = $this->projectMapper->getAllActiveProjects();
-//        $activeProjectsList = array();
-//        reset ($list);
-//        $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
-//        foreach ($list as $id) {
-//            $loopProject = $this->projectMapper->findById($id);
-//
-//            $clientName = $this->view->translate('#(not defined)');
-//            if ($loopProject->getClient() > 0) {
-//                $thisClient = $this->institutionMapper->findById($loopProject->getClient());
-//                $clientName = $thisClient->GetShortName();
-//            }
-//
-//            $obj = new C3op_Projects_ProjectStatusTypes();
-//            $status = $obj->TitleForType($loopProject->getStatus());
-//
-////            $actionsCount = count($this->projectMapper->GetAllActions($thisProject));
-////
-//            $contracts = $this->projectMapper->getAllContracts($loopProject);
-//            if (count($contracts)) {
-//                $hasContract = true;
-//            } else {
-//                $hasContract = false;
-//            }
-//
-//            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
-//            $projectValue = $loopProject->getValue();
-//            $formatedProjectValue = $currencyDisplay->FormatCurrency($projectValue);
-//
-//            $allActionsInProject = $this->projectMapper->GetAllActions($loopProject);
-//            $totalProjectCost = 0.0;
-//
-//
-//            $materialSupplierMapper = new C3op_Resources_MaterialSupplyMapper($this->db);
-//            foreach ($allActionsInProject as $actionId) {
-//                $loopAction = $this->actionMapper->findById($actionId);
-//                $actionValueObj = new C3op_Projects_ActionCost($loopAction,$this->actionMapper);
-//                $currentActionValue = $actionValueObj->individualCurrentValue();
-//                $materialCost = $materialSupplierMapper->getMaterialSuppliesValueJustForThisAction($loopAction);
-//                $totalProjectCost += $currentActionValue;
-//                $totalProjectCost += $materialCost;
-//            }
-//
-//
-//
-//            $formatedTotalCost = $currencyDisplay->FormatCurrency($totalProjectCost);
-//
-//            $balanceValue = $projectValue - $totalProjectCost;
-//            if ($balanceValue < 0.0) {
-//                $negativeBalance = true;
-//            } else {
-//                $negativeBalance = false;
-//            }
-//
-//            $formatedBalanceValue = $currencyDisplay->FormatCurrency($balanceValue);
-//
-//
-//
-////
-////           $this->receivableMapper = new C3op_Finances_ReceivableMapper($this->db);
-////           $obj = new C3op_Finances_ProjectFinancialProgress($thisProject, $this->receivableMapper);
-////           $receivedPercentage = $obj->progress();
-//
-//
-//
-//            $activeProjectsList[$id] = array(
-//                'projectName'        => $loopProject->GetShortTitle(),
-//                'clientName'         => $clientName,
-//                'status'             => $status,
-//                'projectValue'       => $formatedProjectValue,
-//                'totalPaymentValues' => $formatedTotalCost,
-//                'balance'            => $formatedBalanceValue,
-//                'negativeBalance'    => $negativeBalance,
-//                'hasContract'        => $hasContract,
-//            );
-//
-//
-//            }
-//
         $activeProjectsList = $this->fillProjectsList();
         $allProjectsList = $this->fillProjectsList(true);
+
+        $progressList = $this->fillProgressList();
 
         $this->outlayMapper = new C3op_Finances_OutlayMapper($this->db);
 
@@ -168,6 +91,7 @@ class Finances_IndexController extends Zend_Controller_Action
         $pageData = array(
                 'activeProjectsList' => $activeProjectsList,
                 'payablesList'       => $payablesList,
+                'progressList'       => $progressList,
                 'outlaysList'        => $outlaysList,
                 'allProjectsList'    => $allProjectsList,
             );
@@ -552,6 +476,113 @@ class Finances_IndexController extends Zend_Controller_Action
                 'status'             => $status,
                 'projectValue'       => $formatedProjectValue,
                 'totalPaymentValues' => $formatedTotalCost,
+                'balance'            => $formatedBalanceValue,
+                'negativeBalance'    => $negativeBalance,
+                'hasContract'        => $hasContract,
+            );
+
+
+            }
+
+            return $data;
+
+
+    }
+
+    private function fillProgressList($all = false)
+    {
+
+
+        $this->initInstitutionMapper();
+        $this->initContactMapper();
+        $this->initReceivableMapper();
+        $this->initDeliveryMapper();
+        $this->initActionMapper();
+        $this->initOutlayMapper();
+
+
+
+        if ($all) {
+            $projects = $this->projectMapper->getAllProjects();
+        } else {
+            $projects = $this->projectMapper->getAllActiveProjects();
+        }
+        $data = array();
+
+
+        $data = array();
+        reset ($projects);
+        $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
+        foreach ($projects as $id) {
+            $loopProject = $this->projectMapper->findById($id);
+
+            $clientName = $this->view->translate('#(not defined)');
+            if ($loopProject->getClient() > 0) {
+                $thisClient = $this->institutionMapper->findById($loopProject->getClient());
+                $clientName = $thisClient->GetShortName();
+            }
+
+            $obj = new C3op_Projects_ProjectStatusTypes();
+            $status = $obj->TitleForType($loopProject->getStatus());
+
+            $contracts = $this->projectMapper->getAllContracts($loopProject);
+            if (count($contracts)) {
+                $hasContract = true;
+            } else {
+                $hasContract = false;
+            }
+
+            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+            $calculator = new C3op_Finances_ProjectFinancialProgress($loopProject, $this->receivableMapper);
+            $received = $calculator->totalReceivedValue();
+            $formatedReceivedValue = $currencyDisplay->FormatCurrency($received);
+
+//            $allActionsInProject = $this->projectMapper->GetAllActions($loopProject);
+//            $totalProjectCost = 0.0;
+//
+//
+//            $materialSupplierMapper = new C3op_Resources_MaterialSupplyMapper($this->db);
+//            foreach ($allActionsInProject as $actionId) {
+//                $loopAction = $this->actionMapper->findById($actionId);
+//                $actionValueObj = new C3op_Projects_ActionCost($loopAction,$this->actionMapper);
+//                $currentActionValue = $actionValueObj->individualCurrentValue();
+//                $materialCost = $materialSupplierMapper->getMaterialSuppliesValueJustForThisAction($loopAction);
+//                $totalProjectCost += $currentActionValue;
+//                $totalProjectCost += $materialCost;
+//            }
+//
+//
+//
+//            $formatedTotalCost = $currencyDisplay->FormatCurrency($totalProjectCost);
+
+
+
+            $totalPayed = $calculator->totalPayedValue($this->outlayMapper);
+            $formatedPayedValue = $currencyDisplay->FormatCurrency($totalPayed);
+            $balanceValue = $received - $totalPayed;
+            if ($balanceValue < 0.0) {
+                $negativeBalance = true;
+            } else {
+                $negativeBalance = false;
+            }
+
+            $formatedBalanceValue = $currencyDisplay->FormatCurrency($balanceValue);
+
+
+
+//
+//           $this->receivableMapper = new C3op_Finances_ReceivableMapper($this->db);
+//           $obj = new C3op_Finances_ProjectFinancialProgress($thisProject, $this->receivableMapper);
+//           $receivedPercentage = $obj->progress();
+
+
+
+            $data[$id] = array(
+                'projectName'        => $loopProject->GetShortTitle(),
+                'clientName'         => $clientName,
+                'status'             => $status,
+                'receivedValue'      => $formatedReceivedValue,
+                'payedValue'         => $formatedPayedValue,
                 'balance'            => $formatedBalanceValue,
                 'negativeBalance'    => $negativeBalance,
                 'hasContract'        => $hasContract,

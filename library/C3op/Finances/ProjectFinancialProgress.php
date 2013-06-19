@@ -31,4 +31,12 @@ class C3op_Finances_ProjectFinancialProgress {
          }
     }
 
+    public function totalPayedValue(C3op_Finances_OutlayMapper $mapper)
+    {
+        return $mapper->getSumOfAllPayedOutlays($this->project);
+    }
+
+
+
+
 }

@@ -2,6 +2,7 @@
   $pageData = $this->pageData;
 
   $activeProjectsList = $pageData['activeProjectsList'];
+  $progressList = $pageData['progressList'];
   $payablesList = $pageData['payablesList'];
   $outlaysList = $pageData['outlaysList'];
   $allProjectsList = $pageData['allProjectsList'];
@@ -61,6 +62,7 @@ $(document).ready(function(){
     <div id="tabs">
       <ul>
         <li><a href="#tabs-active"><?php echo $this->translate("#Projects") ?></a></li>
+        <li><a href="#tabs-progress"><?php echo $this->translate("#Progress") ?></a></li>
         <li><a href="#tabs-outlays"><?php echo $this->translate("#Outlays") ?></a></li>
         <li><a href="#tabs-payables"><?php echo $this->translate("#Payables") ?></a></li>
         <li><a href="#tabs-all"><?php echo $this->translate("#All projects") ?></a></li>
@@ -173,6 +175,115 @@ if ($projectData['hasContract']) {
           </div><!-- Area -->
 
         </div><!-- tabs-active -->
+
+
+      <div id="tabs-progress">
+        <div class="Area">
+           <h2><?php echo $this->translate("#Progress") ?></h2>
+<?php
+  /*
+   * If exists projects list
+   */
+  if (is_array($progressList)) {
+?>
+<?php
+    /*
+     * if there is projects in list
+     */
+    if (count($progressList)) {
+?>
+           <table class="display dataTable">
+              <thead>
+                  <tr>
+                      <th width="180"><?php echo $this->translate("#Project") ?></th>
+                      <th width="120"><?php echo $this->translate("#Client") ?></th>
+                      <th width="80"><?php echo $this->translate("#Status") ?></th>
+                      <th width="60"><?php echo $this->translate("#Received") ?></th>
+                      <th width="60"><?php echo $this->translate("#Payed") //%&nbsp;física ?></th>
+                      <th width="60"><?php echo $this->translate("#Balance") //%&nbsp;pagtos ?></th>
+                      <th width="1%">&nbsp;</th>
+                  </tr>
+              </thead>
+              <tbody>
+<?php
+      /*
+       * iterate list and print title
+       */
+        foreach ($progressList as $id => $projectData) {
+            $balance = $projectData['balance'];
+            if ($projectData['negativeBalance']) {
+                $balanceString = "<span class='LateDeliveryDifferenceInDays'>$balance</span>";
+            } else {
+                $balanceString = "<span class='AheadDeliveryDifferenceInDays'>$balance</span>";
+            }
+
+?>
+                <tr>
+                  <td><a href="/finances/project/detail/?id=<?php print($id) ?>"><?php print($projectData['projectName']) ?></a></td>
+                  <td><?php print($projectData['clientName']) ?></td>
+                  <td><?php print($this->translate($projectData['status'])) ?></td>
+                  <td class="Right"><?php print($projectData['receivedValue']) ?></td>
+                  <td class="Right"><?php print($projectData['payedValue']) ?></td>
+                  <td class="Right"><?php print($balanceString) ?></td>
+                  <td>
+                      <a class="anchorclass button" rel="submenu1"><?php echo $this->translate("#Options...") ?></a>
+                      <div id="submenu1" class="anylinkcss">
+                          <ul>
+                          <li>
+                              <a href="/projects/project/edit/?id=<?php print($id) ?>"><?php echo $this->translate("#Edit") ?></a>
+                          </li>
+                          <li>
+                              <a href="/finances/receivable/create/?project=<?php print($id) ?>"><?php echo $this->translate("#Predict Receiving") ?></a>
+                          </li>
+                          <li>
+                              <a href="/projects/action/create/?project=<?php print($id) ?>"><?php echo $this->translate("#Create action") ?></a>
+                          </li>
+                          <li>
+                              <a href="/finances/project/detail/?id=<?php print($id) ?>"><?php echo $this->translate("#Project details") ?></a>
+                          </li>
+<?php
+if ($projectData['hasContract']) {
+?>
+                          <li>
+                              <a href="/projects/project/amend/?id=<?php print($id) ?>"><?php echo $this->translate("#Amend contract") ?></a>
+                          </li>
+
+<?php
+}
+?>
+                          </ul>
+                      </div><!-- #submenu1 -->
+                  </td>
+                </tr>
+<?php
+      }  // loop iterate list and print titlei
+?>
+          		</tbody>
+          	</table>
+<?php
+    } else { // end else there is projects in list
+?>
+          <div class="Area">
+            <h2>Projetos</h2>
+            <?php print("<p>Não há projetos cadastrados.</p>") ?>
+
+<?php
+    } // end else there is projects in list
+?>
+<?php
+  } else { // else exists projects list
+?>
+            <?php print($this->translate("#There is no list of projects.")) ?>
+<?php
+  } // end exists projects list
+?>
+            <p>
+              <a href="/projects/project/create" class="button three columns alpha omega"><?php echo $this->translate("#Create New Project") ?></a>
+            </p>
+
+          </div><!-- Area -->
+
+        </div><!-- tabs-progress -->
 
 
 
@@ -435,8 +546,8 @@ if ($payableInfo['canNotifyOutlay']) {
                       <th width="120"><?php echo $this->translate("#Client") ?></th>
                       <th width="80"><?php echo $this->translate("#Status") ?></th>
                       <th width="60"><?php echo $this->translate("#Value") ?></th>
-                      <th width="60"><?php echo $this->translate("#Total payments") //%&nbsp;física ?></th>
-                      <th width="60"><?php echo $this->translate("#Balance") //%&nbsp;pagtos ?></th>
+                      <th width="60"><?php echo $this->translate("#Total payments") ?></th>
+                      <th width="60"><?php echo $this->translate("#Balance") ?></th>
                       <th width="1%">&nbsp;</th>
                   </tr>
               </thead>

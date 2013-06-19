@@ -11,7 +11,7 @@ class C3op_Finances_ReceivableStatusTypes {
             C3op_Finances_ReceivableStatusConstants::STATUS_NOT_DELIVERED => _("#Not Delivered"),
             C3op_Finances_ReceivableStatusConstants::STATUS_PARTIAL       => _("#Partial"),
             C3op_Finances_ReceivableStatusConstants::STATUS_DELIVERED     => _("#Delivered"),
-            C3op_Finances_ReceivableStatusConstants::STATUS_RECEIVED      => _("#Received"),
+            C3op_Finances_ReceivableStatusConstants::STATUS_RECEIVED      => _("#(ReceivableStatusType)Received"),
         );
     }
 

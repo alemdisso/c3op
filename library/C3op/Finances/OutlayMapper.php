@@ -185,6 +185,21 @@ public function fetchAllOutlaysThatCanBePayed()
 
 }
 
+    public function getSumOfAllPayedOutlays(C3op_Projects_Project $obj)
+    {
+        $query = $this->db->prepare('SELECT SUM(real_value) as value FROM finances_outlays WHERE project = :project AND real_date IS NOT NULL;');
+        $query->bindValue(':project', $obj->getId(), PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
+        foreach ($resultPDO as $row) {
+            return $row['value'];
+        }
+        return 0;
+
+    }
+
 
 
 }
