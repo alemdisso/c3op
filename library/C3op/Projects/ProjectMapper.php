@@ -213,7 +213,8 @@ class C3op_Projects_ProjectMapper
     }
 
     public function getAllProjects() {
-        $query = $this->db->prepare(sprintf('SELECT id FROM projects_projects WHERE status = %d OR status = %d OR status = %d OR status = %d OR status = %d OR status = %d OR status = %d;'
+        $query = $this->db->prepare(sprintf('SELECT id FROM projects_projects WHERE status = %d OR status = %d OR status = %d OR status = %d OR status = %d OR status = %d OR status = %d OR status = %d;'
+                , C3op_Projects_ProjectStatusConstants::STATUS_PROSPECTING
                 , C3op_Projects_ProjectStatusConstants::STATUS_PLANNING
                 , C3op_Projects_ProjectStatusConstants::STATUS_PROPOSAL
                 , C3op_Projects_ProjectStatusConstants::STATUS_EXECUTION
