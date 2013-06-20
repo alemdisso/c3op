@@ -176,12 +176,53 @@ class Projects_ContractController extends Zend_Controller_Action
                     $this->contractMapper = new C3op_Projects_ContractMapper($this->db);
                 }
                 $thisContract = $this->contractMapper->findById($id);
-                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'title', $thisContract->GetTitle());
+                //C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'title', $thisContract->GetTitle());
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $id);
                 $this->SetDateValueToFormField($form, 'signingDate', $thisContract->GetSigningDate());
                 C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'amendment', $thisContract->GetAmendment());
 //                $this->SetDateValueToFormField($form, 'realDate', $thisContract->GetRealDate());
 //                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'realValue', $thisContract->GetRealValue());
+                $projectId = $this->populateProjectFields($thisContract->GetProject(), $form);
+            }
+
+        }
+    }
+
+
+
+    public function signAction()
+    {
+        $form = new C3op_Form_ContractSign;
+        $this->view->form = $form;
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            if ($form->isValid($postData)) {
+                $id = $form->process($postData);
+                $this->_helper->getHelper('FlashMessenger')
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                $this->_redirect('/projects/contract/detail/?id=' . $id);
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
+        } else {
+            $data = $this->_request->getParams();
+            $filters = array(
+                'id' => new Zend_Filter_Alnum(),
+            );
+            $validators = array(
+                'id' => new C3op_Util_ValidId(),
+            );
+            $input = new Zend_Filter_Input($filters, $validators, $data);
+            if ($input->isValid()) {
+                $id = $input->id;
+                if (!isset($this->contractMapper)) {
+                    $this->contractMapper = new C3op_Projects_ContractMapper($this->db);
+                }
+                $thisContract = $this->contractMapper->findById($id);
+                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $id);
+                $this->SetDateValueToFormField($form, 'signingDate', $thisContract->GetSigningDate());
                 $projectId = $this->populateProjectFields($thisContract->GetProject(), $form);
             }
 

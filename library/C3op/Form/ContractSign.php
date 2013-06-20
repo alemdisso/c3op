@@ -1,14 +1,20 @@
 <?php
-class C3op_Form_ContractCreate extends Zend_Form
+class C3op_Form_ContractSign extends Zend_Form
 {
     public function init()
     {
 
         // initialize form
-        $this->setName('newContractForm')
-            ->setAction('/projects/contract/create')
+        $this->setName('signContractForm')
+            ->setAction('/projects/contract/sign')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
+
+        $element = new Zend_Form_Element_Hidden('id');
+        $element->addValidator('Int')
+            ->addFilter('StringTrim');
+        $this->addElement($element);
+        $element->setDecorators(array('ViewHelper'));
 
         $element = new Zend_Form_Element_Hidden('project');
         $element->addValidator('Int')
@@ -31,19 +37,6 @@ class C3op_Form_ContractCreate extends Zend_Form
                 ;
         $this->addElement($element);
 
-        $element = new Zend_Form_Element_Checkbox('amendment');
-        $element->setLabel('#This contract is a amendment?')
-                ->setDecorators(array(
-                    'ViewHelper',
-                    'Errors',
-                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'one column')),
-                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
-                ))
-                ->setOptions(array('checked' => '1', 'unChecked' => '0'))
-                ->setValue('0')
-                ;
-        $this->addElement($element);
-
 
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
@@ -63,32 +56,15 @@ class C3op_Form_ContractCreate extends Zend_Form
 
         if ($this->isValid($data) !== true)
         {
-            throw new C3op_Form_ContractCreateException('Invalid data!');
+            throw new C3op_Form_ContractEditException('Invalid data when signing!');
         }
         else
         {
-            $db = Zend_Registry::get('db');
-            $contractMapper = new C3op_Projects_ContractMapper($db);
-
-            $signingDate = $this->signingDate->GetValue();
-            $dateValidator = new C3op_Util_ValidDate();
-            if ($dateValidator->isValid($signingDate))
-            {
-                $converter = new C3op_Util_DateConverter();
-                $dateForMysql = $converter->convertDateToMySQLFormat($signingDate);
-                $signingDateConvertedToMySQL = $dateForMysql;
-            } else {
-                throw new C3op_Form_ContractCreateException('Invalid signing date!');
-            }
-            $amendment = $this->amendment->GetValue();
-
-            $contract = new C3op_Projects_Contract($this->project->GetValue(),$signingDateConvertedToMySQL, $amendment);
-            $contract->SetProject((float)$this->project->GetValue());
-            $contract->SetTitle($this->title->GetValue());
-
-            $contractMapper->insert($contract);
-            return $contract->getId();
-
+            $id = $data['id'];
+            $contract = $contractMapper->findById($id);
+            $contract->SetSigningDate($this->prepareDateValueToSet($data['signingDate'], new C3op_Util_ValidDate(), new C3op_Util_DateConverter()));
+            $contractMapper->update($contract);
+            return $id;
         }
     }
 
