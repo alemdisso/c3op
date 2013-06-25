@@ -264,9 +264,6 @@ class Projects_ProjectController extends Zend_Controller_Action
 
             $statusLabel = $this->view->translate($responsibleData['statusLabel']);
             $canContract = $responsibleData['canContract'];
-            if ($canContract) {
-                $contactName = "$contactName ($statusLabel)";
-            }
             $canDismiss = $responsibleData['canDismiss'];
             $canProvideOutlay = $responsibleData['canProvideOutlay'];
 

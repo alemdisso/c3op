@@ -93,6 +93,8 @@ class C3op_Form_ActionCreate extends Zend_Form
             ->addFilter('StringTrim');
         $this->addElement($element);
 
+        // the following fields will be shown just for Sys Admin users  (look at scripts/(...)/create.phtml)
+
         $element = new Zend_Form_Element_Text('predictedBeginDate');
         $dateValidator = new C3op_Util_ValidDate();
         $element->setLabel('#Predicted to begin:')
@@ -152,6 +154,8 @@ class C3op_Form_ActionCreate extends Zend_Form
             ->addFilter('HtmlEntities')
             ->addFilter('StringTrim');
         $this->addElement($element);
+        // the fields above will be shown just for Sys Admin users (look at scripts/(...)/create.phtml)
+
 
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
@@ -185,21 +189,69 @@ class C3op_Form_ActionCreate extends Zend_Form
 
             $action->SetStatus(C3op_Projects_ActionStatusConstants::STATUS_PLAN);
             $action->SetDescription($this->description->GetValue());
+            $baselineBeginDate = $this->baselineBeginDate->GetValue();
+            $dateValidator = new C3op_Util_ValidDate();
+            if ($dateValidator->isValid($baselineBeginDate)) {
+                $converter = new C3op_Util_DateConverter();
+                $dateForMysql = $converter->convertDateToMySQLFormat($baselineBeginDate);
+                $action->SetBaselineBeginDate($dateForMysql);
+            }
+
+            $baselineFinishDate = $this->baselineFinishDate->GetValue();
+            $dateValidator = new C3op_Util_ValidDate();
+            if ($dateValidator->isValid($baselineFinishDate)){
+                $converter = new C3op_Util_DateConverter();
+                $dateForMysql = $converter->convertDateToMySQLFormat($baselineFinishDate);
+                $action->SetBaselineFinishDate($dateForMysql);
+
+            }
+
             $predictedBeginDate = $this->predictedBeginDate->GetValue();
             $dateValidator = new C3op_Util_ValidDate();
+            $converter = new C3op_Util_DateConverter();
             if ($dateValidator->isValid($predictedBeginDate)) {
-                $converter = new C3op_Util_DateConverter();
                 $dateForMysql = $converter->convertDateToMySQLFormat($predictedBeginDate);
                 $action->SetPredictedBeginDate($dateForMysql);
+            } else {
+                // use baseline instead, if valid
+                if ($dateValidator->isValid($baselineBeginDate)){
+                    $dateForMysql = $converter->convertDateToMySQLFormat($baselineBeginDate);
+                    $action->SetPredictedBeginDate($dateForMysql);
+                }
             }
 
             $predictedFinishDate = $this->predictedFinishDate->GetValue();
             $dateValidator = new C3op_Util_ValidDate();
+            $converter = new C3op_Util_DateConverter();
             if ($dateValidator->isValid($predictedFinishDate)){
-                $converter = new C3op_Util_DateConverter();
                 $dateForMysql = $converter->convertDateToMySQLFormat($predictedFinishDate);
                 $action->SetPredictedFinishDate($dateForMysql);
+            } else {
+                // use baseline instead, if valid
+                if ($dateValidator->isValid($baselineFinishDate)){
+                    $dateForMysql = $converter->convertDateToMySQLFormat($baselineFinishDate);
+                    $action->SetPredictedFinishDate($dateForMysql);
+                }
             }
+
+            $realBeginDate = $this->realBeginDate->GetValue();
+            $dateValidator = new C3op_Util_ValidDate();
+            if ($dateValidator->isValid($realBeginDate)) {
+                $converter = new C3op_Util_DateConverter();
+                $dateForMysql = $converter->convertDateToMySQLFormat($realBeginDate);
+                $action->SetRealBeginDate($dateForMysql);
+            }
+
+            $realFinishDate = $this->realFinishDate->GetValue();
+            $dateValidator = new C3op_Util_ValidDate();
+            if ($dateValidator->isValid($realFinishDate)){
+                $converter = new C3op_Util_DateConverter();
+                $dateForMysql = $converter->convertDateToMySQLFormat($realFinishDate);
+                $action->SetRealFinishDate($dateForMysql);
+            }
+
+
+
 
             $action->SetSubordinatedTo($this->subordinatedTo->GetValue());
             $action->setSupervisor($this->supervisor->GetValue());
