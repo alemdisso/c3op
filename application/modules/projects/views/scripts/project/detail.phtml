@@ -60,6 +60,10 @@ if ($projectHeader['hasContract']) {
 ?>
       | <a href="/projects/project/amend/?id=<?php echo $projectHeader['id'] ?>"><?php echo $this->translate("#Amend contract") ?></a>
 <?php
+} else {
+?>
+      | <a href="/projects/contract/sign/?project=<?php echo $projectHeader['id'] ?>"><?php echo $this->translate("#Register contract signing") ?></a>
+<?php
 }
 ?>
     </div>

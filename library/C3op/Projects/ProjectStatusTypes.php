@@ -40,8 +40,19 @@ class C3op_Projects_ProjectStatusTypes {
             }
     }
 
-    public function AllTitles()
+    public function AllTitles($includeNull = false)
     {
-        return $this->titles;
+
+        if ($includeNull) {
+            return $this->titles;
+        } else {
+            $data = array();
+            foreach ($this->titles as $k => $v) {
+                if ($k != C3op_Projects_ProjectStatusConstants::STATUS_NIL) {
+                    $data[$k] = $v;
+                }
+            }
+            return($data);
+        }
     }
 }

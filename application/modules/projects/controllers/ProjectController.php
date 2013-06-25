@@ -94,6 +94,8 @@ class Projects_ProjectController extends Zend_Controller_Action
             $element = $form->getElement('responsibleAtClient');
             $element->setDescription('<a href="/register/contact/create" class="two columns button alpha omega">' . $this->view->translate("#New responsible") . '</a>');
 
+            $element = $form->getElement('status');
+            $element->setValue(C3op_Projects_ProjectStatusConstants::STATUS_PROSPECTING);
         }
     }
 

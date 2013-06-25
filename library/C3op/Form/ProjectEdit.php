@@ -63,7 +63,7 @@ class C3op_Form_ProjectEdit extends C3op_Form_ProjectCreate
             if ($value) {
                 $project->SetStatus($this->status->GetValue());
             } else {
-                $project->SetStatus(C3op_Projects_ProjectStatusConstants::STATUS_NIL);
+                $project->SetStatus(C3op_Projects_ProjectStatusConstants::STATUS_PROSPECTING);
             }
             $project->SetContractNature($this->contractNature->GetValue());
             $project->SetAreaActivity($this->areaActivity->GetValue());

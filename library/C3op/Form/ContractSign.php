@@ -60,11 +60,50 @@ class C3op_Form_ContractSign extends Zend_Form
         }
         else
         {
-            $id = $data['id'];
-            $contract = $contractMapper->findById($id);
-            $contract->SetSigningDate($this->prepareDateValueToSet($data['signingDate'], new C3op_Util_ValidDate(), new C3op_Util_DateConverter()));
-            $contractMapper->update($contract);
-            return $id;
+            $db = Zend_Registry::get('db');
+            $contractMapper = new C3op_Projects_ContractMapper($db);
+
+            $signingDate = $this->signingDate->GetValue();
+            $dateValidator = new C3op_Util_ValidDate();
+            if ($dateValidator->isValid($signingDate))
+            {
+                $converter = new C3op_Util_DateConverter();
+                $dateForMysql = $converter->convertDateToMySQLFormat($signingDate);
+                $signingDateConvertedToMySQL = $dateForMysql;
+            } else {
+                throw new C3op_Form_ContractCreateException('Invalid signing date!');
+            }
+
+
+            $projectMapper = new C3op_Projects_ProjectMapper($db);
+            $project = $projectMapper->findById($this->project->getValue());
+            $contracts = $projectMapper->getAllContracts($project);
+            if (count($contracts)) {
+                $contract = $contractMapper->findById($contracts[0]);
+    //                $projectsList[$id]['projectName'] = $thisProject->GetShortTitle() . "!!!";
+            } else {
+                $contract = new C3op_Projects_Contract($this->project->GetValue(),$signingDateConvertedToMySQL, false);
+            }
+
+            $contract->SetBeginDate($project->getBeginDate());
+            $contract->SetFinishDate($project->getFinishDate());
+            $contract->SetContractNature($project->getContractNature());
+            $contract->SetValue($project->getValue());
+            $contract->SetManagementFee($project->getManagementFee());
+            $contract->SetObject($project->GetObject());
+            $contract->SetSummary($project->GetSummary());
+            $contract->SetObservation($project->GetObservation());
+            if (count($contracts)) {
+                $contractMapper->update($contract);
+            } else {
+                $contractMapper->insert($contract);
+            }
+
+
+
+
+            return $contract->getId();
+
         }
     }
 
