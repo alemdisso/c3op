@@ -20,3 +20,6 @@ public/index.php
 /application/modules/projects/views/scripts/project/full-detail.phtml
 /application/en_browser_prod_Bootstrap.php
 /application/en_browser_Bootstrap.php
+/application/configs/my_sandbox_application.ini
+/application/configs/sandbox_application.ini
+/application/configs/prod_application.ini
