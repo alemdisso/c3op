@@ -114,9 +114,11 @@ class C3op_Form_ChangeStartDate extends Zend_Form
                 $cancelment = new C3op_Projects_ActionCancelStart($action);
                 $actionMapper->deleteLastAutomaticStartEvent($action);
                 $dateChanger->ChangePredictedBeginDate($newStartDate, $observation);
+
                 $dateChanger->ChangeRealBeginDate(null, $observation);
                 $action->setStatus(C3op_Projects_ActionStatusConstants::STATUS_PLAN);
                 $actionMapper->update($action);
+
             } else {
                 $acknowledgment = new C3op_Projects_ActionAcknowledgeStart($action);
                 $dateChanger->ChangeRealBeginDate($newStartDate, $observation);
