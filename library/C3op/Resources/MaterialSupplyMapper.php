@@ -225,6 +225,26 @@ class C3op_Resources_MaterialSupplyMapper {
         return 0;
     }
 
+    public function getContractedMaterialSuppliesValueJustForThisAction(C3op_Projects_Action $obj)
+    {
+        $query = $this->db->prepare('SELECT SUM(total_value) as value FROM resources_material_supplies WHERE action = :action AND (
+            status = :contracted OR status = :acquited);');
+        $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':contracted', C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
+        $query->bindValue(':acquited', C3op_Resources_ResponsibleStatusConstants::STATUS_ACQUITTED, PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        foreach ($resultPDO as $row) {
+            if (!is_null($row['value'])) {
+                return $row['value'];
+            } else {
+                return 0;
+            }
+        }
+        return 0;
+    }
+
 
 
 

@@ -35,6 +35,24 @@ class C3op_Projects_ActionCost {
         return $totalTreeCost;
     }
 
+    public function totalActionContractedValue(C3op_Projects_ActionsBelow $below, C3op_Resources_MaterialSupplyMapper $materialSupplierMapper)
+    {
+        $allActionsInTree = $below->retrieve();
+
+        $totalTreeContractedValue = $this->individualContractedValue();
+
+        foreach ($allActionsInTree as $actionId) {
+            $loopAction = $this->actionMapper->findById($actionId);
+            $actionValueObj = new C3op_Projects_ActionCost($loopAction,$this->actionMapper);
+            $currentActionValue = $actionValueObj->individualContractedValue();
+            $materialCost = $materialSupplierMapper->getContractedMaterialSuppliesValueJustForThisAction($loopAction);
+            $totalTreeContractedValue += $currentActionValue;
+            $totalTreeContractedValue += $materialCost;
+        }
+
+        return $totalTreeContractedValue;
+    }
+
     public function individualBudgetValue()
     {
         return $this->action->getBudgetForecast();

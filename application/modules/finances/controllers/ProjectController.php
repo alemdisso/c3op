@@ -220,12 +220,15 @@ class Finances_ProjectController extends Zend_Controller_Action
                 );
         }
 
+        $productsList = $this->fillProductsList($projectToBeDetailed);
+
 
         $pageData = array(
             'projectHeader'        => $projectHeader,
             'messageToShow'        => $messageToShow,
             'receivablesList'      => $receivablesList,
             'outlaysList'          => $outlaysList,
+            'productsList'         => $productsList,
 
         );
         $this->view->pageData = $pageData;
@@ -590,6 +593,82 @@ class Finances_ProjectController extends Zend_Controller_Action
         return $projectHeader;
 
 
+
+    }
+
+    private function fillProductsList(C3op_Projects_Project $projectToBeDetailed)
+    {
+
+
+        // productsList
+        //   * id =>
+        //      productTitle
+        //      receivableLabel
+        //      receivableId
+        //      totalValue
+        //      totalContracted
+
+        $productsList = array();
+
+        $projectProducts = $this->projectMapper->getAllProducts($projectToBeDetailed);
+        if (!isset($this->actionMapper)) {
+            $this->initActionMapper();
+        }
+        if (!isset($this->receivableMapper)) {
+            $this->initReceivableMapper();
+        }
+
+        foreach ($projectProducts as $id) {
+            $theProduct = $this->actionMapper->findById($id);
+            $productTitle = $theProduct->getTitle();
+
+
+            $validator = new C3op_Util_ValidDate();
+
+
+            if ($theProduct->getRequirementForReceiving() > 0) {
+                $theReceivable = $this->receivableMapper->findById($theProduct->getRequirementForReceiving());
+                $requirementForReceiving = $theReceivable->getTitle();
+                $receivableId = $theProduct->getRequirementForReceiving();
+                $receivableLabel = $theReceivable->getTitle();
+            } else {
+                $requirementForReceiving = $this->view->translate("#(not a requirement)");
+                $receivableId = null;
+                $receivableDescription = "";
+            }
+
+            $statusTypes = new C3op_Projects_ActionStatusTypes();
+            $status = $statusTypes->TitleForType($theProduct->getStatus());
+
+            $actionValueObj = new C3op_Projects_ActionCost($theProduct,$this->actionMapper);
+            $actionsBelow = new C3op_Projects_ActionsBelow($theProduct,$this->actionMapper);
+            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+
+
+            $rawTotalValue = $actionValueObj->individualBudgetValue();
+            $totalValue = $currencyDisplay->FormatCurrency($rawTotalValue);
+
+
+
+            $rawContractedValue = $actionValueObj->totalActionContractedValue($actionsBelow, new C3op_Resources_MaterialSupplyMapper);
+            $contractedValue = $currencyDisplay->FormatCurrency($rawContractedValue);
+
+            $productsList[$id] = array(
+                    'productTitle'            => $productTitle,
+                    'status'                  => $status,
+                    'receivableLabel'         => $receivableLabel,
+                    'receivableId'            => $receivableId,
+                    'totalValue'              => $totalValue,
+                    'contractedValue'         => $contractedValue,
+                );
+        }
+
+
+
+
+
+
+        return $productsList;
 
     }
 
