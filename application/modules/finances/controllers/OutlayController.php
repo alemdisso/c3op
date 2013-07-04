@@ -223,7 +223,12 @@ class Finances_OutlayController  extends Zend_Controller_Action
             $payedValue = "0.00";
         }
         $payedValue = $currencyDisplay->FormatCurrency($payedValue);
-        $totalValue = $currencyDisplay->FormatCurrency($responsible->getValue());
+
+        if (!is_null($responsible->getContractedValue())) {
+            $totalValue = $currencyDisplay->FormatCurrency($responsible->getContractedValue());
+        } else {
+            $totalValue = $currencyDisplay->FormatCurrency($responsible->getPredictedValue());
+        }
 
         $actionStatus = $responsibleAction->getStatus();
         $statusTypes = new C3op_Projects_ActionStatusTypes();
@@ -397,7 +402,7 @@ class Finances_OutlayController  extends Zend_Controller_Action
             $payedValue = "0.00";
         }
 
-        $predictedValue = $responsible->getValue() - $payedValue;
+        $predictedValue = $responsible->getPredictedValue() - $payedValue;
         $element = $form->getElement('predictedValue');
         $element->setValue($predictedValue);
 

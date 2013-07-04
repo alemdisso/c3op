@@ -474,14 +474,13 @@ class Projects_IndexController extends Zend_Controller_Action
             $responsible = $this->responsibleMapper->findById($data['responsible']);
             $loopProject = $this->projectMapper->findById($action->getProject());
 
-            if ($responsible->getValue() > 0) {
-                $totalProvidedValue += $responsible->getValue();
-                $contractingStatus = new C3op_Projects_ActionContracting($action, $this->actionMapper);
-                if ($contractingStatus->isContracted()) {
-                    $totalContractedValue += $responsible->getValue();
-
-                }
-                $actionTotalValue = $currencyDisplay->FormatCurrency($responsible->getValue());
+            $contractingStatus = new C3op_Projects_ActionContracting($action, $this->actionMapper);
+            if ($contractingStatus->isContracted()) {
+                $totalContractedValue += $responsible->getContractedValue();
+                $actionTotalValue = $currencyDisplay->FormatCurrency($responsible->getContractedValue());
+            } else if ($responsible->getPredictedValue() > 0) {
+                $totalProvidedValue += $responsible->getPredictedValue();
+                $actionTotalValue = $currencyDisplay->FormatCurrency($responsible->getPredictedValue());
             } else {
                 $actionTotalValue = $this->view->translate("#(not defined)");
             }

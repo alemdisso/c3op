@@ -1,0 +1,694 @@
+<?php
+  $pageData = $this->pageData;
+  $actionHeader = $pageData['actionHeader'];
+  $responsiblesList = $pageData['responsiblesList'];
+  $materialData = $pageData['materialSuppliesList'];
+?>
+
+<script type="text/javascript">
+
+function acknowledgeStart(id){
+  $.ajax({
+    type: 'get',
+    data: 'id=' + id,
+    url:'/projects/action/acknowledge-start',
+    success: function(successReturn){
+      $('#acknowledgeStart-'+id).html(successReturn);
+      $('#changeStartButton').hide();
+    }
+  })
+}
+
+function acknowledgeReceipt(id){
+  $.ajax({
+    type: 'get',
+    data: 'id=' + id,
+    url:'/projects/action/acknowledge-receipt',
+    success: function(successReturn){
+      $('#acknowledgeReceipt-'+id).html(successReturn);
+    }
+  })
+}
+
+function acceptReceipt(id){
+  $.ajax({
+    type: 'get',
+    data: 'id=' + id,
+    url:'/projects/action/accept-receipt',
+    success: function(successReturn){
+      $('#receiptAcknowledgement-'+id).html(successReturn);
+    }
+  })
+}
+
+function rejectReceipt(id){
+  $.ajax({
+    type: 'get',
+    data: 'id=' + id,
+    url:'/projects/action/reject-receipt',
+    success: function(successReturn){
+      $('#receiptAcknowledgement-'+id).html(successReturn);
+    }
+  })
+}
+</script>
+
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+    $("#responsibleDiv").hide();
+    $("#responsibleButton").show();
+
+    $('#responsibleButton').click(function(){
+        $.ajax({
+            type: 'get',
+            data: 'actionId=<?php print $actionHeader['id'] ?>',
+            url:'/resources/responsible/create',
+            success: function(successReturn){
+            $('#responsibleFormDiv').html(successReturn);
+            }
+        })
+
+
+         $("#responsibleDiv").slideToggle();
+         $("#responsibleButton").hide();
+    });
+    $('#hideResponsibleHref').click(function(){
+         $("#responsibleDiv").slideToggle();
+         $("#responsibleButton").show();
+    });
+
+
+
+
+
+});
+
+    function callResponsibleEdit(id){
+        $.ajax({
+            type: 'get',
+            data: 'id=' + id,
+            url:'/resources/responsible/edit',
+            success: function(successReturn){
+            $('#responsibleFormDiv').html(successReturn);
+            }
+        })
+
+         $("#responsibleDiv").slideToggle();
+         $("#responsibleButton").hide();
+    }
+
+</script>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+        $("#budgetDiv").hide();
+        $("#budgetButton").show();
+
+    $('#budgetButton').click(function(){
+        $.ajax({
+            type: 'get',
+            data: 'id=<?php print $actionHeader['id'] ?>',
+            url:'/projects/action/budget-create',
+            success: function(successReturn){
+            $('#budgetFormDiv').html(successReturn);
+            }
+        })
+
+        $("#labelBudgetDiv").hide();
+
+         $("#budgetDiv").slideToggle();
+         $("#budgetButton").hide();
+    });
+    $('#hideBudgetHref').click(function(){
+         $("#budgetDiv").slideToggle();
+         $("#labelBudgetDiv").show();
+         $("#budgetButton").show();
+    });
+
+
+
+});
+
+</script>
+
+
+        <div id="MainHeader">
+          <h1><?php print($this->translate("#Project")); ?> <a href="/projects/project/detail/?id=<?php print($actionHeader['projectId']) ?>"><?php print($actionHeader['projectTitle']) ?></a></h1>
+        </div><!-- MainHeader -->
+
+<?php
+    if ($pageData['messageToShow']) {
+?>
+        <div class="flashMessage">
+            <?php echo $this->translate($pageData['messageToShow']); ?>
+        </div>
+<?php
+    }
+?>
+
+        <div class="TituloForm">
+
+          <h2><?php print(sprintf($this->translate("#Details of product %s"), $actionHeader['title'])); ?></h2>
+
+                <a href="/projects/action/edit/?id=<?php echo $actionHeader['id'] ?>"><?php echo $this->translate("#Edit action") ?></a>
+<?php
+    if ($actionHeader['canRemoveAction']) {
+?>
+                | <a href="/projects/action/remove/?id=<?php echo $actionHeader['id'] ?>"><?php echo $this->translate("#Remove action!") ?></a>
+<?php
+    }
+?>
+        </div>
+
+        <div class="Area">
+
+          <div class="three columns alpha Right">
+            <?php print($this->translate("#Supervisor:")); ?>
+          </div>
+          <div class="six columns">
+            <?php print($this->translate($actionHeader['supervisorName'])); ?>
+          </div>
+          <div class="two columns Right">
+            <?php print($this->translate("#Status")); ?>
+          </div>
+          <div class="three columns omega">
+            <?php print($this->translate($actionHeader['status'])); ?>
+          </div>
+          <div class="three columns alpha Right">
+            <?php print($this->translate("#Description:")); ?>
+          </div>
+          <div class="eleven columns omega">
+            <?php print($actionHeader['description']); ?>&nbsp;
+          </div>
+
+          <div class="three columns alpha Right">
+            <?php print($this->translate("#Predicted begin date:")); ?>
+          </div>
+          <div class="two columns">
+            <?php print($this->translate($actionHeader['predictedBeginDate'])); ?>
+          </div>
+          <div class="two columns Right">
+            <?php print($this->translate("#Predicted finish:")); ?>
+          </div>
+          <div class="two columns">
+            <?php print($this->translate($actionHeader['predictedFinishDate'])); ?>
+          </div>
+          <div class="two columns inset-by-two omega">
+<?php
+            if ($actionHeader['isAMilestone']) {
+?>
+            <?php print($this->translate('#Is a milestone')); ?>
+
+<?
+            } else {
+?>
+            <?php print($this->translate('#Is not a milestone')); ?>
+
+<?
+            }
+?>
+
+
+          </div>
+
+            <div class="three columns alpha Right">
+            <?php print($this->translate("#Real begin:")); ?>
+          </div>
+          <div class="two columns">
+            <?php print($this->translate($actionHeader['realBeginDate'])); ?>
+          </div>
+          <div class="two columns Right">
+            <?php print($this->translate("#Real finish:")); ?>
+          </div>
+          <div class="two columns">
+            <?php print($this->translate($actionHeader['realFinishDate'])); ?>
+          </div>
+          <div class="three columns">
+            &nbsp;
+          </div>
+
+            <div class="three columns alpha Right">
+            <?php print($this->translate("#Contractual delivery:")); ?>
+          </div>
+          <div class="two columns">
+            <?php print($this->translate($actionHeader['productDeliveryDate'])); ?>
+          </div>
+          <div class="two columns Right">
+            <?php print($this->translate("#Receiving date:")); ?>
+          </div>
+          <div class="two columns">
+            <?php print($this->translate($actionHeader['productReceivableDate'])); ?>
+          </div>
+
+<?php
+  if ($actionHeader['waitingToReceipt']) {
+?>
+          <div class="three columns inset-by-two omega">
+            <div id="acknowledgeReceipt-<?php print($actionHeader['id']);?>">
+              <div class="three columns alpha omega">
+                <a class="button full column alpha omega parent_info" href="javascript:acknowledgeReceipt('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Confirm task realization")); ?></a>
+              </div>
+            </div>
+          </div>
+
+&nbsp;
+
+<?php
+  } else {
+?>
+            &nbsp;
+<?php
+  }
+?>
+<?php
+  if ($actionHeader['canAcknowledge']) {
+?>
+              <a anchor="start"></a>
+            <br clear="all" />
+          <div class="seven columns offset-by-three" >
+            <div id='acknowledgeStart-<?php print($actionHeader['id']); ?>'>
+              <a class="two columns button alpha" href="javascript:acknowledgeStart('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Acknowledge start")); ?></a>
+            </div>
+            <div id='changeStartButton'>
+              <a class="two columns offset-by-one button alpha" href="/projects/action/change-start/?id=<?php print($actionHeader['id']); ?>"><?php print($this->translate("#Change start date")); ?></a>
+            </div>
+          </div>
+<?php
+  }
+?>
+<?php
+  if ($actionHeader['receiptToAcceptOrReject']) {
+?>
+          <div class="two columns alpha Right">
+            <?php print($this->translate("#Receipt date:")); ?>
+          </div>
+          <div class="one column">
+            <?php print($this->translate($actionHeader['receiptDate'])); ?>
+          </div>
+          <div class="two columns">
+            <a id="hideDeliveryHref" href="/projects/action/change-receipt/?id=<?php print($actionHeader['id']); ?>"><?php print($this->translate("#Fix date")); ?></a>
+          </div>
+          <div class="six columns inset-by-four">
+            <div id="receiptAcknowledgement-<?php print($actionHeader['id']);?>">
+              <div class="three columns alpha">
+                <a class="button full column alpha omega parent_info" href="javascript:rejectReceipt('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Reject receipt")); ?></a>
+              </div>
+              <div class="three columns omega">
+                <a class="button full column alpha omega parent_info" href="javascript:acceptReceipt('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Accept receipt")); ?></a>
+              </div>
+            </div>
+          </div>
+            &nbsp;
+<?php
+  } else {
+?>
+          &nbsp;
+<?php
+  }
+?>
+
+<?php
+  if ($actionHeader['readyToDelivery']) {
+?>
+          <div class="six columns inset-by-four">
+            <div id="receiptAcknowledgement-<?php print($actionHeader['id']);?>">
+              <div class="four columns alpha offset-by-three">
+                <a class="button full column alpha omega parent_info" href="/projects/action/delivery-notify/?id=<?php print($actionHeader['id']); ?>"><?php print($this->translate("#Notify product delivery")); ?></a>
+              </div>
+            </div>
+          </div>
+            &nbsp;
+<?php
+  }
+?>
+
+
+          <br class="clear" />
+          <div class="eight columns offset-by-three">
+              <a anchor="responsible"></a>
+<?php
+if ((!$actionHeader['hasResponsible']) && ($actionHeader['canDefineResponsible'])) {
+?>
+
+            <a id="responsibleButton" class="button two columns alpha omega parent_info" href="#responsible"><?php print($this->translate("#Inform responsible")); ?></a>
+<?php
+}
+?>
+<?php
+if ($actionHeader['hasResponsible']) {
+    $projectId = $actionHeader['projectId'];
+    $contactName = $actionHeader['responsibleLabel'];
+    $personLink = "<a href='#' class ='anchorclass' rel ='submenuResponsible'>$contactName</a>";
+
+?>
+<?php print(sprintf($this->translate("#%s was assigned responsible for this action"), $personLink)); ?> (<?php print($this->translate($actionHeader['statusLabel'])); ?>)
+                  <div id="submenuResponsible" class="anylinkcss">
+                      <ul>
+<?php
+
+        if ($actionHeader['responsibleType'] == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER) {
+
+?>
+                          <li>
+                              <a href="/projects/project/engagement/?id=<?php print $actionHeader['projectId'] ?>&contact=<?php print $actionHeader['contactId'] ?>"><?php print($this->translate("#Engagement in the project")); ?></a>
+                          </li>
+<?php
+        } else {
+
+?>
+                          <li>
+                              <a href="/projects/project/engagement/?id=<?php print $actionHeader['projectId'] ?>&institution=<?php print $actionHeader['institutionId'] ?>"><?php print($this->translate("#Engagement in the project")); ?></a>
+                          </li>
+<?php
+        }
+?>
+<?php
+    if ($actionHeader['canContract']) {
+
+?>
+                        <li>
+                          <a class="parent_info" href="/resources/responsible/contract/?id=<?php print($actionHeader['responsibleId']);?>" ><?php print($this->translate("#Confirm responsible contracting")); ?></a>
+                        </li>
+
+<?php
+    }
+?>
+<?php
+    if ($actionHeader['canDismiss']) {
+
+?>
+                        <li>
+                          <a class="parent_info" href="/resources/responsible/dismiss/?id=<?php print($actionHeader['responsibleId']);?>" ><?php print($this->translate("#Confirm responsible dismissing")); ?></a>
+                        </li>
+
+<?php
+    }
+?>
+
+                          <li>
+                              <a href="javascript:callResponsibleEdit(<?php print $actionHeader['responsibleId'] ?>)"><?php print($this->translate("#Edit responsible")); ?></a>
+                          </li>
+                      </ul>
+                  </div>
+
+<?php
+
+  }
+?>
+          <div id="responsibleDiv" class="slidingDiv">
+              <h3>   <?php print($this->translate("#Inform responsible")); ?>  </h3>
+              <div id="responsibleFormDiv">&nbsp;</div>
+
+            <br class="clear"/>
+            <a class="alpha" href="#responsible" id="hideResponsibleHref"><?php print($this->translate("#Hide form")); ?></a>
+          </div>
+          </div>
+<?php
+if ($actionHeader['canEditBudget']) {
+
+?>
+
+          <br class="clear" />
+          <div class="eight columns offset-by-three">
+              <a anchor="budget"></a>
+<?php
+$labelBudgetButton = $this->translate("#Provide budget");
+if (isset($actionHeader['hasBudget'])) {
+
+    if ($actionHeader['hasBudget']) {
+        $labelBudgetButton = $this->translate("#Edit budget");
+?>
+
+          <div id="labelBudgetDiv" class="slidingDiv">
+              <?php print(sprintf($this->translate("#This action has a provided budget of %s"), $actionHeader['budgetForecast'])); ?>
+          </div>
+          <br class="clear" />
+<?php
+
+        }
+    }
+?>
+            <a id="budgetButton" class="" href="#budget"><?php print($labelBudgetButton); ?></a>
+          <div id="budgetDiv" class="slidingDiv">
+              <h3>   <?php print($this->translate("#Inform budget")); ?>  </h3>
+              <div id="budgetFormDiv">&nbsp;</div>
+            <br class="clear"/>
+            <a class="alpha" href="#budget" id="hideBudgetHref"><?php print($this->translate("#Hide form")); ?></a>
+
+          </div>
+          </div>
+<?php
+
+    }
+?>
+
+        </div><!-- .Area -->
+
+        <div id="tabs">
+          <ul>
+            <li><a href="#tabs-team"><?php echo $this->translate("#Team") ?></a></li>
+            <li><a href="#tabs-material"><?php echo $this->translate("#Material") ?></a></li>
+          </ul>
+
+          <div id="tabs-team">
+            <div class="Area">
+          <table id="Responsibles" class="display dataTable">
+            <thead>
+              <tr>
+                <th width="150"><?php print($this->translate("#Name")); ?></th>
+                <th width="70"><?php print($this->translate("#Contracting")); ?></th>
+                <th width="150"><?php print($this->translate("#Action")); ?></th>
+                <th width="70"><?php print($this->translate("#Status")); ?></th>
+                <th width="60"><?php print($this->translate("#Budget")); ?></th>
+                <th width="60"><?php print($this->translate("#Contracted")); ?></th>
+                <th width="1%">&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+
+<?php
+  foreach ($responsiblesList as $id => $responsibleData) {
+?>          <!-- ### loop de carga dos recursos humanos alocados a esta ação -->
+              <tr>
+<?php
+    if($responsibleData['personal']) {
+?>
+                  <td>
+                  <a href="/projects/project/engagement/?id=<?php print($actionHeader['projectId']) ?>&contact=<?php print($responsibleData['contactId']) ?>"><?php print($responsibleData['name']) ?></a>
+                </td>
+<?php
+    } else {
+
+?>
+                  <td>
+                  <a href="/projects/project/engagement/?id=<?php print($actionHeader['projectId']) ?>&institution=<?php print($responsibleData['institutionId']) ?>"><?php print($responsibleData['name']) ?></a>
+                </td>
+    <?php
+
+    }
+
+
+?>
+                <td>
+                  <?php print($responsibleData['contractingStatusLabel']) ?>
+                </td>
+                <td>
+                  <a href="/projects/action/detail/?id=<?php print($responsibleData['responsibleActionId']); ?>"><?php print($responsibleData['responsibleActionTitle']); ?></a>
+                </td>
+                <td>
+                  <?php print($responsibleData['actionStatusLabel']) ?>
+                </td>
+                <td>
+                  <?php print($responsibleData['actionBudget']) ?>
+                </td>
+                <td>
+                  <?php print($responsibleData['contractedValue']) ?>
+                </td>
+                <td>
+                  <a href="#" class="button one column alpha omega anchorclass" rel="submenu2"><?php print($this->translate("#Options")); ?></a>
+                  <div id="submenu2" class="anylinkcss">
+                      <ul>
+
+<?php
+    if($responsibleData['canEditResource']) {
+
+?>
+                        <li>
+                          <a href="/resources/responsible/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
+                        </li>
+
+<?php
+    }
+?>
+    <?php
+    if ($responsibleData['canContractFlag']) {
+?>
+                        <li>
+                          <a class="parent_info" href="/resources/responsible/contract/?id=<?php print($id);?>" ><?php print($this->translate("#Confirm team member contracting")); ?></a>
+                        </li>
+
+<?php
+    }
+?>
+    <?php
+    if ($responsibleData['canDismissFlag']) {
+?>
+                        <li>
+                          <a class="parent_info" href="/resources/responsible/dismiss/?id=<?php print($id);?>" ><?php print($this->translate("#Dismiss team memb")); ?></a>
+                        </li>
+
+<?php
+    }
+?>
+<?php
+
+if ($responsibleData['canProvideOutlay']) {
+?>
+
+
+                          <li>
+                            <a href="/finances/outlay/create/?responsible=<?php echo $id ?>"><?php echo $this->translate("#Provide outlay") ?></a>
+                          </li>
+
+<?php
+}
+?>
+<?php
+
+if ($responsibleData['canRemoveResponsible']) {
+?>
+
+
+                          <li>
+                            <a href="/resources/responsible/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
+                          </li>
+
+<?php
+}
+?>
+<?php
+if($responsibleData['contactId'] > 0) {
+?>
+                        <li>
+                          <a href="/register/contact/detail/?id=<?php print($responsibleData['contactId']) ?>"><?php echo $this->translate("#Contact detail") ?></a>
+                        </li>
+<?php
+}
+?>
+
+                      </ul>
+                  </div><!-- #submenu1 -->
+                </td>
+              </tr>
+              <!-- ### fim do loop de carga dos recursos humanos alocados a esta ação -->
+<?php
+  }
+?>
+
+            </tbody>
+          </table>
+
+            </div><!-- Area -->
+          </div><!-- #tabs-team -->
+
+
+
+          <div id="tabs-material">
+            <div class="Area">
+                <table id="MaterialSupplies" class="display dataTable">
+                    <thead>
+                    <tr>
+                        <th width="220"><?php print($this->translate("#Organization")); ?></th>
+                        <th width="80"><?php print($this->translate("#Service")); ?></th>
+                        <th width="100"><?php print($this->translate("#Value")); ?></th>
+                        <th width="100"><?php print($this->translate("#Status")); ?></th>
+                        <th width="100">&nbsp;</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+<?php
+  foreach ($materialData as $id => $materialSupplyData) {
+?>          <!-- ### loop de carga dos recursos humanos alocados a esta ação -->
+              <tr>
+                <td>
+                  <a href="/resources/material-supply/edit/?id=<?php print($id) ?>"><?php print($materialSupplyData['name']) ?></a>
+                </td>
+                <td>
+                  <a href="/resources/material-supply/edit/?id=<?php print($id) ?>"><?php print($materialSupplyData['description']) ?></a>
+                </td>
+                <td>
+                  <?php print($materialSupplyData['value']) ?>
+                </td>
+                <td>
+                  <?php print($materialSupplyData['contractingStatusLabel']) ?>
+                </td>
+                <td>
+                  <a href="#" class="button one column alpha omega anchorclass" rel="submenu2"><?php print($this->translate("#Options")); ?></a>
+                  <div id="submenu2" class="anylinkcss">
+                      <ul>
+                        <li>
+                          <a href="/resources/material-supply/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
+                        </li>
+
+<?php
+    if ($materialSupplyData['canContractFlag']) {
+?>
+                        <li>
+                          <a class="parent_info" href="/resources/material-supply/contract/?id=<?php print($id);?>" ><?php print($this->translate("#Confirm material supply contracting")); ?></a>
+                        </li>
+
+<?php
+    }
+?>
+<?php
+
+if ($materialSupplyData['canProvideOutlay']) {
+?>
+
+
+                          <li>
+                            <a href="/finances/outlay/create/?materialSupply=<?php echo $id ?>"><?php echo $this->translate("#Provide outlay") ?></a>
+                          </li>
+
+<?php
+}
+?>
+<?php
+
+if ($materialSupplyData['canRemoveMaterialSupply']) {
+?>
+
+
+                          <li>
+                            <a href="/resources/material-supply/remove/?id=<?php echo $id ?>"><?php echo $this->translate("#Remove") ?></a>
+                          </li>
+
+<?php
+}
+?>
+                      </ul>
+                  </div><!-- #submenu1 -->
+                </td>
+              </tr>
+              <!-- ### fim do loop de carga dos recursos humanos alocados a esta ação -->
+<?php
+  }
+?>
+
+            </tbody>
+          </table>
+
+          <p>
+            <a href="/resources/material-supply/create/?actionId=<?php print($actionHeader['id']); ?>" class="button three columns alpha omega"><?php print($this->translate("#Anticipate material supply")); ?></a>
+          </p>
+            </div><!-- Area -->
+
+          </div><!-- #tabs-material -->
+
+        </div><!-- #tabs -->

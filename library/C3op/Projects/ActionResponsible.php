@@ -26,6 +26,18 @@ class C3op_Projects_ActionResponsible {
         return $itDoes;
     }
 
+    public function doesItHasAContractedResponsible()
+    {
+        $itDoes = false;
+
+        $result = $this->actionMapper->getContractedResponsibles($this->action);
+        if (count($result) > 0) {
+            $itDoes = true;
+        }
+
+        return $itDoes;
+    }
+
     public function fetch()
     {
         $result = $this->actionMapper->getResponsibleBy($this->action);
@@ -111,6 +123,8 @@ class C3op_Projects_ActionResponsible {
               'institutionName'      => $institutionName,
               'institutionId'        => $institutionId,
               'statusLabel'          => $statusLabel,
+              'predictedValue'       => $responsible->getPredictedValue(),
+              'contractedValue'       => $responsible->getContractedValue(),
             );
         } else {
             $data = array(

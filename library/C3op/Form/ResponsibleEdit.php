@@ -16,6 +16,22 @@ class C3op_Form_ResponsibleEdit extends C3op_Form_ResponsibleCreate
             ->addFilter('StringTrim');
         $this->addElement($id);
 
+        $element = new Zend_Form_Element_Text('contractedValue');
+        $element->setLabel('#Contracted value:')
+                ->setAttrib('alt','decimal')
+                ->setDecorators(array(
+                    'ViewHelper',
+                    'Errors',
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns alpha omega')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'two columns alpha Right inset-by-two')),
+                ))
+                ->setOptions(array('class' => 'Full alpha omega'))
+            ->addValidator(new C3op_Util_ValidPositiveDecimal)
+            ->addFilter('StringTrim')
+            ->addErrorMessage(_('#The value must be a positive number'))
+                ;
+        $this->addElement($element);
+
         $typeField = $this->getElement('responsibleType');
         $typeField->SetOptions(array('onChange' => 'javascript:typeHasChanged()'));
 
@@ -83,8 +99,11 @@ class C3op_Form_ResponsibleEdit extends C3op_Form_ResponsibleCreate
 
                 $converter = new C3op_Util_DecimalConverter();
                 $validator = new C3op_Util_ValidDecimal();
-                if ($validator->isValid($this->value->GetValue())) {
-                    $responsible->SetValue($converter->getDecimalDotValue($this->value->GetValue(), $validator));
+                if ($validator->isValid($this->predictedValue->GetValue())) {
+                    $responsible->SetPredictedValue($converter->getDecimalDotValue($this->predictedValue->GetValue(), $validator));
+                }
+                if ($validator->isValid($this->contractedValue->GetValue())) {
+                    $responsible->SetContractedValue($converter->getDecimalDotValue($this->contractedValue->GetValue(), $validator));
                 }
 
                 $responsible->SetType(C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER);

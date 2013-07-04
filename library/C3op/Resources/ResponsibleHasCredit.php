@@ -14,7 +14,7 @@ class C3op_Resources_ResponsibleHasCredit {
     public function hasCreditToPay()
     {
         if ($this->actionHasBeenApproved()) {
-            $budget = $this->responsible->getValue();
+            $budget = $this->responsible->getContractedValue();
             $payed = $this->mapper->getSumOfPayedOutlays($this->responsible);
             $provided = $this->mapper->getSumOfProvidedButNotPayedOutlays($this->responsible);
 
@@ -32,7 +32,7 @@ class C3op_Resources_ResponsibleHasCredit {
 
     public function hasCreditToProvide()
     {
-        $budget = $this->responsible->getValue();
+        $budget = $this->responsible->getContractedValue();
         $payed = $this->mapper->getSumOfPayedOutlays($this->responsible);
         $provided = $this->mapper->getSumOfProvidedOutlays($this->responsible);
 

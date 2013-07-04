@@ -279,7 +279,7 @@ class Finances_IndexController extends Zend_Controller_Action
                 $predictedValue = "0.00";
             }
             $predictedValue = $currencyDisplay->FormatCurrency($predictedValue);
-            $totalValue = $currencyDisplay->FormatCurrency($responsible->getValue());
+            $totalValue = $currencyDisplay->FormatCurrency($responsible->getContractedValue());
 
             $actionStatus = $responsibleAction->getStatus();
             $statusTypes = new C3op_Projects_ActionStatusTypes();

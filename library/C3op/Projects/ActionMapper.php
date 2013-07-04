@@ -389,7 +389,7 @@ class C3op_Projects_ActionMapper
 
     public function getContractedValueJustForThisAction(C3op_Projects_Action $obj)
     {
-        $query = $this->db->prepare('SELECT SUM(value) as value FROM resources_responsibles WHERE action = :action AND status = :status;');
+        $query = $this->db->prepare('SELECT SUM(contracted_value) as value FROM resources_responsibles WHERE action = :action AND status = :status;');
         $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
         $query->bindValue(':status', C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
         $query->execute();
