@@ -783,7 +783,10 @@ class Projects_IndexController extends Zend_Controller_Action
             $actionValueObj = new C3op_Projects_ActionCost($loopAction,$this->actionMapper);
             $currencyDisplay = new  C3op_Util_CurrencyDisplay();
             $actionsBelow = new C3op_Projects_ActionsBelow($loopAction,$this->actionMapper);
-            $rawValue = $actionValueObj->totalActionTreeCost($actionsBelow, new C3op_Resources_MaterialSupplyMapper);
+            $rawValue = $actionValueObj->totalActionTreeCost($actionsBelow
+                                                                , new C3op_Resources_MaterialSupplyMapper
+                                                                , new C3op_Resources_ResponsibleMapper
+                                                            );
             $actionValue = $currencyDisplay->FormatCurrency($rawValue);
 
 

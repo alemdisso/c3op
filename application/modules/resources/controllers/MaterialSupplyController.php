@@ -233,7 +233,7 @@ class Resources_MaterialSupplyController extends Zend_Controller_Action
 
                 $actionTitle = $thisAction->GetTitle();
                $headerData = array(
-                   'materialSupplyName' => $contactName,
+                   'materialSupplierName' => $thisMaterialSupply->getDescription(),
                    'actionTitle'    => $actionTitle,
                ) ;
 

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-04 11:05-0300\n"
-"PO-Revision-Date: 2013-07-04 11:05-0300\n"
+"POT-Creation-Date: 2013-07-04 18:46-0300\n"
+"PO-Revision-Date: 2013-07-04 18:46-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -198,8 +198,8 @@ msgstr "Cliente"
 #: application\modules\finances/views/scripts/index/index.phtml:434
 #: application\modules\finances/views/scripts/index/index.phtml:547
 #: application\modules\finances/views/scripts/product/detail.phtml:177
-#: application\modules\finances/views/scripts/product/detail.phtml:466
-#: application\modules\finances/views/scripts/product/detail.phtml:609
+#: application\modules\finances/views/scripts/product/detail.phtml:470
+#: application\modules\finances/views/scripts/product/detail.phtml:613
 #: application\modules\finances/views/scripts/project/detail.phtml:235
 #: application\modules\finances/views/scripts/receivable/detail.phtml:87
 msgid "#Status"
@@ -207,7 +207,7 @@ msgstr "Status"
 
 #: application\modules\finances/views/scripts/index/index.phtml:92
 #: application\modules\finances/views/scripts/index/index.phtml:548
-#: application\modules\finances/views/scripts/product/detail.phtml:608
+#: application\modules\finances/views/scripts/product/detail.phtml:612
 msgid "#Value"
 msgstr "Valor"
 
@@ -233,10 +233,10 @@ msgstr "Opções..."
 #: application\modules\finances/views/scripts/index/index.phtml:359
 #: application\modules\finances/views/scripts/index/index.phtml:481
 #: application\modules\finances/views/scripts/index/index.phtml:580
-#: application\modules\finances/views/scripts/product/detail.phtml:522
-#: application\modules\finances/views/scripts/product/detail.phtml:636
-#: application\modules\finances/views/scripts/project/detail.phtml:329
-#: application\modules\finances/views/scripts/project/detail.phtml:437
+#: application\modules\finances/views/scripts/product/detail.phtml:526
+#: application\modules\finances/views/scripts/product/detail.phtml:640
+#: application\modules\finances/views/scripts/project/detail.phtml:330
+#: application\modules\finances/views/scripts/project/detail.phtml:438
 #: application\modules\finances/views/scripts/receivable/detail.phtml:106
 msgid "#Edit"
 msgstr "Editar"
@@ -292,60 +292,60 @@ msgstr "Todos os pagamentos"
 
 #: application\modules\finances/views/scripts/index/index.phtml:305
 #: application\modules\finances/views/scripts/index/index.phtml:430
-#: application\modules\finances/views/scripts/product/detail.phtml:465
-#: application\modules\finances/views/scripts/project/detail.phtml:386
+#: application\modules\finances/views/scripts/product/detail.phtml:469
+#: application\modules\finances/views/scripts/project/detail.phtml:387
 msgid "#Action"
 msgstr "Ação"
 
 #: application\modules\finances/views/scripts/index/index.phtml:306
 #: application\modules\finances/views/scripts/index/index.phtml:431
-#: application\modules\finances/views/scripts/project/detail.phtml:387
+#: application\modules\finances/views/scripts/project/detail.phtml:388
 msgid "#Payee"
 msgstr "Beneficiado"
 
 #: application\modules\finances/views/scripts/index/index.phtml:307
 #: application\modules\finances/views/scripts/index/index.phtml:432
-#: application\modules\finances/views/scripts/project/detail.phtml:388
+#: application\modules\finances/views/scripts/project/detail.phtml:389
 msgid "#Payment Predicted date"
 msgstr "Pagamento previsto"
 
 #: application\modules\finances/views/scripts/index/index.phtml:308
-#: application\modules\finances/views/scripts/project/detail.phtml:297
-#: application\modules\finances/views/scripts/project/detail.phtml:389
+#: application\modules\finances/views/scripts/project/detail.phtml:298
+#: application\modules\finances/views/scripts/project/detail.phtml:390
 msgid "#Real date"
 msgstr "Data do recebimento"
 
 #: application\modules\finances/views/scripts/index/index.phtml:309
 #: application\modules\finances/views/scripts/index/index.phtml:433
-#: application\modules\finances/views/scripts/project/detail.phtml:296
-#: application\modules\finances/views/scripts/project/detail.phtml:390
+#: application\modules\finances/views/scripts/project/detail.phtml:297
+#: application\modules\finances/views/scripts/project/detail.phtml:391
 msgid "#Predicted value"
 msgstr "Valor previsto"
 
 #: application\modules\finances/views/scripts/index/index.phtml:310
-#: application\modules\finances/views/scripts/project/detail.phtml:298
-#: application\modules\finances/views/scripts/project/detail.phtml:391
+#: application\modules\finances/views/scripts/project/detail.phtml:299
+#: application\modules\finances/views/scripts/project/detail.phtml:392
 msgid "#Real value"
 msgstr "Valor real"
 
 #: application\modules\finances/views/scripts/index/index.phtml:354
 #: application\modules\finances/views/scripts/index/index.phtml:476
-#: application\modules\finances/views/scripts/product/detail.phtml:513
-#: application\modules\finances/views/scripts/product/detail.phtml:632
-#: application\modules\finances/views/scripts/project/detail.phtml:324
-#: application\modules\finances/views/scripts/project/detail.phtml:432
+#: application\modules\finances/views/scripts/product/detail.phtml:517
+#: application\modules\finances/views/scripts/product/detail.phtml:636
+#: application\modules\finances/views/scripts/project/detail.phtml:325
+#: application\modules\finances/views/scripts/project/detail.phtml:433
 #: application\modules\finances/views/scripts/receivable/detail.phtml:102
 msgid "#Options"
 msgstr "Opções"
 
 #: application\modules\finances/views/scripts/index/index.phtml:370
 #: application\modules\finances/views/scripts/index/index.phtml:492
-#: application\modules\finances/views/scripts/project/detail.phtml:448
+#: application\modules\finances/views/scripts/project/detail.phtml:449
 msgid "#Confirm payment"
 msgstr "Confirmar pagamento"
 
 #: application\modules\finances/views/scripts/index/index.phtml:381
-#: application\modules\finances/views/scripts/project/detail.phtml:459
+#: application\modules\finances/views/scripts/project/detail.phtml:460
 msgid "#Outlay details"
 msgstr "Detalhes do pagamento"
 
@@ -358,7 +358,7 @@ msgid "#Approved actions to pay"
 msgstr "Ações a pagar"
 
 #: application\modules\finances/views/scripts/index/index.phtml:517
-#: application\modules\finances/views/scripts/project/detail.phtml:477
+#: application\modules\finances/views/scripts/project/detail.phtml:478
 msgid "#There is no outlays related to this project."
 msgstr "Não há pagamentos associados a esse projeto."
 
@@ -535,65 +535,70 @@ msgstr "Essa ação tem um orçamento de %s"
 msgid "#Inform budget"
 msgstr "Prever orçamento"
 
-#: application\modules\finances/views/scripts/product/detail.phtml:454
+#: application\modules\finances/views/scripts/product/detail.phtml:450
+#, php-format
+msgid "#This action has a current cost of %s (balance: %s)"
+msgstr "Essa ação tem um custo atual de %s (saldo: %s)"
+
+#: application\modules\finances/views/scripts/product/detail.phtml:458
 msgid "#Team"
 msgstr "Equipe"
 
-#: application\modules\finances/views/scripts/product/detail.phtml:455
+#: application\modules\finances/views/scripts/product/detail.phtml:459
 msgid "#Material"
 msgstr "Serviços e Materiais"
 
-#: application\modules\finances/views/scripts/product/detail.phtml:463
+#: application\modules\finances/views/scripts/product/detail.phtml:467
 msgid "#Name"
 msgstr "Nome"
 
-#: application\modules\finances/views/scripts/product/detail.phtml:464
+#: application\modules\finances/views/scripts/product/detail.phtml:468
 msgid "#Contracting"
 msgstr "Contratação"
 
-#: application\modules\finances/views/scripts/product/detail.phtml:467
+#: application\modules\finances/views/scripts/product/detail.phtml:471
 msgid "#Budget"
 msgstr "Orçado"
 
-#: application\modules\finances/views/scripts/product/detail.phtml:468
+#: application\modules\finances/views/scripts/product/detail.phtml:472
 msgid "#Contracted"
 msgstr "Contratado"
 
-#: application\modules\finances/views/scripts/product/detail.phtml:532
+#: application\modules\finances/views/scripts/product/detail.phtml:536
 msgid "#Confirm team member contracting"
 msgstr "Confirmar contratação"
 
-#: application\modules\finances/views/scripts/product/detail.phtml:542
+#: application\modules\finances/views/scripts/product/detail.phtml:546
 msgid "#Dismiss team memb"
 msgstr "Cancelar previsão de recurso"
 
-#: application\modules\finances/views/scripts/product/detail.phtml:555
-#: application\modules\finances/views/scripts/product/detail.phtml:656
+#: application\modules\finances/views/scripts/product/detail.phtml:559
+#: application\modules\finances/views/scripts/product/detail.phtml:660
 msgid "#Provide outlay"
 msgstr "Prever pagamento"
 
-#: application\modules\finances/views/scripts/product/detail.phtml:568
-#: application\modules\finances/views/scripts/product/detail.phtml:669
+#: application\modules\finances/views/scripts/product/detail.phtml:572
+#: application\modules\finances/views/scripts/product/detail.phtml:673
 msgid "#Remove"
 msgstr "Remover"
 
-#: application\modules\finances/views/scripts/product/detail.phtml:578
+#: application\modules\finances/views/scripts/product/detail.phtml:582
 msgid "#Contact detail"
 msgstr "Detalhes do contato"
 
-#: application\modules\finances/views/scripts/product/detail.phtml:606
+#: application\modules\finances/views/scripts/product/detail.phtml:610
 msgid "#Organization"
 msgstr "Organização"
 
-#: application\modules\finances/views/scripts/product/detail.phtml:607
+#: application\modules\finances/views/scripts/product/detail.phtml:611
 msgid "#Service"
 msgstr "Serviço"
 
-#: application\modules\finances/views/scripts/product/detail.phtml:643
+#: application\modules\finances/views/scripts/product/detail.phtml:647
 msgid "#Confirm material supply contracting"
 msgstr "Confirmar aquisição de material"
 
-#: application\modules\finances/views/scripts/product/detail.phtml:688
+#: application\modules\finances/views/scripts/product/detail.phtml:692
 msgid "#Anticipate material supply"
 msgstr "Prever aquisição de material"
 
@@ -643,12 +648,12 @@ msgid "#Products"
 msgstr "Produtos"
 
 #: application\modules\finances/views/scripts/project/detail.phtml:224
-#: application\modules\finances/views/scripts/project/detail.phtml:290
+#: application\modules\finances/views/scripts/project/detail.phtml:291
 msgid "#Receiving"
 msgstr "Recebimentos"
 
 #: application\modules\finances/views/scripts/project/detail.phtml:225
-#: application\modules\finances/views/scripts/project/detail.phtml:373
+#: application\modules\finances/views/scripts/project/detail.phtml:374
 msgid "#Payments"
 msgstr "Pagamentos"
 
@@ -671,24 +676,24 @@ msgid "#Contracted Value"
 msgstr "Valor contratado"
 
 #: application\modules\finances/views/scripts/project/detail.phtml:283
-#: application\modules\finances/views/scripts/project/detail.phtml:333
+#: application\modules\finances/views/scripts/project/detail.phtml:334
 msgid "#Add product"
 msgstr "Adicionar produto"
 
-#: application\modules\finances/views/scripts/project/detail.phtml:294
+#: application\modules\finances/views/scripts/project/detail.phtml:295
 msgid "#Parcel"
 msgstr "Parcela"
 
-#: application\modules\finances/views/scripts/project/detail.phtml:295
+#: application\modules\finances/views/scripts/project/detail.phtml:296
 msgid "#Receiving Predicted date"
 msgstr "Recebimento previsto"
 
-#: application\modules\finances/views/scripts/project/detail.phtml:343
+#: application\modules\finances/views/scripts/project/detail.phtml:344
 #: application\modules\finances/views/scripts/receivable/notify.phtml:10
 msgid "#Notify receiving"
 msgstr "Informar recebimento"
 
-#: application\modules\finances/views/scripts/project/detail.phtml:364
+#: application\modules\finances/views/scripts/project/detail.phtml:365
 msgid "#Predict receiving"
 msgstr "Prever recebimento"
 

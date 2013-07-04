@@ -16,7 +16,7 @@ class C3op_Projects_ActionCost {
         return $this->actionMapper->getContractedValueForActionTree($this->action);
     }
 
-    public function totalActionTreeCost(C3op_Projects_ActionsBelow $below, C3op_Resources_MaterialSupplyMapper $materialSupplierMapper)
+    public function totalActionTreeCost(C3op_Projects_ActionsBelow $below, C3op_Resources_MaterialSupplyMapper $materialSupplierMapper, C3op_Resources_ResponsibleMapper $responsibleMapper)
     {
         $allActionsInTree = $below->retrieve();
         $actionValueObj = new C3op_Projects_ActionCost($this->action,$this->actionMapper);
@@ -25,10 +25,10 @@ class C3op_Projects_ActionCost {
 
         foreach ($allActionsInTree as $actionId) {
             $loopAction = $this->actionMapper->findById($actionId);
-            $actionValueObj = new C3op_Projects_ActionCost($loopAction,$this->actionMapper);
-            $currentActionValue = $actionValueObj->individualCurrentValue();
+            $responsibleCost = $responsibleMapper->getResponsiblesValueJustForThisAction($loopAction);
             $materialCost = $materialSupplierMapper->getMaterialSuppliesValueJustForThisAction($loopAction);
-            $totalTreeCost += $currentActionValue;
+
+            $totalTreeCost += $responsibleCost;
             $totalTreeCost += $materialCost;
         }
 
@@ -60,18 +60,34 @@ class C3op_Projects_ActionCost {
 
     public function individualContractedValue()
     {
-        return $this->actionMapper->getContractedValueJustForThisAction($this->action);
+        return $this->actionMapper->getContractedValueJustForThisAction($this->action)
+                + $this->materialContractedValue();
+    }
+
+    public function individualPredictedValue()
+    {
+        return $this->actionMapper->getPredictedValueJustForThisAction($this->action)
+                + $this->materialPredictedValue();
+    }
+
+    public function materialContractedValue()
+    {
+        return $this->actionMapper->getContractedMaterialSuppliesValueJustForThisAction($this->action);
+
+    }
+
+    public function materialPredictedValue()
+    {
+        return $this->actionMapper->getPredictedMaterialSuppliesValueJustForThisAction($this->action);
 
     }
 
     public function individualCurrentValue()
     {
         $contracted = $this->individualContractedValue();
-        if ($contracted > 0) {
-            return $contracted;
-        } else {
-            return $this->individualBudgetValue();
-        }
+        $predicted = $this->individualPredictedValue();
+
+        return $predicted + $contracted;
 
     }
 

@@ -39,7 +39,7 @@ class Finances_OutlayController  extends Zend_Controller_Action
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The outlay was successfully created.'));
-                $this->_redirect('/projects/action/detail/?id=' . $postData['action']);
+                $this->_redirect('/finances/project/detail/?id=' . $postData['project']);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -402,7 +402,8 @@ class Finances_OutlayController  extends Zend_Controller_Action
             $payedValue = "0.00";
         }
 
-        $predictedValue = $responsible->getPredictedValue() - $payedValue;
+        $predictedValue = $responsible->getContractedValue() - $payedValue;
+        // responsible was contracted, but outlay is still predicted
         $element = $form->getElement('predictedValue');
         $element->setValue($predictedValue);
 

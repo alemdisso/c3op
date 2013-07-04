@@ -128,6 +128,44 @@ class C3op_Resources_ResponsibleMapper {
         return $result;
     }
 
+
+    public function getResponsiblesValueJustForThisAction(C3op_Projects_Action $obj)
+    {
+        $query = $this->db->prepare('SELECT SUM(contracted_value) as sum FROM resources_responsibles WHERE action = :action
+            AND contracted_value IS NOT NULL
+            AND (status = :contracted OR status = :acquited);');
+        $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':contracted', C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
+        $query->bindValue(':acquited', C3op_Resources_ResponsibleStatusConstants::STATUS_ACQUITTED, PDO::PARAM_STR);
+
+        $query->execute();
+        $result = $query->fetch();
+        $contractedValue = 0;
+        if (!is_null($result['sum'])) {
+            $contractedValue += $result['sum'];
+        }
+
+        $query = $this->db->prepare('SELECT SUM(predicted_value) as sum FROM resources_responsibles WHERE action = :action
+            AND contracted_value IS NULL
+            AND (status = :foreseen);');
+        $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':foreseen', C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN, PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $query->execute();
+        $result = $query->fetch();
+        $predictedValue = 0;
+        if (!is_null($result['sum'])) {
+            $predictedValue += $result['sum'];
+        }
+
+
+        return $contractedValue + $predictedValue;
+    }
+
+
+
    private function setAttributeValue(C3op_Resources_Responsible $i, $fieldValue, $attributeName)
     {
         $attribute = new ReflectionProperty($i, $attributeName);

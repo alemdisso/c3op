@@ -245,7 +245,7 @@ foreach($productsList as $id => $productInfo) {
 ?>
                 <tr>
                   <td>
-                    <a href="/projects/action/detail/?id=<?php print($id) ?>"><?php print($productInfo['productTitle']) ?></a>
+                    <a href="/finances/product/detail/?id=<?php print($id) ?>"><?php print($productInfo['productTitle']) ?></a>
                   </td>
                   <td class="Left">
                     <?php print($this->translate($productInfo['status'])) ?>
@@ -284,6 +284,7 @@ foreach($productsList as $id => $productInfo) {
       </p>
 
     </div><!-- .Area -->
+        </div><!-- tabs-products -->
 
       <div id="tabs-receivables">
         <div class="Area">

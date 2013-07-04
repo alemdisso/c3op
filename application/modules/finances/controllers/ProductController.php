@@ -38,7 +38,7 @@ class Finances_ProductController extends Zend_Controller_Action
         $messageToShow = $this->_helper->flashMessenger->getMessages();
 
         $header = new C3op_Projects_ActionHeader($this->db, $productToBeDetailed, $this->actionMapper);
-        $actionHeader = $header->fetch();
+        $actionHeader = $header->fetch(true);
 
         if ($actionHeader['notAProduct'] ) {
             throw new C3op_Projects_ActionException("This action is not a product.");

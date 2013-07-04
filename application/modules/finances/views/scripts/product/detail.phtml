@@ -427,7 +427,6 @@ if (isset($actionHeader['hasBudget'])) {
           <div id="labelBudgetDiv" class="slidingDiv">
               <?php print(sprintf($this->translate("#This action has a provided budget of %s"), $actionHeader['budgetForecast'])); ?>
           </div>
-          <br class="clear" />
 <?php
 
         }
@@ -446,6 +445,10 @@ if (isset($actionHeader['hasBudget'])) {
 
     }
 ?>
+          <div class="eight columns offset-by-three">
+              <?php print(sprintf($this->translate("#This action has a current cost of %s (balance: %s)"), $actionHeader['currentCost'], $actionHeader['balance'])); ?>
+          </div>
+          <br class="clear" />
 
         </div><!-- .Area -->
 

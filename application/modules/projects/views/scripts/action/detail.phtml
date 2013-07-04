@@ -444,7 +444,7 @@ if ($actionHeader['hasResponsible']) {
           </div>
           </div>
 <?php
-if ($actionHeader['canEditBudget']) {
+if ((!$actionHeader['notAProduct']) && ($actionHeader['canEditBudget'])) {
 
 ?>
 
@@ -460,7 +460,7 @@ if (isset($actionHeader['hasBudget'])) {
 ?>
 
           <div id="labelBudgetDiv" class="slidingDiv">
-              <?php print(sprintf($this->translate("#This action has a provided budget of %s"), $actionHeader['budgetForecast'])); ?>
+              <?php print(sprintf($this->translate("#This product has a provided budget of %s"), $actionHeader['budgetForecast'])); ?>
           </div>
           <br class="clear" />
 <?php
