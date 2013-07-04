@@ -60,8 +60,11 @@ public function __construct() {
 
     $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:finances.product', 'detail');
     $this->deny(C3op_Access_RolesConstants::ROLE_CONTROLLER,     'c3op:finances.product', 'detail');
+    $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR, 'c3op:finances.product', 'detail');
+    
     $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:finances.project', 'detail');
     $this->deny(C3op_Access_RolesConstants::ROLE_CONTROLLER,     'c3op:finances.project', 'detail');
+    $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR, 'c3op:finances.project', 'detail');
 
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:finances.receivable', 'create');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:finances.receivable', 'edit');
