@@ -630,7 +630,7 @@ class Finances_ProjectController extends Zend_Controller_Action
                 $theReceivable = $this->receivableMapper->findById($theProduct->getRequirementForReceiving());
                 $requirementForReceiving = $theReceivable->getTitle();
                 $receivableId = $theProduct->getRequirementForReceiving();
-                $receivableLabel = $theReceivable->getTitle();
+                $receivableDescription = $theReceivable->getTitle();
             } else {
                 $requirementForReceiving = $this->view->translate("#(not a requirement)");
                 $receivableId = null;
@@ -656,7 +656,7 @@ class Finances_ProjectController extends Zend_Controller_Action
             $productsList[$id] = array(
                     'productTitle'            => $productTitle,
                     'status'                  => $status,
-                    'receivableLabel'         => $receivableLabel,
+                    'receivableLabel'         => $receivableDescription,
                     'receivableId'            => $receivableId,
                     'totalValue'              => $totalValue,
                     'contractedValue'         => $contractedValue,
