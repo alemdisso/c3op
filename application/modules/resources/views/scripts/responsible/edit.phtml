@@ -127,8 +127,10 @@ $.post("/resources/responsible/create", $("#newResponsibleForm").serialize(), fu
   <?php echo $this->form->linkage ?>
   <?php
   if ($this->pageData['canSeeFinances']) {
-    echo $this->form->value;
-
+    echo $this->form->predictedValue;
+      if ($this->pageData['isContracted']) {
+        echo $this->form->contractedValue;
+      }
   }
 
   ?>

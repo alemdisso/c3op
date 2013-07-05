@@ -153,8 +153,8 @@ class C3op_Form_ResponsibleContract extends Zend_Form
 
 
 
-            if ($convertedValue != $responsible->getValue()) {
-                $responsible->setValue($convertedValue);
+            if ($convertedValue != $responsible->getContractedValue()) {
+                $responsible->setContractedValue($convertedValue);
                 $valueChanged = true;
             }
 

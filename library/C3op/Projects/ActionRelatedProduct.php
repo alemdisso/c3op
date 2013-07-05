@@ -50,12 +50,23 @@ class C3op_Projects_ActionRelatedProduct {
             $productDeliveryDate = "#(not defined)";
         }
 
+        $dateFinder = new C3op_Finances_ProductReceivableDate($productRelated, $this->actionMapper);
+        $productReceivableDate = $dateFinder->retrieve(new C3op_Finances_ReceivableMapper);
+        $validator = new C3op_Util_ValidDate();
+        if ($validator->isValid($productReceivableDate)) {
+            $productReceivableDate = C3op_Util_DateDisplay::FormatDateToShow($productReceivableDate);
+        } else {
+            $productReceivableDate = "#(not defined)";
+        }
+
         $data = array();
         if ($productRelated == $this->action) {
             $data['notAProduct'] = false;
-            $data['relatedProductTitle'] = $productRelated->getTitle();;
+            $data['relatedProductTitle'] = $productRelated->getTitle();
             $data['productDeliveryDate'] = $productDeliveryDate;
-            $data['relatedProductId'] = "0";
+            $data['productReceivableDate'] = $productReceivableDate;
+            $data['relatedProductId'] = $productRelated->getId();
+
 
         } else {
             $data['notAProduct'] = true;

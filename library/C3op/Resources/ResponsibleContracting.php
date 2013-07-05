@@ -22,6 +22,20 @@ class C3op_Resources_ResponsibleContracting {
 
     }
 
+    public function isUnderContract(C3op_Resources_Responsible $responsible)
+    {
+        $itIs = false;
+
+        if ($responsible->getStatus() == C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED) {
+            $itIs = true;
+        }
+
+        return $itIs;
+
+    }
+
+
+
     private function logContracting(C3op_Projects_Action $action, C3op_Resources_Responsible $responsible)
     {
         $logger = new C3op_Projects_EventLogger();

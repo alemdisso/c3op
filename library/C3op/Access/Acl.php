@@ -27,7 +27,10 @@ public function __construct() {
     $this->add(new Zend_Acl_Resource('c3op:auth.login'));
     $this->add(new Zend_Acl_Resource('c3op:auth.logout'));
     $this->add(new Zend_Acl_Resource('c3op:auth.user'));
+    $this->add(new Zend_Acl_Resource('c3op:finances'));
     $this->add(new Zend_Acl_Resource('c3op:finances.outlay'));
+    $this->add(new Zend_Acl_Resource('c3op:finances.project'));
+    $this->add(new Zend_Acl_Resource('c3op:finances.product'));
     $this->add(new Zend_Acl_Resource('c3op:finances.receivable'));
     $this->add(new Zend_Acl_Resource('c3op:projects'));
     $this->add(new Zend_Acl_Resource('c3op:projects.index'));
@@ -55,6 +58,13 @@ public function __construct() {
     $this->allow(C3op_Access_RolesConstants::ROLE_DIRECTOR, 'c3op:finances.outlay', 'create');
     $this->allow(C3op_Access_RolesConstants::ROLE_DIRECTOR, 'c3op:finances.outlay', 'notify');
 
+    $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:finances.product', 'detail');
+    $this->deny(C3op_Access_RolesConstants::ROLE_CONTROLLER,     'c3op:finances.product', 'detail');
+    $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR, 'c3op:finances.product', 'detail');
+    
+    $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:finances.project', 'detail');
+    $this->deny(C3op_Access_RolesConstants::ROLE_CONTROLLER,     'c3op:finances.project', 'detail');
+    $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR, 'c3op:finances.project', 'detail');
 
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:finances.receivable', 'create');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:finances.receivable', 'edit');

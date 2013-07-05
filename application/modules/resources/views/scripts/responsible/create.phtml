@@ -15,10 +15,10 @@
         $('#linkage').hide();
         $('#institution-label').hide();
         $('#institution').hide();
-        if ($("#value").length > 0){
-            $('#value-label').hide();
-            $('#value').hide();
-        }
+        //if ($("#value").length > 0){
+        //    $('#value-label').hide();
+        //    $('#value').hide();
+        //}
         $('#submit').hide();
 
         $('#responsibleType-service').click(function(){
@@ -28,9 +28,9 @@
             $('#linkage').prop('disabled', true);
             $('#institution-label').show();
             $('#institution').show();
-            if ($("#value").length > 0){
-                $('#value-label').show();
-                $('#value').show();
+            if ($("#predictedValue").length > 0){
+                $('#predictedValue-label').show();
+                $('#predictedValue').show();
             }
             $('#submit').show();
             })
@@ -115,6 +115,7 @@ $.post("/resources/responsible/create", $("#newResponsibleForm").serialize(), fu
 <table>
   <?php echo $this->form->project ?>
   <?php echo $this->form->action ?>
+  <?php echo $this->form->predictedValue ?>
   <?php echo $this->form->responsibleType ?>
   <?php echo $this->form->institution ?>
   <br class="clear" />

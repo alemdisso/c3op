@@ -39,7 +39,7 @@ class Finances_OutlayController  extends Zend_Controller_Action
                 $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The outlay was successfully created.'));
-                $this->_redirect('/projects/action/detail/?id=' . $postData['action']);
+                $this->_redirect('/finances/project/detail/?id=' . $postData['project']);
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -223,7 +223,12 @@ class Finances_OutlayController  extends Zend_Controller_Action
             $payedValue = "0.00";
         }
         $payedValue = $currencyDisplay->FormatCurrency($payedValue);
-        $totalValue = $currencyDisplay->FormatCurrency($responsible->getValue());
+
+        if (!is_null($responsible->getContractedValue())) {
+            $totalValue = $currencyDisplay->FormatCurrency($responsible->getContractedValue());
+        } else {
+            $totalValue = $currencyDisplay->FormatCurrency($responsible->getPredictedValue());
+        }
 
         $actionStatus = $responsibleAction->getStatus();
         $statusTypes = new C3op_Projects_ActionStatusTypes();
@@ -397,7 +402,8 @@ class Finances_OutlayController  extends Zend_Controller_Action
             $payedValue = "0.00";
         }
 
-        $predictedValue = $responsible->getValue() - $payedValue;
+        $predictedValue = $responsible->getContractedValue() - $payedValue;
+        // responsible was contracted, but outlay is still predicted
         $element = $form->getElement('predictedValue');
         $element->setValue($predictedValue);
 

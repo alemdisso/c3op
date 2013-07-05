@@ -220,12 +220,15 @@ class Finances_ProjectController extends Zend_Controller_Action
                 );
         }
 
+        $productsList = $this->fillProductsList($projectToBeDetailed);
+
 
         $pageData = array(
             'projectHeader'        => $projectHeader,
             'messageToShow'        => $messageToShow,
             'receivablesList'      => $receivablesList,
             'outlaysList'          => $outlaysList,
+            'productsList'         => $productsList,
 
         );
         $this->view->pageData = $pageData;
@@ -668,7 +671,6 @@ class Finances_ProjectController extends Zend_Controller_Action
         return $productsList;
 
     }
-
 
 
 

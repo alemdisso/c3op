@@ -110,15 +110,15 @@ $(document).ready(function(){
           }
           $nextDifferenceInDays = "$nextDifferenceInDays";
 
-          $contractualDeliveryDate =  $projectData['deliveryDate'];
-          $nextDeliveryValue =  $projectData['deliveryValue'];
+          $projectFinishDate =  $projectData['finishDate'];
+          $nextDeliveryValue =  $projectData['projectValue'];
 ?>
                     <tr id="node-<?php print ($projectNodeId) ?>">
                     <td><a href='/projects/project/detail/?id=<?php print($projectId) ?>'><?php print ($projectName) ?></a></td>
                     <td><?php print($projectStatus) ?></td>
 <!--                    <td><?php print($clientName) ?></td>-->
                     <td class="Right"><?php print($nextDifferenceInDays) ?></td>
-                    <td><?php print($contractualDeliveryDate) ?></td>
+                    <td class="Right"><?php print($projectFinishDate) ?></td>
                     <td>&nbsp;</td>
                     <td><?php print($nextDeliveryValue) ?></td>
                     </tr>

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-17 09:08-0300\n"
-"PO-Revision-Date: 2013-05-17 09:09-0300\n"
+"POT-Creation-Date: 2013-07-04 11:06-0300\n"
+"PO-Revision-Date: 2013-07-04 11:06-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -21,10 +21,8 @@ msgid "#The material supply was created."
 msgstr "Material criado."
 
 #: application\modules\resources/controllers/MaterialSupplyController.php:93
-#: application\modules\resources/controllers/OutsideServiceController.php:93
 #: application\modules\resources/controllers/ResponsibleController.php:244
 #: application\modules\resources/controllers/ResponsibleController.php:248
-#: application\modules\resources/controllers/TeamMemberController.php:91
 msgid "#The record was successfully updated."
 msgstr "O registro foi atualizado com sucesso."
 
@@ -33,21 +31,10 @@ msgid "#The material supply acquisition was registered."
 msgstr "A contratação foi registrada."
 
 #: application\modules\resources/controllers/MaterialSupplyController.php:313
-#: application\modules\resources/controllers/OutsideServiceController.php:308
-#: application\modules\resources/controllers/TeamMemberController.php:294
 msgid "#The record was successfully removed."
 msgstr "O registro foi removido com sucesso."
 
-#: application\modules\resources/controllers/OutsideServiceController.php:38
-msgid "#The outside service was created."
-msgstr "O serviço foi criado."
-
-#: application\modules\resources/controllers/OutsideServiceController.php:192
-msgid "#The outside service is contracted."
-msgstr "Contratação confirmada."
-
 #: application\modules\resources/controllers/ResponsibleController.php:75
-#: application\modules\resources/controllers/TeamMemberController.php:169
 msgid "#The team member is contracted."
 msgstr "Contratação confirmada."
 
@@ -56,56 +43,47 @@ msgstr "Contratação confirmada."
 msgid "#A %s budget was provided"
 msgstr "Foi prevista uma verba de %s."
 
-#: application\modules\resources/controllers/ResponsibleController.php:410
-#: application\modules\resources/controllers/TeamMemberController.php:336
+#: application\modules\resources/controllers/ResponsibleController.php:432
 msgid "#The team member was dismissed."
 msgstr "O distrato foi registrado."
 
-#: application\modules\resources/controllers/TeamMemberController.php:37
-msgid "#The team member was created."
-msgstr "O membro de equipe foi criado."
-
 #: library\C3op\resources/MaterialSupplyStatusTypes.php:32
-#: library\C3op\resources/OutsideServiceStatusTypes.php:32
 #: library\C3op\resources/ResponsibleStatusTypes.php:34
 #: library\C3op\resources/ResponsibleTypeTypes.php:26
-#: library\C3op\resources/TeamMemberStatusTypes.php:34
 msgid "#Unknown type"
 msgstr "Tipo indefinido"
 
+#: library\C3op\resources/ResponsibleContactInfo.php:19
+#: library\C3op\resources/ResponsibleInstitutionInfo.php:19
+msgid "#(undefined)"
+msgstr "(não definido)"
+
 #: library\C3op\resources/ResponsibleStatusTypes.php:10
 #: library\C3op\resources/ResponsibleTypeTypes.php:10
-#: library\C3op\resources/TeamMemberStatusTypes.php:10
 msgid "#Nil"
 msgstr "Nula"
 
 #: library\C3op\resources/ResponsibleStatusTypes.php:11
-#: library\C3op\resources/TeamMemberStatusTypes.php:11
 msgid "#Undefined"
 msgstr "(indefinido)"
 
 #: library\C3op\resources/ResponsibleStatusTypes.php:12
-#: library\C3op\resources/TeamMemberStatusTypes.php:12
 msgid "#Foreseen"
 msgstr "Previsto"
 
 #: library\C3op\resources/ResponsibleStatusTypes.php:13
-#: library\C3op\resources/TeamMemberStatusTypes.php:13
 msgid "#Contracted"
 msgstr "Contratado"
 
 #: library\C3op\resources/ResponsibleStatusTypes.php:14
-#: library\C3op\resources/TeamMemberStatusTypes.php:14
 msgid "#Acquitted"
 msgstr "Quitado"
 
 #: library\C3op\resources/ResponsibleStatusTypes.php:15
-#: library\C3op\resources/TeamMemberStatusTypes.php:15
 msgid "#Dismissed"
 msgstr "Dispensado"
 
 #: library\C3op\resources/ResponsibleStatusTypes.php:16
-#: library\C3op\resources/TeamMemberStatusTypes.php:16
 msgid "#Canceled"
 msgstr "Cancelado"
 
@@ -118,32 +96,23 @@ msgid "#Outside service"
 msgstr "Serviço externo"
 
 #: application\modules\resources/views/scripts/material-supply/contract.phtml:5
-#: application\modules\resources/views/scripts/outside-service/contract.phtml:5
 #: application\modules\resources/views/scripts/responsible/contract.phtml:5
-#: application\modules\resources/views/scripts/team-member/contract.phtml:5
 msgid "#Confirm contracting"
 msgstr "Confirmar contratação de"
 
 #: application\modules\resources/views/scripts/material-supply/contract.phtml:7
-#: application\modules\resources/views/scripts/outside-service/contract.phtml:7
 #: application\modules\resources/views/scripts/responsible/contract.phtml:7
 #: application\modules\resources/views/scripts/responsible/dismiss.phtml:7
-#: application\modules\resources/views/scripts/team-member/contract.phtml:7
-#: application\modules\resources/views/scripts/team-member/dismiss.phtml:7
 msgid "#In action "
 msgstr "na ação"
 
 #: application\modules\resources/views/scripts/material-supply/contract.phtml:8
-#: application\modules\resources/views/scripts/outside-service/contract.phtml:8
 #: application\modules\resources/views/scripts/responsible/contract.phtml:8
-#: application\modules\resources/views/scripts/team-member/contract.phtml:8
 msgid ""
 "#Enter below the contracted dates for the beginning and end of the action"
 msgstr "Informe abaixo as datas contratadas para o início e término da ação"
 
 #: application\modules\resources/views/scripts/material-supply/create.phtml:21
-#: application\modules\resources/views/scripts/outside-service/create.phtml:21
-#: application\modules\resources/views/scripts/team-member/create.phtml:5
 msgid "#Project"
 msgstr "Projeto"
 
@@ -156,8 +125,6 @@ msgid "#Edit material supply"
 msgstr "Editar material"
 
 #: application\modules\resources/views/scripts/material-supply/edit.phtml:24
-#: application\modules\resources/views/scripts/outside-service/edit.phtml:24
-#: application\modules\resources/views/scripts/team-member/edit.phtml:8
 msgid "#Action:"
 msgstr "Ação:"
 
@@ -175,30 +142,8 @@ msgstr ""
 "desfeito."
 
 #: application\modules\resources/views/scripts/material-supply/success.phtml:2
-#: application\modules\resources/views/scripts/outside-service/success.phtml:2
-#: application\modules\resources/views/scripts/team-member/success.phtml:2
 msgid "#Success!"
 msgstr "Sucesso!"
-
-#: application\modules\resources/views/scripts/outside-service/create.phtml:24
-msgid "#New outside service for action"
-msgstr "Novo serviço para a ação"
-
-#: application\modules\resources/views/scripts/outside-service/edit.phtml:21
-msgid "#Edit outside service"
-msgstr "Editar serviço"
-
-#: application\modules\resources/views/scripts/outside-service/remove.phtml:5
-msgid "#Remove outside service"
-msgstr "Remover serviço de terceiros"
-
-#: application\modules\resources/views/scripts/outside-service/remove.phtml:8
-#, php-format
-msgid ""
-"#Do you confirm removal of outside service %s in action %s? This CAN'T be "
-"undone."
-msgstr ""
-"Você confirma a remoção do serviço %s na ação %s? Isso NÃO pode ser desfeito."
 
 #: application\modules\resources/views/scripts/responsible/assigned.phtml:20
 msgid "#Action was assigned"
@@ -209,42 +154,62 @@ msgstr "Ação foi atribuída"
 msgid "#%s was assigned responsible for this action"
 msgstr "%s é responsável por essa ação."
 
-#: application\modules\resources/views/scripts/responsible/create.phtml:62
+#: application\modules\resources/views/scripts/responsible/create.phtml:65
+#: application\modules\resources/views/scripts/responsible/create.phtml:86
 msgid "#choose someone"
 msgstr "escolha uma pessoa"
 
 #: application\modules\resources/views/scripts/responsible/dismiss.phtml:5
-#: application\modules\resources/views/scripts/team-member/dismiss.phtml:5
 msgid "#Confirm dismissing"
 msgstr "Confirmar distrato"
 
 #: application\modules\resources/views/scripts/responsible/dismiss.phtml:8
-#: application\modules\resources/views/scripts/team-member/dismiss.phtml:8
 msgid "#Enter below the reason for dismissing"
 msgstr "Informe os motivos do distrato"
 
-#: application\modules\resources/views/scripts/team-member/create.phtml:8
-msgid "#New team member for action"
-msgstr "Novo membro de equipe para a ação"
+#~ msgid "#The outside service was created."
+#~ msgstr "O serviço foi criado."
 
-#: application\modules\resources/views/scripts/team-member/edit.phtml:5
-msgid "#Edit team member"
-msgstr "Atualizar membro da equipe"
+#~ msgid "#The outside service is contracted."
+#~ msgstr "Contratação confirmada."
 
-#: application\modules\resources/views/scripts/team-member/outlays.phtml:25
-msgid "#Edit"
-msgstr "Editar"
+#~ msgid "#The team member was created."
+#~ msgstr "O membro de equipe foi criado."
 
-#: application\modules\resources/views/scripts/team-member/remove.phtml:5
-msgid "#Remove team member"
-msgstr "Remover membro da equipe"
+#~ msgid "#New outside service for action"
+#~ msgstr "Novo serviço para a ação"
 
-#: application\modules\resources/views/scripts/team-member/remove.phtml:8
-#, php-format
-msgid ""
-"#Do you confirm removal of team member %s in action %s? This CAN'T be undone."
-msgstr ""
-"Você confirma a remoção da função %s na ação %s? Isso NÃO pode ser desfeito."
+#~ msgid "#Edit outside service"
+#~ msgstr "Editar serviço"
+
+#~ msgid "#Remove outside service"
+#~ msgstr "Remover serviço de terceiros"
+
+#~ msgid ""
+#~ "#Do you confirm removal of outside service %s in action %s? This CAN'T be "
+#~ "undone."
+#~ msgstr ""
+#~ "Você confirma a remoção do serviço %s na ação %s? Isso NÃO pode ser "
+#~ "desfeito."
+
+#~ msgid "#New team member for action"
+#~ msgstr "Novo membro de equipe para a ação"
+
+#~ msgid "#Edit team member"
+#~ msgstr "Atualizar membro da equipe"
+
+#~ msgid "#Edit"
+#~ msgstr "Editar"
+
+#~ msgid "#Remove team member"
+#~ msgstr "Remover membro da equipe"
+
+#~ msgid ""
+#~ "#Do you confirm removal of team member %s in action %s? This CAN'T be "
+#~ "undone."
+#~ msgstr ""
+#~ "Você confirma a remoção da função %s na ação %s? Isso NÃO pode ser "
+#~ "desfeito."
 
 #~ msgid "#The record was successfully created."
 #~ msgstr "O registro foi criado com sucesso."
@@ -285,9 +250,6 @@ msgstr ""
 
 #~ msgid "#(not registered)"
 #~ msgstr "(não cadastrada)"
-
-#~ msgid "#(not defined)"
-#~ msgstr "(não definido)"
 
 #~ msgid "#New client"
 #~ msgstr "Novo cliente"

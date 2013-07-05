@@ -7,7 +7,8 @@ class C3op_Resources_Responsible {
     protected $project;
     protected $description;
     protected $linkage;
-    protected $value;
+    protected $predictedValue;
+    protected $contractedValue;
     protected $status;
 
     function __construct($id=0) {
@@ -17,7 +18,8 @@ class C3op_Resources_Responsible {
         $this->type = 0;
         $this->institution = 0;
         $this->contact = 0;
-        $this->value = "";
+        $this->predictedValue = null;
+        $this->contractedValue = null;
         $this->status = "";
     }
 
@@ -127,18 +129,31 @@ class C3op_Resources_Responsible {
 
     } //setContact
 
-    public function getValue() {
-        return $this->value;
-    } //getValue
+    public function getPredictedValue() {
+        return $this->predictedValue;
+    } //getPredictedValue
 
-    public function setValue($value) {
+    public function setPredictedValue($predictedValue) {
         $validator = new C3op_Util_ValidPositiveDecimal();
-        if ($validator->isValid($value)) {
-            $this->value = $value;
+        if ($validator->isValid($predictedValue)) {
+            $this->predictedValue = $predictedValue;
         } else {
-            $this->value = "";
+            $this->predictedValue = "";
         }
-    } //setValue
+    } //setPredictedValue
+
+    public function getContractedValue() {
+        return $this->contractedValue;
+    } //getContractedValue
+
+    public function setContractedValue($contractedValue) {
+        $validator = new C3op_Util_ValidPositiveDecimal();
+        if ($validator->isValid($contractedValue)) {
+            $this->contractedValue = $contractedValue;
+        } else {
+            $this->contractedValue = "";
+        }
+    } //setContractedValue
 
     public function getStatus() {
         return $this->status;

@@ -114,13 +114,13 @@ class Resources_ResponsibleController extends Zend_Controller_Action
                 $actionTitle = $thisAction->GetTitle();
 
                 $currencyDisplay = new  C3op_Util_CurrencyDisplay();
-                $actionBudgetValue = $thisAction->GetBudgetForecast();
+                $actionBudgetValue = $thisResponsible->GetPredictedValue();
                 $currencyValue = $currencyDisplay->FormatCurrency($actionBudgetValue);
                 $providedBudget = sprintf($this->view->translate("#A %s budget was provided"), $currencyValue);
 
                 $valueField = $form->getElement('value');
                 $currencyDisplay = new  C3op_Util_CurrencyDisplay();
-                $actionValue = $thisResponsible->GetValue();
+                $actionValue = $thisResponsible->GetContractedValue();
                 if ($actionValue == 0) {
                     $actionValue = $actionBudgetValue;
                 }
@@ -189,7 +189,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
             $actionField->setValue($actionId);
             $projectField = $form->getElement('project');
             $projectField->setValue($projectId);
-            $valueField = $form->getElement('value');
+            $valueField = $form->getElement('predictedValue');
             $valueField->setValue($parentAction->getBudgetForecast());
             $linkageField = $form->getElement('linkage');
             if (!isset($this->contactMapper)) {
@@ -271,8 +271,18 @@ class Resources_ResponsibleController extends Zend_Controller_Action
                 $thisResponsible = $this->responsibleMapper->findById($id);
                 $idField = $form->getElement('id');
                 $idField->setValue($id);
-                $valueField = $form->getElement('value');
-                $valueField->setValue($thisResponsible->getValue());
+
+                $contractedValue = "";
+                $contracting = new C3op_Resources_ResponsibleContracting();
+                $isContracted = $contracting->isUnderContract($thisResponsible);
+                if ($isContracted) {
+                    $contractedValue = $thisResponsible->getContractedValue();
+
+                }
+                $valueField = $form->getElement('contractedValue');
+                $valueField->setValue($contractedValue);
+                $valueField = $form->getElement('predictedValue');
+                $valueField->setValue($thisResponsible->getPredictedValue());
 
                 $typeField = $form->getElement('responsibleType');
                 $responsibleType = $thisResponsible->getType();
@@ -382,12 +392,24 @@ class Resources_ResponsibleController extends Zend_Controller_Action
                 }
                 $projectAction = $this->projectMapper->findById($parentAction->getProject());
 
+                $user = Zend_Registry::get('user');
+                $test = new C3op_Access_UserCanSeeFinances($user);
+                if ($test->can()) {
+                    $canSeeFinances = true;
+                } else {
+                    $canSeeFinances = false;
+                }
+
+
+
+
                 $pageData = array(
                     'actionId'       => $thisResponsible->GetAction(),
                     'actionTitle'    => $parentAction->GetTitle(),
                     'projectId'      => $parentAction->GetProject(),
                     'projectTitle'   => $projectAction->GetShortTitle(),
-                    'canSeeFinances' => false,
+                    'canSeeFinances' => $canSeeFinances,
+                    'isContracted'   => $isContracted,
                 );
 
                 $this->view->pageData = $pageData;

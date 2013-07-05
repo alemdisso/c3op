@@ -389,9 +389,66 @@ class C3op_Projects_ActionMapper
 
     public function getContractedValueJustForThisAction(C3op_Projects_Action $obj)
     {
-        $query = $this->db->prepare('SELECT SUM(value) as value FROM resources_responsibles WHERE action = :action AND status = :status;');
+        $query = $this->db->prepare('SELECT SUM(contracted_value) as value FROM resources_responsibles WHERE action = :action AND status = :status;');
         $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
         $query->bindValue(':status', C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        foreach ($resultPDO as $row) {
+            if (!is_null($row['value'])) {
+                return $row['value'];
+            } else {
+                return 0;
+            }
+        }
+        return 0;
+    }
+
+    public function getPredictedMaterialSuppliesValueJustForThisAction(C3op_Projects_Action $obj)
+    {
+        $query = $this->db->prepare('SELECT SUM(total_value) as value FROM resources_material_supplies WHERE action = :action AND (
+            status = :foreseen);');
+        $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':foreseen', C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN, PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        foreach ($resultPDO as $row) {
+            if (!is_null($row['value'])) {
+                return $row['value'];
+            } else {
+                return 0;
+            }
+        }
+        return 0;
+    }
+
+    public function getContractedMaterialSuppliesValueJustForThisAction(C3op_Projects_Action $obj)
+    {
+        $query = $this->db->prepare('SELECT SUM(total_value) as value FROM resources_material_supplies WHERE action = :action AND (
+            status = :contracted OR status = :acquited);');
+        $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':contracted', C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
+        $query->bindValue(':acquited', C3op_Resources_ResponsibleStatusConstants::STATUS_ACQUITTED, PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        foreach ($resultPDO as $row) {
+            if (!is_null($row['value'])) {
+                return $row['value'];
+            } else {
+                return 0;
+            }
+        }
+        return 0;
+    }
+
+    public function getPredictedValueJustForThisAction(C3op_Projects_Action $obj)
+    {
+        $query = $this->db->prepare('SELECT SUM(predicted_value) as value FROM resources_responsibles WHERE action = :action AND status = :status;');
+        $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':status', C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN, PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();
 

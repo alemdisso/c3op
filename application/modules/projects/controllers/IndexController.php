@@ -193,57 +193,75 @@ class Projects_IndexController extends Zend_Controller_Action
 
 
         foreach ($projects as $projectId) {
-            $thisProject = $this->projectMapper->findById($projectId);
+            $loopProject = $this->projectMapper->findById($projectId);
 
             $obj = new C3op_Projects_ProjectStatusTypes();
-            $projectStatus = $obj->TitleForType($thisProject->getStatus());
-
-
+            $projectStatus = $obj->TitleForType($loopProject->getStatus());
 
             $clientName = $this->view->translate('#(not defined)');
-            if ($thisProject->getClient() > 0) {
-                $thisClient = $this->institutionMapper->findById($thisProject->getClient());
+            if ($loopProject->getClient() > 0) {
+                $thisClient = $this->institutionMapper->findById($loopProject->getClient());
                 $clientName = $thisClient->GetShortName();
             }
 
-            $nextDeliveryObj = $this->deliveryMapper->findNextDeliveryAtProject($projectId);
-            $nextDeliveryLabel = $this->view->translate("#(unknown date)");
-            $nextDifferenceInDays = "&nbsp;";
-            $nextDeliveryValue = "&nbsp;";
-            if ($nextDeliveryObj) {
+            $projectFinishDate = $loopProject->getFinishDate();
+            $labelProjectFinishDate = C3op_Util_DateDisplay::FormatDateToShow($projectFinishDate);
 
-                $validator = new C3op_Util_ValidDate();
-                $contractualDeliveryDate = $nextDeliveryObj->getPredictedDate();
-                $nextDeliveryDue = false;
-
-                $currencyDisplay = new  C3op_Util_CurrencyDisplay();
-                $nextDeliveryValue = $currencyDisplay->FormatCurrency($nextDeliveryObj->GetReceivablePredictedValue());
-
-                if ($validator->isValid($contractualDeliveryDate)) {
-
-                    $dateDiff = new C3op_Util_DatesDifferenceInDays();
-                    $now = time();
-                    $nextDifferenceInDays = $dateDiff->differenceInDays(strtotime($contractualDeliveryDate), $now);
-
-                    if ($nextDifferenceInDays < 0) {
-                        $nextDeliveryDue = true;
-                    }
-
-                    $nextDeliveryLabel = C3op_Util_DateDisplay::FormatDateToShow($nextDeliveryObj->getPredictedDate());
-                } else {
-                    $nextDeliveryLabel = $this->view->translate("#(undefined date)");
-                    $nextDifferenceInDays = "0";
+            $validator = new C3op_Util_ValidDate();
+            $projectDue = false;
+            $projectDifferenceInDays = "";
+            if ((!is_null($projectFinishDate)) && ($validator->isValid($projectFinishDate))) {
+                $dateDiff = new C3op_Util_DatesDifferenceInDays();
+                $now = time();
+                $projectDifferenceInDays = $dateDiff->differenceInDays(strtotime($projectFinishDate), $now);
+                if ($projectDifferenceInDays < 0) {
+                    $projectDue = true;
                 }
-
-
-
-
 
             }
 
+            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+            $projectValue = $currencyDisplay->FormatCurrency($loopProject->getValue());
 
 
-            $projectReceivables = $this->receivableMapper->getAllReceivables($thisProject);
+//
+//            $nextDeliveryObj = $this->deliveryMapper->findNextDeliveryAtProject($projectId);
+//            $nextDifferenceInDays = "&nbsp;";
+//            $nextDeliveryValue = "&nbsp;";
+//            if ($nextDeliveryObj) {
+//
+//                $validator = new C3op_Util_ValidDate();
+//                $contractualDeliveryDate = $nextDeliveryObj->getPredictedDate();
+//                $nextDeliveryDue = false;
+//
+//                $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+//                $nextDeliveryValue = $currencyDisplay->FormatCurrency($nextDeliveryObj->GetReceivablePredictedValue());
+//
+//                if ($validator->isValid($contractualDeliveryDate)) {
+//
+//                    $dateDiff = new C3op_Util_DatesDifferenceInDays();
+//                    $now = time();
+//                    $nextDifferenceInDays = $dateDiff->differenceInDays(strtotime($contractualDeliveryDate), $now);
+//
+//                    if ($nextDifferenceInDays < 0) {
+//                        $nextDeliveryDue = true;
+//                    }
+//
+//                    $labelProjectFinishDate = C3op_Util_DateDisplay::FormatDateToShow($nextDeliveryObj->getPredictedDate());
+//                } else {
+//                    $labelProjectFinishDate = $this->view->translate("#(undefined date)");
+//                    $nextDifferenceInDays = "0";
+//                }
+//
+//
+//
+//
+//
+//            }
+
+
+
+            $projectReceivables = $this->receivableMapper->getAllReceivables($loopProject);
             $receivablesData = array();
             $receivableStatus = C3op_Finances_ReceivableStatusConstants::STATUS_NOT_DELIVERED;
 
@@ -385,13 +403,13 @@ class Projects_IndexController extends Zend_Controller_Action
 
             }
             $projectData = array(
-                'projectName'      => $thisProject->getShortTitle(),
+                'projectName'      => $loopProject->getShortTitle(),
                 'status'           => $projectStatus,
                 'clientName'       => $clientName,
-                'differenceInDays' => $nextDifferenceInDays,
-                'deliveryValue'    => $nextDeliveryValue,
-                'deliveryDate'     => $nextDeliveryLabel,
-                'deliveryDue'      => $nextDeliveryDue,
+                'differenceInDays' => $projectDifferenceInDays,
+                'projectValue'     => $projectValue,
+                'finishDate'       => $labelProjectFinishDate,
+                'deliveryDue'      => $projectDue,
                 'receivablesList'  => $receivablesData,
 
             );
@@ -456,14 +474,13 @@ class Projects_IndexController extends Zend_Controller_Action
             $responsible = $this->responsibleMapper->findById($data['responsible']);
             $loopProject = $this->projectMapper->findById($action->getProject());
 
-            if ($responsible->getValue() > 0) {
-                $totalProvidedValue += $responsible->getValue();
-                $contractingStatus = new C3op_Projects_ActionContracting($action, $this->actionMapper);
-                if ($contractingStatus->isContracted()) {
-                    $totalContractedValue += $responsible->getValue();
-
-                }
-                $actionTotalValue = $currencyDisplay->FormatCurrency($responsible->getValue());
+            $contractingStatus = new C3op_Projects_ActionContracting($action, $this->actionMapper);
+            if ($contractingStatus->isContracted()) {
+                $totalContractedValue += $responsible->getContractedValue();
+                $actionTotalValue = $currencyDisplay->FormatCurrency($responsible->getContractedValue());
+            } else if ($responsible->getPredictedValue() > 0) {
+                $totalProvidedValue += $responsible->getPredictedValue();
+                $actionTotalValue = $currencyDisplay->FormatCurrency($responsible->getPredictedValue());
             } else {
                 $actionTotalValue = $this->view->translate("#(not defined)");
             }
@@ -766,7 +783,10 @@ class Projects_IndexController extends Zend_Controller_Action
             $actionValueObj = new C3op_Projects_ActionCost($loopAction,$this->actionMapper);
             $currencyDisplay = new  C3op_Util_CurrencyDisplay();
             $actionsBelow = new C3op_Projects_ActionsBelow($loopAction,$this->actionMapper);
-            $rawValue = $actionValueObj->totalActionTreeCost($actionsBelow, new C3op_Resources_MaterialSupplyMapper);
+            $rawValue = $actionValueObj->totalActionTreeCost($actionsBelow
+                                                                , new C3op_Resources_MaterialSupplyMapper
+                                                                , new C3op_Resources_ResponsibleMapper
+                                                            );
             $actionValue = $currencyDisplay->FormatCurrency($rawValue);
 
 

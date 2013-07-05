@@ -20,6 +20,8 @@ $projectHeader = $pageData['projectHeader'];
 $receivablesList = $pageData['receivablesList'];
 
 $outlaysList = $pageData['outlaysList'];
+
+$productsList = $pageData['productsList'];
 ?>
 
 <script type="text/javascript">
@@ -218,9 +220,71 @@ foreach($amendmentsList as $id => $contractInfo) {
     </div><!-- .Area -->
     <div id="tabs">
       <ul>
+        <li><a href="#tabs-products"><?php echo $this->translate("#Products") ?></a></li>
         <li><a href="#tabs-receivables"><?php echo $this->translate("#Receiving") ?></a></li>
         <li><a href="#tabs-payments"><?php echo $this->translate("#Payments") ?></a></li>
       </ul>
+
+      <div id="tabs-products">
+        <div class="Area">
+           <h2><?php echo $this->translate("#Product") ?></h2>
+           <table id="Products" class="display dataTable">
+              <thead>
+                <tr>
+                  <th width="200"><?php echo $this->translate("#Product") ?></th>
+                  <th width="50"><?php echo $this->translate("#Status") ?></th>
+                  <th width="100"><?php echo $this->translate("#Receivable") ?></th>
+                  <th width="75"><?php echo $this->translate("#Total value") ?></th>
+                  <th width="75"><?php echo $this->translate("#Contracted Value") ?></th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- ### loop de carga das ações que são produto -->
+<?php
+foreach($productsList as $id => $productInfo) {
+?>
+                <tr>
+                  <td>
+                    <a href="/finances/product/detail/?id=<?php print($id) ?>"><?php print($productInfo['productTitle']) ?></a>
+                  </td>
+                  <td class="Left">
+                    <?php print($this->translate($productInfo['status'])) ?>
+                  </td>
+                  <td class="Left">
+<?php
+    if ($productInfo['receivableId'] > 0) {
+?>
+                    <a href="/finances/receivable/detail/?id=<?php print($productInfo['receivableId']) ?>"><?php print($productInfo['receivableLabel']) ?></a>
+<?php
+    } else {
+?>
+                    <?php print($productInfo['receivableLabel']) ?>
+<?php
+    }
+?>
+                  </td>
+                  <td class="Right">
+                    <?php  print($productInfo['totalValue']) ?>
+                  </td>
+                  <td class="Right">
+                    <?php print($productInfo['contractedValue']) ?>
+                  </td>
+                </tr>
+<?php
+}
+?>
+              </tbody>
+            </table><br />
+
+          </div><!-- Area -->
+    <div class="Area">
+
+      <p>
+        <a href="/projects/action/create-product/?project=<?php echo $projectHeader['id'] ?>" class="button three columns alpha omega"><?php echo $this->translate("#Add product") ?></a>
+      </p>
+
+    </div><!-- .Area -->
+        </div><!-- tabs-products -->
 
       <div id="tabs-receivables">
         <div class="Area">

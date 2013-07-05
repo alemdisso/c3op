@@ -13,7 +13,7 @@ class C3op_Resources_MaterialSupplyHasCredit {
 
     public function hasCredit()
     {
-        $budget = $this->materialSupply->getValue();
+        $budget = $this->materialSupply->getTotalValue();
         $payed = $this->mapper->getSumOfPayedOutlays($this->materialSupply);
         $provided = $this->mapper->getSumOfProvidedButNotPayedOutlays($this->materialSupply);
 

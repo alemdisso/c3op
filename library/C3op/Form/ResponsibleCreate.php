@@ -60,8 +60,8 @@ class C3op_Form_ResponsibleCreate extends Zend_Form
         $element->addMultiOption(0, _("#undefined"));
         $this->addElement($element);
 
-        $element = new Zend_Form_Element_Text('value');
-        $element->setLabel('#Value:')
+        $element = new Zend_Form_Element_Text('predictedValue');
+        $element->setLabel('#Predicted value:')
                 ->setAttrib('alt','decimal')
                 ->setDecorators(array(
                     'ViewHelper',
@@ -117,7 +117,7 @@ class C3op_Form_ResponsibleCreate extends Zend_Form
                 $converter = new C3op_Util_DecimalConverter();
                 $validator = new C3op_Util_ValidDecimal();
                 if ($validator->isValid($this->value->GetValue())) {
-                    $responsible->SetValue($converter->getDecimalDotValue($this->value->GetValue(), $validator));
+                    $responsible->SetPredictedValue($converter->getDecimalDotValue($this->value->GetValue(), $validator));
                 }
 
                 $responsible->SetType(C3op_Resources_ResponsibleTypeConstants::TYPE_OUTSIDE_SERVICE);
@@ -141,8 +141,8 @@ class C3op_Form_ResponsibleCreate extends Zend_Form
 
                 $converter = new C3op_Util_DecimalConverter();
                 $validator = new C3op_Util_ValidDecimal();
-                if ($validator->isValid($this->value->GetValue())) {
-                    $responsible->SetValue($converter->getDecimalDotValue($this->value->GetValue(), $validator));
+                if ($validator->isValid($this->predictedValue->GetValue())) {
+                    $responsible->SetPredictedValue($converter->getDecimalDotValue($this->predictedValue->GetValue(), $validator));
                 }
 
                 $responsible->SetAction($this->action->GetValue());

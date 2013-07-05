@@ -308,6 +308,7 @@ class C3op_Projects_Action {
         if ((is_null($realBeginDate)) || ($dateValidator->isValid($realBeginDate))) {
             if ($this->realBeginDate != $realBeginDate) {
                 $this->realBeginDate = $realBeginDate;
+
             }
         } else {
             throw new C3op_Projects_ActionException("This ($realBeginDate) is not a valid date of begin.");

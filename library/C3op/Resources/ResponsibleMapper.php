@@ -21,15 +21,16 @@ class C3op_Resources_ResponsibleMapper {
     public function insert(C3op_Resources_Responsible $new) {
 
         $query = $this->db->prepare("INSERT INTO resources_responsibles (
-            project, action, type, institution, contact, value, status)
-            VALUES (:project, :action, :type, :institution, :contact, :value, :status)");
+            project, action, type, institution, contact, predicted_value, contracted_value, status)
+            VALUES (:project, :action, :type, :institution, :contact, :predicted_value, :contracted_value, :status)");
 
         $query->bindValue(':project', $new->GetProject(), PDO::PARAM_INT);
         $query->bindValue(':action', $new->GetAction(), PDO::PARAM_INT);
         $query->bindValue(':type', $new->getType(), PDO::PARAM_INT);
         $query->bindValue(':institution', $new->GetInstitution(), PDO::PARAM_STR);
         $query->bindValue(':contact', $new->GetContact(), PDO::PARAM_STR);
-        $query->bindValue(':value', $new->GetValue(), PDO::PARAM_STR);
+        $query->bindValue(':predicted_value', $new->GetPredictedValue(), PDO::PARAM_STR);
+        $query->bindValue(':contracted_value', $new->GetContractedValue(), PDO::PARAM_STR);
         $query->bindValue(':status', $new->GetStatus(), PDO::PARAM_INT);
 
         $query->execute();
@@ -47,14 +48,15 @@ class C3op_Resources_ResponsibleMapper {
         $query = $this->db->prepare("UPDATE resources_responsibles
             SET project = :project, action = :action, type = :type,
             institution = :institution, contact = :contact,
-            value = :value, status = :status WHERE id = :id;");
+            predicted_value = :predicted_value, contracted_value = :contracted_value, status = :status WHERE id = :id;");
 
         $query->bindValue(':project', $obj->GetProject(), PDO::PARAM_STR);
         $query->bindValue(':action', $obj->GetAction(), PDO::PARAM_STR);
         $query->bindValue(':type', $obj->GetType(), PDO::PARAM_STR);
         $query->bindValue(':institution', $obj->getInstitution(), PDO::PARAM_STR);
         $query->bindValue(':contact', $obj->getContact(), PDO::PARAM_STR);
-        $query->bindValue(':value', $obj->GetValue(), PDO::PARAM_STR);
+        $query->bindValue(':predicted_value', $obj->GetPredictedValue(), PDO::PARAM_STR);
+        $query->bindValue(':contracted_value', $obj->GetContractedValue(), PDO::PARAM_STR);
         $query->bindValue(':status', $obj->GetStatus(), PDO::PARAM_STR);
         $query->bindValue(':id', $this->identityMap[$obj], PDO::PARAM_STR);
 
@@ -75,7 +77,7 @@ class C3op_Resources_ResponsibleMapper {
             $this->identityMap->next();
         }
 
-        $query = $this->db->prepare('SELECT project, action, type, institution, contact, value, status FROM resources_responsibles WHERE id = :id;');
+        $query = $this->db->prepare('SELECT project, action, type, institution, contact, predicted_value, contracted_value, status FROM resources_responsibles WHERE id = :id;');
         $query->bindValue(':id', $id, PDO::PARAM_STR);
         $query->execute();
         $result = $query->fetch();
@@ -93,7 +95,8 @@ class C3op_Resources_ResponsibleMapper {
         $this->setAttributeValue($obj, $result['type'], 'type');
         $this->setAttributeValue($obj, $result['institution'], 'institution');
         $this->setAttributeValue($obj, $result['contact'], 'contact');
-        $this->setAttributeValue($obj, $result['value'], 'value');
+        $this->setAttributeValue($obj, $result['predicted_value'], 'predictedValue');
+        $this->setAttributeValue($obj, $result['contracted_value'], 'contractedValue');
         $this->setAttributeValue($obj, $result['status'], 'status');
 
         $this->identityMap[$obj] = $id;
@@ -124,6 +127,44 @@ class C3op_Resources_ResponsibleMapper {
         }
         return $result;
     }
+
+
+    public function getResponsiblesValueJustForThisAction(C3op_Projects_Action $obj)
+    {
+        $query = $this->db->prepare('SELECT SUM(contracted_value) as sum FROM resources_responsibles WHERE action = :action
+            AND contracted_value IS NOT NULL
+            AND (status = :contracted OR status = :acquited);');
+        $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':contracted', C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
+        $query->bindValue(':acquited', C3op_Resources_ResponsibleStatusConstants::STATUS_ACQUITTED, PDO::PARAM_STR);
+
+        $query->execute();
+        $result = $query->fetch();
+        $contractedValue = 0;
+        if (!is_null($result['sum'])) {
+            $contractedValue += $result['sum'];
+        }
+
+        $query = $this->db->prepare('SELECT SUM(predicted_value) as sum FROM resources_responsibles WHERE action = :action
+            AND contracted_value IS NULL
+            AND (status = :foreseen);');
+        $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':foreseen', C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN, PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $query->execute();
+        $result = $query->fetch();
+        $predictedValue = 0;
+        if (!is_null($result['sum'])) {
+            $predictedValue += $result['sum'];
+        }
+
+
+        return $contractedValue + $predictedValue;
+    }
+
+
 
    private function setAttributeValue(C3op_Resources_Responsible $i, $fieldValue, $attributeName)
     {
