@@ -12,7 +12,7 @@
       $(document).ready(function() {
             var type = $('input[name=responsibleType]:checked').val();
 
-            if (type == 'teamMember') {
+            if (type != 'service') {
                 $('#institution-label').hide();
                 $('#institution').hide();
             }

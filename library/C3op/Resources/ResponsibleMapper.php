@@ -147,8 +147,9 @@ class C3op_Resources_ResponsibleMapper {
 
         $query = $this->db->prepare('SELECT SUM(predicted_value) as sum FROM resources_responsibles WHERE action = :action
             AND contracted_value IS NULL
-            AND (status = :foreseen);');
+            AND (status = :undefined OR status = :foreseen);');
         $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':undefined', C3op_Resources_ResponsibleStatusConstants::STATUS_UNDEFINED, PDO::PARAM_STR);
         $query->bindValue(':foreseen', C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN, PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();

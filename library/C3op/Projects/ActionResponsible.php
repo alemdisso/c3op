@@ -14,7 +14,7 @@ class C3op_Projects_ActionResponsible {
         $this->db = $db;
     }
 
-    public function doesItHasAResponsible()
+    public function doesItHaveAResponsible()
     {
         $itDoes = false;
 
@@ -26,7 +26,19 @@ class C3op_Projects_ActionResponsible {
         return $itDoes;
     }
 
-    public function doesItHasAContractedResponsible()
+    public function doesItHaveADefinedResponsible()
+    {
+        $itDoes = false;
+
+        $result = $this->actionMapper->getDefinedResponsibles($this->action);
+        if (count($result) > 0) {
+            $itDoes = true;
+        }
+
+        return $itDoes;
+    }
+
+    public function doesItHaveAContractedResponsible()
     {
         $itDoes = false;
 

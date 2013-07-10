@@ -340,7 +340,7 @@ if ((!$actionHeader['hasResponsible']) && ($actionHeader['canDefineResponsible']
 }
 ?>
 <?php
-if ($actionHeader['hasResponsible']) {
+if ($actionHeader['hasDefinedResponsible']) {
     $projectId = $actionHeader['projectId'];
     $contactName = $actionHeader['responsibleLabel'];
     $personLink = "<a href='#' class ='anchorclass' rel ='submenuResponsible'>$contactName</a>";
@@ -398,6 +398,14 @@ if ($actionHeader['hasResponsible']) {
 
 <?php
 
+  } else {    
+
+      if ($actionHeader['hasResponsible']) {
+
+?>
+            <a href="javascript:callResponsibleEdit(<?php print $actionHeader['responsibleId'] ?>)"><?php print($this->translate("#Edit responsible")); ?></a>
+<?php
+    }
   }
 ?>
           <div id="responsibleDiv" class="slidingDiv">

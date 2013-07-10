@@ -41,7 +41,6 @@ class C3op_Form_ResponsibleEdit extends C3op_Form_ResponsibleCreate
     }
 
     public function process($data) {
-
         $db = Zend_Registry::get('db');
         $responsibleMapper = new C3op_Resources_ResponsibleMapper($db);
 
@@ -68,19 +67,14 @@ class C3op_Form_ResponsibleEdit extends C3op_Form_ResponsibleCreate
                     $linkageContact = $linkageMapper->findById($linkageId);
                     $contactId = $linkageContact->GetContact();
                 } else {
-                    $contactId = 0;
+                    $contactId = null;
                 }
                 $responsible->SetContact($contactId);
 
-                $converter = new C3op_Util_DecimalConverter();
-                $validator = new C3op_Util_ValidDecimal();
-                if ($validator->isValid($this->value->GetValue())) {
-                    $responsible->SetValue($converter->getDecimalDotValue($this->value->GetValue(), $validator));
-                }
 
                 $responsible->SetType(C3op_Resources_ResponsibleTypeConstants::TYPE_OUTSIDE_SERVICE);
 
-            } else {
+            } else if ($type == 'teamMember') {
 
 
                 $linkageId = $this->linkage->GetValue();
@@ -97,17 +91,17 @@ class C3op_Form_ResponsibleEdit extends C3op_Form_ResponsibleCreate
                 $responsible->SetInstitution($institutionId);
                 $responsible->SetContact($contactId);
 
-                $converter = new C3op_Util_DecimalConverter();
-                $validator = new C3op_Util_ValidDecimal();
-                if ($validator->isValid($this->predictedValue->GetValue())) {
-                    $responsible->SetPredictedValue($converter->getDecimalDotValue($this->predictedValue->GetValue(), $validator));
-                }
-                if ($validator->isValid($this->contractedValue->GetValue())) {
-                    $responsible->SetContractedValue($converter->getDecimalDotValue($this->contractedValue->GetValue(), $validator));
-                }
-
                 $responsible->SetType(C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER);
 
+            }
+
+            $converter = new C3op_Util_DecimalConverter();
+            $validator = new C3op_Util_ValidDecimal();
+            if ($validator->isValid($this->predictedValue->GetValue())) {
+                $responsible->SetPredictedValue($converter->getDecimalDotValue($this->predictedValue->GetValue(), $validator));
+            }
+            if ($validator->isValid($this->contractedValue->GetValue())) {
+                $responsible->SetContractedValue($converter->getDecimalDotValue($this->contractedValue->GetValue(), $validator));
             }
 
             $responsibleMapper->update($responsible);

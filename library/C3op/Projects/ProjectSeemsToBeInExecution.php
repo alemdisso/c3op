@@ -28,7 +28,7 @@ class C3op_Projects_ProjectSeemsToBeInExecution {
     }
 
 
-    private function doesItHasAFinishDate()
+    private function doesItHaveAFinishDate()
     {
         $validator = new C3op_Util_ValidDate();
 
@@ -41,7 +41,7 @@ class C3op_Projects_ProjectSeemsToBeInExecution {
     }
 
 
-    private function doesItHasABeginDate()
+    private function doesItHaveABeginDate()
     {
         $validator = new C3op_Util_ValidDate();
 
@@ -56,7 +56,7 @@ class C3op_Projects_ProjectSeemsToBeInExecution {
     private function doesItSeemsToBeHappeningNow()
     {
 
-        if (($this->doesItHasABeginDate()) && ($this->doesItHasAFinishDate())) {
+        if (($this->doesItHaveABeginDate()) && ($this->doesItHaveAFinishDate())) {
             $today = strtotime(date("Y-m-d"));
             $begin = strtotime($this->project->getBeginDate());
             $finish = strtotime($this->project->getFinishDate());
@@ -69,7 +69,7 @@ class C3op_Projects_ProjectSeemsToBeInExecution {
 
     }
 
-    private function doesItHasAValue()
+    private function doesItHaveAValue()
     {
         $validator = new C3op_Util_ValidPositiveDecimal();
 

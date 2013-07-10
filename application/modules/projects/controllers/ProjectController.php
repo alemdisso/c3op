@@ -915,7 +915,7 @@ class Projects_ProjectController extends Zend_Controller_Action
 
 
             $responsible = new C3op_Projects_ActionResponsible($loopAction, $this->actionMapper, $this->db);
-            if ($responsible->doesItHasAResponsible()) {
+            if ($responsible->doesItHaveAResponsible()) {
                 $responsibleData = $responsible->fetch();
                 $data['hasResponsible'] = true;
                 $data['contactId'] = $responsibleData['contactId'];

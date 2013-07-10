@@ -637,7 +637,7 @@ class Projects_IndexController extends Zend_Controller_Action
             $loopProject = $this->projectMapper->findById($loopAction->getProject());
 
             $responsible = new C3op_Projects_ActionResponsible($loopAction, $this->actionMapper, $this->db);
-            if ($responsible->doesItHasAResponsible()) {
+            if ($responsible->doesItHaveAResponsible()) {
                 $responsibleData = $responsible->fetch();
             } else {
                 $responsibleData = array(
@@ -707,7 +707,7 @@ class Projects_IndexController extends Zend_Controller_Action
             $institutionId = 0;
             $contactId = 0;
             $personal = false;
-            if ($responsibleFinder->doesItHasAResponsible()) {
+            if ($responsibleFinder->doesItHaveAResponsible()) {
                 $responsibleData = $responsibleFinder->fetch();
                 $loopResponsible = $this->responsibleMapper->findById($responsibleData['responsibleId']);
 
