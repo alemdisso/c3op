@@ -446,9 +446,11 @@ class C3op_Projects_ActionMapper
 
     public function getPredictedValueJustForThisAction(C3op_Projects_Action $obj)
     {
-        $query = $this->db->prepare('SELECT SUM(predicted_value) as value FROM resources_responsibles WHERE action = :action AND status = :status;');
+        $query = $this->db->prepare('SELECT SUM(predicted_value) as value FROM resources_responsibles
+            WHERE action = :action AND (status = :undefined OR status = :foreseen);');
         $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
-        $query->bindValue(':status', C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN, PDO::PARAM_STR);
+        $query->bindValue(':undefined', C3op_Resources_ResponsibleStatusConstants::STATUS_UNDEFINED, PDO::PARAM_STR);
+        $query->bindValue(':foreseen', C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN, PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();
 

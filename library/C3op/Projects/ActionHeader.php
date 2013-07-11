@@ -378,20 +378,15 @@ class C3op_Projects_ActionHeader {
     private function fillValueData()
     {
 
+        $actionBalance = new  C3op_Finances_ActionBalance($this->action,$this->mapper);
+        $rawCostValue = $actionBalance->getTotalCurrentCost();
+        $balance = $actionBalance->getBalance();
         $actionValueObj = new C3op_Projects_ActionCost($this->action,$this->mapper);
-        $actionsBelow = new C3op_Projects_ActionsBelow($this->action,$this->mapper);
-        $rawCostValue = $actionValueObj->totalActionTreeCost($actionsBelow
-                                                            , new C3op_Resources_MaterialSupplyMapper
-                                                            , new C3op_Resources_ResponsibleMapper
-                                                        );
 
         $currencyDisplay = new  C3op_Util_CurrencyDisplay();
-        $budgetForecast = $this->action->getBudgetForecast();
-
         $this->data['totalContractedValue'] = $currencyDisplay->FormatCurrency($actionValueObj->totalValue());
         $this->data['currentCost'] = $currencyDisplay->FormatCurrency($rawCostValue);
-        $this->data['hasBudget'] = false;
-        $this->data['balance'] = $currencyDisplay->FormatCurrency($budgetForecast - $rawCostValue);
+        $this->data['balance'] = $currencyDisplay->FormatCurrency($balance);
     }
 
 
