@@ -841,11 +841,24 @@ class Projects_IndexController extends Zend_Controller_Action
                 $personal = false;
             }
 
+
+            $projectsIds = $this->responsibleMapper->getAllActiveProjectsEngaging($contactId, $institutionId);
+
+            $projectsData = array();
+            foreach($projectsIds as $projectId => $responsibleId) {
+                $loopProject = $this->projectMapper->findById($projectId);
+                $projectsData[$projectId] = array(
+                    'projectTitle' => $loopProject->getShortTitle(),
+                );
+
+            }
+
             $data[$id] = array(
                 'contactId' => $contactId,
                 'institutionId' => $institutionId,
                 'name' => $responsibleLabel,
                 'personal' => $personal,
+                'projectsData' => $projectsData,
             );
         }
 
