@@ -210,7 +210,6 @@ class C3op_Resources_ResponsibleMapper {
                     FROM projects_projects p
                     INNER JOIN projects_actions a ON p.id = a.project
                     LEFT JOIN resources_responsibles r ON a.id = r.action
-                    LEFT JOIN register_contacts t ON r.contact = r.id
                     WHERE (p.status = :execution)
                     AND ((r.contact = :contact AND r.type = :team_member)
                       OR (r.institution = :institution AND r.type = :outside_service))
@@ -449,6 +448,42 @@ class C3op_Resources_ResponsibleMapper {
         }
         return $obj;
 
+    }
+
+    public function getNextActionsEngagingInActiveProjects($contact=0, $institution=0, $limit=5)
+    {
+
+        $query = $this->db->prepare('SELECT a.id as action, r.id as responsible
+                    FROM projects_projects p
+                    INNER JOIN projects_actions a ON p.id = a.project
+                    LEFT JOIN resources_responsibles r ON a.id = r.action
+                    LEFT JOIN projects_actions_dates d ON a.id = d.action
+                    WHERE (p.status = :execution)
+                    AND (a.status = :action_execution)
+                    AND ((r.contact = :contact AND r.type = :team_member)
+                      OR (r.institution = :institution AND r.type = :outside_service))
+                    AND (r.status = :foreseen OR r.status = :contracted OR r.status = :acquitted)
+                    ORDER BY d.baseline_finish_date LIMIT :limit;');
+        $query->bindValue(':execution', C3op_Projects_ProjectStatusConstants::STATUS_EXECUTION, PDO::PARAM_STR);
+        $query->bindValue(':action_execution', C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION, PDO::PARAM_STR);
+        $query->bindValue(':contact', $contact, PDO::PARAM_STR);
+        $query->bindValue(':institution', $institution, PDO::PARAM_STR);
+        $query->bindValue(':foreseen', C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN, PDO::PARAM_STR);
+        $query->bindValue(':team_member', C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER, PDO::PARAM_STR);
+        $query->bindValue(':outside_service', C3op_Resources_ResponsibleTypeConstants::TYPE_OUTSIDE_SERVICE, PDO::PARAM_STR);
+        $query->bindValue(':contracted', C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
+        $query->bindValue(':acquitted', C3op_Resources_ResponsibleStatusConstants::STATUS_ACQUITTED, PDO::PARAM_STR);
+        $query->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
+        foreach ($resultPDO as $row) {
+            $result[$row['action']] = array(
+                'responsible' => $row['responsible'],
+            );
+        }
+        return $result;
     }
 
     public function getNextOutlayToPayTo(C3op_Resources_Responsible $obj)

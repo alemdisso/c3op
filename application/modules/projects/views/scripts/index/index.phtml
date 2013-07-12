@@ -506,7 +506,22 @@ echo $projectsList;
 ?>
                     </td>
                     <td>
-                    &nbsp;
+<?php
+$actionsList = "";
+$separator = "";
+foreach($responsibleData['actionsData'] as $loopActionId => $loopActionData) {
+?>
+<?php print($separator) ?><a href="/projects/action/detail/?id=<?php print($loopActionId) ?>"><?php print($loopActionData['actionTitle']) ?></a>
+
+<?php
+    $separator = ", ";
+
+
+}
+
+echo $projectsList;
+
+?>
                     </td>
 
                     <td>

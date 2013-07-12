@@ -224,42 +224,6 @@ class Projects_IndexController extends Zend_Controller_Action
             $projectValue = $currencyDisplay->FormatCurrency($loopProject->getValue());
 
 
-//
-//            $nextDeliveryObj = $this->deliveryMapper->findNextDeliveryAtProject($projectId);
-//            $nextDifferenceInDays = "&nbsp;";
-//            $nextDeliveryValue = "&nbsp;";
-//            if ($nextDeliveryObj) {
-//
-//                $validator = new C3op_Util_ValidDate();
-//                $contractualDeliveryDate = $nextDeliveryObj->getPredictedDate();
-//                $nextDeliveryDue = false;
-//
-//                $currencyDisplay = new  C3op_Util_CurrencyDisplay();
-//                $nextDeliveryValue = $currencyDisplay->FormatCurrency($nextDeliveryObj->GetReceivablePredictedValue());
-//
-//                if ($validator->isValid($contractualDeliveryDate)) {
-//
-//                    $dateDiff = new C3op_Util_DatesDifferenceInDays();
-//                    $now = time();
-//                    $nextDifferenceInDays = $dateDiff->differenceInDays(strtotime($contractualDeliveryDate), $now);
-//
-//                    if ($nextDifferenceInDays < 0) {
-//                        $nextDeliveryDue = true;
-//                    }
-//
-//                    $labelProjectFinishDate = C3op_Util_DateDisplay::FormatDateToShow($nextDeliveryObj->getPredictedDate());
-//                } else {
-//                    $labelProjectFinishDate = $this->view->translate("#(undefined date)");
-//                    $nextDifferenceInDays = "0";
-//                }
-//
-//
-//
-//
-//
-//            }
-
-
 
             $projectReceivables = $this->receivableMapper->getAllReceivables($loopProject);
             $receivablesData = array();
@@ -853,12 +817,24 @@ class Projects_IndexController extends Zend_Controller_Action
 
             }
 
+            $actionsIds = $this->responsibleMapper->getNextActionsEngagingInActiveProjects($contactId, $institutionId, 3);
+
+            $actionsData = array();
+            foreach($actionsIds as $actionId => $responsibleId) {
+                $loopAction = $this->actionMapper->findById($actionId);
+                $actionsData[$actionId] = array(
+                    'actionTitle' => $loopAction->getTitle(),
+                );
+
+            }
+
             $data[$id] = array(
                 'contactId' => $contactId,
                 'institutionId' => $institutionId,
                 'name' => $responsibleLabel,
                 'personal' => $personal,
                 'projectsData' => $projectsData,
+                'actionsData' => $actionsData,
             );
         }
 
