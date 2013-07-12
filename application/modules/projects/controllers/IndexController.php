@@ -158,6 +158,7 @@ class Projects_IndexController extends Zend_Controller_Action
         $allProjects = $this->fillAllProjectsAction();
         $allResources = $this->fillAllResourcesData();
         $delayedData = $this->fillDelayedData();
+        $doneData = $this->fillDoneData();
 
         $this->view->pageData = array(
             'canSeeFinances'   => $canSeeFinances,
@@ -166,6 +167,7 @@ class Projects_IndexController extends Zend_Controller_Action
             'allProjectsList' => $allProjects,
             'responsiblesList' => $allResources,
             'delayedList' => $delayedData,
+            'doneList' => $doneData,
 
         );
 
@@ -769,6 +771,74 @@ class Projects_IndexController extends Zend_Controller_Action
                 'value'               => $actionValue,
                 'daysOfDelay'         => $daysOfDelay,
                 'baselineFinishDate'  => $baselineFinishDate,
+                'predictedFinishDate' => $predictedFinishDate,
+                'deliveryDate'        => $productData['productDeliveryDate'],
+                'relatedProductTitle' => $productData['relatedProductTitle'],
+                'relatedProductId'    => $productData['relatedProductId'],
+            );
+        }
+        return $data;
+
+    }
+
+
+    private function fillDoneData()
+    {
+        $this->initActionMapper();
+
+        $actions = $this->actionMapper->getAllDoneActions();
+        $data = array();
+
+        foreach ($actions as $actionId) {
+            $loopAction = $this->actionMapper->findById($actionId);
+            $actionTitle = $loopAction->GetTitle();
+            $loopProject = $this->projectMapper->findById($loopAction->getProject());
+
+            $responsible = new C3op_Projects_ActionResponsible($loopAction, $this->actionMapper, $this->db);
+            if ($responsible->doesItHaveAResponsible()) {
+                $responsibleData = $responsible->fetch();
+            } else {
+                $responsibleData = array(
+                    'contactId' => '0',
+                    'contactName' => _('#(unassigned)'),
+                    );
+
+            }
+
+            $validator = new C3op_Util_ValidDate();
+            $rawReceiptDate = $loopAction->getReceiptDate($this->actionMapper);
+            if ($validator->isValid($rawReceiptDate)) {
+                $receiptDate = C3op_Util_DateDisplay::FormatDateToShow($rawReceiptDate);
+            } else {
+                $receiptDate = "#(not received)";
+            }
+
+
+            if ($validator->isValid($loopAction->getPredictedFinishDate())) {
+                $predictedFinishDate = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getPredictedFinishDate());
+            } else {
+                $predictedFinishDate = "#(not received)";
+            }
+
+
+            $finder = new C3op_Projects_ActionRelatedProduct($loopAction, $this->actionMapper);
+            $productData = $finder->fetchProductData();
+            foreach ($productData as $k => $val) {
+                $productData[$k] = $val;
+            }
+
+
+
+
+
+            $data[$actionId] = array(
+                'projectId'           => $loopProject->getId(),
+                'projectTitle'        => $loopProject->getShortTitle(),
+                'actionId'            => $actionId,
+                'actionTitle'         => $actionTitle,
+                'contactId'           => $responsibleData['contactId'],
+                'contactName'         => $responsibleData['contactName'],
+                'receiptDate'         => $receiptDate,
                 'predictedFinishDate' => $predictedFinishDate,
                 'deliveryDate'        => $productData['productDeliveryDate'],
                 'relatedProductTitle' => $productData['relatedProductTitle'],

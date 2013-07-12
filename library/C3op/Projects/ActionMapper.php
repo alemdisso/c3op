@@ -182,6 +182,21 @@ class C3op_Projects_ActionMapper
     }
 
 
+    public function getAllDoneActions()
+    {
+        $query = $this->db->prepare('SELECT id FROM projects_actions WHERE status = :done;');
+        $query->bindValue(':done', C3op_Projects_ActionStatusConstants::STATUS_DONE, PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
+        foreach ($resultPDO as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
+
     public function getAllDelayedActions()
     {
         $query = $this->db->prepare('SELECT a.id FROM projects_actions a

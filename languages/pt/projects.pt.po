@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-11 17:51-0300\n"
-"PO-Revision-Date: 2013-07-11 17:51-0300\n"
+"POT-Creation-Date: 2013-07-12 09:09-0300\n"
+"PO-Revision-Date: 2013-07-12 09:10-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -68,11 +68,11 @@ msgid "#Predicted finish: %s Real Finish: %s"
 msgstr "Término previsto: %s<br>Término real: %s"
 
 #: application\modules\projects/controllers/IndexController.php:55
-#: application\modules\projects/controllers/IndexController.php:201
-#: application\modules\projects/controllers/IndexController.php:485
-#: application\modules\projects/controllers/IndexController.php:589
-#: application\modules\projects/controllers/IndexController.php:601
-#: application\modules\projects/controllers/IndexController.php:766
+#: application\modules\projects/controllers/IndexController.php:203
+#: application\modules\projects/controllers/IndexController.php:451
+#: application\modules\projects/controllers/IndexController.php:555
+#: application\modules\projects/controllers/IndexController.php:567
+#: application\modules\projects/controllers/IndexController.php:732
 #: application\modules\projects/controllers/ProjectController.php:442
 #: application\modules\projects/controllers/ProjectController.php:544
 #: application\modules\projects/controllers/ProjectController.php:556
@@ -80,28 +80,28 @@ msgstr "Término previsto: %s<br>Término real: %s"
 msgid "#(not defined)"
 msgstr "(não definido)"
 
-#: application\modules\projects/controllers/IndexController.php:278
-#: application\modules\projects/controllers/IndexController.php:324
+#: application\modules\projects/controllers/IndexController.php:244
+#: application\modules\projects/controllers/IndexController.php:290
 msgid "#(undefined date)"
 msgstr "Data indefinida"
 
-#: application\modules\projects/controllers/IndexController.php:283
+#: application\modules\projects/controllers/IndexController.php:249
 msgid "#(not delivered)"
 msgstr "(não foi entregue)"
 
-#: application\modules\projects/controllers/IndexController.php:337
+#: application\modules\projects/controllers/IndexController.php:303
 msgid "#(not done)"
 msgstr "(inacabado)"
 
-#: application\modules\projects/controllers/IndexController.php:368
+#: application\modules\projects/controllers/IndexController.php:334
 #: application\modules\projects/controllers/ProjectController.php:912
 #: application\modules\projects/controllers/ProjectController.php:1152
 #: application\modules\projects/controllers/ProjectController.php:1159
 msgid "#Not defined"
 msgstr "A definir"
 
-#: application\modules\projects/controllers/IndexController.php:450
-#: application\modules\projects/controllers/IndexController.php:457
+#: application\modules\projects/controllers/IndexController.php:416
+#: application\modules\projects/controllers/IndexController.php:423
 #: application\modules\projects/controllers/ProjectController.php:408
 #: application\modules\projects/controllers/ProjectController.php:415
 #: library\C3op\projects/ActionResponsible.php:61
@@ -109,8 +109,9 @@ msgstr "A definir"
 msgid "#(undefined)"
 msgstr "(indefinido)"
 
-#: application\modules\projects/controllers/IndexController.php:645
-#: application\modules\projects/controllers/IndexController.php:735
+#: application\modules\projects/controllers/IndexController.php:611
+#: application\modules\projects/controllers/IndexController.php:701
+#: application\modules\projects/controllers/IndexController.php:803
 #: application\modules\projects/controllers/ProjectController.php:929
 #: application\modules\projects/controllers/ProjectController.php:931
 #: library\C3op\projects/ActionHeader.php:291
@@ -122,7 +123,7 @@ msgstr "(indefinido)"
 msgid "#(unassigned)"
 msgstr "(não atribuído)"
 
-#: application\modules\projects/controllers/IndexController.php:767
+#: application\modules\projects/controllers/IndexController.php:733
 msgid "#??"
 msgstr "???"
 
@@ -323,13 +324,15 @@ msgstr "Corrigir data"
 
 #: application\modules\projects/views/scripts/action/acknowledge-receipt.phtml:11
 #: application\modules\projects/views/scripts/action/detail.phtml:318
-#: application\modules\projects/views/scripts/index/index.phtml:315
+#: application\modules\projects/views/scripts/index/index.phtml:317
+#: application\modules\projects/views/scripts/index/index.phtml:420
 msgid "#Reject receipt"
 msgstr "Rejeitar tarefa"
 
 #: application\modules\projects/views/scripts/action/acknowledge-receipt.phtml:14
 #: application\modules\projects/views/scripts/action/detail.phtml:321
-#: application\modules\projects/views/scripts/index/index.phtml:312
+#: application\modules\projects/views/scripts/index/index.phtml:314
+#: application\modules\projects/views/scripts/index/index.phtml:417
 msgid "#Accept receipt"
 msgstr "Aceitar tarefa"
 
@@ -369,10 +372,11 @@ msgstr "Justifique a alteração das datas"
 #: application\modules\projects/views/scripts/index/active.phtml:25
 #: application\modules\projects/views/scripts/index/all-projects.phtml:25
 #: application\modules\projects/views/scripts/index/engagement.phtml:33
-#: application\modules\projects/views/scripts/index/index.phtml:86
-#: application\modules\projects/views/scripts/index/index.phtml:257
-#: application\modules\projects/views/scripts/index/index.phtml:366
-#: application\modules\projects/views/scripts/index/index.phtml:535
+#: application\modules\projects/views/scripts/index/index.phtml:88
+#: application\modules\projects/views/scripts/index/index.phtml:259
+#: application\modules\projects/views/scripts/index/index.phtml:362
+#: application\modules\projects/views/scripts/index/index.phtml:471
+#: application\modules\projects/views/scripts/index/index.phtml:671
 #: application\modules\projects/views/scripts/index/just-active.phtml:30
 #: application\modules\projects/views/scripts/project/detail.phtml:47
 #: application\modules\projects/views/scripts/project/engagement.phtml:6
@@ -418,8 +422,8 @@ msgstr "Supervisor:"
 #: application\modules\projects/views/scripts/action/detail.phtml:706
 #: application\modules\projects/views/scripts/index/all-projects.phtml:28
 #: application\modules\projects/views/scripts/index/engagement.phtml:36
-#: application\modules\projects/views/scripts/index/index.phtml:87
-#: application\modules\projects/views/scripts/index/index.phtml:369
+#: application\modules\projects/views/scripts/index/index.phtml:89
+#: application\modules\projects/views/scripts/index/index.phtml:474
 #: application\modules\projects/views/scripts/index/just-active.phtml:31
 #: application\modules\projects/views/scripts/project/detail.phtml:170
 #: application\modules\projects/views/scripts/project/detail.phtml:239
@@ -564,7 +568,7 @@ msgid "#Action\\'s tree"
 msgstr "Ações subordinadas"
 
 #: application\modules\projects/views/scripts/action/detail.phtml:505
-#: application\modules\projects/views/scripts/index/index.phtml:82
+#: application\modules\projects/views/scripts/index/index.phtml:84
 #: application\modules\projects/views/scripts/index/just-active.phtml:26
 #: application\modules\projects/views/scripts/project/detail.phtml:233
 #: application\modules\projects/views/scripts/project/full-detail.phtml:229
@@ -572,7 +576,7 @@ msgid "#Expand all"
 msgstr "Expandir tudo"
 
 #: application\modules\projects/views/scripts/action/detail.phtml:505
-#: application\modules\projects/views/scripts/index/index.phtml:82
+#: application\modules\projects/views/scripts/index/index.phtml:84
 #: application\modules\projects/views/scripts/index/just-active.phtml:26
 #: application\modules\projects/views/scripts/project/detail.phtml:233
 #: application\modules\projects/views/scripts/project/full-detail.phtml:229
@@ -582,8 +586,9 @@ msgstr "Recolher tudo"
 #: application\modules\projects/views/scripts/action/detail.phtml:509
 #: application\modules\projects/views/scripts/action/detail.phtml:573
 #: application\modules\projects/views/scripts/index/engagement.phtml:34
-#: application\modules\projects/views/scripts/index/index.phtml:259
-#: application\modules\projects/views/scripts/index/index.phtml:537
+#: application\modules\projects/views/scripts/index/index.phtml:261
+#: application\modules\projects/views/scripts/index/index.phtml:364
+#: application\modules\projects/views/scripts/index/index.phtml:673
 #: application\modules\projects/views/scripts/project/detail.phtml:237
 #: application\modules\projects/views/scripts/project/detail.phtml:305
 #: application\modules\projects/views/scripts/project/engagement.phtml:58
@@ -593,8 +598,9 @@ msgid "#Action"
 msgstr "Ação"
 
 #: application\modules\projects/views/scripts/action/detail.phtml:510
-#: application\modules\projects/views/scripts/index/index.phtml:260
-#: application\modules\projects/views/scripts/index/index.phtml:538
+#: application\modules\projects/views/scripts/index/index.phtml:262
+#: application\modules\projects/views/scripts/index/index.phtml:365
+#: application\modules\projects/views/scripts/index/index.phtml:674
 #: application\modules\projects/views/scripts/project/detail.phtml:238
 #: application\modules\projects/views/scripts/project/full-detail.phtml:234
 msgid "#Responsible"
@@ -631,7 +637,7 @@ msgid "#Create new action"
 msgstr "Criar nova ação"
 
 #: application\modules\projects/views/scripts/action/detail.phtml:572
-#: application\modules\projects/views/scripts/index/index.phtml:459
+#: application\modules\projects/views/scripts/index/index.phtml:564
 #: application\modules\projects/views/scripts/project/detail.phtml:304
 #: application\modules\projects/views/scripts/project/full-detail.phtml:291
 msgid "#Name"
@@ -640,8 +646,9 @@ msgstr "Nome"
 #: application\modules\projects/views/scripts/action/detail.phtml:610
 #: application\modules\projects/views/scripts/action/detail.phtml:729
 #: application\modules\projects/views/scripts/index/engagement.phtml:52
-#: application\modules\projects/views/scripts/index/index.phtml:308
-#: application\modules\projects/views/scripts/index/index.phtml:497
+#: application\modules\projects/views/scripts/index/index.phtml:310
+#: application\modules\projects/views/scripts/index/index.phtml:413
+#: application\modules\projects/views/scripts/index/index.phtml:633
 #: application\modules\projects/views/scripts/project/detail.phtml:351
 #: application\modules\projects/views/scripts/project/detail.phtml:469
 #: application\modules\projects/views/scripts/project/engagement.phtml:77
@@ -654,7 +661,7 @@ msgstr "Opções"
 #: application\modules\projects/views/scripts/action/detail.phtml:733
 #: application\modules\projects/views/scripts/index/all-projects.phtml:55
 #: application\modules\projects/views/scripts/index/engagement.phtml:97
-#: application\modules\projects/views/scripts/index/index.phtml:396
+#: application\modules\projects/views/scripts/index/index.phtml:501
 #: application\modules\projects/views/scripts/project/detail.phtml:360
 #: application\modules\projects/views/scripts/project/detail.phtml:473
 #: application\modules\projects/views/scripts/project/engagement.phtml:122
@@ -714,7 +721,7 @@ msgstr "Serviço"
 
 #: application\modules\projects/views/scripts/action/detail.phtml:705
 #: application\modules\projects/views/scripts/index/active.phtml:29
-#: application\modules\projects/views/scripts/index/index.phtml:92
+#: application\modules\projects/views/scripts/index/index.phtml:94
 #: application\modules\projects/views/scripts/index/just-active.phtml:36
 #: application\modules\projects/views/scripts/project/detail.phtml:446
 #: application\modules\projects/views/scripts/project/engagement.phtml:60
@@ -764,15 +771,16 @@ msgid "#Contract signing"
 msgstr "Assinatura do  contrato"
 
 #: application\modules\projects/views/scripts/index/active.phtml:7
-#: application\modules\projects/views/scripts/index/index.phtml:65
-#: application\modules\projects/views/scripts/index/index.phtml:74
+#: application\modules\projects/views/scripts/index/index.phtml:66
+#: application\modules\projects/views/scripts/index/index.phtml:76
 #: application\modules\projects/views/scripts/index/just-active.phtml:7
 msgid "#Active Projects"
 msgstr "Projetos em andamento"
 
 #: application\modules\projects/views/scripts/index/active.phtml:26
-#: application\modules\projects/views/scripts/index/index.phtml:258
-#: application\modules\projects/views/scripts/index/index.phtml:535
+#: application\modules\projects/views/scripts/index/index.phtml:260
+#: application\modules\projects/views/scripts/index/index.phtml:363
+#: application\modules\projects/views/scripts/index/index.phtml:671
 #: application\modules\projects/views/scripts/project/detail.phtml:163
 #: application\modules\projects/views/scripts/project/detail.phtml:167
 #: application\modules\projects/views/scripts/project/full-detail.phtml:159
@@ -790,8 +798,8 @@ msgstr "Dias"
 
 #: application\modules\projects/views/scripts/index/active.phtml:30
 #: application\modules\projects/views/scripts/index/all-projects.phtml:26
-#: application\modules\projects/views/scripts/index/index.phtml:88
-#: application\modules\projects/views/scripts/index/index.phtml:367
+#: application\modules\projects/views/scripts/index/index.phtml:90
+#: application\modules\projects/views/scripts/index/index.phtml:472
 #: application\modules\projects/views/scripts/index/just-active.phtml:32
 msgid "#Client"
 msgstr "Cliente"
@@ -799,7 +807,7 @@ msgstr "Cliente"
 #: application\modules\projects/views/scripts/index/active.phtml:60
 #: application\modules\projects/views/scripts/index/active.phtml:86
 #: application\modules\projects/views/scripts/index/all-projects.phtml:51
-#: application\modules\projects/views/scripts/index/index.phtml:392
+#: application\modules\projects/views/scripts/index/index.phtml:497
 msgid "#Options..."
 msgstr "Opções..."
 
@@ -810,15 +818,15 @@ msgstr "Detalhes"
 
 #: application\modules\projects/views/scripts/index/active.phtml:117
 #: application\modules\projects/views/scripts/index/all-projects.phtml:98
-#: application\modules\projects/views/scripts/index/index.phtml:205
-#: application\modules\projects/views/scripts/index/index.phtml:439
+#: application\modules\projects/views/scripts/index/index.phtml:207
+#: application\modules\projects/views/scripts/index/index.phtml:544
 #: application\modules\projects/views/scripts/index/just-active.phtml:150
 msgid "#There is no list of projects."
 msgstr "Não existe uma lista de projetos."
 
 #: application\modules\projects/views/scripts/index/all-projects.phtml:6
-#: application\modules\projects/views/scripts/index/index.phtml:61
-#: application\modules\projects/views/scripts/index/index.phtml:460
+#: application\modules\projects/views/scripts/index/index.phtml:62
+#: application\modules\projects/views/scripts/index/index.phtml:565
 msgid "#Projects"
 msgstr "Projetos"
 
@@ -827,51 +835,51 @@ msgid "#Active projects"
 msgstr "Projetos em andamento"
 
 #: application\modules\projects/views/scripts/index/all-projects.phtml:27
-#: application\modules\projects/views/scripts/index/index.phtml:368
+#: application\modules\projects/views/scripts/index/index.phtml:473
 msgid "#Area"
 msgstr "Área"
 
 #: application\modules\projects/views/scripts/index/all-projects.phtml:29
-#: application\modules\projects/views/scripts/index/index.phtml:370
+#: application\modules\projects/views/scripts/index/index.phtml:475
 #: application\modules\projects/views/scripts/project/detail.phtml:171
 #: application\modules\projects/views/scripts/project/full-detail.phtml:167
 msgid "#% physical progress"
 msgstr "% físico"
 
 #: application\modules\projects/views/scripts/index/all-projects.phtml:30
-#: application\modules\projects/views/scripts/index/index.phtml:371
+#: application\modules\projects/views/scripts/index/index.phtml:476
 msgid "#% payables"
 msgstr "% pagtos"
 
 #: application\modules\projects/views/scripts/index/all-projects.phtml:31
-#: application\modules\projects/views/scripts/index/index.phtml:372
+#: application\modules\projects/views/scripts/index/index.phtml:477
 msgid "#% receivings"
 msgstr "% receb"
 
 #: application\modules\projects/views/scripts/index/all-projects.phtml:58
-#: application\modules\projects/views/scripts/index/index.phtml:399
+#: application\modules\projects/views/scripts/index/index.phtml:504
 msgid "#Predict Receiving"
 msgstr "Prever recebimento"
 
 #: application\modules\projects/views/scripts/index/all-projects.phtml:61
-#: application\modules\projects/views/scripts/index/index.phtml:402
+#: application\modules\projects/views/scripts/index/index.phtml:507
 msgid "#Create action"
 msgstr "Criar ação"
 
 #: application\modules\projects/views/scripts/index/all-projects.phtml:64
-#: application\modules\projects/views/scripts/index/index.phtml:405
+#: application\modules\projects/views/scripts/index/index.phtml:510
 msgid "#Project details"
 msgstr "Detalhes do projeto"
 
 #: application\modules\projects/views/scripts/index/all-projects.phtml:70
-#: application\modules\projects/views/scripts/index/index.phtml:411
+#: application\modules\projects/views/scripts/index/index.phtml:516
 #: application\modules\projects/views/scripts/project/detail.phtml:61
 #: application\modules\projects/views/scripts/project/full-detail.phtml:61
 msgid "#Amend contract"
 msgstr "Cadastrar aditivo"
 
 #: application\modules\projects/views/scripts/index/all-projects.phtml:103
-#: application\modules\projects/views/scripts/index/index.phtml:444
+#: application\modules\projects/views/scripts/index/index.phtml:549
 msgid "#Create New Project"
 msgstr "Criar novo projeto"
 
@@ -900,82 +908,97 @@ msgstr "Status da Ação"
 msgid "#Notify outlay"
 msgstr "Confirmar pagamento"
 
-#: application\modules\projects/views/scripts/index/index.phtml:66
+#: application\modules\projects/views/scripts/index/index.phtml:67
 msgid "#Receipts"
 msgstr "Ações recebidas"
 
-#: application\modules\projects/views/scripts/index/index.phtml:67
-#: application\modules\projects/views/scripts/index/index.phtml:349
+#: application\modules\projects/views/scripts/index/index.phtml:68
+#: application\modules\projects/views/scripts/index/index.phtml:454
 msgid "#All Projects"
 msgstr "Todos os projetos"
 
-#: application\modules\projects/views/scripts/index/index.phtml:68
+#: application\modules\projects/views/scripts/index/index.phtml:69
 msgid "#All Resources"
 msgstr "Todos os recursos"
 
-#: application\modules\projects/views/scripts/index/index.phtml:69
+#: application\modules\projects/views/scripts/index/index.phtml:70
 msgid "#Delayed Actions"
 msgstr "Ações em atraso"
 
-#: application\modules\projects/views/scripts/index/index.phtml:89
+#: application\modules\projects/views/scripts/index/index.phtml:71
+msgid "#Accepted receipts"
+msgstr "Tarefas prontas"
+
+#: application\modules\projects/views/scripts/index/index.phtml:91
 #: application\modules\projects/views/scripts/index/just-active.phtml:33
 #: application\modules\projects/views/scripts/project/detail.phtml:308
 msgid "#Days"
 msgstr "Dias"
 
-#: application\modules\projects/views/scripts/index/index.phtml:90
+#: application\modules\projects/views/scripts/index/index.phtml:92
 #: application\modules\projects/views/scripts/index/just-active.phtml:34
 msgid "#Contractual date"
 msgstr "Data contratual"
 
-#: application\modules\projects/views/scripts/index/index.phtml:91
+#: application\modules\projects/views/scripts/index/index.phtml:93
 #: application\modules\projects/views/scripts/index/just-active.phtml:35
 msgid "#Actual date"
 msgstr "Data real"
 
-#: application\modules\projects/views/scripts/index/index.phtml:217
+#: application\modules\projects/views/scripts/index/index.phtml:219
 #: application\modules\projects/views/scripts/index/just-active.phtml:10
 msgid "#Receipts to verify"
 msgstr "Entregas a verificar"
 
-#: application\modules\projects/views/scripts/index/index.phtml:261
+#: application\modules\projects/views/scripts/index/index.phtml:263
+#: application\modules\projects/views/scripts/index/index.phtml:366
 msgid "#Receipt date"
 msgstr "Entrada"
 
-#: application\modules\projects/views/scripts/index/index.phtml:262
-#: application\modules\projects/views/scripts/index/index.phtml:548
+#: application\modules\projects/views/scripts/index/index.phtml:264
+#: application\modules\projects/views/scripts/index/index.phtml:367
+#: application\modules\projects/views/scripts/index/index.phtml:684
 msgid "#Predicted finish date"
 msgstr "Previsto"
 
-#: application\modules\projects/views/scripts/index/index.phtml:263
+#: application\modules\projects/views/scripts/index/index.phtml:265
+#: application\modules\projects/views/scripts/index/index.phtml:368
 msgid "#Limit for deliver"
 msgstr "Entrega"
 
-#: application\modules\projects/views/scripts/index/index.phtml:335
+#: application\modules\projects/views/scripts/index/index.phtml:337
 msgid "#There is no registered receipts."
 msgstr "Não existem ações a verificar."
 
-#: application\modules\projects/views/scripts/index/index.phtml:461
+#: application\modules\projects/views/scripts/index/index.phtml:349
+msgid "#Done to verify"
+msgstr "Tarefas prontas"
+
+#: application\modules\projects/views/scripts/index/index.phtml:440
+msgid "#There is no registered done."
+msgstr "Não existem ações prontas."
+
+#: application\modules\projects/views/scripts/index/index.phtml:566
 msgid "#Next Actions"
 msgstr "Próximas Ações"
 
-#: application\modules\projects/views/scripts/index/index.phtml:523
+#: application\modules\projects/views/scripts/index/index.phtml:659
 msgid "#Delayed actions"
 msgstr "Ações em atraso"
 
-#: application\modules\projects/views/scripts/index/index.phtml:544
+#: application\modules\projects/views/scripts/index/index.phtml:680
 msgid "#Action cost"
 msgstr "Custo"
 
-#: application\modules\projects/views/scripts/index/index.phtml:549
+#: application\modules\projects/views/scripts/index/index.phtml:685
 msgid "#Baseline finish date"
 msgstr "Planejado"
 
-#: application\modules\projects/views/scripts/index/index.phtml:550
+#: application\modules\projects/views/scripts/index/index.phtml:686
 msgid "#Days of delay"
 msgstr "Dias"
 
-#: application\modules\projects/views/scripts/index/index.phtml:628
+#: application\modules\projects/views/scripts/index/index.phtml:764
 msgid "#There is no registered delayed."
 msgstr "Não existem ações atrasadas."
 

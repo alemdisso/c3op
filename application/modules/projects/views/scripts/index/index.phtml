@@ -3,6 +3,7 @@
 
   $projectsList = $pageData['projectsList'];
   $receiptsList = $pageData['receiptsList'];
+  $doneList = $pageData['doneList'];
   $allProjectsList = $pageData['allProjectsList'];
   $responsiblesList = $pageData['responsiblesList'];
   $delayedList = $pageData['delayedList'];
@@ -67,6 +68,7 @@ $(document).ready(function(){
         <li><a href="#tabs-all"><?php echo $this->translate("#All Projects") ?></a></li>
         <li><a href="#tabs-resources"><?php echo $this->translate("#All Resources") ?></a></li>
         <li><a href="#tabs-delayed"><?php echo $this->translate("#Delayed Actions") ?></a></li>
+        <li><a href="#tabs-done"><?php echo $this->translate("#Accepted receipts") ?></a></li>
       </ul>
 
       <div id="tabs-projects">
@@ -341,6 +343,109 @@ if($receiptInfo['contactId'] > 0) {
 
           </div><!-- Area -->
         </div><!-- tabs-receipts -->
+
+        <div id="tabs-done">
+          <div class="Area">
+            <h2><?php echo $this->translate("#Done to verify") ?></h2>
+
+<?php
+/*
+ * if there is done in list
+ */
+      if (count($doneList)) {
+?>
+
+           <table id="Done" class="display dataTable">
+
+              <thead>
+                <tr>
+                  <th width="120"><?php echo $this->translate("#Project") ?></th>
+                  <th width="120"><?php echo $this->translate("#Product") ?></th>
+                  <th width="120"><?php echo $this->translate("#Action") ?></th>
+                  <th width="120"><?php echo $this->translate("#Responsible") ?></th>
+                  <th width="50"><?php echo $this->translate("#Receipt date") ?></th>
+                  <th width="50"><?php echo $this->translate("#Predicted finish date") ?></th>
+                  <th width="50"><?php echo $this->translate("#Limit for deliver") ?></th>
+                  <th width="1%">&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody>
+<?php
+foreach($doneList as $id => $receiptInfo) {
+?>
+                <!-- ### loop de carga das ações que geram pagamentos -->
+                <tr>
+                  <td>
+                    <a href="/projects/project/detail/?id=<?php print($receiptInfo['projectId']) ?>"><?php print($receiptInfo['projectTitle']) ?></a>
+                  </td>
+                  <td>
+                    <a href="/projects/action/detail/?id=<?php print($receiptInfo['relatedProductId']) ?>"><?php print($receiptInfo['relatedProductTitle']) ?></a>
+                  </td>
+                  <td>
+                    <a href="/projects/action/detail/?id=<?php print($receiptInfo['actionId']) ?>"><?php print($receiptInfo['actionTitle']) ?></a>
+                  </td>
+                  <td>
+<?php
+if($receiptInfo['contactId'] > 0) {
+?>
+                    <a href="/projects/project/engagement/?id=<?php  print $receiptInfo['projectId'] ?>&contact=<?php  print $receiptInfo['contactId'] ?>"><?php print($receiptInfo['contactName']) ?></a>
+<?php
+
+} else {
+?>
+<?php print($receiptInfo['contactName']) ?>
+<?php
+
+}
+?>
+                  </td>
+                  <td>
+                    <?php print($receiptInfo['receiptDate']) ?>
+                  </td>
+                  <td>
+                    <?php print($receiptInfo['predictedFinishDate']) ?>
+                  </td>
+                  <td>
+                    <?php print($receiptInfo['deliveryDate']) ?>
+                  </td>
+                  <td>
+                <div id="receiptAcknowledgement-<?php print($receiptInfo['actionId']);?>">
+                    <a href="#" class="anchorclass" rel="submenu1"><?php echo $this->translate("#Options") ?></a>
+                    <div id="submenu1" class="anylinkcss">
+                        <ul>
+                        <li>
+                          <a href="javascript:acceptReceipt('<?php print($receiptInfo['actionId']); ?>');"><?php print($this->translate("#Accept receipt")); ?></a>
+                        </li>
+                        <li>
+                          <a href="javascript:rejectReceipt('<?php print($receiptInfo['actionId']); ?>');"><?php print($this->translate("#Reject receipt")); ?></a>
+                        </li>
+                        </ul>
+                    </div><!-- #submenu1 -->
+                </div>
+                  </td>
+                </tr>
+<?php
+}
+?>
+                <!-- ### fim do loop de carga das ações que são produto -->
+
+              </tbody>
+            </table><br />
+
+
+
+<?php
+      } else { // end else there is done in list
+?>
+            <p><?php print($this->translate("#There is no registered done.")) ?></p>
+
+<?php
+      } // end else there is done in list
+?>
+<!-- ### FIM DA INSERÇÃO DO CÓDIGO DE DONE.PHTML -->
+
+          </div><!-- Area -->
+        </div><!-- tabs-done -->
 
 
 
