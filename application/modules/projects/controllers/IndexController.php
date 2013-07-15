@@ -889,7 +889,7 @@ class Projects_IndexController extends Zend_Controller_Action
 
             }
 
-            $actionsIds = $this->responsibleMapper->getNextActionsEngagingInActiveProjects($contactId, $institutionId, 3);
+            $actionsIds = $this->responsibleMapper->getNextActionsEngagingInActiveProjects($contactId, $institutionId, 7);
 
             $actionsData = array();
             foreach($actionsIds as $actionId => $responsibleId) {
