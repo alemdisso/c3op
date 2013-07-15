@@ -371,54 +371,62 @@ if($receiptInfo['contactId'] > 0) {
               </thead>
               <tbody>
 <?php
-foreach($doneList as $id => $receiptInfo) {
+foreach($doneList as $id => $actionInfo) {
 ?>
-                <!-- ### loop de carga das ações que geram pagamentos -->
                 <tr>
                   <td>
-                    <a href="/projects/project/detail/?id=<?php print($receiptInfo['projectId']) ?>"><?php print($receiptInfo['projectTitle']) ?></a>
+                    <a href="/projects/project/detail/?id=<?php print($actionInfo['projectId']) ?>"><?php print($actionInfo['projectTitle']) ?></a>
                   </td>
                   <td>
-                    <a href="/projects/action/detail/?id=<?php print($receiptInfo['relatedProductId']) ?>"><?php print($receiptInfo['relatedProductTitle']) ?></a>
+                    <a href="/projects/action/detail/?id=<?php print($actionInfo['relatedProductId']) ?>"><?php print($actionInfo['relatedProductTitle']) ?></a>
                   </td>
                   <td>
-                    <a href="/projects/action/detail/?id=<?php print($receiptInfo['actionId']) ?>"><?php print($receiptInfo['actionTitle']) ?></a>
+                    <a href="/projects/action/detail/?id=<?php print($actionInfo['actionId']) ?>"><?php print($actionInfo['actionTitle']) ?></a>
                   </td>
                   <td>
 <?php
-if($receiptInfo['contactId'] > 0) {
+if($actionInfo['contactId'] > 0) {
 ?>
-                    <a href="/projects/project/engagement/?id=<?php  print $receiptInfo['projectId'] ?>&contact=<?php  print $receiptInfo['contactId'] ?>"><?php print($receiptInfo['contactName']) ?></a>
+                    <a href="/projects/project/engagement/?id=<?php  print $actionInfo['projectId'] ?>&contact=<?php  print $actionInfo['contactId'] ?>"><?php print($actionInfo['contactName']) ?></a>
 <?php
 
 } else {
 ?>
-<?php print($receiptInfo['contactName']) ?>
+<?php print($actionInfo['contactName']) ?>
 <?php
 
 }
 ?>
                   </td>
                   <td>
-                    <?php print($receiptInfo['receiptDate']) ?>
+                    <?php print($actionInfo['receiptDate']) ?>
                   </td>
                   <td>
-                    <?php print($receiptInfo['predictedFinishDate']) ?>
+                    <?php print($actionInfo['predictedFinishDate']) ?>
                   </td>
                   <td>
-                    <?php print($receiptInfo['deliveryDate']) ?>
+                    <?php print($actionInfo['deliveryDate']) ?>
                   </td>
                   <td>
-                <div id="receiptAcknowledgement-<?php print($receiptInfo['actionId']);?>">
+                <div id="receiptAcknowledgement-<?php print($actionInfo['actionId']);?>">
                     <a href="#" class="anchorclass" rel="submenu1"><?php echo $this->translate("#Options") ?></a>
                     <div id="submenu1" class="anylinkcss">
                         <ul>
-                        <li>
-                          <a href="javascript:acceptReceipt('<?php print($receiptInfo['actionId']); ?>');"><?php print($this->translate("#Accept receipt")); ?></a>
-                        </li>
-                        <li>
-                          <a href="javascript:rejectReceipt('<?php print($receiptInfo['actionId']); ?>');"><?php print($this->translate("#Reject receipt")); ?></a>
-                        </li>
+    <?php
+
+    if ($actionInfo['canProvideOutlay']) {
+    ?>
+
+
+                            <li>
+                                <a href="/finances/outlay/create/?responsible=<?php echo $actionInfo['responsibleId'] ?>"><?php echo $this->translate("#Provide outlay") ?></a>
+                            </li>
+
+    <?php
+    }
+    ?>
+
+
                         </ul>
                     </div><!-- #submenu1 -->
                 </div>
@@ -427,8 +435,6 @@ if($receiptInfo['contactId'] > 0) {
 <?php
 }
 ?>
-                <!-- ### fim do loop de carga das ações que são produto -->
-
               </tbody>
             </table><br />
 

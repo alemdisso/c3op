@@ -838,6 +838,8 @@ class Projects_IndexController extends Zend_Controller_Action
                 'actionTitle'         => $actionTitle,
                 'contactId'           => $responsibleData['contactId'],
                 'contactName'         => $responsibleData['contactName'],
+                'canProvideOutlay'    => $responsibleData['canProvideOutlay'],
+                'responsibleId'       => $responsibleData['responsibleId'],
                 'receiptDate'         => $receiptDate,
                 'predictedFinishDate' => $predictedFinishDate,
                 'deliveryDate'        => $productData['productDeliveryDate'],
