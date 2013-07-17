@@ -398,7 +398,7 @@ if ($actionHeader['hasDefinedResponsible']) {
 
 <?php
 
-  } else {    
+  } else {
 
       if ($actionHeader['hasResponsible']) {
 
@@ -525,17 +525,6 @@ if (isset($actionHeader['hasBudget'])) {
                   <div id="submenu2" class="anylinkcss">
                       <ul>
 
-<?php
-    if($responsibleData['canEditResource']) {
-
-?>
-                        <li>
-                          <a href="/resources/responsible/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")); ?></a>
-                        </li>
-
-<?php
-    }
-?>
     <?php
     if ($responsibleData['canContractFlag']) {
 ?>

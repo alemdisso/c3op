@@ -166,6 +166,30 @@ class C3op_Finances_ReceivableMapper
         }
     }
 
+    private function updateReceivablePredictedDate(C3op_Projects_Delivery $obj)
+    {
+
+        if (!isset($this->identityMap[$obj])) {
+            throw new C3op_Projects_DeliveryMapperException('Object has no ID, cannot update.');
+        }
+
+        $query = $this->db->prepare("UPDATE finances_receivables SET predicted_date = :predicted_date WHERE id = :receivable;");
+
+        $query->bindValue(':receivable', $obj->GetReceivable(), PDO::PARAM_STR);
+        $query->bindValue(':predicted_date', $obj->GetReceivablePredictedDate(), PDO::PARAM_STR);
+
+        try {
+            $query->execute();
+        } catch (Exception $e) {
+            throw new C3op_Projects_ActionException("sql failed");
+        }
+
+
+    }
+
+
+
+
     private function fetchFirstDeliveryDate(C3op_Finances_Receivable $obj)
     {
 

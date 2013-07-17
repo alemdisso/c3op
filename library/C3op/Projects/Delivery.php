@@ -8,13 +8,14 @@ class C3op_Projects_Delivery {
     protected $predictedDate;
     protected $realDate;
     protected $receivablePredictedValue;
+    protected $receivablePredictedDate;
 
     function __construct($receivable, $project, $predictedDate, $id=0) {
         $this->id = (int)$id;
         $this->receivable = $receivable;
         $this->project = $project;
         $this->predictedDate = $predictedDate;
-        $this->receivablePredictedValue = null;
+        $this->receivablePredictedDate = null;
     }
 
     public function GetId() {
@@ -48,6 +49,12 @@ class C3op_Projects_Delivery {
     public function GetReceivablePredictedValue()
     {
         return $this->receivablePredictedValue;
+
+    } //GetPredictedDate
+
+    public function GetReceivablePredictedDate()
+    {
+        return $this->receivablePredictedDate;
 
     } //GetPredictedDate
 
