@@ -17,6 +17,12 @@
 //die();
 
 ?>
-<?php print($this->translate("#Action was assigned")); ?>
+<?php print($this->translate("#Responsible was predicted")); ?>
 <br class="clear" />
+<?php
+if ($contactId) {
+?>
 <?php print(sprintf($this->translate("#%s was assigned responsible for this action"), $responsibleLink)); ?>
+<?php
+}
+?>

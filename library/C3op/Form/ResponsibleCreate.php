@@ -23,8 +23,7 @@ class C3op_Form_ResponsibleCreate extends Zend_Form
         $element->setDecorators(array('ViewHelper'));
 
         $element = new Zend_Form_Element_Radio('responsibleType');
-	$element->setRequired(true)
-		->setLabel('#It is a person or an institution?')
+	$element->setLabel('#It is a person or an institution?')
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
@@ -105,7 +104,9 @@ class C3op_Form_ResponsibleCreate extends Zend_Form
             $responsibleMapper = new C3op_Resources_ResponsibleMapper($db);
             $responsible = new C3op_Resources_Responsible();
             if ($type == 'service') {
-                $responsible->SetInstitution($this->institution->GetValue());
+
+                $institutionId = $this->institution->GetValue();
+                $responsible->SetInstitution($institutionId);
 
                 $linkageId = $this->linkage->GetValue();
                 $linkageMapper = new C3op_Register_LinkageMapper($this->db);
@@ -114,43 +115,44 @@ class C3op_Form_ResponsibleCreate extends Zend_Form
 
                 $responsible->SetContact($contactId);
 
-                $converter = new C3op_Util_DecimalConverter();
-                $validator = new C3op_Util_ValidDecimal();
-                if ($validator->isValid($this->value->GetValue())) {
-                    $responsible->SetPredictedValue($converter->getDecimalDotValue($this->value->GetValue(), $validator));
-                }
-
                 $responsible->SetType(C3op_Resources_ResponsibleTypeConstants::TYPE_OUTSIDE_SERVICE);
-                $responsible->SetAction($this->action->GetValue());
-                $responsible->SetProject($this->project->GetValue());
-                $responsibleMapper->insert($responsible);
-                return $responsible->GetId();
 
-            } else {
-
+            } else if ($type == 'teamMember') {
 
                 $linkageId = $this->linkage->GetValue();
                 $linkageMapper = new C3op_Register_LinkageMapper($this->db);
-                $linkageContact = $linkageMapper->findById($linkageId);
-                $contactId = $linkageContact->GetContact();
-                $institutionId = $linkageContact->GetInstitution();
+
+                $institutionId = null;
+                $contactId = null;
+                if ($linkageId > 0) {
+                    $linkageContact = $linkageMapper->findById($linkageId);
+                    $contactId = $linkageContact->GetContact();
+                    $institutionId = $linkageContact->GetInstitution();
+                }
                 $responsible->SetInstitution($institutionId);
                 $responsible->SetContact($contactId);
 
-                $responsible->SetType(C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER);
+                $type = $this->responsibleType->GetValue();
 
-                $converter = new C3op_Util_DecimalConverter();
-                $validator = new C3op_Util_ValidDecimal();
-                if ($validator->isValid($this->predictedValue->GetValue())) {
-                    $responsible->SetPredictedValue($converter->getDecimalDotValue($this->predictedValue->GetValue(), $validator));
-                }
+                $responsible->SetType(C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER);
+                $responsible->SetStatus(C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN);
+
+
+            } else {
+                $responsible->SetType(C3op_Resources_ResponsibleTypeConstants::TYPE_NIL);
+                $responsible->setStatus(C3op_Resources_ResponsibleStatusConstants::STATUS_UNDEFINED);
+            }
 
                 $responsible->SetAction($this->action->GetValue());
                 $responsible->SetProject($this->project->GetValue());
-
-                $responsibleMapper->insert($responsible);
-                return $responsible->GetId();
+            $converter = new C3op_Util_DecimalConverter();
+            $validator = new C3op_Util_ValidDecimal();
+            if ($validator->isValid($this->predictedValue->GetValue())) {
+                $responsible->SetPredictedValue($converter->getDecimalDotValue($this->predictedValue->GetValue(), $validator));
             }
+
+            $responsibleMapper->insert($responsible);
+            return $responsible->GetId();
         }
     }
 

@@ -94,6 +94,8 @@ class C3op_Projects_DeliveryMapper
 
         $receivableValue = $this->fetchReceivablePredictedValue($obj);
         $this->setAttributeValue($obj, $receivableValue, 'receivablePredictedValue');
+        $receivableDate = $this->fetchReceivablePredictedDate($obj);
+        $this->setAttributeValue($obj, $receivableDate, 'receivablePredictedDate');
 
 
         $this->identityMap[$obj] = $id;
@@ -179,11 +181,29 @@ class C3op_Projects_DeliveryMapper
     }
 
 
+    private function fetchReceivablePredictedDate(C3op_Projects_Delivery $obj)
+    {
+
+        $query = $this->db->prepare('SELECT predicted_date FROM finances_receivables WHERE id = :receivable LIMIT 1;');
+        $query->bindValue(':receivable', $obj->GetReceivable(), PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+        $result = array();
+        foreach ($resultPDO as $row) {
+            $result[] = $row['predicted_date'];
+            return $result[0];
+        }
+
+        return null;
+
+
+    }
+
 
     private function fetchReceivablePredictedValue(C3op_Projects_Delivery $obj)
     {
 
-        $query = $this->db->prepare('SELECT predicted_value FROM finances_receivables WHERE id = :receivable AND (real_date IS NULL) ORDER BY predicted_date LIMIT 1;');
+        $query = $this->db->prepare('SELECT predicted_value FROM finances_receivables WHERE id = :receivable LIMIT 1;');
         $query->bindValue(':receivable', $obj->GetReceivable(), PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();

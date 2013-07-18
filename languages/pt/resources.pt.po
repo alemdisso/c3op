@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-04 11:06-0300\n"
-"PO-Revision-Date: 2013-07-04 11:06-0300\n"
+"POT-Creation-Date: 2013-07-11 17:49-0300\n"
+"PO-Revision-Date: 2013-07-11 17:50-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -21,8 +21,8 @@ msgid "#The material supply was created."
 msgstr "Material criado."
 
 #: application\modules\resources/controllers/MaterialSupplyController.php:93
-#: application\modules\resources/controllers/ResponsibleController.php:244
-#: application\modules\resources/controllers/ResponsibleController.php:248
+#: application\modules\resources/controllers/ResponsibleController.php:260
+#: application\modules\resources/controllers/ResponsibleController.php:264
 msgid "#The record was successfully updated."
 msgstr "O registro foi atualizado com sucesso."
 
@@ -34,16 +34,23 @@ msgstr "A contratação foi registrada."
 msgid "#The record was successfully removed."
 msgstr "O registro foi removido com sucesso."
 
-#: application\modules\resources/controllers/ResponsibleController.php:75
+#: application\modules\resources/controllers/ResponsibleController.php:60
+#: application\modules\resources/controllers/ResponsibleController.php:61
+#: library\C3op\resources/ResponsibleContactInfo.php:19
+#: library\C3op\resources/ResponsibleInstitutionInfo.php:19
+msgid "#(undefined)"
+msgstr "(não definido)"
+
+#: application\modules\resources/controllers/ResponsibleController.php:82
 msgid "#The team member is contracted."
 msgstr "Contratação confirmada."
 
-#: application\modules\resources/controllers/ResponsibleController.php:119
+#: application\modules\resources/controllers/ResponsibleController.php:126
 #, php-format
 msgid "#A %s budget was provided"
 msgstr "Foi prevista uma verba de %s."
 
-#: application\modules\resources/controllers/ResponsibleController.php:432
+#: application\modules\resources/controllers/ResponsibleController.php:456
 msgid "#The team member was dismissed."
 msgstr "O distrato foi registrado."
 
@@ -52,11 +59,6 @@ msgstr "O distrato foi registrado."
 #: library\C3op\resources/ResponsibleTypeTypes.php:26
 msgid "#Unknown type"
 msgstr "Tipo indefinido"
-
-#: library\C3op\resources/ResponsibleContactInfo.php:19
-#: library\C3op\resources/ResponsibleInstitutionInfo.php:19
-msgid "#(undefined)"
-msgstr "(não definido)"
 
 #: library\C3op\resources/ResponsibleStatusTypes.php:10
 #: library\C3op\resources/ResponsibleTypeTypes.php:10
@@ -146,18 +148,24 @@ msgid "#Success!"
 msgstr "Sucesso!"
 
 #: application\modules\resources/views/scripts/responsible/assigned.phtml:20
-msgid "#Action was assigned"
-msgstr "Ação foi atribuída"
+msgid "#Responsible was predicted"
+msgstr "A previsão foi registrada."
 
-#: application\modules\resources/views/scripts/responsible/assigned.phtml:22
+#: application\modules\resources/views/scripts/responsible/assigned.phtml:25
 #, php-format
 msgid "#%s was assigned responsible for this action"
 msgstr "%s é responsável por essa ação."
 
-#: application\modules\resources/views/scripts/responsible/create.phtml:65
-#: application\modules\resources/views/scripts/responsible/create.phtml:86
+#: application\modules\resources/views/scripts/responsible/create.phtml:67
+#: application\modules\resources/views/scripts/responsible/create.phtml:88
 msgid "#choose someone"
 msgstr "escolha uma pessoa"
+
+#: application\modules\resources/views/scripts/responsible/create.phtml:120
+#: application\modules\resources/views/scripts/responsible/edit.phtml:130
+#, php-format
+msgid "#This action belongs to a product with a balance of %s"
+msgstr "O saldo do produto que requer essa ação é %s."
 
 #: application\modules\resources/views/scripts/responsible/dismiss.phtml:5
 msgid "#Confirm dismissing"
@@ -166,6 +174,9 @@ msgstr "Confirmar distrato"
 #: application\modules\resources/views/scripts/responsible/dismiss.phtml:8
 msgid "#Enter below the reason for dismissing"
 msgstr "Informe os motivos do distrato"
+
+#~ msgid "#Action was assigned"
+#~ msgstr "Ação foi atribuída"
 
 #~ msgid "#The outside service was created."
 #~ msgstr "O serviço foi criado."
@@ -431,10 +442,6 @@ msgstr "Informe os motivos do distrato"
 #~ msgid "#Total contracted value:"
 #~ msgstr "Valor total contratado: "
 
-#~ msgid ""
-#~ "#This action is related to product %s that should be delivered until %s"
-#~ msgstr "Essa ação faz parte do produto %s, que deve ser entregue até %s."
-
 #~ msgid "#Edit this action"
 #~ msgstr "Editar esta ação"
 
@@ -605,9 +612,6 @@ msgstr "Informe os motivos do distrato"
 
 #~ msgid "#Contract value:"
 #~ msgstr "Valor do contrato"
-
-#~ msgid "#Responsible at client:"
-#~ msgstr "Responsável no cliente:"
 
 #~ msgid "#Contract date:"
 #~ msgstr "Data do contrato"

@@ -182,6 +182,21 @@ class C3op_Projects_ActionMapper
     }
 
 
+    public function getAllDoneActions()
+    {
+        $query = $this->db->prepare('SELECT id FROM projects_actions WHERE status = :done;');
+        $query->bindValue(':done', C3op_Projects_ActionStatusConstants::STATUS_DONE, PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
+        foreach ($resultPDO as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    }
+
+
     public function getAllDelayedActions()
     {
         $query = $this->db->prepare('SELECT a.id FROM projects_actions a
@@ -446,9 +461,11 @@ class C3op_Projects_ActionMapper
 
     public function getPredictedValueJustForThisAction(C3op_Projects_Action $obj)
     {
-        $query = $this->db->prepare('SELECT SUM(predicted_value) as value FROM resources_responsibles WHERE action = :action AND status = :status;');
+        $query = $this->db->prepare('SELECT SUM(predicted_value) as value FROM resources_responsibles
+            WHERE action = :action AND (status = :undefined OR status = :foreseen);');
         $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
-        $query->bindValue(':status', C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN, PDO::PARAM_STR);
+        $query->bindValue(':undefined', C3op_Resources_ResponsibleStatusConstants::STATUS_UNDEFINED, PDO::PARAM_STR);
+        $query->bindValue(':foreseen', C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN, PDO::PARAM_STR);
         $query->execute();
         $resultPDO = $query->fetchAll();
 
@@ -540,6 +557,26 @@ class C3op_Projects_ActionMapper
     }
 
     public function getResponsibleBy(C3op_Projects_Action $obj)
+    {
+        $query = $this->db->prepare('SELECT id FROM resources_responsibles WHERE action = :action
+            AND (status = :undefined OR status = :foreseen OR status = :contracted OR status = :acquitted) LIMIT 1;');
+        $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':undefined', C3op_Resources_ResponsibleStatusConstants::STATUS_UNDEFINED, PDO::PARAM_STR);
+        $query->bindValue(':foreseen', C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN, PDO::PARAM_STR);
+        $query->bindValue(':contracted', C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
+        $query->bindValue(':acquitted', C3op_Resources_ResponsibleStatusConstants::STATUS_ACQUITTED, PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
+        foreach ($resultPDO as $row) {
+            $result[] = $row['id'];
+        }
+        return $result;
+
+    }
+
+    public function getDefinedResponsibles(C3op_Projects_Action $obj)
     {
 
         $query = $this->db->prepare('SELECT id FROM resources_responsibles WHERE action = :action

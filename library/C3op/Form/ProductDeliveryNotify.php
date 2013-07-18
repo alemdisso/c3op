@@ -38,21 +38,6 @@ class C3op_Form_ProductDeliveryNotify extends Zend_Form
             ->addFilter('StringTrim');
         $this->addElement($observation);
 
-//        $element = new Zend_Form_Element_Text('title');
-//        $element->setLabel('#Delivery')
-//                ->setDecorators(array(
-//                    'ViewHelper',
-//                    'Errors',
-//                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
-//                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
-//                ))
-//                ->setOptions(array('class' => 'Full alpha omega'))
-//            ->addValidator(new C3op_Util_ValidString)
-//            ->addFilter('StringTrim')
-//                ;
-//        $this->addElement($element);
-//
-
         $element = new Zend_Form_Element_Text('realDate');
         $element->setLabel('#Real Date')
             ->setAttrib('alt','date')
@@ -67,6 +52,22 @@ class C3op_Form_ProductDeliveryNotify extends Zend_Form
             ->addFilter('StringTrim')
                 ;
         $this->addElement($element);
+
+//        $element = new Zend_Form_Element_Text('predictedReceivingDate');
+//        $element->setLabel('#Predicted Receiving')
+//            ->setAttrib('alt','date')
+//            ->setDecorators(array(
+//                'ViewHelper',
+//                'Errors',
+//                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns')),
+//                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+//            ))
+//            ->setOptions(array('class' => 'Full alpha omega datepicker'))
+//            ->addValidator(new C3op_Util_ValidString)
+//            ->addFilter('StringTrim')
+//                ;
+//        $this->addElement($element);
+//
 
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
@@ -114,6 +115,24 @@ class C3op_Form_ProductDeliveryNotify extends Zend_Form
                 $realDateConvertedToMySQL = $dateForMysql;
             }
 
+
+//            $predictedReceivingDate = $this->predictedReceivingDate->GetValue();
+//
+//            $dateValidator = new C3op_Util_ValidDate();
+//
+//            $dateChanged = false;
+//            if (($dateValidator->isValid($predictedReceivingDate)) && (!is_null($predictedReceivingDate))) {
+//                $dateChanged = true;
+//            }
+//
+//
+//            if ($dateValidator->isValid($predictedReceivingDate))
+//            {
+//                $converter = new C3op_Util_DateConverter();
+//                $dateForMysql = $converter->convertDateToMySQLFormat($predictedReceivingDate);
+//                $predictedReceivingConvertedToMySQL = $dateForMysql;
+//            }
+//
 
             $observation = $this->observation->GetValue();
             if (($dateChanged) && ($observation == "")) {

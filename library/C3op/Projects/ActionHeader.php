@@ -267,9 +267,10 @@ class C3op_Projects_ActionHeader {
         }
 
         $this->data['canDefineResponsible'] = $canDefineResponsible;
-        if ($responsible->doesItHasAResponsible()) {
+        if ($responsible->doesItHaveAResponsible()) {
             $data = $responsible->fetch();
             $this->data['hasResponsible'] = true;
+            $this->data['hasDefinedResponsible'] = $responsible->doesItHaveADefinedResponsible();
             $this->data['canContract'] = $data['canContract'];
             $this->data['canDismiss'] = $data['canDismiss'];
             $this->data['responsibleType'] = $data['responsibleType'];
@@ -282,8 +283,9 @@ class C3op_Projects_ActionHeader {
             $this->data['responsibleLabel'] = $data['responsibleLabel'];
         } else {
             $this->data['hasResponsible'] = false;
+            $this->data['hasDefinedResponsible'] = false;
             $this->data['canContract'] = false;
-            $this->data['responsibleId'] = 0;
+            $this->data['responsibleId'] = 700;
             $this->data['responsibleType'] = 0;
             $this->data['contactId'] = 0;
             $this->data['contactName'] = _('#(unassigned)');
@@ -318,7 +320,7 @@ class C3op_Projects_ActionHeader {
 
             $responsible = new C3op_Projects_ActionResponsible($loopAction, $this->mapper, $this->db);
 
-            if ($responsible->doesItHasAResponsible()) {
+            if ($responsible->doesItHaveAResponsible()) {
                 $responsibleData = $responsible->fetch();
                 $data['hasResponsible'] = true;
                 $data['responsibleType'] = $responsibleData['responsibleType'];
@@ -376,20 +378,15 @@ class C3op_Projects_ActionHeader {
     private function fillValueData()
     {
 
+        $actionBalance = new  C3op_Finances_ActionBalance($this->action,$this->mapper);
+        $rawCostValue = $actionBalance->getTotalCurrentCost();
+        $balance = $actionBalance->getBalance();
         $actionValueObj = new C3op_Projects_ActionCost($this->action,$this->mapper);
-        $actionsBelow = new C3op_Projects_ActionsBelow($this->action,$this->mapper);
-        $rawCostValue = $actionValueObj->totalActionTreeCost($actionsBelow
-                                                            , new C3op_Resources_MaterialSupplyMapper
-                                                            , new C3op_Resources_ResponsibleMapper
-                                                        );
 
         $currencyDisplay = new  C3op_Util_CurrencyDisplay();
-        $budgetForecast = $this->action->getBudgetForecast();
-
         $this->data['totalContractedValue'] = $currencyDisplay->FormatCurrency($actionValueObj->totalValue());
         $this->data['currentCost'] = $currencyDisplay->FormatCurrency($rawCostValue);
-        $this->data['hasBudget'] = false;
-        $this->data['balance'] = $currencyDisplay->FormatCurrency($budgetForecast - $rawCostValue);
+        $this->data['balance'] = $currencyDisplay->FormatCurrency($balance);
     }
 
 

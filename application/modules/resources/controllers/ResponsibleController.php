@@ -41,7 +41,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
         $obj = new C3op_Projects_ActionResponsible($action, $this->actionMapper, $this->db);
 
-        if ($obj->doesItHasAResponsible()) {
+        if ($obj->doesItHaveAResponsible()) {
             $result = $obj->fetch();
 
             $pageData = array(
@@ -53,7 +53,14 @@ class Resources_ResponsibleController extends Zend_Controller_Action
                 'projectId'        => $action->GetProject(),
             );
         } else {
-            throw new C3op_Projects_ActionException("There should be an assigned responsible but couldn\'t find it");
+            $pageData = array(
+                'responsibleType'  => null,
+                'responsibleId'    => null,
+                'contactId'        => null,
+                'contactName'      => $this->view->translate('#(undefined)'),
+                'responsibleLabel' => $this->view->translate('#(undefined)'),
+                'projectId'        => null,
+            );
         }
 
         $this->view->pageData = $pageData;
@@ -213,6 +220,14 @@ class Resources_ResponsibleController extends Zend_Controller_Action
                 $institutionField->addMultiOption($institutionData['id'], $institutionLabel);
             }
 
+            $finder = new C3op_Projects_ActionRelatedProduct($parentAction,$this->actionMapper);
+            $productObj = $finder->retrieve();
+            $actionBalance = new  C3op_Finances_ActionBalance($productObj,$this->actionMapper);
+            $rawBalance = $actionBalance->getBalance();
+            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+            $balance = $currencyDisplay->FormatCurrency($rawBalance);
+
+
         }
 
         $pageData = array(
@@ -220,6 +235,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
             'actionTitle' => $parentAction->GetTitle(),
             'projectId' => $parentAction->GetProject(),
             'projectTitle' => $projectAction->GetShortTitle(),
+            'balance' => $balance,
             'canSeeFinances' => false,
         );
 
@@ -316,7 +332,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
                     }
 
-                } else {
+                } else if ($responsibleType == C3op_Resources_ResponsibleTypeConstants::TYPE_OUTSIDE_SERVICE) {
 
                     $institutionField = $form->getElement('institution');
                     if (!isset($this->institutionMapper)) {
@@ -392,28 +408,36 @@ class Resources_ResponsibleController extends Zend_Controller_Action
                 }
                 $projectAction = $this->projectMapper->findById($parentAction->getProject());
 
-                $user = Zend_Registry::get('user');
-                $test = new C3op_Access_UserCanSeeFinances($user);
-                if ($test->can()) {
-                    $canSeeFinances = true;
-                } else {
-                    $canSeeFinances = false;
-                }
-
-
-
-
-                $pageData = array(
-                    'actionId'       => $thisResponsible->GetAction(),
-                    'actionTitle'    => $parentAction->GetTitle(),
-                    'projectId'      => $parentAction->GetProject(),
-                    'projectTitle'   => $projectAction->GetShortTitle(),
-                    'canSeeFinances' => $canSeeFinances,
-                    'isContracted'   => $isContracted,
-                );
-
-                $this->view->pageData = $pageData;
             }
+
+            $user = Zend_Registry::get('user');
+            $test = new C3op_Access_UserCanSeeFinances($user);
+            if ($test->can()) {
+                $canSeeFinances = true;
+            } else {
+                $canSeeFinances = false;
+            }
+
+            $finder = new C3op_Projects_ActionRelatedProduct($parentAction,$this->actionMapper);
+            $productObj = $finder->retrieve();
+            $actionBalance = new  C3op_Finances_ActionBalance($productObj,$this->actionMapper);
+            $rawBalance = $actionBalance->getBalance();
+            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+            $balance = $currencyDisplay->FormatCurrency($rawBalance);
+
+
+
+            $pageData = array(
+                'actionId'       => $thisResponsible->GetAction(),
+                'actionTitle'    => $parentAction->GetTitle(),
+                'projectId'      => $parentAction->GetProject(),
+                'projectTitle'   => $projectAction->GetShortTitle(),
+                'canSeeFinances' => $canSeeFinances,
+                'balance'        => $balance,
+                'isContracted'   => $isContracted,
+            );
+
+            $this->view->pageData = $pageData;
         }
     }
 
@@ -615,9 +639,9 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
         $data = array(
                     'actionId' => $actionId,
-                    'actionObj' => $actionObj,
+                    'actionObj' => $parentAction,
                     'projectId' => $projectId,
-                    'actionId' => $projectAction,
+                    'projectObj' => $projectAction,
                 );
 
         return $data;

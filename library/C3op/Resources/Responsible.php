@@ -84,17 +84,15 @@ class C3op_Resources_Responsible {
 
     public function setInstitution($institution) {
         $validator = new C3op_Util_ValidPositiveInteger();
-        if ($validator->isValid($institution)) {
+        if ((is_null($institution)) || ($validator->isValid($institution))) {
             if ($this->institution != $institution) {
                 $this->institution = $institution;
                 if ($institution > 0) {
                     $this->SetStatus(C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN);
-                    //$this->SetType(C3op_Resources_ResponsibleTypeConstants::TYPE_OUTSIDE_SERVICE);
                 } else {
                     if (($this->GetStatus() != C3op_Resources_ResponsibleStatusConstants::STATUS_CANCEL)
                         && (!$this->getContact())){
                         $this->SetStatus(C3op_Resources_ResponsibleStatusConstants::STATUS_UNDEFINED);
-                        //$this->SetType(C3op_Resources_ResponsibleTypeConstants::TYPE_NIL);
                     }
                 }
             }
@@ -110,7 +108,7 @@ class C3op_Resources_Responsible {
 
     public function setContact($contact) {
         $validator = new C3op_Util_ValidPositiveInteger();
-        if ($validator->isValid($contact)) {
+        if ((is_null($contact)) || ($validator->isValid($contact))) {
             if ($this->contact != $contact) {
                 $this->contact = $contact;
                 if ($contact > 0) {
@@ -119,7 +117,6 @@ class C3op_Resources_Responsible {
                     if (($this->GetStatus() != C3op_Resources_ResponsibleStatusConstants::STATUS_CANCEL)
                         && (!$this->getInstitution())){
                         $this->SetStatus(C3op_Resources_ResponsibleStatusConstants::STATUS_UNDEFINED);
-                        //$this->SetType(C3op_Resources_ResponsibleTypeConstants::TYPE_NIL);
                     }
                 }
             }

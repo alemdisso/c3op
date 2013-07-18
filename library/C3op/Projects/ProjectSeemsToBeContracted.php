@@ -11,9 +11,9 @@ class C3op_Projects_ProjectSeemsToBeContracted {
 
     public function seemsToBeContracted()
     {
-        if (($this->doesItHasABeginDate())
-            && ($this->doesItHasAClient())
-            && ($this->doesItHasAValue()))
+        if (($this->doesItHaveABeginDate())
+            && ($this->doesItHaveAClient())
+            && ($this->doesItHaveAValue()))
         {
             return true;
         } else {
@@ -23,7 +23,7 @@ class C3op_Projects_ProjectSeemsToBeContracted {
     }
 
 
-    private function doesItHasABeginDate()
+    private function doesItHaveABeginDate()
     {
         $validator = new C3op_Util_ValidDate();
 
@@ -35,7 +35,7 @@ class C3op_Projects_ProjectSeemsToBeContracted {
 
     }
 
-    private function doesItHasAClient()
+    private function doesItHaveAClient()
     {
         $validator = new C3op_Util_ValidPositiveInteger();
 
@@ -48,7 +48,7 @@ class C3op_Projects_ProjectSeemsToBeContracted {
 
     }
 
-    private function doesItHasAValue()
+    private function doesItHaveAValue()
     {
         $validator = new C3op_Util_ValidPositiveDecimal();
 

@@ -929,17 +929,12 @@ class Projects_ActionController extends Zend_Controller_Action
 
         foreach ($responsiblesIdsList as $responsibleId) {
             $loopResponsible = $this->responsibleMapper->findById($responsibleId);
-            $responsibleAction = $this->actionMapper->findById($loopResponsible->getAction());
+            $actionToDo = $this->actionMapper->findById($loopResponsible->getAction());
 
-            $responsible = new C3op_Projects_ActionResponsible($responsibleAction, $this->actionMapper, $this->db);
+            $fetcher = new C3op_Projects_ActionResponsible($actionToDo, $this->actionMapper, $this->db);
+            $responsibleData = $fetcher->fetch();
 
-            $responsibleData = $responsible->fetch();
-
-            $responsibleActionTitle = $responsibleAction->getTitle();
-
-
-
-
+            $responsibleActionTitle = $actionToDo->getTitle();
 
             $institutionId = 0;
             $finder = new C3op_Resources_ResponsibleContactInfo($loopResponsible, $this->responsibleMapper, $this->db);

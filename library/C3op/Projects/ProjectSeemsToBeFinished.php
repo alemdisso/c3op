@@ -28,7 +28,7 @@ class C3op_Projects_ProjectSeemsToBeFinished {
     }
 
 
-    private function doesItHasAFinishDate()
+    private function doesItHaveAFinishDate()
     {
         $validator = new C3op_Util_ValidDate();
 
@@ -43,7 +43,7 @@ class C3op_Projects_ProjectSeemsToBeFinished {
     private function doesTheFinishDateHasPast()
     {
 
-        if (($this->doesItHasAFinishDate())) {
+        if (($this->doesItHaveAFinishDate())) {
             $today = strtotime(date("Y-m-d"));
             $finish = strtotime($this->project->getFinishDate());
             if ($today > $finish) {
