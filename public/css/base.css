@@ -74,8 +74,8 @@ table {
 
 body {
   background: #fafafa;
-  font: 12px/150% 'Trebuchet MS', HelveticaNeue, 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  color: #373837;
+  font: 13px/150% 'Droid Sans', 'Trebuchet MS', HelveticaNeue, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #333;
   -webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
   -webkit-text-size-adjust: 100%;
 }
@@ -84,7 +84,7 @@ body {
 /* - #Typography ------------------------------------------------------------ */
 
 h1, h2, h3, h4, h5, h6 {
-  color: #181818;
+  color: #333333;
   font-family: inherit;
   font-weight: normal; 
 }
@@ -197,14 +197,14 @@ hr {
 /* - #Links ----------------------------------------------------------------- */
 
 a, a:visited { 
-  color: #933; 
+  color: #bb2f39; 
   text-decoration: none; 
   outline: 0; 
 }
 
 a:hover, 
 a:focus { 
-  color: #000; 
+  color: #bb2f39; 
   text-decoration: underline; 
 }
 

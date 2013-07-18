@@ -508,6 +508,12 @@ class Projects_ActionController extends Zend_Controller_Action
     {
         $pageData = array();
 
+//        $trail = new C3op_Util_Breadcrumb();
+//        $breadcrumb=$trail->add('Detalhe', '/projects/action/detail');
+//
+//
+//
+//
         $this->initActionMapper();
         $this->initProjectMapper();
         $this->initContactMapper();

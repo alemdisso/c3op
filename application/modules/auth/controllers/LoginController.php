@@ -23,6 +23,9 @@ class Auth_LoginController extends Zend_Controller_Action
                 if ($user instanceOf C3op_Auth_User ) {
                     $session = new Zend_Session_Namespace('c3op.auth');
                     $session->user = $user;
+
+//                    $trail = new C3op_Util_Breadcrumb(true);
+
                     $this->_redirect("/projects");
 //                    if (isset($session->requestURL)) {
 //                        $url = $session->requestURL;

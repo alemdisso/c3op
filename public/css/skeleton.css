@@ -21,9 +21,9 @@
 
 /* - #Base 960 Grid --------------------------------------------------------- */
 
-.container                                  { position: relative; width: 1120px; margin: 0 auto; padding: 0; }
-.container .column                          { float: left; display: inline; margin-left: 10px; margin-right: 10px; margin-bottom: 5px }
-.container .columns                         { float: left; display: inline; margin-left: 10px; margin-right: 10px; margin-bottom: 5px }
+.container                                  { position: relative; width: 1100px; margin: 0 auto; padding: 0; }
+.container .column                          { float: left; display: inline; margin-left: 10px; margin-right: 10px; margin-bottom: 5px; margin-left: 0; margin-right: 0; }
+.container .columns                         { float: left; display: inline; margin-left: 10px; margin-right: 10px; margin-bottom: 5px; margin-left: 0; margin-right: 0; }
 .row                                        { margin-bottom: 20px; }
 .container .fraction                        { float: left; display: inline; margin-left: 0px; margin-right: 0px;background-color: blue;margin-bottom: 5px }
 
@@ -33,7 +33,7 @@
 
 /* Base Grid */
 .container .one.column,
-.container .one.columns                     { width:   50px; }
+.container .one.columns                     { width:   40px; }
 .container .two.columns                     { width:  120px; }
 .container .three.columns                   { width:  190px; }
 .container .four.columns                    { width:  260px; }

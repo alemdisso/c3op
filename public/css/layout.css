@@ -55,7 +55,7 @@
 
 #Header,
 #Logo {
-  margin-top: 48px;
+  margin-top: 27px;
 }
 
 #Header h1 {
@@ -109,19 +109,74 @@
 }
 
 #Menu ul li a {
-  color: #aaaaa9;
+  color: #bb2f39;
   text-decoration: none;
 }
 
 #Menu ul li.active {
-  border-top: #363736 3px solid;
+  border-top: #bb2f39 3px solid;
   margin-top: -6px;
   padding-top: 3px;
 }
 
 #Menu ul li.active a {
-  color: #363736;
+  color: #bb2f39;
   font-weight: bold;
+}
+
+#Menu ul li.menufinancas a {
+  color: #f09000;
+  text-decoration: none;
+}
+
+#Menu ul li.active .menufinancas {
+  border-top: #f09000 3px solid;
+  margin-top: -6px;
+  padding-top: 3px;
+}
+
+#Menu ul li.active .menufinancas a {
+  color: #f09000;
+  font-weight: bold;
+}
+
+#Menu ul li.menucadastro a {
+  color: #436499;
+  text-decoration: none;
+}
+
+#Menu ul li.active .menucadastro {
+  border-top: #436499 3px solid;
+  margin-top: -6px;
+  padding-top: 3px;
+}
+
+#Menu ul li.active .menucadastro a {
+  color: #436499;
+  font-weight: bold;
+}
+
+#Breadcrumb {
+  border-top: #bb2f39 4px solid;
+  border-bottom: #aaaaa9 1px solid;
+  height: 35px;
+  line-height: 35px;
+  background: url(/images/icon_breadcrumb.png) no-repeat left 10px;
+}
+
+#Breadcrumb a.financas {
+  font-size:14px; 
+  color:#f09000;
+}
+
+#Breadcrumb a.projetos {
+  font-size:14px; 
+  color:#bb2f39;
+}
+
+#Breadcrumb a.cadastro {
+  font-size:14px; 
+  color:#436499;
 }
 
 #Main {
@@ -137,14 +192,14 @@
 }
 
 #MainHeader {
-  margin-top: 50px;
-  padding-bottom: 5px;
+  margin-top: 11px;
+  padding-bottom: 10px;
   border-bottom: 1px #c0c0bf solid;
 }
 
 #MainHeader h1 {
   font-size: 170%;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 #MainHeader h1 a {
@@ -162,6 +217,26 @@
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
   border-radius: 5px;
+}
+
+#MainHeader a {
+  border: 1px #c0c0bf solid;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  color: #333;
+  text-transform: uppercase;
+  padding: 8px 10px 5px 30px;
+  background: url(/images/back_edit.png) no-repeat;
+  margin: 10px 0;
+  font-size: 10px;
+}
+
+#MainHeader a:hover {
+  border-color: #bb2f39;
+  text-decoration: none;
 }
 
 .flashMessage {
@@ -212,8 +287,19 @@
   font-weight: bold;
 }
 
-.Area,
-.TituloForm {
+.AreaInfo {
+  display: table;
+  padding: 13px 10px;
+  width: 100%;
+  border: 1px #c0c0bf solid;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.Area, .TituloForm {
   border-bottom: 1px #c0c0bf solid;
   display: table;
   padding: 20px 0 10px 0;

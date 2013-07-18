@@ -65,6 +65,11 @@ class Includes_HeaderController extends Zend_Controller_Action
             $pageData['userName'] = $identity->GetLogin();
             $pageData['id'] = $identity->GetId();
 
+//            $trail = new C3op_Util_Breadcrumb();
+//            $pageData['breadcrumb']=$trail->add('', '');
+
+
+
         } else {
             $pageData['loggedIn'] = false;
             $pageData['userName'] = "";
