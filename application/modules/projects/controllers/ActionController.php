@@ -17,6 +17,26 @@ class Projects_ActionController extends Zend_Controller_Action
         } catch (Exception $e) {
             throw $e;
         }
+
+        $this->view->pageUri = "";
+        $this->view->pageTitle = "";
+
+
+    }
+
+    public function postDispatch()
+    {
+
+        $trail = new C3op_Util_Breadcrumb();
+
+        if (isset($this->view->pageTitle)) {
+            $breadcrumb = $trail->add($this->view->pageTitle, $this->view->pageUri);
+            print("!!!!"); print_r ($breadcrumb);
+            //$session->trail = $trail;
+
+        }
+
+
     }
 
     public function init()
@@ -336,6 +356,8 @@ class Projects_ActionController extends Zend_Controller_Action
                 'projectTitle' => $projectData['title'],
                 );
             $this->view->pageData = $pageData;
+            $this->view->uri = "/projects/action/detail";
+            $this->view->pageTitle = "detalhe";
         }
     }
 
@@ -425,6 +447,8 @@ class Projects_ActionController extends Zend_Controller_Action
             );
             $this->view->pageData = $pageData;
         }
+        $this->view->uri = "/projects/action/edit";
+        $this->view->pageTitle = "edit";
     }
 
     public function editProductAction()
@@ -507,13 +531,8 @@ class Projects_ActionController extends Zend_Controller_Action
     public function detailAction()
     {
         $pageData = array();
+        //$this->getRequest()->getParam('id');
 
-//        $trail = new C3op_Util_Breadcrumb();
-//        $breadcrumb=$trail->add('Detalhe', '/projects/action/detail');
-//
-//
-//
-//
         $this->initActionMapper();
         $this->initProjectMapper();
         $this->initContactMapper();
@@ -562,6 +581,8 @@ class Projects_ActionController extends Zend_Controller_Action
         );
 
         $this->view->pageData = $pageData;
+        $this->view->pageTitle = $actionToBeDetailed->getTitle();
+        $this->view->pageUri = "/projects/action/detail/?id=" . $actionToBeDetailed->getId();
 
     }
 

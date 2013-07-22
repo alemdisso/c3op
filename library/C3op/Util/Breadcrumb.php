@@ -47,22 +47,23 @@
 class C3op_Util_Breadcrumb{
 
 
-   public  $separator = " &raquo;&raquo; ";
+   public $separator ="|";
    public $reset=false;//reset the $_session variable
    private $crumbs = array();
-   private $url_count=10;// number of links allowed on the page
+   private $maxUrlCount=10;// number of links allowed on the page
    private $homepage="/";
 
 
    /*
     * Constructor
     */
-   public function __construct($reset = false){
+   public function __construct($reset = false, $homepage = "Home"){
        $this->reset = $reset;
+       $this->homepage = $homepage;
 
       if (!empty($_SESSION['breadcrumb'])){
-
          $this->crumbs =$this->safe_array_merge($this->crumbs,$_SESSION['breadcrumb']);
+         //print("OBJ<BR>");print_r($this->crumbs);print("<br>,,,<br>");
       }
       if($this->reset){
 
@@ -97,6 +98,7 @@ class C3op_Util_Breadcrumb{
       $crumb[$label] = $url;
 
       if (empty($_SESSION['breadcrumb'])){
+          //echo "???!???";die();
 
 
          if (!isset($_SESSION['breadcrumb']['/'])){ //If there's no session data yet, assume a homepage link
@@ -163,7 +165,7 @@ class C3op_Util_Breadcrumb{
    	foreach ($array as $key=>$value){
    		$count++;
 
-   		if($count < $this->url_count){
+   		if($count < $this->maxUrlCount){
 
    			$link .="<li><a href='".$value."' title='".$key."'>".$key."</a></li>$this->separator ";
    		}
