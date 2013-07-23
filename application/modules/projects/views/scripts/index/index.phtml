@@ -7,6 +7,7 @@
   $allProjectsList = $pageData['allProjectsList'];
   $responsiblesList = $pageData['responsiblesList'];
   $delayedList = $pageData['delayedList'];
+  $rejectedList = $pageData['rejectedList'];
 
 
 ?>
@@ -69,6 +70,7 @@ $(document).ready(function(){
         <li><a href="#tabs-resources"><?php echo $this->translate("#All Resources") ?></a></li>
         <li><a href="#tabs-delayed"><?php echo $this->translate("#Delayed Actions") ?></a></li>
         <li><a href="#tabs-done"><?php echo $this->translate("#Accepted receipts") ?></a></li>
+        <li><a href="#tabs-rejected"><?php echo $this->translate("#Rejected receipts") ?></a></li>
       </ul>
 
       <div id="tabs-projects">
@@ -453,6 +455,116 @@ if($actionInfo['contactId'] > 0) {
           </div><!-- Area -->
         </div><!-- tabs-done -->
 
+
+
+        <div id="tabs-rejected">
+          <div class="Area">
+            <h2><?php echo $this->translate("#Rejected actions") ?></h2>
+
+<?php
+/*
+ * if there is rejected in list
+ */
+      if (count($rejectedList)) {
+?>
+
+           <table id="Rejected" class="display dataTable">
+
+              <thead>
+                <tr>
+                  <th width="120"><?php echo $this->translate("#Project") ?></th>
+                  <th width="120"><?php echo $this->translate("#Product") ?></th>
+                  <th width="120"><?php echo $this->translate("#Action") ?></th>
+                  <th width="120"><?php echo $this->translate("#Responsible") ?></th>
+                  <th width="50"><?php echo $this->translate("#Receipt date") ?></th>
+                  <th width="50"><?php echo $this->translate("#Predicted finish date") ?></th>
+                  <th width="50"><?php echo $this->translate("#Limit for deliver") ?></th>
+                  <th width="1%">&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody>
+<?php
+foreach($rejectedList as $id => $actionInfo) {
+?>
+                <tr>
+                  <td>
+                    <a href="/projects/project/detail/?id=<?php print($actionInfo['projectId']) ?>"><?php print($actionInfo['projectTitle']) ?></a>
+                  </td>
+                  <td>
+                    <a href="/projects/action/detail/?id=<?php print($actionInfo['relatedProductId']) ?>"><?php print($actionInfo['relatedProductTitle']) ?></a>
+                  </td>
+                  <td>
+                    <a href="/projects/action/detail/?id=<?php print($actionInfo['actionId']) ?>"><?php print($actionInfo['actionTitle']) ?></a>
+                  </td>
+                  <td>
+<?php
+if($actionInfo['contactId'] > 0) {
+?>
+                    <a href="/projects/project/engagement/?id=<?php  print $actionInfo['projectId'] ?>&contact=<?php  print $actionInfo['contactId'] ?>"><?php print($actionInfo['contactName']) ?></a>
+<?php
+
+} else {
+?>
+<?php print($actionInfo['contactName']) ?>
+<?php
+
+}
+?>
+                  </td>
+                  <td>
+                    <?php print($actionInfo['receiptDate']) ?>
+                  </td>
+                  <td>
+                    <?php print($actionInfo['predictedFinishDate']) ?>
+                  </td>
+                  <td>
+                    <?php print($actionInfo['deliveryDate']) ?>
+                  </td>
+                  <td>
+                <div id="receiptAcknowledgement-<?php print($actionInfo['actionId']);?>">
+                    <a href="#" class="anchorclass" rel="submenu1"><?php echo $this->translate("#Options") ?></a>
+                    <div id="submenu1" class="anylinkcss">
+                        <ul>
+    <?php
+
+    if ($actionInfo['canProvideOutlay']) {
+    ?>
+
+
+                            <li>
+                                <a href="/finances/outlay/create/?responsible=<?php echo $actionInfo['responsibleId'] ?>"><?php echo $this->translate("#Provide outlay") ?></a>
+                            </li>
+
+    <?php
+    }
+    ?>
+
+
+                        </ul>
+                    </div><!-- #submenu1 -->
+                </div>
+                  </td>
+                </tr>
+<?php
+}
+?>
+              </tbody>
+            </table><br />
+
+
+
+<?php
+      } else { // end else there is rejected in list
+?>
+            <p><?php print($this->translate("#There is no registered rejected.")) ?></p>
+
+<?php
+      } // end else there is rejected in list
+?>
+<!-- ### FIM DA INSERÇÃO DO CÓDIGO DE REJECTED.PHTML -->
+
+          </div><!-- Area -->
+        </div><!-- tabs-rejected -->
 
 
       <div id="tabs-all">

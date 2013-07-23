@@ -181,6 +181,29 @@ class C3op_Projects_ActionMapper
         return $result;
     }
 
+    public function getAllRejectedActions() {
+        $query = $this->db->prepare('SELECT a.id as id
+                    FROM projects_actions a
+                    LEFT JOIN projects_actions_events e ON a.id = e.action
+                    LEFT JOIN projects_actions_dates d ON e.action = d.action
+                    WHERE (a.status = :execution AND e.type = :reject) GROUP BY id ORDER BY d.real_begin_date;');
+        $query->bindValue(':execution', C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION, PDO::PARAM_STR);
+        $query->bindValue(':reject', C3op_Projects_ActionEventConstants::EVENT_REJECT_RECEIPT, PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
+
+        $result = array();
+        foreach ($resultPDO as $row) {
+                $result[] = $row['id'];
+        }
+        return $result;
+
+
+
+
+    }
+
+
 
     public function getAllDoneActions()
     {

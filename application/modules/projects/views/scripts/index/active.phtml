@@ -40,7 +40,7 @@
           $clientName = $projectData['clientName'];
           $receivablesList = $projectData['receivablesList'];
           foreach ($receivablesList as $receivableId => $receivableData) {
-            $deliveryDate = $receivableData['deliveryDate'];
+            $deliveryDate = $receivableData['actualDeliveryDate'];
             $differenceInDays = $receivableData['differenceInDays'];
             if ($receivableData['deliveryDue']) {
                 $differenceInDays = "<span class='LateDeliveryDifferenceInDays'>$differenceInDays</span>";
