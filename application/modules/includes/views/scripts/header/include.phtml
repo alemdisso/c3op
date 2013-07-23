@@ -1,5 +1,6 @@
 <?php
   $pageData = $this->pageData;
+
 ?>
       <div id="Header" class="fifteen columns">
 <?php
@@ -18,13 +19,21 @@
         <ul>
 <?php
     foreach ($pageData['navigationTabs'] as $tab => $tabData) {
+
       if ($tabData['active']) {
-        $activeClass = ' class="active"';
+        $active = ' active';
       } else {
-        $activeClass = '';
+        $active = '';
       }
+
+      if ($tabData['moduleClass']) {
+        $moduleClass = $tabData['moduleClass'];
+      } else {
+        $moduleClass = '';
+      }
+
 ?>
-          <li <?php print($activeClass) ?>><a href="<?php print($tabData['url']) ?>"><?php print($tabData['label']) ?></a></li>
+          <li class="<?php print($moduleClass . $active) ?>"><a href="<?php print($tabData['url']) ?>"><?php print($tabData['label']) ?></a></li>
 <?php
     }
 ?>
@@ -33,16 +42,25 @@
           <br clear="all">
           <?php /*print_r( $pageData['breadcrumb'])*/ ?>
       </div><!-- #Menu -->
-	  
+
 	  <div id="Breadcrumb" class="sixteen columns">
-		  <a href="" class="financas">Home Financas</a>
-		  <a href="" class="financas">Todos os projetos</a>
-		  <a href="" class="projetos">Home projetos</a>
-		  <a href="" class="projetos">Projeto 1 Infancia</a>
-		  <a href="" class="projetos">Sintese das mesas</a>
-		  <a href="" class="noback projetos">Elaborar relatoria da mesa 1</a>
+<?php
+$currentCrumb = count($pageData['breadcrumb']);
+$lastCrumb = false;
+foreach ($pageData['breadcrumb'] as $crumb) {
+    if ($currentCrumb-- > 1) {
+?>
+		  <a href="<?php echo $crumb['uri'] ?>" class="<?php echo $crumb['module']?>"><?php echo $crumb['label'] ?></a>
+<?php
+    } else {
+?>
+		  <?php echo $crumb['label'] ?>
+<?php
+    }
+}
+?>
 	  </div><!-- #Breadcrumb -->
-	  
+
       <!-- /loggedIn -->
 <?php
   } else {
@@ -60,4 +78,4 @@
     <!-- /nao loggedIn -->
 <?php
   }
-?>
+  ?>

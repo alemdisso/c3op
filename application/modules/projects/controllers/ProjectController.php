@@ -24,7 +24,20 @@ class Projects_ProjectController extends Zend_Controller_Action
                 ->addMessage('Acesso negado');
             $this->_redirect('/projects' . $id);
         }
+        $this->view->pageUri = "/projects";
+        $this->view->pageTitle = "";
+
+
     }
+
+    public function postDispatch()
+    {
+        $trail = new C3op_Util_Breadcrumb();
+        if (isset($this->view->pageTitle)) {
+            $breadcrumb = $trail->add($this->view->pageTitle, $this->view->pageUri);
+        }
+    }
+
 
     public function init()
     {

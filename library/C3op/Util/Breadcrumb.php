@@ -57,13 +57,12 @@ class C3op_Util_Breadcrumb{
    /*
     * Constructor
     */
-   public function __construct($reset = false, $homepage = "Home"){
+   public function __construct($reset = false, $homepage = "#Dashboard"){
        $this->reset = $reset;
        $this->homepage = $homepage;
 
       if (!empty($_SESSION['breadcrumb'])){
          $this->crumbs =$this->safe_array_merge($this->crumbs,$_SESSION['breadcrumb']);
-         //print("OBJ<BR>");print_r($this->crumbs);print("<br>,,,<br>");
       }
       if($this->reset){
 
@@ -88,17 +87,17 @@ class C3op_Util_Breadcrumb{
    /*
     * Add a crumb to the trail:
     * @param $label - The string to display
-    * @param $url - The url underlying the label
+    * @param $uri - The url underlying the label
     *
     *
     */
-   public function add($label, $url){
+   public function add($label, $uri){
 
       $crumb = array();
-      $crumb[$label] = $url;
+      $crumb[$uri] = $label;
 
       if (empty($_SESSION['breadcrumb'])){
-          //echo "???!???";die();
+
 
 
          if (!isset($_SESSION['breadcrumb']['/'])){ //If there's no session data yet, assume a homepage link
@@ -123,7 +122,7 @@ class C3op_Util_Breadcrumb{
          	 //and prepare the session variable to be loaded with the exact information location
          	$this->unset_variable();
 
-         	$output=$this->output($break_array,$label,$url);
+         	$output=$this->output($break_array,$label,$uri);
 
 
          	//put the merged array in the session variable
@@ -134,7 +133,7 @@ class C3op_Util_Breadcrumb{
          }else {
 
 
-         	$output=$this->output($_SESSION['breadcrumb'],$label,$url);
+         	$output=$this->output($_SESSION['breadcrumb'],$label,$uri);
 
          	 $_SESSION['breadcrumb'] = $this->safe_array_merge($_SESSION['breadcrumb'],$crumb);
 
@@ -150,10 +149,15 @@ class C3op_Util_Breadcrumb{
 
    }
 
+   public function getCrumbs()
+   {
+       return $this->crumbs;
+   }
+
    /*
     * Output a semantic list of links.  See above for sample CSS.  Modify this to suit your design.
     */
-   private  function output($array,$label,$url){
+   private  function output($array,$label,$uri){
 
 
 

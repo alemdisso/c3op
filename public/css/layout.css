@@ -124,34 +124,34 @@
   font-weight: bold;
 }
 
-#Menu ul li.menufinancas a {
+#Menu ul li.menufinances a {
   color: #f09000;
   text-decoration: none;
 }
 
-#Menu ul li.active .menufinancas {
+#Menu ul li.active .menufinances {
   border-top: #f09000 3px solid;
   margin-top: -6px;
   padding-top: 3px;
 }
 
-#Menu ul li.active .menufinancas a {
+#Menu ul li.active .menufinances a {
   color: #f09000;
   font-weight: bold;
 }
 
-#Menu ul li.menucadastro a {
+#Menu ul li.menuregister a {
   color: #436499;
   text-decoration: none;
 }
 
-#Menu ul li.active .menucadastro {
+#Menu ul li.active .menuregister {
   border-top: #436499 3px solid;
   margin-top: -6px;
   padding-top: 3px;
 }
 
-#Menu ul li.active .menucadastro a {
+#Menu ul li.active .menuregister a {
   color: #436499;
   font-weight: bold;
 }
@@ -173,15 +173,15 @@
   padding: 0 11px 0 5px;
 }
 
-#Breadcrumb a.financas {
+#Breadcrumb a.finances {
   color:#f09000;
 }
 
-#Breadcrumb a.projetos {
+#Breadcrumb a.projects {
   color:#bb2f39;
 }
 
-#Breadcrumb a.cadastro {
+#Breadcrumb a.register {
   color:#436499;
 }
 
@@ -292,7 +292,7 @@
 }
 
 .AreaInfo div {
-  margin:10px 0;	
+  margin:10px 0;
 }
 
 .AreaInfo span.label {
@@ -487,7 +487,7 @@ a.bt:hover {
 }
 
 a.bt img {
-  margin-top:4px;	
+  margin-top:4px;
 }
 
 .weight_normal {

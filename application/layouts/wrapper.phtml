@@ -5,8 +5,7 @@
 <!--[if (gte IE 9)|!(IE)]><!--><html lang="pt-br"> <!--<![endif]-->
 <html>
   <head>
-    <title><?php echo $this->layout()->title?></title>
-    <!-- [# Não está pegando o título ] -->
+    <?php echo $this->headTitle() ?>
 
 <?php include ("meta.phtml") ?>
 
@@ -25,7 +24,7 @@
     <link rel="stylesheet" type="text/css" href="/css/zebra/zebra_datepicker.css">
     <link rel="stylesheet" type="text/css" href="/css/zebra/zebra_dialog.css">
 	<link href="http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold&subset=latin" rel="stylesheet" type="text/css"/>
-	
+
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -109,7 +108,7 @@
         $('input:text').setMask();
       });
     </script>
-	
+
   </head>
   <body>
     <div class="container" id="Envelope">

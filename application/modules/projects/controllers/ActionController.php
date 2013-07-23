@@ -26,15 +26,10 @@ class Projects_ActionController extends Zend_Controller_Action
 
     public function postDispatch()
     {
-
         $trail = new C3op_Util_Breadcrumb();
-
         if (isset($this->view->pageTitle)) {
             $breadcrumb = $trail->add($this->view->pageTitle, $this->view->pageUri);
-
         }
-
-
     }
 
     public function init()

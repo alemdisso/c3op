@@ -9,8 +9,6 @@ class Auth_LoginController extends Zend_Controller_Action
         $layoutHelper = $this->_helper->getHelper('Layout');
         $layout = $layoutHelper->getLayoutInstance();
 
-        $layout->title = _("#Window title");
-
         $layout->nestedLayout = 'login';
 
         $form = new C3op_Form_UserLogin;

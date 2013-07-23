@@ -42,18 +42,21 @@ class Includes_HeaderController extends Zend_Controller_Action
             $navigationTabs['finances']= array(
                     'url' => '/finances',
                     'label' => $this->view->translate('#Finances'),
-                    'active' => ($moduleName == 'finances' ? true : false)
+                    'active' => ($moduleName == 'finances' ? true : false),
+                    'moduleClass' => 'menufinances',
                 );
         }
         $navigationTabs['projects']= array(
                 'url' => '/projects',
                 'label' => $this->view->translate('#Projects'),
-                'active' => ($moduleName == 'projects' ? true : false)
+                'active' => ($moduleName == 'projects' ? true : false),
+                'moduleClass' => '',
             );
         $navigationTabs['register']= array(
                 'url' => '/register',
                 'label' => $this->view->translate('#Register'),
-                'active' => ($moduleName == 'register' ? true : false)
+                'active' => ($moduleName == 'register' ? true : false),
+                'moduleClass' => 'menuregister',
             );
 
         $auth = Zend_Auth::getInstance();
@@ -65,9 +68,38 @@ class Includes_HeaderController extends Zend_Controller_Action
             $pageData['userName'] = $identity->GetLogin();
             $pageData['id'] = $identity->GetId();
 
-//            $session = new Zend_Session_Namespace('sessionNavigation');
-            //$trail = new C3op_Util_Breadcrumb();
-            //$pageData['breadcrumb']=$trail->add('', '');
+            $trail = new C3op_Util_Breadcrumb();
+
+            $crumbs = $trail->getCrumbs();
+
+            $breadcrumb = array();
+
+            $totalCrumbs = count($crumbs);
+            $countCrumbs = 0;
+            $maxCrumbs = 6;
+
+
+            foreach ($crumbs as $uri => $label) {
+                $countCrumbs++;
+                if ($countCrumbs > ($totalCrumbs - $maxCrumbs)) {
+                    $anArray = explode("/", $uri);
+                    $module="";
+                    if (count($anArray) > 1) {
+                        $module = $anArray[1];
+                    }
+                    if ($label != "") {
+                        $breadcrumb[] = array(
+                            'uri' => $uri,
+                            'label' => $label,
+                            'module' => $module,
+                        );
+                    }
+                }
+            }
+
+
+            $pageData['breadcrumb']=$breadcrumb;
+
 
 
 
