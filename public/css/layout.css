@@ -55,7 +55,7 @@
 
 #Header,
 #Logo {
-  margin-top: 26px;
+  margin-top: 27px;
 }
 
 #Header h1 {
@@ -162,38 +162,48 @@
   height: 35px;
   line-height: 35px;
   background: url(/images/icon_breadcrumb.png) no-repeat left 10px;
+  padding-left: 20px;
+  margin-top: 25px;
+}
+
+#Breadcrumb a {
+  font-weight: bold;
+  font-size: 14px;
+  background: url(/images/bullet_next.png) no-repeat right 5px;
+  padding: 0 11px 0 5px;
 }
 
 #Breadcrumb a.financas {
-  font-size:14px; 
   color:#f09000;
 }
 
 #Breadcrumb a.projetos {
-  font-size:14px; 
   color:#bb2f39;
 }
 
 #Breadcrumb a.cadastro {
-  font-size:14px; 
   color:#436499;
+}
+
+#Breadcrumb a.noback {
+  background:none;
 }
 
 #Main {
   background-color: #fff;
   border: 1px #c0c0bf solid;
   margin-top: 25px;
-  padding-bottom: 40px;
+  /*padding-bottom: 40px;*/
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   -ms-border-radius: 3px;
   -o-border-radius: 3px;
   border-radius: 3px;
+  padding:20px 0;
 }
 
 #MainHeader {
-  margin-top: 11px;
-  padding-bottom: 10px;
+  margin: 10px 0;
   border-bottom: 1px #c0c0bf solid;
 }
 
@@ -300,9 +310,9 @@
 }
 
 .Area, .TituloForm {
-  border-bottom: 1px #c0c0bf solid;
+  /*border-bottom: 1px #c0c0bf solid;*/
   display: table;
-  padding: 20px 0 10px 0;
+  padding: 5px 0 10px 0;
   width: 100%;
 }
 
@@ -311,6 +321,9 @@
 }
 
 .Area h2 {
+  color: #333;
+  /*font-size: 16px;*/
+  font-weight: normal;
 }
 
 .Area a {

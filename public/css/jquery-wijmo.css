@@ -137,7 +137,7 @@
 }
 .ui-widget-content a
 {
-    color: #4f4f4f;
+    color: #333333;
 }
 .ui-widget-header
 {
@@ -152,7 +152,8 @@
 }
 .ui-widget-header a
 {
-    color: #4f4f4f;
+    color: #333333;
+	font-weight: normal;
 }
 
 /* Interaction states
@@ -204,6 +205,7 @@
 .ui-state-hover a, .ui-state-hover a:hover
 {
     color: #2f556a;
+	color: #333333;
     text-decoration: none;
 }
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active
@@ -220,6 +222,7 @@
 .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited
 {
     color: #2f556a;
+	color: #333333;
     text-decoration: none;
 }
 .ui-widget :active
@@ -1788,7 +1791,7 @@ button.ui-button::-moz-focus-inner
 {
     float: left;
     /* padding: .5em 1em; */
-    padding: 2px 35px 2px 15px;
+    padding: 5px 20px 5px 20px;
     text-decoration: none;
 }
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected
@@ -1811,7 +1814,7 @@ button.ui-button::-moz-focus-inner
 {
     display: block;
     border-width: 0;
-    padding: 1em 1.4em;
+    padding: 1em 1em;
     background: none;
 }
 .ui-tabs .ui-tabs-hide

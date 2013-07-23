@@ -81,8 +81,11 @@ $(document).ready(function(){
     if (count($projectsList)) {
 ?>
 
-                <a href="javascript:$('.treeTable').expandAll();"><?php echo $this->translate("#Expand all") ?></a> | <a href="javascript:$('.treeTable').collapseAll();"><?php echo $this->translate("#Collapse all") ?></a>
-                <table id="tree" border="1">
+                <a href="javascript:$('.treeTable').expandAll();"><img src="/images/bt_open.png" alig="absmiddle" /> <?php echo $this->translate("#Expand all") ?></a> | <a href="javascript:$('.treeTable').collapseAll();"><img src="/images/bt_close.png" alig="absmiddle" /> <?php echo $this->translate("#Collapse all") ?></a>
+				
+				<div style="margin-bottom:15px;"></div>
+				
+                <table id="tree" border="1" width="100%">
                     <thead>
                             <tr>
                             <th width="200"><?php echo $this->translate("#Project") ?></th>
