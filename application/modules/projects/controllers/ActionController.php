@@ -31,8 +31,6 @@ class Projects_ActionController extends Zend_Controller_Action
 
         if (isset($this->view->pageTitle)) {
             $breadcrumb = $trail->add($this->view->pageTitle, $this->view->pageUri);
-            //print("!!!!"); print_r ($breadcrumb);
-            //$session->trail = $trail;
 
         }
 

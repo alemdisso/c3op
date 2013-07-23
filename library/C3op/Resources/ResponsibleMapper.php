@@ -179,7 +179,7 @@ class C3op_Resources_ResponsibleMapper {
         $query = $this->db->prepare('SELECT a.id as id, r.id as responsibleId
                     FROM projects_actions a
                     LEFT JOIN resources_responsibles r ON a.id = r.action
-                    LEFT JOIN register_contacts t ON r.contact = r.id
+                    LEFT JOIN register_contacts c ON r.contact = c.id
                     WHERE a.project = :project
                     AND ((r.contact = :contact AND r.type = :team_member)
                       OR (r.institution = :institution AND r.type = :outside_service))

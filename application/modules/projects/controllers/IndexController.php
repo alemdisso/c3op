@@ -16,6 +16,23 @@ class Projects_IndexController extends Zend_Controller_Action
         } catch (Exception $e) {
             throw $e;
         }
+
+        $this->view->pageUri = "";
+        $this->view->pageTitle = "";
+
+    }
+
+    public function postDispatch()
+    {
+
+        $trail = new C3op_Util_Breadcrumb();
+
+        if (isset($this->view->pageTitle)) {
+            $breadcrumb = $trail->add($this->view->pageTitle, $this->view->pageUri);
+
+        }
+
+
     }
 
     public function init()
@@ -159,15 +176,17 @@ class Projects_IndexController extends Zend_Controller_Action
         $allResources = $this->fillAllResourcesData();
         $delayedData = $this->fillDelayedData();
         $doneData = $this->fillDoneData();
+        $rejectedData = $this->fillRejectedData();
 
         $this->view->pageData = array(
             'canSeeFinances'   => $canSeeFinances,
-            'projectsList' => $projectData,
-            'receiptsList' => $receiptsData,
-            'allProjectsList' => $allProjects,
+            'projectsList'     => $projectData,
+            'receiptsList'     => $receiptsData,
+            'allProjectsList'  => $allProjects,
             'responsiblesList' => $allResources,
-            'delayedList' => $delayedData,
-            'doneList' => $doneData,
+            'delayedList'      => $delayedData,
+            'doneList'         => $doneData,
+            'rejectedList'     => $rejectedData,
 
         );
 
@@ -233,10 +252,10 @@ class Projects_IndexController extends Zend_Controller_Action
 
             foreach ($projectReceivables as $receivableId) {
 
-                $theReceivable = $this->receivableMapper->findById($receivableId);
-                $receivableTitle = $theReceivable->getTitle();
+                $loopReceivable = $this->receivableMapper->findById($receivableId);
+                $receivableTitle = $loopReceivable->getTitle();
 
-                $contractualDeliveryDate = $theReceivable->getDeliveryDate();
+                $contractualDeliveryDate = $loopReceivable->getDeliveryDate();
                 $validator = new C3op_Util_ValidDate();
                 if ($validator->isValid($contractualDeliveryDate)) {
                     $formatedContractualDeliveryDate = C3op_Util_DateDisplay::FormatDateToShow($contractualDeliveryDate);
@@ -245,7 +264,7 @@ class Projects_IndexController extends Zend_Controller_Action
                 }
 
                 $actualDeliveryDate = "";
-                $tester = new C3op_Projects_DeliveryMade($theReceivable, $this->deliveryMapper);
+                $tester = new C3op_Projects_DeliveryMade($loopReceivable, $this->deliveryMapper);
                 $formatedActualDeliveryDate = $this->view->translate("#(not delivered)");
                 if (!$tester->wasDelivered()) {
                     $validator = new C3op_Util_ValidDate();
@@ -261,16 +280,16 @@ class Projects_IndexController extends Zend_Controller_Action
                         $differenceInDays = "0";
                     }
                 } else {
-                    $actualDeliveryDate = $theReceivable->getRealDate();
+                    $actualDeliveryDate = $loopReceivable->getRealDate();
                     $formatedActualDeliveryDate = C3op_Util_DateDisplay::FormatDateToShow($actualDeliveryDate);
                 }
 
 
                 $currencyDisplay = new  C3op_Util_CurrencyDisplay();
 
-                $predictedValue = $currencyDisplay->FormatCurrency($theReceivable->getPredictedValue());
+                $predictedValue = $currencyDisplay->FormatCurrency($loopReceivable->getPredictedValue());
 
-                $requiredProducts = $this->receivableMapper->getAllProducts($theReceivable);
+                $requiredProducts = $this->receivableMapper->getAllProducts($loopReceivable);
                 $requiredProductsData = array();
                 $statusTypes = new C3op_Projects_ActionStatusTypes();
 
@@ -321,6 +340,15 @@ class Projects_IndexController extends Zend_Controller_Action
                         $differenceInDays = "0";
                     }
 
+                    $dateFinder = new C3op_Finances_ProductDeliveryDate($loopProduct, $this->actionMapper);
+                    $rawProductDeliveryDate = $dateFinder->retrieve();
+                    $validator = new C3op_Util_ValidDate();
+                    if ($validator->isValid($rawProductDeliveryDate)) {
+                        $productDeliveryDate = C3op_Util_DateDisplay::FormatDateToShow($rawProductDeliveryDate);
+                    } else {
+                        $productDeliveryDate = $this->view->translate("#(not defined)");
+                    }
+
                     $productData['realFinishDate'] = $formatedRealDate;
                     $productData['predictedFinishDate'] = $formatedPredictedDate;
                     $productData['differenceInDays'] = $differenceInDays;
@@ -352,7 +380,6 @@ class Projects_IndexController extends Zend_Controller_Action
 
 
 
-
                 $receivableData = array(
                     'contractualDeliveryDate' => $formatedContractualDeliveryDate,
                     'actualDeliveryDate'      => $formatedActualDeliveryDate,
@@ -362,7 +389,6 @@ class Projects_IndexController extends Zend_Controller_Action
                     'differenceInDays'        => "$differenceInDays",
                     'productsList'            => $requiredProductsData,
                     'receivableStatus'        => $receivableStatus,
-
                 );
                 $receivablesData[$receivableId] = $receivableData;
 
@@ -801,6 +827,79 @@ class Projects_IndexController extends Zend_Controller_Action
                 $responsibleData = array(
                     'contactId' => '0',
                     'contactName' => _('#(unassigned)'),
+                    'canProvideOutlay' => false,
+                    'responsibleId'    =>  '0',
+                    );
+
+            }
+
+            $validator = new C3op_Util_ValidDate();
+            $rawReceiptDate = $loopAction->getReceiptDate($this->actionMapper);
+            if ($validator->isValid($rawReceiptDate)) {
+                $receiptDate = C3op_Util_DateDisplay::FormatDateToShow($rawReceiptDate);
+            } else {
+                $receiptDate = "#(not received)";
+            }
+
+
+            if ($validator->isValid($loopAction->getPredictedFinishDate())) {
+                $predictedFinishDate = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getPredictedFinishDate());
+            } else {
+                $predictedFinishDate = "#(not received)";
+            }
+
+
+            $finder = new C3op_Projects_ActionRelatedProduct($loopAction, $this->actionMapper);
+            $productData = $finder->fetchProductData();
+            foreach ($productData as $k => $val) {
+                $productData[$k] = $val;
+            }
+
+
+
+
+
+            $data[$actionId] = array(
+                'projectId'           => $loopProject->getId(),
+                'projectTitle'        => $loopProject->getShortTitle(),
+                'actionId'            => $actionId,
+                'actionTitle'         => $actionTitle,
+                'contactId'           => $responsibleData['contactId'],
+                'contactName'         => $responsibleData['contactName'],
+                'canProvideOutlay'    => $responsibleData['canProvideOutlay'],
+                'responsibleId'       => $responsibleData['responsibleId'],
+                'receiptDate'         => $receiptDate,
+                'predictedFinishDate' => $predictedFinishDate,
+                'deliveryDate'        => $productData['productDeliveryDate'],
+                'relatedProductTitle' => $productData['relatedProductTitle'],
+                'relatedProductId'    => $productData['relatedProductId'],
+            );
+        }
+        return $data;
+
+    }
+
+    private function fillRejectedData()
+    {
+        $this->initActionMapper();
+
+        $actions = $this->actionMapper->getAllRejectedActions();
+        $data = array();
+
+        foreach ($actions as $actionId) {
+            $loopAction = $this->actionMapper->findById($actionId);
+            $actionTitle = $loopAction->GetTitle();
+            $loopProject = $this->projectMapper->findById($loopAction->getProject());
+
+            $responsible = new C3op_Projects_ActionResponsible($loopAction, $this->actionMapper, $this->db);
+            if ($responsible->doesItHaveAResponsible()) {
+                $responsibleData = $responsible->fetch();
+            } else {
+                $responsibleData = array(
+                    'contactId'        => '0',
+                    'contactName'      => _('#(unassigned)'),
+                    'canProvideOutlay' => false,
+                    'responsibleId'    =>  '0',
                     );
 
             }
