@@ -44,8 +44,12 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
 
 
     <div id="MainHeader">
-      <h1><?php echo $this->translate("#Project") ?> <?php print($projectHeader['projectTitle']) ?></h1>
-      <a href="/projects/project/edit/?id=<?php echo $projectHeader['id'] ?>"><?php echo $this->translate("#Edit project") ?></a>
+      <h1><span class="weight_normal"><?php echo $this->translate("#Project") ?></span> <strong><?php print($projectHeader['projectTitle']) ?></strong></h1>
+    </div>  
+	
+	<div style="margin:20px 0;">
+	
+		<a class="bt" href="/projects/project/edit/?id=<?php echo $projectHeader['id'] ?>"><img src="/images/icon_edit.png" align="absmiddle" /> <?php echo $this->translate("#Edit project") ?></a>
 <?php
     if ($pageData['messageToShow']) {
 ?>
@@ -57,62 +61,69 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
 ?>
 <?php
 if ($projectHeader['hasContract']) {
-?>
-      | <a href="/projects/project/amend/?id=<?php echo $projectHeader['id'] ?>"><?php echo $this->translate("#Amend contract") ?></a>
+?> 	
+       <a class="bt" href="/projects/project/amend/?id=<?php echo $projectHeader['id'] ?>"><img src="/images/icon_create.png" align="absmiddle" /> <?php echo $this->translate("#Amend contract") ?></a>
 <?php
 } else {
 ?>
-      | <a href="/projects/contract/sign/?project=<?php echo $projectHeader['id'] ?>"><?php echo $this->translate("#Register contract signing") ?></a>
+       <a class="bt" href="/projects/contract/sign/?project=<?php echo $projectHeader['id'] ?>"><img src="/images/icon_create.png" align="absmiddle" /> <?php echo $this->translate("#Register contract signing") ?></a>
 <?php
 }
 ?>
-    </div>
-    <div class="Area">
-      <div class="three columns alpha Right">
-        <?php echo $this->translate("#Client:") ?>
+     </div>
+	 <div class="AreaInfo">
+	 
+	  <div class="three columns alpha">
+	   <span class="label">Status:</span>
+	  </div>
+	  <div class="ten columns">
+	   <strong>Completo&nbsp;&nbsp;&nbsp;<img src="/images/status_mark.jpg" align="absmiddle" /></strong>
+	  </div>
+      <div class="three columns alpha">
+        <span class="label"><?php echo $this->translate("#Client:") ?></span>
       </div>
       <div class="five columns">
         <?php print($projectHeader['clientName']) ?>
       </div>
-      <div class="three columns Right">
-        <?php echo $this->translate("#Overhead:") ?>
+      <div class="three columns">
+        <span class="label"><?php echo $this->translate("#Overhead:") ?></span>
       </div>
       <div class="three columns omega">
         <?php print($projectHeader['overhead']) ?> %
       </div>
-      <div class="three columns alpha Right">
-        <?php echo $this->translate("#Area activity:") ?>
+      <div class="three columns alpha">
+        <span class="label"><?php echo $this->translate("#Area activity:") ?></span>
       </div>
       <div class="five columns">
         <?php print($this->translate($projectHeader['areaActivity'])) ?>
       </div>
-      <div class="three columns Right">
-        <?php echo $this->translate("#Management fee:") ?>
+      <div class="three columns">
+        <span class="label"><?php echo $this->translate("#Management fee:") ?></span>
       </div>
       <div class="three columns omega">
         <?php print($projectHeader['managementFee']) ?> % <!-- ### Talvez seja necessário esconder este campo (re: confusão da Beth sobre o seu uso) -->
       </div>
 
-      <div class="three columns alpha Right">
-        <?php echo $this->translate("#Our responsible:") ?>
+      <div class="three columns alpha">
+        <span class="label"><?php echo $this->translate("#Our responsible:") ?></span>
       </div>
       <div class="five columns">
         <?php print($projectHeader['ourResponsible']) ?>
       </div>
-      <div class="three columns Right">
-        <?php echo $this->translate("#Contract value:") ?>
+      <div class="three columns">
+        <span class="label"><?php echo $this->translate("#Contract value:") ?></span>
       </div>
       <div class="three columns omega">
         <?php print($projectHeader['projectValue']) ?>
       </div>
-      <div class="three columns alpha Right">
-        <?php echo $this->translate("#Responsible at client:") ?>
+      <div class="three columns alpha">
+        <span class="label"><?php echo $this->translate("#Responsible at client:") ?></span>
       </div>
-      <div class="six columns">
+      <div class="five columns">
         <?php print($projectHeader['responsibleAtClient']) ?>
       </div>
-      <div class="two columns Right">
-        <?php echo $this->translate("#Contract date:") ?>
+      <div class="three columns">
+        <span class="label"><?php echo $this->translate("#Contract date:") ?></span>
       </div>
       <div class="three columns omega">
         <?php print($projectHeader['projectDates']) ?>
@@ -148,7 +159,7 @@ foreach($amendmentsList as $id => $contractInfo) {
 ?>
 
 
-    </div><!-- .Area -->
+    </div><!-- .AreaInfo -->
     <div id="tabs">
       <ul>
         <li><a href="#tabs-products"><?php echo $this->translate("#Products") ?></a></li>
@@ -160,15 +171,15 @@ foreach($amendmentsList as $id => $contractInfo) {
 
       <div id="tabs-products">
         <div class="Area">
-           <h2><?php echo $this->translate("#Product") ?></h2>
-           <table id="Products" class="display dataTable">
+           <!--<h2><?php echo $this->translate("#Product") ?></h2>-->
+           <table id="Products" class="display dataTable" width="100%">
               <thead>
                 <tr>
                   <th width="225"><?php echo $this->translate("#Product") ?></th>
                   <th width="50"><?php echo $this->translate("#Delivery") ?></th>
                   <th width="50"><?php echo $this->translate("#Real date") ?></th>
                   <th width="70"><?php echo $this->translate("#Status") ?></th>
-                  <th width="30"><?php echo $this->translate("#% physical progress")  ?></th>
+                  <th width="40"><?php echo $this->translate("#% physical progress")  ?></th>
                   <th width="75"><?php echo $this->translate("#Requirement For Receiving") ?></th>
                 </tr>
               </thead>
