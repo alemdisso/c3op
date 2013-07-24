@@ -37,6 +37,62 @@ class Projects_ActionController extends Zend_Controller_Action
         $this->db = Zend_Registry::get('db');
     }
 
+   public function acceptReceiptAction()
+    {
+        $this->_helper->layout->disableLayout();
+        //$this->_helper->viewRenderer->setNoRender(TRUE);
+
+        $this->initActionMapper();
+        $actionToBeChanged =  $this->initActionWithCheckedId($this->actionMapper);
+        $acceptance = new C3op_Projects_ReceiptAcceptance();
+        $acceptance->AcceptReceipt($actionToBeChanged, $this->actionMapper);
+
+    }
+
+    public function acknowledgeReceiptAction()
+    {
+        $this->_helper->layout->disableLayout();
+
+        $user = Zend_Registry::get('user');
+        $acl = Zend_Registry::get('acl');
+
+        $tester = new C3op_Access_PrivilegeTester($user, $acl, "projects", "action", "accept-receipt");
+        if (!$tester->allow()) {
+            $this->_helper->viewRenderer->setNoRender(TRUE);
+        }
+
+
+        $this->initActionMapper();
+        $actionToBeChanged =  $this->initActionWithCheckedId($this->actionMapper);
+
+        $acknowledgment = new C3op_Projects_ReceiptAcknowledgment();
+        $acknowledgment->AcknowledgeReceipt($actionToBeChanged, $this->actionMapper);
+
+        $actionHeader = array(
+            'id' => $actionToBeChanged->getId(),
+        );
+
+        $this->view->actionHeader = $actionHeader;
+
+
+    }
+
+    public function acknowledgeStartAction()
+    {
+        $this->_helper->layout->disableLayout();
+        //$this->_helper->viewRenderer->setNoRender(TRUE);
+
+        $id = $this->checkIdFromGet();
+        $this->initActionMapper();
+        $actionToBeChanged =  $this->initActionWithCheckedId($this->actionMapper);
+
+        $acknowledgment = new C3op_Projects_ActionAcknowledgeStart($actionToBeChanged);
+
+        $this->view->pageData = array('id' => $id);
+
+
+    }
+
     public function budgetCreateAction()
     {
         $this->_helper->layout->disableLayout();
@@ -178,6 +234,10 @@ class Projects_ActionController extends Zend_Controller_Action
         );
 
         $this->view->pageData = $pageData;
+        $this->view->pageTitle = $this->view->translate("#Change receipt date");
+        $this->view->pageUri = "/projects/action/change-receipt/?id=$actionId";
+        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
 
     }
 
@@ -241,6 +301,10 @@ class Projects_ActionController extends Zend_Controller_Action
         );
 
         $this->view->pageData = $pageData;
+        $this->view->pageTitle = $this->view->translate("#Change start date");
+        $this->view->pageUri = "/projects/action/change-start/?id=$actionId";
+        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
 
     }
 
@@ -305,7 +369,12 @@ class Projects_ActionController extends Zend_Controller_Action
                 'actionLabel'  => $actionLabel,
                 );
             $this->view->pageData = $pageData;
+            $this->view->pageTitle = $this->view->translate("#Create action");
+            $this->view->pageUri = "/projects/action/create/?subordinatedTo=" . $parentAction->getId();
+            $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
         }
+
+
     }
 
     public function createProductAction()
@@ -349,8 +418,9 @@ class Projects_ActionController extends Zend_Controller_Action
                 'projectTitle' => $projectData['title'],
                 );
             $this->view->pageData = $pageData;
-            $this->view->uri = "/projects/action/detail";
-            $this->view->pageTitle = "detalhe";
+            $this->view->pageTitle = $this->view->translate("#Create product");
+            $this->view->pageUri = "/projects/action/create/?project=" . $projectId;
+            $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
         }
     }
 
@@ -428,9 +498,6 @@ class Projects_ActionController extends Zend_Controller_Action
                     $this->populateRequirementForReceivingField($projectId, $form, $inputAction->getRequirementForReceiving());
                 }
 
-//                $subordinatedToField = $form->getElement('subordinatedTo');
-//                $subordinatedToField->setValue($inputAction->getSubordinatedTo());
-
                 $this->populateSubordinatedToField($projectId, $form, $id, $inputAction->getSubordinatedTo());
             }
 
@@ -439,9 +506,10 @@ class Projects_ActionController extends Zend_Controller_Action
                 'title' => $projectData['title']
             );
             $this->view->pageData = $pageData;
+            $this->view->pageTitle = $this->view->translate("#Edit action");
+            $this->view->pageUri = "/projects/action/edit/?id=" . $id;
+            $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
         }
-        $this->view->uri = "/projects/action/edit";
-        $this->view->pageTitle = "edit";
     }
 
     public function editProductAction()
@@ -518,6 +586,9 @@ class Projects_ActionController extends Zend_Controller_Action
                 'title' => $projectData['title']
             );
             $this->view->pageData = $pageData;
+            $this->view->pageTitle = $this->view->translate("#Edit product");
+            $this->view->pageUri = "/projects/action/edit/?id=" . $id;
+            $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
         }
     }
 
@@ -576,6 +647,8 @@ class Projects_ActionController extends Zend_Controller_Action
         $this->view->pageData = $pageData;
         $this->view->pageTitle = $actionToBeDetailed->getTitle();
         $this->view->pageUri = "/projects/action/detail/?id=" . $actionToBeDetailed->getId();
+        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
 
     }
 
@@ -628,46 +701,6 @@ class Projects_ActionController extends Zend_Controller_Action
         }
     }
 
-    public function acknowledgeReceiptAction()
-    {
-        $this->_helper->layout->disableLayout();
-
-        $user = Zend_Registry::get('user');
-        $acl = Zend_Registry::get('acl');
-
-        $tester = new C3op_Access_PrivilegeTester($user, $acl, "projects", "action", "accept-receipt");
-        if (!$tester->allow()) {
-            $this->_helper->viewRenderer->setNoRender(TRUE);
-        }
-
-
-        $this->initActionMapper();
-        $actionToBeChanged =  $this->initActionWithCheckedId($this->actionMapper);
-
-        $acknowledgment = new C3op_Projects_ReceiptAcknowledgment();
-        $acknowledgment->AcknowledgeReceipt($actionToBeChanged, $this->actionMapper);
-
-        $actionHeader = array(
-            'id' => $actionToBeChanged->getId(),
-        );
-
-        $this->view->actionHeader = $actionHeader;
-
-
-    }
-
-   public function acceptReceiptAction()
-    {
-        $this->_helper->layout->disableLayout();
-        //$this->_helper->viewRenderer->setNoRender(TRUE);
-
-        $this->initActionMapper();
-        $actionToBeChanged =  $this->initActionWithCheckedId($this->actionMapper);
-        $acceptance = new C3op_Projects_ReceiptAcceptance();
-        $acceptance->AcceptReceipt($actionToBeChanged, $this->actionMapper);
-
-    }
-
    public function rejectReceiptAction()
     {
         $this->_helper->layout->disableLayout();
@@ -677,22 +710,6 @@ class Projects_ActionController extends Zend_Controller_Action
         $actionToBeChanged =  $this->initActionWithCheckedId($this->actionMapper);
         $rejection = new C3op_Projects_ReceiptRejection();
         $rejection->RejectReceipt($actionToBeChanged, $this->actionMapper);
-
-    }
-
-    public function acknowledgeStartAction()
-    {
-        $this->_helper->layout->disableLayout();
-        //$this->_helper->viewRenderer->setNoRender(TRUE);
-
-        $id = $this->checkIdFromGet();
-        $this->initActionMapper();
-        $actionToBeChanged =  $this->initActionWithCheckedId($this->actionMapper);
-
-        $acknowledgment = new C3op_Projects_ActionAcknowledgeStart($actionToBeChanged);
-
-        $this->view->pageData = array('id' => $id);
-
 
     }
 
