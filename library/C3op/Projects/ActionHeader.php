@@ -151,17 +151,23 @@ class C3op_Projects_ActionHeader {
             $predictedFinishDate = "#(undefined)";
         }
 
+        $realBeginDate = "#(not started)";
         if ($action->hasBegun()) {
-            $realBeginDate = C3op_Util_DateDisplay::FormatDateToShow($action->getRealBeginDate());
 
-            if (is_null($realBeginDate)) {
-                $action->setRealBeginDate($action->getPredictedBeginDate());
-                $this->mapper->update($action);
+            if (is_null($action->getRealBeginDate())) {
+                if (!is_null($action->getPredictedBeginDate())) {
+                    $action->setRealBeginDate($action->getPredictedBeginDate());
+                    $this->mapper->update($action);
+                    $realBeginDate = C3op_Util_DateDisplay::FormatDateToShow($action->getRealBeginDate());
+                }
+            } else {
                 $realBeginDate = C3op_Util_DateDisplay::FormatDateToShow($action->getRealBeginDate());
+
             }
         } else {
-            $realBeginDate = _("#(not started)");
+            $realBeginDate = "#(not started)";
         }
+
 
 
         $realFinishDate = C3op_Util_DateDisplay::FormatDateToShow($action->getRealFinishDate());

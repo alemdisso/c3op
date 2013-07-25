@@ -369,7 +369,11 @@ class Projects_ActionController extends Zend_Controller_Action
 
             $this->view->pageData = $pageData;
             $this->view->pageTitle = $actionLabel;
-            $this->view->pageUri = "/projects/action/create/?subordinatedTo=" . $parentAction->getId();
+            if (isset($parentAction)) {
+                $this->view->pageUri = "/projects/action/create/?subordinatedTo=" . $parentAction->getId();
+            } else {
+                $this->view->pageUri = "/projects/action/create/?project=" . $projectId;
+            }
             $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
         }
 

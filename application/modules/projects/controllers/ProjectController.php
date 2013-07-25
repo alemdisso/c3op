@@ -72,6 +72,11 @@ class Projects_ProjectController extends Zend_Controller_Action
 //            $data = $this->_request->getParams();
 //            $projectId = $data['id'];
 //            $this->PopulateProjectFields($projectId, $form);
+
+        $this->view->pageTitle = $this->view->translate("#New amendment");
+        $this->view->pageUri = "/projects/project/amend/?id=" . $id;
+        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
         }
     }
 
@@ -109,6 +114,11 @@ class Projects_ProjectController extends Zend_Controller_Action
 
             $element = $form->getElement('status');
             $element->setValue(C3op_Projects_ProjectStatusConstants::STATUS_PROSPECTING);
+
+            $this->view->pageTitle = $this->view->translate("#Create project");
+            $this->view->pageUri = "/projects/project/create";
+            $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
         }
     }
 
@@ -346,6 +356,10 @@ class Projects_ProjectController extends Zend_Controller_Action
 
         );
         $this->view->pageData = $pageData;
+        $this->view->pageTitle = $this->view->translate("#Project") . " " . $projectHeader['projectTitle'];
+        $this->view->pageUri = "/projects/project/detail/id=" . $projectHeader['id'];
+        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
     }
 
     public function editAction()
@@ -393,6 +407,9 @@ class Projects_ProjectController extends Zend_Controller_Action
         }
         $pageData = array('projectTitle' => $shortTitle);
         $this->view->pageData = $pageData;
+        $this->view->pageTitle = $this->view->translate("#Edit project") . " " . $shortTitle;
+        $this->view->pageUri = "/projects/project/edit/?id=$id";
+        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
     }
 
     public function engagementAction()
@@ -590,84 +607,16 @@ class Projects_ProjectController extends Zend_Controller_Action
 
         $this->view->pageData = $pageData;
 
-    }
-
-    public function receivablesAction()
-    {
-        $receivableMapper = new C3op_Finances_ReceivableMapper($this->db);
-
-        $id = $this->checkIdFromGet();
-        $thisProject = $this->projectMapper->findById($id);
-        $receivablesIdList = $this->receivableMapper->getAllReceivables($thisProject);
-        $receivablesList = array();
-        reset ($receivablesList);
-        $receivablesTotalValue = 0;
-        $receivablesCounter = 0;
-        foreach ($receivablesIdList as $receivableId) {
-            $thisReceivable = $receivableMapper->findById($receivableId);
-            $receivablesCounter++;
-            if ($thisReceivable->getTitle()) {
-                $title = $thisReceivable->getTitle();
-            } else {
-                $title = "($receivablesCounter)";
-            }
-
-            $validator = new C3op_Util_ValidDate();
-            if ($validator->isValid($thisReceivable->getPredictedDate())) {
-                $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($thisReceivable->getPredictedDate());
-            } else {
-                $predictedDate = $this->view->translate("#(unknown date)");
-            }
-
-            if ($thisReceivable->getPredictedValue() > 0) {
-                $receivablesTotalValue += $thisReceivable->getPredictedValue();
-                $currencyDisplay = new  C3op_Util_CurrencyDisplay();
-                $predictedValue = $currencyDisplay->FormatCurrency($thisReceivable->getPredictedValue());
-            } else {
-                $predictedValue = "";
-            }
-
-            $productsIdList = $receivableMapper->getAllProducts($thisReceivable);
-            $productsList = array();
-            foreach ($productsIdList as $productId) {
-                $actionMapper = new C3op_Projects_ActionMapper($this->db);
-                $thisAction = $actionMapper->findById($productId);
-                $actionTitle =  sprintf("<a href=/projects/action/detail/?id=%d>%s</a>", $productId, $thisAction->getTitle());
-                $productsList[$productId] = array(
-                    'title' => $actionTitle,
-                    'linkDetail' => '/projects/action/detail/?id=' . $productId   ,
-                );
-
-            }
-
-            $receivablesList[$receivableId] = array(
-                'title' => $title,
-                'productsList' => $productsList,
-                'predictedDate' => $predictedDate,
-                'predictedValue' => $predictedValue,
-                'editLink' => '/finances/receivable/edit/?id=' . $receivableId   ,
-            );
-        }
-
-        $currencyDisplay = new  C3op_Util_CurrencyDisplay();
-        if ($receivablesTotalValue == $thisProject->getValue()) {
-            $projectValue = $currencyDisplay->FormatCurrency($receivablesTotalValue) . " (OK)";
+        if ($engagedType == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER) {
+            $this->view->pageTitle = sprintf($this->view->translate("#%s's participation in the project"), $contactName);
+            $this->view->pageUri = "/projects/index/engagement/?contact=$contactId";
         } else {
-            $projectValue = "Valor do Projeto: " . $currencyDisplay->FormatCurrency($thisProject->getValue());
-            $projectValue .= " Total dos recebimentos:" .  $currencyDisplay->FormatCurrency($receivablesTotalValue) . " (?)";
-
+            $this->view->pageTitle = sprintf($this->view->translate("#%s's participation in the project"), $institutionName);
+            $this->view->pageUri = "/projects/index/engagement/?institution=$institutionId";
         }
+        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
 
-        $projectInfo = array(
-            'title' => $thisProject->getShortTitle(),
-            'linkDetail' => '/projects/project/detail/?id=' . $id   ,
-//            'projectValue' => $projectValue,
-            'projectValue' => "N/D",
-            'editLink' => '/projects/project/edit/?id=' . $id   ,
-            'receivablesList' => $receivablesList,
-        );
 
-        $this->view->projectInfo = $projectInfo;
     }
 
     public function unacknowledgedAction()

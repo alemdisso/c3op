@@ -45,11 +45,22 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
 
     <div id="MainHeader">
       <h1><span class="weight_normal"><?php echo $this->translate("#Project") ?></span> <strong><?php print($projectHeader['projectTitle']) ?></strong></h1>
-    </div>  
-	
+    </div>
+
 	<div style="margin:20px 0;">
-	
+
 		<a class="bt" href="/projects/project/edit/?id=<?php echo $projectHeader['id'] ?>"><img src="/images/icon_edit.png" align="absmiddle" /> <?php echo $this->translate("#Edit project") ?></a>
+<?php
+if ($projectHeader['hasContract']) {
+?>
+       <a class="bt" href="/projects/project/amend/?id=<?php echo $projectHeader['id'] ?>"><img src="/images/icon_create.png" align="absmiddle" /> <?php echo $this->translate("#Amend contract") ?></a>
+<?php
+} else {
+?>
+       <a class="bt" href="/projects/contract/sign/?project=<?php echo $projectHeader['id'] ?>"><img src="/images/icon_create.png" align="absmiddle" /> <?php echo $this->translate("#Register contract signing") ?></a>
+<?php
+}
+?>
 <?php
     if ($pageData['messageToShow']) {
 ?>
@@ -59,20 +70,9 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
 <?php
     }
 ?>
-<?php
-if ($projectHeader['hasContract']) {
-?> 	
-       <a class="bt" href="/projects/project/amend/?id=<?php echo $projectHeader['id'] ?>"><img src="/images/icon_create.png" align="absmiddle" /> <?php echo $this->translate("#Amend contract") ?></a>
-<?php
-} else {
-?>
-       <a class="bt" href="/projects/contract/sign/?project=<?php echo $projectHeader['id'] ?>"><img src="/images/icon_create.png" align="absmiddle" /> <?php echo $this->translate("#Register contract signing") ?></a>
-<?php
-}
-?>
      </div>
 	 <div class="AreaInfo">
-	 
+
 	  <div class="three columns alpha">
 	   <span class="label">Status:</span>
 	  </div>
