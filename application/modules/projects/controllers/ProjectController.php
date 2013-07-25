@@ -616,11 +616,11 @@ class Projects_ProjectController extends Zend_Controller_Action
         }
         $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
 
-
     }
 
     public function unacknowledgedAction()
     {
+
         $id = $this->checkIdFromGet();
         $thisProject = $this->projectMapper->findById($id);
 
