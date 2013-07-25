@@ -57,7 +57,7 @@ class C3op_Util_Breadcrumb{
    /*
     * Constructor
     */
-   public function __construct($reset = false, $homepage = "#Dashboard"){
+   public function __construct($reset = false, $homepage = ""){
        $this->reset = $reset;
        $this->homepage = $homepage;
 

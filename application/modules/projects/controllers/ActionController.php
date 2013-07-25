@@ -241,8 +241,6 @@ class Projects_ActionController extends Zend_Controller_Action
 
     }
 
-
-
     public function changeStartAction()
     {
         //$this->_helper->layout->disableLayout();
@@ -368,11 +366,13 @@ class Projects_ActionController extends Zend_Controller_Action
                 'projectTitle' => $projectData['title'],
                 'actionLabel'  => $actionLabel,
                 );
+
             $this->view->pageData = $pageData;
-            $this->view->pageTitle = $this->view->translate("#Create action");
+            $this->view->pageTitle = $actionLabel;
             $this->view->pageUri = "/projects/action/create/?subordinatedTo=" . $parentAction->getId();
             $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
         }
+
 
 
     }
@@ -417,11 +417,119 @@ class Projects_ActionController extends Zend_Controller_Action
                 'id'           => $projectId,
                 'projectTitle' => $projectData['title'],
                 );
+
             $this->view->pageData = $pageData;
-            $this->view->pageTitle = $this->view->translate("#Create product");
+            $this->view->pageTitle = $this->view->translate("#New product");
             $this->view->pageUri = "/projects/action/create/?project=" . $projectId;
             $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
         }
+    }
+
+    public function deliveryNotifyAction()
+    {
+        // cria form
+        $form = new C3op_Form_ProductDeliveryNotify;
+        $this->view->form = $form;
+
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            if ($form->isValid($postData)) {
+                $id = $form->process($postData);
+                $this->_helper->getHelper('FlashMessenger')
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                $this->_redirect('/projects/action/detail/?id=' . $id);
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
+        } else {
+            $data = $this->_request->getParams();
+            $filters = array(
+                'id' => new Zend_Filter_Alnum(),
+            );
+            $validators = array(
+                'id' => new C3op_Util_ValidId(),
+            );
+            $input = new Zend_Filter_Input($filters, $validators, $data);
+
+            if ($input->isValid()) {
+                $this->initActionMapper();
+                $productToBeNotified =  $this->initActionWithCheckedId($this->actionMapper);
+                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $productToBeNotified->getId());
+//                $this->setDateValueToFormField($form, 'realDate', $thisAction->GetRealDate());
+//                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'realValue', $thisAction->GetRealValue());
+                $projectId = $productToBeNotified->GetProject();
+                $data = $this->getActionData($productToBeNotified);
+                $this->populateProjectFields($projectId, $form);
+                $this->view->pageData = $data;
+
+                $this->view->pageTitle = sprintf($this->view->translate("#Notify delivery of %s", $productToBeNotified->getTitle()));
+                $this->view->pageUri = "/projects/action/delivery-notify/?id=" . $productToBeNotified->getId();
+                $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+            }
+
+        }
+    }
+
+    public function detailAction()
+    {
+        $pageData = array();
+        //$this->getRequest()->getParam('id');
+
+        $this->initActionMapper();
+        $this->initProjectMapper();
+        $this->initContactMapper();
+        $this->initInstitutionMapper();
+
+        $actionToBeDetailed =  $this->initActionWithCheckedId($this->actionMapper);
+//        $projectToBeDetailed = $this->projectMapper->findById($actionToBeDetailed->getProject());
+        $messageToShow = $this->_helper->flashMessenger->getMessages();
+
+        $header = new C3op_Projects_ActionHeader($this->db, $actionToBeDetailed, $this->actionMapper);
+        $actionHeader = $header->fetch();
+
+        // responsibleList
+        //   * responsibleInfo
+        //      id
+        //      contactId
+        //      linkageId
+        //      name
+        //      description
+        //      value
+        //      contractingStatusLabel
+        //      canContractFlag
+        //      canRemoveResponsible
+        //      canProvideOutlay
+
+        $responsiblesList = $this->getResponsiblesList($actionToBeDetailed);
+
+        // materialSupplyList
+        //   * materialSupplyInfo
+        //      id
+        //      name
+        //      description
+        //      value
+        //      contractingStatusLabel
+        //      canContractFlag
+        //      canRemoveMaterialSupply
+        //      canProvideOutlay
+
+        $materialSuppliesList = $this->getMaterialSuppliesList($actionToBeDetailed);
+
+        $pageData = array(
+            'messageToShow'       => $messageToShow,
+            'actionHeader'        => $actionHeader,
+            'responsiblesList'     => $responsiblesList,
+            'materialSuppliesList' => $materialSuppliesList,
+        );
+
+        $this->view->pageData = $pageData;
+        $this->view->pageTitle = $actionToBeDetailed->getTitle();
+        $this->view->pageUri = "/projects/action/detail/?id=" . $actionToBeDetailed->getId();
+        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
+
     }
 
     public function editAction()
@@ -592,66 +700,6 @@ class Projects_ActionController extends Zend_Controller_Action
         }
     }
 
-    public function detailAction()
-    {
-        $pageData = array();
-        //$this->getRequest()->getParam('id');
-
-        $this->initActionMapper();
-        $this->initProjectMapper();
-        $this->initContactMapper();
-        $this->initInstitutionMapper();
-
-        $actionToBeDetailed =  $this->initActionWithCheckedId($this->actionMapper);
-//        $projectToBeDetailed = $this->projectMapper->findById($actionToBeDetailed->getProject());
-        $messageToShow = $this->_helper->flashMessenger->getMessages();
-
-        $header = new C3op_Projects_ActionHeader($this->db, $actionToBeDetailed, $this->actionMapper);
-        $actionHeader = $header->fetch();
-
-        // responsibleList
-        //   * responsibleInfo
-        //      id
-        //      contactId
-        //      linkageId
-        //      name
-        //      description
-        //      value
-        //      contractingStatusLabel
-        //      canContractFlag
-        //      canRemoveResponsible
-        //      canProvideOutlay
-
-        $responsiblesList = $this->getResponsiblesList($actionToBeDetailed);
-
-        // materialSupplyList
-        //   * materialSupplyInfo
-        //      id
-        //      name
-        //      description
-        //      value
-        //      contractingStatusLabel
-        //      canContractFlag
-        //      canRemoveMaterialSupply
-        //      canProvideOutlay
-
-        $materialSuppliesList = $this->getMaterialSuppliesList($actionToBeDetailed);
-
-        $pageData = array(
-            'messageToShow'       => $messageToShow,
-            'actionHeader'        => $actionHeader,
-            'responsiblesList'     => $responsiblesList,
-            'materialSuppliesList' => $materialSuppliesList,
-        );
-
-        $this->view->pageData = $pageData;
-        $this->view->pageTitle = $actionToBeDetailed->getTitle();
-        $this->view->pageUri = "/projects/action/detail/?id=" . $actionToBeDetailed->getId();
-        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
-
-
-    }
-
 
     public function removeAction()
     {
@@ -698,6 +746,10 @@ class Projects_ActionController extends Zend_Controller_Action
                 'title' => $thisAction->getTitle(),
             );
             $this->view->actionData = $actionData;
+
+            $this->view->pageTitle = $this->view->translate("#Remove action");
+            $this->view->pageUri = "/projects/action/remove/?id=$id";
+            $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
         }
     }
 
@@ -711,49 +763,6 @@ class Projects_ActionController extends Zend_Controller_Action
         $rejection = new C3op_Projects_ReceiptRejection();
         $rejection->RejectReceipt($actionToBeChanged, $this->actionMapper);
 
-    }
-
-    public function deliveryNotifyAction()
-    {
-        // cria form
-        $form = new C3op_Form_ProductDeliveryNotify;
-        $this->view->form = $form;
-
-        if ($this->getRequest()->isPost()) {
-            $postData = $this->getRequest()->getPost();
-            if ($form->isValid($postData)) {
-                $id = $form->process($postData);
-                $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/projects/action/detail/?id=' . $id);
-            } else {
-                //form error: populate and go back
-                $form->populate($postData);
-                $this->view->form = $form;
-            }
-        } else {
-            $data = $this->_request->getParams();
-            $filters = array(
-                'id' => new Zend_Filter_Alnum(),
-            );
-            $validators = array(
-                'id' => new C3op_Util_ValidId(),
-            );
-            $input = new Zend_Filter_Input($filters, $validators, $data);
-
-            if ($input->isValid()) {
-                $this->initActionMapper();
-                $productToBeNotified =  $this->initActionWithCheckedId($this->actionMapper);
-                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $productToBeNotified->getId());
-//                $this->setDateValueToFormField($form, 'realDate', $thisAction->GetRealDate());
-//                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'realValue', $thisAction->GetRealValue());
-                $projectId = $productToBeNotified->GetProject();
-                $data = $this->getActionData($productToBeNotified);
-                $this->populateProjectFields($projectId, $form);
-                $this->view->pageData = $data;
-            }
-
-        }
     }
 
 

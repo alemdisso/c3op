@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-23 20:35-0300\n"
-"PO-Revision-Date: 2013-07-23 20:35-0300\n"
+"POT-Creation-Date: 2013-07-25 10:03-0300\n"
+"PO-Revision-Date: 2013-07-25 10:03-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -20,23 +20,33 @@ msgstr ""
 msgid "#Change receipt date"
 msgstr "Atualizar data de entrega da ação"
 
-#: application\modules\projects/controllers/ActionController.php:318
-#: application\modules\projects/controllers/ActionController.php:382
+#: application\modules\projects/controllers/ActionController.php:302
+#: application\modules\projects/views/scripts/action/detail.phtml:297
+msgid "#Change start date"
+msgstr "Atualizar datas"
+
+#: application\modules\projects/controllers/ActionController.php:320
+#: application\modules\projects/controllers/ActionController.php:391
 msgid "#The record was successfully created."
 msgstr "O registro foi criado com sucesso."
 
-#: application\modules\projects/controllers/ActionController.php:347
+#: application\modules\projects/controllers/ActionController.php:349
 msgid "#Create product"
 msgstr "Adicionar produto"
 
-#: application\modules\projects/controllers/ActionController.php:351
+#: application\modules\projects/controllers/ActionController.php:353
 #, php-format
 msgid "#Create action subordinated to %s"
 msgstr "Criar ação subordinada a %s"
 
-#: application\modules\projects/controllers/ActionController.php:426
-#: application\modules\projects/controllers/ActionController.php:516
-#: application\modules\projects/controllers/ActionController.php:716
+#: application\modules\projects/controllers/ActionController.php:422
+#: application\modules\projects/views/scripts/action/create-product.phtml:5
+msgid "#New product"
+msgstr "Novo produto"
+
+#: application\modules\projects/controllers/ActionController.php:439
+#: application\modules\projects/controllers/ActionController.php:484
+#: application\modules\projects/controllers/ActionController.php:572
 #: application\modules\projects/controllers/ContractController.php:46
 #: application\modules\projects/controllers/ContractController.php:69
 #: application\modules\projects/controllers/ContractController.php:109
@@ -45,15 +55,31 @@ msgstr "Criar ação subordinada a %s"
 msgid "#The record was successfully updated."
 msgstr "O registro foi atualizado com sucesso."
 
-#: application\modules\projects/controllers/ActionController.php:668
+#: application\modules\projects/controllers/ActionController.php:467
+#, php-format
+msgid "#Notify delivery of %s"
+msgstr "Confirmar entrega de %s"
+
+#: application\modules\projects/controllers/ActionController.php:557
+#: application\modules\projects/views/scripts/action/detail.phtml:167
+#: application\modules\projects/views/scripts/action/edit.phtml:62
+msgid "#Edit action"
+msgstr "Editar ação"
+
+#: application\modules\projects/controllers/ActionController.php:637
+#: application\modules\projects/views/scripts/action/edit-product.phtml:8
+msgid "#Edit product"
+msgstr "Editar produto"
+
+#: application\modules\projects/controllers/ActionController.php:727
 msgid "#The record was successfully removed."
 msgstr "O registro foi removido com sucesso."
 
-#: application\modules\projects/controllers/ActionController.php:794
+#: application\modules\projects/controllers/ActionController.php:810
 msgid "#It needs a positive integer project id to populate project fields."
 msgstr "It needs a positive integer project id to populate project fields."
 
-#: application\modules\projects/controllers/ActionController.php:812
+#: application\modules\projects/controllers/ActionController.php:828
 msgid ""
 "#It needs a positive integer project id to find other actions from same "
 "project."
@@ -61,12 +87,12 @@ msgstr ""
 "It needs a positive integer project id to find other actions from same "
 "project."
 
-#: application\modules\projects/controllers/ActionController.php:1074
+#: application\modules\projects/controllers/ActionController.php:1090
 #: application\modules\projects/controllers/ProjectController.php:1041
 msgid "(#not defined)"
 msgstr "(não definido)"
 
-#: application\modules\projects/controllers/ActionController.php:1196
+#: application\modules\projects/controllers/ActionController.php:1212
 #, php-format
 msgid "#Predicted finish: %s Real Finish: %s"
 msgstr "Término previsto: %s<br>Término real: %s"
@@ -410,10 +436,6 @@ msgstr "Justifique a alteração das datas"
 msgid "#Project"
 msgstr "Projeto"
 
-#: application\modules\projects/views/scripts/action/create-product.phtml:5
-msgid "#New product"
-msgstr "Novo produto"
-
 #: application\modules\projects/views/scripts/action/delivery-notify.phtml:10
 #: application\modules\projects/views/scripts/action/detail.phtml:340
 msgid "#Notify product delivery"
@@ -428,11 +450,6 @@ msgstr "Detalhamento da ação %s"
 #, php-format
 msgid "#Details of product %s"
 msgstr "Detalhamento do produto %s"
-
-#: application\modules\projects/views/scripts/action/detail.phtml:167
-#: application\modules\projects/views/scripts/action/edit.phtml:62
-msgid "#Edit action"
-msgstr "Editar ação"
 
 #: application\modules\projects/views/scripts/action/detail.phtml:171
 msgid "#Remove action!"
@@ -499,10 +516,6 @@ msgstr "Término real:"
 #: application\modules\projects/views/scripts/action/detail.phtml:294
 msgid "#Acknowledge start"
 msgstr "Confirmar início"
-
-#: application\modules\projects/views/scripts/action/detail.phtml:297
-msgid "#Change start date"
-msgstr "Atualizar datas"
 
 #: application\modules\projects/views/scripts/action/detail.phtml:307
 msgid "#Receipt date:"
@@ -765,10 +778,6 @@ msgstr "Confirmar aquisição de material"
 #: application\modules\projects/views/scripts/action/detail.phtml:785
 msgid "#Anticipate material supply"
 msgstr "Prever aquisição de material"
-
-#: application\modules\projects/views/scripts/action/edit-product.phtml:8
-msgid "#Edit product"
-msgstr "Editar produto"
 
 #: application\modules\projects/views/scripts/action/reject-receipt.phtml:2
 msgid "#Receipt rejected"

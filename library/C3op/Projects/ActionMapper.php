@@ -147,6 +147,13 @@ class C3op_Projects_ActionMapper
         $query = $this->db->prepare('DELETE FROM projects_actions_dates WHERE id = :id;');
         $query->bindValue(':id', $this->identityMap[$obj], PDO::PARAM_STR);
         $query->execute();
+        $query = $this->db->prepare('DELETE FROM projects_actions_events WHERE id = :id;');
+        $query->bindValue(':id', $this->identityMap[$obj], PDO::PARAM_STR);
+        $query->execute();
+        $query = $this->db->prepare('DELETE FROM resources_responsibles WHERE action = :id;');
+        $query->bindValue(':id', $this->identityMap[$obj], PDO::PARAM_STR);
+        $query->execute();
+
 
         unset($this->identityMap[$obj]);
     }

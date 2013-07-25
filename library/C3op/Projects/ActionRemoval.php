@@ -44,7 +44,7 @@ class C3op_Projects_ActionRemoval {
 
     private function actionHasStaff()
     {
-        $result = $this->actionMapper->getAnyResponsibleRelatedTo($this->action);
+        $result = $this->actionMapper->getDefinedResponsibles($this->action);
 
         if (count($result)) {
             return true;
