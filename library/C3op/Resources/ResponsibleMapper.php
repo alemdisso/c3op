@@ -401,30 +401,35 @@ class C3op_Resources_ResponsibleMapper {
         }
         return $result;
 
+    }
 
+    public function getAllResponsiblesWithNextActionsAtActiveProjects() {
 
+       $query = $this->db->prepare('SELECT r.id as id
+                    FROM projects_projects p
+                    INNER JOIN projects_actions a ON p.id = a.project
+                    LEFT JOIN resources_responsibles r ON a.id = r.action
+                    LEFT JOIN register_contacts t ON r.contact = r.id
+                    WHERE (p.status = :execution)
+                    AND (a.status = :action_execution OR a.status = :planning)
+                    AND (r.status = :foreseen OR r.status = :contracted OR r.status = :acquitted)
+                    GROUP BY CONCAT(r.institution, \'|\', r.contact);');
+        $query->bindValue(':execution', C3op_Projects_ProjectStatusConstants::STATUS_EXECUTION, PDO::PARAM_STR);
+        $query->bindValue(':planning', C3op_Projects_ActionStatusConstants::STATUS_PLAN, PDO::PARAM_STR);
+        $query->bindValue(':action_execution', C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION, PDO::PARAM_STR);
+        $query->bindValue(':foreseen', C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN, PDO::PARAM_STR);
+        $query->bindValue(':contracted', C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED, PDO::PARAM_STR);
+        $query->bindValue(':acquitted', C3op_Resources_ResponsibleStatusConstants::STATUS_ACQUITTED, PDO::PARAM_STR);
+        $query->execute();
+        $resultPDO = $query->fetchAll();
 
-        foreach ($this->db->query(sprintf('SELECT r.id
-            FROM projects_actions a
-            INNER JOIN resources_responsibles r ON a.id = r.action
-            WHERE a.project = %d
-            AND (r.contact > 0 OR r.institution > 0)
-            AND (
-            r.status = %d
-            OR r.status = %d
-            OR r.status = %d
-            OR r.status = %d
-            ) GROUP BY CONCAT(r.institution, \'|\', r.contact)'
-            , $obj->getId()
-            , C3op_Resources_ResponsibleStatusConstants::STATUS_UNDEFINED
-            , C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED
-            , C3op_Resources_ResponsibleStatusConstants::STATUS_ACQUITTED
-            , C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN
-
-                )) as $row) {
+        $result = array();
+        foreach ($resultPDO as $row) {
             $result[] = $row['id'];
+
         }
         return $result;
+
     }
 
     public function findMainPositionForAPerson(C3op_Resources_Responsible $obj) {
