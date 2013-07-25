@@ -275,10 +275,10 @@ class Finances_ProjectController extends Zend_Controller_Action
             foreach ($productsIdList as $productId) {
                 $actionMapper = new C3op_Projects_ActionMapper($this->db);
                 $thisAction = $actionMapper->findById($productId);
-                $actionTitle =  sprintf("<a href=/projects/action/detail/?id=%d>%s</a>", $productId, $thisAction->getTitle());
+                $actionTitle =  sprintf("<a href=/projects/product/detail/?id=%d>%s</a>", $productId, $thisAction->getTitle());
                 $productsList[$productId] = array(
                     'title' => $actionTitle,
-                    'linkDetail' => '/projects/action/detail/?id=' . $productId   ,
+                    'linkDetail' => '/projects/product/detail/?id=' . $productId   ,
                 );
 
             }

@@ -1,6 +1,6 @@
 <?php
 
-class Projects_ActionController extends Zend_Controller_Action
+class Projects_ProductController extends Zend_Controller_Action
 {
     private $actionMapper;
     private $responsibleMapper;
@@ -37,68 +37,12 @@ class Projects_ActionController extends Zend_Controller_Action
         $this->db = Zend_Registry::get('db');
     }
 
-   public function acceptReceiptAction()
+    public function budgetCreateAction()
     {
         $this->_helper->layout->disableLayout();
-        //$this->_helper->viewRenderer->setNoRender(TRUE);
-
-        $this->initActionMapper();
-        $actionToBeChanged =  $this->initActionWithCheckedId($this->actionMapper);
-        $acceptance = new C3op_Projects_ReceiptAcceptance();
-        $acceptance->AcceptReceipt($actionToBeChanged, $this->actionMapper);
-
-    }
-
-    public function acknowledgeReceiptAction()
-    {
-        $this->_helper->layout->disableLayout();
-
-        $user = Zend_Registry::get('user');
-        $acl = Zend_Registry::get('acl');
-
-        $tester = new C3op_Access_PrivilegeTester($user, $acl, "projects", "action", "accept-receipt");
-        if (!$tester->allow()) {
-            $this->_helper->viewRenderer->setNoRender(TRUE);
-        }
-
-
-        $this->initActionMapper();
-        $actionToBeChanged =  $this->initActionWithCheckedId($this->actionMapper);
-
-        $acknowledgment = new C3op_Projects_ReceiptAcknowledgment();
-        $acknowledgment->AcknowledgeReceipt($actionToBeChanged, $this->actionMapper);
-
-        $actionHeader = array(
-            'id' => $actionToBeChanged->getId(),
-        );
-
-        $this->view->actionHeader = $actionHeader;
-
-
-    }
-
-    public function acknowledgeStartAction()
-    {
-        $this->_helper->layout->disableLayout();
-        //$this->_helper->viewRenderer->setNoRender(TRUE);
-
-        $id = $this->checkIdFromGet();
-        $this->initActionMapper();
-        $actionToBeChanged =  $this->initActionWithCheckedId($this->actionMapper);
-
-        $acknowledgment = new C3op_Projects_ActionAcknowledgeStart($actionToBeChanged);
-
-        $this->view->pageData = array('id' => $id);
-
-
-    }
-
-    public function changeReceiptAction()
-    {
-        //$this->_helper->layout->disableLayout();
 
         // cria form
-        $form = new C3op_Form_ChangeReceiptDate;
+        $form = new C3op_Form_BudgetCreate;
         $this->view->form = $form;
 
         if ($this->getRequest()->isPost()) {
@@ -107,10 +51,10 @@ class Projects_ActionController extends Zend_Controller_Action
                 $actionId = $form->process($postData);
 
                 $this->_helper->viewRenderer->setNoRender(TRUE);
-                $this->_redirect('/projects/action/detail/?id=' . $actionId);
+                $this->_redirect('/projects/product/budget-forecast/?actionId=' . $actionId);
             } else {
                 //form error: populate and go back
-                $actionId = $postData['id'];
+                $actionId = $postData['action'];
                 $result = $this->givenActionIdGetActionAndProjectObjects($actionId);
                 $parentAction = $result['actionObj'];
                 $projectAction = $result['projectObj'];
@@ -133,10 +77,15 @@ class Projects_ActionController extends Zend_Controller_Action
             $projectId = $parentAction->getProject();
             $projectAction = $this->projectMapper->findById($projectId);
 
+            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+            $budgetForecast = $currencyDisplay->FormatCurrency($parentAction->getBudgetForecast());
 
-            $actionField = $form->getElement('id');
+            $actionField = $form->getElement('action');
             $actionField->setValue($actionId);
-            $this->setDateValueToFormField($form, 'newReceiptDate', $parentAction->GetReceiptDate($this->actionMapper));
+            $projectField = $form->getElement('project');
+            $projectField->setValue($projectId);
+            $budgetField = $form->getElement('budgetForecast');
+            $budgetField->setValue($budgetForecast);
 
         }
 
@@ -148,82 +97,37 @@ class Projects_ActionController extends Zend_Controller_Action
         );
 
         $this->view->pageData = $pageData;
-        $this->view->pageTitle = $this->view->translate("#Change receipt date");
-        $this->view->pageUri = "/projects/action/change-receipt/?id=$actionId";
-        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
-
 
     }
 
-    public function changeStartAction()
+    public function budgetForecastAction()
     {
-        //$this->_helper->layout->disableLayout();
+        $this->_helper->layout->disableLayout();
 
-        // cria form
-        $form = new C3op_Form_ChangeStartDate;
-        $this->view->form = $form;
+        $data = $this->_request->getParams();
 
-        if ($this->getRequest()->isPost()) {
-            $postData = $this->getRequest()->getPost();
-            if ($form->isValid($postData)) {
-                $actionId = $form->process($postData);
+        $actionId = $data['actionId'];
 
-                $this->_helper->viewRenderer->setNoRender(TRUE);
-                $this->_redirect('/projects/action/detail/?id=' . $actionId);
-            } else {
-                //form error: populate and go back
-                $actionId = $postData['id'];
-                $result = $this->givenActionIdGetActionAndProjectObjects($actionId);
-                $parentAction = $result['actionObj'];
-                $projectAction = $result['projectObj'];
+        $this->initActionMapper();
+        $action = $this->actionMapper->findById($actionId);
 
-                $form->populate($postData);
-                $this->view->form = $form;
-            }
-        } else {
-            $data = $this->_request->getParams();
+        $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+        $budgetForecast = $currencyDisplay->FormatCurrency($action->getBudgetForecast());
 
-            $actionId = $data['id'];
-
-            if (!isset($this->actionMapper)) {
-                $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
-            }
-            if (!isset($this->projectMapper)) {
-                $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
-            }
-            $parentAction = $this->actionMapper->findById($actionId);
-            $projectId = $parentAction->getProject();
-            $projectAction = $this->projectMapper->findById($projectId);
-
-
-            $actionField = $form->getElement('id');
-            $actionField->setValue($actionId);
-
-            $this->setDateValueToFormField($form, 'newStartDate', $parentAction->GetPredictedBeginDate());
-            $this->setDateValueToFormField($form, 'newFinishDate', $parentAction->GetPredictedFinishDate());
-
-        }
 
         $pageData = array(
-            'actionId' => $actionId,
-            'actionTitle' => $parentAction->GetTitle(),
-            'projectId' => $parentAction->GetProject(),
-            'projectTitle' => $projectAction->GetShortTitle(),
-            'predictedBeginDate' => C3op_Util_DateDisplay::FormatDateToShow($parentAction->GetPredictedBeginDate()),
+            'budgetForecast' => $budgetForecast,
         );
 
         $this->view->pageData = $pageData;
-        $this->view->pageTitle = $this->view->translate("#Change start date");
-        $this->view->pageUri = "/projects/action/change-start/?id=$actionId";
-        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
-
 
     }
+
 
     public function createAction()
     {
         // cria form
-        $form = new C3op_Form_ActionCreate;
+        $form = new C3op_Form_ProductCreate;
         $this->view->form = $form;
 
         if ($this->getRequest()->isPost()) {
@@ -232,7 +136,7 @@ class Projects_ActionController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully created.'));
-                $this->_redirect(sprintf('/projects/action/detail/?id=%d&success=1', $id));
+                $this->_redirect(sprintf('/projects/product/detail/?id=%d&success=1', $id));
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -241,58 +145,78 @@ class Projects_ActionController extends Zend_Controller_Action
         } else {
             $data = $this->_request->getParams();
             $requirementForReceiving = 0;
-            $subordinatedTo = 0;
-            if (isset($data['subordinatedTo'])) {
-                $isProduct = false;
-                $subordinatedTo = $data['subordinatedTo'];
-                $this->initActionMapper();
-                $parentAction = $this->actionMapper->findById($subordinatedTo);
-                $projectId = $parentAction->GetProject();
-            } elseif (isset($data['requirementForReceiving'])) {
-                $isProduct = true;
+            if (isset($data['requirementForReceiving'])) {
                 $requirementForReceiving = $data['requirementForReceiving'];
                 $this->initReceivableMapper();
                 $parentReceivable = $this->receivableMapper->findById($requirementForReceiving);
                 $projectId = $parentReceivable->GetProject();
             } else {
-                $isProduct = true;
                 $projectId = $data['project'];
             }
 
-            if ($isProduct) {
-                $actionLabel = $this->view->translate("#Create product");
-            } else {
-                $parentActionLink = '/projects/action/detail/?id=' . $parentAction->getId();
-                $parentActionLink = "<a href='$parentActionLink'>{$parentAction->getTitle()}</a>";
-                $actionLabel = sprintf($this->view->translate("#Create action subordinated to %s"), $parentActionLink);
-            }
+            $element = $form->getElement('product');
+            $element->setValue(1);
 
             $projectData = $this->populateProjectFields($projectId, $form);
             $this->populateSupervisorField($form);
-            //$this->populateRequirementForReceivingField($projectId, $form, $requirementForReceiving);
-
-            $subordinatedToField = $form->getElement('subordinatedTo');
-            $subordinatedToField->setValue($subordinatedTo);
-
-            //$this->populateSubordinatedToField($projectId, $form, 0, $subordinatedTo);
+            $this->populateRequirementForReceivingField($projectId, $form, $requirementForReceiving);
             $pageData = array(
-                'projectId'    => $projectId,
+                'id'           => $projectId,
                 'projectTitle' => $projectData['title'],
-                'actionLabel'  => $actionLabel,
                 );
 
             $this->view->pageData = $pageData;
-            $this->view->pageTitle = $actionLabel;
-            if (isset($parentAction)) {
-                $this->view->pageUri = "/projects/action/create/?subordinatedTo=" . $parentAction->getId();
-            } else {
-                $this->view->pageUri = "/projects/action/create/?project=" . $projectId;
-            }
+            $this->view->pageTitle = $this->view->translate("#New product");
+            $this->view->pageUri = "/projects/action/create/?project=" . $projectId;
             $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
         }
+    }
 
+    public function deliveryNotifyAction()
+    {
+        // cria form
+        $form = new C3op_Form_ProductDeliveryNotify;
+        $this->view->form = $form;
 
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            if ($form->isValid($postData)) {
+                $id = $form->process($postData);
+                $this->_helper->getHelper('FlashMessenger')
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                $this->_redirect('/projects/product/detail/?id=' . $id);
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
+        } else {
+            $data = $this->_request->getParams();
+            $filters = array(
+                'id' => new Zend_Filter_Alnum(),
+            );
+            $validators = array(
+                'id' => new C3op_Util_ValidId(),
+            );
+            $input = new Zend_Filter_Input($filters, $validators, $data);
 
+            if ($input->isValid()) {
+                $this->initActionMapper();
+                $productToBeNotified =  $this->initActionWithCheckedId($this->actionMapper);
+                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $productToBeNotified->getId());
+//                $this->setDateValueToFormField($form, 'realDate', $thisAction->GetRealDate());
+//                C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'realValue', $thisAction->GetRealValue());
+                $projectId = $productToBeNotified->GetProject();
+                $data = $this->getActionData($productToBeNotified);
+                $this->populateProjectFields($projectId, $form);
+                $this->view->pageData = $data;
+
+                $this->view->pageTitle = sprintf($this->view->translate("#Notify delivery of %s", $productToBeNotified->getTitle()));
+                $this->view->pageUri = "/projects/product/delivery-notify/?id=" . $productToBeNotified->getId();
+                $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+            }
+
+        }
     }
 
     public function detailAction()
@@ -306,11 +230,6 @@ class Projects_ActionController extends Zend_Controller_Action
         $this->initInstitutionMapper();
 
         $actionToBeDetailed =  $this->initActionWithCheckedId($this->actionMapper);
-
-        if ($actionToBeDetailed->getProduct()) {
-            $this->_redirect(sprintf('/projects/product/detail/?id=%d&success=1', $actionToBeDetailed->getId()));
-        }
-
 //        $projectToBeDetailed = $this->projectMapper->findById($actionToBeDetailed->getProject());
         $messageToShow = $this->_helper->flashMessenger->getMessages();
 
@@ -354,7 +273,7 @@ class Projects_ActionController extends Zend_Controller_Action
 
         $this->view->pageData = $pageData;
         $this->view->pageTitle = $actionToBeDetailed->getTitle();
-        $this->view->pageUri = "/projects/action/detail/?id=" . $actionToBeDetailed->getId();
+        $this->view->pageUri = "/projects/product/detail/?id=" . $actionToBeDetailed->getId();
         $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
 
 
@@ -362,7 +281,7 @@ class Projects_ActionController extends Zend_Controller_Action
 
     public function editAction()
     {
-        $form = new C3op_Form_ActionEdit;
+        $form = new C3op_Form_ProductEdit;
         $this->view->form = $form;
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
@@ -370,7 +289,7 @@ class Projects_ActionController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect(sprintf('/projects/action/detail/?id=%d&success=1', $id));
+                $this->_redirect(sprintf('/projects/product/detail/?id=%d&success=1', $id));
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -396,11 +315,11 @@ class Projects_ActionController extends Zend_Controller_Action
                 $element = $form->getElement('id');
                 $element->setValue($id);
 
-//                $element = $form->getElement('milestone');
-//                $element->setValue($inputAction->getMilestone());
-
                 $element = $form->getElement('product');
                 $element->setValue($inputAction->getProduct());
+
+                $element = $form->getElement('milestone');
+                $element->setValue($inputAction->getMilestone());
 
                 $projectData = $this->populateProjectFields($inputAction->getProject(), $form);
                 $projectId = $projectData['id'];
@@ -408,109 +327,36 @@ class Projects_ActionController extends Zend_Controller_Action
                 $element = $form->getElement('description');
                 $element->setValue($inputAction->getDescription());
 
-                $this->setDateValueToFormField($form, 'baselineBeginDate', $inputAction->getBaselineBeginDate());
-                $this->setDateValueToFormField($form, 'baselineFinishDate', $inputAction->getBaselineFinishDate());
                 $this->setDateValueToFormField($form, 'predictedBeginDate', $inputAction->getPredictedBeginDate());
                 $this->setDateValueToFormField($form, 'predictedFinishDate', $inputAction->getPredictedFinishDate());
-                $this->setDateValueToFormField($form, 'realBeginDate', $inputAction->getRealBeginDate());
-                $this->setDateValueToFormField($form, 'realFinishDate', $inputAction->getRealFinishDate());
 
-                $element = $form->getElement('status');
-                $element->setValue($inputAction->getStatus());
-//                $user = Zend_Registry::get('user');
-//                $role = $user->GetRole();
-//                if ($role == C3op_Access_RolesConstants::ROLE_SYSADMIN) {
-//                    $element = $form->getElement('status');
-//                    $element->setValue($inputAction->getStatus());
-//                } else {
-//                    $form->removeElement('status');
-//                }
+                $user = Zend_Registry::get('user');
+                $role = $user->GetRole();
+                if ($role == C3op_Access_RolesConstants::ROLE_SYSADMIN) {
+                    $element = $form->getElement('status');
+                    $element->setValue($inputAction->getStatus());
+                } else {
+                    $form->removeElement('status');
+                }
 
                 $this->populateSupervisorField($form, $inputAction->getSupervisor());
-
-                if ($inputAction->getSubordinatedTo() > 0) {
-                    //$form->removeElement('requirementForReceiving');
-                } else {
-                    $this->populateRequirementForReceivingField($projectId, $form, $inputAction->getRequirementForReceiving());
-                }
+                $this->populateRequirementForReceivingField($projectId, $form, $inputAction->getRequirementForReceiving());
+//                $subordinatedToField = $form->getElement('subordinatedTo');
+//                $subordinatedToField->setValue($inputAction->getSubordinatedTo());
 
                 $this->populateSubordinatedToField($projectId, $form, $id, $inputAction->getSubordinatedTo());
             }
 
             $pageData = array(
                 'id' => $id,
+                'projectId' => $projectData['id'],
                 'title' => $projectData['title']
             );
             $this->view->pageData = $pageData;
-            $this->view->pageTitle = $this->view->translate("#Edit action");
+            $this->view->pageTitle = $this->view->translate("#Edit product");
             $this->view->pageUri = "/projects/action/edit/?id=" . $id;
             $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
         }
-    }
-
-
-    public function removeAction()
-    {
-        $form = new C3op_Form_ActionRemove();
-        $this->view->form = $form;
-        $this->initActionMapper();
-
-        if ($this->getRequest()->isPost()) {
-            $postData = $this->getRequest()->getPost();
-            if ($form->isValid($postData)) {
-                $submitButton = $form->getUnfilteredValue('Submit');
-
-                if ($submitButton) {
-                    $theAction = $this->actionMapper->findById($postData['id']);
-                    $parentActionId = $theAction->getSubordinatedTo();
-                    if ($parentActionId) {
-                        $redirectTo = '/projects/action/detail/?id=' . $parentActionId;
-                    } else {
-                        $projectAction = $theAction->getProject();
-                        $redirectTo = '/projects/project/detail/?id=' . $projectAction;
-                    }
-
-                    $id = $form->process($postData);
-                    $this->_helper->getHelper('FlashMessenger')
-                        ->addMessage($this->view->translate('#The record was successfully removed.'));
-                    $this->_redirect($redirectTo);
-                } else {
-                    $id = $postData['id'];
-                    $this->_redirect('/projects/action/detail/?id=' . $id);
-                }
-            } else {
-                //form error: populate and go back
-                $this->view->form = $form;
-            }
-        } else {
-            // GET
-            $id = $this->checkIdFromGet();
-            $actionData = array();
-            $thisAction = $this->actionMapper->findById($id);
-            $idField = $form->getElement('id');
-            $idField->setValue($id);
-            $actionData = array(
-                'id'   => $id,
-                'title' => $thisAction->getTitle(),
-            );
-            $this->view->actionData = $actionData;
-
-            $this->view->pageTitle = $this->view->translate("#Remove action");
-            $this->view->pageUri = "/projects/action/remove/?id=$id";
-            $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
-        }
-    }
-
-   public function rejectReceiptAction()
-    {
-        $this->_helper->layout->disableLayout();
-        //$this->_helper->viewRenderer->setNoRender(TRUE);
-
-        $this->initActionMapper();
-        $actionToBeChanged =  $this->initActionWithCheckedId($this->actionMapper);
-        $rejection = new C3op_Projects_ReceiptRejection();
-        $rejection->RejectReceipt($actionToBeChanged, $this->actionMapper);
-
     }
 
 
@@ -744,11 +590,6 @@ class Projects_ActionController extends Zend_Controller_Action
                 $personal = false;
             }
 
-
-
-
-
-
             $statusLabel = $this->view->translate($responsibleData['statusLabel']);
             $canContract = $responsibleData['canContract'];
             $canDismiss = $responsibleData['canDismiss'];
@@ -807,9 +648,6 @@ class Projects_ActionController extends Zend_Controller_Action
 
 
     }
-
-
-
 
      private function getMaterialSuppliesList(C3op_Projects_Action $action)
     {
@@ -875,9 +713,6 @@ class Projects_ActionController extends Zend_Controller_Action
             } else {
                 $canRemoveMaterialSupply = false;
             }
-
-
-
 
             $materialSuppliesList[$materialSupplyId] = array(
                 'id'                      => $materialSupplyId,

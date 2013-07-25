@@ -21,7 +21,7 @@ function submitBudgetForm()
 {
 
 
-$.post("/projects/action/budget-create", $("#newBudgetForm").serialize(), function(successReturn){
+$.post("/projects/product/budget-create", $("#newBudgetForm").serialize(), function(successReturn){
       $('#budgetDiv').html(successReturn);
     });
 }

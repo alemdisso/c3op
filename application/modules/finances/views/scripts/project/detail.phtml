@@ -280,7 +280,7 @@ foreach($productsList as $id => $productInfo) {
     <div class="Area">
 
       <p>
-        <a href="/projects/action/create-product/?project=<?php echo $projectHeader['id'] ?>" class="button three columns alpha omega"><?php echo $this->translate("#Add product") ?></a>
+        <a href="/projects/product/create/?project=<?php echo $projectHeader['id'] ?>" class="button three columns alpha omega"><?php echo $this->translate("#Add product") ?></a>
       </p>
 
     </div><!-- .Area -->
@@ -331,7 +331,7 @@ foreach($receivablesList as $id => $receivableInfo) {
                           </li>
                           <li>
                             <!-- [# LINK PARA A EDIÇÃO DO PRODUTO ] -->
-                            <a href="/projects/action/create-product/?requirementForReceiving=<?php echo $id ?>"><?php echo $this->translate("#Add product") ?></a>
+                            <a href="/projects/product/create/?requirementForReceiving=<?php echo $id ?>"><?php echo $this->translate("#Add product") ?></a>
                           </li>
 <?php
 

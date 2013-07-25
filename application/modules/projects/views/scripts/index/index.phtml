@@ -188,7 +188,7 @@ $(document).ready(function(){
 
     ?>
                     <tr id="node-<?php print ($productNodeId) ?>" class="<?php print ($classId) ?>">
-                    <td class="ProductAtTree"><a href="/projects/action/detail/?id=<?php print($productId) ?>"><?php print($productData['productName']) ?></a></td>
+                    <td class="ProductAtTree"><a href="/projects/product/detail/?id=<?php print($productId) ?>"><?php print($productData['productName']) ?></a></td>
                     <td><?php print $this->translate($productData['status']); ?></td>
 <!--                    <td>&nbsp;</td>-->
                     <td class="Right"><?php print($differenceInDays) ?></td>
@@ -281,7 +281,7 @@ foreach($receiptsList as $id => $receiptInfo) {
                     <a href="/projects/project/detail/?id=<?php print($receiptInfo['projectId']) ?>"><?php print($receiptInfo['projectTitle']) ?></a>
                   </td>
                   <td>
-                    <a href="/projects/action/detail/?id=<?php print($receiptInfo['relatedProductId']) ?>"><?php print($receiptInfo['relatedProductTitle']) ?></a>
+                    <a href="/projects/product/detail/?id=<?php print($receiptInfo['relatedProductId']) ?>"><?php print($receiptInfo['relatedProductTitle']) ?></a>
                   </td>
                   <td>
                     <a href="/projects/action/detail/?id=<?php print($receiptInfo['actionId']) ?>"><?php print($receiptInfo['actionTitle']) ?></a>
@@ -383,7 +383,7 @@ foreach($doneList as $id => $actionInfo) {
                     <a href="/projects/project/detail/?id=<?php print($actionInfo['projectId']) ?>"><?php print($actionInfo['projectTitle']) ?></a>
                   </td>
                   <td>
-                    <a href="/projects/action/detail/?id=<?php print($actionInfo['relatedProductId']) ?>"><?php print($actionInfo['relatedProductTitle']) ?></a>
+                    <a href="/projects/product/detail/?id=<?php print($actionInfo['relatedProductId']) ?>"><?php print($actionInfo['relatedProductTitle']) ?></a>
                   </td>
                   <td>
                     <a href="/projects/action/detail/?id=<?php print($actionInfo['actionId']) ?>"><?php print($actionInfo['actionTitle']) ?></a>
@@ -494,7 +494,7 @@ foreach($rejectedList as $id => $actionInfo) {
                     <a href="/projects/project/detail/?id=<?php print($actionInfo['projectId']) ?>"><?php print($actionInfo['projectTitle']) ?></a>
                   </td>
                   <td>
-                    <a href="/projects/action/detail/?id=<?php print($actionInfo['relatedProductId']) ?>"><?php print($actionInfo['relatedProductTitle']) ?></a>
+                    <a href="/projects/product/detail/?id=<?php print($actionInfo['relatedProductId']) ?>"><?php print($actionInfo['relatedProductTitle']) ?></a>
                   </td>
                   <td>
                     <a href="/projects/action/detail/?id=<?php print($actionInfo['actionId']) ?>"><?php print($actionInfo['actionTitle']) ?></a>
