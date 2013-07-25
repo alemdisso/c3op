@@ -357,7 +357,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         );
         $this->view->pageData = $pageData;
         $this->view->pageTitle = $this->view->translate("#Project") . " " . $projectHeader['projectTitle'];
-        $this->view->pageUri = "/projects/project/detail/id=" . $projectHeader['id'];
+        $this->view->pageUri = "/projects/project/detail/?id=" . $projectHeader['id'];
         $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
 
     }
