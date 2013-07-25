@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-07-25 10:03-0300\n"
-"PO-Revision-Date: 2013-07-25 10:03-0300\n"
+"PO-Revision-Date: 2013-07-25 15:05-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -116,7 +116,7 @@ msgstr "(não definido)"
 #: application\modules\projects/views/scripts/index/index.phtml:67
 #: application\modules\projects/views/scripts/index/index.phtml:78
 msgid "#Active Projects"
-msgstr "Projetos em andamento"
+msgstr "Em andamento"
 
 #: application\modules\projects/controllers/IndexController.php:173
 #: application\modules\projects/views/scripts/index/all-projects.phtml:6
@@ -935,15 +935,15 @@ msgstr "Todos os projetos"
 
 #: application\modules\projects/views/scripts/index/index.phtml:70
 msgid "#All Resources"
-msgstr "Todos os recursos"
+msgstr "Responsáveis"
 
 #: application\modules\projects/views/scripts/index/index.phtml:71
 msgid "#Delayed Actions"
-msgstr "Ações em atraso"
+msgstr "Em atraso"
 
 #: application\modules\projects/views/scripts/index/index.phtml:72
 msgid "#Accepted receipts"
-msgstr "Tarefas prontas"
+msgstr "Aprovadas"
 
 #: application\modules\projects/views/scripts/index/index.phtml:73
 msgid "#Rejected receipts"

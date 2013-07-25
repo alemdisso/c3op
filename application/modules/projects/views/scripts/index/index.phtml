@@ -65,10 +65,10 @@ $(document).ready(function(){
     <div id="tabs">
       <ul>
         <li><a href="#tabs-projects"><?php echo $this->translate("#Active Projects") ?></a></li>
-        <li><a href="#tabs-receipts"><?php echo $this->translate("#Receipts") ?></a></li>
         <li><a href="#tabs-all"><?php echo $this->translate("#All Projects") ?></a></li>
         <li><a href="#tabs-resources"><?php echo $this->translate("#All Resources") ?></a></li>
         <li><a href="#tabs-delayed"><?php echo $this->translate("#Delayed Actions") ?></a></li>
+        <li><a href="#tabs-receipts"><?php echo $this->translate("#Receipts") ?></a></li>
         <li><a href="#tabs-done"><?php echo $this->translate("#Accepted receipts") ?></a></li>
         <li><a href="#tabs-rejected"><?php echo $this->translate("#Rejected receipts") ?></a></li>
       </ul>
@@ -84,9 +84,9 @@ $(document).ready(function(){
 ?>
 
                 <a href="javascript:$('.treeTable').expandAll();"><img src="/images/bt_open.png" alig="absmiddle" /> <?php echo $this->translate("#Expand all") ?></a> | <a href="javascript:$('.treeTable').collapseAll();"><img src="/images/bt_close.png" alig="absmiddle" /> <?php echo $this->translate("#Collapse all") ?></a>
-				
+
 				<div style="margin-bottom:15px;"></div>
-				
+
                 <table id="tree" border="1" width="100%">
                     <thead>
                             <tr>

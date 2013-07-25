@@ -1,1 +1,0 @@
-ALTER TABLE  `projects_actions` ADD  `budget_forecast` DECIMAL( 10, 2 ) NOT NULL DEFAULT  '0.00';
