@@ -90,7 +90,7 @@ class C3op_Projects_ActionHeader {
 
         $readyToDelivery = false;
         if ($this->action->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_DONE) {
-            $tester = new C3op_Access_PrivilegeTester($user, $acl, "projects", "action", "delivery-notify");
+            $tester = new C3op_Access_PrivilegeTester($user, $acl, "projects", "product", "delivery-notify");
             if ($tester->allow()) {
                 $readyToDelivery = true;
             }
@@ -113,7 +113,7 @@ class C3op_Projects_ActionHeader {
         $acl = Zend_Registry::get('acl');
 
         $canEditBudget = false;
-        $tester = new C3op_Access_PrivilegeTester($user, $acl, "projects", "action", "budget-create");
+        $tester = new C3op_Access_PrivilegeTester($user, $acl, "projects", "product", "budget-create");
         if ($tester->allow()) {
             $canEditBudget = true;
         }
