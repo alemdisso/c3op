@@ -212,7 +212,7 @@ foreach($productsList as $id => $productInfo) {
                           <a title="<?php print($productInfo['receivableDescription']) ?>" href="/finances/receivable/detail/?id=<?php  print($productInfo['receivableId'])  ?>"><?php  print($productInfo['requirementForReceiving'])  ?></a>
                           <!--<em>Essa é a descrição de um recebimento conforme consta no contrato.<br>Inclusive com mais de uma linha.<br></em>-->
                       </div
-<?php
+><?php
     } else {
               print($productInfo['requirementForReceiving']);
     }
@@ -241,7 +241,7 @@ foreach($productsList as $id => $productInfo) {
         <div id="tabs-action">
           <div class="Area">
             <h2><?php echo $this->translate("#Actions") ?></h2>
-            <a href="javascript:$('.treeTable').expandAll();"><?php echo $this->translate("#Expand all") ?></a> | <a href="javascript:$('.treeTable').collapseAll();"><?php echo $this->translate("#Collapse all") ?></a>
+            <a href="javascript:$('.treeTable').expandAll();"><img src="/images/bt_open.png" alig="absmiddle"/> <?php echo $this->translate("#Expand all") ?></a> | <a href="javascript:$('.treeTable').collapseAll();"><img src="/images/bt_close.png" alig="absmiddle"/> <?php echo $this->translate("#Collapse all") ?></a>
     <table id="tree" border="1">
     	<thead>
     		<tr>

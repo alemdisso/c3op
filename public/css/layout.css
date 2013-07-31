@@ -113,7 +113,7 @@
   text-decoration: none;
 }
 
-#Menu ul li.active {
+#Menu ul li.active, #Menu ul li:hover {
   border-top: #bb2f39 3px solid;
   margin-top: -6px;
   padding-top: 3px;
@@ -129,7 +129,7 @@
   text-decoration: none;
 }
 
-#Menu ul li.active .menufinances {
+#Menu ul li.active.menufinances, #Menu ul li.menufinances:hover {
   border-top: #f09000 3px solid;
   margin-top: -6px;
   padding-top: 3px;
@@ -145,7 +145,7 @@
   text-decoration: none;
 }
 
-#Menu ul li.active .menuregister {
+#Menu ul li.menuregister.active, #Menu ul li.menuregister:hover {
   border-top: #436499 3px solid;
   margin-top: -6px;
   padding-top: 3px;
@@ -164,6 +164,7 @@
   background: url(/images/icon_breadcrumb.png) no-repeat left 10px;
   padding-left: 20px;
   margin-top: 25px;
+  width: 1080px;
 }
 
 #Breadcrumb a {

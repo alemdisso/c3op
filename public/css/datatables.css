@@ -149,14 +149,22 @@ table.display {
 	 */
 }
 
+table.display thead {
+	background: #f6f6f6;
+}
+
+
 table.display thead th {
-	padding: 3px 18px 3px 10px;
-	border-bottom: 1px solid #dddddd;
-	border-top: 1px solid #bbbbbb;
-	font-weight: bold;
+	padding: 5px 10px;
+	border-bottom: 1px solid #c0c0bf;
+	border-top: 1px solid #c0c0bf;
+	/*background: #f6f6f6;*/
+	font-weight: normal;
 	cursor: pointer;
 	* cursor: hand;
 	text-align: left;	
+	color: #666;
+	text-transform: uppercase;
 }
 
 table.display tfoot th {
@@ -170,7 +178,7 @@ table.display tr.heading2 td {
 }
 
 table.display td {
-	padding: 3px 10px;
+	padding: 5px 10px;
 	overflow: hidden;
 }
 
