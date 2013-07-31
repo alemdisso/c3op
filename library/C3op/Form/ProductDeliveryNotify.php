@@ -6,7 +6,7 @@ class C3op_Form_ProductDeliveryNotify extends Zend_Form
 
         // initialize form
         $this->setName('notifyActionDeliveryForm')
-            ->setAction('/projects/action/delivery-notify')
+            ->setAction('/projects/product/delivery-notify')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
