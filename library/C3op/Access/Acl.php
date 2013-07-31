@@ -36,6 +36,7 @@ public function __construct() {
     $this->add(new Zend_Acl_Resource('c3op:projects.index'));
     $this->add(new Zend_Acl_Resource('c3op:projects.action'));
     $this->add(new Zend_Acl_Resource('c3op:projects.contract'));
+    $this->add(new Zend_Acl_Resource('c3op:projects.product'));
     $this->add(new Zend_Acl_Resource('c3op:projects.project'));
     $this->add(new Zend_Acl_Resource('c3op:resources.material-supply'));
     $this->add(new Zend_Acl_Resource('c3op:resources.outside-service'));
@@ -61,7 +62,7 @@ public function __construct() {
     $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:finances.product', 'detail');
     $this->deny(C3op_Access_RolesConstants::ROLE_CONTROLLER,     'c3op:finances.product', 'detail');
     $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR, 'c3op:finances.product', 'detail');
-    
+
     $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:finances.project', 'detail');
     $this->deny(C3op_Access_RolesConstants::ROLE_CONTROLLER,     'c3op:finances.project', 'detail');
     $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR, 'c3op:finances.project', 'detail');
@@ -81,19 +82,27 @@ public function __construct() {
     $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR,   'c3op:projects.action', 'accept-receipt');
     $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:projects.action', 'acknowledge-receipt');
     $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:projects.action', 'acknowledge-start');
-    $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:projects.action', 'delivery-notify');
-    $this->deny(C3op_Access_RolesConstants::ROLE_CONTROLLER,     'c3op:projects.action', 'delivery-notify');
+//    $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:projects.action', 'delivery-notify');
+//    $this->deny(C3op_Access_RolesConstants::ROLE_CONTROLLER,     'c3op:projects.action', 'delivery-notify');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.action', 'create');
     $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:projects.action', 'change-start');
-    $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:projects.action', 'create-product');
-    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.action', 'edit-product');
+//    $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:projects.action', 'create-product');
+//    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.action', 'edit-product');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.action', 'detail');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.action', 'edit');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.action', 'populate-subordinated-to');
     $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR,   'c3op:projects.action', 'reject-receipt');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.action', 'remove');
-    $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR,   'c3op:projects.action', 'budget-create');
-    $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR,   'c3op:projects.action', 'budget-forecast');
+//    $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR,   'c3op:projects.action', 'budget-create');
+//    $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR,   'c3op:projects.action', 'budget-forecast');
+
+    $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR,   'c3op:projects.product', 'budget-create');
+    $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR,   'c3op:projects.product', 'budget-forecast');
+    $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:projects.product', 'create');
+    $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:projects.product', 'delivery-notify');
+    $this->deny(C3op_Access_RolesConstants::ROLE_CONTROLLER,     'c3op:projects.product', 'delivery-notify');
+    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.product', 'detail');
+    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.product', 'edit');
 
     $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:resources.responsible');
     $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:resources.responsible', 'create');
