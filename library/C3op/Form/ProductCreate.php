@@ -4,7 +4,7 @@ class C3op_Form_ProductCreate extends Zend_Form
     public function init()
     {
         $this->setName('newActionForm')
-            ->setAction('/projects/action/create-product')
+            ->setAction('/projects/product/create')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 

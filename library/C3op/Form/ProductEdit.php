@@ -7,7 +7,7 @@ class C3op_Form_ProductEdit extends C3op_Form_ProductCreate
 
         // initialize form
         $this->setName('editActionForm')
-            ->setAction('/projects/action/edit-product')
+            ->setAction('/projects/product/edit')
             ->setMethod('post');
 
         $element = new Zend_Form_Element_Hidden('id');
