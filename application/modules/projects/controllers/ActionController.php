@@ -22,9 +22,10 @@ class Projects_ActionController extends Zend_Controller_Action
 
     public function postDispatch()
     {
-        $trail = new C3op_Util_Breadcrumb();
         if (isset($this->view->pageTitle)) {
+            $trail = new C3op_Util_Breadcrumb();
             $breadcrumb = $trail->add($this->view->pageTitle, $this->getRequest()->getRequestUri());
+            $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
         }
     }
 
@@ -145,7 +146,7 @@ class Projects_ActionController extends Zend_Controller_Action
 
         $this->view->pageData = $pageData;
         $this->view->pageTitle = $this->view->translate("#Change receipt date");
-        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
 
 
     }
@@ -209,7 +210,7 @@ class Projects_ActionController extends Zend_Controller_Action
 
         $this->view->pageData = $pageData;
         $this->view->pageTitle = $this->view->translate("#Change start date");
-        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
 
 
     }
@@ -277,7 +278,7 @@ class Projects_ActionController extends Zend_Controller_Action
 
             $this->view->pageData = $pageData;
             $this->view->pageTitle = $actionLabel;
-            $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
         }
 
 
@@ -343,7 +344,7 @@ class Projects_ActionController extends Zend_Controller_Action
 
         $this->view->pageData = $pageData;
         $this->view->pageTitle = $actionToBeDetailed->getTitle();
-        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
 
 
     }
@@ -431,7 +432,7 @@ class Projects_ActionController extends Zend_Controller_Action
             );
             $this->view->pageData = $pageData;
             $this->view->pageTitle = $this->view->translate("#Edit action");
-            $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
         }
     }
 
@@ -483,7 +484,7 @@ class Projects_ActionController extends Zend_Controller_Action
             $this->view->actionData = $actionData;
 
             $this->view->pageTitle = $this->view->translate("#Remove action");
-            $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
         }
     }
 

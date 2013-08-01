@@ -31,9 +31,10 @@ class Projects_ProjectController extends Zend_Controller_Action
 
     public function postDispatch()
     {
-        $trail = new C3op_Util_Breadcrumb();
         if (isset($this->view->pageTitle)) {
+            $trail = new C3op_Util_Breadcrumb();
             $breadcrumb = $trail->add($this->view->pageTitle, $this->getRequest()->getRequestUri());
+            $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
         }
     }
 
@@ -70,7 +71,7 @@ class Projects_ProjectController extends Zend_Controller_Action
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $id);
 
             $this->view->pageTitle = $this->view->translate("#New amendment");
-            $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
 
         }
     }
@@ -111,7 +112,7 @@ class Projects_ProjectController extends Zend_Controller_Action
             $element->setValue(C3op_Projects_ProjectStatusConstants::STATUS_PROSPECTING);
 
             $this->view->pageTitle = $this->view->translate("#Create project");
-            $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
 
         }
     }
@@ -351,7 +352,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         );
         $this->view->pageData = $pageData;
         $this->view->pageTitle = $this->view->translate("#Project") . " " . $projectHeader['projectTitle'];
-        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
 
     }
 
@@ -401,7 +402,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         $pageData = array('projectTitle' => $shortTitle);
         $this->view->pageData = $pageData;
         $this->view->pageTitle = $this->view->translate("#Edit project") . " " . $shortTitle;
-        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
     }
 
     public function engagementAction()
@@ -604,7 +605,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         } else {
             $this->view->pageTitle = sprintf($this->view->translate("#%s's participation in the project"), $institutionName);
         }
-        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
 
     }
 

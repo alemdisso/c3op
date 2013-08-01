@@ -16,9 +16,10 @@ class IndexController extends Zend_Controller_Action
 
     public function postDispatch()
     {
-        $trail = new C3op_Util_Breadcrumb();
         if (isset($this->view->pageTitle)) {
+            $trail = new C3op_Util_Breadcrumb();
             $breadcrumb = $trail->add($this->view->pageTitle, $this->getRequest()->getRequestUri());
+            $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
         }
     }
 
@@ -30,7 +31,7 @@ class IndexController extends Zend_Controller_Action
   public function indexAction()
   {
         $this->view->pageTitle = $this->view->translate("#Dashboard");
-        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
 
   }
 

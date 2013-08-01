@@ -28,11 +28,11 @@ class Finances_IndexController extends Zend_Controller_Action
 
     public function postDispatch()
     {
-        $trail = new C3op_Util_Breadcrumb();
         if (isset($this->view->pageTitle)) {
+            $trail = new C3op_Util_Breadcrumb();
             $breadcrumb = $trail->add($this->view->pageTitle, $this->getRequest()->getRequestUri());
+            $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
         }
-echo $this->getRequest()->getRequestUri();
     }
 
     public function init()
@@ -112,7 +112,7 @@ echo $this->getRequest()->getRequestUri();
 
         $this->view->pageData = $pageData;
         $this->view->pageTitle = $this->view->translate("#Finances");
-        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
 
 
     }

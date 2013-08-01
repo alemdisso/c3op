@@ -24,9 +24,10 @@ class Finances_ProductController extends Zend_Controller_Action
 
     public function postDispatch()
     {
-        $trail = new C3op_Util_Breadcrumb();
         if (isset($this->view->pageTitle)) {
+            $trail = new C3op_Util_Breadcrumb();
             $breadcrumb = $trail->add($this->view->pageTitle, $this->getRequest()->getRequestUri());
+            $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
         }
     }
 
@@ -93,7 +94,7 @@ class Finances_ProductController extends Zend_Controller_Action
 
         $this->view->pageData = $pageData;
         $this->view->pageTitle = sprintf($this->view->translate("#Details of product %s"), $actionHeader['title']);
-        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
     }
 
 

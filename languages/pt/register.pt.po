@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-13 20:02-0300\n"
-"PO-Revision-Date: 2013-02-13 20:02-0300\n"
+"POT-Creation-Date: 2013-08-01 17:17-0300\n"
+"PO-Revision-Date: 2013-08-01 17:19-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -22,71 +22,101 @@ msgstr ""
 msgid "#Access denied"
 msgstr "Acesso negado"
 
-#: application\modules\register/controllers/ContactController.php:44
+#: application\modules\register/controllers/ContactController.php:41
+#: application\modules\register/controllers/ContactController.php:84
+#: application\modules\register/controllers/ContactController.php:126
+msgid "#Invalid contact id"
+msgstr "Contato inválido."
+
+#: application\modules\register/controllers/ContactController.php:50
+#: application\modules\register/controllers/ContactController.php:93
+#: application\modules\register/controllers/ContactController.php:135
+#: application\modules\register/controllers/ContactController.php:171
+#: application\modules\register/controllers/ContactController.php:228
+#: application\modules\register/controllers/ContactController.php:349
+#: application\modules\register/controllers/ContactController.php:525
+#: application\modules\register/controllers/InstitutionController.php:89
+#: application\modules\register/controllers/LinkageController.php:68
+#: application\modules\register/controllers/LinkageController.php:145
+#: application\modules\register/controllers/LinkageController.php:191
+#: application\modules\register/controllers/LinkageController.php:262
+#: application\modules\register/controllers/LinkageController.php:304
+msgid "#The record was successfully updated."
+msgstr "O registro foi atualizado com sucesso."
+
+#: application\modules\register/controllers/ContactController.php:72
+#: application\modules\register/views/scripts/contact/add-email.phtml:5
+#, php-format
+msgid "#Create %s's email address"
+msgstr "Adicionar email para %s"
+
+#: application\modules\register/controllers/ContactController.php:114
+#: application\modules\register/views/scripts/contact/add-messenger.phtml:5
+#, php-format
+msgid "#Create %s's service messenger"
+msgstr "Adicionar serviço de %s"
+
+#: application\modules\register/controllers/ContactController.php:155
+#: application\modules\register/views/scripts/contact/add-phone-number.phtml:5
+#, php-format
+msgid "#Create %s's phone number"
+msgstr "Adicionar telefone de %s"
+
+#: application\modules\register/controllers/ContactController.php:191
+msgid "#Invalid Email Id from Get"
+msgstr "Invalid Email Id from Get"
+
+#: application\modules\register/controllers/ContactController.php:212
+#: application\modules\register/views/scripts/contact/change-email.phtml:5
+#, php-format
+msgid "#Change %s's email address"
+msgstr "Alterar email de %s"
+
+#: application\modules\register/controllers/ContactController.php:248
+#: application\modules\register/controllers/ContactController.php:544
+#: application\modules\register/controllers/ContactController.php:591
+#: application\modules\register/controllers/ContactController.php:609
+#: application\modules\register/controllers/LinkageController.php:516
+msgid "#Invalid Contact Id from Get"
+msgstr "Invalid Contact Id from Get"
+
+#: application\modules\register/controllers/ContactController.php:269
+#: application\modules\register/views/scripts/contact/change-messenger.phtml:5
+#, php-format
+msgid "#Change %s's service messenger"
+msgstr "Alterar endereço de %s"
+
+#: application\modules\register/controllers/ContactController.php:293
 msgid "#(undefined)"
 msgstr "(indefinido)"
 
-#: application\modules\register/controllers/ContactController.php:81
+#: application\modules\register/controllers/ContactController.php:330
 #: application\modules\register/controllers/InstitutionController.php:70
 #: application\modules\register/controllers/LinkageController.php:38
 msgid "#The record was successfully created."
 msgstr "O registro foi criado com sucesso."
 
-#: application\modules\register/controllers/ContactController.php:100
-#: application\modules\register/controllers/ContactController.php:289
-#: application\modules\register/controllers/ContactController.php:327
-#: application\modules\register/controllers/ContactController.php:388
-#: application\modules\register/controllers/ContactController.php:424
-#: application\modules\register/controllers/ContactController.php:484
-#: application\modules\register/controllers/ContactController.php:519
-#: application\modules\register/controllers/InstitutionController.php:89
-#: application\modules\register/controllers/LinkageController.php:68
-#: application\modules\register/controllers/LinkageController.php:158
-#: application\modules\register/controllers/LinkageController.php:204
-#: application\modules\register/controllers/LinkageController.php:275
-#: application\modules\register/controllers/LinkageController.php:317
-msgid "#The record was successfully updated."
-msgstr "O registro foi atualizado com sucesso."
-
-#: application\modules\register/controllers/ContactController.php:154
-#: application\modules\register/controllers/LinkageController.php:384
+#: application\modules\register/controllers/ContactController.php:391
+#: application\modules\register/controllers/LinkageController.php:371
 msgid "#The record was successfully removed."
 msgstr "O registro foi removido com sucesso."
 
-#: application\modules\register/controllers/ContactController.php:280
-#: application\modules\register/controllers/ContactController.php:379
-#: application\modules\register/controllers/ContactController.php:475
-msgid "#Invalid contact id"
-msgstr "Contato inválido."
-
-#: application\modules\register/controllers/ContactController.php:319
+#: application\modules\register/controllers/ContactController.php:517
 msgid "#Invalid phone number"
 msgstr "Telefone inválido."
 
-#: application\modules\register/controllers/ContactController.php:346
-#: application\modules\register/controllers/ContactController.php:539
-#: application\modules\register/controllers/ContactController.php:584
-#: application\modules\register/controllers/ContactController.php:602
-#: application\modules\register/controllers/LinkageController.php:529
-msgid "#Invalid Contact Id from Get"
-msgstr ""
-
-#: application\modules\register/controllers/ContactController.php:444
-msgid "#Invalid Email Id from Get"
-msgstr ""
-
-#: application\modules\register/controllers/InstitutionController.php:181
+#: application\modules\register/controllers/InstitutionController.php:171
 msgid "#Invalid Institution Id from Get"
-msgstr ""
+msgstr "Invalid Institution Id from Get"
 
-#: application\modules\register/controllers/LinkageController.php:223
-#: application\modules\register/controllers/LinkageController.php:332
-#: application\modules\register/controllers/LinkageController.php:484
-#: application\modules\register/controllers/LinkageController.php:502
+#: application\modules\register/controllers/LinkageController.php:210
+#: application\modules\register/controllers/LinkageController.php:319
+#: application\modules\register/controllers/LinkageController.php:471
+#: application\modules\register/controllers/LinkageController.php:489
 msgid "#Invalid Linkage Id from Get"
-msgstr ""
+msgstr "Invalid Linkage Id from Get"
 
-#: application\modules\register/controllers/LinkageController.php:410
+#: application\modules\register/controllers/LinkageController.php:397
 #, php-format
 msgid "#Confirm removal of linkage between %s and %s?"
 msgstr "Confirma a remoção do vínculo entre %s e %s?"
@@ -145,34 +175,9 @@ msgstr "Fornecedor"
 msgid "#Contractor"
 msgstr "Contratante"
 
-#: application\modules\register/views/scripts/contact/add-email.phtml:5
-#, php-format
-msgid "#Create %s's email address"
-msgstr "Adicionar email para %s"
-
-#: application\modules\register/views/scripts/contact/add-messenger.phtml:5
-#, php-format
-msgid "#Create %s's service messenger"
-msgstr "Adicionar serviço de %s"
-
-#: application\modules\register/views/scripts/contact/add-phone-number.phtml:5
-#, php-format
-msgid "#Create %s's phone number"
-msgstr "Adicionar telefone de %s"
-
-#: application\modules\register/views/scripts/contact/change-email.phtml:5
-#, php-format
-msgid "#Change %s's email address"
-msgstr "Alterar email de %s"
-
-#: application\modules\register/views/scripts/contact/change-messenger.phtml:5
-#, php-format
-msgid "#Change %s's service messenger"
-msgstr "Alterar endereço de %s"
-
 #: application\modules\register/views/scripts/contact/change-phone-number.phtml:5
 #, php-format
-msgid "#Change phone number of %s"
+msgid "#Change %s's phone number"
 msgstr "Alterar telefone de %s"
 
 #: application\modules\register/views/scripts/contact/create.phtml:2
@@ -328,12 +333,6 @@ msgstr "Remover contato"
 msgid "#Do you confirm removal of contact %s? This CAN'T be undone."
 msgstr "Confirma a remoção do contato %s? Isso NÃO poderá ser desfeito."
 
-#: application\modules\register/views/scripts/contact/success.phtml:2
-#: application\modules\register/views/scripts/institution/success.phtml:2
-#: application\modules\register/views/scripts/linkage/success.phtml:2
-msgid "#Success!"
-msgstr "Sucesso!"
-
 #: application\modules\register/views/scripts/index/index.phtml:2
 msgid "#Register"
 msgstr "Cadastro"
@@ -390,6 +389,12 @@ msgstr "Criar Nova Instituição"
 #: application\modules\register/views/scripts/linkage/edit.phtml:3
 msgid "#Edit linkage"
 msgstr "Editar vínculo"
+
+#~ msgid "#Change phone number of %s"
+#~ msgstr "Alterar telefone de %s"
+
+#~ msgid "#Success!"
+#~ msgstr "Sucesso!"
 
 #~ msgid "#Create linkage"
 #~ msgstr "Criar novo vínculo"

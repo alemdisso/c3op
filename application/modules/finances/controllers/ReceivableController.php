@@ -18,9 +18,10 @@ class Finances_ReceivableController extends Zend_Controller_Action
 
     public function postDispatch()
     {
-        $trail = new C3op_Util_Breadcrumb();
         if (isset($this->view->pageTitle)) {
+            $trail = new C3op_Util_Breadcrumb();
             $breadcrumb = $trail->add($this->view->pageTitle, $this->getRequest()->getRequestUri());
+            $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
         }
     }
 
@@ -59,7 +60,7 @@ class Finances_ReceivableController extends Zend_Controller_Action
             );
             $this->view->pageData = $pageData;
             $this->view->pageTitle = $this->view->translate("#Create receivable");
-            $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
         }
     }
 
@@ -173,7 +174,7 @@ class Finances_ReceivableController extends Zend_Controller_Action
 
         $this->view->pageData = $pageData;
         $this->view->pageTitle = sprintf($this->view->translate("#Details of receivable %s"), $receivableData['title']);
-        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
 
     }
 
@@ -223,7 +224,7 @@ class Finances_ReceivableController extends Zend_Controller_Action
 
         }
         $this->view->pageTitle = $this->view->translate("#Edit receivable");
-        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
     }
 
     public function notifyAction()
@@ -267,7 +268,7 @@ class Finances_ReceivableController extends Zend_Controller_Action
             }
 
             $this->view->pageTitle = $this->view->translate("#Notify receiving");
-            $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
 
 
         }

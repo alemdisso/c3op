@@ -25,9 +25,10 @@ class Finances_OutlayController  extends Zend_Controller_Action
 
     public function postDispatch()
     {
-        $trail = new C3op_Util_Breadcrumb();
         if (isset($this->view->pageTitle)) {
+            $trail = new C3op_Util_Breadcrumb();
             $breadcrumb = $trail->add($this->view->pageTitle, $this->getRequest()->getRequestUri());
+            $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
         }
     }
 
@@ -70,7 +71,7 @@ class Finances_OutlayController  extends Zend_Controller_Action
         $this->view->pageData = $responsibleData;
 
         $this->view->pageTitle = $this->view->translate("#Create outlay");
-        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
 
     }
 
@@ -125,7 +126,7 @@ class Finances_OutlayController  extends Zend_Controller_Action
         }
         $this->view->pageData = $responsibleData;
         $this->view->pageTitle = $this->view->translate("#Edit outlay");
-        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
 
     }
     public function notifyAction()
@@ -170,7 +171,7 @@ class Finances_OutlayController  extends Zend_Controller_Action
                 $this->populateProjectFields($projectId, $form);
                 $this->view->pageData = $data;
                 $this->view->pageTitle = $this->view->translate("#Notify outlay");
-                $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
             }
 
         }

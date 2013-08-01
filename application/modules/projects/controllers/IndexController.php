@@ -23,15 +23,11 @@ class Projects_IndexController extends Zend_Controller_Action
 
     public function postDispatch()
     {
-
-        $trail = new C3op_Util_Breadcrumb();
-
         if (isset($this->view->pageTitle)) {
+            $trail = new C3op_Util_Breadcrumb();
             $breadcrumb = $trail->add($this->view->pageTitle, $this->getRequest()->getRequestUri());
-
+            $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
         }
-
-
     }
 
     public function init()
@@ -131,7 +127,7 @@ class Projects_IndexController extends Zend_Controller_Action
         );
 
         $this->view->pageTitle = $this->view->translate("#Active Projects");
-        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
 
 
     }
@@ -169,7 +165,7 @@ class Projects_IndexController extends Zend_Controller_Action
         );
 
         $this->view->pageTitle = $this->view->translate("#Projects");
-        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
 
 
     }
@@ -598,7 +594,7 @@ class Projects_IndexController extends Zend_Controller_Action
         } else {
             $this->view->pageTitle = sprintf($this->view->translate("#%s's participation in active projects"), $institutionName);
         }
-        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
 
     }
 
