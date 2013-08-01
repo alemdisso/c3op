@@ -80,7 +80,6 @@ class Finances_ProductController extends Zend_Controller_Action
         );
 
         $this->view->pageData = $pageData;
-
     }
 
 

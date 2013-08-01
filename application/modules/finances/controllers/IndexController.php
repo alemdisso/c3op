@@ -13,16 +13,33 @@ class Finances_IndexController extends Zend_Controller_Action
     private $receivableMapper;
     private $deliveryMapper;
 
+    public function preDispatch()
+    {
+        try {
+            $checker = new C3op_Access_PrivilegeChecker();
+        } catch (Exception $e) {
+            throw $e;
+        }
+
+        $this->view->pageTitle = "";
+
+
+    }
+
+    public function postDispatch()
+    {
+        $trail = new C3op_Util_Breadcrumb();
+        if (isset($this->view->pageTitle)) {
+            $breadcrumb = $trail->add($this->view->pageTitle, $this->getRequest()->getRequestUri());
+        }
+echo $this->getRequest()->getRequestUri();
+    }
+
     public function init()
     {
 
         $this->db = Zend_Registry::get('db');
         $this->projectMapper = new C3op_Projects_ProjectMapper($this->db);
-
-        $ajaxContext = $this->_helper->getHelper('AjaxContext');
-        $ajaxContext->addActionContext('list', 'html')
-                    ->addActionContext('modify', 'html')
-                    ->initContext();
 
    }
 
@@ -62,9 +79,6 @@ class Finances_IndexController extends Zend_Controller_Action
 
             $data = $this->fetchPayableData($thisOutlay);
 
-
-
-
             $payablesList[$id] = $data;
 
         }
@@ -97,9 +111,8 @@ class Finances_IndexController extends Zend_Controller_Action
             );
 
         $this->view->pageData = $pageData;
-        //$this->view->projectsList = $activeProjectsList;
-
-        //$this->view->createProjectLink = "/projects/project/create";
+        $this->view->pageTitle = $this->view->translate("#Finances");
+        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
 
 
     }
@@ -131,14 +144,11 @@ class Finances_IndexController extends Zend_Controller_Action
         $projectTitle = $thisProject->GetShortTitle();
         $projectId = $thisProject->GetId();
 
-
-
         $payeeName = $this->view->translate("#Not defined");
         $payeeId = null;
         if ($outlay->getResponsible() > 0) {
             $responsibleId = $outlay->getResponsible();
             $theResponsible = $this->responsibleMapper->findById($responsibleId);
-
 
             $contactId = null;
             $institutionId = null;
@@ -159,11 +169,7 @@ class Finances_IndexController extends Zend_Controller_Action
                 $payeeId = $theResponsible->getInstitution();
             }
 
-
-
             if ($payeeId) {
-
-
                 $status = $theResponsible->getStatus();
                 if ($status == C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED) {
                     $doesIt = new C3op_Resources_ResponsibleHasCredit($theResponsible, $this->responsibleMapper);
@@ -175,10 +181,6 @@ class Finances_IndexController extends Zend_Controller_Action
                 } else {
                     $canNotifyOutlay = false;
                 }
-
-
-
-
             }
         }
 
@@ -234,11 +236,9 @@ class Finances_IndexController extends Zend_Controller_Action
             $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
         }
 
-
         $outlayData = array();
 
         if ($outlay->GetResponsible() > 0) {
-
             $responsible = $this->responsibleMapper->findById($outlay->GetResponsible() );
 
             $payeeName = $this->view->translate("#(not defined)");
@@ -285,7 +285,6 @@ class Finances_IndexController extends Zend_Controller_Action
             $statusTypes = new C3op_Projects_ActionStatusTypes();
             $actionStatusLabel = $this->view->translate($statusTypes->TitleForType($actionStatus));
 
-
             $status = $responsible->getStatus();
             if ($status == C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED) {
                 $doesIt = new C3op_Resources_ResponsibleHasCredit($responsible, $this->responsibleMapper);
@@ -297,9 +296,6 @@ class Finances_IndexController extends Zend_Controller_Action
             } else {
                 $canNotifyOutlay = false;
             }
-
-
-
 
             $validator = new C3op_Util_ValidDate();
             if ($validator->isValid($responsibleAction->getPredictedBeginDate())) {
@@ -357,13 +353,10 @@ class Finances_IndexController extends Zend_Controller_Action
         }
     }
 
-
    private function initInstitutionMapper()
     {
          $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
     }
-
-
 
     private function initResponsibleMapper()
     {
@@ -379,7 +372,6 @@ class Finances_IndexController extends Zend_Controller_Action
         }
     }
 
-
    private function initReceivableMapper()
     {
         if (!isset($this->receivableMapper)) {
@@ -387,18 +379,13 @@ class Finances_IndexController extends Zend_Controller_Action
         }
     }
 
-
-
     private function fillProjectsList($all = false)
     {
-
-
         $this->initInstitutionMapper();
         $this->initContactMapper();
         $this->initReceivableMapper();
         $this->initDeliveryMapper();
         $this->initActionMapper();
-
 
         if ($all) {
             $projects = $this->projectMapper->getAllProjects();
@@ -406,7 +393,6 @@ class Finances_IndexController extends Zend_Controller_Action
             $projects = $this->projectMapper->getAllActiveProjects();
         }
         $data = array();
-
 
         $data = array();
         reset ($projects);
@@ -437,7 +423,6 @@ class Finances_IndexController extends Zend_Controller_Action
             $allActionsInProject = $this->projectMapper->GetAllActions($loopProject);
             $totalProjectCost = 0.0;
 
-
             $materialSupplierMapper = new C3op_Resources_MaterialSupplyMapper($this->db);
             foreach ($allActionsInProject as $actionId) {
                 $loopAction = $this->actionMapper->findById($actionId);
@@ -447,8 +432,6 @@ class Finances_IndexController extends Zend_Controller_Action
                 $totalProjectCost += $currentActionValue;
                 $totalProjectCost += $materialCost;
             }
-
-
 
             $formatedTotalCost = $currencyDisplay->FormatCurrency($totalProjectCost);
 
@@ -460,15 +443,10 @@ class Finances_IndexController extends Zend_Controller_Action
             }
 
             $formatedBalanceValue = $currencyDisplay->FormatCurrency($balanceValue);
-
-
-
 //
 //           $this->receivableMapper = new C3op_Finances_ReceivableMapper($this->db);
 //           $obj = new C3op_Finances_ProjectFinancialProgress($thisProject, $this->receivableMapper);
 //           $receivedPercentage = $obj->progress();
-
-
 
             $data[$id] = array(
                 'projectName'        => $loopProject->GetShortTitle(),
@@ -480,19 +458,12 @@ class Finances_IndexController extends Zend_Controller_Action
                 'negativeBalance'    => $negativeBalance,
                 'hasContract'        => $hasContract,
             );
-
-
-            }
-
-            return $data;
-
-
+        }
+        return $data;
     }
 
     private function fillProgressList($all = false)
     {
-
-
         $this->initInstitutionMapper();
         $this->initContactMapper();
         $this->initReceivableMapper();
@@ -500,15 +471,11 @@ class Finances_IndexController extends Zend_Controller_Action
         $this->initActionMapper();
         $this->initOutlayMapper();
 
-
-
         if ($all) {
             $projects = $this->projectMapper->getAllProjects();
         } else {
             $projects = $this->projectMapper->getAllActiveProjects();
         }
-        $data = array();
-
 
         $data = array();
         reset ($projects);
@@ -537,26 +504,6 @@ class Finances_IndexController extends Zend_Controller_Action
             $received = $calculator->totalReceivedValue();
             $formatedReceivedValue = $currencyDisplay->FormatCurrency($received);
 
-//            $allActionsInProject = $this->projectMapper->GetAllActions($loopProject);
-//            $totalProjectCost = 0.0;
-//
-//
-//            $materialSupplierMapper = new C3op_Resources_MaterialSupplyMapper($this->db);
-//            foreach ($allActionsInProject as $actionId) {
-//                $loopAction = $this->actionMapper->findById($actionId);
-//                $actionValueObj = new C3op_Projects_ActionCost($loopAction,$this->actionMapper);
-//                $currentActionValue = $actionValueObj->individualCurrentValue();
-//                $materialCost = $materialSupplierMapper->getMaterialSuppliesValueJustForThisAction($loopAction);
-//                $totalProjectCost += $currentActionValue;
-//                $totalProjectCost += $materialCost;
-//            }
-//
-//
-//
-//            $formatedTotalCost = $currencyDisplay->FormatCurrency($totalProjectCost);
-
-
-
             $totalPayed = $calculator->totalPayedValue($this->outlayMapper);
             $formatedPayedValue = $currencyDisplay->FormatCurrency($totalPayed);
             $balanceValue = $received - $totalPayed;
@@ -567,15 +514,10 @@ class Finances_IndexController extends Zend_Controller_Action
             }
 
             $formatedBalanceValue = $currencyDisplay->FormatCurrency($balanceValue);
-
-
-
 //
 //           $this->receivableMapper = new C3op_Finances_ReceivableMapper($this->db);
 //           $obj = new C3op_Finances_ProjectFinancialProgress($thisProject, $this->receivableMapper);
 //           $receivedPercentage = $obj->progress();
-
-
 
             $data[$id] = array(
                 'projectName'        => $loopProject->GetShortTitle(),

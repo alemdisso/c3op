@@ -18,7 +18,6 @@ class Projects_ProductController extends Zend_Controller_Action
             throw $e;
         }
 
-        $this->view->pageUri = "";
         $this->view->pageTitle = "";
 
 
@@ -28,7 +27,7 @@ class Projects_ProductController extends Zend_Controller_Action
     {
         $trail = new C3op_Util_Breadcrumb();
         if (isset($this->view->pageTitle)) {
-            $breadcrumb = $trail->add($this->view->pageTitle, $this->view->pageUri);
+            $breadcrumb = $trail->add($this->view->pageTitle, $this->getRequest()->getRequestUri());
         }
     }
 
@@ -167,7 +166,6 @@ class Projects_ProductController extends Zend_Controller_Action
 
             $this->view->pageData = $pageData;
             $this->view->pageTitle = $this->view->translate("#New product");
-            $this->view->pageUri = "/projects/action/create/?project=" . $projectId;
             $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
         }
     }
@@ -212,7 +210,6 @@ class Projects_ProductController extends Zend_Controller_Action
                 $this->view->pageData = $data;
 
                 $this->view->pageTitle = sprintf($this->view->translate("#Notify delivery of %s", $productToBeNotified->getTitle()));
-                $this->view->pageUri = "/projects/product/delivery-notify/?id=" . $productToBeNotified->getId();
                 $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
             }
 
@@ -273,7 +270,6 @@ class Projects_ProductController extends Zend_Controller_Action
 
         $this->view->pageData = $pageData;
         $this->view->pageTitle = $actionToBeDetailed->getTitle();
-        $this->view->pageUri = "/projects/product/detail/?id=" . $actionToBeDetailed->getId();
         $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
 
 
@@ -354,7 +350,6 @@ class Projects_ProductController extends Zend_Controller_Action
             );
             $this->view->pageData = $pageData;
             $this->view->pageTitle = $this->view->translate("#Edit product");
-            $this->view->pageUri = "/projects/action/edit/?id=" . $id;
             $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
         }
     }

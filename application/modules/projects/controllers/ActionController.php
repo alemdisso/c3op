@@ -17,18 +17,14 @@ class Projects_ActionController extends Zend_Controller_Action
         } catch (Exception $e) {
             throw $e;
         }
-
-        $this->view->pageUri = "";
         $this->view->pageTitle = "";
-
-
     }
 
     public function postDispatch()
     {
         $trail = new C3op_Util_Breadcrumb();
         if (isset($this->view->pageTitle)) {
-            $breadcrumb = $trail->add($this->view->pageTitle, $this->view->pageUri);
+            $breadcrumb = $trail->add($this->view->pageTitle, $this->getRequest()->getRequestUri());
         }
     }
 
@@ -149,7 +145,6 @@ class Projects_ActionController extends Zend_Controller_Action
 
         $this->view->pageData = $pageData;
         $this->view->pageTitle = $this->view->translate("#Change receipt date");
-        $this->view->pageUri = "/projects/action/change-receipt/?id=$actionId";
         $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
 
 
@@ -214,7 +209,6 @@ class Projects_ActionController extends Zend_Controller_Action
 
         $this->view->pageData = $pageData;
         $this->view->pageTitle = $this->view->translate("#Change start date");
-        $this->view->pageUri = "/projects/action/change-start/?id=$actionId";
         $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
 
 
@@ -283,11 +277,6 @@ class Projects_ActionController extends Zend_Controller_Action
 
             $this->view->pageData = $pageData;
             $this->view->pageTitle = $actionLabel;
-            if (isset($parentAction)) {
-                $this->view->pageUri = "/projects/action/create/?subordinatedTo=" . $parentAction->getId();
-            } else {
-                $this->view->pageUri = "/projects/action/create/?project=" . $projectId;
-            }
             $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
         }
 
@@ -354,7 +343,6 @@ class Projects_ActionController extends Zend_Controller_Action
 
         $this->view->pageData = $pageData;
         $this->view->pageTitle = $actionToBeDetailed->getTitle();
-        $this->view->pageUri = "/projects/action/detail/?id=" . $actionToBeDetailed->getId();
         $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
 
 
@@ -443,7 +431,6 @@ class Projects_ActionController extends Zend_Controller_Action
             );
             $this->view->pageData = $pageData;
             $this->view->pageTitle = $this->view->translate("#Edit action");
-            $this->view->pageUri = "/projects/action/edit/?id=" . $id;
             $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
         }
     }
@@ -496,7 +483,6 @@ class Projects_ActionController extends Zend_Controller_Action
             $this->view->actionData = $actionData;
 
             $this->view->pageTitle = $this->view->translate("#Remove action");
-            $this->view->pageUri = "/projects/action/remove/?id=$id";
             $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
         }
     }

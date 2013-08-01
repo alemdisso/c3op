@@ -17,7 +17,6 @@ class Projects_IndexController extends Zend_Controller_Action
             throw $e;
         }
 
-        $this->view->pageUri = "";
         $this->view->pageTitle = "";
 
     }
@@ -28,7 +27,7 @@ class Projects_IndexController extends Zend_Controller_Action
         $trail = new C3op_Util_Breadcrumb();
 
         if (isset($this->view->pageTitle)) {
-            $breadcrumb = $trail->add($this->view->pageTitle, $this->view->pageUri);
+            $breadcrumb = $trail->add($this->view->pageTitle, $this->getRequest()->getRequestUri());
 
         }
 
@@ -132,7 +131,6 @@ class Projects_IndexController extends Zend_Controller_Action
         );
 
         $this->view->pageTitle = $this->view->translate("#Active Projects");
-        $this->view->pageUri = "/projects/index/active";
         $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
 
 
@@ -171,7 +169,6 @@ class Projects_IndexController extends Zend_Controller_Action
         );
 
         $this->view->pageTitle = $this->view->translate("#Projects");
-        $this->view->pageUri = "/projects";
         $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
 
 
@@ -598,10 +595,8 @@ class Projects_IndexController extends Zend_Controller_Action
 
         if ($engagedType == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER) {
             $this->view->pageTitle = sprintf($this->view->translate("#%s's participation in active projects"), $contactName);
-            $this->view->pageUri = "/projects/index/engagement/?contact=$contactId";
         } else {
             $this->view->pageTitle = sprintf($this->view->translate("#%s's participation in active projects"), $institutionName);
-            $this->view->pageUri = "/projects/index/engagement/?institution=$institutionId";
         }
         $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
 

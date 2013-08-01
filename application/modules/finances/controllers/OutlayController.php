@@ -20,7 +20,19 @@ class Finances_OutlayController  extends Zend_Controller_Action
         } catch (Exception $e) {
             throw $e;
         }
+        $this->view->pageTitle = "";
+
+
     }
+
+    public function postDispatch()
+    {
+        $trail = new C3op_Util_Breadcrumb();
+        if (isset($this->view->pageTitle)) {
+            $breadcrumb = $trail->add($this->view->pageTitle, $this->getRequest()->getRequestUri());
+        }
+    }
+
 
     public function init()
     {
@@ -55,12 +67,14 @@ class Finances_OutlayController  extends Zend_Controller_Action
                 $responsibleData = $this->fetchResponsibleData($outlayResponsible);
             } else {
                 throw new C3op_Resources_ResponsibleException("Um desembolso precisa estar associado a um recurso.");
-                $responsibleId = 0;
-                $projectId = $data['project'];
             }
 
         }
         $this->view->pageData = $responsibleData;
+
+        $this->view->pageTitle = $this->view->translate("#Create outlay");
+        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
     }
 
     public function editAction()
@@ -113,6 +127,9 @@ class Finances_OutlayController  extends Zend_Controller_Action
 
         }
         $this->view->pageData = $responsibleData;
+        $this->view->pageTitle = $this->view->translate("#Edit outlay");
+        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+
     }
     public function notifyAction()
     {
@@ -155,6 +172,8 @@ class Finances_OutlayController  extends Zend_Controller_Action
                 $data = $this->getOutlayData($outlayToBeNotified);
                 $this->populateProjectFields($projectId, $form);
                 $this->view->pageData = $data;
+                $this->view->pageTitle = $this->view->translate("#Notify outlay");
+                $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
             }
 
         }

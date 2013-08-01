@@ -24,7 +24,6 @@ class Projects_ProjectController extends Zend_Controller_Action
                 ->addMessage('Acesso negado');
             $this->_redirect('/projects' . $id);
         }
-        $this->view->pageUri = "/projects";
         $this->view->pageTitle = "";
 
 
@@ -34,7 +33,7 @@ class Projects_ProjectController extends Zend_Controller_Action
     {
         $trail = new C3op_Util_Breadcrumb();
         if (isset($this->view->pageTitle)) {
-            $breadcrumb = $trail->add($this->view->pageTitle, $this->view->pageUri);
+            $breadcrumb = $trail->add($this->view->pageTitle, $this->getRequest()->getRequestUri());
         }
     }
 
@@ -69,13 +68,9 @@ class Projects_ProjectController extends Zend_Controller_Action
             $id = $this->checkIdFromGet();
             $shortTitle = $thisProject->getShortTitle();
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $id);
-//            $data = $this->_request->getParams();
-//            $projectId = $data['id'];
-//            $this->PopulateProjectFields($projectId, $form);
 
-        $this->view->pageTitle = $this->view->translate("#New amendment");
-        $this->view->pageUri = "/projects/project/amend/?id=" . $id;
-        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+            $this->view->pageTitle = $this->view->translate("#New amendment");
+            $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
 
         }
     }
@@ -116,7 +111,6 @@ class Projects_ProjectController extends Zend_Controller_Action
             $element->setValue(C3op_Projects_ProjectStatusConstants::STATUS_PROSPECTING);
 
             $this->view->pageTitle = $this->view->translate("#Create project");
-            $this->view->pageUri = "/projects/project/create";
             $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
 
         }
@@ -357,7 +351,6 @@ class Projects_ProjectController extends Zend_Controller_Action
         );
         $this->view->pageData = $pageData;
         $this->view->pageTitle = $this->view->translate("#Project") . " " . $projectHeader['projectTitle'];
-        $this->view->pageUri = "/projects/project/detail/?id=" . $projectHeader['id'];
         $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
 
     }
@@ -408,7 +401,6 @@ class Projects_ProjectController extends Zend_Controller_Action
         $pageData = array('projectTitle' => $shortTitle);
         $this->view->pageData = $pageData;
         $this->view->pageTitle = $this->view->translate("#Edit project") . " " . $shortTitle;
-        $this->view->pageUri = "/projects/project/edit/?id=$id";
         $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
     }
 
@@ -609,10 +601,8 @@ class Projects_ProjectController extends Zend_Controller_Action
 
         if ($engagedType == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER) {
             $this->view->pageTitle = sprintf($this->view->translate("#%s's participation in the project"), $contactName);
-            $this->view->pageUri = "/projects/index/engagement/?contact=$contactId";
         } else {
             $this->view->pageTitle = sprintf($this->view->translate("#%s's participation in the project"), $institutionName);
-            $this->view->pageUri = "/projects/index/engagement/?institution=$institutionId";
         }
         $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
 

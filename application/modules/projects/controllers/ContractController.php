@@ -13,7 +13,6 @@ class Projects_ContractController extends Zend_Controller_Action
         } catch (Exception $e) {
             throw $e;
         }
-        $this->view->pageUri = "";
         $this->view->pageTitle = "";
 
 
@@ -23,7 +22,7 @@ class Projects_ContractController extends Zend_Controller_Action
     {
         $trail = new C3op_Util_Breadcrumb();
         if (isset($this->view->pageTitle)) {
-            $breadcrumb = $trail->add($this->view->pageTitle, $this->view->pageUri);
+            $breadcrumb = $trail->add($this->view->pageTitle, $this->getRequest()->getRequestUri());
         }
     }
 
