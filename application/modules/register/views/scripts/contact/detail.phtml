@@ -6,7 +6,13 @@ if (is_array($pageData['contactInfo'])) {
 ?>
 <div id="MainHeader">
   <h1><?php print($contactInfo['name']) ?></h1>
-</div>
+<?php
+    if ($contactInfo['canRemove']) {
+?>
+                <a href="/register/contact/remove/?id=<?php echo $contactInfo['id'] ?>"><img src="/images/icon_erase.png" align="absmiddle" /> <?php echo $this->translate("#Remove contact!") ?></a>
+<?php
+    }
+?></div>
 
 <?php
     if ($pageData['messageToShow']) {

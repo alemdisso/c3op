@@ -44,6 +44,7 @@ public function __construct() {
     $this->add(new Zend_Acl_Resource('c3op:resources.responsible'));
     $this->add(new Zend_Acl_Resource('c3op:resources.team-member'));
     $this->add(new Zend_Acl_Resource('c3op:register'));
+    $this->add(new Zend_Acl_Resource('c3op:register.index'));
     $this->add(new Zend_Acl_Resource('c3op:register.contact'));
     $this->add(new Zend_Acl_Resource('c3op:register.institution'));
     $this->add(new Zend_Acl_Resource('c3op:register.linkage'));
@@ -139,6 +140,7 @@ public function __construct() {
     $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:projects.contract', 'detail');
     $this->deny(C3op_Access_RolesConstants::ROLE_CONTROLLER,     'c3op:projects.contract');
 
+    $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:register.index', 'index');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:register.contact', 'create');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:register.contact', 'remove');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:register.contact', 'edit');

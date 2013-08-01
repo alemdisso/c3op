@@ -295,7 +295,7 @@ class C3op_Register_LinkageMapper
         foreach($currentEmails as $key =>$email){
             $data = array(
                 'linkage' => $linkage->GetId(),
-                'email' => $email->GetEmail(),
+                'email' => $email->GetAddress(),
                 'label' => $email->GetLabel(),
                 );
             $this->db->insert('register_linkages_emails', $data);

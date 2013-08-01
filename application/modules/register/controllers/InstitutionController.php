@@ -14,46 +14,22 @@ class Register_InstitutionController extends Zend_Controller_Action
                 ->addMessage(_('#Access denied'));
             $this->_redirect('/register');
         }
+        $this->view->pageTitle = "";
     }
+
+    public function postDispatch()
+    {
+         if (isset($this->view->pageTitle)) {
+            $trail = new C3op_Util_Breadcrumb();
+            $breadcrumb = $trail->add($this->view->pageTitle, $this->getRequest()->getRequestUri());
+            $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+        }
+   }
 
     public function init()
     {
         $this->db = Zend_Registry::get('db');
         $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
-    }
-
-    public function indexAction()
-    {
-        //  institutiosList
-        //   * id =>
-        //      name
-        //      type
-        //      city
-        //      state
-        //      relationshipType
-
-        $list = $this->institutionMapper->getAllIds();
-        $institutionsList = array();
-        reset ($list);
-        foreach ($list as $id) {
-            $thisInstitution = $this->institutionMapper->findById($id);
-            $types = new C3op_Register_InstitutionTypes();
-            $relationshipTypes = new C3op_Register_RelationshipTypes();
-
-            $institutionsList[$id] = array(
-                'name' => $thisInstitution->GetShortName(),
-                'type' => $types->TitleForType($thisInstitution->GetType()),
-                'name' => $thisInstitution->GetShortName(),
-                'city' => $thisInstitution->GetCity(),
-                'state' => $thisInstitution->GetState(),
-                'relationshipType' => $relationshipTypes->TitleForType($thisInstitution->GetRelationShipType()),
-            );
-        }
-
-        $pageData = array(
-            'institutionsList' => $institutionsList,
-        );
-        $this->view->pageData = $pageData;
     }
 
     public function createAction()
@@ -75,6 +51,45 @@ class Register_InstitutionController extends Zend_Controller_Action
                 $this->view->form = $form;
             }
         }
+        $this->view->pageTitle = $this->view->translate("#Create institution");
+    }
+
+    public function detailAction()
+    {
+        $linkageMapper = new C3op_Register_LinkageMapper($this->db);
+        $contactMapper = new C3op_Register_ContactMapper($this->db);
+
+        $id = $this->checkIdFromGet();
+        $thisInstitution = $this->institutionMapper->findById($id);
+        $messageToShow = $this->_helper->flashMessenger->getMessages();
+
+        $linkagesIdsList = $this->institutionMapper->getAllLinkages($thisInstitution);
+        $linkagesList = array();
+        reset ($linkagesList);
+        foreach ($linkagesIdsList as $linkageId) {
+            $thisLinkage = $linkageMapper->findById($linkageId);
+            $thisContact = $contactMapper->findById($thisLinkage->GetContact());
+
+            $linkagesList[$linkageId] = array(
+                'contactId' => $thisContact->getId(),
+                'contactName' => $thisContact->GetName(),
+                'position' => $thisLinkage->GetPosition(),
+                'department' => $thisLinkage->GetDepartment(),
+            );
+        }
+
+        $institutionInfo = array(
+            'id' => $id,
+            'name' => $thisInstitution->GetName(),
+            'linkagesList' => $linkagesList,
+        );
+
+        $pageData = array(
+            'messageToShow'   => $messageToShow,
+            'institutionInfo' => $institutionInfo,
+        );
+        $this->view->pageData = $pageData;
+        $this->view->pageTitle = sprintf($this->view->translate("#%s's details"), $institutionInfo['name']);
     }
 
     public function editAction()
@@ -115,41 +130,39 @@ class Register_InstitutionController extends Zend_Controller_Action
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'type', $thisInstitution->getType());
             C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'relationshipType', $thisInstitution->getRelationshipType());
         }
+        $this->view->pageTitle = $this->view->translate("#Edit institution");
     }
 
-    public function detailAction()
+    public function indexAction()
     {
-        $linkageMapper = new C3op_Register_LinkageMapper($this->db);
-        $contactMapper = new C3op_Register_ContactMapper($this->db);
+        //  institutiosList
+        //   * id =>
+        //      name
+        //      type
+        //      city
+        //      state
+        //      relationshipType
 
-        $id = $this->checkIdFromGet();
-        $thisInstitution = $this->institutionMapper->findById($id);
-        $messageToShow = $this->_helper->flashMessenger->getMessages();
+        $list = $this->institutionMapper->getAllIds();
+        $institutionsList = array();
+        reset ($list);
+        foreach ($list as $id) {
+            $thisInstitution = $this->institutionMapper->findById($id);
+            $types = new C3op_Register_InstitutionTypes();
+            $relationshipTypes = new C3op_Register_RelationshipTypes();
 
-        $linkagesIdsList = $this->institutionMapper->getAllLinkages($thisInstitution);
-        $linkagesList = array();
-        reset ($linkagesList);
-        foreach ($linkagesIdsList as $linkageId) {
-            $thisLinkage = $linkageMapper->findById($linkageId);
-            $thisContact = $contactMapper->findById($thisLinkage->GetContact());
-
-            $linkagesList[$linkageId] = array(
-                'contactId' => $thisContact->getId(),
-                'contactName' => $thisContact->GetName(),
-                'position' => $thisLinkage->GetPosition(),
-                'department' => $thisLinkage->GetDepartment(),
+            $institutionsList[$id] = array(
+                'name' => $thisInstitution->GetShortName(),
+                'type' => $types->TitleForType($thisInstitution->GetType()),
+                'name' => $thisInstitution->GetShortName(),
+                'city' => $thisInstitution->GetCity(),
+                'state' => $thisInstitution->GetState(),
+                'relationshipType' => $relationshipTypes->TitleForType($thisInstitution->GetRelationShipType()),
             );
         }
 
-        $institutionInfo = array(
-            'id' => $id,
-            'name' => $thisInstitution->GetName(),
-            'linkagesList' => $linkagesList,
-        );
-
         $pageData = array(
-            'messageToShow'   => $messageToShow,
-            'institutionInfo' => $institutionInfo,
+            'institutionsList' => $institutionsList,
         );
         $this->view->pageData = $pageData;
     }

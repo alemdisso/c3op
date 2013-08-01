@@ -37,7 +37,7 @@
     foreach ($linkagesList as $id => $linkageInfo) {
 ?>
               <tr>
-                <td><?php print($linkageInfo['contactName']) ?></td>
+                <td><a href="/register/contact/detail/?id=<?php print($linkageInfo['contactId']) ?>"><?php print($linkageInfo['contactName']) ?></a></td>
                 <td><?php print($linkageInfo['position']) ?></td>
                 <td><?php print($linkageInfo['department']) ?></td>
                 <td>
@@ -45,7 +45,10 @@
                   <div id="submenu1" class="anylinkcss">
                     <ul>
                       <li>
-                        <a href="/register/contact/edit/?id=<?php print($linkageInfo['contactId']) ?>"><?php print($this->translate("#Edit")) ?></a>
+                        <a href="/register/linkage/edit/?id=<?php print($id) ?>"><?php print($this->translate("#Edit")) ?></a>
+                      </li>
+                      <li>
+                        <a href="/projects/index/engagement/?contact=<?php print($linkageInfo['contactId']) ?>"><?php print($this->translate("#Participation in active projects")) ?></a>
                       </li>
                     </ul>
                   </div><!-- #submenu1 -->

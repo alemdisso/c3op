@@ -352,127 +352,7 @@ class Register_ContactController extends Zend_Controller_Action
                 $this->view->form = $form;
             }
         }
-    }
-
-    public function indexAction()
-    {
-        $list = $this->contactMapper->getAllIds();
-        $contactsList = array();
-
-        $institutionMapper = new C3op_Register_InstitutionMapper($this->db);
-        reset ($list);
-        foreach ($list as $id) {
-            $loopContact = $this->contactMapper->findById($id);
-            $result = $this->contactMapper->anInstitutionLinkedTo($loopContact);
-            if (count($result)) {
-                $anInstitutionId = $result[0];
-            } else {
-                $anInstitutionId = 0;
-            }
-            if ($anInstitutionId > 0) {
-                $theInstitution = $institutionMapper->findById($anInstitutionId);
-                $institutionName = $theInstitution->GetShortName();
-            } else {
-                $institutionName = $this->view->translate("#(undefined)");
-            }
-
-            $contactRemoval = new C3op_Register_ContactRemoval($loopContact, $this->contactMapper);
-
-            if ($contactRemoval->canBeRemoved()) {
-                $canRemove = true;
-            } else {
-                $canRemove = false;
-            }
-
-
-            $contactsList[$id] = array(
-                'name'            => $loopContact->GetName(),
-                'type'            => C3op_Register_ContactTypes::TitleForType($loopContact->GetType()),
-                'institutionName' => $institutionName,
-                'canRemove'       => $canRemove,
-            );
-        }
-
-        $pageData = array(
-            'contactsList' => $contactsList,
-        );
-        $this->view->pageData = $pageData;
-    }
-
-    public function editAction()
-    {
-        $form = new C3op_Form_ContactEdit;
-        $this->view->form = $form;
-        if ($this->getRequest()->isPost()) {
-            $postData = $this->getRequest()->getPost();
-            if ($form->isValid($postData)) {
-                $id = $form->process($postData);
-                $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/register/contact/detail/?id=' . $id);
-            } else {
-                //form error: populate and go back
-                $form->populate($postData);
-                $this->view->form = $form;
-            }
-        } else {
-            // GET
-            $id = $this->checkIdFromGet();
-            $contactData = array();
-            $contactData["id"] = $id;
-            $this->view->contactData = $contactData;
-            $thisContact = $this->contactMapper->findById($id);
-            $nameField = $form->getElement('name');
-            $nameField->setValue($thisContact->getName());
-            $idField = $form->getElement('id');
-            $idField->setValue($id);
-            $typeField = $form->getElement('type');
-            $typeField->setValue($thisContact->GetType());
-            $pageData = array(
-              'contactData' => $contactData,
-            );
-            $this->pageData = $pageData;
-        }
-    }
-
-    public function removeAction()
-    {
-        $form = new C3op_Form_ContactRemove();
-        $this->view->form = $form;
-        $this->initContactMapper();
-
-        if ($this->getRequest()->isPost()) {
-            $postData = $this->getRequest()->getPost();
-            if ($form->isValid($postData)) {
-                $submitButton = $form->getUnfilteredValue('Submit');
-
-                if ($submitButton) {
-
-                    $id = $form->process($postData);
-                    $this->_helper->getHelper('FlashMessenger')
-                        ->addMessage($this->view->translate('#The record was successfully removed.'));
-                    $this->_redirect('/register/contact');
-                } else {
-                    $id = $postData['id'];
-                    $this->_redirect('/register/contact/detail/?id=' . $id);
-                }
-            } else {
-                //form error: populate and go back
-                $this->view->form = $form;
-            }
-        } else {
-            // GET
-            $id = $this->checkIdFromGet();
-            $contactData = array();
-            $thisContact = $this->contactMapper->findById($id);
-            $idField = $form->getElement('id');
-            $idField->setValue($id);
-            $contactData = array(
-                'id'   => $id,
-                'name' => $thisContact->getName(),
-            );
-            $this->view->contactData = $contactData;
-        }
+        $this->view->pageTitle = $this->view->translate("#Create contact");
     }
 
     public function detailAction()
@@ -481,6 +361,13 @@ class Register_ContactController extends Zend_Controller_Action
         $contactBeingDetailed = $this->contactMapper->findById($id);
         $messageToShow = $this->_helper->flashMessenger->getMessages();
 
+        $contactRemoval = new C3op_Register_ContactRemoval($contactBeingDetailed, $this->contactMapper);
+
+        if ($contactRemoval->canBeRemoved()) {
+            $canRemove = true;
+        } else {
+            $canRemove = false;
+        }
 
         //  contactInfo
         //    id
@@ -489,7 +376,8 @@ class Register_ContactController extends Zend_Controller_Action
         $contactInfo = array(
                 'id'           => $id,
                 'name'         => $contactBeingDetailed->GetName(),
-                'relationship' => C3op_Register_ContactTypes::TitleForType($contactBeingDetailed->GetType())
+                'relationship' => C3op_Register_ContactTypes::TitleForType($contactBeingDetailed->GetType()),
+                'canRemove'    => $canRemove,
             );
 
         //  phonesList
@@ -567,6 +455,131 @@ class Register_ContactController extends Zend_Controller_Action
         );
 
         $this->view->pageData = $pageData;
+        $this->view->pageTitle = sprintf($this->view->translate("#%s's contacts"), $contactInfo['name']);
+    }
+
+    public function editAction()
+    {
+        $form = new C3op_Form_ContactEdit;
+        $this->view->form = $form;
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            if ($form->isValid($postData)) {
+                $id = $form->process($postData);
+                $this->_helper->getHelper('FlashMessenger')
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                $this->_redirect('/register/contact/detail/?id=' . $id);
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
+        } else {
+            // GET
+            $id = $this->checkIdFromGet();
+            $contactData = array();
+            $contactData["id"] = $id;
+            $this->view->contactData = $contactData;
+            $thisContact = $this->contactMapper->findById($id);
+            $nameField = $form->getElement('name');
+            $nameField->setValue($thisContact->getName());
+            $idField = $form->getElement('id');
+            $idField->setValue($id);
+            $typeField = $form->getElement('type');
+            $typeField->setValue($thisContact->GetType());
+            $pageData = array(
+              'contactData' => $contactData,
+            );
+            $this->pageData = $pageData;
+        }
+        $this->view->pageTitle = $this->view->translate("#Edit contact");
+    }
+
+    public function indexAction()
+    {
+        $list = $this->contactMapper->getAllIds();
+        $contactsList = array();
+
+        $institutionMapper = new C3op_Register_InstitutionMapper($this->db);
+        reset ($list);
+        foreach ($list as $id) {
+            $loopContact = $this->contactMapper->findById($id);
+            $result = $this->contactMapper->anInstitutionLinkedTo($loopContact);
+            if (count($result)) {
+                $anInstitutionId = $result[0];
+            } else {
+                $anInstitutionId = 0;
+            }
+            if ($anInstitutionId > 0) {
+                $theInstitution = $institutionMapper->findById($anInstitutionId);
+                $institutionName = $theInstitution->GetShortName();
+            } else {
+                $institutionName = $this->view->translate("#(undefined)");
+            }
+
+            $contactRemoval = new C3op_Register_ContactRemoval($loopContact, $this->contactMapper);
+
+            if ($contactRemoval->canBeRemoved()) {
+                $canRemove = true;
+            } else {
+                $canRemove = false;
+            }
+
+
+            $contactsList[$id] = array(
+                'name'            => $loopContact->GetName(),
+                'type'            => C3op_Register_ContactTypes::TitleForType($loopContact->GetType()),
+                'institutionName' => $institutionName,
+                'canRemove'       => $canRemove,
+            );
+        }
+
+        $pageData = array(
+            'contactsList' => $contactsList,
+        );
+        $this->view->pageData = $pageData;
+        $this->view->pageTitle = $this->view->translate("#Contacts");
+    }
+
+    public function removeAction()
+    {
+        $form = new C3op_Form_ContactRemove();
+        $this->view->form = $form;
+        $this->initContactMapper();
+
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            if ($form->isValid($postData)) {
+                $submitButton = $form->getUnfilteredValue('Submit');
+
+                if ($submitButton) {
+
+                    $id = $form->process($postData);
+                    $this->_helper->getHelper('FlashMessenger')
+                        ->addMessage($this->view->translate('#The record was successfully removed.'));
+                    $this->_redirect('/register/contact');
+                } else {
+                    $id = $postData['id'];
+                    $this->_redirect('/register/contact/detail/?id=' . $id);
+                }
+            } else {
+                //form error: populate and go back
+                $this->view->form = $form;
+            }
+        } else {
+            // GET
+            $id = $this->checkIdFromGet();
+            $contactData = array();
+            $thisContact = $this->contactMapper->findById($id);
+            $idField = $form->getElement('id');
+            $idField->setValue($id);
+            $contactData = array(
+                'id'   => $id,
+                'name' => $thisContact->getName(),
+            );
+            $this->view->contactData = $contactData;
+        }
+        $this->view->pageTitle = $this->view->translate("#Remove contact");
     }
 
     private function initContactMapper()

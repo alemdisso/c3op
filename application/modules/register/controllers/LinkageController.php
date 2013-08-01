@@ -14,7 +14,17 @@ class Register_LinkageController extends Zend_Controller_Action
                 ->addMessage(_('#Access denied'));
             $this->_redirect('/register');
         }
+        $this->view->pageTitle = "";
     }
+
+    public function postDispatch()
+    {
+         if (isset($this->view->pageTitle)) {
+            $trail = new C3op_Util_Breadcrumb();
+            $breadcrumb = $trail->add($this->view->pageTitle, $this->getRequest()->getRequestUri());
+            $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
+        }
+   }
 
     public function init()
     {

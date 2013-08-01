@@ -69,10 +69,7 @@ class Finances_OutlayController  extends Zend_Controller_Action
 
         }
         $this->view->pageData = $responsibleData;
-
         $this->view->pageTitle = $this->view->translate("#Create outlay");
-
-
     }
 
     public function editAction()

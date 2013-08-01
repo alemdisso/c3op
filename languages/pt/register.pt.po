@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-01 17:17-0300\n"
-"PO-Revision-Date: 2013-08-01 17:19-0300\n"
+"POT-Creation-Date: 2013-08-01 18:21-0300\n"
+"PO-Revision-Date: 2013-08-01 18:46-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -17,25 +17,26 @@ msgstr ""
 "X-Poedit-SearchPath-1: library\\C3op\\register\n"
 
 #: application\modules\register/controllers/ContactController.php:14
+#: application\modules\register/controllers/IndexController.php:14
 #: application\modules\register/controllers/InstitutionController.php:14
 #: application\modules\register/controllers/LinkageController.php:14
 msgid "#Access denied"
 msgstr "Acesso negado"
 
-#: application\modules\register/controllers/ContactController.php:41
+#: application\modules\register/controllers/ContactController.php:42
 #: application\modules\register/controllers/ContactController.php:84
 #: application\modules\register/controllers/ContactController.php:126
 msgid "#Invalid contact id"
 msgstr "Contato inválido."
 
-#: application\modules\register/controllers/ContactController.php:50
+#: application\modules\register/controllers/ContactController.php:51
 #: application\modules\register/controllers/ContactController.php:93
 #: application\modules\register/controllers/ContactController.php:135
 #: application\modules\register/controllers/ContactController.php:171
 #: application\modules\register/controllers/ContactController.php:228
-#: application\modules\register/controllers/ContactController.php:349
-#: application\modules\register/controllers/ContactController.php:525
-#: application\modules\register/controllers/InstitutionController.php:89
+#: application\modules\register/controllers/ContactController.php:289
+#: application\modules\register/controllers/ContactController.php:470
+#: application\modules\register/controllers/InstitutionController.php:104
 #: application\modules\register/controllers/LinkageController.php:68
 #: application\modules\register/controllers/LinkageController.php:145
 #: application\modules\register/controllers/LinkageController.php:191
@@ -44,7 +45,7 @@ msgstr "Contato inválido."
 msgid "#The record was successfully updated."
 msgstr "O registro foi atualizado com sucesso."
 
-#: application\modules\register/controllers/ContactController.php:72
+#: application\modules\register/controllers/ContactController.php:73
 #: application\modules\register/views/scripts/contact/add-email.phtml:5
 #, php-format
 msgid "#Create %s's email address"
@@ -73,9 +74,9 @@ msgid "#Change %s's email address"
 msgstr "Alterar email de %s"
 
 #: application\modules\register/controllers/ContactController.php:248
-#: application\modules\register/controllers/ContactController.php:544
-#: application\modules\register/controllers/ContactController.php:591
-#: application\modules\register/controllers/ContactController.php:609
+#: application\modules\register/controllers/ContactController.php:308
+#: application\modules\register/controllers/ContactController.php:606
+#: application\modules\register/controllers/ContactController.php:624
 #: application\modules\register/controllers/LinkageController.php:516
 msgid "#Invalid Contact Id from Get"
 msgstr "Invalid Contact Id from Get"
@@ -86,26 +87,78 @@ msgstr "Invalid Contact Id from Get"
 msgid "#Change %s's service messenger"
 msgstr "Alterar endereço de %s"
 
-#: application\modules\register/controllers/ContactController.php:293
-msgid "#(undefined)"
-msgstr "(indefinido)"
+#: application\modules\register/controllers/ContactController.php:281
+msgid "#Invalid phone number"
+msgstr "Telefone inválido."
 
-#: application\modules\register/controllers/ContactController.php:330
-#: application\modules\register/controllers/InstitutionController.php:70
+#: application\modules\register/controllers/ContactController.php:331
+#: application\modules\register/views/scripts/contact/change-phone-number.phtml:5
+#, php-format
+msgid "#Change %s's phone number"
+msgstr "Alterar telefone de %s"
+
+#: application\modules\register/controllers/ContactController.php:347
+#: application\modules\register/controllers/InstitutionController.php:46
 #: application\modules\register/controllers/LinkageController.php:38
 msgid "#The record was successfully created."
 msgstr "O registro foi criado com sucesso."
 
-#: application\modules\register/controllers/ContactController.php:391
+#: application\modules\register/controllers/ContactController.php:355
+#: application\modules\register/views/scripts/contact/create.phtml:2
+msgid "#Create contact"
+msgstr "Criar contato"
+
+#: application\modules\register/controllers/ContactController.php:458
+#, php-format
+msgid "#%s's contacts"
+msgstr "Dados de %s"
+
+#: application\modules\register/controllers/ContactController.php:495
+#: application\modules\register/views/scripts/contact/edit.phtml:6
+msgid "#Edit contact"
+msgstr "Editar contato"
+
+#: application\modules\register/controllers/ContactController.php:517
+msgid "#(undefined)"
+msgstr "(indefinido)"
+
+#: application\modules\register/controllers/ContactController.php:541
+#: application\modules\register/views/scripts/contact/index.phtml:6
+#: application\modules\register/views/scripts/index/index.phtml:6
+msgid "#Contacts"
+msgstr "Contatos"
+
+#: application\modules\register/controllers/ContactController.php:559
 #: application\modules\register/controllers/LinkageController.php:371
 msgid "#The record was successfully removed."
 msgstr "O registro foi removido com sucesso."
 
-#: application\modules\register/controllers/ContactController.php:517
-msgid "#Invalid phone number"
-msgstr "Telefone inválido."
+#: application\modules\register/controllers/ContactController.php:582
+#: application\modules\register/views/scripts/contact/remove.phtml:5
+msgid "#Remove contact"
+msgstr "Remover contato"
 
-#: application\modules\register/controllers/InstitutionController.php:171
+#: application\modules\register/controllers/IndexController.php:37
+#: application\modules\register/views/scripts/index/index.phtml:2
+msgid "#Register"
+msgstr "Cadastro"
+
+#: application\modules\register/controllers/InstitutionController.php:54
+#: application\modules\register/views/scripts/institution/create.phtml:2
+msgid "#Create institution"
+msgstr "Adicionar instituição"
+
+#: application\modules\register/controllers/InstitutionController.php:92
+#, php-format
+msgid "#%s's details"
+msgstr "Dados da instituição %s"
+
+#: application\modules\register/controllers/InstitutionController.php:133
+#: application\modules\register/views/scripts/institution/edit.phtml:2
+msgid "#Edit institution"
+msgstr "Editar instituição"
+
+#: application\modules\register/controllers/InstitutionController.php:184
 msgid "#Invalid Institution Id from Get"
 msgstr "Invalid Institution Id from Get"
 
@@ -175,56 +228,51 @@ msgstr "Fornecedor"
 msgid "#Contractor"
 msgstr "Contratante"
 
-#: application\modules\register/views/scripts/contact/change-phone-number.phtml:5
-#, php-format
-msgid "#Change %s's phone number"
-msgstr "Alterar telefone de %s"
+#: application\modules\register/views/scripts/contact/detail.phtml:12
+msgid "#Remove contact!"
+msgstr "Remover contato!"
 
-#: application\modules\register/views/scripts/contact/create.phtml:2
-msgid "#Create contact"
-msgstr "Criar contato"
-
-#: application\modules\register/views/scripts/contact/detail.phtml:25
+#: application\modules\register/views/scripts/contact/detail.phtml:31
 msgid "#Name:"
 msgstr "Nome:"
 
-#: application\modules\register/views/scripts/contact/detail.phtml:35
+#: application\modules\register/views/scripts/contact/detail.phtml:41
 msgid "#Relationship"
 msgstr "Relação com o IETS"
 
-#: application\modules\register/views/scripts/contact/detail.phtml:44
+#: application\modules\register/views/scripts/contact/detail.phtml:50
 msgid "#Edit contact details"
 msgstr "Editar detalhes do contato"
 
-#: application\modules\register/views/scripts/contact/detail.phtml:57
+#: application\modules\register/views/scripts/contact/detail.phtml:63
 msgid "#Linkages"
 msgstr "Vínculos"
 
-#: application\modules\register/views/scripts/contact/detail.phtml:61
+#: application\modules\register/views/scripts/contact/detail.phtml:67
 msgid "#Institution"
 msgstr "Instituição"
 
-#: application\modules\register/views/scripts/contact/detail.phtml:62
+#: application\modules\register/views/scripts/contact/detail.phtml:68
 msgid "#Departament"
 msgstr "Departamento"
 
-#: application\modules\register/views/scripts/contact/detail.phtml:63
+#: application\modules\register/views/scripts/contact/detail.phtml:69
 msgid "#Position"
 msgstr "Posição"
 
-#: application\modules\register/views/scripts/contact/detail.phtml:88
-#: application\modules\register/views/scripts/contact/detail.phtml:151
-#: application\modules\register/views/scripts/contact/detail.phtml:211
-#: application\modules\register/views/scripts/contact/detail.phtml:270
+#: application\modules\register/views/scripts/contact/detail.phtml:94
+#: application\modules\register/views/scripts/contact/detail.phtml:157
+#: application\modules\register/views/scripts/contact/detail.phtml:217
+#: application\modules\register/views/scripts/contact/detail.phtml:276
 #: application\modules\register/views/scripts/contact/index.phtml:43
 #: application\modules\register/views/scripts/institution/index.phtml:59
 msgid "#Options..."
 msgstr "Opções..."
 
-#: application\modules\register/views/scripts/contact/detail.phtml:92
-#: application\modules\register/views/scripts/contact/detail.phtml:155
-#: application\modules\register/views/scripts/contact/detail.phtml:215
-#: application\modules\register/views/scripts/contact/detail.phtml:274
+#: application\modules\register/views/scripts/contact/detail.phtml:98
+#: application\modules\register/views/scripts/contact/detail.phtml:161
+#: application\modules\register/views/scripts/contact/detail.phtml:221
+#: application\modules\register/views/scripts/contact/detail.phtml:280
 #: application\modules\register/views/scripts/contact/index.phtml:47
 #: application\modules\register/views/scripts/institution/detail.phtml:48
 #: application\modules\register/views/scripts/institution/index.phtml:63
@@ -233,75 +281,66 @@ msgstr "Opções..."
 msgid "#Edit"
 msgstr "Editar"
 
-#: application\modules\register/views/scripts/contact/detail.phtml:105
+#: application\modules\register/views/scripts/contact/detail.phtml:111
 msgid "#Create new linkage"
 msgstr "Criar novo vínculo"
 
-#: application\modules\register/views/scripts/contact/detail.phtml:118
+#: application\modules\register/views/scripts/contact/detail.phtml:124
 msgid "#Phone Numbers"
 msgstr "Telefones"
 
-#: application\modules\register/views/scripts/contact/detail.phtml:122
+#: application\modules\register/views/scripts/contact/detail.phtml:128
 msgid "#Area code"
 msgstr "DDD"
 
-#: application\modules\register/views/scripts/contact/detail.phtml:123
+#: application\modules\register/views/scripts/contact/detail.phtml:129
 msgid "#Local Number"
 msgstr "Número"
 
-#: application\modules\register/views/scripts/contact/detail.phtml:124
+#: application\modules\register/views/scripts/contact/detail.phtml:130
 msgid "#Label"
 msgstr "Tipo"
 
-#: application\modules\register/views/scripts/contact/detail.phtml:169
+#: application\modules\register/views/scripts/contact/detail.phtml:175
 msgid "#Add phone number"
 msgstr "Acrescentar telefone"
 
-#: application\modules\register/views/scripts/contact/detail.phtml:185
+#: application\modules\register/views/scripts/contact/detail.phtml:191
 msgid "#Emails"
 msgstr "Emails"
 
-#: application\modules\register/views/scripts/contact/detail.phtml:189
+#: application\modules\register/views/scripts/contact/detail.phtml:195
 msgid "#Address"
 msgstr "Endereço"
 
-#: application\modules\register/views/scripts/contact/detail.phtml:190
+#: application\modules\register/views/scripts/contact/detail.phtml:196
 #: application\modules\register/views/scripts/institution/index.phtml:26
 msgid "#Type"
 msgstr "Tipo"
 
-#: application\modules\register/views/scripts/contact/detail.phtml:229
+#: application\modules\register/views/scripts/contact/detail.phtml:235
 msgid "#Add email"
 msgstr "Acrescentar email"
 
-#: application\modules\register/views/scripts/contact/detail.phtml:244
+#: application\modules\register/views/scripts/contact/detail.phtml:250
 msgid "#Messengers"
 msgstr "Serviços de mensagens"
 
-#: application\modules\register/views/scripts/contact/detail.phtml:248
+#: application\modules\register/views/scripts/contact/detail.phtml:254
 msgid "#Service"
 msgstr "Serviço"
 
-#: application\modules\register/views/scripts/contact/detail.phtml:249
+#: application\modules\register/views/scripts/contact/detail.phtml:255
 msgid "#Service.Address"
 msgstr "Conta"
 
-#: application\modules\register/views/scripts/contact/detail.phtml:288
+#: application\modules\register/views/scripts/contact/detail.phtml:294
 msgid "#Add messenger"
 msgstr "Adicionar serviço"
 
-#: application\modules\register/views/scripts/contact/detail.phtml:295
+#: application\modules\register/views/scripts/contact/detail.phtml:301
 msgid "#There is no data from this contact."
 msgstr "Não há informações sobre esse contato."
-
-#: application\modules\register/views/scripts/contact/edit.phtml:6
-msgid "#Edit contact"
-msgstr "Editar contato"
-
-#: application\modules\register/views/scripts/contact/index.phtml:6
-#: application\modules\register/views/scripts/index/index.phtml:6
-msgid "#Contacts"
-msgstr "Contatos"
 
 #: application\modules\register/views/scripts/contact/index.phtml:25
 #: application\modules\register/views/scripts/institution/index.phtml:25
@@ -324,27 +363,15 @@ msgstr "Não foi encontrada uma lista de contatos"
 msgid "#Add new contact"
 msgstr "Adicionar contato"
 
-#: application\modules\register/views/scripts/contact/remove.phtml:5
-msgid "#Remove contact"
-msgstr "Remover contato"
-
 #: application\modules\register/views/scripts/contact/remove.phtml:8
 #, php-format
 msgid "#Do you confirm removal of contact %s? This CAN'T be undone."
 msgstr "Confirma a remoção do contato %s? Isso NÃO poderá ser desfeito."
 
-#: application\modules\register/views/scripts/index/index.phtml:2
-msgid "#Register"
-msgstr "Cadastro"
-
 #: application\modules\register/views/scripts/index/index.phtml:5
 #: application\modules\register/views/scripts/institution/index.phtml:6
 msgid "#Institutions"
 msgstr "Instituições"
-
-#: application\modules\register/views/scripts/institution/create.phtml:2
-msgid "#Create institution"
-msgstr "Adicionar instituição"
 
 #: application\modules\register/views/scripts/institution/detail.phtml:19
 msgid "#Contacts in this institution"
@@ -354,13 +381,13 @@ msgstr "Contatos nessa instituição"
 msgid "#Options"
 msgstr "Opções..."
 
-#: application\modules\register/views/scripts/institution/detail.phtml:63
+#: application\modules\register/views/scripts/institution/detail.phtml:51
+msgid "#Participation in active projects"
+msgstr "Participação em projetos"
+
+#: application\modules\register/views/scripts/institution/detail.phtml:66
 msgid "#There is no data about this institution."
 msgstr "Não há informações sobre essa instituição."
-
-#: application\modules\register/views/scripts/institution/edit.phtml:2
-msgid "#Edit institution"
-msgstr "Editar instituição"
 
 #: application\modules\register/views/scripts/institution/index.phtml:27
 msgid "#City"

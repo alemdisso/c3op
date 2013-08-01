@@ -76,8 +76,8 @@ class C3op_Form_EmailCreate extends Zend_Form
             $db = Zend_Registry::get('db');
             $contactMapper = new C3op_Register_ContactMapper($db);
             $contact = $contactMapper->findById($this->contact->GetValue());
-            if ($this->localNumber->GetValue() != "") {
-                $email = new C3op_Register_ContactEmail(0, $this->areaCode->GetValue(), $this->localNumber->GetValue(), $this->label->GetValue());
+            if ($this->address->GetValue() != "") {
+                $email = new C3op_Register_ContactEmail(0, $this->address->GetValue(), $this->label->GetValue());
                 $contact->AddEmail($email);
             }
             $contactMapper->update($contact);

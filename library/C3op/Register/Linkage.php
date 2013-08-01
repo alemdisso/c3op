@@ -172,7 +172,7 @@ class C3op_Register_Linkage
 
     public function AddEmail(C3op_Register_Email $email) {
         $validator = new C3op_Util_ValidEmail();
-        if ($validator->isValid($email->GetEmail())) {
+        if ($validator->isValid($email->GetAddress())) {
             $this->emails[] = $email;
         } else {
             throw new C3op_Register_LinkageException("Invalid email.");

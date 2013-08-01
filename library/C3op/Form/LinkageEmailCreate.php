@@ -28,8 +28,8 @@ class C3op_Form_LinkageEmailCreate extends C3op_Form_EmailCreate
             $db = Zend_Registry::get('db');
             $linkageMapper = new C3op_Register_LinkageMapper($db);
             $linkage = $linkageMapper->findById($this->linkage->GetValue());
-            if ($this->email->GetValue() != "") {
-                $email = new C3op_Register_LinkageEmail(0, $this->email->GetValue(), $this->label->GetValue());
+            if ($this->address->GetValue() != "") {
+                $email = new C3op_Register_LinkageEmail(0, $this->address->GetValue(), $this->label->GetValue());
                 $linkage->AddEmail($email);
             }
             $linkageMapper->update($linkage);
