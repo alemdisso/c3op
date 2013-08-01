@@ -281,7 +281,8 @@
 .AreaInfo {
   display: table;
   padding: 0 10px;
-  width: 100%;
+  /*width: 100%;*/
+  width: 1000px;
   border: 1px #c0c0bf solid;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
