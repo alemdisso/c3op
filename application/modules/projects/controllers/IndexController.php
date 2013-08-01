@@ -147,7 +147,7 @@ class Projects_IndexController extends Zend_Controller_Action
         $projectData = $this->fillProjectsData();
         $receiptsData = $this->fillReceiptsData();
         $allProjects = $this->fillAllProjectsAction();
-        $allResources = $this->fillAllResourcesData();
+        $responsiblesNextActions = $this->fillResponsiblesData();
         $delayedData = $this->fillDelayedData();
         $doneData = $this->fillDoneData();
         $rejectedData = $this->fillRejectedData();
@@ -157,7 +157,7 @@ class Projects_IndexController extends Zend_Controller_Action
             'projectsList'     => $projectData,
             'receiptsList'     => $receiptsData,
             'allProjectsList'  => $allProjects,
-            'responsiblesList' => $allResources,
+            'responsiblesList' => $responsiblesNextActions,
             'delayedList'      => $delayedData,
             'doneList'         => $doneData,
             'rejectedList'     => $rejectedData,
@@ -934,11 +934,11 @@ class Projects_IndexController extends Zend_Controller_Action
 
     }
 
-    private function fillAllResourcesData()
+    private function fillResponsiblesData()
     {
         $this->initResponsibleMapper();
 
-        $responsiblesList = $this->responsibleMapper->getAllUniqueResponsiblesContractedOrPredictedAtActiveProjects();
+        $responsiblesList = $this->responsibleMapper->getAllResponsiblesWithNextActionsAtActiveProjects();
         $data = array();
         foreach ($responsiblesList as $id) {
             $loopResponsible = $this->responsibleMapper->findById($id);
