@@ -21,8 +21,6 @@ class Finances_OutlayController  extends Zend_Controller_Action
             throw $e;
         }
         $this->view->pageTitle = "";
-
-
     }
 
     public function postDispatch()
@@ -32,7 +30,6 @@ class Finances_OutlayController  extends Zend_Controller_Action
             $breadcrumb = $trail->add($this->view->pageTitle, $this->getRequest()->getRequestUri());
         }
     }
-
 
     public function init()
     {

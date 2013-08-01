@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-31 18:02-0300\n"
-"PO-Revision-Date: 2013-07-31 18:02-0300\n"
+"POT-Creation-Date: 2013-08-01 16:55-0300\n"
+"PO-Revision-Date: 2013-08-01 16:56-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -21,59 +21,69 @@ msgstr ""
 msgid "#Finances"
 msgstr "Finanças"
 
-#: application\modules\finances/controllers/IndexController.php:148
+#: application\modules\finances/controllers/IndexController.php:147
 #: application\modules\finances/controllers/OutlayController.php:302
-#: application\modules\finances/controllers/ProjectController.php:147
-#: application\modules\finances/controllers/ProjectController.php:529
-#: application\modules\finances/controllers/ProjectController.php:536
-#: application\modules\finances/controllers/ReceivableController.php:102
+#: application\modules\finances/controllers/ProjectController.php:157
+#: application\modules\finances/controllers/ProjectController.php:385
+#: application\modules\finances/controllers/ProjectController.php:392
+#: application\modules\finances/controllers/ReceivableController.php:113
 msgid "#Not defined"
 msgstr "Indefinido"
 
-#: application\modules\finances/controllers/IndexController.php:193
-#: application\modules\finances/controllers/IndexController.php:199
-#: application\modules\finances/controllers/ProjectController.php:89
-#: application\modules\finances/controllers/ProjectController.php:197
-#: application\modules\finances/controllers/ProjectController.php:203
+#: application\modules\finances/controllers/IndexController.php:192
+#: application\modules\finances/controllers/IndexController.php:198
+#: application\modules\finances/controllers/ProjectController.php:99
+#: application\modules\finances/controllers/ProjectController.php:207
+#: application\modules\finances/controllers/ProjectController.php:213
 msgid "#(undefined)"
 msgstr "(indefinido)"
 
-#: application\modules\finances/controllers/IndexController.php:245
-#: application\modules\finances/controllers/IndexController.php:404
-#: application\modules\finances/controllers/IndexController.php:487
+#: application\modules\finances/controllers/IndexController.php:244
+#: application\modules\finances/controllers/IndexController.php:403
+#: application\modules\finances/controllers/IndexController.php:486
 #: application\modules\finances/controllers/OutlayController.php:218
-#: application\modules\finances/controllers/ProjectController.php:516
+#: application\modules\finances/controllers/ProjectController.php:372
 msgid "#(not defined)"
 msgstr "(não definido)"
 
-#: application\modules\finances/controllers/IndexController.php:305
+#: application\modules\finances/controllers/IndexController.php:304
 #: application\modules\finances/controllers/OutlayController.php:267
-#: application\modules\finances/controllers/ProjectController.php:557
+#: application\modules\finances/controllers/ProjectController.php:413
 msgid "#Undefined dates"
 msgstr "Datas indefinidas"
 
-#: application\modules\finances/controllers/IndexController.php:327
+#: application\modules\finances/controllers/IndexController.php:326
 msgid "#It needs a team member to be payed."
 msgstr "Deve haver alguém para ser pago."
 
-#: application\modules\finances/controllers/OutlayController.php:54
+#: application\modules\finances/controllers/OutlayController.php:50
 msgid "#The outlay was successfully created."
 msgstr "O pagamento foi criado com sucesso."
 
-#: application\modules\finances/controllers/OutlayController.php:76
+#: application\modules\finances/controllers/OutlayController.php:72
 msgid "#Create outlay"
 msgstr "Prever pagamento"
 
-#: application\modules\finances/controllers/OutlayController.php:91
-#: application\modules\finances/controllers/ReceivableController.php:34
-#: application\modules\finances/controllers/ReceivableController.php:176
-#: application\modules\finances/controllers/ReceivableController.php:225
+#: application\modules\finances/controllers/OutlayController.php:86
+#: application\modules\finances/controllers/ReceivableController.php:43
+#: application\modules\finances/controllers/ReceivableController.php:189
+#: application\modules\finances/controllers/ReceivableController.php:240
 msgid "#The record was successfully updated."
 msgstr "O registro foi atualizado com sucesso."
 
-#: application\modules\finances/controllers/OutlayController.php:147
+#: application\modules\finances/controllers/OutlayController.php:127
+#: application\modules\finances/views/scripts/outlay/edit.phtml:7
+msgid "#Edit outlay"
+msgstr "Editar pagamento"
+
+#: application\modules\finances/controllers/OutlayController.php:145
 msgid "#The payment was successfully notified."
 msgstr "O pagamento foi confirmado."
+
+#: application\modules\finances/controllers/OutlayController.php:172
+#: application\modules\finances/views/scripts/outlay/notify.phtml:10
+msgid "#Notify outlay"
+msgstr "Confirmar pagamento"
 
 #: application\modules\finances/controllers/OutlayController.php:257
 #, php-format
@@ -95,39 +105,78 @@ msgstr "Prevista para começar em  %s e terminar em %s"
 msgid "#Paying to %s, %s predicted for %s"
 msgstr "Pagamento para %s, no valor de %s, previsto para %s"
 
-#: application\modules\finances/controllers/ProductController.php:302
+#: application\modules\finances/controllers/ProductController.php:95
+#: application\modules\finances/views/scripts/product/detail.phtml:156
+#, php-format
+msgid "#Details of product %s"
+msgstr "Detalhamento do produto %s"
+
+#: application\modules\finances/controllers/ProductController.php:315
 msgid "(#not defined)"
 msgstr "(não definido)"
 
-#: application\modules\finances/controllers/ProjectController.php:96
-#: application\modules\finances/controllers/ReceivableController.php:118
-#: application\modules\finances/controllers/ReceivableController.php:132
+#: application\modules\finances/controllers/ProjectController.php:106
+#: application\modules\finances/controllers/ReceivableController.php:129
+#: application\modules\finances/controllers/ReceivableController.php:143
 msgid "#(not received)"
 msgstr "(não recebido)"
 
-#: application\modules\finances/controllers/ProjectController.php:262
-msgid "#(unknown date)"
-msgstr "(data desconhecida)"
+#: application\modules\finances/controllers/ProjectController.php:245
+#: application\modules\finances/views/scripts/index/index.phtml:89
+#: application\modules\finances/views/scripts/index/index.phtml:198
+#: application\modules\finances/views/scripts/index/index.phtml:304
+#: application\modules\finances/views/scripts/index/index.phtml:429
+#: application\modules\finances/views/scripts/index/index.phtml:545
+#: application\modules\finances/views/scripts/outlay/create.phtml:4
+#: application\modules\finances/views/scripts/outlay/edit.phtml:4
+#: application\modules\finances/views/scripts/product/detail.phtml:141
+#: application\modules\finances/views/scripts/project/detail.phtml:120
+#: application\modules\finances/views/scripts/receivable/create.phtml:6
+#: application\modules\finances/views/scripts/receivable/detail.phtml:8
+msgid "#Project"
+msgstr "Projeto"
 
-#: application\modules\finances/controllers/ProjectController.php:541
-#: application\modules\finances/controllers/ProjectController.php:545
+#: application\modules\finances/controllers/ProjectController.php:397
+#: application\modules\finances/controllers/ProjectController.php:401
 msgid "#N/A"
 msgstr "N/D"
 
-#: application\modules\finances/controllers/ProjectController.php:552
+#: application\modules\finances/controllers/ProjectController.php:408
 #, php-format
 msgid "#%s until %s"
 msgstr "De %s a %s"
 
-#: application\modules\finances/controllers/ProjectController.php:635
+#: application\modules\finances/controllers/ProjectController.php:487
 msgid "#(not a requirement)"
 msgstr "(não é requisito)"
 
-#: application\modules\finances/controllers/ReceivableController.php:138
+#: application\modules\finances/controllers/ReceivableController.php:61
+msgid "#Create receivable"
+msgstr "Prever recebimento"
+
+#: application\modules\finances/controllers/ReceivableController.php:149
 msgid "#(not registered)"
 msgstr "(não cadastrada)"
 
-#: application\modules\finances/controllers/ReceivableController.php:327
+#: application\modules\finances/controllers/ReceivableController.php:175
+#: application\modules\finances/views/scripts/receivable/detail.phtml:20
+#, php-format
+msgid "#Details of receivable %s"
+msgstr "Detalhamento do recebimento %s"
+
+#: application\modules\finances/controllers/ReceivableController.php:225
+#: application\modules\finances/views/scripts/receivable/detail.phtml:21
+#: application\modules\finances/views/scripts/receivable/edit.phtml:5
+msgid "#Edit receivable"
+msgstr "Editar recebimento"
+
+#: application\modules\finances/controllers/ReceivableController.php:269
+#: application\modules\finances/views/scripts/project/detail.phtml:344
+#: application\modules\finances/views/scripts/receivable/notify.phtml:10
+msgid "#Notify receiving"
+msgstr "Informar recebimento"
+
+#: application\modules\finances/controllers/ReceivableController.php:346
 #, php-format
 msgid "#Receiving %s predicted for %s"
 msgstr "Recebimento de %s, previsto para %s"
@@ -177,20 +226,6 @@ msgstr "A pagar"
 #: application\modules\finances/views/scripts/index/index.phtml:68
 msgid "#All projects"
 msgstr "Todos os projetos"
-
-#: application\modules\finances/views/scripts/index/index.phtml:89
-#: application\modules\finances/views/scripts/index/index.phtml:198
-#: application\modules\finances/views/scripts/index/index.phtml:304
-#: application\modules\finances/views/scripts/index/index.phtml:429
-#: application\modules\finances/views/scripts/index/index.phtml:545
-#: application\modules\finances/views/scripts/outlay/create.phtml:4
-#: application\modules\finances/views/scripts/outlay/edit.phtml:4
-#: application\modules\finances/views/scripts/product/detail.phtml:141
-#: application\modules\finances/views/scripts/project/detail.phtml:120
-#: application\modules\finances/views/scripts/receivable/create.phtml:6
-#: application\modules\finances/views/scripts/receivable/detail.phtml:8
-msgid "#Project"
-msgstr "Projeto"
 
 #: application\modules\finances/views/scripts/index/index.phtml:90
 #: application\modules\finances/views/scripts/index/index.phtml:199
@@ -383,10 +418,6 @@ msgstr "Prazo da ação:"
 msgid "#Status:"
 msgstr "Status"
 
-#: application\modules\finances/views/scripts/outlay/edit.phtml:7
-msgid "#Edit outlay"
-msgstr "Editar pagamento"
-
 #: application\modules\finances/views/scripts/outlay/edit.phtml:10
 msgid "#Action:"
 msgstr "Ação:"
@@ -395,19 +426,9 @@ msgstr "Ação:"
 msgid "#Team member:"
 msgstr "Recurso:"
 
-#: application\modules\finances/views/scripts/outlay/notify.phtml:10
-msgid "#Notify outlay"
-msgstr "Confirmar pagamento"
-
 #: application\modules\finances/views/scripts/outlay/success.phtml:2
-#: application\modules\finances/views/scripts/receivable/success.phtml:2
 msgid "#Success!!!"
 msgstr "Sucesso!"
-
-#: application\modules\finances/views/scripts/product/detail.phtml:156
-#, php-format
-msgid "#Details of product %s"
-msgstr "Detalhamento do produto %s"
 
 #: application\modules\finances/views/scripts/product/detail.phtml:158
 msgid "#Edit action"
@@ -693,11 +714,6 @@ msgstr "Parcela"
 msgid "#Receiving Predicted date"
 msgstr "Recebimento previsto"
 
-#: application\modules\finances/views/scripts/project/detail.phtml:344
-#: application\modules\finances/views/scripts/receivable/notify.phtml:10
-msgid "#Notify receiving"
-msgstr "Informar recebimento"
-
 #: application\modules\finances/views/scripts/project/detail.phtml:365
 msgid "#Predict receiving"
 msgstr "Prever recebimento"
@@ -705,16 +721,6 @@ msgstr "Prever recebimento"
 #: application\modules\finances/views/scripts/receivable/create.phtml:10
 msgid "#New receivable"
 msgstr "Prever recebimento"
-
-#: application\modules\finances/views/scripts/receivable/detail.phtml:20
-#, php-format
-msgid "#Details of receivable %s"
-msgstr "Detalhamento do recebimento %s"
-
-#: application\modules\finances/views/scripts/receivable/detail.phtml:21
-#: application\modules\finances/views/scripts/receivable/edit.phtml:5
-msgid "#Edit receivable"
-msgstr "Editar recebimento"
 
 #: application\modules\finances/views/scripts/receivable/detail.phtml:34
 msgid "#Predicted receiving:"
@@ -739,6 +745,9 @@ msgstr "Valor real:"
 #: application\modules\finances/views/scripts/receivable/detail.phtml:86
 msgid "#Responsible"
 msgstr "Responsável"
+
+#~ msgid "#(unknown date)"
+#~ msgstr "(data desconhecida)"
 
 #~ msgid "#Subordinated to:"
 #~ msgstr "Subordinada a:"

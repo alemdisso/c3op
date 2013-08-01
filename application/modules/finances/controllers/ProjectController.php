@@ -24,7 +24,17 @@ class Finances_ProjectController extends Zend_Controller_Action
                 ->addMessage('Acesso negado');
             $this->_redirect('/finances' . $id);
         }
+        $this->view->pageTitle = "";
     }
+
+    public function postDispatch()
+    {
+        $trail = new C3op_Util_Breadcrumb();
+        if (isset($this->view->pageTitle)) {
+            $breadcrumb = $trail->add($this->view->pageTitle, $this->getRequest()->getRequestUri());
+        }
+    }
+
 
     public function init()
     {
@@ -232,84 +242,9 @@ class Finances_ProjectController extends Zend_Controller_Action
 
         );
         $this->view->pageData = $pageData;
-    }
+        $this->view->pageTitle = $this->view->translate("#Project") . " " . $projectHeader['projectTitle'];
+        $this->_helper->layout()->getView()->headTitle($this->view->pageTitle);
 
-
-    public function receivablesAction()
-    {
-        $receivableMapper = new C3op_Finances_ReceivableMapper($this->db);
-
-        $id = $this->checkIdFromGet();
-        $thisProject = $this->projectMapper->findById($id);
-        $receivablesIdList = $this->receivableMapper->getAllReceivables($thisProject);
-        $receivablesList = array();
-        reset ($receivablesList);
-        $receivablesTotalValue = 0;
-        $receivablesCounter = 0;
-        foreach ($receivablesIdList as $receivableId) {
-            $thisReceivable = $receivableMapper->findById($receivableId);
-            $receivablesCounter++;
-            if ($thisReceivable->getTitle()) {
-                $title = $thisReceivable->getTitle();
-            } else {
-                $title = "($receivablesCounter)";
-            }
-
-            $validator = new C3op_Util_ValidDate();
-            if ($validator->isValid($thisReceivable->getPredictedDate())) {
-                $predictedDate = C3op_Util_DateDisplay::FormatDateToShow($thisReceivable->getPredictedDate());
-            } else {
-                $predictedDate = $this->view->translate("#(unknown date)");
-            }
-
-            if ($thisReceivable->getPredictedValue() > 0) {
-                $receivablesTotalValue += $thisReceivable->getPredictedValue();
-                $currencyDisplay = new  C3op_Util_CurrencyDisplay();
-                $predictedValue = $currencyDisplay->FormatCurrency($thisReceivable->getPredictedValue());
-            } else {
-                $predictedValue = "";
-            }
-
-            $productsIdList = $receivableMapper->getAllProducts($thisReceivable);
-            $productsList = array();
-            foreach ($productsIdList as $productId) {
-                $actionMapper = new C3op_Projects_ActionMapper($this->db);
-                $thisAction = $actionMapper->findById($productId);
-                $actionTitle =  sprintf("<a href=/projects/product/detail/?id=%d>%s</a>", $productId, $thisAction->getTitle());
-                $productsList[$productId] = array(
-                    'title' => $actionTitle,
-                    'linkDetail' => '/projects/product/detail/?id=' . $productId   ,
-                );
-
-            }
-
-            $receivablesList[$receivableId] = array(
-                'title' => $title,
-                'productsList' => $productsList,
-                'predictedDate' => $predictedDate,
-                'predictedValue' => $predictedValue,
-                'editLink' => '/finances/receivable/edit/?id=' . $receivableId   ,
-            );
-        }
-
-        $currencyDisplay = new  C3op_Util_CurrencyDisplay();
-        if ($receivablesTotalValue == $thisProject->getValue()) {
-            $projectValue = $currencyDisplay->FormatCurrency($receivablesTotalValue) . " (OK)";
-        } else {
-            $projectValue = "Valor do Projeto: " . $currencyDisplay->FormatCurrency($thisProject->getValue());
-            $projectValue .= " Total dos recebimentos:" .  $currencyDisplay->FormatCurrency($receivablesTotalValue) . " (?)";
-
-        }
-
-        $projectInfo = array(
-            'title' => $thisProject->getShortTitle(),
-            'linkDetail' => '/finances/project/detail/?id=' . $id   ,
-            'projectValue' => $projectValue,
-            'editLink' => '/projects/project/edit/?id=' . $id   ,
-            'receivablesList' => $receivablesList,
-        );
-
-        $this->view->projectInfo = $projectInfo;
     }
 
     private function initProjectMapper()
@@ -332,11 +267,6 @@ class Finances_ProjectController extends Zend_Controller_Action
         if (!isset($this->outlayMapper)) {
             $this->outlayMapper = new C3op_Finances_OutlayMapper($this->db);
         }
-    }
-
-    private function initMaterialSupplyMapper()
-    {
-         $this->materialSupplyMapper = new C3op_Resources_MaterialSupplyMapper($this->db);
     }
 
     private function initReceivableMapper()
@@ -369,11 +299,6 @@ class Finances_ProjectController extends Zend_Controller_Action
     private function initProjectWithCheckedId(C3op_Projects_ProjectMapper $mapper)
     {
         return $mapper->findById($this->checkIdFromGet());
-    }
-
-    private function initLinkageWithCheckedLinkageId(C3op_Register_LinkageMapper $mapper)
-    {
-        return $mapper->findById($this->checkLinkageFromGet());
     }
 
     private function checkIdFromGet()
@@ -411,75 +336,6 @@ class Finances_ProjectController extends Zend_Controller_Action
         throw new C3op_Projects_ProjectException("Invalid Project Id from Get");
 
     }
-
-//   private function fillDataTree($tree)
-//    {
-//       // actionInfo
-//       //   title
-//       //   subordinatedTo
-//       //   responsibleName
-//       //   predictedBeginDate
-//       //   realBeginDate
-//       //   predictedFinishDate
-//       //   realFinishDate
-//       //
-//
-//       $this->initActionMapper();
-//        foreach ($tree as $id => $subTree) {
-//            $loopAction = $this->actionMapper->findById($id);
-//            $data = array();
-//            $data['title'] = $loopAction->getTitle();
-//            $data['subordinatedTo'] = $loopAction->getSubordinatedTo();
-//
-//            if ($loopAction->getSupervisor()) {
-//                $theContact = $this->contactMapper->findById($loopAction->getSupervisor());
-//                $data['responsibleName'] = $theContact->getName();
-//            } else {
-//                $data['responsibleName'] = $this->view->translate("#Not defined");
-//            }
-//
-//            $data['predictedBeginDate'] = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getPredictedBeginDate());
-//            $data['realBeginDate'] = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getRealBeginDate());
-//            $data['predictedFinishDate'] = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getPredictedFinishDate());
-//            $data['realFinishDate'] = C3op_Util_DateDisplay::FormatDateToShow($loopAction->getRealFinishDate());
-//
-//            $this->treeData[$id] = $data;
-//
-//            $this->fillDataTree($subTree);
-//        }
-//    }
-//
-//
- public function payablesAction()
-    {
-        $id = $this->checkIdFromGet();
-        $thisProject = $this->projectMapper->findById($id);
-
-        $this->initActionMapper();
-        $list = $this->projectMapper->getAllDoneActions($thisProject);
-
-        $payablesList = array();
-        reset ($list);
-        foreach ($list as $actionId) {
-            $thisAction = $this->actionMapper->findById($actionId);
-            $actionTitle = $thisAction->GetTitle();
-
-            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
-            $contractValue = $currencyDisplay->FormatCurrency(
-                               $this->actionMapper->getContractedValueJustForThisAction($thisAction)
-                           );
-
-            $payablesList[$actionId] = array(
-                'actionId'       => $actionId,
-                'actionTitle'    => $actionTitle,
-                'actionValue'    => $contractValue,
-            );
-        }
-
-        $this->view->payablesList = $payablesList;
-
-    }
-
 
     private function fillProjectHeaderData(C3op_Projects_Project $projectToBeDetailed)
     {
@@ -622,10 +478,6 @@ class Finances_ProjectController extends Zend_Controller_Action
             $theProduct = $this->actionMapper->findById($id);
             $productTitle = $theProduct->getTitle();
 
-
-            $validator = new C3op_Util_ValidDate();
-
-
             if ($theProduct->getRequirementForReceiving() > 0) {
                 $theReceivable = $this->receivableMapper->findById($theProduct->getRequirementForReceiving());
                 $requirementForReceiving = $theReceivable->getTitle();
@@ -644,11 +496,8 @@ class Finances_ProjectController extends Zend_Controller_Action
             $actionsBelow = new C3op_Projects_ActionsBelow($theProduct,$this->actionMapper);
             $currencyDisplay = new  C3op_Util_CurrencyDisplay();
 
-
             $rawTotalValue = $actionValueObj->individualBudgetValue();
             $totalValue = $currencyDisplay->FormatCurrency($rawTotalValue);
-
-
 
             $rawContractedValue = $actionValueObj->totalActionContractedValue($actionsBelow, new C3op_Resources_MaterialSupplyMapper);
             $contractedValue = $currencyDisplay->FormatCurrency($rawContractedValue);
@@ -662,16 +511,7 @@ class Finances_ProjectController extends Zend_Controller_Action
                     'contractedValue'         => $contractedValue,
                 );
         }
-
-
-
-
-
-
         return $productsList;
-
     }
-
-
 
 }
