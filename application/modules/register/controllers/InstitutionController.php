@@ -165,6 +165,7 @@ class Register_InstitutionController extends Zend_Controller_Action
             'institutionsList' => $institutionsList,
         );
         $this->view->pageData = $pageData;
+        $this->view->pageTitle = $this->view->translate("#Institutions");
     }
 
     private function checkIdFromGet()
