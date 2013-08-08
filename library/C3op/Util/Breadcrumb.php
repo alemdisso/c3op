@@ -105,6 +105,8 @@ class C3op_Util_Breadcrumb{
 
 
          //$check_duplicate=$this->check_duplicate($crumb, $_SESSION['breadcrumb']);
+
+
 //         if($check_duplicate > 0){
 //
 //         	$break_array=$this->break_array($_SESSION['breadcrumb'],$crumb);
