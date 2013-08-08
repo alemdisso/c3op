@@ -15,14 +15,6 @@ class C3op_Projects_ActionPhysicalProgress {
     {
         if ($this->action->getBudgetForecast() > 0) {
             $totalDoneValue = $this->totalDoneValue($below);
-            echo "<br>";
-            echo "phys. prog..." .  $this->action->getTitle();
-            echo "<br>";
-            echo $totalDoneValue;
-            echo "<br>";
-            echo $this->action->getBudgetForecast();
-            echo "<br>";
-
             return $totalDoneValue / $this->action->getBudgetForecast();
         } else {
             return 0.0;
