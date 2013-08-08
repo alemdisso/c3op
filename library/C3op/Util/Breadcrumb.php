@@ -93,7 +93,6 @@ class C3op_Util_Breadcrumb{
     */
    public function add($label, $uri){
 
-       // crumb is an array now
       $crumb = array('uri' =>$uri, 'label' => $label);
 
       if (empty($_SESSION['breadcrumb'])){
@@ -129,7 +128,6 @@ class C3op_Util_Breadcrumb{
 //         	$output=$this->output($_SESSION['breadcrumb'],$label,$uri);
 
          	 //$_SESSION['breadcrumb'] = $this->safe_array_merge($_SESSION['breadcrumb'],$crumb);
-
 
 //         }
 //
