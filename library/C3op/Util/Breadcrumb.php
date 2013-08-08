@@ -93,6 +93,7 @@ class C3op_Util_Breadcrumb{
     */
    public function add($label, $uri){
 
+       // crumb is an array now
       $crumb = array('uri' =>$uri, 'label' => $label);
 
       if (empty($_SESSION['breadcrumb'])){
