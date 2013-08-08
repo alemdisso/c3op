@@ -136,7 +136,7 @@ class Projects_ProductController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully created.'));
-                $this->_redirect(sprintf('/projects/product/detail/?id=%d&success=1', $id));
+                $this->_redirect(sprintf('/projects/product/detail/?id=%d', $id));
             } else {
                 //form error: populate and go back
                 $form->populate($postData);
@@ -286,7 +286,7 @@ class Projects_ProductController extends Zend_Controller_Action
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect(sprintf('/projects/product/detail/?id=%d&success=1', $id));
+                $this->_redirect(sprintf('/projects/product/detail/?id=%d', $id));
             } else {
                 //form error: populate and go back
                 $form->populate($postData);

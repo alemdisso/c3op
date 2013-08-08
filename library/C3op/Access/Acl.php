@@ -104,7 +104,7 @@ public function __construct() {
 
     $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR,   'c3op:projects.product', 'budget-create');
     $this->allow(C3op_Access_RolesConstants::ROLE_COORDINATOR,   'c3op:projects.product', 'budget-forecast');
-    $this->allow(C3op_Access_RolesConstants::ROLE_CONTROLLER,    'c3op:projects.product', 'create');
+    $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:projects.product', 'create');
     $this->allow(C3op_Access_RolesConstants::ROLE_ADMINISTRATOR, 'c3op:projects.product', 'delivery-notify');
     $this->deny(C3op_Access_RolesConstants::ROLE_CONTROLLER,     'c3op:projects.product', 'delivery-notify');
     $this->allow(C3op_Access_RolesConstants::ROLE_ASSISTANT,     'c3op:projects.product', 'detail');

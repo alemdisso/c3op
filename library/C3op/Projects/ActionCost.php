@@ -91,5 +91,23 @@ class C3op_Projects_ActionCost {
 
     }
 
+    public function individualDoneValue()
+    {
+
+        $tester = new C3op_Projects_ActionDone($this->action);
+        if ($tester->isDone()) {
+            echo "<br>########## DONE ###########<BR>";
+            echo $this->action->getTitle();
+            echo "<br>############################<br>";
+            return $this->individualCurrentValue();
+        } else {
+            echo "<br>########## NOT DONE ###########<BR>";
+            echo $this->action->getTitle();
+            echo "<br>############################<br>";
+            return 0;
+        }
+
+    }
+
 
 }

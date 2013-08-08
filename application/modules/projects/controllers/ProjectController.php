@@ -206,12 +206,20 @@ class Projects_ProjectController extends Zend_Controller_Action
             $statusTypes = new C3op_Projects_ActionStatusTypes();
             $status = $statusTypes->TitleForType($theProduct->getStatus());
 
+            $actionsBelow = new C3op_Projects_ActionsBelow($theProduct,$this->actionMapper);
+            $calculator = new C3op_Projects_ActionPhysicalProgress($theProduct, $this->actionMapper);
+            //$doneValue = $calculator->totalDoneValue($actionsBelow);
+            $physicalProgress = $calculator->physicalProgress($actionsBelow);
+            $physicalProgress *= 100;
+            $display = new C3op_Util_DecimalDisplay();
+            $physicalProgress = $display->FormatDecimal($physicalProgress);
+
             $productsList[$id] = array(
                     'productTitle'            => $productTitle,
                     'deliveryDate'            => $deliveryDate,
                     'realDate'                => $realDate,
                     'status'                  => $this->view->translate($status),
-                    'physicalProgress'        => "[ND]",
+                    'physicalProgress'        => "$physicalProgress %",
                     'receivableId'            => $receivableId,
                     'requirementForReceiving' => $requirementForReceiving,
                     'receivableDescription'   => $receivableDescription,

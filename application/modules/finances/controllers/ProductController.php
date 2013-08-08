@@ -235,11 +235,6 @@ class Finances_ProductController extends Zend_Controller_Action
                 $personal = false;
             }
 
-
-
-
-
-
             $statusLabel = $this->view->translate($responsibleData['statusLabel']);
             $canContract = $responsibleData['canContract'];
             $canDismiss = $responsibleData['canDismiss'];
