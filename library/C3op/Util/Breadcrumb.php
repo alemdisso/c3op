@@ -51,13 +51,13 @@ class C3op_Util_Breadcrumb{
    public $reset=false;//reset the $_session variable
    private $crumbs = array();
    private $maxUrlCount=10;// number of links allowed on the page
-   private $homepage="/";
+   private $homepage="#Home";
 
 
    /*
     * Constructor
     */
-   public function __construct($reset = false, $homepage = ""){
+   public function __construct($reset = false, $homepage = "#Home"){
        $this->reset = $reset;
        $this->homepage = $homepage;
 
@@ -93,59 +93,53 @@ class C3op_Util_Breadcrumb{
     */
    public function add($label, $uri){
 
-      $crumb = array();
-      $crumb[$uri] = $label;
+      $crumb = array('uri' =>$uri, 'label' => $label);
 
       if (empty($_SESSION['breadcrumb'])){
-
-
-
-         if (!isset($_SESSION['breadcrumb']['/'])){ //If there's no session data yet, assume a homepage link
-
-            $this->crumbs['/'] = $this->homepage;
-            $_SESSION['breadcrumb']=$this->crumbs;
-
-         }
+//        $this->crumbs[] = array('uri' =>"/", 'label' => $this->homepage);
+//        $_SESSION['breadcrumb']=$this->crumbs;
+          $_SESSION['breadcrumb'] = array();
 
       }
+      $_SESSION['breadcrumb'][] = $crumb;
 
 
-         $check_duplicate=$this->check_duplicate($crumb, $_SESSION['breadcrumb']);
+         //$check_duplicate=$this->check_duplicate($crumb, $_SESSION['breadcrumb']);
 
 
-         if($check_duplicate > 0){
+//         if($check_duplicate > 0){
+//
+//         	$break_array=$this->break_array($_SESSION['breadcrumb'],$crumb);
+//
+//         	$array_merge=$this->safe_array_merge($break_array,$crumb);
+//         	//clear session variable
+//         	 //and prepare the session variable to be loaded with the exact information location
+//         	$this->unset_variable();
+//
+//         	$output=$this->output($break_array,$label,$uri);
+//
+//
+//         	//put the merged array in the session variable
+//         	//this is where the user is at the moment
+//         	 $_SESSION['breadcrumb'] =$array_merge;
+//
+//
+//         }else {
+//
 
-         	$break_array=$this->break_array($_SESSION['breadcrumb'],$crumb);
+//         	$output=$this->output($_SESSION['breadcrumb'],$label,$uri);
 
-         	$array_merge=$this->safe_array_merge($break_array,$crumb);
-         	//clear session variable
-         	 //and prepare the session variable to be loaded with the exact information location
-         	$this->unset_variable();
-
-         	$output=$this->output($break_array,$label,$uri);
+         	 //$_SESSION['breadcrumb'] = $this->safe_array_merge($_SESSION['breadcrumb'],$crumb);
 
 
-         	//put the merged array in the session variable
-         	//this is where the user is at the moment
-         	 $_SESSION['breadcrumb'] =$array_merge;
-
-
-         }else {
-
-
-         	$output=$this->output($_SESSION['breadcrumb'],$label,$uri);
-
-         	 $_SESSION['breadcrumb'] = $this->safe_array_merge($_SESSION['breadcrumb'],$crumb);
-
-
-         }
-
+//         }
+//
 
 
 
         //return the output
 
-        return $output;
+        return $_SESSION['breadcrumb'];
 
    }
 
