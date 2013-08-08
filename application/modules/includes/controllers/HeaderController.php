@@ -78,26 +78,23 @@ class Includes_HeaderController extends Zend_Controller_Action
             $countCrumbs = 0;
             $maxCrumbs = 6;
 
-
-            foreach ($crumbs as $uri => $label) {
+            foreach ($crumbs as $k => $crumb) {
                 $countCrumbs++;
                 if ($countCrumbs > ($totalCrumbs - $maxCrumbs)) {
-                    $anArray = explode("/", $uri);
+                    $anArray = explode("/", $crumb['uri']);
                     $module="";
                     if (count($anArray) > 1) {
                         $module = $anArray[1];
                     }
-                    if ($label != "") {
+                    if ($crumb['label'] != "") {
                         $breadcrumb[] = array(
-                            'uri' => $uri,
-                            'label' => $label,
+                            'uri' => $crumb['uri'],
+                            'label' => $crumb['label'],
                             'module' => $module,
                         );
                     }
                 }
             }
-
-
             $pageData['breadcrumb']=$breadcrumb;
 
 
