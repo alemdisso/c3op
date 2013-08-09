@@ -155,12 +155,12 @@ $(document).ready(function(){
 <?php
   if ($actionHeader['notAProduct'] ) {
 ?>
-          <h2><?php print(sprintf($this->translate("#Details of action %s"), $actionHeader['title'])); ?></h2>
+          <h2><?php print($actionHeader['title']); ?></h2>
 
 <?php
   } else {
 ?>
-          <h2><?php print(sprintf($this->translate("#Details of product %s"), $actionHeader['title'])); ?></h2>
+          <h2><?php print(sprintf($this->translate("#Product %s"), $actionHeader['title'])); ?></h2>
 <?php
   }
 ?>
