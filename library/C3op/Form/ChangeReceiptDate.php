@@ -88,16 +88,17 @@ class C3op_Form_ChangeReceiptDate extends Zend_Form
                 $newReceiptDate = $converter->convertDateToMySQLFormat($newReceiptDate);
             }
 
-            $dateChanger = new C3op_Projects_ActionDateChange($action, $actionMapper);
+            //$dateChanger = new C3op_Projects_ActionDateChange($action, $actionMapper);
 
             $compare = new C3op_Util_DateCompare();
             $timeNewReceiptDate = strtotime($newReceiptDate);
 
             if ($compare->isPast($timeNewReceiptDate)) {
-
                 //altera data de recebimento
+                $user = Zend_Registry::get('user');
+
                 $acknowledgment = new C3op_Projects_ReceiptAcknowledgment();
-                $acknowledgment->changeReceiptDate($action, $actionMapper, $newReceiptDate, $observation);
+                $acknowledgment->changeReceiptDate($action, $actionMapper, $newReceiptDate, $observation, $user);
 
             } else {
             }

@@ -66,6 +66,16 @@ class C3op_Projects_ActionHeader {
 
 
 
+        $receiptDateToChange = false;
+        if ($this->action->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_RECEIVED) {
+            $tester = new C3op_Access_PrivilegeTester($user, $acl, "projects", "action", "change-receipt");
+            if ($tester->allow()) {
+                $receiptDateToChange = true;
+            } else {
+//                            die("???");
+
+            }
+        }
         $receiptToAcceptOrReject = false;
         if ($this->action->GetStatus() == C3op_Projects_ActionStatusConstants::STATUS_RECEIVED) {
             $tester = new C3op_Access_PrivilegeTester($user, $acl, "projects", "action", "accept-receipt");
@@ -100,6 +110,7 @@ class C3op_Projects_ActionHeader {
         $this->data['canRemoveAction'] = $canRemoveAction;
         $this->data['canAcknowledge'] = $userCanAcknowledge;
         $this->data['receiptToAcceptOrReject'] = $receiptToAcceptOrReject;
+        $this->data['receiptDateToChange'] = $receiptDateToChange;
         $this->data['waitingToReceipt'] = $waitingToReceipt;
         $this->data['readyToDelivery'] = $readyToDelivery;
 

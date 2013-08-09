@@ -301,17 +301,28 @@ if ($parentId > 0) {
   }
 ?>
 <?php
-  if ($actionHeader['receiptToAcceptOrReject']) {
+  if ($actionHeader['receiptDateToChange']) {
 ?>
-          <div class="two columns alpha">
+          <div class="two columns">
             <?php print($this->translate("#Receipt date:")); ?>
           </div>
-          <div class="one column">
+          <div class="two columns">
             <?php print($this->translate($actionHeader['receiptDate'])); ?>
           </div>
           <div class="two columns">
             <a id="hideDeliveryHref" href="/projects/action/change-receipt/?id=<?php print($actionHeader['id']); ?>"><?php print($this->translate("#Fix date")); ?></a>
           </div>
+<?php
+  } else {
+?>
+          &nbsp;
+<?php
+  }
+?>
+
+<?php
+  if ($actionHeader['receiptToAcceptOrReject']) {
+?>
           <div class="six columns inset-by-four">
             <div id="receiptAcknowledgement-<?php print($actionHeader['id']);?>">
               <div class="three columns alpha">
@@ -330,7 +341,6 @@ if ($parentId > 0) {
 <?php
   }
 ?>
-
 <?php
   if ((!$actionHeader['notAProduct'] ) && ($actionHeader['readyToDelivery'])) {
 ?>
@@ -349,7 +359,7 @@ if ($parentId > 0) {
   if (($actionHeader['notAProduct'] ) && ($actionHeader['relatedProductId'])) {
             $productLink = "<a href='/projects/action/detail/?id=" . $actionHeader['relatedProductId'] . "'>" . $actionHeader['relatedProductTitle'] . "</a>";
 ?>
-          
+
           <div class="two columns alpha">
             <span class="label">&nbsp;</span>
           </div>
