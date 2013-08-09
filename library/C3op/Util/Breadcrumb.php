@@ -105,8 +105,6 @@ class C3op_Util_Breadcrumb{
 
 
          //$check_duplicate=$this->check_duplicate($crumb, $_SESSION['breadcrumb']);
-
-
 //         if($check_duplicate > 0){
 //
 //         	$break_array=$this->break_array($_SESSION['breadcrumb'],$crumb);
@@ -146,35 +144,6 @@ class C3op_Util_Breadcrumb{
    public function getCrumbs()
    {
        return $this->crumbs;
-   }
-
-   /*
-    * Output a semantic list of links.  See above for sample CSS.  Modify this to suit your design.
-    */
-   private  function output($array,$label,$uri){
-
-
-
-   	$count=0;
-        $link = "";
-
-   	$link .="<div id='breadcrumb'><ul>";
-
-   	foreach ($array as $key=>$value){
-   		$count++;
-
-   		if($count < $this->maxUrlCount){
-
-   			$link .="<li><a href='".$value."' title='".$key."'>".$key."</a></li>$this->separator ";
-   		}
-
-   	}
-   	//attach the last link
-
-   	$link .="<li>$label</li> ";
-	$link .="</ul></div>";
-
-	return $link;
    }
 
    /**
@@ -242,6 +211,20 @@ class C3op_Util_Breadcrumb{
            	array_pop($array1); //prune until we reach the $level we've allocated to this page
 
          }
+
+		return $array1;
+	}
+
+	private function purge_array($array1,$array2){
+
+
+		$count=0;
+		foreach ($array1 as $key=>$crumb){
+			$count++;
+			if(($crumb['uri'] == ($array2['uri'])) && ($crumb['label'] == ($array2['label']))){
+                            unset($array1[$key]);
+			}
+		}
 
 		return $array1;
 	}
