@@ -472,7 +472,8 @@ if ($actionHeader['hasDefinedResponsible']) {
           </div>
           </div>
 <?php
-if ((!$actionHeader['notAProduct']) && ($actionHeader['canEditBudget'])) {
+if ($pageData['canSeeFinances']) {
+    if ((!$actionHeader['notAProduct']) && ($actionHeader['canEditBudget'])) {
 
 ?>
 
@@ -509,6 +510,7 @@ if (isset($actionHeader['hasBudget'])) {
           </div>
           </div>
 <?php
+        }
 
     }
 ?>

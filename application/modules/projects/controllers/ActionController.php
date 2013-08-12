@@ -335,11 +335,24 @@ class Projects_ActionController extends Zend_Controller_Action
 
         $materialSuppliesList = $this->getMaterialSuppliesList($actionToBeDetailed);
 
+
+        $user = Zend_Registry::get('user');
+        $test = new C3op_Access_UserCanSeeFinances($user);
+        if ($test->can()) {
+            $canSeeFinances = true;
+        } else {
+            $canSeeFinances = false;
+        }
+
+
+
         $pageData = array(
             'messageToShow'       => $messageToShow,
+            'canSeeFinances'       => $canSeeFinances,
             'actionHeader'        => $actionHeader,
             'responsiblesList'     => $responsiblesList,
             'materialSuppliesList' => $materialSuppliesList,
+
         );
 
         $this->view->pageData = $pageData;
