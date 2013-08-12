@@ -468,7 +468,7 @@ class Projects_ActionController extends Zend_Controller_Action
                         $redirectTo = '/projects/action/detail/?id=' . $parentActionId;
                     } else {
                         $projectAction = $theAction->getProject();
-                        $redirectTo = '/projects/project/detail/?id=' . $projectAction;
+                        $redirectTo = '/projects/project/detail/?id=' . $projectAction . "#Actions";
                     }
 
                     $id = $form->process($postData);
