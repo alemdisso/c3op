@@ -129,7 +129,9 @@
 
     $user = Zend_Registry::get('user');
     $role = $user->GetRole();
-    if ($role == C3op_Access_RolesConstants::ROLE_SYSADMIN) {
+    // LET ANYONE CHANGE STATUS JUST FOR NOW
+    if (($role == C3op_Access_RolesConstants::ROLE_SYSADMIN) || (true)) {
+
         $element = new Zend_Form_Element_Select('status');
         $element->setLabel('#Project status:')
                 ->setDecorators(array(

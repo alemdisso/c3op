@@ -13,11 +13,11 @@ class C3op_Projects_ReceiptAcknowledgment {
 
     }
 
-    public function changeReceiptDate(C3op_Projects_Action $action, C3op_Projects_ActionMapper $mapper, $newDate, $observation)
+    public function changeReceiptDate(C3op_Projects_Action $action, C3op_Projects_ActionMapper $mapper, $newDate, $observation, C3op_Auth_User $user)
     {
-        $mapper->updateLastReceiptDate($action, $newDate);
+        $mapper->updateLastReceiptDate($action, $newDate, $observation, $user->getId());
+        //$this->LogChangeReceiptDate($action, $observation);
 
-        $this->LogChangeReceiptDate($action, $observation);
 
     }
 
@@ -31,7 +31,7 @@ class C3op_Projects_ReceiptAcknowledgment {
     private function LogChangeReceiptDate(C3op_Projects_Action $action, $observation)
     {
         $logger = new C3op_Projects_EventLogger();
-        $logger->LogActionEvent($action, C3op_Projects_ActionEventConstants::EVENT_ACKNOWLEDGE_RECEIPT, $observation);
+        $logger->LogActionEvent($action, C3op_Projects_ActionEventConstants::EVENT_CHANGE_RECEIPT, $observation);
     }
 
 }

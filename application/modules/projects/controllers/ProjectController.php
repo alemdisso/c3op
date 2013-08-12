@@ -1098,24 +1098,30 @@ class Projects_ProjectController extends Zend_Controller_Action
         $projectTitle = $projectToBeDetailed->getShortTitle();
 
         $clientName = $this->view->translate('#(not defined)');
+        $clientId = 0;
         if ($projectToBeDetailed->getClient() > 0) {
             $thisClient = $this->institutionMapper->findById($projectToBeDetailed->getClient());
-            $clientName = $thisClient->GetShortName();
+            $clientName = $thisClient->getShortName();
+            $clientId = $thisClient->getId();
         }
 
         $obj = new C3op_Projects_AreaActivityTypes();
         $areaActivity = $obj->TitleForType($projectToBeDetailed->getAreaActivity());
 
+        $ourResponsibleId = 0;
         if ($projectToBeDetailed->getOurResponsible()) {
             $theContact = $this->contactMapper->findById($projectToBeDetailed->getOurResponsible());
             $ourResponsible = $theContact->getName();
+            $ourResponsibleId = $theContact->getId();
         } else {
             $ourResponsible = $this->view->translate("#Not defined");
         }
 
+        $responsibleAtClientId = 0;
         if ($projectToBeDetailed->getResponsibleAtClient()) {
             $theContact = $this->contactMapper->findById($projectToBeDetailed->getResponsibleAtClient());
             $responsibleAtClient = $theContact->getName();
+            $responsibleAtClientId = $theContact->getId();
         } else {
             $responsibleAtClient = $this->view->translate("#Not defined");
         }
@@ -1160,18 +1166,21 @@ class Projects_ProjectController extends Zend_Controller_Action
         }
 
        $projectHeader = array(
-                'id'                  => $projectToBeDetailed->getId(),
-                'projectTitle'        => $projectTitle,
-                'clientName'          => $clientName,
-                'areaActivity'        => $areaActivity,
-                'ourResponsible'      => $ourResponsible,
-                'responsibleAtClient' => $responsibleAtClient,
-                'overhead'            => $overhead,
-                'managementFee'       => $managementFee,
-                'projectValue'        => $projectValue,
-                'projectDates'        => $projectDates,
-                'hasContract'         => $hasContract,
-                'amendmentsList'      => $amendmentsList,
+                'id'                    => $projectToBeDetailed->getId(),
+                'projectTitle'          => $projectTitle,
+                'clientId'              => $clientId,
+                'clientName'            => $clientName,
+                'areaActivity'          => $areaActivity,
+                'ourResponsible'        => $ourResponsible,
+                'ourResponsibleId'      => $ourResponsibleId,
+                'responsibleAtClient'   => $responsibleAtClient,
+                'responsibleAtClientId' => $responsibleAtClientId,
+                'overhead'              => $overhead,
+                'managementFee'         => $managementFee,
+                'projectValue'          => $projectValue,
+                'projectDates'          => $projectDates,
+                'hasContract'           => $hasContract,
+                'amendmentsList'        => $amendmentsList,
             );
 
         return $projectHeader;

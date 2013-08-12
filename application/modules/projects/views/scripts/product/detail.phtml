@@ -152,19 +152,10 @@ $(document).ready(function(){
 ?>
 
         <div class="TituloForm">
-<?php
-  if ($actionHeader['notAProduct'] ) {
-?>
-          <h2><?php print(sprintf($this->translate("#Details of action %s"), $actionHeader['title'])); ?></h2>
 
-<?php
-  } else {
-?>
-          <h2><?php print(sprintf($this->translate("#Details of product %s"), $actionHeader['title'])); ?></h2>
-<?php
-  }
-?>
-                <a class="bt" href="/projects/action/edit/?id=<?php echo $actionHeader['id'] ?>"><img src="/images/icon_edit.png" align="absmiddle" /> <?php echo $this->translate("#Edit action") ?></a>
+          <h2><?php print(sprintf($this->translate("#Product %s"), $actionHeader['title'])); ?></h2>
+
+                <a class="bt" href="/projects/action/edit/?id=<?php echo $actionHeader['id'] ?>"><img src="/images/icon_edit.png" align="absmiddle" /> <?php echo $this->translate("#Edit product") ?></a>
 <?php
     if ($actionHeader['canRemoveAction']) {
 ?>
@@ -189,7 +180,7 @@ $(document).ready(function(){
           <div class="twelve columns">
             <?php print($this->translate($actionHeader['supervisorName'])); ?>
           </div>
-          
+
 
           <div class="two columns alpha">
             <span class="label"><?php print($this->translate("#Subordinated to:")); ?></span>
@@ -469,11 +460,11 @@ if ((!$actionHeader['notAProduct']) && ($actionHeader['canEditBudget'])) {
 ?>
 
           <br class="clear" />
-          
+
           <div class="two columns alpha">
             <span class="label">Orcamento:</span>
           </div>
-          
+
           <div class="twelve columns">
               <a anchor="budget"></a>
 <?php
@@ -500,7 +491,7 @@ if (isset($actionHeader['hasBudget'])) {
                 <!--<br class="clear"/>-->
                 <a class="alpha" href="#budget" id="hideBudgetHref"><?php print($this->translate("#Hide form")); ?></a>
               </div>
-          
+
           </div>
 <?php
 

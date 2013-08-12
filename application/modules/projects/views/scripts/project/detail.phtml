@@ -83,7 +83,17 @@ if ($projectHeader['hasContract']) {
         <span class="label"><?php echo $this->translate("#Client:") ?></span>
       </div>
       <div class="five columns">
+<?php
+if ($projectHeader['clientId'] > 0) {
+?>
+        <a href='/register/institution/detail/?id=<?php print($projectHeader['clientId']) ?>'><?php print($projectHeader['clientName']) ?></a>
+<?php
+} else {
+?>
         <?php print($projectHeader['clientName']) ?>
+<?php
+}
+?>
       </div>
       <div class="three columns">
         <span class="label"><?php echo $this->translate("#Overhead:") ?></span>
@@ -108,7 +118,17 @@ if ($projectHeader['hasContract']) {
         <span class="label"><?php echo $this->translate("#Our responsible:") ?></span>
       </div>
       <div class="five columns">
+<?php
+if ($projectHeader['ourResponsibleId'] > 0) {
+?>
+        <a href='/register/contact/detail/?id=<?php print($projectHeader['ourResponsibleId']) ?>'><?php print($projectHeader['ourResponsible']) ?></a>
+<?php
+} else {
+?>
         <?php print($projectHeader['ourResponsible']) ?>
+<?php
+}
+?>
       </div>
       <div class="three columns">
         <span class="label"><?php echo $this->translate("#Contract value:") ?></span>
@@ -120,7 +140,17 @@ if ($projectHeader['hasContract']) {
         <span class="label"><?php echo $this->translate("#Responsible at client:") ?></span>
       </div>
       <div class="five columns">
+<?php
+if ($projectHeader['responsibleAtClientId'] > 0) {
+?>
+        <a href='/register/contact/detail/?id=<?php print($projectHeader['responsibleAtClientId']) ?>'><?php print($projectHeader['responsibleAtClient']) ?></a>
+<?php
+} else {
+?>
         <?php print($projectHeader['responsibleAtClient']) ?>
+<?php
+}
+?>
       </div>
       <div class="three columns">
         <span class="label"><?php echo $this->translate("#Contract date:") ?></span>
@@ -176,7 +206,7 @@ foreach($amendmentsList as $id => $contractInfo) {
               <thead>
                 <tr>
                   <th width="225"><?php echo $this->translate("#Product") ?></th>
-                  <th width="50"><?php echo $this->translate("#Delivery") ?></th>
+                  <th width="50"><?php echo $this->translate("#Delivery Date") ?></th>
                   <th width="50"><?php echo $this->translate("#Real date") ?></th>
                   <th width="70"><?php echo $this->translate("#Status") ?></th>
                   <th width="40"><?php echo $this->translate("#% physical progress")  ?></th>

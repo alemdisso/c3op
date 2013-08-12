@@ -335,11 +335,24 @@ class Projects_ActionController extends Zend_Controller_Action
 
         $materialSuppliesList = $this->getMaterialSuppliesList($actionToBeDetailed);
 
+
+        $user = Zend_Registry::get('user');
+        $test = new C3op_Access_UserCanSeeFinances($user);
+        if ($test->can()) {
+            $canSeeFinances = true;
+        } else {
+            $canSeeFinances = false;
+        }
+
+
+
         $pageData = array(
             'messageToShow'       => $messageToShow,
+            'canSeeFinances'       => $canSeeFinances,
             'actionHeader'        => $actionHeader,
             'responsiblesList'     => $responsiblesList,
             'materialSuppliesList' => $materialSuppliesList,
+
         );
 
         $this->view->pageData = $pageData;
@@ -455,7 +468,7 @@ class Projects_ActionController extends Zend_Controller_Action
                         $redirectTo = '/projects/action/detail/?id=' . $parentActionId;
                     } else {
                         $projectAction = $theAction->getProject();
-                        $redirectTo = '/projects/project/detail/?id=' . $projectAction;
+                        $redirectTo = '/projects/project/detail/?id=' . $projectAction . "#Actions";
                     }
 
                     $id = $form->process($postData);

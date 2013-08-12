@@ -685,15 +685,21 @@ class C3op_Projects_ActionMapper
         return $result;
     }
 
-   public function updateLastReceiptDate(C3op_Projects_Action $obj, $newTimestamp)
+   public function updateLastReceiptDate(C3op_Projects_Action $obj, $newTimestamp, $observation="", $responsible=0)
     {
 
-       $action = $obj->getId();
-               $type = C3op_Projects_ActionEventConstants::EVENT_ACKNOWLEDGE_RECEIPT;
-        $query = $this->db->prepare('UPDATE projects_actions_events SET timestamp = :timestamp WHERE action = :action AND type = :type ORDER BY timestamp DESC LIMIT 1;');
-        $query->bindValue(':timestamp', $newTimestamp, PDO::PARAM_STR);
+        $query = $this->db->prepare('UPDATE projects_actions_events SET type = :canceled WHERE action = :action AND type = :ack ORDER BY timestamp DESC LIMIT 1;');
+        $query->bindValue(':canceled', C3op_Projects_ActionEventConstants::EVENT_CANCELED_ACKNOWLEDGE_RECEIPT, PDO::PARAM_STR);
         $query->bindValue(':action', $obj->GetId(), PDO::PARAM_STR);
-        $query->bindValue(':type', C3op_Projects_ActionEventConstants::EVENT_ACKNOWLEDGE_RECEIPT, PDO::PARAM_STR);
+        $query->bindValue(':ack', C3op_Projects_ActionEventConstants::EVENT_ACKNOWLEDGE_RECEIPT, PDO::PARAM_STR);
+        $query->execute();
+
+        $query = $this->db->prepare("INSERT INTO projects_actions_events (action, type, timestamp, observation, responsible) VALUES (:action, :ack, :timestamp, :observation, :responsible)");
+        $query->bindValue(':action',      $obj->GetId(), PDO::PARAM_STR);
+        $query->bindValue(':ack',        C3op_Projects_ActionEventConstants::EVENT_ACKNOWLEDGE_RECEIPT, PDO::PARAM_STR);
+        $query->bindValue(':timestamp',   $newTimestamp, PDO::PARAM_STR);
+        $query->bindValue(':observation', $observation, PDO::PARAM_STR);
+        $query->bindValue(':responsible', $responsible, PDO::PARAM_STR);
         $query->execute();
 
         $this->setAttributeValue($obj, $newTimestamp, 'receiptDate');
