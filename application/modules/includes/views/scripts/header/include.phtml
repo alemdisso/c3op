@@ -43,7 +43,7 @@
           <?php /*print_r( $pageData['breadcrumb'])*/ ?>
       </div><!-- #Menu -->
 
-	  <div id="Breadcrumb" class="sixteen columns">
+	  <div id="Breadcrumb" class="sixteen columns <?php echo $pageData['module'] ?>">
 <?php
 $currentCrumb = count($pageData['breadcrumb']);
 $lastCrumb = false;

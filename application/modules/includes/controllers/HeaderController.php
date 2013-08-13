@@ -110,6 +110,7 @@ class Includes_HeaderController extends Zend_Controller_Action
         }
 
         $pageData['navigationTabs'] = $navigationTabs;
+        $pageData['module'] = $moduleName;
         $this->view->pageData = $pageData;
     }
 
