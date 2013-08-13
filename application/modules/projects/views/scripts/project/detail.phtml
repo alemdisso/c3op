@@ -41,6 +41,48 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
 } );
 </script>
 
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#Products').dataTable( {
+            "aoColumns": [
+                null,
+                { "sSortDataType": "dom-text", "sType": "date-uk" },
+                null,
+                null,
+                null,
+                null,
+            ],
+            "aaSorting": [[ 1, "asc" ]],
+
+         "iDisplayLength": -1,
+         "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]],
+	 "sPaginationType": "full_numbers",
+            "oLanguage": {
+            "sEmptyTable":      "Sem dados disponíveis na tabela",
+            "sInfo":            "Exibindo de _START_ a _END_ do total de _TOTAL_ registros",
+            "sInfoEmpty":       "Sem registros a exibir",
+            "sInfoFiltered":    " - filtrado do total de _MAX_ registros",
+            "sInfoPostFix":     "", /* appended to sInfo at all times */
+            "sInfoThousands":   ".",
+            "sLengthMenu":      "Exibir até _MENU_ registros",
+            "sLoadingRecords":  "Aguarde - carregando...",
+            "sProcessing":      "Aguarde - processando...",
+            "sSearch":          "Filtrar:",
+            "sUrl":             "",
+            "sZeroRecords":     "Sem resultados para a busca",
+            "oPaginate": {
+                "sFirst":         "Primeiro",
+                "sPrevious":      "Anterior",
+                "sNext":          "Próximo",
+                "sLast":          "Último"
+            }
+          }
+        } );
+    } );
+
+</script>
+
+
 
 
     <div id="MainHeader">
@@ -202,7 +244,7 @@ foreach($amendmentsList as $id => $contractInfo) {
       <div id="tabs-products">
         <div class="Area">
            <!--<h2><?php echo $this->translate("#Product") ?></h2>-->
-           <table id="Products" class="display dataTable" width="100%">
+           <table id="Products" class="display" width="100%">
               <thead>
                 <tr>
                   <th width="225"><?php echo $this->translate("#Product") ?></th>
