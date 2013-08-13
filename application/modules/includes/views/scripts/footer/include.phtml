@@ -1,8 +1,19 @@
+<?php
+  $pageData = $this->pageData;
+
+?>
 <div id="footer">
 	<div id="footer_wrapper" class="clearfix">
 		<div id="footer_column_1">IETS &copy; 2012</div>
 		<div id="footer_column_2">
-			<a href="">Contato</a> | <a href="">Editar perfil</a> | <a href="">Sair</a>
+<?php
+  if ($pageData['loggedIn']) {
+?>			<a href="/auth/user/edit/?id=<?php echo $pageData['id']?>"><?php echo $pageData['userName']?></a> | <a href="/auth/user/edit/?id=<?php echo $pageData['id']?>"><?php echo $this->translate("#Edit") ?></a> | <a href="">Sair</a>
+
+<?php
+    }
+
+?>
 		</div>
 	</div>
 </div>
