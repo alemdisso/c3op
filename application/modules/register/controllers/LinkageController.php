@@ -404,17 +404,12 @@ class Register_LinkageController extends Zend_Controller_Action
                 $this->contactMapper = new C3op_Register_ContactMapper($this->db);
             }
             $thisContact = $this->contactMapper->findById($contactId);
-            $this->view->removalMessage = sprintf(_("#Confirm removal of linkage between %s and %s?"), $thisContact->GetName(), $thisInstitution->GetName());
+            $this->view->removalMessage = sprintf($this->view->translate("#Confirm removal of linkage between %s and %s?"), $thisContact->GetName(), $thisInstitution->GetName());
             $this->view->form = $form;
         }
+        $this->view->pageTitle = $this->view->translate("#Remove linkage");
     }
 
-    private function initLinkageMapper()
-    {
-        if (!isset($this->linkageMapper)) {
-            $this->linkageMapper = new C3op_Register_LinkageMapper($this->db);
-        }
-    }
 
    private function SetValueToFormField(Zend_Form $form, $fieldName, $value)
     {
@@ -497,33 +492,6 @@ class Register_LinkageController extends Zend_Controller_Action
             return $linkage;
         }
         throw new C3op_Register_LinkageException(_("#Invalid Linkage Id from Get"));
-    }
-
-    private function initLinkageWithCheckedId(C3op_Register_LinkageMapper $mapper)
-    {
-        return $mapper->findById($this->checkIdFromGet());
-    }
-
-    private function initContactWithCheckedId(C3op_Register_ContactMapper $mapper)
-    {
-        return $mapper->findById($this->checkContactFromGet());
-    }
-
-   private function checkContactFromGet()
-    {
-        $data = $this->_request->getParams();
-        $filters = array(
-            'contact' => new Zend_Filter_Alnum(),
-        );
-        $validators = array(
-            'contact' => array('Digits', new Zend_Validate_GreaterThan(0)),
-        );
-        $input = new Zend_Filter_Input($filters, $validators, $data);
-        if ($input->isValid()) {
-            $contact = $input->contact;
-            return $contact;
-        }
-        throw new C3op_Register_LinkageException(_("#Invalid Contact Id from Get"));
     }
 
 }

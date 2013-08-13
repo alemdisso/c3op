@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-12 19:36-0300\n"
-"PO-Revision-Date: 2013-08-12 19:36-0300\n"
+"PO-Revision-Date: 2013-08-13 10:53-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -222,7 +222,7 @@ msgstr "(a terminar)"
 
 #: application\modules\projects/controllers/ProjectController.php:201
 msgid "#(not a requirement)"
-msgstr "(não é requisito)"
+msgstr "(indefinido)"
 
 #: application\modules\projects/controllers/ProjectController.php:362
 #: application\modules\projects/views/scripts/action/create.phtml:2

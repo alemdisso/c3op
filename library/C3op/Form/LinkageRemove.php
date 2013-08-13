@@ -23,12 +23,10 @@ class C3op_Form_LinkageRemove extends Zend_Form
             ->addFilter('StringTrim');
         $this->addElement($id);
 
-        // create submit button
-        $submit = new Zend_Form_Element_Submit('submit');
-        $submit->setLabel(_('#I confirm: remove!'))
-            ->setOptions(array('class' => 'submit'));
-        $this->addElement($submit);
-    }
+
+        $util = new C3op_Util_SetButtons();
+        $util->setButtons($this, array('Submit'=>_('#Confirm removal'), 'Cancel'=>_('#Don\'t remove')));
+     }
 
     public function process($data) {
         if ($this->isValid($data) !== true)
@@ -45,14 +43,4 @@ class C3op_Form_LinkageRemove extends Zend_Form
         }
     }
 
-    private function addElementText($fieldName, $label, $validator, $fieldSize)
-    {
-        $elementText = new Zend_Form_Element_Text($fieldName);
-        $elementText->setLabel($label)
-            ->setOptions(array('size' => "$fieldSize"))
-            ->addValidator($validator)
-            ->addFilter('StringTrim')
-                ;
-        $this->addElement($elementText);
-    }
 }

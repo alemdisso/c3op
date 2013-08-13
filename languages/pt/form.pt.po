@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: c3op\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-04 11:07-0300\n"
-"PO-Revision-Date: 2013-07-04 11:07-0300\n"
+"POT-Creation-Date: 2013-08-13 10:49-0300\n"
+"PO-Revision-Date: 2013-08-13 10:53-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: Português\n"
@@ -85,13 +85,13 @@ msgstr "Término Real: "
 #: library\C3op\Form/MessengerCreate.php:58
 #: library\C3op\Form/OutlayCreate.php:86 library\C3op\Form/OutlayNotify.php:58
 #: library\C3op\Form/ProductCreate.php:137
-#: library\C3op\Form/ProductDeliveryNotify.php:73
+#: library\C3op\Form/ProductDeliveryNotify.php:74
 #: library\C3op\Form/ProductEdit.php:72 library\C3op\Form/ProjectAmend.php:50
-#: library\C3op\Form/ProjectCreate.php:284
+#: library\C3op\Form/ProjectCreate.php:286
 #: library\C3op\Form/ReceivableCreate.php:94
 #: library\C3op\Form/ReceivableNotify.php:72
 #: library\C3op\Form/ResponsibleContract.php:82
-#: library\C3op\Form/ResponsibleCreate.php:81
+#: library\C3op\Form/ResponsibleCreate.php:80
 #: library\C3op\Form/ResponsibleDismiss.php:35
 #: library\C3op\Form/UserCreate.php:101
 msgid "#Submit"
@@ -121,7 +121,7 @@ msgstr "É requisito para receber: "
 
 #: library\C3op\Form/ActionEdit.php:78 library\C3op\Form/ProductCreate.php:62
 msgid "#(not a requirement for receiving)"
-msgstr "(não é requisito para recebimento) "
+msgstr "(indefinido) "
 
 #: library\C3op\Form/ActionRemove.php:21
 #: library\C3op\Form/ContactRemove.php:22
@@ -168,7 +168,7 @@ msgstr "Valor:"
 #: library\C3op\Form/BudgetCreate.php:36
 #: library\C3op\Form/MaterialSupplyCreate.php:46
 #: library\C3op\Form/ResponsibleContract.php:59
-#: library\C3op\Form/ResponsibleCreate.php:75
+#: library\C3op\Form/ResponsibleCreate.php:74
 #: library\C3op\Form/ResponsibleEdit.php:31
 msgid "#The value must be a positive number"
 msgstr "O valor precisa ser um número positivo"
@@ -182,7 +182,7 @@ msgstr "Recebida em: "
 #: library\C3op\Form/OutlayCreate.php:68
 #: library\C3op\Form/ProductDeliveryNotify.php:26
 #: library\C3op\Form/ProjectAmend.php:20
-#: library\C3op\Form/ProjectCreate.php:269
+#: library\C3op\Form/ProjectCreate.php:271
 #: library\C3op\Form/ResponsibleContract.php:65
 msgid "#Observation:"
 msgstr "Observação:"
@@ -308,7 +308,7 @@ msgstr "Tipo:"
 
 #: library\C3op\Form/InstitutionCreate.php:50
 #: library\C3op\Form/InstitutionCreate.php:68
-#: library\C3op\Form/ProjectCreate.php:217
+#: library\C3op\Form/ProjectCreate.php:219
 msgid "#(choose a type)"
 msgstr "(escolha um tipo)"
 
@@ -467,13 +467,13 @@ msgid "#Unit:"
 msgstr "Unidade:"
 
 #: library\C3op\Form/MaterialSupplyCreate.php:86
-#: library\C3op\Form/ResponsibleCreate.php:38
+#: library\C3op\Form/ResponsibleCreate.php:37
 msgid "#Company:"
 msgstr "Organização:"
 
 #: library\C3op\Form/MaterialSupplyCreate.php:95
 #: library\C3op\Form/MaterialSupplyCreate.php:108
-#: library\C3op\Form/ResponsibleCreate.php:60
+#: library\C3op\Form/ResponsibleCreate.php:59
 msgid "#undefined"
 msgstr "indefinido"
 
@@ -502,7 +502,7 @@ msgid "#Predicted Date"
 msgstr "Data Prevista"
 
 #: library\C3op\Form/OutlayNotify.php:27
-#: library\C3op\Form/ProductDeliveryNotify.php:57
+#: library\C3op\Form/ProductDeliveryNotify.php:42
 #: library\C3op\Form/ReceivableNotify.php:41
 msgid "#Real Date"
 msgstr "Data Real"
@@ -552,44 +552,44 @@ msgstr "Responsável pelo IETS: "
 msgid "#Responsible at client"
 msgstr "Responsável pelo cliente "
 
-#: library\C3op\Form/ProjectCreate.php:134
-#: library\C3op\Form/ProjectCreate.php:153
+#: library\C3op\Form/ProjectCreate.php:136
+#: library\C3op\Form/ProjectCreate.php:155
 msgid "#Project status:"
 msgstr "Status do projeto:"
 
-#: library\C3op\Form/ProjectCreate.php:145
+#: library\C3op\Form/ProjectCreate.php:147
 msgid "#(choose a status)"
 msgstr "(escolha um status)"
 
-#: library\C3op\Form/ProjectCreate.php:162
+#: library\C3op\Form/ProjectCreate.php:164
 msgid "#(disabled)"
 msgstr "(desabilitado)"
 
-#: library\C3op\Form/ProjectCreate.php:175
+#: library\C3op\Form/ProjectCreate.php:177
 msgid "#Overhead:"
 msgstr "Overhead:"
 
-#: library\C3op\Form/ProjectCreate.php:190
+#: library\C3op\Form/ProjectCreate.php:192
 msgid "#Management fee:"
 msgstr "Taxa de administração:"
 
-#: library\C3op\Form/ProjectCreate.php:206
+#: library\C3op\Form/ProjectCreate.php:208
 msgid "#Contract nature:"
 msgstr "Natureza do contrato:"
 
-#: library\C3op\Form/ProjectCreate.php:224
+#: library\C3op\Form/ProjectCreate.php:226
 msgid "#Area activity:"
 msgstr "Área de atividade:"
 
-#: library\C3op\Form/ProjectCreate.php:234
+#: library\C3op\Form/ProjectCreate.php:236
 msgid "#(choose an area)"
 msgstr "(escolha uma área)"
 
-#: library\C3op\Form/ProjectCreate.php:241
+#: library\C3op\Form/ProjectCreate.php:243
 msgid "#Object:"
 msgstr "Objeto:"
 
-#: library\C3op\Form/ProjectCreate.php:255
+#: library\C3op\Form/ProjectCreate.php:257
 msgid "#Summary:"
 msgstr "Sumário:"
 
@@ -609,27 +609,27 @@ msgstr "Data Prevista para Recebimento"
 msgid "#Predicted Value"
 msgstr "Valor Previsto"
 
-#: library\C3op\Form/ResponsibleCreate.php:27
+#: library\C3op\Form/ResponsibleCreate.php:26
 msgid "#It is a person or an institution?"
 msgstr "Pessoa ou empresa?"
 
-#: library\C3op\Form/ResponsibleCreate.php:34
+#: library\C3op\Form/ResponsibleCreate.php:33
 msgid "#teamMember"
 msgstr "Pessoa"
 
-#: library\C3op\Form/ResponsibleCreate.php:34
+#: library\C3op\Form/ResponsibleCreate.php:33
 msgid "#service"
 msgstr "Empresa"
 
-#: library\C3op\Form/ResponsibleCreate.php:47
+#: library\C3op\Form/ResponsibleCreate.php:46
 msgid "#undefined institution"
 msgstr "instituição não definida"
 
-#: library\C3op\Form/ResponsibleCreate.php:51
+#: library\C3op\Form/ResponsibleCreate.php:50
 msgid "#Who:"
 msgstr "Quem:"
 
-#: library\C3op\Form/ResponsibleCreate.php:64
+#: library\C3op\Form/ResponsibleCreate.php:63
 msgid "#Predicted value:"
 msgstr "Valor previsto:"
 
