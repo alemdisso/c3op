@@ -174,20 +174,32 @@
   padding: 0 11px 0 5px;
 }
 
-#Breadcrumb a.finances {
+#Breadcrumb a.finances, span.finances {
   color:#f09000;
 }
 
-#Breadcrumb a.projects {
+#Breadcrumb a.projects, span.projects {
   color:#bb2f39;
 }
 
-#Breadcrumb a.register {
+#Breadcrumb a.register, span.register {
   color:#436499;
 }
 
 #Breadcrumb a.noback {
   background:none;
+}
+
+#Breadcrumb.finances {
+  border-top-color:#f09000;
+}
+
+#Breadcrumb.projects {
+   border-top-color:#bb2f39;
+}
+
+#Breadcrumb.register {
+   border-top-color:#436499;
 }
 
 #Main {
@@ -416,7 +428,8 @@ a.button {
 }
 
 .Invisible {
-  color: #fff;
+  /*color: #fff;*/
+  display:none!important;
 }
 
 textarea,
@@ -442,8 +455,8 @@ input[type="reset"],
 input[type="submit"],
 input[type="button"] {
   font-family: inherit;
-  font-size: 75%;
-  font-weight: bold;
+  /*font-size: 75%;
+  font-weight: bold;*/
   text-transform: uppercase;
 }
 
@@ -484,7 +497,7 @@ a.bt {
 }
 
 a.bt:hover {
-  border-color: #bb2f39;
+ /* border-color: #bb2f39;*/
   text-decoration: none;
 }
 
@@ -543,3 +556,16 @@ a.bt img {
   font-weight: normal;
   font-style: normal; }
 */
+
+/* Form */
+/*label {
+  text-transform: uppercase;
+  color: #666;
+}	*/
+
+#loginLogin-label, #passwordLogin-label {
+  width:70px;
+  text-align: left!important;
+  text-transform: uppercase;
+  color: #666;
+}

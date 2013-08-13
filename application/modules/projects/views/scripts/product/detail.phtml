@@ -213,14 +213,16 @@ if ($parentId > 0) {
           <div class="twelve columns omega">
             <?php print($actionHeader['description']); ?>&nbsp;
           </div>
+          
+          <br clear="all" />
 
           <div class="two columns alpha">
             <span class="label"><?php print($this->translate("#Predicted begin:")); ?></span>
           </div>
-          <div class="five columns">
+          <div class="four columns">
             <?php print($this->translate($actionHeader['predictedBeginDate'])); ?>
           </div>
-          <div class="two columns">
+          <div class="three columns">
             <span class="label"><?php print($this->translate("#Predicted finish:")); ?></span>
           </div>
           <div class="two columns">
@@ -243,19 +245,23 @@ if ($parentId > 0) {
 
 
           </div>
+          
+          <br clear="all" />
 
           <div class="two columns alpha">
             <span class="label"><?php print($this->translate("#Real begin:")); ?></span>
           </div>
-          <div class="five columns">
+          <div class="four columns">
             <?php print($this->translate($actionHeader['realBeginDate'])); ?>
           </div>
-          <div class="two columns">
+          <div class="three columns">
             <span class="label"><?php print($this->translate("#Real finish:")); ?></span>
           </div>
           <div class="five columns">
             <?php print($this->translate($actionHeader['realFinishDate'])); ?>
           </div>
+          
+          <br clear="all" />
 
 <?php
   if ($actionHeader['waitingToReceipt']) {

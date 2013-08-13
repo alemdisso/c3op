@@ -54,7 +54,7 @@ foreach ($pageData['breadcrumb'] as $crumb) {
 <?php
     } else {
 ?>
-		  <?php echo $crumb['label'] ?>
+		  <span class="<?php echo $crumb['module']?>"><?php echo $crumb['label'] ?></span>
 <?php
     }
 }

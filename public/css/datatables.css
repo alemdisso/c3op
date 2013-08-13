@@ -155,7 +155,7 @@ table.display thead {
 
 
 table.display thead th {
-	padding: 5px 10px;
+	padding: 5px 10px 5px 20px;
 	border-bottom: 1px solid #c0c0bf;
 	border-top: 1px solid #c0c0bf;
 	/*background: #f6f6f6;*/
@@ -193,23 +193,23 @@ table.display td.center {
  */
 
 .sorting_asc {
-	background: url('/images/DataTables/sort_asc.png') no-repeat center right;
+	background: url('/images/DataTables/sort_asc.png') no-repeat center left!important;
 }
 
 .sorting_desc {
-	background: url('/images/DataTables/sort_desc.png') no-repeat center right;
+	background: url('/images/DataTables/sort_desc.png') no-repeat center left!important;
 }
 
 .sorting {
-	background: url('/images/DataTables/sort_both.png') no-repeat center right;
+	background: url('/images/DataTables/sort_both.png') no-repeat center left!important;
 }
 
 .sorting_asc_disabled {
-	background: url('/images/DataTables/sort_asc_disabled.png') no-repeat center right;
+	background: url('/images/DataTables/sort_asc_disabled.png') no-repeat center left!important;
 }
 
 .sorting_desc_disabled {
-	background: url('/images/DataTables/sort_desc_disabled.png') no-repeat center right;
+	background: url('/images/DataTables/sort_desc_disabled.png') no-repeat center left!important;
 }
  
 th:active {

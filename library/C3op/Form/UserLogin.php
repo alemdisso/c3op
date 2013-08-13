@@ -57,7 +57,7 @@ class C3op_Form_UserLogin extends Zend_Form
                   array('Label',
                   array('tag' => 'div', 'tagClass' => 'one column alpha Invisible')),
                ))
-               ->setOptions(array('class' => 'submit Full alpha omega'));
+               ->setOptions(array('class' => 'submit alpha omega'));
         $this->addElement($submit);
 
     }

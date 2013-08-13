@@ -1,34 +1,39 @@
-  		<div id="Header" class="fifteen columns">
+<div id="Header" class="fifteen columns">
+	<p><?php print($this->translate("#Hello. Please login.")) ?></p>
+</div><!-- #Header -->
+  		
+<div id="Logo" class="one column">
+  	<img src="/images/logosmlIets.png" alt="Iets" title="Iets" height="61" width="53">
+</div><!-- #Logo -->
 
-        <p>
-          <?php print($this->translate("#Hello. Please login.")) ?>
-        </p>
-  		</div><!-- #Header -->
-  		<div id="Logo" class="one column">
-  			<img src="/images/logosmlIets.png" alt="Iets" title="Iets" height="61" width="53">
-     	</div><!-- #Logo -->
+<div id="Menu" class="sixteen columns"></div><!-- #Menu -->
 
-  		<div id="Menu" class="sixteen columns">
-  		</div><!-- #Menu -->
+<div class="spacer four columns alpha"></div>
+      
+<div id="Main" class="eight columns">
+	<div class="spacer one column alpha"></div>
+    
+	<div id="MainHeader" class="six columns">
+    	<h1><?php print($this->translate("#Login")) ?></h1>
+    </div><!-- #MainHeader -->
+    
+    <div class="spacer one column omega"></div>
+    
+    <br class="clear">
 
+    <div class="spacer one column alpha"></div>
+    
+	<div id="Stage" class="six columns">
 
-      <div class="spacer four columns alpha"></div>
-      <div id="Main" class="eight columns">
-        <div class="spacer one column alpha"></div>
-        <div id="MainHeader" class="six columns">
-            <h1><?php print($this->translate("#Login")) ?></h1>
-    		</div><!-- #MainHeader -->
-    		<div class="spacer one column omega"></div>
-    		<br class="clear">
+        <!-- content -->
+        <?php echo $this->layout()->content ?>
+        <!-- /content -->
 
-    		<div class="spacer one column alpha"></div>
-        <div id="Stage" class="six columns">
-<!-- content -->
-<?php echo $this->layout()->content ?>
-<!-- /content -->
-        </div><!-- Stage -->
-      	<div class="spacer one column omega"></div>
+	</div><!-- Stage -->
+	
+    <div class="spacer one column omega"></div>
 
-      </div><!-- #Main -->
-    	<div class="spacer four columns omega"></div>
+</div><!-- #Main -->
+
+<div class="spacer four columns omega"></div>
 
