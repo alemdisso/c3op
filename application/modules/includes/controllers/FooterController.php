@@ -19,33 +19,12 @@ class Includes_FooterController extends Zend_Controller_Action
 
         $user = Zend_Registry::get('user');
 
-        $navigationTabs = array();
-
-        $test = new C3op_Access_UserCanSeeFinances($user);
-        if ($test->can()) {
-            $navigationTabs['finances']= array(
-                    'url' => '/finances',
-                    'label' => $this->view->translate('#Finances'),
-                    'active' => ($moduleName == 'finances' ? true : false),
-                    'moduleClass' => 'menufinances',
-                );
-        }
-        $navigationTabs['projects']= array(
-                'url' => '/projects',
-                'label' => $this->view->translate('#Projects'),
-                'active' => ($moduleName == 'projects' ? true : false),
-                'moduleClass' => '',
-            );
-        $navigationTabs['register']= array(
-                'url' => '/register',
-                'label' => $this->view->translate('#Register'),
-                'active' => ($moduleName == 'register' ? true : false),
-                'moduleClass' => 'menuregister',
-            );
-
         $auth = Zend_Auth::getInstance();
 
         if ($auth->hasIdentity()) {
+
+
+
             $identity = $auth->getIdentity(); //Identity exists; get it
 
             $pageData['loggedIn'] = true;
@@ -93,7 +72,7 @@ class Includes_FooterController extends Zend_Controller_Action
             $pageData['id'] = null;
         }
 
-        $pageData['navigationTabs'] = $navigationTabs;
+
         $pageData['module'] = $moduleName;
         $this->view->pageData = $pageData;
     }
