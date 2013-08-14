@@ -5,7 +5,7 @@
 ?>
 
         <div id="MainHeader">
-          <h1><?php print($this->translate("#Project")); ?> <a href="/finances/project/detail/?id=<?php print($receivableData['projectId']) ?>"><?php print($receivableData['projectTitle']) ?></a></h1>
+          <h1><span class="weight_normal"><?php print($this->translate("#Project")); ?></span> <a href="/finances/project/detail/?id=<?php print($receivableData['projectId']) ?>"><?php print($receivableData['projectTitle']) ?></a></h1>
         </div><!-- MainHeader -->
 <?php
     if ($receivableData['messageToShow']) {
@@ -18,26 +18,29 @@
 ?>
         <div class="TituloForm">
           <h2><?php print(sprintf($this->translate("#Details of receivable %s"), $receivableData['title'])); ?></h2>
-            <a href="/finances/receivable/edit/?id=<?php echo $receivableData['id'] ?>"><?php echo $this->translate("#Edit receivable") ?></a>
+            <a class="bt" href="/finances/receivable/edit/?id=<?php echo $receivableData['id'] ?>"><img src="/images/icon_edit.png" align="middle" /> <?php echo $this->translate("#Edit receivable") ?></a>
+            &nbsp;&nbsp;<a class="bt" href=""><img src="/images/icon_confirm.png" align="middle" /> informar recebimento</a>
+            &nbsp;&nbsp;<a class="bt" href=""><img src="/images/icon_create.png" align="middle" /> criar novo produto</a>
+            &nbsp;&nbsp;<a class="bt" href=""><img src="/images/icon_create.png" align="middle" /> adicionar produto existente</a>
         </div>
 
-        <div class="Area">
+        <div class="AreaInfo">
 
-          <div class="three columns alpha Right">
-            <?php print($this->translate("#Description:")); ?>
+          <div class="two columns">
+            <span class="label"><?php print($this->translate("#Description:")); ?>:</span>
           </div>
-          <div class="eleven columns omega">
-            <?php print($receivableData['description']); ?>&nbsp;
+          <div class="twelve columns">
+            <?php print($receivableData['description']); ?>
           </div>
 
-          <div class="three columns alpha Right">
-            <?php print($this->translate("#Predicted receiving:")); ?>
+          <div class="three columns">
+            <span class="label"><?php print($this->translate("#Predicted receiving:")); ?></span>
           </div>
           <div class="three columns">
             <?php print($receivableData['predictedDate']); ?>
           </div>
-          <div class="three columns Right">
-            <?php print($this->translate("#Predicted value:")); ?>
+          <div class="two columns">
+            <span class="label"><?php print($this->translate("#Predicted value:")); ?></span>
           </div>
           <div class="three columns">
             <?php print($receivableData['predictedValue']); ?>
@@ -46,30 +49,32 @@
 <?php
 if (!is_null($receivableData['deliveryDate'])) {
 ?>
-          <div class="three columns alpha Right">
-            <?php print($this->translate("#Delivery Date:")); ?>
+          <div class="two columns">
+            <span class="label"><?php print($this->translate("#Delivery Date:")); ?>:</span>
           </div>
-          <div class="nine columns left">
+          <div class="two columns">
             <?php print($receivableData['deliveryDate']); ?>
           </div>
 <?php
 }
 ?>
 
-            <div class="three columns alpha Right">
-            <?php print($this->translate("#Date received:")); ?>
+		  <br clear="all" />
+
+          <div class="three columns">
+            <span class="label"><?php print($this->translate("#Date received:")); ?></span>
           </div>
           <div class="three columns">
             <?php print($receivableData['realDate']); ?>
           </div>
-          <div class="three columns Right">
-            <?php print($this->translate("#Real Value:")); ?>
+          <div class="two columns">
+            <span class="label"><?php print($this->translate("#Real Value:")); ?></span>
           </div>
           <div class="three columns">
             <?php print($receivableData['realValue']); ?>
           </div>
-
-
+			
+           <br clear="all" />
 
         </div><!-- .Area -->
 

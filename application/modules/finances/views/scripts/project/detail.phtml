@@ -114,8 +114,11 @@ $(document).ready(function(){
 
 
     <div id="MainHeader">
-      <h1><?php echo $this->translate("#Project") ?> <?php print($projectHeader['projectTitle']) ?></h1>
-      <a href="/projects/project/edit/?id=<?php echo $projectHeader['id'] ?>"><?php echo $this->translate("#Edit project") ?></a>
+      <h1><span class="weight_normal"><?php echo $this->translate("#Project") ?></span> <?php print($projectHeader['projectTitle']) ?></h1>
+    </div>
+    
+    <div class="TituloForm">
+      <a href="/projects/project/edit/?id=<?php echo $projectHeader['id'] ?>" class="bt"><img src="/images/icon_edit.png" align="middle" /> <?php echo $this->translate("#Edit project") ?></a>
 <?php
     if ($pageData['messageToShow']) {
 ?>
@@ -128,78 +131,79 @@ $(document).ready(function(){
 <?php
 if ($projectHeader['hasContract']) {
 ?>
-      | <a href="/projects/project/amend/?id=<?php echo $projectHeader['id'] ?>"><?php echo $this->translate("#Amend contract") ?></a>
+      &nbsp;&nbsp;<a class="bt" href="/projects/project/amend/?id=<?php echo $projectHeader['id'] ?>"><img src="/images/icon_create.png" align="middle" /> <?php echo $this->translate("#Amend contract") ?></a>
 <?php
 }
 ?>
     </div>
-    <div class="Area">
-      <div class="three columns alpha Right">
-        <?php echo $this->translate("#Client:") ?>
+    
+    <div class="AreaInfo">
+      <div class="three columns">
+        <span class="label"><?php echo $this->translate("#Client:") ?></span>
       </div>
       <div class="five columns">
         <?php print($projectHeader['clientName']) ?>
       </div>
-      <div class="three columns Right">
-        <?php echo $this->translate("#Overhead:") ?>
+      <div class="three columns">
+        <span class="label"><?php echo $this->translate("#Overhead:") ?></span>
       </div>
-      <div class="three columns omega">
+      <div class="three columns">
         <?php print($projectHeader['overhead']) ?> %
       </div>
-      <div class="three columns alpha Right">
-        <?php echo $this->translate("#Area activity:") ?>
+      <div class="three columns">
+        <span class="label"><?php echo $this->translate("#Area activity:") ?></span>
       </div>
       <div class="five columns">
         <?php print($this->translate($projectHeader['areaActivity'])) ?>
       </div>
-      <div class="three columns Right">
-        <?php echo $this->translate("#Management fee:") ?>
+      <div class="three columns">
+        <span class="label"><?php echo $this->translate("#Management fee:") ?></span>
       </div>
-      <div class="three columns omega">
+      <div class="three columns">
         <?php print($projectHeader['managementFee']) ?> % <!-- ### Talvez seja necessário esconder este campo (re: confusão da Beth sobre o seu uso) -->
       </div>
 
-      <div class="three columns alpha Right">
-        <?php echo $this->translate("#Our responsible:") ?>
+      <div class="three columns">
+        <span class="label"><?php echo $this->translate("#Our responsible:") ?></span>
       </div>
       <div class="five columns">
         <?php print($projectHeader['ourResponsible']) ?>
       </div>
-      <div class="three columns Right">
-        <?php echo $this->translate("#Contract value:") ?>
+      <div class="three columns">
+        <span class="label"><?php echo $this->translate("#Contract value:") ?></span>
       </div>
-      <div class="three columns omega">
+      <div class="three columns">
         <?php print($projectHeader['projectValue']) ?>
       </div>
-      <div class="three columns alpha Right">
-        <?php echo $this->translate("#Responsible at client:") ?>
+      <div class="three columns">
+        <span class="label"><?php echo $this->translate("#Responsible at client:") ?></span>
       </div>
-      <div class="six columns">
+      <div class="five columns">
         <?php print($projectHeader['responsibleAtClient']) ?>
       </div>
-      <div class="two columns Right">
-        <?php echo $this->translate("#Contract date:") ?>
+      <div class="three columns">
+        <span class="label"><?php echo $this->translate("#Contract date:") ?></span>
       </div>
-      <div class="three columns omega">
+      <div class="three columns">
         <?php print($projectHeader['projectDates']) ?>
       </div>
 <?php
     if ((is_array($projectHeader['amendmentsList'])) && (count($projectHeader['amendmentsList']) > 0)) {
         $amendmentsList = $projectHeader['amendmentsList'];
 ?>
-      <div class="three columns alpha Right">
+      <div class="three columns">
         <?php echo $this->translate("#Amendment(s)") ?>
       </div>
-      <div class="nine columns omega">
+      <div class="nine columns">
         &nbsp;
       </div>
 <?php
 foreach($amendmentsList as $id => $contractInfo) {
 ?>
-      <div class="three columns alpha Right">
+      <div class="three columns">
         &nbsp;
       </div>
-      <div class="four columns alpha right">
+      <div class="four columns">
         <?php echo $contractInfo['signingDate'] ?>
       </div>
       <div class="five columns">
@@ -232,7 +236,7 @@ foreach($amendmentsList as $id => $contractInfo) {
                   <th width="50"><?php echo $this->translate("#Status") ?></th>
                   <th width="100"><?php echo $this->translate("#Receivable") ?></th>
                   <th width="75"><?php echo $this->translate("#Total value") ?></th>
-                  <th width="75"><?php echo $this->translate("#Contracted Value") ?></th>
+                  <th width="95"><?php echo $this->translate("#Contracted Value") ?></th>
                 </tr>
               </thead>
               <tbody>
