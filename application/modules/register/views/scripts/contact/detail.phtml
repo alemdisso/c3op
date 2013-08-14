@@ -12,7 +12,8 @@ if (is_array($pageData['contactInfo'])) {
                 <a href="/register/contact/remove/?id=<?php echo $contactInfo['id'] ?>"><img src="/images/icon_erase.png" align="absmiddle" /> <?php echo $this->translate("#Remove contact!") ?></a>
 <?php
     }
-?></div>
+?>
+</div>
 
 <?php
     if ($pageData['messageToShow']) {
@@ -24,34 +25,29 @@ if (is_array($pageData['contactInfo'])) {
     }
 ?>
 
+<div style="margin:20px 0;">
+	<a href="/register/contact/edit/?id=<?php print($contactInfo['id']) ?>" class="bt"><img src="/images/icon_edit.png" align="middle" /> <?php print($this->translate("#Edit contact details")); ?></a>
+</div>
 
-<div class="Area">
-  <div class="three columns Right alpha">
-    <p>
-      <?php echo $this->translate("#Name:") ?>
-    </p>
+<div class="AreaInfo">
+
+  <div class="three columns alpha">
+   <span class="label"><?php echo $this->translate("#Name:") ?></span>
   </div>
-  <div class="five columns">
-    <p>
-      <?php print($contactInfo['name']) ?>
-    </p>
+  <div class="eleven columns">
+   <?php print($contactInfo['name']) ?>
   </div>
-  <div class="two columns Right">
-    <p>
-      <?php echo $this->translate("#Relationship") ?>
-    </p>
+  
+  <div class="three columns alpha">
+   <span class="label"><?php echo $this->translate("#Relationship") ?></span>
   </div>
-  <div class="four columns omega">
-    <p>
-      <?php print($contactInfo['relationship']) ?>
-    </p>
+  <div class="eleven columns">
+   <?php print($contactInfo['relationship']) ?>
   </div>
-    <div class="three columns offset-by-three inset-by-eight alpha omega">
-    <a href="/register/contact/edit/?id=<?php print($contactInfo['id']) ?>" class="button three columns alpha omega"><?php print($this->translate("#Edit contact details")); ?></a>
-    </div>
+ 
 </div><!-- .Area -->
 
-          <div class="Area">
+<div class="Area">
 <?php
 
     $linkagesList = $pageData['linkagesList'];
@@ -107,10 +103,13 @@ if (is_array($pageData['contactInfo'])) {
               </tbody>
             </table>
 <?php } ?>
+
+			<br clear="all" />
+            
             <p>
               <a href="/register/linkage/create/?contact=<?php print($contactInfo['id']) ?>" class="button three columns alpha omega"><?php echo $this->translate("#Create new linkage") ?></a>
             </p>
-          </div><!-- Area -->
+</div><!-- Area -->
 
 
 <div class="Area">
@@ -171,9 +170,10 @@ if (is_array($pageData['contactInfo'])) {
             </table>
 <?php } ?>
 
-            <p>
-              <a href="/register/contact/add-phone-number/?contact=<?php print($contactInfo['id']) ?>" class="button three columns alpha omega"><?php echo $this->translate("#Add phone number") ?></a>
-            </p>
+            <br clear="all" />
+            
+            <a href="/register/contact/add-phone-number/?contact=<?php print($contactInfo['id']) ?>" class="button three columns alpha omega"><?php echo $this->translate("#Add phone number") ?></a>
+            
           </div><!-- .Area -->
 
 
@@ -231,15 +231,15 @@ if (is_array($pageData['contactInfo'])) {
             </table>
 <?php } ?>
 
-            <p>
+			
               <a href="/register/contact/add-email/?contact=<?php print($contactInfo['id']) ?>" class="button three columns alpha omega"><?php echo $this->translate("#Add email") ?></a>
-            </p>
-          </div><!-- .Area -->
+            
+</div><!-- .Area -->
 
 
 
 
-          <div class="Area">
+<div class="Area">
 <?php
 
     $messengersList = $pageData['messengersList'];
@@ -290,17 +290,20 @@ if (is_array($pageData['contactInfo'])) {
             </table>
 <?php } ?>
 
-            <p>
-              <a href="/register/contact/add-messenger/?contact=<?php print($contactInfo['id']) ?>" class="button three columns alpha omega"><?php echo $this->translate("#Add messenger") ?></a>
-            </p>
-          </div><!-- .Area -->
+            <a href="/register/contact/add-messenger/?contact=<?php print($contactInfo['id']) ?>" class="button three columns alpha omega"><?php echo $this->translate("#Add messenger") ?></a>
+            
+</div><!-- .Area -->
+
 <?php
 } else { // else exists contacts list
 ?>
-          <div class="Area">
+
+<div class="Area">
     <?php echo $this->translate("#There is no data from this contact.") ?>
-          </div><!-- Area -->
+</div><!-- Area -->
 
     <?php
 } // end exists contacts list
 ?>
+
+</div>

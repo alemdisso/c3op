@@ -2,10 +2,11 @@
 $headerData = $this->headerData;
 ?>
 <div id="MainHeader">
-<h1><?php print($this->translate('#Confirm contracting')); ?> <?php print($headerData["responsibleName"]) ?></h1>
-<div class="TituloForm">
-    <h2><?php print($this->translate("#In action ")); ?> <a href="/projects/action/detail/?id=<?php print($headerData["actionId"]) ?>"><?php print($headerData["actionTitle"]) ?></a></h2>
-</div><p><?php print($this->translate('#Enter below the contracted dates for the beginning and end of the action')); ?></p>
+    <h1><span class="weight_normal"><?php print($this->translate('#Confirm contracting')); ?></span> <?php print($headerData["responsibleName"]) ?></h1>
+    <div class="TituloForm">
+        <h2><?php print($this->translate("#In action ")); ?> <a href="/projects/action/detail/?id=<?php print($headerData["actionId"]) ?>"><?php print($headerData["actionTitle"]) ?></a></h2>
+    </div>
+    <p><?php print($this->translate('#Enter below the contracted dates for the beginning and end of the action')); ?></p>
 </div>
 
 <form id="form" action="<?php echo $this->escape($this->form->getAction()); ?>" method="<?php echo $this->escape($this->form->getMethod()); ?>">

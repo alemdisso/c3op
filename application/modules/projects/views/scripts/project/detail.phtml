@@ -91,15 +91,15 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
 
 	<div style="margin:20px 0;">
 
-		<a class="bt" href="/projects/project/edit/?id=<?php echo $projectHeader['id'] ?>"><img src="/images/icon_edit.png" align="bottom" /> <?php echo $this->translate("#Edit project") ?></a>
+		<a class="bt" href="/projects/project/edit/?id=<?php echo $projectHeader['id'] ?>"><img src="/images/icon_edit.png" align="middle" /> <?php echo $this->translate("#Edit project") ?></a>
 <?php
 if ($projectHeader['hasContract']) {
 ?>
-       <a class="bt" href="/projects/project/amend/?id=<?php echo $projectHeader['id'] ?>"><img src="/images/icon_create.png" align="absmiddle" /> <?php echo $this->translate("#Amend contract") ?></a>
+       <a class="bt" href="/projects/project/amend/?id=<?php echo $projectHeader['id'] ?>"><img src="/images/icon_create.png" align="middle" /> <?php echo $this->translate("#Amend contract") ?></a>
 <?php
 } else {
 ?>
-       <a class="bt" href="/projects/contract/sign/?project=<?php echo $projectHeader['id'] ?>"><img src="/images/icon_create.png" align="absmiddle" /> <?php echo $this->translate("#Register contract signing") ?></a>
+       <a class="bt" href="/projects/contract/sign/?project=<?php echo $projectHeader['id'] ?>"><img src="/images/icon_create.png" align="middle" /> <?php echo $this->translate("#Register contract signing") ?></a>
 <?php
 }
 ?>
@@ -116,10 +116,10 @@ if ($projectHeader['hasContract']) {
 	 <div class="AreaInfo">
 
 	  <div class="three columns alpha">
-	   <span class="label">Status:</span>
+	   <span class="label"><?php print($this->translate("#Status")); ?>:</span>
 	  </div>
 	  <div class="ten columns">
-	   <strong>Completo&nbsp;&nbsp;&nbsp;<img src="/images/status_mark.jpg" align="absmiddle" /></strong>
+	   <strong>Completo(DINAMIZAR)&nbsp;&nbsp;&nbsp;<img src="/images/status_mark.jpg" align="absmiddle" /></strong>
 	  </div>
       <div class="three columns alpha">
         <span class="label"><?php echo $this->translate("#Client:") ?></span>
@@ -248,11 +248,11 @@ foreach($amendmentsList as $id => $contractInfo) {
               <thead>
                 <tr>
                   <th width="225"><?php echo $this->translate("#Product") ?></th>
-                  <th width="50"><?php echo $this->translate("#Delivery Date") ?></th>
+                  <th width="90"><?php echo $this->translate("#Delivery Date") ?></th>
                   <th width="50"><?php echo $this->translate("#Real date") ?></th>
                   <th width="70"><?php echo $this->translate("#Status") ?></th>
                   <th width="40"><?php echo $this->translate("#% physical progress")  ?></th>
-                  <th width="75"><?php echo $this->translate("#Requirement For Receiving") ?></th>
+                  <th width="50"><?php echo $this->translate("#Requirement For Receiving") ?></th>
                 </tr>
               </thead>
               <tbody>

@@ -208,7 +208,7 @@ if ($parentId > 0) {
           </div>
 
           <div class="two columns alpha">
-            <span class="label"><?php print($this->translate("#Description:")); ?></span>
+            <span class="label"><?php print($this->translate("#Description:")); ?>:</span>
           </div>
           <div class="twelve columns omega">
             <?php print($actionHeader['description']); ?>&nbsp;
@@ -452,17 +452,15 @@ if ($actionHeader['hasDefinedResponsible']) {
     }
   }
 ?>
-          <div id="responsibleDiv" class="slidingDiv">
-              <h3>   <?php print($this->translate("#Inform responsible")); ?>  </h3>
+          <div id="responsibleDiv" class="slidingDiv" style="background:#fff;padding:5px;">
+              <h3><?php print($this->translate("#Inform responsible")); ?></h3>
               <div id="responsibleFormDiv">&nbsp;</div>
-
-            <br class="clear"/>
-            <a class="alpha" href="#responsible" id="hideResponsibleHref"><?php print($this->translate("#Hide form")); ?></a>
-          </div>
+				<br class="clear"/>
+                <a class="alpha" href="#responsible" id="hideResponsibleHref"><?php print($this->translate("#Hide form")); ?></a>
+              </div>
           </div>
 <?php
 if ((!$actionHeader['notAProduct']) && ($actionHeader['canEditBudget'])) {
-
 ?>
 
           <br class="clear" />
@@ -520,13 +518,13 @@ if (isset($actionHeader['hasBudget'])) {
                 <table id="tree" border="1">
                     <thead>
                             <tr>
-                            <th width="200" align="left"><?php echo $this->translate("#Action") ?></th>
+                            <th width="300" align="left"><?php echo $this->translate("#Action") ?></th>
                             <th width="200" align="left"><?php echo $this->translate("#Responsible") ?></th>
-                            <th align="left"><?php echo $this->translate("#Status") ?></th>
-                            <th align="left"><?php echo $this->translate("#Pred. begin date") ?></th>
-                            <th align="left"><?php echo $this->translate("#Real begin date") ?></th>
-                            <th align="left"><?php echo $this->translate("#Pred. finish date") ?></th>
-                            <th align="left"><?php echo $this->translate("#Real finish date") ?></th>
+                            <th width="100" align="left"><?php echo $this->translate("#Status") ?></th>
+                            <th width="100" align="left"><?php echo $this->translate("#Pred. begin date") ?></th>
+                            <th width="100" align="left"><?php echo $this->translate("#Real begin date") ?></th>
+                            <th width="100" align="left"><?php echo $this->translate("#Pred. finish date") ?></th>
+                            <th width="100" align="left"><?php echo $this->translate("#Real finish date") ?></th>
                             </tr>
                     </thead>
                     <tbody>

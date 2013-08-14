@@ -279,7 +279,7 @@
 
 .BiggerLine {
   font-weight: bold;
-  font-size: 110%;
+  font-size: 100%;
 
 }
 
@@ -311,7 +311,8 @@
 }
 
 .AreaInfo div {
-  margin:10px 0;
+  /*margin:10px 0;*/
+  padding:8px 0 3px;
 }
 
 .AreaInfo span.label {
@@ -362,7 +363,7 @@
   line-height: 110%;
 }
 
-.Area h3 {
+.Area h3, .AreaInfo h3 {
     font-size: 14px;
     font-weight:700;
 }
@@ -498,6 +499,7 @@ a.bt {
   background: url(/images/back_edit.png) repeat-x #dddddd;
   margin: 10px 0;
   padding: 8px 10px 5px 10px;
+  height: 15px;
   font-size: 10px;
 }
 
@@ -506,8 +508,15 @@ a.bt:hover {
   text-decoration: none;
 }
 
+a.bt span {
+  float:left;
+  display:block;
+  margin-left:10px;
+}
+
 a.bt img {
-  margin-top:4px;
+ /* margin-top:4px;*/
+  valign:top;
 }
 
 .weight_normal {
@@ -574,3 +583,23 @@ a.bt img {
   text-transform: uppercase;
   color: #666;
 }
+
+.clearfix:after {
+	content:"."; 
+	display:block; 
+	height:0; 
+	clear:both; 
+	visibility:hidden;
+	}
+
+.clearfix {
+	display:inline-block;
+	}
+
+* html .clearfix {
+	height:1%;
+	}
+	
+.clearfix {
+	display:block;
+	}
