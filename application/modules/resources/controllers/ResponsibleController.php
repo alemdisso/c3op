@@ -165,7 +165,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
 
 
-                $this->_helper->viewRenderer->setNoRender(TRUE);
+                //$this->_helper->viewRenderer->setNoRender(TRUE);
                 $this->_redirect('/resources/responsible/assigned/?id=' . $id);
             } else {
                 //form error: populate and go back
