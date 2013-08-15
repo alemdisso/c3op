@@ -14,12 +14,19 @@
   }
 
 ?>
-<?php print($this->translate("#Responsible was predicted")); ?>
-<br class="clear" />
 <?php
 if ($contactId) {
 ?>
+<?php print($this->translate("#Responsible was predicted")); ?>
+<br class="clear" />
 <?php print(sprintf($this->translate("#%s was assigned responsible for this action"), $responsibleLink)); ?>
+<?php
+} else {
+?>
+<?php print($this->translate("#Responsible was undefined")); ?>
+<br class="clear" />
 <?php
 }
 ?>
+
+

@@ -363,8 +363,8 @@
   line-height: 110%;
 }
 
-.Area h3, .AreaInfo h3 {
-    font-size: 14px;
+.Area h3, .AreaInfo h3, h3 {
+    font-size: 18px!important;
     font-weight:700;
 }
 
@@ -572,10 +572,10 @@ a.bt img {
 */
 
 /* Form */
-/*label {
+label {
   text-transform: uppercase;
   color: #666;
-}	*/
+}
 
 #loginLogin-label, #passwordLogin-label {
   width:70px;
