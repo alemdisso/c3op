@@ -256,7 +256,7 @@ if ($parentId > 0) {
             <span class="label"><?php print($this->translate("#Description:")); ?>:</span>
           </div>
           <div class="twelve columns omega">
-            <?php print($actionHeader['description']); ?>&nbsp;
+            <?php print($actionHeader['description']); ?>
           </div>
 
           <br clear="all" />
@@ -338,11 +338,11 @@ if ($parentId > 0) {
             
             </div>
             
-            <div class="four columns" id='acknowledgeStart-<?php print($actionHeader['id']); ?>'>
+            <div class="five columns" id='acknowledgeStart-<?php print($actionHeader['id']); ?>'>
               <a class="button" href="javascript:acknowledgeStart('<?php print($actionHeader['id']); ?>');"><img src="/images/icon_confirm.png" align="absmiddle" /> <?php print($this->translate("#Acknowledge start")); ?></a>
             </div>
             
-            <div class="eight columns" id='changeStartButton'>
+            <div class="seven columns" id='changeStartButton'>
               <a class="button" href="/projects/action/change-start/?id=<?php print($actionHeader['id']); ?>"><img src="/images/icon_calendar.png" align="absmiddle" /> <?php print($this->translate("#Change start date")); ?></a>
             </div>
             
@@ -374,13 +374,13 @@ if ($parentId > 0) {
 <?php
   if ($actionHeader['receiptToAcceptOrReject']) {
 ?>
-          <div class="six columns inset-by-four">
+          <div class="six columns">
             <div id="receiptAcknowledgement-<?php print($actionHeader['id']);?>">
-              <div class="three columns alpha">
-                <a class="button full column alpha omega parent_info" href="javascript:rejectReceipt('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Reject receipt")); ?></a>
+              <div class="three columns">
+                <a class="button" href="javascript:rejectReceipt('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Reject receipt")); ?></a>
               </div>
-              <div class="three columns omega">
-                <a class="button full column alpha omega parent_info" href="javascript:acceptReceipt('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Accept receipt")); ?></a>
+              <div class="three columns">
+                <a class="button" href="javascript:acceptReceipt('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Accept receipt")); ?></a>
               </div>
             </div>
           </div>
@@ -397,8 +397,8 @@ if ($parentId > 0) {
 ?>
           <div class="six columns inset-by-four">
             <div id="receiptAcknowledgement-<?php print($actionHeader['id']);?>">
-              <div class="four columns alpha offset-by-three">
-                <a class="button full column alpha omega parent_info" href="/projects/product/delivery-notify/?id=<?php print($actionHeader['id']); ?>"><?php print($this->translate("#Notify product delivery")); ?></a>
+              <div class="four columns">
+                <a class="button" href="/projects/product/delivery-notify/?id=<?php print($actionHeader['id']); ?>"><?php print($this->translate("#Notify product delivery")); ?></a>
               </div>
             </div>
           </div>
