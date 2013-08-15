@@ -23,3 +23,8 @@ public/index.php
 /application/configs/my_sandbox_application.ini
 /application/configs/sandbox_application.ini
 /application/configs/prod_application.ini
+library/C3op/Form/ResponsibleEdit.php
+
+application/modules/finances/views/scripts/receivable/detail.phtml
+
+application/modules/finances/views/scripts/receivable/detail.phtml
