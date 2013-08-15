@@ -619,3 +619,8 @@ a.bt img {
 	height: 11px;
 	padding: 0;
  }
+ 
+ /* Modal */
+ .ui-dialog {
+	 background:#fff!important;
+ }
