@@ -7,6 +7,14 @@
 
 <script type="text/javascript">
 
+	  $(function() {
+		// $( "#responsibleDiv" ).dialog();
+		
+		// setter
+		$("#responsibleDiv").dialog("option","autoOpen",false);
+
+	  });
+
 function acknowledgeStart(id){
   $.ajax({
     type: 'get',
@@ -71,12 +79,13 @@ $(document).ready(function(){
             }
         })
 
-
-         $("#responsibleDiv").slideToggle();
+		 $("#responsibleDiv").dialog();
+         //$("#responsibleDiv").slideToggle();
          $("#responsibleButton").hide();
     });
     $('#hideResponsibleHref').click(function(){
-         $("#responsibleDiv").slideToggle();
+		 $("#responsibleDiv").dialog();
+         //$("#responsibleDiv").slideToggle();
          $("#responsibleButton").show();
     });
 
@@ -95,10 +104,15 @@ $(document).ready(function(){
             $('#responsibleFormDiv').html(successReturn);
             }
         })
-
-         $("#responsibleDiv").slideToggle();
+		 $("#responsibleDiv").dialog();	
+         //$("#responsibleDiv").slideToggle();
          $("#responsibleButton").hide();
     }
+	
+	function closeResponsibleDiv(){
+		$("#responsibleButton").show();
+		$("#responsibleDiv").dialog("close");
+	}
 
 </script>
 
@@ -454,25 +468,15 @@ if ($actionHeader['hasDefinedResponsible']) {
     }
   }
 ?>
-
-<button id="opener">open the dialog</button>
-
-		<div id="dialog" title="">
-          <div id="responsibleDiv" class="slidingDiv" style="background:#fff;padding:5px;">
+          <!--<div id="responsibleDiv" class="slidingDiv" style="background:#fff;padding:5px;">-->
+		  <div id="responsibleDiv" style="background:#fff;padding:5px;">
               <h3><?php print($this->translate("#Inform responsible")); ?></h3>
               <div id="responsibleFormDiv">&nbsp;</div>
 				<br class="clear"/>
-                <a class="alpha" href="#responsible" id="hideResponsibleHref"><?php print($this->translate("#Hide form")); ?></a>
+                <!--<a class="alpha" href="#responsible" id="hideResponsibleHref"><?php print($this->translate("#Hide form")); ?></a>-->
+				<a class="alpha" href="javascript:closeResponsibleDiv();" id="hideResponsibleHref"><?php print($this->translate("#Hide form")); ?></a>
               </div>
           </div>
-		</div>
- 
-<script>
-$( "#dialog" ).dialog({ autoOpen: false });
-$( "#opener" ).click(function() {
-  $( "#dialog" ).dialog( "open" );
-});
-</script>		  
 <?php
 if ((!$actionHeader['notAProduct']) && ($actionHeader['canEditBudget'])) {
 ?>
@@ -815,4 +819,4 @@ if ($materialSupplyData['canRemoveMaterialSupply']) {
 
           </div><!-- #tabs-material -->
 
-        </div><!-- #tabs -->
+        </div><!-- #tabs -->	
