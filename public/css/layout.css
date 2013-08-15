@@ -379,7 +379,7 @@ dl.zend_form {
   text-align: right;
 }
 
-.button {
+/*.button {
   font-size: 10px;
   -webkit-font-size: 10px;
   height: 21px;
@@ -421,7 +421,7 @@ a.button {
   color: #333;
   margin: 0 10px;
   text-decoration: none;
-}
+}*/
 
 .anchorclass.button {
   padding: 2px 5px;

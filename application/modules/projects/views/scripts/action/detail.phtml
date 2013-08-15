@@ -164,7 +164,7 @@ $(document).ready(function(){
 <?php
   }
 ?>
-                <a class="bt" href="/projects/action/edit/?id=<?php echo $actionHeader['id'] ?>"><img src="/images/icon_edit.png" align="absmiddle" /> <?php echo $this->translate("#Edit action") ?></a>
+                <a class="button" href="/projects/action/edit/?id=<?php echo $actionHeader['id'] ?>"><img src="/images/icon_edit.png" align="absmiddle" /> <?php echo $this->translate("#Edit action") ?></a>
 <?php
     if ($actionHeader['canRemoveAction']) {
 ?>
@@ -276,12 +276,12 @@ if ($parentId > 0) {
 <?php
   if ($actionHeader['waitingToReceipt']) {
 ?>
-          <div class="three columns inset-by-two omega">
-            <div id="acknowledgeReceipt-<?php print($actionHeader['id']);?>">
-              <div class="three columns alpha omega">
-                <a class="button full column alpha omega parent_info" href="javascript:acknowledgeReceipt('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Confirm task realization")); ?></a>
-              </div>
-            </div>
+          <div class="two columns">
+          
+          </div>
+          
+          <div class="three" id="acknowledgeReceipt-<?php print($actionHeader['id']);?>">
+            <a class="button" href="javascript:acknowledgeReceipt('<?php print($actionHeader['id']); ?>');"><img src="/images/icon_confirm.png" align="absmiddle" /> <?php print($this->translate("#Confirm task realization")); ?></a>
           </div>
 
 &nbsp;
@@ -296,16 +296,23 @@ if ($parentId > 0) {
 <?php
   if ($actionHeader['canAcknowledge']) {
 ?>
-              <a anchor="start"></a>
+            <a anchor="start"></a>
+            <!--<br clear="all" />-->
+            
+            <div class="two columns">
+            
+            </div>
+            
+            <div class="four columns" id='acknowledgeStart-<?php print($actionHeader['id']); ?>'>
+              <a class="button" href="javascript:acknowledgeStart('<?php print($actionHeader['id']); ?>');"><img src="/images/icon_confirm.png" align="absmiddle" /> <?php print($this->translate("#Acknowledge start")); ?></a>
+            </div>
+            
+            <div class="eight columns" id='changeStartButton'>
+              <a class="button" href="/projects/action/change-start/?id=<?php print($actionHeader['id']); ?>"><img src="/images/icon_calendar.png" align="absmiddle" /> <?php print($this->translate("#Change start date")); ?></a>
+            </div>
+            
             <br clear="all" />
-          <div class="fourteen columns" >
-            <div id='acknowledgeStart-<?php print($actionHeader['id']); ?>'>
-              <a class="two columns button alpha" href="javascript:acknowledgeStart('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Acknowledge start")); ?></a>
-            </div>
-            <div id='changeStartButton'>
-              <a class="two columns offset-by-one button alpha" href="/projects/action/change-start/?id=<?php print($actionHeader['id']); ?>"><?php print($this->translate("#Change start date")); ?></a>
-            </div>
-          </div>
+          
 <?php
   }
 ?>
@@ -509,7 +516,7 @@ if (isset($actionHeader['hasBudget'])) {
         }
     }
 ?>
-            <a id="budgetButton" class="bt" href="#budget"><img src="/images/icon_edit.png" align="absmiddle" /> <?php print($labelBudgetButton); ?></a>
+            <a id="budgetButton" class="button" href="#budget"><img src="/images/icon_edit.png" align="absmiddle" /> <?php print($labelBudgetButton); ?></a>
           <div id="budgetDiv" class="slidingDiv">
               <h3>   <?php print($this->translate("#Inform budget")); ?>  </h3>
               <div id="budgetFormDiv">&nbsp;</div>
@@ -593,7 +600,7 @@ if (isset($actionHeader['hasBudget'])) {
                 </table>
                 <br />
                 <p>
-                <a href="/projects/action/create/?subordinatedTo=<?php print($actionHeader['id']) ?>" class="button three columns alpha omega"><?php print($this->translate("#Create new action")) ?></a>
+                <a href="/projects/action/create/?subordinatedTo=<?php print($actionHeader['id']) ?>" class="button"><img src="/images/icon_create.png" align="absmiddle" /> <?php print($this->translate("#Create new action")) ?></a>
                 </p>
             </div><!-- Area -->
           </div><!-- #tabs-subactions -->
@@ -815,9 +822,10 @@ if ($materialSupplyData['canRemoveMaterialSupply']) {
             </tbody>
           </table>
 
-          <p>
-            <a href="/resources/material-supply/create/?actionId=<?php print($actionHeader['id']); ?>" class="button three columns alpha omega"><?php print($this->translate("#Anticipate material supply")); ?></a>
-          </p>
+          <br clear="all" />
+           
+          <a href="/resources/material-supply/create/?actionId=<?php print($actionHeader['id']); ?>" class="button"><?php print($this->translate("#Anticipate material supply")); ?></a>
+          
             </div><!-- Area -->
 
           </div><!-- #tabs-material -->
