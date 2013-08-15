@@ -16,10 +16,10 @@ class C3op_Form_InstitutionCreate extends Zend_Form
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
-                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'six columns')),
-                  array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'twelve columns')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'two columns')),
               ))
-            ->setOptions(array('class' => 'Full alpha omega'))
+            ->setOptions(array('class' => 'nine columns'))
             ->setRequired(true)
             ->addValidator($validator)
             ->addFilter('StringTrim');
@@ -33,10 +33,10 @@ class C3op_Form_InstitutionCreate extends Zend_Form
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
-                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns omega')),
-                  array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'twelve columns')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'two columns')),
               ))
-            ->setOptions(array('class' => 'Full alpha omega'))
+            ->setOptions(array('class' => 'nine columns'))
             ->setRequired(true)
             ->addValidator($validator)
             ->addFilter('StringTrim');
@@ -51,10 +51,10 @@ class C3op_Form_InstitutionCreate extends Zend_Form
             ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
-                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'four columns')),
-                  array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'five columns')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'two columns')),
               ))
-            ->setOptions(array('class' => 'Full alpha omega'));
+            ->setOptions(array('class' => 'four columns'));
 
         while (list($key, $title) = each($titleTypes)) {
             $element->addMultiOption($key, $title);
@@ -69,10 +69,10 @@ class C3op_Form_InstitutionCreate extends Zend_Form
             ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
-                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'four columns omega')),
-                  array('Label', array('tag' => 'div', 'tagClass' => 'three columns Right')),
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'five columns')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'three columns')),
               ))
-            ->setOptions(array('class' => 'Full alpha omega'));
+            ->setOptions(array('class' => 'four columns'));
 
         while (list($key, $title) = each($titleTypes)) {
 
@@ -94,8 +94,8 @@ class C3op_Form_InstitutionCreate extends Zend_Form
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
-                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'one column')),
-                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'one column', 'style' => 'width:30px;')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'two columns')),
                 ))
                 ->setOptions(array('checked' => '1', 'unChecked' => '0'))
                 ->setValue('0')
@@ -107,10 +107,10 @@ class C3op_Form_InstitutionCreate extends Zend_Form
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
-                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns inset-by-five omega')),
-                    array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'ten columns', 'style' => 'margin-left:-40px;')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'two columns')),
                 ))
-                ->setOptions(array('class' => 'Full alpha omega'))
+                ->setOptions(array('class' => 'two columns'))
             ->addValidator(new C3op_Util_ValidString)
             ->addErrorMessage(_("#Not a valid register number"))
             ->addFilter('StringTrim')
@@ -123,7 +123,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
                     'ViewHelper',
                     'Errors',
                     array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns')),
-                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'two columns')),
                 ))
                 ->setMultiOptions(array('1' => _('#institution.registration.state'), '0' => _('#municipal')))
                 ->setSeparator('&nbsp;')
@@ -138,10 +138,10 @@ class C3op_Form_InstitutionCreate extends Zend_Form
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
-                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns inset-by-five omega')),
-                    array('Label', array('tag' => 'div', 'tagClass' => 'one column Right')),
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'nine columns', 'style' => 'margin-left:-40px;')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'two columns')),
                 ))
-                ->setOptions(array('class' => 'Full alpha omega'))
+                ->setOptions(array('class' => 'two columns'))
             ->addValidator(new C3op_Util_ValidString)
             ->addErrorMessage(_("#Not a valid local register number"))
             ->addFilter('StringTrim')
@@ -154,10 +154,10 @@ class C3op_Form_InstitutionCreate extends Zend_Form
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
-                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'six columns')),
-                  array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'seven columns')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'two columns')),
               ))
-            ->setOptions(array('class' => 'Full alpha omega'))
+            ->setOptions(array('class' => 'six columns'))
             ->setRequired(false)
             ->addErrorMessage(_("#Not a valid street"))
             ->addValidator($validator)
@@ -171,10 +171,10 @@ class C3op_Form_InstitutionCreate extends Zend_Form
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
-                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'one column ')),
-                  array('Label', array('tag' => 'div', 'tagClass' => 'one column Right')),
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'one column', 'style' => 'margin:0  30px 0 -50px;')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'two columns')),
               ))
-            ->setOptions(array('class' => 'Full alpha omega'))
+            ->setOptions(array('class' => 'one column'))
             ->setRequired(false)
             ->addValidator($validator)
             ->addFilter('StringTrim')
@@ -188,10 +188,10 @@ class C3op_Form_InstitutionCreate extends Zend_Form
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
-                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'one column omega')),
-                  array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'two columns')),
               ))
-            ->setOptions(array('class' => 'Full alpha omega'))
+            ->setOptions(array('class' => 'one column'))
             ->setRequired(false)
             ->addValidator($validator)
             ->addFilter('StringTrim')
@@ -205,10 +205,10 @@ class C3op_Form_InstitutionCreate extends Zend_Form
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
-                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'six columns')),
-                  array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'seven columns')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'two columns')),
               ))
-            ->setOptions(array('class' => 'Full alpha omega'))
+            ->setOptions(array('class' => 'six columns'))
             ->setRequired(false)
             ->addValidator($validator)
             ->addFilter('StringTrim')
@@ -223,10 +223,10 @@ class C3op_Form_InstitutionCreate extends Zend_Form
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
-                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns omega')),
-                  array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'five columns')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'one columns')),
               ))
-            ->setOptions(array('class' => 'Full alpha omega'))
+            ->setOptions(array('class' => 'three columns'))
             ->setRequired(false)
             ->addValidator($validator)
             ->addFilter('StringTrim')
@@ -240,10 +240,10 @@ class C3op_Form_InstitutionCreate extends Zend_Form
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
-                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eight columns')),
-                  array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'seven columns')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'two columns')),
               ))
-            ->setOptions(array('class' => 'Full alpha omega'))
+            ->setOptions(array('class' => 'six columns'))
             ->setRequired(false)
             ->addValidator($validator)
             ->addFilter('StringTrim')
@@ -258,10 +258,10 @@ class C3op_Form_InstitutionCreate extends Zend_Form
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
-                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'one column omega')),
-                  array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'five columns')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'one columns')),
               ))
-            ->setOptions(array('class' => 'Full alpha omega'))
+            ->setOptions(array('class' => 'one column'))
             ->setRequired(false)
             ->addValidator($validator)
             ->addFilter('StringTrim')
@@ -275,10 +275,10 @@ class C3op_Form_InstitutionCreate extends Zend_Form
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
-                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
-                  array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'seven columns')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'two columns')),
               ))
-            ->setOptions(array('class' => 'Full alpha omega'))
+            ->setOptions(array('class' => 'six columns'))
             ->setRequired(false)
             ->addValidator($validator)
             ->addFilter('StringTrim')
@@ -296,7 +296,7 @@ class C3op_Form_InstitutionCreate extends Zend_Form
                       array('tag' => 'div','tagClass' => 'three columns alpha Invisible')
                     ),
                   ))
-                ->setOptions(array('class' => 'submit Full alpha omega'));
+                ->setOptions(array('class' => 'submit'));
         $this   ->addElement($submit);
 
     }

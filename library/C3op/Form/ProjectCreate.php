@@ -11,10 +11,10 @@
               ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
-                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
-                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'twelve columns omega')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'two columns')),
               ))
-              ->setOptions(array('class' => 'eleven columns alpha omega'))
+              ->setOptions(array('class' => 'eleven columns'))
               ->addErrorMessage(_("#Title is required"))
               ->setRequired(true)
               ->addFilter('StringTrim')
@@ -27,10 +27,10 @@
               ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
-                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
-                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'twelve columns')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'two columns')),
               ))
-              ->setOptions(array('class' => 'eleven columns alpha omega'))
+              ->setOptions(array('class' => 'eleven columns'))
               ->addErrorMessage(_("#Short title is required"))
               ->setRequired(true)
               ->addFilter('StringTrim')
@@ -42,12 +42,12 @@
               ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
-                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'nine columns')),
-                array('Description', array('escape' => false, 'tag' => 'div', 'class' => 'two columns omega')),
-                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'ten columns')),
+                array('Description', array('escape' => false, 'tag' => 'div', 'class' => 'two columns')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns')),
               ))
-              ->setOptions(array('class' => 'nine columns alpha omega'))
-              ->setDescription('<a href="/register/institution/create" class="two columns button alpha omega">' . _("#New client") . '</a>')
+              ->setOptions(array('class' => 'nine columns'))
+              ->setDescription('<a href="/register/institution/create" class="button">' . _("#New client") . '</a>')
               ->setRegisterInArrayValidator(false);
       $element->addMultiOption(0, _("#choose a client"));
       $this->addElement($element);
@@ -57,12 +57,12 @@
               ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
-                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'nine columns')),
-                array('Description', array('escape' => false, 'tag' => 'div', 'class' => 'two columns omega')),
-                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'ten columns')),
+                array('Description', array('escape' => false, 'tag' => 'div', 'class' => 'two columns' , 'style' => 'width:140px')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns')),
               ))
-              ->setOptions(array('class' => 'nine columns alpha omega'))
-              ->setDescription('<a href="/register/contact/create" class="two columns button alpha omega">Novo responsável</a>')
+              ->setOptions(array('class' => 'nine columns'))
+              ->setDescription('<a href="/register/contact/create" class="button">Novo responsável</a>')
               ->setRegisterInArrayValidator(false);
       $element->addMultiOption(0, _("#(choose a person)"));
       $this->addElement($element);
@@ -72,12 +72,12 @@
               ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
-                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'nine columns')),
-                array('Description', array('escape' => false, 'tag' => 'div', 'class' => 'two columns omega')),
-                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'ten columns')),
+                array('Description', array('escape' => false, 'tag' => 'div', 'class' => 'two columns' , 'style' => 'width:140px;margin-bottom:12px;')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns')),
               ))
-              ->setOptions(array('class' => 'nine columns alpha omega'))
-              ->setDescription('<a href="/register/contact/create" class="two columns button alpha omega">Novo responsável</a>')
+              ->setOptions(array('class' => 'nine columns'))
+              ->setDescription('<a href="/register/contact/create" class="button">Novo responsável</a>')
               ->setRegisterInArrayValidator(false);
       $element->addMultiOption(0, _("#(choose a person)"));
       $this->addElement($element);
@@ -88,10 +88,10 @@
               ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
-                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns')),
-                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'four columns')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns')),
               ))
-              ->setOptions(array('class' => 'two columns alpha omega datepicker'))
+              ->setOptions(array('class' => 'two columns datepicker'))
               ->setRequired(false)
               ->addValidator($dateValidator)
               ->addFilter('StringTrim');
@@ -102,10 +102,10 @@
               ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
-                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns inset-by-five omega')),
-                array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'five columns')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns')),
               ))
-              ->setOptions(array('class' => 'two columns alpha omega datepicker'))
+              ->setOptions(array('class' => 'two columns datepicker'))
               ->setRequired(false)
               ->addValidator('date')
               ->addFilter('HtmlEntities')
@@ -118,10 +118,10 @@
               ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
-                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns')),
-                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'four columns')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns')),
               ))
-              ->setOptions(array('class' => 'two columns alpha omega'))
+              ->setOptions(array('class' => 'two columns'))
               ->setRequired(false)
               ->addValidator(new C3op_Util_ValidDecimal)
               ->addFilter('StringTrim');
@@ -137,10 +137,10 @@
                 ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
-                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns inset-by-four omega')),
-                array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'five columns')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns')),
                 ))
-                ->setOptions(array('class' => 'three columns alpha omega'));
+                ->setOptions(array('class' => 'three columns'));
 
         $obj = new C3op_Projects_ProjectStatusTypes();
         $titleTypes = $obj->AllTitles();
@@ -156,10 +156,10 @@
                 ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
-                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns inset-by-four omega')),
-                array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'two columns')),
                 ))
-                ->setOptions(array('class' => 'three columns alpha omega'));
+                ->setOptions(array('class' => 'three columns'));
 
         $element->addMultiOption(null, _("#(disabled)"));
         $obj = new C3op_Projects_ProjectStatusTypes();
@@ -179,10 +179,10 @@
               ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
-                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns')),
-                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'four columns')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns')),
               ))
-              ->setOptions(array('class' => 'two columns alpha omega'))
+              ->setOptions(array('class' => 'two columns'))
               ->setRequired(false)
               ->addValidator(new C3op_Util_ValidDecimal)
         ;
@@ -194,10 +194,10 @@
               ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
-                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns inset-by-three omega')),
-                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'four columns')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns')),
               ))
-              ->setOptions(array('class' => 'two columns alpha omega'))
+              ->setOptions(array('class' => 'two columns'))
               ->setRequired(false)
               ->addValidator(new C3op_Util_ValidDecimal)
               ->addFilter('HtmlEntities')
@@ -210,9 +210,9 @@
                 'ViewHelper',
                 'Errors',
                 array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'four columns')),
-                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns')),
               ))
-              ->setOptions(array('class' => 'four columns alpha omega'));
+              ->setOptions(array('class' => 'three columns'));
 
       $obj = new C3op_Projects_ContractNatureTypes();
       $titleTypes = $obj->AllTitles();
@@ -227,10 +227,10 @@
               ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
-                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'five columns omega')),
-                array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'four columns')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns')),
               ))
-              ->setOptions(array('class' => 'five columns alpha omega'));
+              ->setOptions(array('class' => 'five columns alpha'));
       $obj = new C3op_Projects_AreaActivityTypes();
       $titleTypes = $obj->AllTitles();
       $element->addMultiOption(null, _("#(choose an area)"));
@@ -244,11 +244,11 @@
               ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
-                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
-                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns')),
               ))
               ->setAttrib('rows','8')
-              ->setOptions(array('class' => 'eleven columns alpha omega'))
+              ->setOptions(array('class' => 'eleven columns'))
               ->setRequired(false)
               ->addFilter('StringTrim');
       $this->addElement($element);
@@ -258,11 +258,11 @@
               ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
-                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
-                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns')),
               ))
               ->setAttrib('rows','8')
-              ->setOptions(array('class' => 'eleven columns alpha omega'))
+              ->setOptions(array('class' => 'eleven columns'))
               ->setRequired(false)
               ->addFilter('StringTrim');
       $this->addElement($element);
@@ -272,8 +272,8 @@
               ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
-                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
-                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns')),
               ))
               ->setAttrib('rows','8')
               ->setOptions(array('class' => 'eleven columns alpha omega'))
@@ -287,10 +287,10 @@
              ->setDecorators(array(
                'ViewHelper',
                 'Errors',
-                array(array('data' => 'HtmlTag'), array('tag' => 'div', 'class' => 'five columns inset-by-six omega')),
-                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Invisible')),
+                array(array('data' => 'HtmlTag'), array('tag' => 'div', 'class' => 'five columns')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns Invisible')),
              ))
-             ->setOptions(array('class' => 'submit two columns alpha omega'));
+             ->setOptions(array('class' => 'submit'));
       $this->addElement($submit);
 
     }

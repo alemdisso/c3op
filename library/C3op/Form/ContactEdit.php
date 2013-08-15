@@ -21,8 +21,8 @@ class C3op_Form_ContactEdit extends C3op_Form_ContactCreate
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
-                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'five columns omega')),
-                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'five columns')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns')),
                 ))
                 ->setOptions(array('class' => 'Full alpha omega'))
                 ->setRequired(true);

@@ -5,8 +5,8 @@ class C3op_Form_ResponsibleCreate extends Zend_Form
     public function init()
     {
         $this->setName('newResponsibleForm')
-            //->setAction('/resources/responsible/create')
-            ->setAction('javascript:submitResponsibleForm();')
+            ->setAction('/resources/responsible/create')
+            //->setAction('javascript:submitResponsibleForm();')
             ->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div', 'class' => 'Area')),'Form'))
             ->setMethod('post');
 
@@ -27,8 +27,8 @@ class C3op_Form_ResponsibleCreate extends Zend_Form
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
-                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'six columns omega')),
-                    array('Label', array('tag' => 'div', 'tagClass' => 'five column alpha Right')),
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'six columns')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'five columns')),
                 ))
 		->setMultiOptions(array("teamMember" => _('#teamMember'), "service" => _('#service')));
         $this->addElement($element);
@@ -38,8 +38,8 @@ class C3op_Form_ResponsibleCreate extends Zend_Form
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
-                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'six columns omega')),
-                    array('Label', array('tag' => 'div', 'tagClass' => 'two columns alpha Right')),
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'six columns')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'two columns')),
                 ))
                 ->setOptions(array('class' => 'Full alpha omega'))
                 ->setRegisterInArrayValidator(false);
@@ -51,8 +51,8 @@ class C3op_Form_ResponsibleCreate extends Zend_Form
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
-                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'six columns alpha omega')),
-                    array('Label', array('tag' => 'div', 'tagClass' => 'two columns alpha Right')),
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'six columns')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'two columns')),
                 ))
                 ->setOptions(array('class' => 'Full alpha omega'))
                 ->setRegisterInArrayValidator(false);
@@ -65,10 +65,10 @@ class C3op_Form_ResponsibleCreate extends Zend_Form
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
-                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns alpha omega')),
-                    array('Label', array('tag' => 'div', 'tagClass' => 'two columns alpha Right inset-by-two')),
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'two columns')),
                 ))
-                ->setOptions(array('class' => 'Full alpha omega'))
+                ->setOptions(array('class' => 'two columns'))
             ->addValidator(new C3op_Util_ValidPositiveDecimal)
             ->addFilter('StringTrim')
             ->addErrorMessage(_('#The value must be a positive number'))
@@ -80,12 +80,12 @@ class C3op_Form_ResponsibleCreate extends Zend_Form
         $submit ->setLabel('#Submit')
                 ->setDecorators(array('ViewHelper','Errors',
                     array(array('data' => 'HtmlTag'),
-                    array('tag' => 'div','class' => 'two columns inset-by-nine omega')),
+                    array('tag' => 'div','class' => 'two columns')),
                     array('Label',
-                      array('tag' => 'div','tagClass' => 'three columns alpha Invisible')
+                      array('tag' => 'div','tagClass' => 'three columns Invisible')
                     ),
                   ))
-                ->setOptions(array('class' => 'submit Full alpha omega'));
+                ->setOptions(array('class' => 'submit'));
         $this   ->addElement($submit);
 
     }

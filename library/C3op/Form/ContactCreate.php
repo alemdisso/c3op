@@ -16,10 +16,10 @@ class C3op_Form_ContactCreate extends Zend_Form
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
-                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'eleven columns omega')),
-                  array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'thirteen columns')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'two columns')),
               ))
-            ->setOptions(array('class' => 'Full alpha omega'))
+            ->setOptions(array('class' => 'nine columns'))
             ->setRequired(true)
             ->addErrorMessage(_("#Invalid name"))
             ->addValidator($nameValidator)
@@ -33,10 +33,10 @@ class C3op_Form_ContactCreate extends Zend_Form
                  ->setDecorators(array(
                    'ViewHelper',
                    'Errors',
-                   array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'one column')),
-                   array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+                   array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns', 'style' => 'width:50px;')),
+                   array('Label', array('tag' => 'div', 'tagClass' => 'one column')),
                  ))
-                 ->setOptions(array('class' => 'Full alpha omega'))
+                 ->setOptions(array('class' => 'one column'))
                  ->setRequired(false)
                  ->addValidator($phoneValidator)
                  ->addFilter('StringTrim');
@@ -49,10 +49,10 @@ class C3op_Form_ContactCreate extends Zend_Form
               ->setDecorators(array(
                   'ViewHelper',
                   'Errors',
-                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'two columns')),
-                  array('Label', array('tag' => 'div', 'tagClass' => 'one column Right')),
+                  array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns', 'style' => 'margin-left:-50px;')),
+                  array('Label', array('tag' => 'div', 'tagClass' => 'two columns')),
               ))
-            ->setOptions(array('class' => 'Full alpha omega'))
+            ->setOptions(array('class' => 'two columns'))
             ->setRequired(false)
             ->addValidator($phoneValidator)
             ->addFilter('StringTrim');
@@ -63,10 +63,10 @@ class C3op_Form_ContactCreate extends Zend_Form
                 ->setDecorators(array(
                     'ViewHelper',
                     'Errors',
-                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'five columns omega')),
-                    array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
+                    array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'six columns')),
+                    array('Label', array('tag' => 'div', 'tagClass' => 'three columns')),
                 ))
-                ->setOptions(array('class' => 'Full alpha omega'))
+                ->setOptions(array('class' => 'three columns'))
                 ->setRequired(true);
         $titleTypes = C3op_Register_ContactTypes::AllTitles();
         $element->addMultiOption(null, _("#(click to choice)"));
@@ -80,12 +80,12 @@ class C3op_Form_ContactCreate extends Zend_Form
         $submit->setLabel(_('#Submit'))
                ->setDecorators(array('ViewHelper','Errors',
                     array(array('data' => 'HtmlTag'),
-                    array('tag' => 'div','class' => 'two columns inset-by-nine omega')),
+                    array('tag' => 'div','class' => 'two columns')),
                     array('Label',
-                      array('tag' => 'div','tagClass' => 'three columns alpha Invisible')
+                      array('tag' => 'div','tagClass' => 'three columns Invisible')
                     ),
                   ))
-               ->setOptions(array('class' => 'submit Full alpha omega'));
+               ->setOptions(array('class' => 'submit'));
         $this->addElement($submit);
 
     }

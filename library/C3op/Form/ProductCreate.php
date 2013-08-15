@@ -149,12 +149,9 @@ class C3op_Form_ProductCreate extends Zend_Form
 
     public function process($data) {
 
-        if ($this->isValid($data) !== true)
-        {
+        if ($this->isValid($data) !== true) {
             throw new C3op_Form_ActionCreateException('Invalid data!');
-        }
-        else
-        {
+        } else {
             $db = Zend_Registry::get('db');
             $actionMapper = new C3op_Projects_ActionMapper($db);
 
