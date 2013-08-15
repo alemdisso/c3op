@@ -11,11 +11,12 @@ class C3op_Form_ResponsibleEdit extends C3op_Form_ResponsibleCreate
             ->setAction('javascript:submitResponsibleForm();')
             ->setMethod('post');
 
-        $id = new Zend_Form_Element_Hidden('id');
-        $id->addValidator('Int')
+        $element = new Zend_Form_Element_Hidden('id');
+        $element->addValidator('Int')
             //->addFilter('HtmlEntities')
             ->addFilter('StringTrim');
-        $this->addElement($id);
+        $this->addElement($element);
+        $element->setDecorators(array('ViewHelper'));
 
         $element = new Zend_Form_Element_Text('contractedValue');
         $element->setLabel('#Contracted value:')
