@@ -456,15 +456,8 @@ if ($actionHeader['hasDefinedResponsible']) {
 ?>
 
 <button id="opener">open the dialog</button>
-<div id="dialog" title="Dialog Title">I'm a dialog</div>
- 
-<script>
-$( "#dialog" ).dialog({ autoOpen: false });
-$( "#opener" ).click(function() {
-  $( "#dialog" ).dialog( "open" );
-});
-</script>
 
+		<div id="dialog" title="">
           <div id="responsibleDiv" class="slidingDiv" style="background:#fff;padding:5px;">
               <h3><?php print($this->translate("#Inform responsible")); ?></h3>
               <div id="responsibleFormDiv">&nbsp;</div>
@@ -472,6 +465,14 @@ $( "#opener" ).click(function() {
                 <a class="alpha" href="#responsible" id="hideResponsibleHref"><?php print($this->translate("#Hide form")); ?></a>
               </div>
           </div>
+		</div>
+ 
+<script>
+$( "#dialog" ).dialog({ autoOpen: false });
+$( "#opener" ).click(function() {
+  $( "#dialog" ).dialog( "open" );
+});
+</script>		  
 <?php
 if ((!$actionHeader['notAProduct']) && ($actionHeader['canEditBudget'])) {
 ?>
