@@ -91,15 +91,15 @@ jQuery.extend( jQuery.fn.dataTableExt.oSort, {
 
 	<div style="margin:20px 0;">
 
-		<a class="bt" href="/projects/project/edit/?id=<?php echo $projectHeader['id'] ?>"><img src="/images/icon_edit.png" align="middle" /> <?php echo $this->translate("#Edit project") ?></a>
+		<a class="button" href="/projects/project/edit/?id=<?php echo $projectHeader['id'] ?>"><img src="/images/icon_edit.png" align="middle" /> <?php echo $this->translate("#Edit project") ?></a>
 <?php
 if ($projectHeader['hasContract']) {
 ?>
-       <a class="bt" href="/projects/project/amend/?id=<?php echo $projectHeader['id'] ?>"><img src="/images/icon_create.png" align="middle" /> <?php echo $this->translate("#Amend contract") ?></a>
+       <a class="button" href="/projects/project/amend/?id=<?php echo $projectHeader['id'] ?>"><img src="/images/icon_create.png" align="middle" /> <?php echo $this->translate("#Amend contract") ?></a>
 <?php
 } else {
 ?>
-       <a class="bt" href="/projects/contract/sign/?project=<?php echo $projectHeader['id'] ?>"><img src="/images/icon_create.png" align="middle" /> <?php echo $this->translate("#Register contract signing") ?></a>
+       <a class="button" href="/projects/contract/sign/?project=<?php echo $projectHeader['id'] ?>"><img src="/images/icon_create.png" align="middle" /> <?php echo $this->translate("#Register contract signing") ?></a>
 <?php
 }
 ?>
@@ -346,7 +346,7 @@ foreach($productsList as $id => $productInfo) {
     <div class="Area">
 
       <p>
-        <a href="/projects/product/create/?project=<?php echo $projectHeader['id'] ?>" class="button three columns alpha omega"><?php echo $this->translate("#Add product") ?></a>
+        <a href="/projects/product/create/?project=<?php echo $projectHeader['id'] ?>" class="button"><img src="/images/icon_create.png" align="middle" /> <?php echo $this->translate("#Add product") ?></a>
       </p>
 
     </div><!-- .Area -->
@@ -416,9 +416,9 @@ if ($actionData['hasResponsible'] > 0) {
     </table>
 <br />
       <p>
-        <a href="/projects/project/payables/?id=<?php print($projectHeader['id']) ?>" class="button three columns alpha omega">Consultar ações realizadas</a>
-        <a href="/projects/action/create/?project=<?php print($projectHeader['id']) ?>" class="button three columns "><?php echo $this->translate("#Create new action") ?></a>
-        <a href="/projects/project/unacknowledged/?id=<?php print($projectHeader['id']) ?>" class="button three columns alpha omega">Ações com início a confirmar</a>
+        <a href="/projects/project/payables/?id=<?php print($projectHeader['id']) ?>" class="button">Consultar ações realizadas</a>
+        <a href="/projects/action/create/?project=<?php print($projectHeader['id']) ?>" class="button"><img src="/images/icon_create.png" align="middle" /> <?php echo $this->translate("#Create new action") ?></a>
+        <a href="/projects/project/unacknowledged/?id=<?php print($projectHeader['id']) ?>" class="button">Ações com início a confirmar</a>
       </p>
           </div><!-- Area -->
 

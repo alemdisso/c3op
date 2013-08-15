@@ -670,10 +670,10 @@ div.box {
   *padding-bottom: 0;
 }
 
-a.button {
+/*a.button {
   margin: 0 10px; 
   text-decoration: none;
-}
+}*/
 
 a.paginate_button.first {
   -webkit-appearance: none;
