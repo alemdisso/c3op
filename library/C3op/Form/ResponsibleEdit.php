@@ -7,8 +7,8 @@ class C3op_Form_ResponsibleEdit extends C3op_Form_ResponsibleCreate
 
         // initialize form
         $this->setName('editResponsibleForm')
-            //->setAction('/resources/responsible/edit')
-            ->setAction('javascript:submitResponsibleForm();')
+            ->setAction('/resources/responsible/edit')
+            //->setAction('javascript:submitResponsibleForm();')
             ->setMethod('post');
 
         $element = new Zend_Form_Element_Hidden('id');

@@ -30,37 +30,35 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
         $id = $data['id'];
 
+        $pageData = array(
+            'responsibleType'  => null,
+            'responsibleId'    => null,
+            'contactId'        => null,
+            'contactName'      => $this->view->translate('#(undefined)'),
+            'responsibleLabel' => $this->view->translate('#(undefined)'),
+            'projectId'        => null,
+        );
 
-        $this->initResponsibleMapper();
-        $responsible = $this->responsibleMapper->findById($id);
+        if ($id > 0) {
 
+            $this->initResponsibleMapper();
+            $responsible = $this->responsibleMapper->findById($id);
 
+            $this->initActionMapper();
+            $action = $this->actionMapper->findById($responsible->getAction());
 
-        $this->initActionMapper();
-        $action = $this->actionMapper->findById($responsible->getAction());
-
-        $obj = new C3op_Projects_ActionResponsible($action, $this->actionMapper, $this->db);
-
-        if ($obj->doesItHaveAResponsible()) {
-            $result = $obj->fetch();
-
-            $pageData = array(
-                'responsibleType'  => $result['responsibleType'],
-                'responsibleId'    => $result['responsibleId'],
-                'contactId'        => $result['contactId'],
-                'contactName'      => $result['contactName'],
-                'responsibleLabel' => $result['responsibleLabel'],
-                'projectId'        => $action->GetProject(),
-            );
-        } else {
-            $pageData = array(
-                'responsibleType'  => null,
-                'responsibleId'    => null,
-                'contactId'        => null,
-                'contactName'      => $this->view->translate('#(undefined)'),
-                'responsibleLabel' => $this->view->translate('#(undefined)'),
-                'projectId'        => null,
-            );
+            $obj = new C3op_Projects_ActionResponsible($action, $this->actionMapper, $this->db);
+            if ($obj->doesItHaveAResponsible()) {
+                $result = $obj->fetch();
+                $pageData = array(
+                    'responsibleType'  => $result['responsibleType'],
+                    'responsibleId'    => $result['responsibleId'],
+                    'contactId'        => $result['contactId'],
+                    'contactName'      => $result['contactName'],
+                    'responsibleLabel' => $result['responsibleLabel'],
+                    'projectId'        => $action->GetProject(),
+                );
+            }
         }
 
         $this->view->pageData = $pageData;
@@ -162,9 +160,13 @@ class Resources_ResponsibleController extends Zend_Controller_Action
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
-
-                $this->_helper->viewRenderer->setNoRender(TRUE);
-                $this->_redirect('/resources/responsible/assigned/?id=' . $id);
+                $this->initResponsibleMapper();
+                $responsible =  $this->responsibleMapper->findById($id);
+                //$this->_helper->viewRenderer->setNoRender(TRUE);
+                //$this->_redirect('/resources/responsible/assigned/?id=' . $id);
+                $this->_helper->getHelper('FlashMessenger')
+                     ->addMessage($this->view->translate('#The record was successfully updated.'));
+                $this->_redirect('/projects/action/detail/?id=' . $responsible->GetAction());
             } else {
                 //form error: populate and go back
                 $actionId = $postData['action'];
@@ -254,17 +256,18 @@ class Resources_ResponsibleController extends Zend_Controller_Action
                 if ($id > 0) {
                     $this->initResponsibleMapper();
                     $responsible =  $this->responsibleMapper->findById($id);
-//                    $this->_helper->getHelper('FlashMessenger')
-//                        ->addMessage($this->view->translate('#The record was successfully updated.'));
-                    $this->_helper->viewRenderer->setNoRender(TRUE);
-                    $this->_redirect('/resources/responsible/assigned/?id=' . $id);
-                    //$this->_redirect('/projects/action/detail/?id=' . $responsible->GetAction());
+                    //$this->_helper->viewRenderer->setNoRender(TRUE);
+                    //$this->_redirect('/resources/responsible/assigned/?id=' . $id);
+
+                    $this->_helper->getHelper('FlashMessenger')
+                         ->addMessage($this->view->translate('#The record was successfully updated.'));
+                    $this->_redirect('/projects/action/detail/?id=' . $responsible->GetAction());
                 } else {
-//                    $this->_helper->getHelper('FlashMessenger')
-//                        ->addMessage($this->view->translate('#The record was successfully updated.'));
-                    $this->_helper->viewRenderer->setNoRender(TRUE);
-                    $this->_redirect('/resources/responsible/assigned/?id=' . $postData['action']);
-                    //$this->_redirect('/projects/action/detail/?id=' . $postData['action']);
+                    //$this->_helper->viewRenderer->setNoRender(TRUE);
+                    //$this->_redirect('/resources/responsible/assigned/?id=0');
+                    $this->_helper->getHelper('FlashMessenger')
+                         ->addMessage($this->view->translate('#The record was successfully updated.'));
+                    $this->_redirect('/projects/action/detail/?id=' . $postData['action']);
 
                 }
             } else {
