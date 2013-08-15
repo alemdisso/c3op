@@ -454,6 +454,17 @@ if ($actionHeader['hasDefinedResponsible']) {
     }
   }
 ?>
+
+<button id="opener">open the dialog</button>
+<div id="dialog" title="Dialog Title">I'm a dialog</div>
+ 
+<script>
+$( "#dialog" ).dialog({ autoOpen: false });
+$( "#opener" ).click(function() {
+  $( "#dialog" ).dialog( "open" );
+});
+</script>
+
           <div id="responsibleDiv" class="slidingDiv" style="background:#fff;padding:5px;">
               <h3><?php print($this->translate("#Inform responsible")); ?></h3>
               <div id="responsibleFormDiv">&nbsp;</div>
