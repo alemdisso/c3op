@@ -355,6 +355,49 @@ class Projects_ProductController extends Zend_Controller_Action
         }
     }
 
+    public function leanCreateAction()
+    {
+        // cria form
+        $form = new C3op_Form_LeanProductCreate;
+        $this->view->form = $form;
+
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            if ($form->isValid($postData)) {
+                $id = $form->process($postData);
+                $this->_helper->getHelper('FlashMessenger')
+                    ->addMessage($this->view->translate('#The record was successfully created.'));
+                $this->_redirect(sprintf('/projects/product/detail/?id=%d', $id));
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
+        } else {
+            $data = $this->_request->getParams();
+            $requirementForReceiving = 0;
+            if (isset($data['requirementForReceiving'])) {
+                $requirementForReceiving = $data['requirementForReceiving'];
+                $this->initReceivableMapper();
+                $parentReceivable = $this->receivableMapper->findById($requirementForReceiving);
+                $projectId = $parentReceivable->GetProject();
+            } else {
+                $projectId = $data['project'];
+            }
+
+            $element = $form->getElement('product');
+            $element->setValue(1);
+
+            $pageData = array(
+                'id'           => $projectId,
+                );
+
+            $this->view->pageData = $pageData;
+            $this->view->pageTitle = $this->view->translate("#New product");
+
+        }
+    }
+
 
 
     private function initActionWithCheckedId(C3op_Projects_ActionMapper $mapper)
