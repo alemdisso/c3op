@@ -2,69 +2,7 @@
   $pageData = $this->pageData;
   $receivableData = $pageData['receivableData'];
   $productsList = $receivableData['requiredProducts'];
-?>
-
-<script type="text/javascript">
-
-$(function() {
-// $( "#productDiv" ).dialog();
-
-// setter
-$("#productDiv").dialog("option","autoOpen",false);
-
-});
-
-
-
-    $("#productDiv").hide();
-    $("#productButton").show();
-
-    $('#productButton').click(function(){
-        $.ajax({
-            type: 'get',
-            data: 'actionId=<?php print $actionHeader['id'] ?>',
-            url:'/resources/product/create',
-            success: function(successReturn){
-            $('#productFormDiv').html(successReturn);
-            }
-        })
-
-		 $("#productDiv").dialog();
-         //$("#productDiv").slideToggle();
-         $("#productButton").hide();
-    });
-    $('#hideProductHref').click(function(){
-		 $("#productDiv").dialog();
-         //$("#productDiv").slideToggle();
-         $("#productButton").show();
-    });
-
-
-
-
-
-});
-
-    function callProductEdit(id){
-        $.ajax({
-            type: 'get',
-            data: 'id=' + id,
-            url:'/resources/product/edit',
-            success: function(successReturn){
-            $('#productFormDiv').html(successReturn);
-            }
-        })
-		 $("#productDiv").dialog();	
-         //$("#productDiv").slideToggle();
-         $("#productButton").hide();
-    }
-	
-	function closeProductDiv(){
-		$("#productButton").show();
-		$("#productDiv").dialog("close");
-	}
-	  
-</script>	  
+?>	  
         <div id="MainHeader">
           <h1><span class="weight_normal"><?php print($this->translate("#Project")); ?></span> <a href="/finances/project/detail/?id=<?php print($receivableData['projectId']) ?>"><?php print($receivableData['projectTitle']) ?></a></h1>
         </div><!-- MainHeader -->
@@ -81,7 +19,7 @@ $("#productDiv").dialog("option","autoOpen",false);
           <h2><?php print(sprintf($this->translate("#Details of receivable %s"), $receivableData['title'])); ?></h2>
             <a class="bt" href="/finances/receivable/edit/?id=<?php echo $receivableData['id'] ?>"><img src="/images/icon_edit.png" align="middle" /> <?php echo $this->translate("#Edit receivable") ?></a>
             &nbsp;&nbsp;<a class="bt" href=""><img src="/images/icon_calendar.png" align="middle" /> informar recebimento</a>
-            &nbsp;&nbsp;<a class="bt" id="productButton" href=""><img src="/images/icon_create.png" align="middle" /> criar novo produto</a>
+            &nbsp;&nbsp;<a class="bt" href=""><img src="/images/icon_create.png" align="middle" /> criar novo produto</a>
             &nbsp;&nbsp;<a class="bt" href=""><img src="/images/icon_create.png" align="middle" /> adicionar produto existente</a>
         </div>
 		
