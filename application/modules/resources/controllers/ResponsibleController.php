@@ -163,9 +163,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
             if ($form->isValid($postData)) {
                 $id = $form->process($postData);
 
-
-
-                //$this->_helper->viewRenderer->setNoRender(TRUE);
+                $this->_helper->viewRenderer->setNoRender(TRUE);
                 $this->_redirect('/resources/responsible/assigned/?id=' . $id);
             } else {
                 //form error: populate and go back
@@ -256,13 +254,17 @@ class Resources_ResponsibleController extends Zend_Controller_Action
                 if ($id > 0) {
                     $this->initResponsibleMapper();
                     $responsible =  $this->responsibleMapper->findById($id);
-                    $this->_helper->getHelper('FlashMessenger')
-                        ->addMessage($this->view->translate('#The record was successfully updated.'));
-                    $this->_redirect('/projects/action/detail/?id=' . $responsible->GetAction());
+//                    $this->_helper->getHelper('FlashMessenger')
+//                        ->addMessage($this->view->translate('#The record was successfully updated.'));
+                    $this->_helper->viewRenderer->setNoRender(TRUE);
+                    $this->_redirect('/resources/responsible/assigned/?id=' . $id);
+                    //$this->_redirect('/projects/action/detail/?id=' . $responsible->GetAction());
                 } else {
-                    $this->_helper->getHelper('FlashMessenger')
-                        ->addMessage($this->view->translate('#The record was successfully updated.'));
-                    $this->_redirect('/projects/action/detail/?id=' . $postData['action']);
+//                    $this->_helper->getHelper('FlashMessenger')
+//                        ->addMessage($this->view->translate('#The record was successfully updated.'));
+                    $this->_helper->viewRenderer->setNoRender(TRUE);
+                    $this->_redirect('/resources/responsible/assigned/?id=' . $postData['action']);
+                    //$this->_redirect('/projects/action/detail/?id=' . $postData['action']);
 
                 }
             } else {

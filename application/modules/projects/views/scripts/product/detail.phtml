@@ -9,7 +9,7 @@
 
 	  $(function() {
 		// $( "#responsibleDiv" ).dialog();
-		
+
 		// setter
 		$("#responsibleDiv").dialog("option","autoOpen",false);
 
@@ -104,11 +104,11 @@ $(document).ready(function(){
             $('#responsibleFormDiv').html(successReturn);
             }
         })
-		 $("#responsibleDiv").dialog();	
+		 $("#responsibleDiv").dialog();
          //$("#responsibleDiv").slideToggle();
          $("#responsibleButton").hide();
     }
-	
+
 	function closeResponsibleDiv(){
 		$("#responsibleButton").show();
 		$("#responsibleDiv").dialog("close");
@@ -848,11 +848,11 @@ if ($materialSupplyData['canRemoveMaterialSupply']) {
           </table>
 
           <br clear="all" />
-            
+
           <a href="/resources/material-supply/create/?actionId=<?php print($actionHeader['id']); ?>" class="button"><?php print($this->translate("#Anticipate material supply")); ?></a>
-          
+
             </div><!-- Area -->
 
           </div><!-- #tabs-material -->
 
-        </div><!-- #tabs -->	
+        </div><!-- #tabs -->
