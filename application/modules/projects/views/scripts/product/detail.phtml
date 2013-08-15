@@ -155,7 +155,7 @@ $(document).ready(function(){
 
           <h2><?php print(sprintf($this->translate("#Product %s"), $actionHeader['title'])); ?></h2>
 
-                <a class="bt" href="/projects/action/edit/?id=<?php echo $actionHeader['id'] ?>"><img src="/images/icon_edit.png" align="absmiddle" /> <?php echo $this->translate("#Edit product") ?></a>
+                <a class="button" href="/projects/action/edit/?id=<?php echo $actionHeader['id'] ?>"><img src="/images/icon_edit.png" align="absmiddle" /> <?php echo $this->translate("#Edit product") ?></a>
 <?php
     if ($actionHeader['canRemoveAction']) {
 ?>
@@ -170,9 +170,11 @@ $(document).ready(function(){
 		  <div class="two columns alpha">
            <span class="label"><?php print($this->translate("#Status")); ?>:</span>
           </div>
-          <div class="twelve columns">
-           <strong><?php print($this->translate($actionHeader['status'])); ?>&nbsp;&nbsp;&nbsp;<img src="/images/status_mark.jpg" align="absmiddle" /></strong>
+          <div class="four columns">
+           <strong><?php print($this->translate($actionHeader['status'])); ?></strong> <div id="progressbar"><div style="width:100%;"></div></div><!-- No lugar do 100% entra uma variável que dará o resultado do status em %-->
           </div>
+          
+          <br clear="all" />
 
           <div class="two columns alpha">
             <span class="label"><?php print($this->translate("#Supervisor:")); ?></span>
@@ -228,11 +230,11 @@ if ($parentId > 0) {
           <div class="two columns">
             <?php print($this->translate($actionHeader['predictedFinishDate'])); ?>
           </div>
-          <div class="two columns inset-by-two omega">
+          <div class="four columns">
 <?php
             if ($actionHeader['isAMilestone']) {
 ?>
-            <img src="/images/icon_icon_milestone.png" align="absmiddle" /> <?php print($this->translate('#Is a milestone')); ?>
+            <img src="/images/icon_milestone.png" align="absmiddle" /> <?php print($this->translate('#Is a milestone')); ?>
 
 <?
             } else {
@@ -269,7 +271,7 @@ if ($parentId > 0) {
           <div class="three columns inset-by-two omega">
             <div id="acknowledgeReceipt-<?php print($actionHeader['id']);?>">
               <div class="three columns alpha omega">
-                <a class="button full column alpha omega parent_info" href="javascript:acknowledgeReceipt('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Confirm task realization")); ?></a>
+                <a class="button" href="javascript:acknowledgeReceipt('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Confirm task realization")); ?></a>
               </div>
             </div>
           </div>
@@ -290,10 +292,10 @@ if ($parentId > 0) {
             <br clear="all" />
           <div class="seven columns offset-by-three" >
             <div id='acknowledgeStart-<?php print($actionHeader['id']); ?>'>
-              <a class="two columns button alpha" href="javascript:acknowledgeStart('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Acknowledge start")); ?></a>
+              <a class="button" href="javascript:acknowledgeStart('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Acknowledge start")); ?></a>
             </div>
             <div id='changeStartButton'>
-              <a class="two columns offset-by-one button alpha" href="/projects/action/change-start/?id=<?php print($actionHeader['id']); ?>"><?php print($this->translate("#Change start date")); ?></a>
+              <a class="button" href="/projects/action/change-start/?id=<?php print($actionHeader['id']); ?>"><?php print($this->translate("#Change start date")); ?></a>
             </div>
           </div>
 <?php
@@ -314,10 +316,10 @@ if ($parentId > 0) {
           <div class="six columns inset-by-four">
             <div id="receiptAcknowledgement-<?php print($actionHeader['id']);?>">
               <div class="three columns alpha">
-                <a class="button full column alpha omega parent_info" href="javascript:rejectReceipt('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Reject receipt")); ?></a>
+                <a class="button" href="javascript:rejectReceipt('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Reject receipt")); ?></a>
               </div>
               <div class="three columns omega">
-                <a class="button full column alpha omega parent_info" href="javascript:acceptReceipt('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Accept receipt")); ?></a>
+                <a class="button" href="javascript:acceptReceipt('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Accept receipt")); ?></a>
               </div>
             </div>
           </div>
@@ -336,7 +338,7 @@ if ($parentId > 0) {
           <div class="six columns inset-by-four">
             <div id="receiptAcknowledgement-<?php print($actionHeader['id']);?>">
               <div class="four columns alpha offset-by-three">
-                <a class="button full column alpha omega parent_info" href="/projects/product/delivery-notify/?id=<?php print($actionHeader['id']); ?>"><?php print($this->translate("#Notify product delivery")); ?></a>
+                <a class="button" href="/projects/product/delivery-notify/?id=<?php print($actionHeader['id']); ?>"><?php print($this->translate("#Notify product delivery")); ?></a>
               </div>
             </div>
           </div>
@@ -379,7 +381,7 @@ if ($parentId > 0) {
 if ((!$actionHeader['hasResponsible']) && ($actionHeader['canDefineResponsible'])) {
 ?>
 
-            <a id="responsibleButton" class="button two columns alpha omega parent_info" href="#responsible"><?php print($this->translate("#Inform responsible")); ?></a>
+            <a id="responsibleButton" class="button" href="#responsible"><?php print($this->translate("#Inform responsible")); ?></a>
 <?php
 }
 ?>
@@ -488,7 +490,7 @@ if (isset($actionHeader['hasBudget'])) {
         }
     }
 ?>
-              <a id="budgetButton" class="bt" href="#budget"><img src="/images/icon_edit.png" align="absmiddle" /> <?php print($labelBudgetButton); ?></a>
+              <a id="budgetButton" class="button" href="#budget"><img src="/images/icon_edit.png" align="absmiddle" /> <?php print($labelBudgetButton); ?></a>
               <div id="budgetDiv" class="slidingDiv">
                   <h3>   <?php print($this->translate("#Inform budget")); ?>  </h3>
                   <div id="budgetFormDiv">&nbsp;</div>
@@ -571,7 +573,7 @@ if (isset($actionHeader['hasBudget'])) {
                 </table>
                 <br />
                 <p>
-                <a href="/projects/action/create/?subordinatedTo=<?php print($actionHeader['id']) ?>" class="button three columns alpha omega"><?php print($this->translate("#Create new action")) ?></a>
+                <a href="/projects/action/create/?subordinatedTo=<?php print($actionHeader['id']) ?>" class="button"><img src="/images/icon_create.png" align="absmiddle" /> <?php print($this->translate("#Create new action")) ?></a>
                 </p>
             </div><!-- Area -->
           </div><!-- #tabs-subactions -->
@@ -793,9 +795,10 @@ if ($materialSupplyData['canRemoveMaterialSupply']) {
             </tbody>
           </table>
 
-          <p>
-            <a href="/resources/material-supply/create/?actionId=<?php print($actionHeader['id']); ?>" class="button three columns alpha omega"><?php print($this->translate("#Anticipate material supply")); ?></a>
-          </p>
+          <br clear="all" />
+            
+          <a href="/resources/material-supply/create/?actionId=<?php print($actionHeader['id']); ?>" class="button"><?php print($this->translate("#Anticipate material supply")); ?></a>
+          
             </div><!-- Area -->
 
           </div><!-- #tabs-material -->

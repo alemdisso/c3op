@@ -379,7 +379,7 @@ dl.zend_form {
   text-align: right;
 }
 
-.button {
+/*.button {
   font-size: 10px;
   -webkit-font-size: 10px;
   height: 21px;
@@ -421,7 +421,7 @@ a.button {
   color: #333;
   margin: 0 10px;
   text-decoration: none;
-}
+}*/
 
 .anchorclass.button {
   padding: 2px 5px;
@@ -603,3 +603,19 @@ a.bt img {
 .clearfix {
 	display:block;
 	}
+	
+/* Status */
+ #progressbar {
+	background-color: #fff;
+	border: 1px solid #bec3bf;
+	width: 115px;
+	margin: 2px 0 0 0;
+	padding:0;
+	float: right;
+}
+
+#progressbar div {
+	background-color: #30a83a;
+	height: 11px;
+	padding: 0;
+ }
