@@ -512,12 +512,12 @@ if ($actionHeader['hasDefinedResponsible']) {
   }
 ?>
           <!--<div id="responsibleDiv" class="slidingDiv" style="background:#fff;padding:5px;">-->
-		  <div id="responsibleDiv" style="background:#fff;padding:5px;">
+		  <div id="responsibleDiv">
               <h3><?php print($this->translate("#Inform responsible")); ?></h3>
               <div id="responsibleFormDiv">&nbsp;</div>
 				<br class="clear"/>
                 <!--<a class="alpha" href="#responsible" id="hideResponsibleHref"><?php print($this->translate("#Hide form")); ?></a>-->
-				<a class="alpha" href="javascript:closeResponsibleDiv();" id="hideResponsibleHref"><?php print($this->translate("#Hide form")); ?></a>
+				<a class="button" href="javascript:closeResponsibleDiv();" id="hideResponsibleHref"><?php print($this->translate("#Hide form")); ?></a>
               </div>
           </div>
 <?php
