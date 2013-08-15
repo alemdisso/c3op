@@ -71,9 +71,6 @@ class C3op_Projects_ActionHeader {
             $tester = new C3op_Access_PrivilegeTester($user, $acl, "projects", "action", "change-receipt");
             if ($tester->allow()) {
                 $receiptDateToChange = true;
-            } else {
-//                            die("???");
-
             }
         }
         $receiptToAcceptOrReject = false;
@@ -213,7 +210,8 @@ class C3op_Projects_ActionHeader {
         $this->data['id'] = $this->action->getId();
         $this->data['title'] = $this->action->getTitle();
         $statusTypes = new C3op_Projects_ActionStatusTypes();
-        $this->data['status'] =  $statusTypes->TitleForType($this->action->getStatus());
+        $this->data['statusLabel'] =  $statusTypes->TitleForType($this->action->getStatus());
+        $this->data['statusValue'] =  $this->action->getStatus();
         $this->data['description'] = nl2br($this->action->getDescription());
 
         if ($this->action->getMilestone()) {
@@ -296,7 +294,7 @@ class C3op_Projects_ActionHeader {
             $this->data['contactName'] = $data['contactName'];
             $this->data['institutionId'] = $data['institutionId'];
             $this->data['institutionName'] = $data['institutionName'];
-            $this->data['statusLabel'] = $data['statusLabel'];
+            $this->data['responsibleStatusLabel'] = $data['responsibleStatusLabel'];
             $this->data['responsibleLabel'] = $data['responsibleLabel'];
         } else {
             $this->data['hasResponsible'] = false;
@@ -306,7 +304,7 @@ class C3op_Projects_ActionHeader {
             $this->data['responsibleType'] = 0;
             $this->data['contactId'] = 0;
             $this->data['contactName'] = _('#(unassigned)');
-            $this->data['statusLabel'] = _('#(unknown)');
+            $this->data['responsibleStatusLabel'] = _('#(unknown)');
 
         }
     }
@@ -344,7 +342,7 @@ class C3op_Projects_ActionHeader {
                 $data['contactId'] = $responsibleData['contactId'];
                 $data['institutionId'] = $responsibleData['institutionId'];
                 $data['responsibleLabel'] = $responsibleData['responsibleLabel'];
-                $data['responsibleStatusLabel'] = $responsibleData['statusLabel'];
+                $data['responsibleStatusLabel'] = $responsibleData['responsibleStatusLabel'];
             } else {
                 $data['hasResponsible'] = false;
                 $data['responsibleType'] = null;

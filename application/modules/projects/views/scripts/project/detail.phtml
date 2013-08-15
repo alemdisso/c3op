@@ -119,11 +119,52 @@ if ($projectHeader['hasContract']) {
 	   <span class="label"><?php print($this->translate("#Status")); ?>:</span>
 	  </div>
 	  <div class="four columns">
-	   <strong>Completo</strong> <div id="progressbar"><div style="width:100%;"></div></div><!-- No lugar do 100% entra uma variável que dará o resultado do status em %-->
+<?php
+    switch ($projectHeader['statusValue']) {
+        case C3op_Projects_ProjectStatusConstants::STATUS_PROSPECTING:
+            $calculatedProgress = 16.67;
+            break;
+
+        case C3op_Projects_ProjectStatusConstants::STATUS_PLANNING:
+            $calculatedProgress = 33.33;
+            break;
+
+        case C3op_Projects_ProjectStatusConstants::STATUS_PROPOSAL:
+            $calculatedProgress = 50;
+            break;
+
+        case C3op_Projects_ProjectStatusConstants::STATUS_EXECUTION:
+            $calculatedProgress = 66.67;
+            break;
+
+        case C3op_Projects_ProjectStatusConstants::STATUS_ACCOUNTABILITY:
+            $calculatedProgress = 83.33;
+            break;
+
+        case C3op_Projects_ProjectStatusConstants::STATUS_CANCELED:
+            $calculatedProgress = 0;
+            break;
+
+        case C3op_Projects_ProjectStatusConstants::STATUS_SUSPENDED:
+            $calculatedProgress = 0;
+            break;
+
+        case C3op_Projects_ProjectStatusConstants::STATUS_FINISHED:
+            $calculatedProgress = 100;
+            break;
+
+        default:
+            $calculatedProgress = 0;
+            break;
+
+
+    }
+?>
+	   <strong><?php echo $this->translate($projectHeader['statusLabel']) ?></strong> <div id="progressbar"><div style="width:<?php echo $calculatedProgress . "%" ?>;"></div></div>
 	  </div>
-      
+
       <br clear="all" />
-      
+
       <div class="three columns alpha">
         <span class="label"><?php echo $this->translate("#Client:") ?></span>
       </div>

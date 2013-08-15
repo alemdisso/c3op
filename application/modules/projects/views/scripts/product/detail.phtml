@@ -170,10 +170,46 @@ $(document).ready(function(){
 		  <div class="two columns alpha">
            <span class="label"><?php print($this->translate("#Status")); ?>:</span>
           </div>
-          <div class="four columns">
-           <strong><?php print($this->translate($actionHeader['status'])); ?></strong> <div id="progressbar"><div style="width:100%;"></div></div><!-- No lugar do 100% entra uma variável que dará o resultado do status em %-->
+         <div class="four columns">
+<?php
+    switch ($actionHeader['statusValue']) {
+        case C3op_Projects_ActionStatusConstants::STATUS_PLAN:
+            $calculatedProgress = 16.67;
+            break;
+
+        case C3op_Projects_ActionStatusConstants::STATUS_IN_EXECUTION:
+            $calculatedProgress = 33.33;
+            break;
+
+        case C3op_Projects_ActionStatusConstants::STATUS_RECEIVED:
+            $calculatedProgress = 50;
+            break;
+
+        case C3op_Projects_ActionStatusConstants::STATUS_DONE:
+            $calculatedProgress = 66.67;
+            break;
+
+        case C3op_Projects_ActionStatusConstants::STATUS_DELIVERED:
+            $calculatedProgress = 83.33;
+            break;
+
+        case C3op_Projects_ActionStatusConstants::STATUS_COMPLETE:
+            $calculatedProgress = 100;
+            break;
+
+        case C3op_Projects_ActionStatusConstants::STATUS_ABORTED:
+        default:
+            $calculatedProgress = 0;
+            break;
+
+    }
+?>        <strong><?php print($this->translate($actionHeader['statusLabel'])); ?></strong> <div id="progressbar"><div style="width:<?php echo $calculatedProgress . "%" ?>;"></div></div>
           </div>
-          
+
+
+
+
+
           <br clear="all" />
 
           <div class="two columns alpha">
@@ -215,7 +251,7 @@ if ($parentId > 0) {
           <div class="twelve columns omega">
             <?php print($actionHeader['description']); ?>&nbsp;
           </div>
-          
+
           <br clear="all" />
 
           <div class="two columns alpha">
@@ -247,7 +283,7 @@ if ($parentId > 0) {
 
 
           </div>
-          
+
           <br clear="all" />
 
           <div class="two columns alpha">
@@ -262,7 +298,7 @@ if ($parentId > 0) {
           <div class="five columns">
             <?php print($this->translate($actionHeader['realFinishDate'])); ?>
           </div>
-          
+
           <br clear="all" />
 
 <?php

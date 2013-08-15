@@ -84,16 +84,16 @@ class C3op_Projects_ActionResponsible {
 
             }
 
-            $status = $responsible->getStatus();
+            $statusValue = $responsible->getStatus();
             $statusTypes = new C3op_Resources_ResponsibleStatusTypes();
-            $statusLabel = $statusTypes->TitleForType($status);
+            $statusLabel = $statusTypes->TitleForType($statusValue);
 
             $canContract = false;
             if (((($responsible->getType() == C3op_Resources_ResponsibleTypeConstants::TYPE_OUTSIDE_SERVICE)
                     && ($responsible->getInstitution() > 0))
                     || (($responsible->getType() == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER)
                     && ($responsible->getContact() > 0)))
-                 && ($status == C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN)) {
+                 && ($statusValue == C3op_Resources_ResponsibleStatusConstants::STATUS_FORESEEN)) {
 
                 $user = Zend_Registry::get('user');
                 $acl = Zend_Registry::get('acl');
@@ -109,7 +109,7 @@ class C3op_Projects_ActionResponsible {
 
             $canDismiss = false;
             $canProvideOutlay = false;
-            if ($status == C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED) {
+            if ($statusValue == C3op_Resources_ResponsibleStatusConstants::STATUS_CONTRACTED) {
                 $user = Zend_Registry::get('user');
                 $acl = Zend_Registry::get('acl');
                 $tester = new C3op_Access_PrivilegeTester($user, $acl, "resources", "responsible", "dismiss");
@@ -134,9 +134,9 @@ class C3op_Projects_ActionResponsible {
               'contactId'            => $contactId,
               'institutionName'      => $institutionName,
               'institutionId'        => $institutionId,
-              'statusLabel'          => $statusLabel,
+              'responsibleStatusLabel' => $statusLabel,
               'predictedValue'       => $responsible->getPredictedValue(),
-              'contractedValue'       => $responsible->getContractedValue(),
+              'contractedValue'      => $responsible->getContractedValue(),
             );
         } else {
             $data = array(
@@ -148,6 +148,7 @@ class C3op_Projects_ActionResponsible {
             'responsibleType'  => 0,
             'responsibleLabel' => _("#(unassigned)"),
             'responsibleId'    => 0,
+            'responsibleStatusLabel' => _("#(unassigned)"),
             );
         }
         return $data;

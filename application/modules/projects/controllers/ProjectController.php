@@ -288,7 +288,7 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $personal = false;
             }
 
-            $statusLabel = $this->view->translate($responsibleData['statusLabel']);
+            $statusLabel = $this->view->translate($responsibleData['responsibleStatusLabel']);
             $canContract = $responsibleData['canContract'];
             $canDismiss = $responsibleData['canDismiss'];
             $canProvideOutlay = $responsibleData['canProvideOutlay'];
@@ -882,7 +882,7 @@ class Projects_ProjectController extends Zend_Controller_Action
                 $data['contactId'] = $responsibleData['contactId'];
                 $data['institutionId'] = $responsibleData['institutionId'];
                 $data['responsibleLabel'] = $responsibleData['responsibleLabel'];
-                $data['responsibleStatusLabel'] = $responsibleData['statusLabel'];
+                $data['responsibleStatusLabel'] = $responsibleData['responsibleStatusLabel'];
                 $data['responsibleType'] = $responsibleData['responsibleType'];
             } else {
                 $data['hasResponsible'] = false;
@@ -1097,6 +1097,10 @@ class Projects_ProjectController extends Zend_Controller_Action
 
         $projectTitle = $projectToBeDetailed->getShortTitle();
 
+        $statusTypes = new C3op_Projects_ProjectStatusTypes();
+        $statusValue = $projectToBeDetailed->getStatus();
+        $statusLabel = $statusTypes->TitleForType($statusValue);
+
         $clientName = $this->view->translate('#(not defined)');
         $clientId = 0;
         if ($projectToBeDetailed->getClient() > 0) {
@@ -1181,6 +1185,8 @@ class Projects_ProjectController extends Zend_Controller_Action
                 'projectDates'          => $projectDates,
                 'hasContract'           => $hasContract,
                 'amendmentsList'        => $amendmentsList,
+                'statusValue'           => $statusValue,
+                'statusLabel'           => $statusLabel,
             );
 
         return $projectHeader;
@@ -1218,7 +1224,7 @@ class Projects_ProjectController extends Zend_Controller_Action
         $contactId = $responsibleData['contactId'];
         $contactName = $responsibleData['contactName'];
         $institutionId = $responsibleData['institutionId'];
-        $statusLabel = $this->view->translate($responsibleData['statusLabel']);
+        $statusLabel = $this->view->translate($responsibleData['responsibleStatusLabel']);
         $canContract = $responsibleData['canContract'];
         $canDismiss = $responsibleData['canDismiss'];
         $canProvideOutlay = $responsibleData['canProvideOutlay'];

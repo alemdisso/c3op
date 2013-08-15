@@ -749,7 +749,7 @@ class Projects_ActionController extends Zend_Controller_Action
 
 
 
-            $statusLabel = $this->view->translate($responsibleData['statusLabel']);
+            $statusLabel = $this->view->translate($responsibleData['responsibleStatusLabel']);
             $canContract = $responsibleData['canContract'];
             $canDismiss = $responsibleData['canDismiss'];
             $canProvideOutlay = $responsibleData['canProvideOutlay'];
