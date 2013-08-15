@@ -3,6 +3,7 @@
         </div>
 <form id="form" action="<?php echo $this->escape($this->form->getAction()); ?>" method="<?php echo $this->escape($this->form->getMethod()); ?>">
 <table>
+  <?php echo $this->form->requirementForReceiving ?>
   <?php echo $this->form->project ?>
   <?php echo $this->form->product ?>
   <?php echo $this->form->title ?>
