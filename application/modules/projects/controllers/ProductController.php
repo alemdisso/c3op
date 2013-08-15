@@ -358,8 +358,8 @@ class Projects_ProductController extends Zend_Controller_Action
     public function leanCreateAction()
     {
         // cria form
+        $this->_helper->layout->disableLayout();
         $form = new C3op_Form_ProductLeanCreate;
-        $this->view->form = $form;
 
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
@@ -391,6 +391,7 @@ class Projects_ProductController extends Zend_Controller_Action
             $element->setValue($requirementForReceiving);
             $element = $form->getElement('project');
             $element->setValue($projectId);
+            $this->view->form = $form;
 
             $pageData = array(
                 'id'           => $projectId,

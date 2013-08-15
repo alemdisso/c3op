@@ -312,9 +312,9 @@ if ($parentId > 0) {
   if ($actionHeader['waitingToReceipt']) {
 ?>
           <div class="two columns">
-          
+
           </div>
-          
+
           <div class="three" id="acknowledgeReceipt-<?php print($actionHeader['id']);?>">
             <a class="button" href="javascript:acknowledgeReceipt('<?php print($actionHeader['id']); ?>');"><img src="/images/icon_confirm.png" align="absmiddle" /> <?php print($this->translate("#Confirm task realization")); ?></a>
           </div>
@@ -333,21 +333,21 @@ if ($parentId > 0) {
 ?>
             <a anchor="start"></a>
             <!--<br clear="all" />-->
-            
+
             <div class="two columns">
-            
+
             </div>
-            
+
             <div class="five columns" id='acknowledgeStart-<?php print($actionHeader['id']); ?>'>
               <a class="button" href="javascript:acknowledgeStart('<?php print($actionHeader['id']); ?>');"><img src="/images/icon_confirm.png" align="absmiddle" /> <?php print($this->translate("#Acknowledge start")); ?></a>
             </div>
-            
+
             <div class="seven columns" id='changeStartButton'>
               <a class="button" href="/projects/action/change-start/?id=<?php print($actionHeader['id']); ?>"><img src="/images/icon_calendar.png" align="absmiddle" /> <?php print($this->translate("#Change start date")); ?></a>
             </div>
-            
+
             <br clear="all" />
-          
+
 <?php
   }
 ?>
@@ -520,6 +520,7 @@ if ($actionHeader['hasDefinedResponsible']) {
 
             <br class="clear"/>
             <a class="alpha" href="#responsible" id="hideResponsibleHref"><?php print($this->translate("#Hide form")); ?></a>
+
           </div>
           </div>
 <?php
@@ -858,9 +859,9 @@ if ($materialSupplyData['canRemoveMaterialSupply']) {
           </table>
 
           <br clear="all" />
-           
+
           <a href="/resources/material-supply/create/?actionId=<?php print($actionHeader['id']); ?>" class="button"><?php print($this->translate("#Anticipate material supply")); ?></a>
-          
+
             </div><!-- Area -->
 
           </div><!-- #tabs-material -->
