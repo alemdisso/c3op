@@ -159,7 +159,7 @@
 #Breadcrumb {
   border-top: #bb2f39 4px solid;
   border-bottom: #aaaaa9 1px solid;
-  height: 35px;
+ /* height: 35px;*/
   line-height: 35px;
   background: url(/images/icon_breadcrumb.png) no-repeat left 10px;
   padding-left: 20px;
