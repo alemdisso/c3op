@@ -111,7 +111,7 @@ function submitResponsibleForm()
 {
 
 
-$.post("/resources/responsible/create", $("#newResponsibleForm").serialize(), function(successReturn){
+$.post("/resources/responsible/edit", $("#newResponsibleForm").serialize(), function(successReturn){
       $('#responsibleDiv').html(successReturn);
     });
 }
