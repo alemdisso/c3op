@@ -179,9 +179,12 @@ $(document).ready(function(){
 		  <div class="two columns alpha">
            <span class="label"><?php print($this->translate("#Status")); ?>:</span>
           </div>
-          <div class="twelve columns">
-           <strong><?php print($this->translate($actionHeader['status'])); ?>&nbsp;&nbsp;&nbsp;<img src="/images/status_mark.jpg" align="absmiddle" /></strong>
+          <div class="four columns">
+           <strong><?php print($this->translate($actionHeader['status'])); ?></strong> <div id="progressbar"><div style="width:100%;"></div></div><!-- No lugar do 100% entra uma variável que dará o resultado do status em %-->
           </div>
+          
+          <br clear="all" />
+          
           <div class="two columns alpha">
             <span class="label"><?php print($this->translate("#Supervisor:")); ?></span>
           </div>
@@ -235,11 +238,11 @@ if ($parentId > 0) {
           <div class="two columns">
             <?php print($this->translate($actionHeader['predictedFinishDate'])); ?>
           </div>
-          <div class="two columns inset-by-two omega">
+          <div class="four columns">
 <?php
             if ($actionHeader['isAMilestone']) {
 ?>
-            <img src="/images/icon_icon_milestone.png" align="absmiddle" /> <?php print($this->translate('#Is a milestone')); ?>
+            <img src="/images/icon_milestone.png" align="absmiddle" /> <?php print($this->translate('#Is a milestone')); ?>
 
 <?
             } else {
