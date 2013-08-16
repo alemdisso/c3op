@@ -116,7 +116,7 @@ $(document).ready(function(){
     <div id="MainHeader">
       <h1><span class="weight_normal"><?php echo $this->translate("#Project") ?></span> <?php print($projectHeader['projectTitle']) ?></h1>
     </div>
-    
+
     <div class="TituloForm">
       <a href="/projects/project/edit/?id=<?php echo $projectHeader['id'] ?>" class="bt"><img src="/images/icon_edit.png" align="middle" /> <?php echo $this->translate("#Edit project") ?></a>
 <?php
@@ -136,7 +136,7 @@ if ($projectHeader['hasContract']) {
 }
 ?>
     </div>
-    
+
     <div class="AreaInfo">
       <div class="three columns">
         <span class="label"><?php echo $this->translate("#Client:") ?></span>
@@ -228,7 +228,6 @@ foreach($amendmentsList as $id => $contractInfo) {
 
       <div id="tabs-products">
         <div class="Area">
-           <h2><?php echo $this->translate("#Product") ?></h2>
            <table id="Products" class="display dataTable">
               <thead>
                 <tr>
