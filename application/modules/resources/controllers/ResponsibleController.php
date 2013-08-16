@@ -178,6 +178,15 @@ class Resources_ResponsibleController extends Zend_Controller_Action
                 $this->view->form = $form;
             }
         } else {
+
+            $user = Zend_Registry::get('user');
+            $test = new C3op_Access_UserCanSeeFinances($user);
+            if ($test->can()) {
+                $canSeeFinances = true;
+            } else {
+                $canSeeFinances = false;
+            }
+
             $data = $this->_request->getParams();
 
             $actionId = $data['actionId'];
@@ -192,13 +201,11 @@ class Resources_ResponsibleController extends Zend_Controller_Action
             $projectId = $parentAction->getProject();
             $projectAction = $this->projectMapper->findById($projectId);
 
-            $actionField = $form->getElement('action');
-            $actionField->setValue($actionId);
-            $projectField = $form->getElement('project');
-            $projectField->setValue($projectId);
-            $valueField = $form->getElement('predictedValue');
-            $valueField->setValue($parentAction->getBudgetForecast());
-            $linkageField = $form->getElement('linkage');
+            $element = $form->getElement('action');
+            $element->setValue($actionId);
+            $element = $form->getElement('project');
+            $element->setValue($projectId);
+            $element = $form->getElement('linkage');
             if (!isset($this->contactMapper)) {
                 $this->contactMapper = new C3op_Register_ContactMapper($this->db);
             }
@@ -206,10 +213,10 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
             while (list($key, $linkageData) = each($allLinkedContacts)) {
                 $linkageLabel = $linkageData['name'] . " ({$linkageData['short_name']})";
-                $linkageField->addMultiOption($linkageData['linkage'], $linkageLabel);
+                $element->addMultiOption($linkageData['linkage'], $linkageLabel);
             }
 
-            $institutionField = $form->getElement('institution');
+            $element = $form->getElement('institution');
             if (!isset($this->institutionMapper)) {
                 $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
             }
@@ -217,7 +224,15 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
             while (list($key, $institutionData) = each($allInstitutions)) {
                 $institutionLabel = $institutionData['short_name'];
-                $institutionField->addMultiOption($institutionData['id'], $institutionLabel);
+                $element->addMultiOption($institutionData['id'], $institutionLabel);
+            }
+
+            if ($canSeeFinances) {
+                $element = $form->getElement('predictedValue');
+                $element->setValue($parentAction->getBudgetForecast());
+
+            } else {
+                $form->removeElement('predictedValue');
             }
 
             $finder = new C3op_Projects_ActionRelatedProduct($parentAction,$this->actionMapper);
@@ -236,7 +251,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
             'projectId' => $parentAction->GetProject(),
             'projectTitle' => $projectAction->GetShortTitle(),
             'balance' => $balance,
-            'canSeeFinances' => false,
+            'canSeeFinances' => $canSeeFinances,
         );
 
         $this->view->pageData = $pageData;
