@@ -143,12 +143,15 @@ class C3op_Form_ResponsibleCreate extends Zend_Form
                 $responsible->setStatus(C3op_Resources_ResponsibleStatusConstants::STATUS_UNDEFINED);
             }
 
-                $responsible->SetAction($this->action->GetValue());
-                $responsible->SetProject($this->project->GetValue());
-            $converter = new C3op_Util_DecimalConverter();
-            $validator = new C3op_Util_ValidDecimal();
-            if ($validator->isValid($this->predictedValue->GetValue())) {
-                $responsible->SetPredictedValue($converter->getDecimalDotValue($this->predictedValue->GetValue(), $validator));
+            $responsible->SetAction($this->action->GetValue());
+            $responsible->SetProject($this->project->GetValue());
+
+            if (isset($this->predictedValue)) {
+                $converter = new C3op_Util_DecimalConverter();
+                $validator = new C3op_Util_ValidDecimal();
+                if ($validator->isValid($this->predictedValue->GetValue())) {
+                    $responsible->SetPredictedValue($converter->getDecimalDotValue($this->predictedValue->GetValue(), $validator));
+                }
             }
 
             $responsibleMapper->insert($responsible);
