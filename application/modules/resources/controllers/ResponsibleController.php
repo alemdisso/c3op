@@ -604,6 +604,15 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
     }
 
+    public function updateAboutAction() {
+        $this->_helper->layout->disableLayout();
+
+    }
+
+    public function updateAboutUndefinedAction() {
+        $this->_helper->layout->disableLayout();
+    }
+
 
     private function checkIdFromGet()
     {
