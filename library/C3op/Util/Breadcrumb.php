@@ -51,13 +51,13 @@ class C3op_Util_Breadcrumb{
    public $reset=false;//reset the $_session variable
    private $crumbs = array();
    private $maxUrlCount=10;// number of links allowed on the page
-   private $homepage="/";
+   private $homepage="#Home";
 
 
    /*
     * Constructor
     */
-   public function __construct($reset = false, $homepage = ""){
+   public function __construct($reset = false, $homepage = "#Home"){
        $this->reset = $reset;
        $this->homepage = $homepage;
 
@@ -93,94 +93,56 @@ class C3op_Util_Breadcrumb{
     */
    public function add($label, $uri){
 
-      $crumb = array();
-      $crumb[$uri] = $label;
+      $crumb = array('uri' =>$uri, 'label' => $label);
 
       if (empty($_SESSION['breadcrumb'])){
-
-
-
-         if (!isset($_SESSION['breadcrumb']['/'])){ //If there's no session data yet, assume a homepage link
-
-            $this->crumbs['/'] = $this->homepage;
-            $_SESSION['breadcrumb']=$this->crumbs;
-
-         }
+//        $this->crumbs[] = array('uri' =>"/", 'label' => $this->homepage);
+//        $_SESSION['breadcrumb']=$this->crumbs;
+          $_SESSION['breadcrumb'] = array();
 
       }
+      $_SESSION['breadcrumb'][] = $crumb;
 
 
-         $check_duplicate=$this->check_duplicate($crumb, $_SESSION['breadcrumb']);
+         //$check_duplicate=$this->check_duplicate($crumb, $_SESSION['breadcrumb']);
+//         if($check_duplicate > 0){
+//
+//         	$break_array=$this->break_array($_SESSION['breadcrumb'],$crumb);
+//
+//         	$array_merge=$this->safe_array_merge($break_array,$crumb);
+//         	//clear session variable
+//         	 //and prepare the session variable to be loaded with the exact information location
+//         	$this->unset_variable();
+//
+//         	$output=$this->output($break_array,$label,$uri);
+//
+//
+//         	//put the merged array in the session variable
+//         	//this is where the user is at the moment
+//         	 $_SESSION['breadcrumb'] =$array_merge;
+//
+//
+//         }else {
+//
 
+//         	$output=$this->output($_SESSION['breadcrumb'],$label,$uri);
 
-         if($check_duplicate > 0){
+         	 //$_SESSION['breadcrumb'] = $this->safe_array_merge($_SESSION['breadcrumb'],$crumb);
 
-         	$break_array=$this->break_array($_SESSION['breadcrumb'],$crumb);
-
-         	$array_merge=$this->safe_array_merge($break_array,$crumb);
-         	//clear session variable
-         	 //and prepare the session variable to be loaded with the exact information location
-         	$this->unset_variable();
-
-         	$output=$this->output($break_array,$label,$uri);
-
-
-         	//put the merged array in the session variable
-         	//this is where the user is at the moment
-         	 $_SESSION['breadcrumb'] =$array_merge;
-
-
-         }else {
-
-
-         	$output=$this->output($_SESSION['breadcrumb'],$label,$uri);
-
-         	 $_SESSION['breadcrumb'] = $this->safe_array_merge($_SESSION['breadcrumb'],$crumb);
-
-
-         }
-
+//         }
+//
 
 
 
         //return the output
 
-        return $output;
+        return $_SESSION['breadcrumb'];
 
    }
 
    public function getCrumbs()
    {
        return $this->crumbs;
-   }
-
-   /*
-    * Output a semantic list of links.  See above for sample CSS.  Modify this to suit your design.
-    */
-   private  function output($array,$label,$uri){
-
-
-
-   	$count=0;
-        $link = "";
-
-   	$link .="<div id='breadcrumb'><ul>";
-
-   	foreach ($array as $key=>$value){
-   		$count++;
-
-   		if($count < $this->maxUrlCount){
-
-   			$link .="<li><a href='".$value."' title='".$key."'>".$key."</a></li>$this->separator ";
-   		}
-
-   	}
-   	//attach the last link
-
-   	$link .="<li>$label</li> ";
-	$link .="</ul></div>";
-
-	return $link;
    }
 
    /**
@@ -248,6 +210,20 @@ class C3op_Util_Breadcrumb{
            	array_pop($array1); //prune until we reach the $level we've allocated to this page
 
          }
+
+		return $array1;
+	}
+
+	private function purge_array($array1,$array2){
+
+
+		$count=0;
+		foreach ($array1 as $key=>$crumb){
+			$count++;
+			if(($crumb['uri'] == ($array2['uri'])) && ($crumb['label'] == ($array2['label']))){
+                            unset($array1[$key]);
+			}
+		}
 
 		return $array1;
 	}
