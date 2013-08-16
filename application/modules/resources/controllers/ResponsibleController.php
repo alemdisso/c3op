@@ -264,6 +264,16 @@ class Resources_ResponsibleController extends Zend_Controller_Action
         $this->_helper->layout->disableLayout();
         $form = new C3op_Form_ResponsibleEdit;
         $this->view->form = $form;
+
+        $user = Zend_Registry::get('user');
+        $test = new C3op_Access_UserCanSeeFinances($user);
+        if ($test->can()) {
+            $canSeeFinances = true;
+        } else {
+            $canSeeFinances = false;
+        }
+
+
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
             if ($form->isValid($postData)) {
@@ -305,30 +315,55 @@ class Resources_ResponsibleController extends Zend_Controller_Action
                     $this->responsibleMapper = new C3op_Resources_ResponsibleMapper($this->db);
                 }
                 $thisResponsible = $this->responsibleMapper->findById($id);
-                $idField = $form->getElement('id');
-                $idField->setValue($id);
+                $element = $form->getElement('id');
+                $element->setValue($id);
 
-                $contractedValue = "";
+                $element = $form->getElement('action');
+                $element->setValue($thisResponsible->getAction());
+                $element = $form->getElement('project');
+                $element->setValue($thisResponsible->getProject());
+                if (!isset($this->actionMapper)) {
+                    $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
+                }
+                $parentAction = $this->actionMapper->findById($thisResponsible->getAction());
+
+                $contractedValue = null;
                 $contracting = new C3op_Resources_ResponsibleContracting();
                 $isContracted = $contracting->isUnderContract($thisResponsible);
                 if ($isContracted) {
                     $contractedValue = $thisResponsible->getContractedValue();
 
                 }
-                $valueField = $form->getElement('contractedValue');
-                $valueField->setValue($contractedValue);
-                $valueField = $form->getElement('predictedValue');
-                $valueField->setValue($thisResponsible->getPredictedValue());
+                if ($canSeeFinances) {
+                    $finder = new C3op_Projects_ActionRelatedProduct($parentAction,$this->actionMapper);
+                    $productObj = $finder->retrieve();
+                    $actionBalance = new  C3op_Finances_ActionBalance($productObj,$this->actionMapper);
+                    $rawBalance = $actionBalance->getBalance();
+                    $currencyDisplay = new  C3op_Util_CurrencyDisplay();
+                    $balance = $currencyDisplay->FormatCurrency($rawBalance);
 
-                $typeField = $form->getElement('responsibleType');
+                    $element = $form->getElement('contractedValue');
+                    $element->setValue($contractedValue);
+                    $element = $form->getElement('predictedValue');
+                    $element->setValue($thisResponsible->getPredictedValue());
+
+
+                } else {
+                    $form->removeElement('predictedValue');
+                    $balance = null;
+                }
+
+
+
+                $element = $form->getElement('responsibleType');
                 $responsibleType = $thisResponsible->getType();
                 if ($responsibleType == C3op_Resources_ResponsibleTypeConstants::TYPE_TEAM_MEMBER) {
-                    $typeField->setValue("teamMember");
+                    $element->setValue("teamMember");
                     if (!isset($this->linkageMapper)) {
                         $this->linkageMapper = new C3op_Register_LinkageMapper($this->db);
                     }
                     $linkage = $this->linkageMapper->findByContactAndInstitution($thisResponsible->getContact(), $thisResponsible->getInstitution());
-                    $linkageField = $form->getElement('linkage');
+                    $element = $form->getElement('linkage');
                     if (!isset($this->contactMapper)) {
                         $this->contactMapper = new C3op_Register_ContactMapper($this->db);
                     }
@@ -336,37 +371,37 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
                     while (list($key, $linkageData) = each($allLinkedContacts)) {
                         $linkageLabel = $linkageData['name'] . " ({$linkageData['short_name']})";
-                        $linkageField->addMultiOption($linkageData['linkage'], $linkageLabel);
+                        $element->addMultiOption($linkageData['linkage'], $linkageLabel);
                     }
                     if ($linkage) {
-                        $linkageField->setValue($linkage->getId());
-                        $institutionField = $form->getElement('institution');
+                        $element->setValue($linkage->getId());
+                        $element = $form->getElement('institution');
                         if ($linkage->getInstitution() > 0) {
                             if (!isset($this->institutionMapper)) {
                                 $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
                             }
                             $linkageInstitution = $this->institutionMapper->findById($linkage->getInstitution());
-                            $institutionField->addMultiOption($linkage->getInstitution(), $linkageInstitution->getShortName());
-                            $institutionField->SetValue($linkage->getInstitution());
+                            $element->addMultiOption($linkage->getInstitution(), $linkageInstitution->getShortName());
+                            $element->SetValue($linkage->getInstitution());
                         }
 
                     }
 
                 } else if ($responsibleType == C3op_Resources_ResponsibleTypeConstants::TYPE_OUTSIDE_SERVICE) {
 
-                    $institutionField = $form->getElement('institution');
+                    $element = $form->getElement('institution');
                     if (!isset($this->institutionMapper)) {
                         $this->institutionMapper = new C3op_Register_InstitutionMapper($this->db);
                     }
                     $allInstitutions = $this->institutionMapper->getAllServiceSuppliers();
                     while (list($key, $institutionData) = each($allInstitutions)) {
                         $institutionLabel = $institutionData['short_name'];
-                        $institutionField->addMultiOption($institutionData['id'], $institutionLabel);
+                        $element->addMultiOption($institutionData['id'], $institutionLabel);
                     }
-                    $institutionField->setValue($thisResponsible->getInstitution());
+                    $element->setValue($thisResponsible->getInstitution());
 
 
-                    $linkageField = $form->getElement('linkage');
+                    $element = $form->getElement('linkage');
                     if ($thisResponsible->getInstitution() > 0) {
                         if (!isset($this->contactMapper)) {
                             $this->initContactMapper();
@@ -378,7 +413,7 @@ class Resources_ResponsibleController extends Zend_Controller_Action
                             $linkageId = $contactData['linkageId'];
                             $loopContact = $this->contactMapper->findById($contactId);
                             $name = $loopContact->getName();
-                            $linkageField->addMultiOption($linkageId, $name);
+                            $element->addMultiOption($linkageId, $name);
                         }
 
                         if ($thisResponsible->getInstitution() > 0) {
@@ -395,29 +430,12 @@ class Resources_ResponsibleController extends Zend_Controller_Action
                             $linkageId = 0;
 
                         }
-
-
-
-                        $linkageField->setValue($linkageId);
+                        $element->setValue($linkageId);
                     } else {
-                        $linkageField->setValue(0);
-
+                        $element->setValue(0);
                     }
-
-
-
-                    $typeField->setValue("service");
-
+                    $element->setValue("service");
                 }
-
-                $actionField = $form->getElement('action');
-                $actionField->setValue($thisResponsible->getAction());
-                $projectField = $form->getElement('project');
-                $projectField->setValue($thisResponsible->getProject());
-                if (!isset($this->actionMapper)) {
-                    $this->actionMapper = new C3op_Projects_ActionMapper($this->db);
-                }
-                $parentAction = $this->actionMapper->findById($thisResponsible->getAction());
 
                 if (!isset($this->linkageMapper)) {
                     $this->linkageMapper = new C3op_Register_LinkageMapper($this->db);
@@ -429,21 +447,6 @@ class Resources_ResponsibleController extends Zend_Controller_Action
                 $projectAction = $this->projectMapper->findById($parentAction->getProject());
 
             }
-
-            $user = Zend_Registry::get('user');
-            $test = new C3op_Access_UserCanSeeFinances($user);
-            if ($test->can()) {
-                $canSeeFinances = true;
-            } else {
-                $canSeeFinances = false;
-            }
-
-            $finder = new C3op_Projects_ActionRelatedProduct($parentAction,$this->actionMapper);
-            $productObj = $finder->retrieve();
-            $actionBalance = new  C3op_Finances_ActionBalance($productObj,$this->actionMapper);
-            $rawBalance = $actionBalance->getBalance();
-            $currencyDisplay = new  C3op_Util_CurrencyDisplay();
-            $balance = $currencyDisplay->FormatCurrency($rawBalance);
 
 
 
@@ -501,8 +504,8 @@ class Resources_ResponsibleController extends Zend_Controller_Action
 
                 }
 
-                $idField = $form->getElement('id');
-                $idField->setValue($id);
+                $element = $form->getElement('id');
+                $element->setValue($id);
                 $this->initActionMapper();
                 $thisAction = $this->actionMapper->findById($thisResponsible->getAction());
 

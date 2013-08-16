@@ -97,13 +97,19 @@ class C3op_Form_ResponsibleEdit extends C3op_Form_ResponsibleCreate
 
             }
 
-            $converter = new C3op_Util_DecimalConverter();
-            $validator = new C3op_Util_ValidDecimal();
-            if ($validator->isValid($this->predictedValue->GetValue())) {
-                $responsible->SetPredictedValue($converter->getDecimalDotValue($this->predictedValue->GetValue(), $validator));
+            if (isset($this->predictedValue)) {
+                $converter = new C3op_Util_DecimalConverter();
+                $validator = new C3op_Util_ValidDecimal();
+                if ($validator->isValid($this->predictedValue->GetValue())) {
+                    $responsible->SetPredictedValue($converter->getDecimalDotValue($this->predictedValue->GetValue(), $validator));
+                }
             }
-            if ($validator->isValid($this->contractedValue->GetValue())) {
-                $responsible->SetContractedValue($converter->getDecimalDotValue($this->contractedValue->GetValue(), $validator));
+            if (isset($this->contractedValue)) {
+                $converter = new C3op_Util_DecimalConverter();
+                $validator = new C3op_Util_ValidDecimal();
+                if ($validator->isValid($this->contractedValue->GetValue())) {
+                    $responsible->SetContractedValue($converter->getDecimalDotValue($this->contractedValue->GetValue(), $validator));
+                }
             }
 
             $responsibleMapper->update($responsible);
