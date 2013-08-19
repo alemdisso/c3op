@@ -269,6 +269,9 @@ class C3op_Projects_Action {
             if ($dateValidator->isValid($predictedBeginDate)) {
                 if ($this->predictedBeginDate != $predictedBeginDate) {
                     $this->predictedBeginDate = $predictedBeginDate;
+                    if (is_null($this->baselineBeginDate)) {
+                        $this->baselineBeginDate = $predictedBeginDate;
+                    }
                 }
             } else {
                 throw new C3op_Projects_ActionException("This ($predictedBeginDate) is not a valid date of begin.");
@@ -288,6 +291,9 @@ class C3op_Projects_Action {
             if ($dateValidator->isValid($predictedFinishDate)) {
                 if ($this->predictedFinishDate != $predictedFinishDate) {
                     $this->predictedFinishDate = $predictedFinishDate;
+                    if (is_null($this->baselineFinishDate)) {
+                        $this->baselineFinishDate = $predictedFinishDate;
+                    }
                 }
             } else {
                 throw new C3op_Projects_ActionException("This ($predictedFinishDate) is not a valid date of finish.");

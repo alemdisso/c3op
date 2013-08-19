@@ -110,10 +110,23 @@ class C3op_Form_ChangeStartDate extends Zend_Form
             $timePredictedDate = strtotime($predictedDate);
             $timeNewStartDate = strtotime($newStartDate);
 
+            $projectMapper = new C3op_Projects_ProjectMapper($db);
+            $project = $projectMapper->findById($action->getProject());
+            $projectStatus = $project->getStatus();
+
             if ($compare->isFuture($newStartDate)) {
                 $cancelment = new C3op_Projects_ActionCancelStart($action);
                 $actionMapper->deleteLastAutomaticStartEvent($action);
-                $dateChanger->ChangePredictedBeginDate($newStartDate, $observation);
+
+                if (($projectStatus == C3op_Projects_ProjectStatusConstants::STATUS_PROSPECTING)
+                    || ($projectStatus == C3op_Projects_ProjectStatusConstants::STATUS_PLANNING)
+                    || ($projectStatus == C3op_Projects_ProjectStatusConstants::STATUS_PROPOSAL)) {
+                    $dateChanger->ChangeBaselineBeginDate($newStartDate, $observation);
+                    $dateChanger->ChangePredictedBeginDate($newStartDate, $observation);
+
+                } else {
+                    $dateChanger->ChangePredictedBeginDate($newStartDate, $observation);
+                }
 
                 $dateChanger->ChangeRealBeginDate(null, $observation);
                 $action->setStatus(C3op_Projects_ActionStatusConstants::STATUS_PLAN);
@@ -128,7 +141,18 @@ class C3op_Form_ChangeStartDate extends Zend_Form
             if ($dateValidator->isValid($newFinishDate)) {
                 $converter = new C3op_Util_DateConverter();
                 $newFinishDate = $converter->convertDateToMySQLFormat($newFinishDate);
-                $dateChanger->ChangePredictedFinishDate($newFinishDate, $observation);
+
+                if (($projectStatus == C3op_Projects_ProjectStatusConstants::STATUS_PROSPECTING)
+                    || ($projectStatus == C3op_Projects_ProjectStatusConstants::STATUS_PLANNING)
+                    || ($projectStatus == C3op_Projects_ProjectStatusConstants::STATUS_PROPOSAL)) {
+                    $dateChanger->ChangeBaselineBeginDate($newFinishDate, $observation);
+                    $dateChanger->ChangePredictedFinishDate($newFinishDate, $observation);
+
+                } else {
+                    $dateChanger->ChangePredictedFinishDate($newFinishDate, $observation);
+                }
+
+
             }
 
 

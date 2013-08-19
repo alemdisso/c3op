@@ -102,9 +102,9 @@ class C3op_Form_ProductCreate extends Zend_Form
             ->addFilter('StringTrim');
         $this->addElement($element);
 
-        $element = new Zend_Form_Element_Text('predictedBeginDate');
+        $element = new Zend_Form_Element_Text('baselineBeginDate');
         $dateValidator = new C3op_Util_ValidDate();
-        $element->setLabel('#Begin date:')
+        $element->setLabel('#Baseline Begin date:')
             ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
@@ -117,8 +117,8 @@ class C3op_Form_ProductCreate extends Zend_Form
             ->addFilter('StringTrim');
         $this->addElement($element);
 
-        $element = new Zend_Form_Element_Text('predictedFinishDate');
-        $element->setLabel('#Finish date:')
+        $element = new Zend_Form_Element_Text('baselineFinishDate');
+        $element->setLabel('#BaselineFinish date:')
             ->setDecorators(array(
                 'ViewHelper',
                 'Errors',
@@ -132,6 +132,69 @@ class C3op_Form_ProductCreate extends Zend_Form
             ->addFilter('StringTrim');
         $this->addElement($element);
 
+        // the following fields will be shown just for Sys Admin users  (look at scripts/(...)/create.phtml)
+
+        $element = new Zend_Form_Element_Text('predictedBeginDate');
+        $dateValidator = new C3op_Util_ValidDate();
+        $element->setLabel('#Predicted to begin:')
+            ->setDecorators(array(
+                'ViewHelper',
+                'Errors',
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+            ))
+            ->setOptions(array('class' => 'Full alpha omega datepicker'))
+            ->setRequired(false)
+            ->addValidator($dateValidator)
+            ->addFilter('StringTrim');
+        $this->addElement($element);
+
+        $element = new Zend_Form_Element_Text('predictedFinishDate');
+        $element->setLabel('#Predicted to finish:')
+            ->setDecorators(array(
+                'ViewHelper',
+                'Errors',
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns inset-by-three omega')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
+            ))
+            ->setOptions(array('class' => 'Full alpha omega datepicker'))
+            ->setRequired(false)
+            ->addValidator('date')
+            ->addFilter('HtmlEntities')
+            ->addFilter('StringTrim');
+        $this->addElement($element);
+
+        $element = new Zend_Form_Element_Text('realBeginDate');
+        $dateValidator = new C3op_Util_ValidDate();
+        $element->setLabel('#Real Begin date:')
+            ->setDecorators(array(
+                'ViewHelper',
+                'Errors',
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'three columns alpha Right')),
+            ))
+            ->setOptions(array('class' => 'Full alpha omega datepicker'))
+            ->setRequired(false)
+            ->addValidator($dateValidator)
+            ->addFilter('StringTrim');
+        $this->addElement($element);
+
+        $element = new Zend_Form_Element_Text('realFinishDate');
+        $element->setLabel('#Real Finish date:')
+            ->setDecorators(array(
+                'ViewHelper',
+                'Errors',
+                array(array('data' => 'HtmlTag'), array('tagClass' => 'div', 'class' => 'three columns inset-by-three omega')),
+                array('Label', array('tag' => 'div', 'tagClass' => 'two columns Right')),
+            ))
+            ->setOptions(array('class' => 'Full alpha omega datepicker'))
+            ->setRequired(false)
+            ->addValidator('date')
+            ->addFilter('HtmlEntities')
+            ->addFilter('StringTrim');
+        $this->addElement($element);
+        // the fields above will be shown just for Sys Admin users (look at scripts/(...)/create.phtml)
+        // 
         // create submit button
         $submit = new Zend_Form_Element_Submit('submit');
         $submit->setLabel('#Submit') //Gravar
@@ -161,19 +224,21 @@ class C3op_Form_ProductCreate extends Zend_Form
 
             $action->SetStatus(C3op_Projects_ActionStatusConstants::STATUS_PLAN);
             $action->SetDescription($this->description->GetValue());
-            $predictedBeginDate = $this->predictedBeginDate->GetValue();
+            $baselineBeginDate = $this->baselineBeginDate->GetValue();
             $dateValidator = new C3op_Util_ValidDate();
-            if ($dateValidator->isValid($predictedBeginDate)) {
+            if ($dateValidator->isValid($baselineBeginDate)) {
                 $converter = new C3op_Util_DateConverter();
-                $dateForMysql = $converter->convertDateToMySQLFormat($predictedBeginDate);
+                $dateForMysql = $converter->convertDateToMySQLFormat($baselineBeginDate);
+                $action->SetBaselineBeginDate($dateForMysql);
                 $action->SetPredictedBeginDate($dateForMysql);
             }
 
-            $predictedFinishDate = $this->predictedFinishDate->GetValue();
+            $baselineFinishDate = $this->baselineFinishDate->GetValue();
             $dateValidator = new C3op_Util_ValidDate();
-            if ($dateValidator->isValid($predictedFinishDate)){
+            if ($dateValidator->isValid($baselineFinishDate)){
                 $converter = new C3op_Util_DateConverter();
-                $dateForMysql = $converter->convertDateToMySQLFormat($predictedFinishDate);
+                $dateForMysql = $converter->convertDateToMySQLFormat($baselineFinishDate);
+                $action->SetBaselineFinishDate($dateForMysql);
                 $action->SetPredictedFinishDate($dateForMysql);
             }
 

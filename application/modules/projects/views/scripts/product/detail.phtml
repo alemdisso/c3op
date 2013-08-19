@@ -169,7 +169,7 @@ $(document).ready(function(){
 
           <h2><?php print(sprintf($this->translate("#Product %s"), $actionHeader['title'])); ?></h2>
 
-                <a class="button" href="/projects/action/edit/?id=<?php echo $actionHeader['id'] ?>"><img src="/images/icon_edit.png" align="absmiddle" /> <?php echo $this->translate("#Edit product") ?></a>
+                <a class="button" href="/projects/product/edit/?id=<?php echo $actionHeader['id'] ?>"><img src="/images/icon_edit.png" align="absmiddle" /> <?php echo $this->translate("#Edit product") ?></a>
 <?php
     if ($actionHeader['canRemoveAction']) {
 ?>
@@ -324,7 +324,7 @@ if ($parentId > 0) {
               </div>
             </div>
           </div>
-          
+
           <br clear="all" />
 
 &nbsp;
@@ -341,16 +341,16 @@ if ($parentId > 0) {
 ?>
           <a anchor="start"></a>
           <div class="two columns">
-          
+
           </div>
           <div class="five columns" id='acknowledgeStart-<?php print($actionHeader['id']); ?>'>
               <a class="button" href="javascript:acknowledgeStart('<?php print($actionHeader['id']); ?>');"><?php print($this->translate("#Acknowledge start")); ?></a>
           </div>
-            
+
        	 <div class="seven columns" id='changeStartButton'>
               <a class="button" href="/projects/action/change-start/?id=<?php print($actionHeader['id']); ?>"><?php print($this->translate("#Change start date")); ?></a>
           </div>
-          
+
           <br clear="all" />
 <?php
   }
@@ -391,14 +391,14 @@ if ($parentId > 0) {
 ?>
 
 		  <div class="two columns">
-          
+
           </div>
           <div class="twelve columns" id="receiptAcknowledgement-<?php print($actionHeader['id']);?>">
                 <a class="button" href="/projects/product/delivery-notify/?id=<?php print($actionHeader['id']); ?>"><?php print($this->translate("#Notify product delivery")); ?></a>
           </div>
-          
+
 		  <br clear="all" />
-          
+
 <?php
   }
 ?>

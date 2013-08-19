@@ -117,21 +117,36 @@ class C3op_Form_ActionEdit extends C3op_Form_ActionCreate
 
             $action->SetProduct($data['product']);
 
-            $baselineBeginDate = $data['baselineBeginDate'];
-            $dateValidator = new C3op_Util_ValidDate();
-            if ($dateValidator->isValid($baselineBeginDate)) {
-                $converter = new C3op_Util_DateConverter();
-                $dateForMysql = $converter->convertDateToMySQLFormat($baselineBeginDate);
-                $action->SetBaselineBeginDate($dateForMysql);
+            $projectMapper = new C3op_Projects_ProjectMapper($db);
+            $project = $projectMapper->findById($action->getProject());
+            $projectStatus = $project->getStatus();
+            if (($projectStatus == C3op_Projects_ProjectStatusConstants::STATUS_PROSPECTING)
+                || ($projectStatus == C3op_Projects_ProjectStatusConstants::STATUS_PLANNING)
+                || ($projectStatus == C3op_Projects_ProjectStatusConstants::STATUS_PROPOSAL)) {
+
+                $baselineBeginDate = $data['baselineBeginDate'];
+                $dateValidator = new C3op_Util_ValidDate();
+                if ($dateValidator->isValid($baselineBeginDate)) {
+                    $converter = new C3op_Util_DateConverter();
+                    $dateForMysql = $converter->convertDateToMySQLFormat($baselineBeginDate);
+                    $action->SetBaselineBeginDate($dateForMysql);
+                    $action->SetPredictedBeginDate($dateForMysql);
+                }
+
+                $baselineFinishDate = $data['baselineFinishDate'];
+                $dateValidator = new C3op_Util_ValidDate();
+                if ($dateValidator->isValid($baselineFinishDate)){
+                    $converter = new C3op_Util_DateConverter();
+                    $dateForMysql = $converter->convertDateToMySQLFormat($baselineFinishDate);
+                    $action->SetBaselineFinishDate($dateForMysql);
+                    $action->SetPredictedFinishDate($dateForMysql);
+                }
+
+
             }
 
-            $baselineFinishDate = $data['baselineFinishDate'];
-            $dateValidator = new C3op_Util_ValidDate();
-            if ($dateValidator->isValid($baselineFinishDate)){
-                $converter = new C3op_Util_DateConverter();
-                $dateForMysql = $converter->convertDateToMySQLFormat($baselineFinishDate);
-                $action->SetBaselineFinishDate($dateForMysql);
-            }
+
+
 
             $predictedBeginDate = $data['predictedBeginDate'];
             $dateValidator = new C3op_Util_ValidDate();

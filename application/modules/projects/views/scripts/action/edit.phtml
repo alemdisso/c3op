@@ -1,3 +1,6 @@
+<?php
+    $pageData = $this->pageData;
+?>
 <script type="text/javascript">
 
     function clearSubordinatedToField()
@@ -6,7 +9,7 @@
         $el.empty();
         $el.append($("<option></option")
             .attr("value", 0)
-            .text("(Um produto não pode ser subordinado a outra ação)"));
+            .text(<?php echo $this->translate("(A product can\'t be subordinated to other action)"); ?> ));
         $el.prop('disabled', true);
     }
 
@@ -61,4 +64,49 @@ $( document ).ready(function() {
         <div class="TituloForm">
           <h2><?php echo $this->translate("#Edit action") ?></h2>
         </div>
-<?php echo $this->form; ?>
+<form id="form" action="<?php echo $this->escape($this->form->getAction()); ?>" method="<?php echo $this->escape($this->form->getMethod()); ?>">
+<table>
+  <?php echo $this->form->id ?>
+  <?php echo $this->form->project ?>
+  <?php echo $this->form->subordinatedTo ?>
+  <?php echo $this->form->title ?>
+  <?php echo $this->form->supervisor ?>
+  <?php echo $this->form->description ?>
+<?php
+    if ($pageData['showBaseline']) {
+?>
+  <?php echo $this->form->baselineBeginDate ?>
+  <?php echo $this->form->baselineFinishDate ?>
+<?php
+    }
+?>
+<?php
+
+    if ($pageData['showPredicted']) {
+?>
+  <?php echo $this->form->predictedBeginDate ?>
+  <?php echo $this->form->predictedFinishDate ?>
+<?php
+    }
+?>
+<?php
+
+    if ($pageData['showReal']) {
+?>
+  <?php echo $this->form->realBeginDate ?>
+  <?php echo $this->form->realFinishDate ?>
+
+<?php
+    }
+?>
+<?php
+    if ($pageData['showStatus']) {
+?>
+  <?php echo $this->form->status ?>
+<?php
+    }
+?>
+  <?php echo $this->form->submit ?>
+</table>
+</form>
+

@@ -16,8 +16,40 @@
   <?php echo $this->form->requirementForReceiving ?>
   <?php echo $this->form->responsible ?>
   <?php echo $this->form->description ?>
+<?php
+    if ($pageData['showBaseline']) {
+?>
+  <?php echo $this->form->baselineBeginDate ?>
+  <?php echo $this->form->baselineFinishDate ?>
+<?php
+    }
+?>
+<?php
+
+    if ($pageData['showPredicted']) {
+?>
   <?php echo $this->form->predictedBeginDate ?>
   <?php echo $this->form->predictedFinishDate ?>
+<?php
+    }
+?>
+<?php
+
+    if ($pageData['showReal']) {
+?>
+  <?php echo $this->form->realBeginDate ?>
+  <?php echo $this->form->realFinishDate ?>
+
+<?php
+    }
+?>
+<?php
+    if ($pageData['showStatus']) {
+?>
+  <?php echo $this->form->status ?>
+<?php
+    }
+?>
   <?php echo $this->form->product ?>
   <?php echo $this->form->subordinatedTo ?>
   <?php echo $this->form->submit ?>

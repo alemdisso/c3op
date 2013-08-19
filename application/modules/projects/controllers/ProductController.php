@@ -317,19 +317,46 @@ class Projects_ProductController extends Zend_Controller_Action
 
                 $element = $form->getElement('milestone');
                 $element->setValue($inputAction->getMilestone());
-
-                $projectData = $this->populateProjectFields($inputAction->getProject(), $form);
-                $projectId = $projectData['id'];
-
                 $element = $form->getElement('description');
                 $element->setValue($inputAction->getDescription());
 
-                $this->setDateValueToFormField($form, 'predictedBeginDate', $inputAction->getPredictedBeginDate());
-                $this->setDateValueToFormField($form, 'predictedFinishDate', $inputAction->getPredictedFinishDate());
+                $projectData = $this->populateProjectFields($inputAction->getProject(), $form);
+
+                $projectId = $projectData['id'];
+                $this->initProjectMapper();
+                $project = $this->projectMapper->findById($projectId);
+                $projectStatus = $project->getStatus();
 
                 $user = Zend_Registry::get('user');
                 $role = $user->GetRole();
+
+                $showBaseline = false;
+                $showPredicted = false;
+                $showReal = false;
+                $showStatus = false;
+
+                if (($projectStatus == C3op_Projects_ProjectStatusConstants::STATUS_PROSPECTING)
+                    || ($projectStatus == C3op_Projects_ProjectStatusConstants::STATUS_PLANNING)
+                    || ($projectStatus == C3op_Projects_ProjectStatusConstants::STATUS_PROPOSAL)
+                    || ($role == C3op_Access_RolesConstants::ROLE_SYSADMIN)) {
+
+                    $this->setDateValueToFormField($form, 'baselineBeginDate', $inputAction->getBaselineBeginDate());
+                    $this->setDateValueToFormField($form, 'baselineFinishDate', $inputAction->getBaselineFinishDate());
+                    $showBaseline = true;
+                } elseif (($projectStatus == C3op_Projects_ProjectStatusConstants::STATUS_EXECUTION)
+                    || ($projectStatus == C3op_Projects_ProjectStatusConstants::STATUS_ACCOUNTABILITY)
+                    || ($role == C3op_Access_RolesConstants::ROLE_SYSADMIN)) {
+
+                    $this->setDateValueToFormField($form, 'predictedBeginDate', $inputAction->getPredictedBeginDate());
+                    $this->setDateValueToFormField($form, 'predictedFinishDate', $inputAction->getPredictedFinishDate());
+                    $showPredicted = true;
+                }
+
                 if ($role == C3op_Access_RolesConstants::ROLE_SYSADMIN) {
+                    $this->setDateValueToFormField($form, 'realBeginDate', $inputAction->getRealBeginDate());
+                    $this->setDateValueToFormField($form, 'realFinishDate', $inputAction->getRealFinishDate());
+                    $showReal = true;
+                    $showStatus = true;
                     $element = $form->getElement('status');
                     $element->setValue($inputAction->getStatus());
                 } else {
@@ -347,7 +374,11 @@ class Projects_ProductController extends Zend_Controller_Action
             $pageData = array(
                 'id' => $id,
                 'projectId' => $projectData['id'],
-                'title' => $projectData['title']
+                'title' => $projectData['title'],
+                'showBaseline' => $showBaseline,
+                'showPredicted' => $showPredicted,
+                'showReal' => $showReal,
+                'showStatus' => $showStatus,
             );
             $this->view->pageData = $pageData;
             $this->view->pageTitle = $this->view->translate("#Edit product");
@@ -553,24 +584,6 @@ class Projects_ProductController extends Zend_Controller_Action
             $this->receivableMapper = new C3op_Finances_ReceivableMapper($this->db);
         }
     }
-
-    private function calculateTotalValueExistentOutlays(C3op_Resources_Responsible $h)
-    {
-        if (!isset($this->outlayMapper)) {
-            $this->outlayMapper = new C3op_Finances_OutlayMapper($this->db);
-        }
-
-        $outlays = $this->outlayMapper->getAllOutlaysForResponsible($h);
-
-        $totalValue = 0;
-        foreach ($outlays as $outlayId) {
-            $thisOutlay = $this->outlayMapper->findById($outlayId);
-            $totalValue += $thisOutlay->GetPredictedValue();
-        }
-
-        return $totalValue;
-    }
-
 
     private function setDateValueToFormField(Zend_Form $form, $fieldName, $value)
     {

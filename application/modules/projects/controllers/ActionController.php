@@ -288,7 +288,6 @@ class Projects_ActionController extends Zend_Controller_Action
     public function detailAction()
     {
         $pageData = array();
-        //$this->getRequest()->getParam('id');
 
         $this->initActionMapper();
         $this->initProjectMapper();
@@ -296,12 +295,10 @@ class Projects_ActionController extends Zend_Controller_Action
         $this->initInstitutionMapper();
 
         $actionToBeDetailed =  $this->initActionWithCheckedId($this->actionMapper);
-
         if ($actionToBeDetailed->getProduct()) {
             $this->_redirect(sprintf('/projects/product/detail/?id=%d', $actionToBeDetailed->getId()));
         }
 
-//        $projectToBeDetailed = $this->projectMapper->findById($actionToBeDetailed->getProject());
         $messageToShow = $this->_helper->flashMessenger->getMessages();
 
         $header = new C3op_Projects_ActionHeader($this->db, $actionToBeDetailed, $this->actionMapper);
@@ -392,6 +389,9 @@ class Projects_ActionController extends Zend_Controller_Action
 
                 $this->initActionMapper();
                 $inputAction = $this->actionMapper->findById($id);
+                if ($inputAction->getProduct()) {
+                    $this->_redirect(sprintf('/projects/product/edit/?id=%d', $inputAction->getId()));
+                }
                 $element = $form->getElement('title');
                 $element->setValue($inputAction->getTitle());
 
@@ -404,29 +404,56 @@ class Projects_ActionController extends Zend_Controller_Action
                 $element = $form->getElement('product');
                 $element->setValue($inputAction->getProduct());
 
-                $projectData = $this->populateProjectFields($inputAction->getProject(), $form);
-                $projectId = $projectData['id'];
-
                 $element = $form->getElement('description');
                 $element->setValue($inputAction->getDescription());
 
-                $this->setDateValueToFormField($form, 'baselineBeginDate', $inputAction->getBaselineBeginDate());
-                $this->setDateValueToFormField($form, 'baselineFinishDate', $inputAction->getBaselineFinishDate());
-                $this->setDateValueToFormField($form, 'predictedBeginDate', $inputAction->getPredictedBeginDate());
-                $this->setDateValueToFormField($form, 'predictedFinishDate', $inputAction->getPredictedFinishDate());
-                $this->setDateValueToFormField($form, 'realBeginDate', $inputAction->getRealBeginDate());
-                $this->setDateValueToFormField($form, 'realFinishDate', $inputAction->getRealFinishDate());
+                $projectData = $this->populateProjectFields($inputAction->getProject(), $form);
+                $projectId = $projectData['id'];
+                $this->initProjectMapper();
+                $project = $this->projectMapper->findById($projectId);
+                $projectStatus = $project->getStatus();
 
-                $element = $form->getElement('status');
-                $element->setValue($inputAction->getStatus());
-//                $user = Zend_Registry::get('user');
-//                $role = $user->GetRole();
-//                if ($role == C3op_Access_RolesConstants::ROLE_SYSADMIN) {
-//                    $element = $form->getElement('status');
-//                    $element->setValue($inputAction->getStatus());
-//                } else {
-//                    $form->removeElement('status');
-//                }
+                $user = Zend_Registry::get('user');
+                $role = $user->GetRole();
+
+                $showBaseline = false;
+                $showPredicted = false;
+                $showReal = false;
+                $showStatus = false;
+
+                if (($projectStatus == C3op_Projects_ProjectStatusConstants::STATUS_PROSPECTING)
+                    || ($projectStatus == C3op_Projects_ProjectStatusConstants::STATUS_PLANNING)
+                    || ($projectStatus == C3op_Projects_ProjectStatusConstants::STATUS_PROPOSAL)
+                    || ($role == C3op_Access_RolesConstants::ROLE_SYSADMIN)) {
+
+                    $this->setDateValueToFormField($form, 'baselineBeginDate', $inputAction->getBaselineBeginDate());
+                    $this->setDateValueToFormField($form, 'baselineFinishDate', $inputAction->getBaselineFinishDate());
+                    $showBaseline = true;
+                } elseif (($projectStatus == C3op_Projects_ProjectStatusConstants::STATUS_EXECUTION)
+                    || ($projectStatus == C3op_Projects_ProjectStatusConstants::STATUS_ACCOUNTABILITY)
+                    || ($role == C3op_Access_RolesConstants::ROLE_SYSADMIN)) {
+
+                    $this->setDateValueToFormField($form, 'predictedBeginDate', $inputAction->getPredictedBeginDate());
+                    $this->setDateValueToFormField($form, 'predictedFinishDate', $inputAction->getPredictedFinishDate());
+                    $showPredicted = true;
+                }
+
+                if ($role == C3op_Access_RolesConstants::ROLE_SYSADMIN) {
+
+                    $this->setDateValueToFormField($form, 'realBeginDate', $inputAction->getRealBeginDate());
+                    $this->setDateValueToFormField($form, 'realFinishDate', $inputAction->getRealFinishDate());
+                    $showReal = true;
+                }
+
+                $user = Zend_Registry::get('user');
+                $role = $user->GetRole();
+                if ($role == C3op_Access_RolesConstants::ROLE_SYSADMIN) {
+                    $element = $form->getElement('status');
+                    $element->setValue($inputAction->getStatus());
+                    $showStatus = true;
+                } else {
+                    $form->removeElement('status');
+                }
 
                 $this->populateSupervisorField($form, $inputAction->getSupervisor());
 
@@ -441,7 +468,12 @@ class Projects_ActionController extends Zend_Controller_Action
 
             $pageData = array(
                 'id' => $id,
-                'title' => $projectData['title']
+                'projectId' => $projectData['id'],
+                'title' => $projectData['title'],
+                'showBaseline' => $showBaseline,
+                'showPredicted' => $showPredicted,
+                'showReal' => $showReal,
+                'showStatus' => $showStatus,
             );
             $this->view->pageData = $pageData;
             $this->view->pageTitle = $this->view->translate("#Edit action");
