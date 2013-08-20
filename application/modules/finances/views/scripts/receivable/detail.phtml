@@ -60,7 +60,7 @@ $(document).ready(function(){
         <div class="TituloForm">
           <h2><?php print(sprintf($this->translate("#Details of receivable %s"), $receivableData['title'])); ?></h2>
             <a class="button" href="/finances/receivable/edit/?id=<?php echo $receivableData['id'] ?>"><img src="/images/icon_edit.png" align="middle" /> <?php echo $this->translate("#Edit receivable") ?></a>
-            <a class="button" href=""><img src="/images/icon_calendar.png" align="middle" /> <?php echo $this->translate("#Notify receiving") ?></a>
+            <a class="button" href="/finances/receivable/notify/?id=<?php echo $receivableData['id'] ?>"><img src="/images/icon_calendar.png" align="middle" /> <?php echo $this->translate("#Notify receiving") ?></a>
             <a class="button" id="newProductButton" href="#"><img src="/images/icon_create.png" align="middle" /><?php echo $this->translate("#Create new product") ?></a>
             <a class="button" href=""><img src="/images/icon_create.png" align="middle" /><?php echo $this->translate("#Add existent product") ?></a>
         </div>
