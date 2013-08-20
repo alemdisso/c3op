@@ -2,6 +2,6 @@
           <h1><?php echo sprintf($this->pageData['contactName']); ?></h1>
         </div>
         <div class="TituloForm">
-          <h2>Acrescentar email para <?php echo $this->linkageInfo['contactName']; ?> em  <?php echo $this->linkageInfo['institutionName']; ?></h2>
+          <h2><?php echo sprintf($this->translate("#Add %s's email address at %s"), $this->pageData['contactName'], $this->pageData['institutionName']); ?></h2>
         </div>
 <?php echo $this->form; ?>

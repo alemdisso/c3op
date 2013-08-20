@@ -2,6 +2,6 @@
           <h1><?php echo $this->linkageInfo['name']; ?></h1>
         </div>
         <div class="TituloForm">
-          <h2>Alterar telefone para <?php echo $this->linkageInfo['name']; ?> em  <?php echo $this->linkageInfo['institutionName']; ?></h2>
+          <h2><?php echo sprintf($this->translate("#Change %s's phone number at %s"), $this->linkageInfo['contactName'], $this->linkageInfo['institutionName']); ?></h2>
         </div>
 <?php echo $this->form; ?>

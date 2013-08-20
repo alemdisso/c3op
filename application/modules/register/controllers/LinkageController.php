@@ -32,112 +32,48 @@ class Register_LinkageController extends Zend_Controller_Action
         $this->linkageMapper = new C3op_Register_LinkageMapper($this->db);
     }
 
-    public function createAction()
+    public function addEmailAction()
     {
         // cria form
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
-            $options=array();
-            $options['contact'] = $postData['contact'];
-            $form = new C3op_Form_LinkageCreate($options);
+            $options['linkage'] = $postData['linkage'];
+            $form = new C3op_Form_LinkageEmailCreate($options);
             $this->view->form = $form;
-            if ($form->isValid($postData)) {
 
+            if ($form->isValid($postData)) {
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage($this->view->translate('#The record was successfully created.'));
-                $this->_redirect('/register/contact/detail/?success=1&id=' . $postData['contact']);
-            } else {
-                //form error: populate and go back
-                $form->populate($postData);
-                $this->view->form = $form;
-            }
-        } else {
-            $data = $this->_request->getParams();
-            $contactId = $data['contact'];
-            $options=array();
-            $options['contact'] = $data['contact'];
-            $form = new C3op_Form_LinkageCreate($options);
-            $this->view->form = $form;
-            $this->PopulateContactFields($contactId, $form);
-            $this->PopulateInstitutionsField($form, 0);
-        }
-    }
-
-    public function editAction()
-    {
-        if ($this->getRequest()->isPost()) {
-            $postData = $this->getRequest()->getPost();
-            $options=array();
-            $options['contact'] = $postData['contact'];
-            $form = new C3op_Form_LinkageEdit($options);
-            $this->view->form = $form;
-            if ($form->isValid($postData)) {
-                $form->process($postData);
-                $this->_helper->getHelper('FlashMessenger')
                     ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/register/contact/detail/?id=' . $postData['contact']);
-            } else {
-                //form error: populate and go back
-                $form->populate($postData);
-                $this->view->form = $form;
-            }
+                $this->_redirect('/register/linkage/detail/?success=1&id=' . $id);
+            } else throw new C3op_Register_LinkageException("Invalid data for email.");
         } else {
-            // GET
-            $id = $this->checkIdFromGet();
-            $thisLinkage = $this->linkageMapper->findById($id);
-            $contactId = $thisLinkage->GetContact();
-            $options=array();
-            $options['contact'] = $contactId;
-            $form = new C3op_Form_LinkageEdit($options);
-            $this->PopulateContactFields($contactId, $form);
-            $this->populateInstitutionsField($form, $thisLinkage->GetInstitution());
+            $linkageId = $this->checkIdFromGet();
+            $linkageHasEmail = $this->linkageMapper->findById($linkageId);
+            $data = $this->_request->getParams();
+            $options['linkage'] = $linkageId;
+            $form = new C3op_Form_LinkageEmailCreate($options);
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'linkage', $linkageId);
+
+            if ($linkageHasEmail->GetInstitution() > 0) {
+                $institutionMapper = new C3op_Register_InstitutionMapper($this->db);
+                $institutionLinkedToContact = $institutionMapper->findById($linkageHasEmail->GetInstitution());
+            }
+            if ($linkageHasEmail->GetContact() > 0) {
+                $contactMapper = new C3op_Register_ContactMapper($this->db);
+                $contactLinkedToInstitution = $contactMapper->findById($linkageHasEmail->GetContact());
+            }
+
             $this->view->form = $form;
-            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $id);
-            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'department', $thisLinkage->getDepartment());
-            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'position', $thisLinkage->getPosition());
-        }
-    }
-
-    public function detailAction()
-    {
-
-        $id = $this->checkIdFromGet();
-        $linkageBeingDetailed = $this->linkageMapper->findById($id);
-
-        $phoneNumbersList = $linkageBeingDetailed->GetPhoneNumbers();
-        $phoneData = array();
-        foreach($phoneNumbersList as $phoneId => $phoneNumber) {
-            $phoneData[$phoneNumber->GetId()] = array(
-                'area_code' => $phoneNumber->GetAreaCode(),
-                'local_number' => $phoneNumber->GetLocalNumber(),
-                'label' => $phoneNumber->GetLabel(),
+            $linkageInfo = array(
+                'id' => $linkageId,
+                'institutionName' => $institutionLinkedToContact->GetName(),
+                'contactName' => $contactLinkedToInstitution->GetName(),
             );
-        }
-        if ($linkageBeingDetailed->GetInstitution() > 0) {
-            $institutionMapper = new C3op_Register_InstitutionMapper($this->db);
-            $institutionLinkedToContact = $institutionMapper->findById($linkageBeingDetailed->GetInstitution());
-        }
 
-        $emailsList = $linkageBeingDetailed->GetEmails();
-        $emailData = array();
-        foreach($emailsList as $emailId => $email) {
-            $emailData[$email->GetId()] = array(
-                'email' => $email->GetAddress(),
-                'label' => $email->GetLabel(),
-            );
+            $this->view->linkageInfo = $linkageInfo;
+            $this->view->pageTitle = sprintf($this->view->translate("#Add %s's email address at %s"), $linkageInfo['contactName'], $linkageInfo['institutionName']);
         }
-
-        $linkageInfo = array(
-            'id'              => $id,
-            'institutionName' => $institutionLinkedToContact->GetName(),
-            'department'      => $linkageBeingDetailed->GetDepartment(),
-            'position'        => $linkageBeingDetailed->GetPosition(),
-            'phoneData'     => $phoneData,
-            'emailData'     => $emailData,
-        );
-
-        $this->view->linkageInfo = $linkageInfo;
     }
 
     public function addPhoneNumberAction()
@@ -160,7 +96,7 @@ class Register_LinkageController extends Zend_Controller_Action
                 $this->view->form = $form;
             }
         } else {
-            $linkageId = $this->checkLinkageFromGet();
+            $linkageId = $this->checkIdFromGet();
             $linkageHasPhone = $this->linkageMapper->findById($linkageId);
             $data = $this->_request->getParams();
             $options['linkage'] = $linkageId;
@@ -179,11 +115,76 @@ class Register_LinkageController extends Zend_Controller_Action
             $this->view->form = $form;
             $linkageInfo = array(
                 'id' => $linkageId,
-                'name' => $contactLinkedToInstitution->GetName(),
+                'contactName' => $contactLinkedToInstitution->GetName(),
                 'institutionName' => $institutionLinkedToContact->GetName(),
             );
 
             $this->view->linkageInfo = $linkageInfo;
+            $this->view->pageTitle = sprintf($this->view->translate("#Add %s's phone number at %s"), $linkageInfo['contactName'], $linkageInfo['institutionName']);
+        }
+    }
+
+    public function changeEmailAction()
+    {
+        // cria form
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            $options['id'] = $postData['id'];
+            $form = new C3op_Form_LinkageEmailEdit($options);
+            $this->view->form = $form;
+            if ($form->isValid($postData)) {
+                $id = $form->process($postData);
+                $this->_helper->getHelper('FlashMessenger')
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                $this->_redirect('/register/linkage/detail/?success=1&id=' . $id);
+            } else throw new C3op_Register_LinkageException("Invalid data for email.");
+        } else {
+            $data = $this->_request->getParams();
+            $filters = array(
+                'id' => new Zend_Filter_Alnum(),
+            );
+            $validators = array(
+                'id' => array('Digits', new Zend_Validate_GreaterThan(0)),
+            );
+            $input = new Zend_Filter_Input($filters, $validators, $data);
+            if ($input->isValid()) {
+                $emailId = $input->id;
+            } else {
+                throw new C3op_Register_LinkageException(_("#Invalid Linkage Id from Get"));
+            }
+
+            $linkageHasEmail = $this->linkageMapper->findByEmailId($emailId);
+            $emails = $linkageHasEmail->GetEmails();
+            $email = $emails[$emailId];
+
+            $data = $this->_request->getParams();
+
+            $options['id'] = $data['id'];
+            $form = new C3op_Form_LinkageEmailEdit($options);
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'linkage', $linkageHasEmail->GetId());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $emailId);
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'email', $email->GetAddress());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'label', $email->GetLabel());
+
+            $this->view->form = $form;
+            if ($linkageHasEmail->GetInstitution() > 0) {
+                $institutionMapper = new C3op_Register_InstitutionMapper($this->db);
+                $institutionLinkedToContact = $institutionMapper->findById($linkageHasEmail->GetInstitution());
+            }
+            if ($linkageHasEmail->getContact_deprecated() > 0) {
+                $contactMapper = new C3op_Register_ContactMapper($this->db);
+                $contactLinkedToInstitution = $contactMapper->findById($linkageHasEmail->getContact_deprecated());
+            }
+
+            $this->view->form = $form;
+            $linkageInfo = array(
+                'id' => $linkageId,
+                'institutionName' => $institutionLinkedToContact->GetName(),
+                'contactName' => $contactLinkedToInstitution->GetName(),
+            );
+
+            $this->view->linkageInfo = $linkageInfo;
+            $this->view->pageTitle = sprintf($this->view->translate("#Change %s's email address at %s"), $linkageInfo['contactName'], $linkageInfo['institutionName']);
         }
     }
 
@@ -254,116 +255,129 @@ class Register_LinkageController extends Zend_Controller_Action
             );
 
             $this->view->linkageInfo = $linkageInfo;
+            $this->view->pageTitle = sprintf($this->view->translate("#Change %s's phone number at %s"), $linkageInfo['contactName'], $linkageInfo['institutionName']);
         }
     }
 
-    public function addEmailAction()
+    public function createAction()
     {
         // cria form
         if ($this->getRequest()->isPost()) {
             $postData = $this->getRequest()->getPost();
-            $options['linkage'] = $postData['linkage'];
-            $form = new C3op_Form_LinkageEmailCreate($options);
-            $this->view->form = $form;
-
-            if ($form->isValid($postData)) {
-                $id = $form->process($postData);
-                $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/register/linkage/detail/?success=1&id=' . $id);
-            } else throw new C3op_Register_LinkageException("Invalid data for email.");
-        } else {
-            $linkageId = $this->checkLinkageFromGet();
-            $linkageHasEmail = $this->linkageMapper->findById($linkageId);
-            $data = $this->_request->getParams();
-            $options['linkage'] = $linkageId;
-            $form = new C3op_Form_LinkageEmailCreate($options);
-            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'linkage', $linkageId);
-
-            if ($linkageHasEmail->GetInstitution() > 0) {
-                $institutionMapper = new C3op_Register_InstitutionMapper($this->db);
-                $institutionLinkedToContact = $institutionMapper->findById($linkageHasEmail->GetInstitution());
-            }
-            if ($linkageHasEmail->GetContact() > 0) {
-                $contactMapper = new C3op_Register_ContactMapper($this->db);
-                $contactLinkedToInstitution = $contactMapper->findById($linkageHasEmail->GetContact());
-            }
-
-            $this->view->form = $form;
-            $linkageInfo = array(
-                'id' => $linkageId,
-                'institutionName' => $institutionLinkedToContact->GetName(),
-                'contactName' => $contactLinkedToInstitution->GetName(),
-            );
-
-            $this->view->linkageInfo = $linkageInfo;
-        }
-    }
-
-    public function changeEmailAction()
-    {
-        // cria form
-        if ($this->getRequest()->isPost()) {
-            $postData = $this->getRequest()->getPost();
-            $options['id'] = $postData['id'];
-            $form = new C3op_Form_LinkageEmailEdit($options);
+            $options=array();
+            $options['contact'] = $postData['contact'];
+            $form = new C3op_Form_LinkageCreate($options);
             $this->view->form = $form;
             if ($form->isValid($postData)) {
+
                 $id = $form->process($postData);
                 $this->_helper->getHelper('FlashMessenger')
-                    ->addMessage($this->view->translate('#The record was successfully updated.'));
-                $this->_redirect('/register/linkage/detail/?success=1&id=' . $id);
-            } else throw new C3op_Register_LinkageException("Invalid data for email.");
-        } else {
-            $data = $this->_request->getParams();
-            $filters = array(
-                'id' => new Zend_Filter_Alnum(),
-            );
-            $validators = array(
-                'id' => array('Digits', new Zend_Validate_GreaterThan(0)),
-            );
-            $input = new Zend_Filter_Input($filters, $validators, $data);
-            if ($input->isValid()) {
-                $emailId = $input->id;
+                    ->addMessage($this->view->translate('#The record was successfully created.'));
+                $this->_redirect('/register/contact/detail/?success=1&id=' . $postData['contact']);
             } else {
-                throw new C3op_Register_LinkageException(_("#Invalid Linkage Id from Get"));
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
             }
-
-            $linkageHasEmail = $this->linkageMapper->findByEmailId($emailId);
-            $emails = $linkageHasEmail->GetEmails();
-            $email = $emails[$emailId];
-
+        } else {
             $data = $this->_request->getParams();
-
-            $options['id'] = $data['id'];
-            $form = new C3op_Form_LinkageEmailEdit($options);
-            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'linkage', $linkageHasEmail->GetId());
-            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $emailId);
-            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'email', $email->GetAddress());
-            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'label', $email->GetLabel());
-
+            $contactId = $data['contact'];
+            $options=array();
+            $options['contact'] = $data['contact'];
+            $form = new C3op_Form_LinkageCreate($options);
             $this->view->form = $form;
-            if ($linkageHasEmail->GetInstitution() > 0) {
-                $institutionMapper = new C3op_Register_InstitutionMapper($this->db);
-                $institutionLinkedToContact = $institutionMapper->findById($linkageHasEmail->GetInstitution());
-            }
-            if ($linkageHasEmail->getContact_deprecated() > 0) {
-                $contactMapper = new C3op_Register_ContactMapper($this->db);
-                $contactLinkedToInstitution = $contactMapper->findById($linkageHasEmail->getContact_deprecated());
-            }
-
-            $this->view->form = $form;
-            $linkageInfo = array(
-                'id' => $linkageId,
-                'institutionName' => $institutionLinkedToContact->GetName(),
-                'contactName' => $contactLinkedToInstitution->GetName(),
-            );
-
-            $this->view->linkageInfo = $linkageInfo;
+            $this->PopulateContactFields($contactId, $form);
+            $this->PopulateInstitutionsField($form, 0);
         }
+        $this->view->pageTitle = $this->view->translate("#Create linkage");
+
     }
 
-   public function removeAction()
+    public function detailAction()
+    {
+
+        $id = $this->checkIdFromGet();
+        $linkageBeingDetailed = $this->linkageMapper->findById($id);
+
+        $phoneNumbersList = $linkageBeingDetailed->GetPhoneNumbers();
+        $phoneData = array();
+        foreach($phoneNumbersList as $phoneId => $phoneNumber) {
+            $phoneData[$phoneNumber->GetId()] = array(
+                'area_code' => $phoneNumber->GetAreaCode(),
+                'local_number' => $phoneNumber->GetLocalNumber(),
+                'label' => $phoneNumber->GetLabel(),
+            );
+        }
+        if ($linkageBeingDetailed->GetInstitution() > 0) {
+            $institutionMapper = new C3op_Register_InstitutionMapper($this->db);
+            $institutionLinkedToContact = $institutionMapper->findById($linkageBeingDetailed->GetInstitution());
+        }
+        if ($linkageBeingDetailed->GetContact() > 0) {
+            $contactMapper = new C3op_Register_ContactMapper($this->db);
+            $contactLinkedToInstitution = $contactMapper->findById($linkageBeingDetailed->GetContact());
+        }
+
+        $emailsList = $linkageBeingDetailed->GetEmails();
+        $emailData = array();
+        foreach($emailsList as $emailId => $email) {
+            $emailData[$email->GetId()] = array(
+                'email' => $email->GetAddress(),
+                'label' => $email->GetLabel(),
+            );
+        }
+
+        $linkageInfo = array(
+            'id'              => $id,
+            'contactName'     => $contactLinkedToInstitution->GetName(),
+            'institutionName' => $institutionLinkedToContact->GetName(),
+            'department'      => $linkageBeingDetailed->GetDepartment(),
+            'position'        => $linkageBeingDetailed->GetPosition(),
+            'phoneData'       => $phoneData,
+            'emailData'       => $emailData,
+        );
+
+        $this->view->linkageInfo = $linkageInfo;
+        $this->view->pageTitle = sprintf($this->view->translate("#Detail about %s at %s"), $linkageInfo['name'], $linkageInfo['institutionName']);
+    }
+
+
+    public function editAction()
+    {
+        if ($this->getRequest()->isPost()) {
+            $postData = $this->getRequest()->getPost();
+            $options=array();
+            $options['contact'] = $postData['contact'];
+            $form = new C3op_Form_LinkageEdit($options);
+            $this->view->form = $form;
+            if ($form->isValid($postData)) {
+                $form->process($postData);
+                $this->_helper->getHelper('FlashMessenger')
+                    ->addMessage($this->view->translate('#The record was successfully updated.'));
+                $this->_redirect('/register/contact/detail/?id=' . $postData['contact']);
+            } else {
+                //form error: populate and go back
+                $form->populate($postData);
+                $this->view->form = $form;
+            }
+        } else {
+            // GET
+            $id = $this->checkIdFromGet();
+            $thisLinkage = $this->linkageMapper->findById($id);
+            $contactId = $thisLinkage->GetContact();
+            $options=array();
+            $options['contact'] = $contactId;
+            $form = new C3op_Form_LinkageEdit($options);
+            $this->PopulateContactFields($contactId, $form);
+            $this->populateInstitutionsField($form, $thisLinkage->GetInstitution());
+            $this->view->form = $form;
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'id', $id);
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'department', $thisLinkage->getDepartment());
+            C3op_Util_FormFieldValueSetter::SetValueToFormField($form, 'position', $thisLinkage->getPosition());
+        }
+        $this->view->pageTitle = $this->view->translate("#Edit linkage");
+    }
+
+    public function removeAction()
     {
         // cria form
         if ($this->getRequest()->isPost()) {
@@ -475,23 +489,6 @@ class Register_LinkageController extends Zend_Controller_Action
         }
         throw new C3op_Register_LinkageException(_("#Invalid Linkage Id from Get"));
 
-    }
-
-   private function checkLinkageFromGet()
-    {
-        $data = $this->_request->getParams();
-        $filters = array(
-            'linkage' => new Zend_Filter_Alnum(),
-        );
-        $validators = array(
-            'linkage' => array('Digits', new Zend_Validate_GreaterThan(0)),
-        );
-        $input = new Zend_Filter_Input($filters, $validators, $data);
-        if ($input->isValid()) {
-            $linkage = $input->linkage;
-            return $linkage;
-        }
-        throw new C3op_Register_LinkageException(_("#Invalid Linkage Id from Get"));
     }
 
 }

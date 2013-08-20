@@ -1,7 +1,7 @@
         <div id="MainHeader">
-          <h1><?php echo $this->linkageInfo['name']; ?></h1>
+          <h1><?php echo $this->linkageInfo['contactName']; ?></h1>
         </div>
         <div class="TituloForm">
-          <h2>Acrescentar telefone  para <?php echo $this->linkageInfo['name']; ?> em  <?php echo $this->linkageInfo['institutionName']; ?></h2>
+          <h2><?php echo sprintf($this->translate("#Add %s's phone number at %s"), $this->linkageInfo['contactName'], $this->linkageInfo['institutionName']); ?></h2>
         </div>
 <?php echo $this->form; ?>
