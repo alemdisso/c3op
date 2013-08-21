@@ -114,7 +114,35 @@ class Finances_ReceivableController extends Zend_Controller_Action
                 $data['responsibleName'] = $this->view->translate("#Not defined");
             }
 
-            $data['status'] = $statusTypes->TitleForType($loopAction->getStatus());
+
+            $statusTypes = new C3op_Projects_ActionStatusTypes();
+            $rawStatus = $loopAction->getStatus();
+            $statusLabel = $statusTypes->TitleForType($rawStatus);
+            $statusLabel = $this->view->translate($statusLabel);
+
+            if ($rawStatus == C3op_Projects_ActionStatusConstants::STATUS_RECEIVED) {
+                $validator = new C3op_Util_ValidDate;
+
+                $receiptDate = $loopAction->GetReceiptDate($this->actionMapper);
+
+                if ($validator->isValid($receiptDate)) {
+                    $dateDiff = new C3op_Util_DatesDifferenceInDays();
+                    $now = time();
+
+                    $differenceInDays = $dateDiff->differenceInDays($now, strtotime($receiptDate));
+                    if ($differenceInDays > 0) {
+                        $days = $this->view->translate("#r.d.");
+                        $statusLabel = "$statusLabel ($differenceInDays $days)";
+                    } else {
+                        $today = $this->view->translate("#today");
+                        $statusLabel = "$statusLabel ($today)";
+                    }
+                }
+            }
+
+
+
+            $data['status'] = $statusLabel;
 
             $requiredProductsData[$loopActionId] = $data;
 

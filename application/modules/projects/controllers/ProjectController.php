@@ -204,7 +204,29 @@ class Projects_ProjectController extends Zend_Controller_Action
             }
 
             $statusTypes = new C3op_Projects_ActionStatusTypes();
-            $status = $statusTypes->TitleForType($theProduct->getStatus());
+            $rawStatus = $theProduct->getStatus();
+            $statusLabel = $statusTypes->TitleForType($rawStatus);
+            $statusLabel = $this->view->translate($statusLabel);
+
+            if ($rawStatus == C3op_Projects_ActionStatusConstants::STATUS_RECEIVED) {
+                $validator = new C3op_Util_ValidDate;
+
+                $receiptDate = $theProduct->GetReceiptDate($this->actionMapper);
+
+                if ($validator->isValid($receiptDate)) {
+                    $dateDiff = new C3op_Util_DatesDifferenceInDays();
+                    $now = time();
+
+                    $differenceInDays = $dateDiff->differenceInDays($now, strtotime($receiptDate));
+                    if ($differenceInDays > 0) {
+                        $days = $this->view->translate("#r.d.");
+                        $statusLabel = "$statusLabel ($differenceInDays $days)";
+                    } else {
+                        $today = $this->view->translate("#today");
+                        $statusLabel = "$statusLabel ($today)";
+                    }
+                }
+            }
 
             $actionsBelow = new C3op_Projects_ActionsBelow($theProduct,$this->actionMapper);
             $calculator = new C3op_Projects_ActionPhysicalProgress($theProduct, $this->actionMapper);
@@ -218,7 +240,7 @@ class Projects_ProjectController extends Zend_Controller_Action
                     'productTitle'            => $productTitle,
                     'deliveryDate'            => $deliveryDate,
                     'realDate'                => $realDate,
-                    'status'                  => $this->view->translate($status),
+                    'status'                  => $statusLabel,
                     'physicalProgress'        => "$physicalProgress %",
                     'receivableId'            => $receivableId,
                     'requirementForReceiving' => $requirementForReceiving,
@@ -293,7 +315,7 @@ class Projects_ProjectController extends Zend_Controller_Action
             $canDismiss = $responsibleData['canDismiss'];
             $canProvideOutlay = $responsibleData['canProvideOutlay'];
 
-            $status = $loopResponsible->getStatus();
+            $statusLabel = $loopResponsible->getStatus();
 
             $removal = new C3op_Resources_ResponsibleRemoval($loopResponsible, $this->responsibleMapper);
             if ($removal->canBeRemoved()) {

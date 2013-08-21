@@ -12,8 +12,6 @@ class Finances_ProjectController extends Zend_Controller_Action
     private $outlayMapper;
     private $receivableMapper;
     private $responsibleMapper;
-    private $materialSupplyMapper;
-    private $treeData;
 
     public function preDispatch()
     {
@@ -491,7 +489,29 @@ class Finances_ProjectController extends Zend_Controller_Action
             }
 
             $statusTypes = new C3op_Projects_ActionStatusTypes();
-            $status = $statusTypes->TitleForType($theProduct->getStatus());
+            $rawStatus = $theProduct->getStatus();
+            $statusLabel = $statusTypes->TitleForType($rawStatus);
+            $statusLabel = $this->view->translate($statusLabel);
+
+            if ($rawStatus == C3op_Projects_ActionStatusConstants::STATUS_RECEIVED) {
+                $validator = new C3op_Util_ValidDate;
+
+                $receiptDate = $theProduct->GetReceiptDate($this->actionMapper);
+
+                if ($validator->isValid($receiptDate)) {
+                    $dateDiff = new C3op_Util_DatesDifferenceInDays();
+                    $now = time();
+
+                    $differenceInDays = $dateDiff->differenceInDays($now, strtotime($receiptDate));
+                    if ($differenceInDays > 0) {
+                        $days = $this->view->translate("#r.d.");
+                        $statusLabel = "$statusLabel ($differenceInDays $days)";
+                    } else {
+                        $today = $this->view->translate("#today");
+                        $statusLabel = "$statusLabel ($today)";
+                    }
+                }
+            }
 
             $actionValueObj = new C3op_Projects_ActionCost($theProduct,$this->actionMapper);
             $actionsBelow = new C3op_Projects_ActionsBelow($theProduct,$this->actionMapper);
@@ -505,7 +525,7 @@ class Finances_ProjectController extends Zend_Controller_Action
 
             $productsList[$id] = array(
                     'productTitle'            => $productTitle,
-                    'status'                  => $status,
+                    'status'                  => $statusLabel,
                     'receivableLabel'         => $receivableDescription,
                     'receivableId'            => $receivableId,
                     'totalValue'              => $totalValue,

@@ -76,11 +76,10 @@ class Includes_HeaderController extends Zend_Controller_Action
 
             $totalCrumbs = count($crumbs);
             $countCrumbs = 0;
-            $maxCrumbs = 6;
+            $maxCrumbs = 10;
 
             foreach ($crumbs as $k => $crumb) {
-                $countCrumbs++;
-                if ($countCrumbs > ($totalCrumbs - $maxCrumbs)) {
+                if ($countCrumbs >= ($totalCrumbs - $maxCrumbs)) {
                     $anArray = explode("/", $crumb['uri']);
                     $module="";
                     if (count($anArray) > 1) {
@@ -94,6 +93,8 @@ class Includes_HeaderController extends Zend_Controller_Action
                         );
                     }
                 }
+                $countCrumbs++;
+
             }
             $pageData['breadcrumb']=$breadcrumb;
 

@@ -139,7 +139,7 @@ class C3op_Projects_Project
                     $this->beginDate = $beginDate;
                 }
             } else {
-                throw new C3op_Projects_ContractException("This ($beginDate) is not a valid date of begin.");
+                throw new C3op_Projects_ProjectException("This ($beginDate) is not a valid date of begin.");
             }
         }
     } //SetBeginDate
